@@ -1,0 +1,125 @@
+input:-moz-placeholder{
+    color:#d1d1d1;
+}
+input::-webkit-input-placeholder{
+    color:#d1d1d1;
+}
+input:-ms-input-placeholder{
+    color:#d1d1d1;
+}
+body{
+    background: #efefef;
+    color: rgb(102, 102, 102);
+}
+
+/*头部*/
+.g-hd{
+    height: 130px;
+}
+.g-hd .g-in{
+    width: 1000px;
+    margin: 0 auto;
+}
+.m-logo{
+    float: left;
+    width: 300px;
+    height: 60px;
+    background-position: -50px -18px;
+    margin-top: 35px;
+}
+.m-tr-block{
+    float: right;
+    font-size: 18px;
+    margin-top: 50px;
+}
+.m-tr-block a{
+    color: #ca5252;
+}
+/*主体*/
+.g-bd{
+    position: relative;
+    width: 1000px;
+    padding-bottom: 55px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 3px 3px #cbc9c9;
+}
+/*Tab*/
+.g-tab{
+    width: 320px;
+    margin: 0 auto;
+    padding-top: 44px;
+    padding-bottom: 24px;
+    text-align: center;
+    color:indianred;
+    font-size: 20px;
+}
+/*表单*/
+.g-form{
+    height: 420px;
+    margin-top: 0;
+}
+.u-input{
+    position: relative;
+    float: left;
+    height: 72px;
+    width: 100%;
+    overflow: hidden;
+}
+.u-label{
+    float: left;
+    width: 340px;
+    text-align: right;
+    margin-top: 12px;
+    font-size: 16px;
+    line-height: 45px;
+    color: #333;
+}
+/*按钮*/
+/*短信按钮*/
+.btn-getsms{
+    float: left;
+    height: 46px;
+    width: 120px;
+    font-size: 16px;
+    line-height: 46px;
+    margin: 12px 0 0 10px;
+    color: #fff;
+    background: #4ba7e0;
+    text-align: center;
+    cursor: pointer;
+}
+.btn-disabled{
+    opacity:0.6;
+    background: #a1d1f6;
+}
+.smsize{
+    width: 190px;
+}
+/*注册按钮*/
+.b-btn{
+    float: left;
+    border: 0;
+    width: 322px;
+    height: 46px;
+    margin-top: 12px;
+    background-color: #ca5252;
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+    line-height: 46px;
+    cursor: pointer;
+}
+.btndisabled{
+    opacity: 0.6;
+    cursor: default;
+}
+/*提示*/
+.tip{
+    margin-top: 10px;
+    color: #b1b1b1;
+    float: left;
+    width: 322px;
+    font-size: 12px;
+}

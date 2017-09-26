@@ -1,0 +1,22 @@
+/*input*/
+.i-inpt{
+    float: left;
+    height: 44px;
+    width: 320px;
+    margin-top: 12px;
+    border: solid 1px #ddd;
+    font-size: 16px;
+    text-indent: 0.5em;
+}
+.i-inpt-samll{
+    width: 200px;
+}
+
+/*无法选中*/
+.none-select{
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently */
+}
