@@ -79,4 +79,16 @@ public class UserController {
     public BaseResult editProfile(User user) {
         return null;
     }
+
+    /**
+     * 退出登录
+     *
+     * @return
+     */
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public String logout() {
+        return "";
+    }
+
+
 }

@@ -1,13 +1,14 @@
-body{
-    margin:0;
+body {
+    margin: 0;
 }
+
 .topNav {
     position: relative;
     z-index: 106;
     background: #f2f2f2;
     border-bottom: 1px solid #ededee;
     color: #666;
-    font-size:12px;
+    font-size: 12px;
 }
 
 .topNavWrap {
@@ -28,45 +29,89 @@ body{
     margin-left: 16px;
 }
 
-.topNavLeft .mobile{
+.topNavLeft .mobile {
     margin-left: 16px;
 }
-.topNavLeft .mobile i{
+
+.topNavLeft .mobile i {
     font-size: 16px;
     color: #FC4349;
 }
+
+.topNavLeft .signIn i {
+    font-size: 14px;
+    color: #FC4349;
+}
+
 .step {
     padding: 0 10px;
 }
-.searchHeader{
+
+.searchHeader {
     background: transparent;
     position: relative;
     height: 100px;
     z-index: 103;
 }
-.searchWrap{
+
+.searchWrap {
     position: relative;
     margin: 0 auto;
     height: 100px;
     width: 1090px;
 }
-.searchBox{
+
+.searchBox {
     width: 510px;
     height: 39px;
     background-color: #333;
     left: 343px;
     position: absolute;
+    top:26px;
 }
-.search{
+
+.search {
     margin: 2px 2px;
     padding: 5px 5px 4px 30px;
     background-color: #fff;
 }
-.searchBox .search .wrap input{
+
+.searchBox .search .wrap input {
     width: 423px;
     height: 24px;
     line-height: 24px;
     border: 0;
     font-size: 13px;
     outline: none;
+}
+
+.navRight {
+    display: inline-block;
+    float: right;
+}
+.logo{
+    position: absolute;
+    height: 100px;
+    line-height: 100px;
+    width: 160px;
+    text-align: center;
+    color: #DB073D;
+    font-size: 32px;
+}
+.shopCart{
+    color: #333;
+
+    text-decoration: none;
+    display: block;
+    position: absolute;
+    right: 0;
+    top: 29px;
+    width: 108px;
+    height: 34px;
+    background-color: #fff;
+    line-height: 34px;
+    font-size: 13px;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #ddd;
 }

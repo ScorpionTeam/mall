@@ -16,22 +16,41 @@
             <a href="" class="register">免费注册</a>
             <a href="" class="mobile">
                 <i class="fa fa-mobile"></i>
-                mall手机
+                mall手机app客户端
             </a>
+            <div class="navRight">
+                <a href="" class="signIn">
+                    <i class="fa fa-flag"></i>
+                    每日签到
+                </a>
+                <span class="step">|</span>
+                <a href="">我的订单</a>
+                <span class="step">|</span>
+                <a href="">个人中心</a>
+                <span class="step">|</span>
+                <a href="">
+                    客户服务
+                    <i class="fa fa-caret-down"></i>
+                </a>
+            </div>
         </div>
     </div>
 </nav>
 <header class="searchHeader">
     <div class="searchWrap">
-        <div>这是logo</div>
+        <div class="logo">Mall商城</div>
         <div class="searchBox">
             <div class="search">
                 <div class="wrap">
-                    <input type="text">
+                    <input type="text" placeholder="莆田A货">
                     <i class="fa fa-search"></i>
                 </div>
             </div>
         </div>
+        <a href="" class="shopCart">
+            <i class="fa fa-shopping-cart"></i>
+            <span>购物车</span>
+        </a>
     </div>
 </header>
 </body>
