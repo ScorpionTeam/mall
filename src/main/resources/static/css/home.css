@@ -5,7 +5,7 @@ body {
 .topNav {
     position: relative;
     z-index: 106;
-    background: #db073d;
+    background: #bc0e5e;
     border-bottom: 1px solid #ededee;
     color: #fff;
     font-size: 12px;
@@ -95,7 +95,7 @@ body {
     line-height: 100px;
     width: 160px;
     text-align: center;
-    color: #DB073D;
+    color: #bc0e5e;
     font-size: 32px;
 }
 
@@ -116,64 +116,78 @@ body {
     border: 1px solid #ddd;
 }
 
+.shopCart i {
+    color: #bc0e5e;
+}
+
 .bannerBox {
     position: relative;
     width: 100%;
     overflow: hidden;
 }
+
 /*轮播样式*/
 /*轮播*/
-.img-banner{
+.img-banner {
     width: 100%;
     position: relative;
     zoom: 1;
 }
-.img-box{
+
+.img-box {
     overflow: hidden;
     width: 100%;
     height: 400px;
     position: relative;
 }
-#show_pic{
+
+#show_pic {
     position: absolute;
     top: 0;
     left: 50%;
     height: 400px;
     margin-left: -960px;
 }
-#show_pic li{
+
+#show_pic li {
     list-style: none;
     position: absolute;
 }
+
 .showImg {
     width: 1920px;
     height: 400px;
 }
+
 /*轮播分页栏*/
-.img_pagebox{
+.img_pagebox {
     width: 920px;
     margin-left: -375px;
     left: 50%;
     bottom: 12px;
     position: absolute;
 }
-.img-box table{
+
+.img-box table {
     border-collapse: collapse;
 }
-.img-page .page-box{
+
+.img-page .page-box {
     vertical-align: middle;
     text-align: center;
 }
-.w-slbtn{
+
+.w-slbtn {
     height: 28px;
     line-height: 28px;
     background-position: left 0;
     display: inline-block;
     vertical-align: baseline;
     zoom: 1;
-    padding:0 14px;
+    padding: 0 14px;
 }
-#icon_num .idxicon{
+
+#icon_num .idxicon {
     float: left;
     position: relative;
     width: 20px;
@@ -181,7 +195,8 @@ body {
     margin: 4px 2px 0;
     background: none;
 }
-.idxicon .num{
+
+.idxicon .num {
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -191,28 +206,33 @@ body {
     color: #fff;
     font-size: 13px;
     border-radius: 50%;
-    background:#4f6e7d;
+    background: #4f6e7d;
     vertical-align: top;
 }
-.active{
-    background: red!important;
+
+.active {
+    background: #bc0e5e !important;
 }
-.num:hover{
-    background: red;
+
+.num:hover {
+    background: #bc0e5e;
 }
+
 /*轮播前进、后退*/
-.control{
+.control {
     position: absolute;
     left: 0;
     top: 50%;
     width: 100%;
 }
-.control div{
+
+.control div {
     position: relative;
     width: 1090px;
     margin: 0 auto;
 }
-.control a{
+
+.control a {
     position: absolute;
     top: 0;
     margin: -34px 0 0;
@@ -220,22 +240,27 @@ body {
     height: 68px;
     background-image: url(http://mm.bst.126.net/images/index/icon1.png);
 }
-.prev{
+
+.prev {
     /*left: 169px;*/
     background-position: -625px -68px;
     cursor: pointer;
 }
-.prev:hover{
+
+.prev:hover {
     background-position: -625px -153px;
 }
-.next{
+
+.next {
     background-position: -670px -67px;
     right: 0;
     cursor: pointer;
 }
-.next:hover{
+
+.next:hover {
     background-position: -670px -153px;
 }
-.con{
+
+.con {
     display: none;
 }
