@@ -33,8 +33,40 @@ body{
 }
 .topNavLeft .mobile i{
     font-size: 16px;
-    color: #E31436;
+    color: #FC4349;
 }
 .step {
     padding: 0 10px;
+}
+.searchHeader{
+    background: transparent;
+    position: relative;
+    height: 100px;
+    z-index: 103;
+}
+.searchWrap{
+    position: relative;
+    margin: 0 auto;
+    height: 100px;
+    width: 1090px;
+}
+.searchBox{
+    width: 510px;
+    height: 39px;
+    background-color: #333;
+    left: 343px;
+    position: absolute;
+}
+.search{
+    margin: 2px 2px;
+    padding: 5px 5px 4px 30px;
+    background-color: #fff;
+}
+.searchBox .search .wrap input{
+    width: 423px;
+    height: 24px;
+    line-height: 24px;
+    border: 0;
+    font-size: 13px;
+    outline: none;
 }

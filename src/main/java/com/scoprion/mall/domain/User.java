@@ -1,4 +1,6 @@
-package com.scoprion.mall.home.domain;
+package com.scoprion.mall.domain;
+
+import com.alibaba.fastjson.annotation.JSONField;
 
 import java.util.Date;
 
@@ -41,8 +43,28 @@ public class User {
     private String certification;
 
     //生日
-    private Date bornDate;
+    private String bornDate;
 
+    //状态 1正常 0已注销
+    private String status;
+
+    //城市编码
+    private int city;
+
+    //注册时间
+    @JSONField(format = "yyyy-MM-dd")
+    private Date createDate;
+
+    //修改时间
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date updateDate;
+
+    //最后一次登录时间
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date lastLoginDate;
+
+    //登录ip
+    private String loginIp;
 
     public Long getId() {
         return id;
@@ -132,12 +154,60 @@ public class User {
         this.certification = certification;
     }
 
-    public Date getBornDate() {
+    public String getBornDate() {
         return bornDate;
     }
 
-    public void setBornDate(Date bornDate) {
+    public void setBornDate(String bornDate) {
         this.bornDate = bornDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getCity() {
+        return city;
+    }
+
+    public void setCity(int city) {
+        this.city = city;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    public Date getLastLoginDate() {
+        return lastLoginDate;
+    }
+
+    public void setLastLoginDate(Date lastLoginDate) {
+        this.lastLoginDate = lastLoginDate;
+    }
+
+    public String getLoginIp() {
+        return loginIp;
+    }
+
+    public void setLoginIp(String loginIp) {
+        this.loginIp = loginIp;
     }
 
     @Override
@@ -154,7 +224,13 @@ public class User {
                 ", address='" + address + '\'' +
                 ", email='" + email + '\'' +
                 ", certification='" + certification + '\'' +
-                ", bornDate=" + bornDate +
+                ", bornDate='" + bornDate + '\'' +
+                ", status='" + status + '\'' +
+                ", city=" + city +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                ", lastLoginDate=" + lastLoginDate +
+                ", loginIp='" + loginIp + '\'' +
                 '}';
     }
 }

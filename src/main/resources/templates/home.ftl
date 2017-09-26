@@ -21,6 +21,18 @@
         </div>
     </div>
 </nav>
-<div class=""></div>
+<header class="searchHeader">
+    <div class="searchWrap">
+        <div>这是logo</div>
+        <div class="searchBox">
+            <div class="search">
+                <div class="wrap">
+                    <input type="text">
+                    <i class="fa fa-search"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
 </body>
 </html>
