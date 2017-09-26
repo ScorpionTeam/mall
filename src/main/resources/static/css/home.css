@@ -1,0 +1,40 @@
+body{
+    margin:0;
+}
+.topNav {
+    position: relative;
+    z-index: 106;
+    background: #f2f2f2;
+    border-bottom: 1px solid #ededee;
+    color: #666;
+    font-size:12px;
+}
+
+.topNavWrap {
+    position: relative;
+    zoom: 1;
+    height: 30px;
+    line-height: 30px;
+    margin: 0 auto;
+    width: 1090px;
+}
+
+.topNavLeft a {
+    text-decoration: blink;
+    color: #666;
+}
+
+.topNavLeft .login {
+    margin-left: 16px;
+}
+
+.topNavLeft .mobile{
+    margin-left: 16px;
+}
+.topNavLeft .mobile i{
+    font-size: 16px;
+    color: #E31436;
+}
+.step {
+    padding: 0 10px;
+}
