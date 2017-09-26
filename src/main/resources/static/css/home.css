@@ -5,9 +5,9 @@ body {
 .topNav {
     position: relative;
     z-index: 106;
-    background: #f2f2f2;
+    background: #db073d;
     border-bottom: 1px solid #ededee;
-    color: #666;
+    color: #fff;
     font-size: 12px;
 }
 
@@ -22,7 +22,7 @@ body {
 
 .topNavLeft a {
     text-decoration: blink;
-    color: #666;
+    color: #fff;
 }
 
 .topNavLeft .login {
@@ -35,12 +35,11 @@ body {
 
 .topNavLeft .mobile i {
     font-size: 16px;
-    color: #FC4349;
+
 }
 
 .topNavLeft .signIn i {
     font-size: 14px;
-    color: #FC4349;
 }
 
 .step {
@@ -102,7 +101,6 @@ body {
 
 .shopCart {
     color: #333;
-
     text-decoration: none;
     display: block;
     position: absolute;
