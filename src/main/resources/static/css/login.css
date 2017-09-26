@@ -1,0 +1,77 @@
+body{
+    margin: 0;
+}
+.loginTop {
+    border-bottom: 1px solid #e8e8ea;
+    position: relative;
+    height: 120px;
+    background: #fff;
+    z-index: 103;
+}
+.loginTop .wrap {
+    width: 1000px;
+    position: relative;
+    zoom: 1;
+    height: 120px;
+    margin: 0 auto;
+}
+
+.loginTop .wrap .img {
+    float: right;
+    right: 0;
+}
+.loginTop .wrap .img img{
+    height: 120px;
+    line-height: 120px;
+}
+
+.loginTop .wrap a {
+    text-decoration: none;
+    font-size: 32px;
+    color: #db073d;
+    line-height: 120px;
+    display: block;
+    float: left;
+    text-align: center;
+}
+.loginBanner{
+    background-image: url("../image/login_banner.jpg");
+    background-color:#f8f8f8 ;
+    background-repeat: no-repeat;
+}
+.loginBody{
+    height: 520px;
+}
+.loginForm{
+    background: #fff;
+    height: 400px;
+    width: 360px;
+    right: 120px;
+    float: right;
+    position: absolute;
+    margin-top: 40px;
+}
+.loginForm .loginHeader{
+    background: #f8f8f8;
+    height: 60px;
+    border-bottom: 1px solid #ccc;
+}
+.loginForm .loginHeader span{
+    float: left;
+    line-height: 60px;
+    text-align: center;
+}
+.loginForm .loginHeader .mobileLogin{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 900;
+    width: 170px;
+    cursor: pointer;
+}
+.loginForm .loginHeader .emailLogin{
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 900;
+    width: 170px;
+    cursor: pointer;
+}
