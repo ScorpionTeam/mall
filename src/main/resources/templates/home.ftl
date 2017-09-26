@@ -53,5 +53,10 @@
         </a>
     </div>
 </header>
+<article>
+    <div class="bannerBox">
+        banner
+    </div>
+</article>
 </body>
 </html>

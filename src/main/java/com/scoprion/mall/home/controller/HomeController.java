@@ -12,8 +12,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("mall")
 public class HomeController {
 
+    /**
+     * 首页
+     * @param map
+     * @return
+     */
     @RequestMapping(value = "/home",method = RequestMethod.GET)
     public String home(ModelMap map){
         return "home";
     }
+
+
 }

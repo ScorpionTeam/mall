@@ -67,7 +67,7 @@ body {
     background-color: #333;
     left: 343px;
     position: absolute;
-    top:26px;
+    top: 26px;
 }
 
 .search {
@@ -89,7 +89,8 @@ body {
     display: inline-block;
     float: right;
 }
-.logo{
+
+.logo {
     position: absolute;
     height: 100px;
     line-height: 100px;
@@ -98,7 +99,8 @@ body {
     color: #DB073D;
     font-size: 32px;
 }
-.shopCart{
+
+.shopCart {
     color: #333;
 
     text-decoration: none;
@@ -114,4 +116,10 @@ body {
     text-align: center;
     border-radius: 3px;
     border: 1px solid #ddd;
+}
+
+.bannerBox {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
 }

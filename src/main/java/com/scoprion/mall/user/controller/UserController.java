@@ -90,5 +90,15 @@ public class UserController {
         return "";
     }
 
+    /**
+     * 会员详细信息
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public String profile(Long id) {
+        return "profile";
+    }
 
 }
