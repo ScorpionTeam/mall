@@ -5,11 +5,9 @@ import com.scoprion.mall.domain.User;
 import com.scoprion.mall.user.service.UserService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.utils.IPUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.ModelMap;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,8 +19,7 @@ import javax.validation.Valid;
  * Created on 2017/9/26.
  */
 @Controller
-@RequestMapping("/user")
-@Transactional
+@RequestMapping("user")
 public class UserController {
 
     @Autowired
@@ -47,6 +44,7 @@ public class UserController {
      * @param request
      * @return
      */
+    @ApiOperation(value = "测试")
     @ResponseBody
     @RequestMapping(value = "/loginByMobileSubmit", method = RequestMethod.POST)
     public BaseResult loginByMobileSubmit(String mobile, String password, HttpServletRequest request) throws Exception {

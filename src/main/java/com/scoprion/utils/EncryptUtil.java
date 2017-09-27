@@ -73,10 +73,10 @@ public class EncryptUtil {
         return aesDecryptByBytes(base64Decode(encryptStr), descryptKey);
     }
 
-    public static void main(String[] args) throws Exception {
-        String content = "1234567890";
-        System.out.println(EncryptUtil.aesEncrypt(content, "ScorpionMall8888"));
-    }
+//    public static void main(String[] args) throws Exception {
+//        String content = "1234567890";
+//        System.out.println(EncryptUtil.aesEncrypt(content, "ScorpionMall8888"));
+//    }
 
 
 }

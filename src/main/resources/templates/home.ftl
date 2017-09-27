@@ -12,7 +12,7 @@
     <div class="topNavWrap">
         <div class="topNavLeft">
             <span>mall欢迎您</span>
-            <a href="/user/login" class="login">登录</a>
+            <a href="/mall/user/login" class="login">登录</a>
             <span class="step">|</span>
             <a href="" class="register">免费注册</a>
             <a href="" class="mobile">
