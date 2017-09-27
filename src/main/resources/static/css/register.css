@@ -90,9 +90,23 @@ body{
     text-align: center;
     cursor: pointer;
 }
+.btn-getsms-loading{
+    float: left;
+    height: 46px;
+    width: 120px;
+    font-size: 17px;
+    margin: 12px 0 0 10px;
+    line-height: 46px;
+    color: #fff;
+    background: #a1d1f6;
+    text-align: center;
+    opacity: 0.99;
+    cursor: auto;
+}
 .btn-disabled{
     opacity:0.6;
     background: #a1d1f6;
+    cursor:default;
 }
 .smsize{
     width: 190px;
@@ -122,4 +136,87 @@ body{
     float: left;
     width: 322px;
     font-size: 12px;
+}
+/*输入框清理样式*/
+.u-tip{
+    position: relative;
+    float: left;
+    width: 40px;
+    height: 40px;
+    margin-left: -42px;
+    margin-top: 15px;
+    z-index: 11;
+    background: #fff;
+}
+.spritbg{
+    background: url(../image/sprite.png) no-repeat;
+}
+.spritbg:hover{
+    opacity: 1;
+}
+.u-clear{
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    left: 10px;
+    top: 10px;
+    cursor: pointer;
+    background-position: -325px -101px;
+    opacity: 0.5;
+}
+/*输入提示*/
+.popb{
+    float: left;
+    margin-left: 10px;
+    width: 280px;
+    height: 72px;
+    max-height: 60px;
+    overflow: hidden;
+    font-size: 12px;
+}
+.popb .b-i{
+    height: 72px;
+    width: 24px;
+}
+.popb .b-p{
+    overflow: hidden;
+    line-height: 20px;
+    word-break: break-all;
+}
+/*提示主题*/
+.popb.err{
+    color: #fa5b5b;
+}
+.err i{
+    float: left;
+    width: 22px;
+    height: 22px;
+    padding: 0 2px 0 0;
+    background: url(../image/sprite.png) no-repeat;
+    background-position: -62px -98px;
+}
+
+.popb.succ{
+    color: #71c86f;
+}
+.succ i{
+    float: left;
+    width: 22px;
+    height: 22px;
+    padding: 0 2px 0 0;
+    background: url(../image/sprite.png) no-repeat;
+    margin-top: 24px;
+    background-position: -26px -98px;
+}
+
+.popb.warn{
+    color: #999;
+}
+.warn i{
+    float: left;
+    width: 22px;
+    height: 22px;
+    padding: 0 2px 0 0;
+    background: url(../image/sprite.png) no-repeat;
+    background-position: -391px -99px;
 }
