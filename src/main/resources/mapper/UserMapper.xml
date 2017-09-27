@@ -61,7 +61,42 @@
 
     <!--用户注册-->
     <insert id="register" parameterType="com.scoprion.mall.domain.User">
-        INSERT INTO
+        INSERT INTO t_user(name,
+        headPic,
+        nickName,
+        sex,
+        age,
+        certificateId,
+        mobile,
+        address,
+        city,
+        email,
+        bornDate,
+        certification,
+        status,
+        createDate,
+        updateDate,
+        lastLoginDate,
+        loginIp,
+        password)
+        VALUES(#{name},
+        #{headPic},
+        #{nickName},
+        #{sex},
+        #{age},
+        #{certificateId},
+        #{mobile},
+        #{address},
+        #{city},
+        #{email},
+        #{bornDate},
+        '0',
+        '1',
+        NOW(),
+        NOW(),
+        NOW(),
+        loginIp,
+        password)
     </insert>
 
 </mapper>

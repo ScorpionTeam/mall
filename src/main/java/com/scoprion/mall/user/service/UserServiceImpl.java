@@ -40,9 +40,9 @@ public class UserServiceImpl implements UserService {
         //更新用户最后登录IP地址
         userMapper.updateLoginIpAddress(user.getId(), ip);
         //设置用户登录有效期为30分钟
-        redisTemplate.opsForValue().set("Login:" + user.getMobile(), user, 30, TimeUnit.MINUTES);
+        redisTemplate.opsForValue().set("Login:" + user.getMobile(), user.toString(), 30, TimeUnit.MINUTES);
         //将用户手机号码作为加密字符串回传
-        String tokenStr = EncryptUtil.aesDecrypt(user.getMobile(), "ScorpionMall8888");
+        String tokenStr = EncryptUtil.aesEncrypt(user.getMobile(), "ScorpionMall8888");
         return BaseResult.success(tokenStr);
     }
 
@@ -62,9 +62,9 @@ public class UserServiceImpl implements UserService {
             return BaseResult.error("login_fail", "邮箱或密码不正确");
         }
         //设置用户登录有效期为30分钟
-        redisTemplate.opsForValue().set("Login:" + user.getEmail(), user, 30, TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set("Login:" + user.getEmail(), user.toString(), 30, TimeUnit.SECONDS);
         //将用户email作为加密字符串回传
-        String tokenStr = EncryptUtil.aesDecrypt(user.getEmail(), "ScorpionMall8888");
+        String tokenStr = EncryptUtil.aesEncrypt(user.getEmail(), "ScorpionMall8888");
         return BaseResult.success(tokenStr);
     }
 
@@ -91,8 +91,10 @@ public class UserServiceImpl implements UserService {
         String encryptPassword = EncryptUtil.encryptMD5(user.getPassword());
         user.setPassword(encryptPassword);
         int result = userMapper.register(user);
+        String tokenStr = EncryptUtil.aesEncrypt(user.getMobile(), "ScorpionMall8888");
+        redisTemplate.opsForValue().set("Login:" + user.getMobile(), user.toString(), 30, TimeUnit.SECONDS);
         if (result > 0)
-            return BaseResult.success("注册成功");
+            return BaseResult.success(tokenStr);
         return BaseResult.error("register_fail", "注册失败");
     }
 

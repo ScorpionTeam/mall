@@ -94,10 +94,8 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/registerSubmit", method = RequestMethod.POST)
-    public BaseResult registerSubmit(@Valid User user) {
-
-
-        return null;
+    public BaseResult registerSubmit(@Valid User user) throws Exception {
+        return userService.registerSubmit(user);
     }
 
     /**
