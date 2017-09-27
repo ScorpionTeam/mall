@@ -1,3 +1,7 @@
+*{
+    padding: 0;
+    margin: 0;
+}
 body {
     margin: 0;
     font: 12px/1.5 "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", \5FAE\8F6F\96C5\9ED1, tahoma, simsun, \5b8b\4f53;
@@ -243,7 +247,7 @@ body {
 }
 
 .prev {
-    /*left: 169px;*/
+    left: 169px;
     background-position: -625px -68px;
     cursor: pointer;
 }
@@ -318,6 +322,7 @@ body {
     border-bottom: 1px solid #000;
     margin-top: -1px;
     list-style: none;
+    padding: 0;
 }
 .catlist li{
     background: rgba(15,15,15,.82);
