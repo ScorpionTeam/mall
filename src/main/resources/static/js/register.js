@@ -1,10 +1,10 @@
 /*发送验证码*/
 var sendMsg = function () {
-    /*未填写手机号无法发送信息*/
-    if($("#input-phone").val()==""){
-        return
-    }
     $(".btn-getsms").click(function () {
+        /*未填写手机号无法发送信息*/
+        if($("#input-phone").val()==""){
+            return
+        }
         $(".btn-getsms-loading").show();
         $(this).hide();
         inSend();
@@ -40,6 +40,9 @@ var clearMsg = function () {
         /*所有提示都清空*/
         $("table").eq(index).addClass("con");
         $(".succ").eq(index).addClass("con");
+        if(index==3){
+
+        }
     })
 };
 /*输入校验*/
@@ -101,7 +104,11 @@ var phoneConfirm = function () {
     if($("#input-phone").val()==""){
         table.removeClass()
         table.addClass("err popb")
-        $(".b-p")[index].innerHTML = "请输入手机号"
+        $(".b-p")[index].innerHTML = "请输入手机号";
+        /*验证获取验证码按钮样式*/
+        if(!$(".btn-getsms").eq(0).hasClass("btn-disabled")){
+            $(".btn-getsms").eq(0).addClass("btn-disabled");
+        }
         return;
     }else {
         table.addClass("con");
@@ -137,10 +144,44 @@ var regisBtnUse = function () {
         $(".b-btn").eq(0).removeClass("btndisabled");
     }
 };
-var registerHandler = function () {
-    var name = $("#input-account").val(),
-        pwd = $("#input-psd").val(),
-        pwd2 = $("#input-pw2").val(),
-        phone = $("#input-phone").val(),
-        sms = $("#input-sms").val();
+var registerHandler = function (){
+    if(!regisBtnUse()){
+        return;
+    }
+    var data={};
+    data.name = $("#input-account").val(),
+        data.pwd = $("#input-psd").val(),
+        data.pwd2 = $("#input-pw2").val(),
+        data.phone = $("#input-phone").val(),
+        data.sms = $("#input-sms").val();
+    var url = pubUrl+"user/registerSubmit";
+    ajaxPost({
+        type:0,
+        data:data,
+        url:url,
+        success:function (res) {
+            if(res.result==1){
+                alert("注册成功");
+            }
+        },
+        error:function (err) {
+            console.log(err)
+        }
+    })
+    /*$.ajax({
+     url:url,
+     type:"POST",
+     dataType:"json",
+     contentType:"application/json",
+     data:data,
+     success:function (res) {
+     if(res.result==1){
+     alert("注册成功");
+     }
+     },
+     error:function (err) {
+     console.log(err);
+     }
+     });*/
+
 };

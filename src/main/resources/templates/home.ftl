@@ -1432,6 +1432,16 @@
                             <img class="showImg" src="http://haitao.nos.netease.com/d6ydMcAgp0nFxRs7heRasdS8S7sX%20WTlkT1709252032_1920_400.jpg?imageView&thumbnail=1920x0&quality=90" alt="">
                         </a>
                     </li>
+                    <li style="opacity: 0">
+                        <a href="" class="item" target="_blank">
+                            <img class="showImg" src="http://haitao.nos.netease.com/UDGcdLHfBtUgM7fH1920X400PCao1INET1709191440_1920_400.jpg?imageView&thumbnail=1920x0&quality=90" alt="">
+                        </a>
+                    </li>
+                    <li  style="opacity: 0">
+                        <a href="" class="item" target="_blank">
+                            <img class="showImg" src="http://haitao.nos.netease.com/l8Iq8D40JT08uTETeiqByA-1T1709252143_1920_400.jpg?imageView&thumbnail=1920x0&quality=90" alt="">
+                        </a>
+                    </li>
                 </ul>
                 <table class="img_pagebox" cellspacing="0" border="0">
                     <tr class="img-page">
