@@ -66,6 +66,17 @@ public class User {
     //登录ip
     private String loginIp;
 
+    //密码
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public Long getId() {
         return id;
     }
@@ -231,6 +242,7 @@ public class User {
                 ", updateDate=" + updateDate +
                 ", lastLoginDate=" + lastLoginDate +
                 ", loginIp='" + loginIp + '\'' +
+                ", password='" + password + '\'' +
                 '}';
     }
 }
