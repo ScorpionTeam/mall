@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>注册</title>
-    <link rel="stylesheet" href="../../static/css/index.css">
-    <link rel="stylesheet" href="../../static/css/component.css">
-    <link rel="stylesheet" href="../../static/css/register.css">
+    <link rel="stylesheet" href="../static/css/home.css">
+    <link rel="stylesheet" href="../static/css/component.css">
+    <link rel="stylesheet" href="../static/css/register.css">
 </head>
 <body>
 <div class="g-hd">

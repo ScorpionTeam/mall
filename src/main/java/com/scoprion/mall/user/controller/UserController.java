@@ -3,6 +3,7 @@ package com.scoprion.mall.user.controller;
 import com.scoprion.mall.domain.User;
 import com.scoprion.result.BaseResult;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +17,8 @@ import javax.validation.Valid;
  * Created on 2017/9/26.
  */
 @Controller
-@RequestMapping("user")
+@RequestMapping("/user")
+@Transactional
 public class UserController {
 
     /**
@@ -26,7 +28,6 @@ public class UserController {
      */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login() {
-
         return "login";
     }
 
@@ -43,6 +44,35 @@ public class UserController {
     @RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
     public BaseResult loginSubmit(ModelMap map, @Valid User user, BindingResult result, HttpServletRequest request) {
 
+        return null;
+    }
+
+    /**
+     * 手机号登录
+     *
+     * @param mobile
+     * @param password
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/loginByMobileSubmit", method = RequestMethod.POST)
+    public BaseResult loginByMobileSubmit(String mobile, String password, HttpServletRequest request) {
+        return null;
+    }
+
+
+    /**
+     * 邮箱登录
+     *
+     * @param email
+     * @param password
+     * @param request
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/loginByEmailSubmit", method = RequestMethod.POST)
+    public BaseResult loginByEmailSubmit(String email, String password, HttpServletRequest request) {
         return null;
     }
 
