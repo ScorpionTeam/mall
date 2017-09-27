@@ -3,18 +3,12 @@ package com.scoprion.utils;
 import org.apache.commons.codec.binary.Base64;
 import sun.misc.BASE64Decoder;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.security.InvalidKeyException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 
 /**
@@ -81,7 +75,7 @@ public class EncryptUtil {
 
     public static void main(String[] args) throws Exception {
         String content = "1234567890";
-        System.out.println(EncryptUtil.aesEncrypt(content,"ScorpionMall8888"));
+        System.out.println(EncryptUtil.aesEncrypt(content, "ScorpionMall8888"));
     }
 
 
