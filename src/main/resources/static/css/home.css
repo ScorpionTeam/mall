@@ -264,3 +264,239 @@ body {
 .con {
     display: none;
 }
+
+/*类目*/
+#topTabBox{
+    border-bottom: 2px solid #151515;
+    background: #fff;
+    z-index: 102;
+}
+#topTab{
+    position: relative;
+    zoom: 1;
+    width: 1090px;
+    margin: 0 auto;
+    height: 40px;
+    line-height: 40px;
+    z-index: 102;
+}
+#topCats{
+    float: left;
+    height: 40px;
+    width: 160px;
+    background: #151515;
+    color: #fff;
+    font-size: 14px;
+    text-align: center;
+    padding-left: 0;
+    overflow: visible;
+}
+.toplevel{
+    display: inline-block;
+    height: 40px;
+    line-height: 40px;
+    width: 160px;
+    text-align: left;
+    border-bottom: 2px solid #151515;
+}
+.toplevel .lineicon{
+    display: inline-block;
+    margin: 0 15px 0 27px;
+    width: 15px;
+    height: 12px;
+    overflow: hidden;
+}
+.lineicon i{
+    width: 15px;
+    height: 0;
+    border-top: 2px solid #ddd;
+    display: block;
+    margin-bottom: 3px;
+}
+.catlist{
+    border-bottom: 1px solid #000;
+    margin-top: -1px;
+    list-style: none;
+}
+.catlist li{
+    background: rgba(15,15,15,.82);
+    display: list-item;
+    padding-left: 10px;
+    width: 150px;
+    cursor: pointer;
+    text-align: left;
+    height: 36.3636363636px;
+    line-height: 36.3636363636px;
+}
+.catlist li:hover{
+    background: #555;
+    padding-left: 7px;
+    border-left: 3px solid #e32b42;
+}
+.catlist li .icon{
+    width: 20px;
+    height: 20px;
+    padding: 0 12px 0 14px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.catlist li .word{
+    display: inline-block;
+    width: 70px;
+    height: 30px;
+    line-height: 30px;
+    white-space: nowrap;
+    vertical-align: middle;
+}
+.catlist li .arr{
+    display: inline-block;
+    color: #929496;
+    font-size: 19px;
+    width: 16px;
+    vertical-align: middle;
+    position: relative;
+    background: url("http://mm.bst.126.net/images/index/icon1.png");
+    background-position: -680px -65px;
+}
+.catlist li .seg{
+    display: block;
+    position: relative;
+    bottom: 1px;
+    left: 0;
+    width: 140px;
+    height: 1px;
+    background: rgba(255,255,255,.05);
+}
+.vcenter{
+    display: inline-block;
+    vertical-align: middle;
+    height: 100%;
+    width: 0;
+}
+.m-ctgcard{
+    transition: height 0.4s;
+    position: absolute;
+    z-index: 75;
+    top: 42px;
+    left: 160px;
+    display: none;
+    width: 930px;
+    overflow: hidden;
+    max-height: 399px;
+    height: 399px;
+    background: #fff;
+    border: 1px solid #333;
+    border-width: 0 1px 1px 0;
+    text-align: left;
+    color: #333;
+    cursor: auto;
+}
+.m-ctgcard .m-ctglist{
+    float: left;
+    margin: 10px 20px 20px 20px;
+    width: 610px;
+    max-height: 370px;
+    overflow: hidden;
+}
+.m-ctglist .f-cb .litd{
+    float: left;
+    width: 50%;
+    vertical-align: top;
+}
+.litd .item{
+    display: inline-block;
+    padding: 0;
+    margin: 0 25px 10px 5px;
+    vertical-align: top;
+    width: 275px;
+    height: auto;
+    line-height: normal;
+    overflow: hidden;
+}
+.litd .item .title{
+    height: 34px;
+    line-height: 34px;
+    font-size: 14px;
+    font-weight: bold;
+    border-bottom: 1px solid #EAEAEA;
+}
+.title a{
+    display: inline;
+    color: #333;
+    text-align: left;
+}
+.title a:hover{
+    text-decoration: underline;
+}
+.litd .item .ctgnamebox{
+    margin-left: -8px;
+    font-size: 0;
+}
+.ctgnamebox a{
+    display: inline-block;
+    height: 14px;
+    line-height: 14px;
+    padding: 0 8px 0 10px;
+    margin-top: 12px;
+    border-left: 1px solid #CCC;
+    font-size: 13px;
+    color: #666;
+}
+.ctgnamebox a:hover{
+    text-decoration: underline;
+}
+.m-ctgcard .m-brandbox{
+    float: left;
+    height: 243px;
+    overflow: hidden;
+    width: 245px;
+    padding: 20px 17px 0;
+    background: #f6f6f6;
+}
+.m-brandbox a{
+    float: left;
+    padding: 0;
+}
+.m-brandbox img{
+    width: 80px;
+    height: 80px;
+    border: 1px solid #EAEAEA;
+    margin: -1px 0 0 -1px;
+    vertical-align: middle;
+}
+.m-ctgcard .imgbox{
+    float: right;
+    width: 244px;
+    height: 100px;
+    padding: 18px;
+    background: #f6f6f6;
+}
+.imgbox .u-img{
+    width: 244px;
+    height: 100px;
+    vertical-align: middle;
+}
+/*横排功能菜单*/
+#funcTab{
+    position: relative;
+    z-index: 72;
+    height: 40px;
+    float: left;
+    padding-left: 20px;
+}
+#funcTab li{
+    float: left;
+    height: 40px;
+    overflow: hidden;
+    padding: 0 20px;
+}
+#funcTab li a{
+    display: block;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#funcTab li a:hover{
+    color:red;
+}

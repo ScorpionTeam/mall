@@ -64,3 +64,14 @@ var scrollBanner =function () {
 }/**
  * Created by admin1 on 2017/9/26.
  */
+/*类目*/
+var catTmpHover= function () {
+    var myCard = $(".m-ctgcard");
+    $(".catli").hover(function () {
+        var index = $(".catli").index(this);
+        myCard.eq(index).show();
+    },function () {
+        var index = $(".catli").index(this);
+        myCard.eq(index).hide();
+    })
+}
