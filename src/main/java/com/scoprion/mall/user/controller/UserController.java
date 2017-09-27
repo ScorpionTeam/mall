@@ -1,7 +1,11 @@
 package com.scoprion.mall.user.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.scoprion.mall.domain.User;
+import com.scoprion.mall.user.service.UserService;
 import com.scoprion.result.BaseResult;
+import com.scoprion.utils.IPUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -21,6 +25,9 @@ import javax.validation.Valid;
 @Transactional
 public class UserController {
 
+    @Autowired
+    private UserService userService;
+
     /**
      * 跳转登录页面
      *
@@ -31,21 +38,6 @@ public class UserController {
         return "login";
     }
 
-    /**
-     * 登录
-     *
-     * @param map
-     * @param user
-     * @param result
-     * @param request
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "/loginSubmit", method = RequestMethod.POST)
-    public BaseResult loginSubmit(ModelMap map, @Valid User user, BindingResult result, HttpServletRequest request) {
-
-        return null;
-    }
 
     /**
      * 手机号登录
@@ -57,8 +49,12 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/loginByMobileSubmit", method = RequestMethod.POST)
-    public BaseResult loginByMobileSubmit(String mobile, String password, HttpServletRequest request) {
-        return null;
+    public BaseResult loginByMobileSubmit(String mobile, String password, HttpServletRequest request) throws Exception {
+        if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)) {
+            return BaseResult.parameterError();
+        }
+        String ip = IPUtil.getIPAddress(request);
+        return userService.loginByMobileSubmit(mobile, password, ip);
     }
 
 
@@ -72,8 +68,12 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/loginByEmailSubmit", method = RequestMethod.POST)
-    public BaseResult loginByEmailSubmit(String email, String password, HttpServletRequest request) {
-        return null;
+    public BaseResult loginByEmailSubmit(String email, String password, HttpServletRequest request) throws Exception {
+        if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
+            return BaseResult.parameterError();
+        }
+        String ip = IPUtil.getIPAddress(request);
+        return userService.loginByEmailSubmit(email, password, ip);
     }
 
     /**
@@ -95,6 +95,7 @@ public class UserController {
     @ResponseBody
     @RequestMapping(value = "/registerSubmit", method = RequestMethod.POST)
     public BaseResult registerSubmit(@Valid User user) {
+
 
         return null;
     }

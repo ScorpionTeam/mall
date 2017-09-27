@@ -1,11 +1,13 @@
 package com.scoprion.mall.user.mapper;
 
 import com.scoprion.mall.domain.User;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
  * Created on 2017/9/27.
  */
+@Mapper
 public interface UserMapper {
 
 
@@ -52,5 +54,19 @@ public interface UserMapper {
      */
     int findByNickName(String nickName);
 
+    /**
+     * 更新用户登录IP地址
+     *
+     * @param id
+     * @return
+     */
+    int updateLoginIpAddress(@Param("id") Long id, @Param("ip") String ip);
+
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
+    int register(User user);
 
 }

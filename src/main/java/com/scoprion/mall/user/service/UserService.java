@@ -14,7 +14,7 @@ public interface UserService {
      * @param password
      * @return
      */
-    BaseResult loginByMobileSubmit(String mobile,String password) throws Exception;
+    BaseResult loginByMobileSubmit(String mobile,String password,String ip) throws Exception;
 
     /**
      * email登录
@@ -22,14 +22,14 @@ public interface UserService {
      * @param password
      * @return
      */
-    BaseResult loginByEmailSubmit(String email,String password);
+    BaseResult loginByEmailSubmit(String email,String password,String ip) throws Exception;
 
     /**
      * 注册
      * @param user
      * @return
      */
-    BaseResult registerSubmit(User user);
+    BaseResult registerSubmit(User user) throws Exception;
 
     /**
      * 修改个人资料

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.user.mapper.UserMapper">
+
+    <!--根据手机号登录-->
+    <select id="loginByMobile" resultType="com.scoprion.mall.domain.User">
+        SELECT id,name,
+        headPic,
+        nickName,
+        sex,
+        age,
+        certificateId,
+        mobile,
+        address,
+        city,
+        email,
+        bornDate,
+        certification,
+        status,
+        createDate,
+        updateDate,
+        lastLoginDate,
+        loginIp
+        FROM t_user WHERE status='1' AND mobile=#{mobile} AND password=#{password}
+    </select>
+    <!--根据email登录-->
+    <select id="loginByEmail" resultType="com.scoprion.mall.domain.User">
+        SELECT id,name,
+        headPic,
+        nickName,
+        sex,
+        age,
+        certificateId,
+        mobile,
+        address,
+        city,
+        email,
+        bornDate,
+        certification,
+        status,
+        createDate,
+        updateDate,
+        lastLoginDate,
+        loginIp
+        FROM t_user WHERE status='1' AND email=#{email} AND password=#{password}
+    </select>
+    <!--根据手机号查询用户-->
+    <select id="findByMobile" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM t_user WHERE status='1' WHERE mobile=#{mobile}
+    </select>
+    <!--根据email查询用户-->
+    <select id="findByEmail" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM t_user WHERE status='1' WHERE email=#{email}
+    </select>
+    <!--根据昵称查询用户-->
+    <select id="findByNickName" resultType="java.lang.Integer">
+        SELECT COUNT(1) FROM t_user WHERE status='1' AND nickName=#{nickName}
+    </select>
+
+    <!--用户注册-->
+    <insert id="register" parameterType="com.scoprion.mall.domain.User">
+        INSERT INTO
+    </insert>
+
+</mapper>
