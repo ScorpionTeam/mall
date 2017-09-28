@@ -25,4 +25,5 @@ public class ErrorResult extends BaseResult {
         this.error.setCode(code);
         this.error.setMessage(message);
     }
+
 }

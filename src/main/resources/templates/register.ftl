@@ -129,13 +129,14 @@
         sendMsg();
         addInputEvent();
         clearMsg();
+
         /*输入框绑定事件*/
         $("#input-account").blur(accConfirm);
         $("#input-psd").blur(pwdConfirm);
         $("#input-pw2").blur(pwd2Confirm);
         $("#input-phone").blur(phoneConfirm);
         $("#input-sms").blur(smsConfrim);
+        $(".b-btn").click(registerHandler);
     });
-
 </script>
 </html>
