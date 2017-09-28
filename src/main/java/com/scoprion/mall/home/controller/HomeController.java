@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created on 2017/9/26.
  */
 @Controller
-@RequestMapping("mall")
 public class HomeController {
 
     /**
