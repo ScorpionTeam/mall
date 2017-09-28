@@ -75,3 +75,43 @@ var catTmpHover= function () {
         myCard.eq(index).hide();
     })
 }
+/*计时盒子*/
+var timeBox = function (aimTime) {
+    var time = setInterval(function () {
+        var hour ,minute,second;
+        var aimDate = new Date(aimTime);
+        var now = new Date();
+        //时间到去除计时器
+        if(aimDate.getTime()-now.getTime()<=0){
+            clearInterval(time);
+        }
+        var $i = $('.timebox i');
+        hour= aimDate.getHours()-now.getHours();
+        hour=hour>0?hour:hour+23;
+        if(hour>=10){
+            $i[0].innerHTML = String(hour).substring(0,1);
+            $i[1].innerHTML = String(hour).substring(1,2);
+        }else {
+            $i[0].innerHTML = 0;
+            $i[1].innerHTML = hour;
+        }
+        minute = aimDate.getMinutes() - now.getMinutes();
+        minute = minute>0?minute:minute+60;
+        if(minute>=10){
+            $i[2].innerHTML = String(minute).substring(0,1);
+            $i[3].innerHTML = String(minute).substring(1,2);
+        }else {
+            $i[2].innerHTML = 0;
+            $i[3].innerHTML = minute;
+        }
+        second = aimDate.getSeconds() - now.getSeconds();
+        second=second>0?second:second+60;
+        if(second>=10){
+            $i[4].innerHTML = String(second).substring(0,1);
+            $i[5].innerHTML = String(second).substring(1,2);
+        }else {
+            $i[4].innerHTML = 0;
+            $i[5].innerHTML = second;
+        }
+    },1000)
+}

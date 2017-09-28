@@ -6,7 +6,11 @@ body {
     margin: 0;
     font: 12px/1.5 "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", \5FAE\8F6F\96C5\9ED1, tahoma, simsun, \5b8b\4f53;
 }
-
+.topBgWrapPos{
+    position: relative;
+    padding-bottom: 80px;
+    background: #f6f6f6;
+}
 .topNav {
     position: relative;
     z-index: 106;
@@ -409,6 +413,14 @@ body {
     width: 50%;
     vertical-align: top;
 }
+.f-cb:after{
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: "\20 ";
+    clear: both;
+    height: 0;
+}
 .litd .item{
     display: inline-block;
     padding: 0;
@@ -508,4 +520,114 @@ body {
 
 #funcTab li a:hover{
     color:red;
+}
+/*卖点*/
+.m-sellpoint{
+    margin-bottom: 20px;
+    height: 44px;
+    border-bottom: 1px solid #eaeaea;
+    background-color: #fff;
+}
+.m-contentWarp{
+    width: 1090px;
+    margin: 0 auto;
+}
+.sellpoint{
+    float: left;
+    height: 44px;
+    line-height: 44px;
+    font-size: 12px;
+    color: #999;
+}
+.sellpoint .itm{
+    float: left;
+    margin-right: 40px;
+    color: #999;
+    text-decoration: none;
+}
+.itm i{
+    margin-right: 7px;
+    font-size: 22px;
+    vertical-align: -3px;
+}
+.m-contentWarp .download{
+    float: right;
+    color: #e01f35;
+    line-height: 44px;
+}
+.download i{
+    margin-right: 5px;
+    font-size: 21px;
+    vertical-align: -3px;
+}
+.download a{
+    color: #e01f35;
+    text-decoration: none;
+}
+.download a:hover{
+    text-decoration: underline;
+}
+/*source*/
+.row-box{
+    margin: 0 auto;
+    width: 1090px;
+}
+.row-warp{
+    margin-bottom: 10px;
+    width: 1090px;
+}
+.row-warp li{
+    float: left;
+    list-style: none;
+}
+.row-warp li:not(:last-child){
+    margin-right: 10px;
+}
+.row-warp .pic{
+    height: 220px;
+    width: 265px;
+}
+.row-warp image{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/*主要内容*/
+/*计时盒子*/
+.mainBgWrap{
+    position: relative;
+    zoom: 1;
+    width: 1090px;
+    margin: 0 auto;
+    min-height: 600px;
+}
+.my-dailylimt .tit{
+    position: relative;
+    font-size: 14px;
+    color: #999;
+    font-weight: normal;
+    margin: 37px 0 10px;
+}
+.tit .big{
+    font-size: 22px;
+    color:#333;
+    margin-right: 10px;
+    font-weight: bold;
+}
+.tit .timebox{
+    margin-left: 8px;
+    font-weight: bold;
+}
+.timebox i{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    background: #000;
+    color:#fff;
+    margin: 0 1.5px;
+    border-radius:50% ;
+    font-weight: normal;
+    font-style: normal;
+    text-align: center;
 }

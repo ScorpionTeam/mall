@@ -1,1 +1,0 @@
-var pubUrl = "http://localhost:8088/"

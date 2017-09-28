@@ -120,10 +120,9 @@
     </div>
 </div>
 </body>
-<script src="${ctx.contextPath}/static/jquery/jquery-3.2.1.min.js"></script>
-<script src="${ctx.contextPath}/static/js/register.js"></script>
-<script src="${ctx.contextPath}/static/js/webApi.js"></script>
-<script src="${ctx.contextPath}/static/js/ajaxMethod.js"></script>
+<script src="../static/jquery/jquery-3.2.1.min.js"></script>
+<script src="../static/js/register.js"></script>
+<script src="../static/js/ajaxMethod.js"></script>
 <script>
     $(function () {
         sendMsg();
@@ -135,6 +134,7 @@
         $("#input-pw2").blur(pwd2Confirm);
         $("#input-phone").blur(phoneConfirm);
         $("#input-sms").blur(smsConfrim);
+        $(".b-btn").click(registerHandler);
     });
 
 </script>
