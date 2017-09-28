@@ -140,24 +140,25 @@ var regisBtnUse = function () {
         phone = $("#input-phone").val(),
         sms = $("#input-sms").val();
     if(name&&pwd&&pwd2&&phone&&sms){
-        console.log(1)
         $(".b-btn").eq(0).removeClass("btndisabled");
+        return true;
     }
+    return false;
 };
 var registerHandler = function (){
-    if(!regisBtnUse()){
+     if(!regisBtnUse()){
         return;
-    }
-    var data={};
-    data.name = $("#input-account").val(),
-        data.pwd = $("#input-psd").val(),
-        data.pwd2 = $("#input-pw2").val(),
-        data.phone = $("#input-phone").val(),
-        data.sms = $("#input-sms").val();
-    var url = pubUrl+"user/registerSubmit";
+     }
+    var user={};
+        user.nickName = $("#input-account").val(),
+        user.password = $("#input-psd").val(),
+        user.mobile = $("#input-phone").val();
+    /*data.sms = $("#input-sms").val();*/
+    var url = "registerSubmit";
+    console.log(user);
     ajaxPost({
         type:0,
-        data:data,
+        data:user,
         url:url,
         success:function (res) {
             if(res.result==1){

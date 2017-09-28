@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -94,7 +95,7 @@ public class UserController {
      */
     @ResponseBody
     @RequestMapping(value = "/registerSubmit", method = RequestMethod.POST)
-    public BaseResult registerSubmit(@Valid User user) throws Exception {
+    public BaseResult registerSubmit(@RequestBody User user) throws Exception {
         return userService.registerSubmit(user);
     }
 

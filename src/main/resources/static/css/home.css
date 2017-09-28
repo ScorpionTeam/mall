@@ -502,7 +502,10 @@ body {
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
+    text-decoration: none;
+    color:#000;
 }
+
 #funcTab li a:hover{
     color:red;
 }

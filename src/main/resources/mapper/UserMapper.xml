@@ -48,11 +48,11 @@
     </select>
     <!--根据手机号查询用户-->
     <select id="findByMobile" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM t_user WHERE status='1' WHERE mobile=#{mobile}
+        SELECT COUNT(1) FROM t_user WHERE status='1' AND mobile=#{mobile}
     </select>
     <!--根据email查询用户-->
     <select id="findByEmail" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM t_user WHERE status='1' WHERE email=#{email}
+        SELECT COUNT(1) FROM t_user WHERE status='1' AND email=#{email}
     </select>
     <!--根据昵称查询用户-->
     <select id="findByNickName" resultType="java.lang.Integer">
