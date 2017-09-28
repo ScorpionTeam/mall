@@ -3,9 +3,9 @@
 <head>
     <title>mall商城,专注正品!</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="../static/css/font-awesome-4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="../static/css/home.css">
-    <link rel="stylesheet" href="../static/css/component.css">
+    <link rel="stylesheet" href="${ctx.contextPath}/static/css/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="${ctx.contextPath}/static/css/home.css">
+    <link rel="stylesheet" href="${ctx.contextPath}/static/css/component.css">
 </head>
 <body>
 <nav class="topNav">
@@ -14,7 +14,7 @@
             <span>mall欢迎您</span>
             <a href="/mall/user/login" class="login">登录</a>
             <span class="step">|</span>
-            <a href="" class="register">免费注册</a>
+            <a href="/mall/user/register" class="register">免费注册</a>
             <a href="" class="mobile">
                 <i class="fa fa-mobile"></i>
                 mall手机app客户端
@@ -78,22 +78,22 @@
                                 <div class="litd">
                                     <div class="item">
                                         <p class="title">奶粉</p>
-                                        <div class="ctgnamebox">
-                                            <a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/2622.html?zn=top&amp;zp=category-1-1-1-1">爱他美</a>
-                                            <a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/2624.html?zn=top&amp;zp=category-1-1-1-2">牛栏</a>
-                                            <a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/2626.html?zn=top&amp;zp=category-1-1-1-3">Hero Baby</a>
-                                            <a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/2628.html?zn=top&amp;zp=category-1-1-1-4">喜宝</a>
-                                            <a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/10083.html?zn=top&amp;zp=category-1-1-1-5">贝拉米</a>
-                                            <a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/2645.html?zn=top&amp;zp=category-1-1-1-6">美素佳儿</a>
-                                            <a target="_blank" class="f-fcred0" href="//www.kaola.com/category/2620/2635.html?zn=top&amp;zp=category-1-1-1-7">美林</a>
-                                            <a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/4770.html?zn=top&amp;zp=category-1-1-1-8">a2</a>
-                                            <a target="_blank" class="f-fcred0" href="//www.kaola.com/category/2620/2643.html?zn=top&amp;zp=category-1-1-1-9">惠氏</a>
-                                            <a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/3542.html?zn=top&amp;zp=category-1-1-1-10">雅培</a>
-                                            <a target="_blank" class="f-fcred0" href="//www.kaola.com/category/2620/3543.html?zn=top&amp;zp=category-1-1-1-11">美赞臣</a>
-                                            <a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/7363.html?zn=top&amp;zp=category-1-1-1-12">合生元</a>
-                                            <a target="_blank" class="f-fcred0" href="//www.kaola.com/category/2620/2754.html?zn=top&amp;zp=category-1-1-1-18">4段（1+）</a>
-                                            <a target="_blank" class="f-fcred0" href="//www.kaola.com/category/2620/2757.html?zn=top&amp;zp=category-1-1-1-19">6段</a>
-                                        </div>
+                                        <#--<div class="ctgnamebox">-->
+                                            <#--<a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/2622.html?zn=top&amp;zp=category-1-1-1-1">爱他美</a>-->
+                                            <#--<a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/2624.html?zn=top&amp;zp=category-1-1-1-2">牛栏</a>-->
+                                            <#--<a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/2626.html?zn=top&amp;zp=category-1-1-1-3">Hero Baby</a>-->
+                                            <#--<a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/2628.html?zn=top&amp;zp=category-1-1-1-4">喜宝</a>-->
+                                            <#--<a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/10083.html?zn=top&amp;zp=category-1-1-1-5">贝拉米</a>-->
+                                            <#--<a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/2645.html?zn=top&amp;zp=category-1-1-1-6">美素佳儿</a>-->
+                                            <#--<a target="_blank" class="f-fcred0" href="//www.kaola.com/category/2620/2635.html?zn=top&amp;zp=category-1-1-1-7">美林</a>-->
+                                            <#--<a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/4770.html?zn=top&amp;zp=category-1-1-1-8">a2</a>-->
+                                            <#--<a target="_blank" class="f-fcred0" href="//www.kaola.com/category/2620/2643.html?zn=top&amp;zp=category-1-1-1-9">惠氏</a>-->
+                                            <#--<a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/3542.html?zn=top&amp;zp=category-1-1-1-10">雅培</a>-->
+                                            <#--<a target="_blank" class="f-fcred0" href="//www.kaola.com/category/2620/3543.html?zn=top&amp;zp=category-1-1-1-11">美赞臣</a>-->
+                                            <#--<a target="_blank" class="f-fcred3" href="//www.kaola.com/category/2620/7363.html?zn=top&amp;zp=category-1-1-1-12">合生元</a>-->
+                                            <#--<a target="_blank" class="f-fcred0" href="//www.kaola.com/category/2620/2754.html?zn=top&amp;zp=category-1-1-1-18">4段（1+）</a>-->
+                                            <#--<a target="_blank" class="f-fcred0" href="//www.kaola.com/category/2620/2757.html?zn=top&amp;zp=category-1-1-1-19">6段</a>-->
+                                        <#--</div>-->
                                     </div>
                                 </div>
                                 <div class="litd">
@@ -1479,8 +1479,8 @@
         </div>
 </article>
 </body>
-<script src="../static/jquery/jquery-3.2.1.min.js"></script>
-<script src="../static/js/home.js"></script>
+<script src="${ctx.contextPath}/static/jquery/jquery-3.2.1.min.js"></script>
+<script src="${ctx.contextPath}/static/js/home.js"></script>
 <script>
     $(function () {
         scrollBanner();

@@ -3,7 +3,7 @@
 <head>
     <title></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <link rel="stylesheet" href="../static/css/login.css">
+    <link rel="stylesheet" href="${ctx.contextPath}/static/css/login.css">
 </head>
 <body>
 
@@ -13,7 +13,7 @@
             Mall商城
         </a>
         <div class="img">
-            <img src="../static/image/top.png" alt="">
+            <img src="${ctx.contextPath}/static/image/top.png" alt="">
         </div>
     </div>
     <div class="loginBanner">

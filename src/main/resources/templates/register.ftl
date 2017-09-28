@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <title>注册</title>
-    <link rel="stylesheet" href="../static/css/home.css">
-    <link rel="stylesheet" href="../static/css/component.css">
-    <link rel="stylesheet" href="../static/css/register.css">
+    <link rel="stylesheet" href="${ctx.contextPath}/static/css/home.css">
+    <link rel="stylesheet" href="${ctx.contextPath}/static/css/component.css">
+    <link rel="stylesheet" href="${ctx.contextPath}/static/css/register.css">
 </head>
 <body>
 <div class="g-hd">
@@ -120,10 +120,10 @@
     </div>
 </div>
 </body>
-<script src="../static/jquery/jquery-3.2.1.min.js"></script>
-<script src="../static/js/register.js"></script>
-<script src="../static/js/webApi.js"></script>
-<script src="../static/js/ajaxMethod.js"></script>
+<script src="${ctx.contextPath}/static/jquery/jquery-3.2.1.min.js"></script>
+<script src="${ctx.contextPath}/static/js/register.js"></script>
+<script src="${ctx.contextPath}/static/js/webApi.js"></script>
+<script src="${ctx.contextPath}/static/js/ajaxMethod.js"></script>
 <script>
     $(function () {
         sendMsg();

@@ -1,5 +1,6 @@
 package com.scoprion.mall.user.service;
 
+import com.alibaba.druid.util.StringUtils;
 import com.scoprion.mall.domain.User;
 import com.scoprion.mall.user.mapper.UserMapper;
 import com.scoprion.result.BaseResult;
@@ -76,13 +77,9 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public BaseResult registerSubmit(User user) throws Exception {
-        int email = userMapper.findByEmail(user.getEmail());
-        if (email > 0) {
-            return BaseResult.error("register_fail", "邮箱已存在");
-        }
         int mobile = userMapper.findByMobile(user.getMobile());
         if (mobile > 0) {
-            return BaseResult.error("register_fail", "邮箱已存在");
+            return BaseResult.error("register_fail", "手机已存在");
         }
         int nick = userMapper.findByNickName(user.getNickName());
         if (nick > 0) {
@@ -107,6 +104,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public BaseResult editProfile(User user) {
+
         return null;
     }
 
