@@ -6,6 +6,9 @@ body {
     margin: 0;
     font: 12px/1.5 "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", \5FAE\8F6F\96C5\9ED1, tahoma, simsun, \5b8b\4f53;
 }
+li{
+    list-style: none;
+}
 .topBgWrapPos{
     position: relative;
     padding-bottom: 80px;
@@ -599,7 +602,7 @@ body {
     zoom: 1;
     width: 1090px;
     margin: 0 auto;
-    min-height: 600px;
+    /*min-height: 600px;*/
 }
 .my-dailylimt .tit{
     position: relative;
@@ -630,4 +633,144 @@ body {
     font-weight: normal;
     font-style: normal;
     text-align: center;
+}
+
+/*限时购商品部分*/
+.my-dailylimt .cnt{
+    border-top:3px solid #333;
+}
+.cnt .goodlist{
+    float: left;
+    width: 868px;
+    border-left: 1px solid #eaeaea;
+}
+.goodlist .goods{
+    position: relative;
+    float: left;
+    width: 433px;
+    height: 188px;
+    border-right: 1px solid #eaeaea;
+    border-bottom: 1px solid #eaeaea;
+    background-color: #fff;
+}
+.cnt .aside{
+    float: right;
+    width: 221px;
+    height: 378px;
+}
+.goods .pic{
+    display: inline-block;
+    position: relative;
+    float: left;
+    margin-right: -188px;
+    width: 188px;
+    height: 188px;
+}
+.goods .pic .img{
+    width: 100%;
+    height: 100%;
+}
+.goods .detail{
+    position: relative;
+    float: right;
+    margin-right: 20px;
+    width: 205px;
+    height: 188px;
+}
+.goods .detail .title{
+    margin: 20px 0 6px;
+    height: 21px;
+    overflow: hidden;
+    white-space: nowrap;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+.goods .detail .shortTitle{
+    overflow: hidden;
+    height: 40px;
+    word-break: break-all;
+    word-wrap: break-word;
+}
+.shortTitle a{
+    line-height: 20px;
+    overflow: hidden;
+    font-size: 12px;
+    color: #666;
+    font-weight: normal;
+}
+.shortTitle a:hover{
+    text-decoration: underline;
+}
+.goods .detail .price{
+    margin: 14px 0 2px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #e11935;
+}
+.price b{
+    font-size: 20px;
+    font-weight: normal;
+}
+.price span{
+    font-size: 14px;
+    font-weight: normal;
+    color:#999;
+    margin-left: 8px;
+}
+.price del{
+    font-size: 14px;
+    font-weight: normal;
+    color:#999;
+}
+.goods .detail .process{
+    position: relative;
+    width: 100px;
+    height: 18px;
+    line-height: 18px;
+    text-align: left;
+    font-size: 12px;
+    color: #de2634;
+    border: 1px solid #f3c7c7;
+    overflow: hidden;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+}
+.process b{
+    display: inline-block;
+    height: 100%;
+    background-color: #ffd2c5;
+}
+.process .txt{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+}
+.goods .detail .btn{
+    display: inline-block;
+    position: absolute;
+    bottom: 30px;
+    right: 0;
+    width: 78px;
+    height: 26px;
+    line-height: 26px;
+    border: 1px solid #de2634;
+    text-align: center;
+    font-size: 14px;
+    color: #fff;
+    background-color: #de2634;
+    text-decoration: none;
+}
+.detail .btn:hover{
+    opacity:0.8;
+}
+.aside .pic:hover{
+    opacity: 0.8;
+}
+.aside .pic img{
+    width: 221px;
+    height: 378px;
 }

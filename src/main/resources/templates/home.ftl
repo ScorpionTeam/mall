@@ -1546,6 +1546,99 @@
                     <i></i>
                 </span>
             </h2>
+            <section class="cnt f-cb">
+                <ul class="goodlist">
+                    <li class="goods f-cb">
+                        <a href="#" class="pic">
+                            <img src="//haitao.nos.netease.com/iu6b4nrp31_800_800.jpg?imageView&thumbnail=188x0&quality=85" alt="">
+                        </a>
+                        <div class="detail">
+                            <h3 class="title">明星街拍必备潮鞋</h3>
+                            <h3 class="shortTitle">
+                                <a href="#">【包邮包税】Adidas 阿迪达斯 Superstar 金标贝壳头男女板鞋休闲鞋</a>
+                            </h3>
+                            <p class="price">
+                                <b>￥</b>539<span>￥</span><del>789</del>
+                            </p>
+                            <div class="process">
+                                <b style="width: 25%;"></b>
+                                <p class="txt">
+                                    剩余359件
+                                </p>
+                            </div>
+                            <a class="btn" href="#">立即抢购</a>
+                        </div>
+                    </li>
+                    <li class="goods f-cb">
+                        <a href="#" class="pic">
+                            <img src="//haitao.nos.netease.com/iu6b4nrp31_800_800.jpg?imageView&thumbnail=188x0&quality=85" alt="">
+                        </a>
+                        <div class="detail">
+                            <h3 class="title">明星街拍必备潮鞋</h3>
+                            <h3 class="shortTitle">
+                                <a href="#">【包邮包税】Adidas 阿迪达斯 Superstar 金标贝壳头男女板鞋休闲鞋</a>
+                            </h3>
+                            <p class="price">
+                                <b>￥</b>539<span>￥</span><del>789</del>
+                            </p>
+                            <div class="process">
+                                <b style="width: 25%;"></b>
+                                <p class="txt">
+                                    剩余359件
+                                </p>
+                            </div>
+                            <a class="btn" href="#">立即抢购</a>
+                        </div>
+                    </li>
+                    <li class="goods f-cb">
+                        <a href="#" class="pic">
+                            <img src="//haitao.nos.netease.com/iu6b4nrp31_800_800.jpg?imageView&thumbnail=188x0&quality=85" alt="">
+                        </a>
+                        <div class="detail">
+                            <h3 class="title">明星街拍必备潮鞋</h3>
+                            <h3 class="shortTitle">
+                                <a href="#">【包邮包税】Adidas 阿迪达斯 Superstar 金标贝壳头男女板鞋休闲鞋</a>
+                            </h3>
+                            <p class="price">
+                                <b>￥</b>539<span>￥</span><del>789</del>
+                            </p>
+                            <div class="process">
+                                <b style="width: 25%;"></b>
+                                <p class="txt">
+                                    剩余359件
+                                </p>
+                            </div>
+                            <a class="btn" href="#">立即抢购</a>
+                        </div>
+                    </li>
+                    <li class="goods f-cb">
+                        <a href="#" class="pic">
+                            <img src="//haitao.nos.netease.com/iu6b4nrp31_800_800.jpg?imageView&thumbnail=188x0&quality=85" alt="">
+                        </a>
+                        <div class="detail">
+                            <h3 class="title">明星街拍必备潮鞋</h3>
+                            <h3 class="shortTitle">
+                                <a href="#">【包邮包税】Adidas 阿迪达斯 Superstar 金标贝壳头男女板鞋休闲鞋</a>
+                            </h3>
+                            <p class="price">
+                                <b>￥</b>539<span>￥</span><del>789</del>
+                            </p>
+                            <div class="process">
+                                <b style="width: 25%;"></b>
+                                <p class="txt">
+                                    剩余359件
+                                </p>
+                            </div>
+                            <a class="btn" href="#">立即抢购</a>
+                        </div>
+                    </li>
+                </ul>
+                <aside class="aside">
+                    <a href="#" class="pic">
+                        <img src="//haitao.nos.netease.com/j0d9lup691_221_378.jpg?imageView&thumbnail=221x378&quality=95" alt="">
+                    </a>
+                </aside>
+            </section>
         </div>
     </div>
 </div>
