@@ -1,4 +1,4 @@
-*{
+* {
     padding: 0;
     margin: 0;
 }
@@ -82,17 +82,17 @@ li{
 }
 
 .search {
-    margin: 2px 2px;
-    padding: 5px 5px 4px 30px;
+    margin: 1px 1px;
+    padding: 9px 0 4px 55px;
     background-color: #fff;
 }
 
 .searchBox .search .wrap input {
     width: 423px;
     height: 24px;
-    line-height: 24px;
+    line-height: 30px;
     border: 0;
-    font-size: 13px;
+    font-size: 12px;
     outline: none;
 }
 
@@ -278,12 +278,13 @@ li{
 }
 
 /*类目*/
-#topTabBox{
+#topTabBox {
     border-bottom: 2px solid #151515;
     background: #fff;
     z-index: 102;
 }
-#topTab{
+
+#topTab {
     position: relative;
     zoom: 1;
     width: 1090px;
@@ -292,7 +293,8 @@ li{
     line-height: 40px;
     z-index: 102;
 }
-#topCats{
+
+#topCats {
     float: left;
     height: 40px;
     width: 160px;
@@ -303,7 +305,8 @@ li{
     padding-left: 0;
     overflow: visible;
 }
-.toplevel{
+
+.toplevel {
     display: inline-block;
     height: 40px;
     line-height: 40px;
@@ -311,28 +314,32 @@ li{
     text-align: left;
     border-bottom: 2px solid #151515;
 }
-.toplevel .lineicon{
+
+.toplevel .lineicon {
     display: inline-block;
     margin: 0 15px 0 27px;
     width: 15px;
     height: 12px;
     overflow: hidden;
 }
-.lineicon i{
+
+.lineicon i {
     width: 15px;
     height: 0;
     border-top: 2px solid #ddd;
     display: block;
     margin-bottom: 3px;
 }
-.catlist{
+
+.catlist {
     border-bottom: 1px solid #000;
     margin-top: -1px;
     list-style: none;
     padding: 0;
 }
-.catlist li{
-    background: rgba(15,15,15,.82);
+
+.catlist li {
+    background: rgba(15, 15, 15, .82);
     display: list-item;
     padding-left: 10px;
     width: 150px;
@@ -341,19 +348,22 @@ li{
     height: 36.3636363636px;
     line-height: 36.3636363636px;
 }
-.catlist li:hover{
+
+.catlist li:hover {
     background: #555;
     padding-left: 7px;
     border-left: 3px solid #e32b42;
 }
-.catlist li .icon{
+
+.catlist li .icon {
     width: 20px;
     height: 20px;
     padding: 0 12px 0 14px;
     display: inline-block;
     vertical-align: middle;
 }
-.catlist li .word{
+
+.catlist li .word {
     display: inline-block;
     width: 70px;
     height: 30px;
@@ -361,7 +371,8 @@ li{
     white-space: nowrap;
     vertical-align: middle;
 }
-.catlist li .arr{
+
+.catlist li .arr {
     display: inline-block;
     color: #929496;
     font-size: 19px;
@@ -371,22 +382,25 @@ li{
     background: url("http://mm.bst.126.net/images/index/icon1.png");
     background-position: -680px -65px;
 }
-.catlist li .seg{
+
+.catlist li .seg {
     display: block;
     position: relative;
     bottom: 1px;
     left: 0;
     width: 140px;
     height: 1px;
-    background: rgba(255,255,255,.05);
+    background: rgba(255, 255, 255, .05);
 }
-.vcenter{
+
+.vcenter {
     display: inline-block;
     vertical-align: middle;
     height: 100%;
     width: 0;
 }
-.m-ctgcard{
+
+.m-ctgcard {
     transition: height 0.4s;
     position: absolute;
     z-index: 75;
@@ -404,18 +418,21 @@ li{
     color: #333;
     cursor: auto;
 }
-.m-ctgcard .m-ctglist{
+
+.m-ctgcard .m-ctglist {
     float: left;
     margin: 10px 20px 20px 20px;
     width: 610px;
     max-height: 370px;
     overflow: hidden;
 }
-.m-ctglist .f-cb .litd{
+
+.m-ctglist .f-cb .litd {
     float: left;
     width: 50%;
     vertical-align: top;
 }
+
 .f-cb:after{
     visibility: hidden;
     display: block;
@@ -424,6 +441,7 @@ li{
     clear: both;
     height: 0;
 }
+
 .litd .item{
     display: inline-block;
     padding: 0;
@@ -434,26 +452,31 @@ li{
     line-height: normal;
     overflow: hidden;
 }
-.litd .item .title{
+
+.litd .item .title {
     height: 34px;
     line-height: 34px;
     font-size: 14px;
     font-weight: bold;
     border-bottom: 1px solid #EAEAEA;
 }
-.title a{
+
+.title a {
     display: inline;
     color: #333;
     text-align: left;
 }
-.title a:hover{
+
+.title a:hover {
     text-decoration: underline;
 }
-.litd .item .ctgnamebox{
+
+.litd .item .ctgnamebox {
     margin-left: -8px;
     font-size: 0;
 }
-.ctgnamebox a{
+
+.ctgnamebox a {
     display: inline-block;
     height: 14px;
     line-height: 14px;
@@ -463,10 +486,12 @@ li{
     font-size: 13px;
     color: #666;
 }
-.ctgnamebox a:hover{
+
+.ctgnamebox a:hover {
     text-decoration: underline;
 }
-.m-ctgcard .m-brandbox{
+
+.m-ctgcard .m-brandbox {
     float: left;
     height: 243px;
     overflow: hidden;
@@ -474,55 +499,62 @@ li{
     padding: 20px 17px 0;
     background: #f6f6f6;
 }
-.m-brandbox a{
+
+.m-brandbox a {
     float: left;
     padding: 0;
 }
-.m-brandbox img{
+
+.m-brandbox img {
     width: 80px;
     height: 80px;
     border: 1px solid #EAEAEA;
     margin: -1px 0 0 -1px;
     vertical-align: middle;
 }
-.m-ctgcard .imgbox{
+
+.m-ctgcard .imgbox {
     float: right;
     width: 244px;
     height: 100px;
     padding: 18px;
     background: #f6f6f6;
 }
-.imgbox .u-img{
+
+.imgbox .u-img {
     width: 244px;
     height: 100px;
     vertical-align: middle;
 }
+
 /*横排功能菜单*/
-#funcTab{
+#funcTab {
     position: relative;
     z-index: 72;
     height: 40px;
     float: left;
     padding-left: 20px;
 }
-#funcTab li{
+
+#funcTab li {
     float: left;
     height: 40px;
     overflow: hidden;
     padding: 0 20px;
 }
-#funcTab li a{
+
+#funcTab li a {
     display: block;
     text-align: center;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
     text-decoration: none;
-    color:#000;
+    color: #000;
 }
 
-#funcTab li a:hover{
-    color:red;
+#funcTab li a:hover {
+    color: red;
 }
 /*卖点*/
 .m-sellpoint{
