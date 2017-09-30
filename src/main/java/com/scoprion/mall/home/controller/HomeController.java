@@ -39,5 +39,10 @@ public class HomeController {
         return "home";
     }
 
+    @RequestMapping(value = "/backstage", method = RequestMethod.GET)
+    public String backstage() {
+        return "backstage/b-home";
+    }
+
 
 }
