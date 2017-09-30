@@ -1,6 +1,19 @@
 body{
     margin: 0;
 }
+
+input:-moz-placeholder{
+    color:#dadada;
+}
+
+input::-webkit-input-placeholder{
+    color:#dadada;
+}
+
+input:-ms-input-placeholder{
+    color:#dadada;
+}
+
 .loginTop {
     border-bottom: 1px solid #e8e8ea;
     position: relative;
@@ -44,34 +57,218 @@ body{
 }
 .loginForm{
     background: #fff;
-    height: 400px;
+    /*height: 400px;*/
+    height: 320px;
     width: 360px;
     right: 120px;
     float: right;
     position: absolute;
     margin-top: 40px;
+    border: 1px solid #eaeaea;
 }
+
 .loginForm .loginHeader{
     background: #f8f8f8;
-    height: 60px;
+    height: 52px;
+    font-size: 16px;
     border-bottom: 1px solid #ccc;
 }
+
+.loginHeader .active{
+    color: #e31436;
+}
+
+.loginHeader .seg{
+    position: absolute;
+    top: 17px;
+    left: 175px;
+    width: 0;
+    height: 20px;
+    border-right: solid 1px #ddd;
+}
+
 .loginForm .loginHeader span{
     float: left;
-    line-height: 60px;
+    line-height: 52px;
     text-align: center;
 }
+
 .loginForm .loginHeader .mobileLogin{
     display: inline-block;
-    font-size: 14px;
     font-weight: 900;
     width: 170px;
     cursor: pointer;
 }
+
+.mobileLogin:hover{
+    color: #e31436;
+}
+
 .loginForm .loginHeader .emailLogin{
     display: inline-block;
-    font-size: 14px;
     font-weight: 900;
     width: 170px;
     cursor: pointer;
+}
+
+.emailLogin:hover{
+    color: #e31436;
+}
+
+/*登录内容页*/
+.loginInnerBody{
+    width: 350px;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+/*登录页---手机登录*/
+.loginInnerBody .login-phone1{
+    width: 270px;
+    padding: 20px 40px 15px;
+    background-color: #fff;
+}
+
+.login-phone1 .inputbox{
+    height: 34px;
+    width: 100%;
+    line-height: 30px;
+    border-radius: 2px;
+    z-index: 19;
+    position: relative;
+    border: 1px solid #c5cddb;
+    background: #fff;
+    font-size: 12px;
+}
+
+.inputbox input{
+    border: 0;
+    outline: 0;
+    text-indent: 12px;
+    height: 30px;
+    margin: 2px 0;
+    width: 180px;
+    font-size: 14px;
+}
+
+.inputbox .icon{
+    width: 17px;
+    font-size: 20px;
+    line-height: 30px;
+    height: 100%;
+    padding: 0 7px;
+    float: left;
+    text-align: center;
+}
+.icon img{
+    width: 25px;
+    height: 25px;
+    margin-top: 5px;
+}
+
+.login-phone1-err{
+    top: -31px;
+    left: -1px;
+    color: #fff;
+    border-radius: 2px;
+    font-size: 0;
+    margin-bottom: 0px;
+    margin-top: 6px;
+}
+.err-hid{
+    visibility: hidden;
+    height: 17px;
+}
+
+.login-phone1-err img{
+    height: 15px;
+    width: 21px;
+}
+
+.login-phone1-err .err-msg{
+    display: inline-block;
+    margin-top: -3px;
+    color: #fa5b5b;
+    font-size: 12px;
+    line-height: 20px;
+    vertical-align: top;
+    word-break: break-all;
+}
+
+.loginBtn{
+    height: 36px;
+    width: 100%;
+    background-color: #E31436;
+    color: #fff;
+    border-radius: 2px;
+    line-height: 36px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    margin-top: 7px;
+    margin-bottom: 10px;
+    outline: none;
+    border: none;
+}
+.loginBtn:hover{
+    opacity: .8;
+}
+
+/*忘记密码*/
+.unlogin{
+    display: block;
+    width: 104px;
+    float: left;
+    margin-right: 8px;
+}
+
+.unlogin input{
+    float:left;
+}
+
+.unlogin .notLogin{
+    display: block;
+    float: left;
+    height: 16px;
+    font-size: 12px;
+    color: #999;
+    line-height: 20px;
+    vertical-align: top;
+}
+
+.forgetPwd{
+    float: right;
+    height: 12px;
+    text-decoration: none;
+    cursor: pointer;
+    color: #999;
+    font-size: 12px;
+    line-height: 16px;
+}
+.forgetPwd:hover{
+    color:red;
+    text-decoration: underline;
+}
+
+/*验证码*/
+.inputbox.yzm{
+    display: inline-block;
+    width: 40%;
+    margin-top: 16px;
+}
+
+.yzm input{
+    width: 100%;
+}
+
+.yzmScr{
+    width: 56%;
+    vertical-align: middle;
+    height: 34px;
+    display: inline-block;
+    border: 1px solid #dadada;
+    text-align: center;
+    line-height: 34px;
+    letter-spacing: 5px;
+    cursor:pointer;
 }

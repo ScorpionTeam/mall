@@ -115,3 +115,11 @@ var timeBox = function (aimTime) {
         }
     },1000)
 }
+
+/*固定搜索栏*/
+var tabSearchFixed = function () {
+    $(window).scroll(function (val) {
+        var height = $(this).scrollTop();
+        height<=40?$(".topTabBoxFixed").addClass("con"):$(".topTabBoxFixed").removeClass("con");
+    })
+}
