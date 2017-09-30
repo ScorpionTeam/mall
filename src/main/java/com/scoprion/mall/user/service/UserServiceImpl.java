@@ -1,9 +1,11 @@
 package com.scoprion.mall.user.service;
 
-import com.alibaba.druid.util.StringUtils;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.User;
 import com.scoprion.mall.user.mapper.UserMapper;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import com.scoprion.utils.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -116,4 +118,20 @@ public class UserServiceImpl implements UserService {
     public void logout() {
 
     }
+
+    /**
+     * @param pageNo    当前页
+     * @param pageSize  每页条数
+     * @param startDate 注册时间
+     * @param endDate   注册时间
+     * @param sex       性别
+     * @return
+     */
+    @Override
+    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String sex) {
+        PageHelper.startPage(pageNo, pageSize);
+        Page<User> page = userMapper.findByPage(startDate, endDate, sex);
+        return new PageResult(page);
+    }
+
 }

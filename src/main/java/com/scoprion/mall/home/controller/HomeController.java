@@ -32,10 +32,10 @@ public class HomeController {
      */
     @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String home(ModelMap map) {
-        List<Good> limit4 = goodService.findLimit4ByTimeGoods();
-        List<Banner> homeBanner = bannerService.homeBanner();
-        map.addAttribute("limit4", limit4);
-        map.addAttribute("homeBanner", homeBanner);
+//        List<Good> limit4 = goodService.findLimit4ByTimeGoods();
+//        List<Banner> homeBanner = bannerService.homeBanner();
+//        map.addAttribute("limit4", limit4);
+//        map.addAttribute("homeBanner", homeBanner);
         return "home";
     }
 

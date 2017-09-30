@@ -1,5 +1,6 @@
 package com.scoprion.mall.user.mapper;
 
+import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -64,9 +65,19 @@ public interface UserMapper {
 
     /**
      * 注册
+     *
      * @param user
      * @return
      */
     int register(User user);
+
+    /**
+     *
+     * @param startDate
+     * @param endDate
+     * @param sex
+     * @return
+     */
+    Page<User> findByPage(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("sex") String sex);
 
 }

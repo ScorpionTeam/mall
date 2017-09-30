@@ -99,4 +99,27 @@
         password)
     </insert>
 
+    <select id="findByPage" resultType="com.scoprion.mall.domain.User">
+        SELECT id,
+        name,
+        headPic,
+        nickName,
+        sex,
+        age,
+        certificateId,
+        mobile,
+        address,
+        city,
+        email,
+        bornDate,
+        certification,
+        status,
+        createDate,
+        updateDate,
+        lastLoginDate,
+        loginIp,
+        userType
+        FROM t_user
+    </select>
+
 </mapper>

@@ -4,10 +4,12 @@ import com.alibaba.druid.util.StringUtils;
 import com.scoprion.mall.domain.User;
 import com.scoprion.mall.user.service.UserService;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import com.scoprion.utils.IPUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -111,6 +113,7 @@ public class UserController {
      * @param user
      * @return
      */
+    @ApiOperation(value = "编辑个人信息")
     @RequestMapping(value = "/editProfile", method = RequestMethod.POST)
     public BaseResult editProfile(User user) {
         return userService.editProfile(user);
@@ -133,14 +136,36 @@ public class UserController {
      * @param id
      * @return
      */
+    @ApiOperation(value = "会员详情")
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String profile(Long id) {
         return "profile";
     }
 
-    @RequestMapping(value = "/user-list",method = RequestMethod.GET)
-    public String findByPage(){
+    /**
+     * @return
+     */
+    @ApiIgnore
+    @RequestMapping(value = "/user-list-init", method = RequestMethod.GET)
+    public String init(ModelMap map) {
         return "/backstage/b-user";
+    }
+
+    /**
+     * 分页查询会员列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param startDate
+     * @param endDate
+     * @param sex
+     * @return
+     */
+    @ApiOperation(value = "会员列表(运营平台)")
+    @ResponseBody
+    @RequestMapping(value = "/user-list", method = RequestMethod.GET)
+    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String sex) {
+        return userService.findByPage(pageNo, pageSize, startDate, endDate, sex);
     }
 
 }
