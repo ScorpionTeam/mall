@@ -26,11 +26,11 @@ public class MallInterceptor implements HandlerInterceptor {
             if (null != accessSecret) {
                 boolean visit = accessSecret.visit();
                 if (!visit) {
-                    LOGGER.info("无权访问");
-                    response.sendRedirect("four");
+                    LOGGER.info("未登录......");
+                    response.sendRedirect("login");
                     return false;
                 }
-                LOGGER.info("请求1..........");
+                LOGGER.info("验证通过......");
             }
 
         }

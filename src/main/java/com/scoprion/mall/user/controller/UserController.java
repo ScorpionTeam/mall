@@ -138,4 +138,9 @@ public class UserController {
         return "profile";
     }
 
+    @RequestMapping(value = "/user-list",method = RequestMethod.GET)
+    public String findByPage(){
+        return "/backstage/b-user";
+    }
+
 }
