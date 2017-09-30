@@ -36,7 +36,7 @@
 </div>
 <div style="margin:20px 0;"></div>
 <div class="easyui-panel">
-    <div class="easyui-pagination" data-options="total:114"></div>
+    <div class="easyui-pagination" data-options="total:114,displayMsg:''"></div>
 </div>
 </body>
 </html>
