@@ -54,6 +54,23 @@
         </a>
     </div>
 </header>
+<header class="topTabBoxFixed con">
+    <div class="searchWrap">
+        <div class="logo">Mall商城</div>
+        <div class="searchBox">
+            <div class="search">
+                <div class="wrap">
+                    <input type="text" placeholder="莆田A货">
+                    <i class="fa fa-search"></i>
+                </div>
+            </div>
+        </div>
+        <a href="" class="shopCart">
+            <i class="fa fa-shopping-cart"></i>
+            <span>购物车</span>
+        </a>
+    </div>
+</header>
 <div class="topBgWrapPos">
     <nav id="topTabBox">
         <div id="topTab">
@@ -1650,6 +1667,7 @@
         scrollBanner();
         catTmpHover();
         timeBox("2017-09-29 19:00:00");
+        tabSearchFixed();
     })
 
 </script>
