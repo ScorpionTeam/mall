@@ -211,7 +211,7 @@ public class Seller {
 
     @Override
     public String toString() {
-        return "Seller{" +
+        return "SellerService{" +
                 "id=" + id +
                 ", sellerNo='" + sellerNo + '\'' +
                 ", sellerName='" + sellerName + '\'' +
