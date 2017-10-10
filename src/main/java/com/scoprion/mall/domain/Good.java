@@ -56,6 +56,9 @@ public class Good {
     //所属品牌
     private Long brandId;
 
+    //商户ID
+    private Long sellerId;
+
     public Long getId() {
         return id;
     }
@@ -168,6 +171,30 @@ public class Good {
         this.lastUpdateDate = lastUpdateDate;
     }
 
+    public String getIsFreight() {
+        return isFreight;
+    }
+
+    public void setIsFreight(String isFreight) {
+        this.isFreight = isFreight;
+    }
+
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
     @Override
     public String toString() {
         return "Good{" +
@@ -185,6 +212,9 @@ public class Good {
                 ", isNew='" + isNew + '\'' +
                 ", createDate=" + createDate +
                 ", lastUpdateDate=" + lastUpdateDate +
+                ", isFreight='" + isFreight + '\'' +
+                ", brandId=" + brandId +
+                ", sellerId=" + sellerId +
                 '}';
     }
 }

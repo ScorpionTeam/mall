@@ -1,6 +1,7 @@
 package com.scoprion.mall.good.service;
 
 import com.scoprion.mall.domain.Good;
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
 import java.util.List;
@@ -25,6 +26,14 @@ public interface GoodService {
      * @return
      */
     PageResult findByPageAndLimit(int pageNo, int pageSize);
+
+    /**
+     * 创建商品
+     *
+     * @param good
+     * @return
+     */
+    BaseResult add(Good good);
 
 
 }

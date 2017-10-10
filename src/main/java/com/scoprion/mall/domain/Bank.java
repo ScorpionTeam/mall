@@ -5,27 +5,21 @@ import com.alibaba.fastjson.annotation.JSONField;
 import java.util.Date;
 
 /**
- * 账户
- * Created on 2017/10/9.
+ * Created on 2017/10/10.
  */
-public class Account {
+public class Bank {
 
+    //主键
     private Long id;
 
     //银行名称
     private String bankName;
 
-    //卡类型 1 储蓄卡  0 信用卡
-    private String bankType;
-
-    //微信
-    private String wechat;
-
-    //支付宝
-    private String alipay;
-
     //银行卡号
-    private String bankAccount;
+    private String bankNo;
+
+    //银行编码
+    private String bankCode;
 
     //创建时间
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
@@ -34,6 +28,9 @@ public class Account {
     //更新时间
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
+
+    //状态 1正常  0 不可用
+    private String status;
 
     public Long getId() {
         return id;
@@ -51,36 +48,20 @@ public class Account {
         this.bankName = bankName;
     }
 
-    public String getBankType() {
-        return bankType;
+    public String getBankNo() {
+        return bankNo;
     }
 
-    public void setBankType(String bankType) {
-        this.bankType = bankType;
+    public void setBankNo(String bankNo) {
+        this.bankNo = bankNo;
     }
 
-    public String getWechat() {
-        return wechat;
+    public String getBankCode() {
+        return bankCode;
     }
 
-    public void setWechat(String wechat) {
-        this.wechat = wechat;
-    }
-
-    public String getAlipay() {
-        return alipay;
-    }
-
-    public void setAlipay(String alipay) {
-        this.alipay = alipay;
-    }
-
-    public String getBankAccount() {
-        return bankAccount;
-    }
-
-    public void setBankAccount(String bankAccount) {
-        this.bankAccount = bankAccount;
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
     public Date getCreateDate() {
@@ -99,17 +80,24 @@ public class Account {
         this.updateDate = updateDate;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     @Override
     public String toString() {
-        return "Account{" +
+        return "Bank{" +
                 "id=" + id +
                 ", bankName='" + bankName + '\'' +
-                ", bankType='" + bankType + '\'' +
-                ", wechat='" + wechat + '\'' +
-                ", alipay='" + alipay + '\'' +
-                ", bankAccount='" + bankAccount + '\'' +
+                ", bankNo='" + bankNo + '\'' +
+                ", bankCode='" + bankCode + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

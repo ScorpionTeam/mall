@@ -1,6 +1,7 @@
 package com.scoprion.mall.good.controller;
 
 import com.scoprion.mall.good.service.GoodService;
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,5 +29,15 @@ public class GoodController {
     @RequestMapping(value = "/limit-by-time", method = RequestMethod.GET)
     public PageResult findByPageAndLimit(int pageNo, int pageSize) {
         return goodService.findByPageAndLimit(pageNo, pageSize);
+    }
+
+    /**
+     * 创建商品
+     *
+     * @return
+     */
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public BaseResult add() {
+        return null;
     }
 }
