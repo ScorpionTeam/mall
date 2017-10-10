@@ -1,8 +1,10 @@
 package com.scoprion.mall.controller;
 
 import com.scoprion.mall.domain.Banner;
+import com.scoprion.mall.service.banner.BannerService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,6 +17,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("banner")
 public class BannerController {
 
+    @Autowired
+    private BannerService bannerService;
 
     /**
      * banner创建
@@ -25,8 +29,7 @@ public class BannerController {
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(Banner banner) {
-
-        return null;
+        return bannerService.add(banner);
     }
 
 
@@ -41,7 +44,7 @@ public class BannerController {
     @ResponseBody
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public PageResult init(int pageNo, int pageSize, String bannerName) {
-        return null;
+        return bannerService.listByPage(pageNo, pageSize, bannerName);
     }
 
     /**
@@ -52,22 +55,28 @@ public class BannerController {
     @ResponseBody
     @RequestMapping(value = "/homeShow", method = RequestMethod.GET)
     public BaseResult homeShow() {
-        return null;
+        return bannerService.homeShow();
     }
 
-    @RequestMapping(value = "/edit",method = RequestMethod.POST)
-    public BaseResult edit(Banner banner){
-        return null;
+    /**
+     * 编辑banner
+     * @param banner
+     * @return
+     */
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public BaseResult edit(Banner banner) {
+        return bannerService.edit(banner);
     }
 
     /**
      * 删除banner
+     *
      * @param id
      * @return
      */
-    @RequestMapping(value = "/deleteByPrimaryKey",method = RequestMethod.POST)
-    public BaseResult deleteByPrimaryKey(Long id){
-        return null;
+    @RequestMapping(value = "/deleteByPrimaryKey", method = RequestMethod.POST)
+    public BaseResult deleteByPrimaryKey(Long id) {
+        return bannerService.deleteByPrimaryKey(id);
     }
 
 }
