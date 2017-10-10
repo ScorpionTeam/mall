@@ -1,9 +1,8 @@
 package com.scoprion.mall.service.banner;
 
 import com.scoprion.mall.domain.Banner;
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-
-import java.util.List;
 
 /**
  * Created on 2017/9/29.
@@ -11,18 +10,44 @@ import java.util.List;
 public interface BannerService {
 
     /**
-     * 查询首页轮播Banner
+     * 创建Banner
      *
+     * @param banner
      * @return
      */
-    List<Banner> homeBanner();
+    BaseResult add(Banner banner);
 
     /**
-     * 分页查询Banner列表
+     * 编辑Banner
+     *
+     * @param banner
+     * @return
+     */
+    BaseResult edit(Banner banner);
+
+    /**
+     * 根据主键删除Banner
+     *
+     * @param id
+     * @return
+     */
+    BaseResult deleteByPrimaryKey(Long id);
+
+    /**
+     * 分页查询Banner
      *
      * @param pageNo
      * @param pageSize
+     * @param bannerName
      * @return
      */
-    PageResult findByPage(int pageNo, int pageSize);
+    PageResult listByPage(int pageNo, int pageSize, String bannerName);
+
+    /**
+     * 首页展示Banner
+     *
+     * @return
+     */
+    BaseResult homeShow();
+
 }
