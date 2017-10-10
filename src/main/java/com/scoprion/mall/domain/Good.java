@@ -59,6 +59,9 @@ public class Good {
     //商户ID
     private Long sellerId;
 
+    //浏览量
+    private int visitTotal;
+
     public Long getId() {
         return id;
     }
@@ -195,6 +198,14 @@ public class Good {
         this.sellerId = sellerId;
     }
 
+    public int getVisitTotal() {
+        return visitTotal;
+    }
+
+    public void setVisitTotal(int visitTotal) {
+        this.visitTotal = visitTotal;
+    }
+
     @Override
     public String toString() {
         return "Good{" +
@@ -215,6 +226,7 @@ public class Good {
                 ", isFreight='" + isFreight + '\'' +
                 ", brandId=" + brandId +
                 ", sellerId=" + sellerId +
+                ", visitTotal=" + visitTotal +
                 '}';
     }
 }

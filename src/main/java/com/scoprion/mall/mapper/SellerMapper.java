@@ -1,7 +1,9 @@
 package com.scoprion.mall.mapper;
 
+import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Seller;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Created on 2017/10/10.
@@ -31,7 +33,15 @@ public interface SellerMapper {
      * @param sellerName
      * @return
      */
-    int validByName(String sellerName, String sellerNo);
+    int validByNameAndSellerNo(@Param("sellerName") String sellerName, @Param("sellerNo") String sellerNo);
+
+    /**
+     * 校验商户名称是否存在
+     *
+     * @param sellerName
+     * @return
+     */
+    int validByName(@Param("sellerName") String sellerName);
 
     /**
      * 删除商户
@@ -40,4 +50,12 @@ public interface SellerMapper {
      * @return
      */
     int deleteByPrimaryKey(Long id);
+
+    /**
+     * 分页查询店铺列表
+     *
+     * @param sellerName
+     * @return
+     */
+    Page<Seller> listByPage(String sellerName);
 }

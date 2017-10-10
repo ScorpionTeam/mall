@@ -1,8 +1,11 @@
 package com.scoprion.mall.controller;
 
 import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.service.seller.SellerService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,19 +18,22 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("seller")
 public class SellerController {
 
+    @Autowired
+    private SellerService sellerService;
+
     /**
-     * 运营管理   商家列表
+     * 运营管理   店铺列表
      *
      * @param pageNo
      * @param pageSize
      * @param sellerName
      * @return
      */
+    @ApiOperation(value = "分页查询店铺列表")
     @ResponseBody
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public PageResult init(int pageNo, int pageSize, String sellerName) {
-
-        return null;
+        return sellerService.listByPage(pageNo, pageSize, sellerName);
     }
 
     /**
@@ -38,8 +44,8 @@ public class SellerController {
      */
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public BaseResult add(Seller seller) {
-        return null;
+    public BaseResult add(Seller seller) throws Exception {
+        return sellerService.add(seller);
     }
 
     /**
@@ -51,17 +57,31 @@ public class SellerController {
     @ResponseBody
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public BaseResult edit(Seller seller) {
-        return null;
+        return sellerService.edit(seller);
     }
 
 
     /**
+     * 根据主键删除商户
+     *
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public BaseResult delete() {
-        return null;
+    @RequestMapping(value = "/deleteByPrimaryKey", method = RequestMethod.POST)
+    public BaseResult deleteByPrimaryKey(Long id) {
+        return sellerService.deleteByPrimaryKey(id);
+    }
+
+    /**
+     * 查询商户详细信息
+     *
+     * @param id
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/sellerInfo", method = RequestMethod.GET)
+    public BaseResult sellerInfo(Long id) {
+        return sellerService.sellerInfo(id);
     }
 
 

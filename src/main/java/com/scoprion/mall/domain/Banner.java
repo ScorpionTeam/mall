@@ -28,6 +28,9 @@ public class Banner {
     //排序
     private int sort;
 
+    //连接跳转地址
+    private String hoverUrl;
+
     public Long getId() {
         return id;
     }
@@ -76,6 +79,14 @@ public class Banner {
         this.sort = sort;
     }
 
+    public String getHoverUrl() {
+        return hoverUrl;
+    }
+
+    public void setHoverUrl(String hoverUrl) {
+        this.hoverUrl = hoverUrl;
+    }
+
     @Override
     public String toString() {
         return "Banner{" +
@@ -85,6 +96,7 @@ public class Banner {
                 ", imgurl='" + imgurl + '\'' +
                 ", createDate=" + createDate +
                 ", sort=" + sort +
+                ", hoverUrl='" + hoverUrl + '\'' +
                 '}';
     }
 }

@@ -1,7 +1,7 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
-
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
@@ -10,15 +10,19 @@ import java.util.Date;
 public class Seller {
 
     //主键
+    @NotNull
     private Long id;
 
     //商户号
+    @NotNull(message = "商户号不能为空")
     private String sellerNo;
 
     //店铺名称
+    @NotNull(message = "商户名称不能为空")
     private String sellerName;
 
     //商家姓名
+    @NotNull(message = "商家姓名不能为空")
     private String name;
 
     //商家地址
@@ -54,6 +58,7 @@ public class Seller {
     private Long brandId;
 
     //身份证号
+    @NotNull(message = "身份证信息不能为空")
     private String certificateId;
 
     //实名认证 0 未认证 1已认证未通过  2 认证通过
@@ -64,6 +69,9 @@ public class Seller {
 
     //微信账号
     private String wechat;
+
+    //访问量
+    private int visitTotal;
 
     public Long getId() {
         return id;
@@ -209,9 +217,17 @@ public class Seller {
         this.wechat = wechat;
     }
 
+    public int getVisitTotal() {
+        return visitTotal;
+    }
+
+    public void setVisitTotal(int visitTotal) {
+        this.visitTotal = visitTotal;
+    }
+
     @Override
     public String toString() {
-        return "SellerService{" +
+        return "Seller{" +
                 "id=" + id +
                 ", sellerNo='" + sellerNo + '\'' +
                 ", sellerName='" + sellerName + '\'' +
@@ -230,6 +246,7 @@ public class Seller {
                 ", certification='" + certification + '\'' +
                 ", alipay='" + alipay + '\'' +
                 ", wechat='" + wechat + '\'' +
+                ", visitTotal=" + visitTotal +
                 '}';
     }
 }
