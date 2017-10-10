@@ -38,4 +38,16 @@ public class SellerStatisticsController {
     }
 
 
+    /**
+     * 转化率
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/percentConversions", method = RequestMethod.GET)
+    public BaseResult percentConversions() {
+        return null;
+    }
+
+
 }
