@@ -35,15 +35,5 @@ public class HomeController {
         return "home";
     }
 
-    @RequestMapping(value = "/backstage", method = RequestMethod.GET)
-    public String backstage() {
-        return "backstage/b-home";
-    }
-
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public String user() {
-        return "backstage/b-user";
-    }
-
 
 }
