@@ -23,14 +23,15 @@ function addTab(title, url) {
 //初始化左边菜单栏
 var initMenu = function () {
     var contain = $("#aa");
+    var base = document.getElementById("baseUrl").href;
     $.ajax({
-        url:'../../../../mall/src/static/mockJson.json',
+        url:base+'/static/mockJson.json',
         type:'Get',
         success:function (res) {
             for(var i =0;i<res.length;i++){
                 var content='';
                 for(var j=0;j<res[i].leaf.length;j++){
-                    content+='<p class="submenu" data-url="'+res[i].leaf[j].url+'">'+res[i].leaf[j].title+'</p>'
+                    content+='<p class="submenu" data-url="'+base+'/'+res[i].leaf[j].url+'">'+res[i].leaf[j].title+'</p>'
                 }
                 contain.accordion('add',{
                     title: res[i].title,

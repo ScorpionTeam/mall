@@ -15,6 +15,7 @@
     <style>
 
     </style>
+    <base id="baseUrl" href="${ctx.contextPath}">
 </head>
 <body class="easyui-layout">
 <div data-options="region:'north',collapsible:false"
