@@ -1,4 +1,29 @@
-body{
-    margin: 0;
+*{
     padding: 0;
+    margin: 0;
+}
+
+/*菜单样式*/
+.menu{
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.submenu{
+    text-align:left;
+    font-size: 12px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.submenu:hover{
+    background: #ffe48d;
+    color:#fff;
+}
+
+.selected{
+    background: #d0d0d0;
+    color: #fff;
 }
