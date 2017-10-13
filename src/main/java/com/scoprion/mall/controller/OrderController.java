@@ -3,11 +3,13 @@ package com.scoprion.mall.controller;
 import com.scoprion.annotation.AccessSecret;
 import com.scoprion.mall.domain.User;
 import com.scoprion.mall.service.order.OrderService;
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -57,6 +59,17 @@ public class OrderController {
         return orderService.findByPage(pageNo, pageSize, status, user.getId());
     }
 
+    /**
+     * 下单
+     *
+     * @param orderConfirm
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/order-confirm", method = RequestMethod.POST)
+    public BaseResult orderConfirm(@RequestBody OrderConfirm orderConfirm) {
+        return null;
+    }
 
 
 }

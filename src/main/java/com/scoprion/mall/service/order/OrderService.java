@@ -1,5 +1,6 @@
 package com.scoprion.mall.service.order;
 
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
 /**
@@ -17,4 +18,12 @@ public interface OrderService {
      * @return
      */
     PageResult findByPage(int pageNo, int pageSize, String status, Long userId);
+
+    /**
+     * 下单
+     *
+     * @param goodId
+     * @return
+     */
+    BaseResult orderConfirm(OrderConfirm orderConfirm);
 }
