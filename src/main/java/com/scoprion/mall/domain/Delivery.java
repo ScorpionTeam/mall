@@ -12,6 +12,9 @@ public class Delivery {
     //主键
     private Long id;
 
+    //微信账号
+    private String wechat;
+
     //用户id
     private Long userId;
 
@@ -132,10 +135,19 @@ public class Delivery {
         this.updateDate = updateDate;
     }
 
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
+    }
+
     @Override
     public String toString() {
         return "Delivery{" +
                 "id=" + id +
+                ", wechat='" + wechat + '\'' +
                 ", userId=" + userId +
                 ", recipients='" + recipients + '\'' +
                 ", phone='" + phone + '\'' +
