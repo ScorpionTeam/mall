@@ -26,5 +26,5 @@ public interface OrderService {
      * @param deliveryId
      * @return
      */
-    BaseResult orderConfirm(Long goodId, Long deliveryId) throws Exception;
+    BaseResult orderConfirm(Long goodId, Long deliveryId,String ipAddress) throws Exception;
 }

@@ -4,8 +4,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.mapper.DeliveryMapper">
 
-    <!--创建收货地址-->
+
+    <!--创建收获地址-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Delivery">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO t_delivery(userId,
         recipients,
         phone,
@@ -15,8 +19,9 @@
         address,
         postCode,
         createDate,
-        updateDate)
-        VALUES (#{userId},
+        updateDate,
+        wechat)
+        VALUES(#{userId},
         #{recipients},
         #{phone},
         #{province},
@@ -25,33 +30,8 @@
         #{address},
         #{postCode},
         NOW(),
-        NOW())
-    </insert>
-
-    <!--创建收获地址-->
-    <insert id="add" parameterType="com.scoprion.mall.domain.Delivery">
-      INSERT  INTO t_delivery(userId,
-      recipients,
-      phone,
-      province,
-      city,
-      area,
-      address,
-      postCode,
-      createDate,
-      updateDate,
-      wechat)
-      VALUES(#{userId},
-      #{recipients},
-      #{phone},
-      #{province},
-      #{city},
-      #{area},
-      #{address},
-      #{postCode},
-      NOW(),
-      NOW(),
-      #{wechat})
+        NOW(),
+        #{wechat})
     </insert>
 
     <!--编辑收货地址-->

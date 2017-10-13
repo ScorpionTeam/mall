@@ -5,12 +5,14 @@ import com.scoprion.mall.mapper.DeliveryMapper;
 import com.scoprion.result.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 /**
  * Created on 2017/10/13.
  */
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
 

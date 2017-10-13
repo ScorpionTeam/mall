@@ -29,8 +29,7 @@ public class DeliveryController {
      */
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public BaseResult add(@RequestBody Delivery delivery) {
-        return deliveryService.add(delivery);
+    public BaseResult add(@RequestBody Delivery delivery) {return deliveryService.add(delivery);
     }
 
     /**

@@ -4,8 +4,10 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Good;
 import com.scoprion.mall.domain.GoodSnapshot;
+import com.scoprion.mall.domain.MallLog;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.mapper.GoodMapper;
+import com.scoprion.mall.mapper.MallLogMapper;
 import com.scoprion.mall.mapper.OrderMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -30,6 +32,9 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private GoodMapper goodMapper;
 
+    @Autowired
+    private MallLogMapper mallLogMapper;
+
     /**
      * @param pageNo   当前页
      * @param pageSize 每页条数
@@ -50,11 +55,12 @@ public class OrderServiceImpl implements OrderService {
      *
      * @param goodId
      * @param deliveryId
+     * @param ipAddress
      * @return
      */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public synchronized BaseResult orderConfirm(Long goodId, Long deliveryId) throws Exception {
+    public synchronized BaseResult orderConfirm(Long goodId, Long deliveryId, String ipAddress) throws Exception {
         Good good = goodMapper.findById(goodId);
         if (null == good) {
             return BaseResult.error("good_not_found", "商品不存在.");
@@ -66,6 +72,11 @@ public class OrderServiceImpl implements OrderService {
         GoodSnapshot goodSnapshot = this.constructGoodSnapShot(good);
         //组装订单信息
         Order order = this.constructOrder(goodSnapshot, deliveryId);
+        //组装日志信息
+        MallLog mallLog = this.constructLog(ipAddress, good.getGoodNo(), null, "2");
+        //扣减商品库存
+        goodMapper.goodDeduction(goodId);
+        //记录商品扣减日志
         return null;
     }
 
@@ -103,6 +114,24 @@ public class OrderServiceImpl implements OrderService {
         goodSnapshot.setGoodSnapShotNo(goodSnapShotNo);
         BeanUtils.copyProperties(good, goodSnapshot);
         return goodSnapshot;
+    }
+
+    /**
+     * 日志组装
+     *
+     * @param ipAddress
+     * @param goodNo
+     * @param sellerNo
+     * @param type
+     * @return
+     */
+    private MallLog constructLog(String ipAddress, String goodNo, String sellerNo, String type) {
+        MallLog mallLog = new MallLog();
+        mallLog.setGoodNo(goodNo);
+        mallLog.setIpAddress(ipAddress);
+        mallLog.setSellerNo(sellerNo);
+        mallLog.setType(type);
+        return mallLog;
     }
 
 

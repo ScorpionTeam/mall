@@ -50,5 +50,13 @@ public interface GoodMapper {
      */
     Good findById(@Param("goodId") Long goodId);
 
+    /**
+     * 商品库存扣减
+     *
+     * @param goodId
+     * @return
+     */
+    int goodDeduction(@Param("goodId") Long goodId);
+
 
 }

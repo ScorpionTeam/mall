@@ -96,4 +96,9 @@
         FROM t_good
         WHERE id=#{goodId}
     </select>
+
+    <!--库存扣减-->
+    <update id="goodDeduction">
+        UPDATE t_good SET stock=stock-1 WHERE id=#{goodId}
+    </update>
 </mapper>

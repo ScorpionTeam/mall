@@ -6,6 +6,7 @@ import com.scoprion.mall.service.order.OrderService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.EncryptUtil;
+import com.scoprion.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
@@ -68,8 +69,9 @@ public class OrderController {
      */
     @ResponseBody
     @RequestMapping(value = "/order-confirm", method = RequestMethod.POST)
-    public BaseResult orderConfirm(Long goodId,Long deliveryId) {
-        return null;
+    public BaseResult orderConfirm(Long goodId, Long deliveryId, HttpServletRequest request) throws Exception {
+        String ipAddress = IPUtil.getIPAddress(request);
+        return orderService.orderConfirm(goodId, deliveryId, ipAddress);
     }
 
 
