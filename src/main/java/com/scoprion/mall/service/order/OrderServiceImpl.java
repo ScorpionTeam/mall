@@ -72,12 +72,16 @@ public class OrderServiceImpl implements OrderService {
         GoodSnapshot goodSnapshot = this.constructGoodSnapShot(good);
         //组装订单信息
         Order order = this.constructOrder(goodSnapshot, deliveryId);
+        orderMapper.add(order);
         //组装日志信息
-        MallLog mallLog = this.constructLog(ipAddress, good.getGoodNo(), null, "2");
+        MallLog orderLog = this.constructLog(ipAddress, good.getGoodNo(), null, "2", "订单生成");
+        mallLogMapper.add(orderLog);
         //扣减商品库存
         goodMapper.goodDeduction(goodId);
         //记录商品扣减日志
-        return null;
+        MallLog goodLog = this.constructLog(ipAddress, good.getGoodNo(), null, "4", "商品库存扣减");
+        mallLogMapper.add(goodLog);
+        return BaseResult.success("下单成功.");
     }
 
     /**
@@ -123,14 +127,16 @@ public class OrderServiceImpl implements OrderService {
      * @param goodNo
      * @param sellerNo
      * @param type
+     * @param description
      * @return
      */
-    private MallLog constructLog(String ipAddress, String goodNo, String sellerNo, String type) {
+    private MallLog constructLog(String ipAddress, String goodNo, String sellerNo, String type, String description) {
         MallLog mallLog = new MallLog();
         mallLog.setGoodNo(goodNo);
         mallLog.setIpAddress(ipAddress);
         mallLog.setSellerNo(sellerNo);
         mallLog.setType(type);
+        mallLog.setDescription(description);
         return mallLog;
     }
 

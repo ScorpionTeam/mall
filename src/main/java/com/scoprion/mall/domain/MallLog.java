@@ -22,6 +22,7 @@ public class MallLog {
     //1 浏览
     //2 下单
     //3 支付
+    //4 商品扣减
     private String type;
 
     //ip地址
@@ -82,6 +83,14 @@ public class MallLog {
         this.createDate = createDate;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "MallLog{" +
@@ -90,6 +99,7 @@ public class MallLog {
                 ", sellerNo='" + sellerNo + '\'' +
                 ", type='" + type + '\'' +
                 ", ipAddress='" + ipAddress + '\'' +
+                ", description='" + description + '\'' +
                 ", createDate=" + createDate +
                 '}';
     }

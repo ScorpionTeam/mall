@@ -19,5 +19,12 @@ public interface OrderMapper {
      */
     Page<Order> findByPage(@Param("status") String status, @Param("userId") Long userId);
 
+    /**
+     * 创建订单
+     * @param order
+     * @return
+     */
+    int add(Order order);
+
 
 }

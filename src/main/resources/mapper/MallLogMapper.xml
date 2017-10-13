@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.mapper.MallLogMapper">
+    <insert id="add" parameterType="com.scoprion.mall.domain.MallLog">
+        INSERT  INTO t_mall_log(goodNo,
+        sellerNo,
+        type,
+        ipAddress,
+        createDate,
+        description)
+        VALUES (#{goodNo},
+        #{sellerNo},
+        #{type},
+        #{ipAddress},
+        NOW(),
+        #{description})
+    </insert>
+
+</mapper>

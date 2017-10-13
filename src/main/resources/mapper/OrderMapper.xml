@@ -4,4 +4,20 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.mapper.OrderMapper">
 
+    <insert id="add" parameterType="com.scoprion.mall.domain.Order">
+        INSERT INTO t_order(orderNo,
+        goodSnapShotId,
+        deliveryId,
+        orderStatus,
+        orderType,
+        createDate,
+        updateDate)
+        VALUES (#{orderNo},
+        #{goodSnapShotId},
+        #{deliveryId},
+        #{orderStatus},
+        #{orderType},
+        NOW(),
+        NOW())
+    </insert>
 </mapper>
