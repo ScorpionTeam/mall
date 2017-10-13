@@ -52,7 +52,7 @@ public class DeliveryController {
      */
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public BaseResult edit(@RequestBody Delivery delivery) {
-        return null;
+        return deliveryService.edit(delivery);
     }
 
 }

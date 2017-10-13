@@ -62,12 +62,13 @@ public class OrderController {
     /**
      * 下单
      *
-     * @param orderConfirm
+     * @param goodId
+     * @param deliveryId
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/order-confirm", method = RequestMethod.POST)
-    public BaseResult orderConfirm(@RequestBody OrderConfirm orderConfirm) {
+    public BaseResult orderConfirm(Long goodId,Long deliveryId) {
         return null;
     }
 

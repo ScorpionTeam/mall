@@ -28,4 +28,12 @@ public interface DeliveryMapper {
      */
     List<Delivery> findAllByUserId(Long userId);
 
+    /**
+     * 编辑收货地址
+     *
+     * @param delivery
+     * @return
+     */
+    int edit(Delivery delivery);
+
 }

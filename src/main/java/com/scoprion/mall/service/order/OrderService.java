@@ -23,7 +23,8 @@ public interface OrderService {
      * 下单
      *
      * @param goodId
+     * @param deliveryId
      * @return
      */
-    BaseResult orderConfirm(OrderConfirm orderConfirm);
+    BaseResult orderConfirm(Long goodId, Long deliveryId) throws Exception;
 }
