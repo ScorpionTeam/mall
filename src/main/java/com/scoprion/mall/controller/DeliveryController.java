@@ -44,4 +44,15 @@ public class DeliveryController {
         return BaseResult.success(deliveryService.findAllByUserId(userId));
     }
 
+    /**
+     * 收货地址编辑
+     *
+     * @param delivery
+     * @return
+     */
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public BaseResult edit(@RequestBody Delivery delivery) {
+        return null;
+    }
+
 }

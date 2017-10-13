@@ -12,6 +12,7 @@ public interface DeliveryService {
 
     /**
      * 创建收货地址
+     *
      * @param delivery
      * @return
      */
@@ -19,8 +20,19 @@ public interface DeliveryService {
 
     /**
      * 根据用户id查询收货地址
+     *
      * @param userId
      * @return
      */
     List<Delivery> findAllByUserId(Long userId);
+
+    /**
+     * 编辑收货地址
+     *
+     * @param delivery
+     * @return
+     */
+    BaseResult edit(Delivery delivery);
+
+
 }
