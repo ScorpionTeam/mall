@@ -12,6 +12,9 @@ public class Ticket {
 
     private Long id;
 
+    //优惠券编码
+    private String ticketNo;
+
     //券名称
     private String ticketName;
 
@@ -112,10 +115,19 @@ public class Ticket {
         this.sellerId = sellerId;
     }
 
+    public String getTicketNo() {
+        return ticketNo;
+    }
+
+    public void setTicketNo(String ticketNo) {
+        this.ticketNo = ticketNo;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
                 "id=" + id +
+                ", ticketNo='" + ticketNo + '\'' +
                 ", ticketName='" + ticketName + '\'' +
                 ", money=" + money +
                 ", type='" + type + '\'' +

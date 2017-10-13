@@ -11,8 +11,8 @@ import springfox.documentation.annotations.ApiIgnore;
 @Controller
 public class MapperController {
     /**
-    *后台跳转
-    */
+     * 后台跳转
+     */
     @ApiIgnore
     @RequestMapping(value = "/backstage", method = RequestMethod.GET)
     public String backstage() {
@@ -23,6 +23,12 @@ public class MapperController {
     @RequestMapping(value = "/user", method = RequestMethod.GET)
     public String user() {
         return "backstage/b-user";
+    }
+
+    @ApiIgnore
+    @RequestMapping(value = "/good", method = RequestMethod.GET)
+    public String good() {
+        return "backstage/b-good";
     }
 
 

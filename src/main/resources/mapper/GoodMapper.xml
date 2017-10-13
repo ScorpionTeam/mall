@@ -4,4 +4,96 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.mapper.GoodMapper">
 
+    <insert id="add" parameterType="com.scoprion.mall.domain.Good">
+        INSERT INTO t_good(categoryId,
+        goodName,
+        description,
+        promotion,
+        price,
+        saleVolume,
+        discount,
+        stock,
+        isOnSale,
+        isHot,
+        isNew,
+        createDate,
+        lastUpdateDate,
+        isFreight,
+        brandId,
+        sellerId,
+        visitTotal,
+        goodNo,
+        mainImgUrl)
+        VALUES (#{categoryId},
+        #{goodName},
+        #{description},
+        #{promotion},
+        #{price},
+        #{saleVolume},
+        #{discount},
+        #{stock},
+        #{isOnSale},
+        #{isHot},
+        #{isNew},
+        NOW(),
+        NOW(),
+        #{isFreight},
+        #{brandId},
+        #{sellerId},
+        #{visitTotal},
+        #{goodNo},
+        #{mainImgUrl})
+    </insert>
+
+    <!--优选商品分页查询-->
+    <select id="preferenceGivenByPage" resultType="com.scoprion.mall.domain.Good">
+        SELECT
+         id,
+         categoryId,
+         goodName,
+         description,
+         promotion,
+         price,
+         saleVolume,
+         discount,
+         stock,
+         isOnsale,
+         isHot,
+         isNew,
+         createDate,
+         lastUpdateDate,
+         isFreight,
+         brandId,
+         sellerId,
+         visitTotal,
+         goodNo,
+         mainImgUrl
+        FROM t_good
+    </select>
+
+    <select id="findById" resultType="com.scoprion.mall.domain.Good">
+        SELECT
+         id,
+         categoryId,
+         goodName,
+         description,
+         promotion,
+         price,
+         saleVolume,
+         discount,
+         stock,
+         isOnsale,
+         isHot,
+         isNew,
+         createDate,
+         lastUpdateDate,
+         isFreight,
+         brandId,
+         sellerId,
+         visitTotal,
+         goodNo,
+         mainImgUrl
+        FROM t_good
+        WHERE id=#{goodId}
+    </select>
 </mapper>

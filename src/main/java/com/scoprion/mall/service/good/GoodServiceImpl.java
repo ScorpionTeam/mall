@@ -52,7 +52,39 @@ public class GoodServiceImpl implements GoodService {
      */
     @Override
     public BaseResult add(Good good) {
-        return null;
+        int result = goodMapper.add(good);
+        if (result > 0) {
+            return BaseResult.success("创建模拟商品成功....");
+        }
+        return BaseResult.error("mock_fail", "创建模拟商品失败....");
+    }
+
+    /**
+     * 优选商品
+     *
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public PageResult preferenceGiven(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        Page<Good> page = goodMapper.preferenceGivenByPage();
+        return new PageResult(page);
+    }
+
+    /**
+     * 根据id查询商品详情
+     *
+     * @param goodId
+     * @return
+     */
+    @Override
+    public BaseResult goodInfo(Long goodId) {
+        Good good = goodMapper.findById(goodId);
+        if (null == good)
+            return BaseResult.notFound();
+        return BaseResult.success(good);
     }
 
 

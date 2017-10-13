@@ -1,6 +1,6 @@
 [
   {"title":"会员管理","leaf":[{"title":"会员注册","url":"user"},{"title":"会员权限管理","url":"user"}]},
-  {"title":"商品管理","leaf":[{"title":"商品上架","url":"b-user.html"},{"title":"商品下架","url":"b-user.html"}]},
+  {"title":"商品管理","leaf":[{"title":"商品列表","url":"good"},{"title":"商品下架","url":"b-user.html"}]},
   {"title":"系统管理","leaf":[{"title":"商品上架","url":"b-user.html"},{"title":"商品下架","url":"b-user.html"}]},
   {"title":"物流管理","leaf":[{"title":"商品上架","url":"b-user.html"},{"title":"商品下架","url":"b-user.html"}]},
   {"title":"订单管理","leaf":[{"title":"商品上架","url":"b-user.html"},{"title":"商品下架","url":"b-user.html"}]}

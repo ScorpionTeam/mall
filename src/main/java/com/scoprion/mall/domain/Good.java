@@ -1,5 +1,7 @@
 package com.scoprion.mall.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -11,11 +13,14 @@ public class Good {
     //主键
     private Long id;
 
+    //商品编码
+    private String goodNo;
+
     //类目id
     private Long categoryId;
 
     //商品名称
-    private String name;
+    private String goodName;
 
     //商品描述
     private String description;
@@ -45,9 +50,11 @@ public class Good {
     private String isNew;
 
     //创建时间
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     //最后更新时间
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date lastUpdateDate;
 
     //是否包邮  1是  0否
@@ -62,12 +69,23 @@ public class Good {
     //浏览量
     private int visitTotal;
 
+    //主图地址
+    private String mainImgUrl;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getGoodNo() {
+        return goodNo;
+    }
+
+    public void setGoodNo(String goodNo) {
+        this.goodNo = goodNo;
     }
 
     public Long getCategoryId() {
@@ -78,12 +96,12 @@ public class Good {
         this.categoryId = categoryId;
     }
 
-    public String getName() {
-        return name;
+    public String getGoodName() {
+        return goodName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGoodName(String goodName) {
+        this.goodName = goodName;
     }
 
     public String getDescription() {
@@ -206,12 +224,21 @@ public class Good {
         this.visitTotal = visitTotal;
     }
 
+    public String getMainImgUrl() {
+        return mainImgUrl;
+    }
+
+    public void setMainImgUrl(String mainImgUrl) {
+        this.mainImgUrl = mainImgUrl;
+    }
+
     @Override
     public String toString() {
         return "Good{" +
                 "id=" + id +
+                ", goodNo='" + goodNo + '\'' +
                 ", categoryId=" + categoryId +
-                ", name='" + name + '\'' +
+                ", goodName='" + goodName + '\'' +
                 ", description='" + description + '\'' +
                 ", promotion=" + promotion +
                 ", price=" + price +
@@ -227,6 +254,7 @@ public class Good {
                 ", brandId=" + brandId +
                 ", sellerId=" + sellerId +
                 ", visitTotal=" + visitTotal +
+                ", mainImgUrl='" + mainImgUrl + '\'' +
                 '}';
     }
 }

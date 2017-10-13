@@ -3,7 +3,7 @@
 <head>
     <title>Mall商城运营系统</title>
     <link rel="stylesheet" type="text/css"
-          href="${ctx.contextPath}/static/jquery-easyui-1.5.3/themes/metro/easyui.css">
+          href="${ctx.contextPath}/static/jquery-easyui-1.5.3/themes/gray/easyui.css">
     <link rel="stylesheet" type="text/css" href="${ctx.contextPath}/static/jquery-easyui-1.5.3/themes/icon.css">
     <link rel="stylesheet" type="text/css" href="${ctx.contextPath}/static/css/backstage/backstage-home.css">
     <link rel="shortcut icon" href="${ctx.contextPath}/static/image/bitbug_favicon.ico">
@@ -24,28 +24,6 @@
 </div>
 <div data-options="region:'west',title:'菜单'"  style="width:190px;">
     <div id="aa" class="easyui-accordion menu" style="width:190px;height:100%;">
-        <!--        <div title="会员管理" style="overflow:auto;padding:10px;">
-                    <ul style="list-style: none;margin: 0;padding: 0;">
-                        <li>
-                            <div><a href="#" onclick="addTab('会员列表','/mall/user/user-list')">会员列表</a></div>
-                        </li>
-                        <li>
-                            <div>会员审核</div>
-                        </li>
-                    </ul>
-                </div>
-                <div title="商家管理" style="padding:10px;">
-                    content2
-                </div>
-                <div title="平台管理">
-                    content3
-                </div>
-                <div title="活动">
-                    content3
-                </div>
-                <div title="红包">
-                    content3
-                </div>-->
     </div>
 </div>
 <div id="mm" class="easyui-menu" style="width: 150px;">
