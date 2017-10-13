@@ -23,6 +23,7 @@ public class MallLog {
     //2 下单
     //3 支付
     //4 商品扣减
+    //5 商品快照
     private String type;
 
     //ip地址

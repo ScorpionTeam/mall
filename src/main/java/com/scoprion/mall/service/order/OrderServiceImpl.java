@@ -7,6 +7,7 @@ import com.scoprion.mall.domain.GoodSnapshot;
 import com.scoprion.mall.domain.MallLog;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.mapper.GoodMapper;
+import com.scoprion.mall.mapper.GoodSnapShotMapper;
 import com.scoprion.mall.mapper.MallLogMapper;
 import com.scoprion.mall.mapper.OrderMapper;
 import com.scoprion.result.BaseResult;
@@ -34,6 +35,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private MallLogMapper mallLogMapper;
+
+    @Autowired
+    private GoodSnapShotMapper goodSnapShotMapper;
 
     /**
      * @param pageNo   当前页
@@ -70,6 +74,10 @@ public class OrderServiceImpl implements OrderService {
         }
         //组装商品快照信息
         GoodSnapshot goodSnapshot = this.constructGoodSnapShot(good);
+        goodSnapShotMapper.add(goodSnapshot);
+        //组装快照日志
+        MallLog snapShotLog = this.constructLog(ipAddress,goodSnapshot.getGoodSnapShotNo(),null,"5","生成商品快照");
+        mallLogMapper.add(snapShotLog);
         //组装订单信息
         Order order = this.constructOrder(goodSnapshot, deliveryId);
         orderMapper.add(order);
