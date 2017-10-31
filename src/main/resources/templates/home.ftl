@@ -12,9 +12,9 @@
     <div class="topNavWrap">
         <div class="topNavLeft">
             <span>mall欢迎您</span>
-            <a href="/mall/user/login" class="login">登录</a>
+            <a href="/mall/member/login" class="login">登录</a>
             <span class="step">|</span>
-            <a href="/mall/user/register" class="register">免费注册</a>
+            <a href="/mall/member/register" class="register">免费注册</a>
             <a href="" class="mobile">
                 <i class="fa fa-mobile"></i>
                 mall手机app客户端

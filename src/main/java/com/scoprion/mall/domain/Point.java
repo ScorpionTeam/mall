@@ -9,26 +9,42 @@ import java.util.Date;
  */
 public class Point {
 
-    //主键
+    /**
+     * 主键
+     */
     private Long id;
 
-    //用户id
+    /**
+     * 用户ID
+     */
     private Long userId;
 
-    //积分
+    /**
+     * 积分
+     */
     private int point;
 
-    //等级
-    //1   初级 0~1000积分
-    //2   白银 1001~10000积分
-    //3   黄金 10001~30000积分
-    //4   白金 30001~100000积分
-    //5   钻石 100001~100000积分
+    /**
+     * 等级
+     */
     private int level;
 
-    //最后更新时间
+    /**
+     * 等级名称
+     */
+    private String levelName;
+
+    /**
+     * 创建时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date lastUpdateDate;
+    private Date createDate;
+
+    /**
+     * 更新时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date updateDate;
 
     public Long getId() {
         return id;
@@ -62,11 +78,40 @@ public class Point {
         this.level = level;
     }
 
-    public Date getLastUpdateDate() {
-        return lastUpdateDate;
+    public String getLevelName() {
+        return levelName;
     }
 
-    public void setLastUpdateDate(Date lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
+    public void setLevelName(String levelName) {
+        this.levelName = levelName;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Point{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", point=" + point +
+                ", level=" + level +
+                ", levelName='" + levelName + '\'' +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                '}';
     }
 }

@@ -2,6 +2,7 @@ package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import javax.persistence.Transient;
 import java.util.Date;
 
 /**
@@ -9,49 +10,71 @@ import java.util.Date;
  */
 public class Order {
 
-    //主键
+    /**
+     * 主键
+     */
     private Long id;
 
-    //订单编号
+    /**
+     * 订单编号
+     */
     private String orderNo;
 
-    //商品快照id
+    /**
+     * 商品快照id
+     */
     private Long goodSnapShotId;
 
-    //配送地址id
+    /**
+     * 配送地址id
+     */
     private Long deliveryId;
 
-    //订单状态
-    //0 待付款
-    //1 待发货
-    //2 待收货
-    //3 待评价
-    //4 已完成
+    /**
+     * 状态
+     * 0 全部
+     * 1 待付款
+     * 2 待发货
+     * 3 待收货
+     * 4 已完成
+     */
     private String orderStatus;
 
-    //订单类型
-    //1 PC订单
-    //2 手机订单
+    /**
+     * 订单类型 1pc订单  2手机订单
+     */
     private String orderType;
 
-    //支付类型
-    //0 支付宝
-    //1 微信
-    //2 信用卡
-    //3 储蓄卡
+    /**
+     * 支付类型
+     * 0 支付宝
+     * 1 微信
+     * 2 信用卡
+     * 3 储蓄卡
+     */
     private String payType;
 
-    //下单时间
+    /**
+     * 下单时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
-    //支付时间
+    /**
+     * 支付时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date payDate;
 
-    //发货时间
+    /**
+     * 发货时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date deliveryDate;
+
+    //商品快照
+    @Transient
+    private GoodSnapshot goodSnapshot;
 
     public Long getId() {
         return id;
@@ -131,5 +154,30 @@ public class Order {
 
     public void setDeliveryDate(Date deliveryDate) {
         this.deliveryDate = deliveryDate;
+    }
+
+    public GoodSnapshot getGoodSnapshot() {
+        return goodSnapshot;
+    }
+
+    public void setGoodSnapshot(GoodSnapshot goodSnapshot) {
+        this.goodSnapshot = goodSnapshot;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", orderNo='" + orderNo + '\'' +
+                ", goodSnapShotId=" + goodSnapShotId +
+                ", deliveryId=" + deliveryId +
+                ", orderStatus='" + orderStatus + '\'' +
+                ", orderType='" + orderType + '\'' +
+                ", payType='" + payType + '\'' +
+                ", createDate=" + createDate +
+                ", payDate=" + payDate +
+                ", deliveryDate=" + deliveryDate +
+                ", goodSnapshot=" + goodSnapshot +
+                '}';
     }
 }

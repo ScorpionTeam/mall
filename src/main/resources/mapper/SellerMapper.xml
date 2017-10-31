@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scoprion.mall.mapper.SellerMapper">
+<mapper namespace="com.scoprion.mall.backstage.mapper.SellerMapper">
 
     <insert id="add" parameterType="com.scoprion.mall.domain.Seller">
         INSERT INTO t_seller(name,

@@ -1,5 +1,6 @@
 package com.scoprion.mall.domain;
 
+
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.util.Date;
@@ -9,27 +10,47 @@ import java.util.Date;
  */
 public class Banner {
 
-    //主键
+    /**
+     * 主键
+     */
     private Long id;
 
-    //banner名称
+    /**
+     * 轮播图名称
+     */
     private String name;
 
-    //类型  1 首页轮播图
-    private String type;
+    /**
+     * 轮播图图片地址
+     */
+    private String imgUrl;
 
-    //banner图地址
-    private String imgurl;
+    /**
+     * 跳转链接
+     */
+    private String actionUrl;
 
-    //创建时间
+    /**
+     * 访问量
+     */
+    private int visitTotal;
+
+    /**
+     * 状态
+     */
+    private String status;
+
+    /**
+     * 创建时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
-    //排序
-    private int sort;
-
-    //连接跳转地址
-    private String hoverUrl;
+    /**
+     * 更新时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date updateDate;
 
     public Long getId() {
         return id;
@@ -47,20 +68,36 @@ public class Banner {
         this.name = name;
     }
 
-    public String getType() {
-        return type;
+    public String getImgUrl() {
+        return imgUrl;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
     }
 
-    public String getImgurl() {
-        return imgurl;
+    public String getActionUrl() {
+        return actionUrl;
     }
 
-    public void setImgurl(String imgurl) {
-        this.imgurl = imgurl;
+    public void setActionUrl(String actionUrl) {
+        this.actionUrl = actionUrl;
+    }
+
+    public int getVisitTotal() {
+        return visitTotal;
+    }
+
+    public void setVisitTotal(int visitTotal) {
+        this.visitTotal = visitTotal;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Date getCreateDate() {
@@ -71,20 +108,12 @@ public class Banner {
         this.createDate = createDate;
     }
 
-    public int getSort() {
-        return sort;
+    public Date getUpdateDate() {
+        return updateDate;
     }
 
-    public void setSort(int sort) {
-        this.sort = sort;
-    }
-
-    public String getHoverUrl() {
-        return hoverUrl;
-    }
-
-    public void setHoverUrl(String hoverUrl) {
-        this.hoverUrl = hoverUrl;
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     @Override
@@ -92,11 +121,12 @@ public class Banner {
         return "Banner{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", imgurl='" + imgurl + '\'' +
+                ", imgUrl='" + imgUrl + '\'' +
+                ", actionUrl='" + actionUrl + '\'' +
+                ", visitTotal=" + visitTotal +
+                ", status='" + status + '\'' +
                 ", createDate=" + createDate +
-                ", sort=" + sort +
-                ", hoverUrl='" + hoverUrl + '\'' +
+                ", updateDate=" + updateDate +
                 '}';
     }
 }

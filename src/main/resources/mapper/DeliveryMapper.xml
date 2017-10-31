@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scoprion.mall.mapper.DeliveryMapper">
+<mapper namespace="com.scoprion.mall.backstage.mapper.DeliveryMapper">
 
 
     <!--创建收获地址-->

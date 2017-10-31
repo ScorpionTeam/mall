@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scoprion.mall.mapper.UserMapper">
+<mapper namespace="com.scoprion.mall.backstage.mapper.UserMapper">
 
     <!--根据手机号登录-->
-    <select id="loginByMobile" resultType="com.scoprion.mall.domain.User">
+    <select id="loginByMobile" resultType="com.scoprion.mall.domain.Member">
         SELECT id,name,
         headPic,
         nickName,
@@ -26,7 +26,7 @@
         FROM t_user WHERE status='1' AND mobile=#{mobile} AND password=#{password}
     </select>
     <!--根据email登录-->
-    <select id="loginByEmail" resultType="com.scoprion.mall.domain.User">
+    <select id="loginByEmail" resultType="com.scoprion.mall.domain.Member">
         SELECT id,name,
         headPic,
         nickName,
@@ -60,7 +60,7 @@
     </select>
 
     <!--用户注册-->
-    <insert id="register" parameterType="com.scoprion.mall.domain.User">
+    <insert id="register" parameterType="com.scoprion.mall.domain.Member">
         INSERT INTO t_user(name,
         headPic,
         nickName,
@@ -99,7 +99,7 @@
         password)
     </insert>
 
-    <select id="findByPage" resultType="com.scoprion.mall.domain.User">
+    <select id="findByPage" resultType="com.scoprion.mall.domain.Member">
         SELECT id,
         name,
         headPic,
