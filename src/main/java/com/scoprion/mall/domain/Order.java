@@ -6,7 +6,8 @@ import javax.persistence.Transient;
 import java.util.Date;
 
 /**
- * Created on 2017/9/28.
+ * @author by kunlun
+ * @created on 2017/9/28.
  */
 public class Order {
 
