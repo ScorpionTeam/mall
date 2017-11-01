@@ -52,5 +52,11 @@ public interface GoodService {
      */
     BaseResult goodInfo(Long goodId);
 
+    /**
+     * 根据id修改商品信息
+     * @param good
+     * @return
+     */
+    BaseResult update(Good good);
 
 }

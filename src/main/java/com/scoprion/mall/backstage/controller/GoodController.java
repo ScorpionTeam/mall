@@ -5,19 +5,21 @@ import com.scoprion.mall.backstage.service.good.GoodService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.IDWorker;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 
 /**
  * Created on 2017/9/29.
  */
-@Controller
-@RequestMapping("good")
+@RestController
+@RequestMapping("/backstage/good")
 public class GoodController {
 
 
@@ -25,53 +27,52 @@ public class GoodController {
     private GoodService goodService;
 
     /**
-     * 查询限时购买商品  分页展示
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    @RequestMapping(value = "/limit-by-time", method = RequestMethod.GET)
-    public PageResult findByPageAndLimit(int pageNo, int pageSize) {
-        return goodService.findByPageAndLimit(pageNo, pageSize);
-    }
-
-    /**
      * 创建商品
      *
+     * @param good
      * @return
      */
+    @ApiOperation(value = "创建商品")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(Good good) {
         return goodService.add(good);
     }
 
+    /**
+     * 根据商品id删除商品
+     * @param id
+     * @return
+     */
+    @ApiOperation(value = "删除商品")
+    @RequestMapping(value = "/deleteById",method = RequestMethod.POST)
+    public BaseResult deleteById(Long id){
+        return null;
+    }
+
 
     /**
-     * 优选
-     *
+     * 条件查询商品列表分页
      * @param pageNo
      * @param pageSize
+     * @param searchKey
      * @return
      */
-    @ResponseBody
-    @RequestMapping(value = "/preference-given", method = RequestMethod.GET)
-    public PageResult preferenceGiven(int pageNo, int pageSize) {
-        return goodService.preferenceGiven(pageNo, pageSize);
+    @ApiOperation(value = "查询商品")
+    @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
+    public PageResult findByCondition(int pageNo,int pageSize,String searchKey){
+        return null;
     }
-
-
     /**
-     * 根据id查询商品详情
-     *
-     * @param goodId
+     * 修改商品
+     * @param good
      * @return
      */
-    @ResponseBody
-    @RequestMapping(value = "/good-info", method = RequestMethod.GET)
-    public BaseResult goodInfo(Long goodId) {
-        return goodService.goodInfo(goodId);
+    @ApiOperation(value = "修改商品")
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public BaseResult updateById(Good good) {
+        return goodService.update(good);
     }
+
 
     /**
      * 模拟商品信息
