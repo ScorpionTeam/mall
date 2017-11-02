@@ -13,7 +13,7 @@ public interface TicketWxService {
     /*
     *创建优惠券
      */
-    BaseResult addTicket(Ticket ticket);
+    BaseResult addTicket(Ticket ticket)throws Exception;
 
     /*
     *优惠券列表

@@ -6,6 +6,7 @@ import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.littlesoft.mapper.TicketWxMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.scoprion.utils.IDWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,11 +25,13 @@ public class TicketWxServiceImpl implements TicketWxService {
     *创建优惠券
      */
     @Override
-    public BaseResult addTicket(Ticket ticket){
+    public BaseResult addTicket(Ticket ticket) throws Exception{
         int validResult=ticketWxMapper.validByName(ticket.getTicketName());
         if(validResult==1){
             return BaseResult.error("add_fail", "名称已存在");
         }
+        Long ticketNo= IDWorker.getFlowIdWorkerInstance().nextId();
+        ticket.setTicketNo(ticketNo.toString());
         int result=ticketWxMapper.add(ticket);
         if ( result==1){
             return BaseResult.success("创建优惠券成功");
