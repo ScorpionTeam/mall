@@ -89,4 +89,15 @@ public class GoodServiceImpl implements GoodService {
         return BaseResult.success(good);
     }
 
+    /**
+     * 根据id修改商品信息
+     *
+     * @param good
+     * @return
+     */
+    @Override
+    public BaseResult update(Good good) {
+        return null;
+    }
+
 }

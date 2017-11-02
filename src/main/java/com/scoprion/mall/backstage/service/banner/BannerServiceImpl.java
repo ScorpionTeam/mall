@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created on 2017/9/29.
+ * @author admin1
  */
 @Service
 public class BannerServiceImpl implements BannerService {

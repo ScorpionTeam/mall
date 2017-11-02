@@ -3,18 +3,23 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.littlesoft.mapper.GoodListLittleSoftMapper">
-    <!--获取商品-->
-    <select id="goodList" parameterType="java.lang.Long" resultType="com.scoprion.mall.domain.Good">
-        SELECT  * from t_wellChoilceList tcl LEFT JOIN  t_good  tg ON
-    </select>
 
-    <!--获取拼团活动商品id列表-->
-    <select id="groupList" resultType="com.scoprion.mall.domain.Good">
-        SELECT goodId from t_group
-    </select>
-
-    <!--获取秒杀活动商品id列表-->
-    <select id="secondList" resultType="com.scoprion.mall.domain.Good">
-        SELECT goodId from t_second
+    <select id="" parameterType="java.lang.String" resultType="com.scoprion.mall.domain.GoodExt">
+        SELECT ta.id AS activityId,
+        ta.type As activityType,
+        tg.id AS goodId,
+        tg.sellerId AS sellerId,
+        tg.name AS goodName,
+        tg.goodNo,
+        tg.price,
+        tg.description,
+        tg.promotion,
+        tag.activityId,
+        tag.goodId,
+        ts.name AS sellerName
+        FROM t_activity ta LEFT JOIN t_activity_good tag on ta.id = tag.activityId
+        LEFT JOIN t_good tg ON tag.goodId=tg.id
+        LEFT JOIN t_seller ts ON ts.id = tg.sellerId
+        WHERE ta.type=#{type}
     </select>
 </mapper>

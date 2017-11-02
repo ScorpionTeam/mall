@@ -1,11 +1,9 @@
 package com.scoprion.mall.littlesoft.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.Good;
+import com.scoprion.mall.domain.GoodExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * Created by admin1 on 2017/11/1.
@@ -14,24 +12,16 @@ import java.util.List;
 public interface GoodListLittleSoftMapper {
 
     /**
-     * 秒杀活动商品列表
+     * 活动商品列表
      *
+     * @param
+     * type 活动类型
+     * 0秒杀
+     * 1拼团
+     * 2优选
      * @return
      */
-    Page<Good> secondList();
+    Page<GoodExt> getGoodList(@Param("type") String type);
 
-    /**
-     * 团购商品列表
-     *
-     * @return
-     */
-    Page<Good> groupList();
-
-    /**
-     * 精选商品列表
-     *
-     * @return
-     */
-    Page<Good> wellChoilceList();
 
 }

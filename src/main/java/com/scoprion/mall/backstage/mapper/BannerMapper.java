@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created on 2017/9/29.
+ * @author admin1
  */
 @Mapper
 public interface BannerMapper {
