@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.littlesoft.mapper.OrderWxMapper">
+    <resultMap  id="orderResult" type="com.scoprion.mall.domain.Order">
+        <id property="id" column="id"></id>
+        <result property="orderNo" column="orderNo"></result>
+        <result property="userId" column="userId"></result>
+        <result property="goodSnapShotId" column="goodSnapShotId"></result>
+        <result property="deliveryId" column="deliveryId"></result>
+        <result property="orderStatus" column="orderStatus"></result>
+        <result property="createDate" column="createDate"></result>
+        <association property="goodSnapshot" javaType="com.scoprion.mall.domain.GoodSnapshot">
+            <id property="id" column="goodSnapShotId"></id>
+            <result property="goodName" column="goodName"></result>
+            <result property="goodDescription" column="goodDescription"></result>
+            <result property="promotion" column="promotion"></result>
+            <result property="price" column="price"></result>
+            <result property="discount" column="discount"></result>
+            <result property="mainImgUrl" column="mainImgUrl"></result>
+        </association>
+    </resultMap>
+    <!--查询用户订单列表-->
+    <select id="getOrderList" resultMap="orderResult">
+        SELECT tor.id,
+            tor.userId,
+            tor.orderNo,
+            tor.goodSnapShotId,
+            tor.deliveryId,
+            tor.orderStatus,
+            tor.createDate,
+            tgs.goodId,
+            tgs.goodName ,
+            tgs.goodDescription ,
+            tgs.promotion,
+            tgs.price,
+            tgs.discount,
+            tgs.mainImgUrl
+        FROM t_order tor
+        LEFT JOIN  t_good_snapshot tgs ON tgs.id= tor.goodSnapShotId
+        WHERE tor.orderStatus = #{status}
+    </select>
+</mapper>

@@ -17,6 +17,11 @@ public class Order {
     private Long id;
 
     /**
+     * 用户Id
+     */
+    private Long userId;
+
+    /**
      * 订单编号
      */
     private String orderNo;
@@ -83,6 +88,14 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getOrderNo() {
@@ -169,6 +182,7 @@ public class Order {
     public String toString() {
         return "Order{" +
                 "id=" + id +
+                ", userId=" + userId +
                 ", orderNo='" + orderNo + '\'' +
                 ", goodSnapShotId=" + goodSnapShotId +
                 ", deliveryId=" + deliveryId +

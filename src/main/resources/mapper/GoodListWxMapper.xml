@@ -6,10 +6,10 @@
 
     <select id="getGoodList" parameterType="java.lang.String" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT ta.id AS activityId,
-        ta.type As activityType,
+        ta.activityType,
         tg.id AS goodId,
-        tg.sellerId AS sellerId,
-        tg.name AS goodName,
+        tg.sellerId,
+        tg.goodName,
         tg.goodNo,
         tg.price,
         tg.description,
@@ -20,6 +20,6 @@
         FROM t_activity ta LEFT JOIN t_activity_good tag on ta.id = tag.activityId
         LEFT JOIN t_good tg ON tag.goodId=tg.id
         LEFT JOIN t_seller ts ON ts.id = tg.sellerId
-        WHERE ta.type=#{type}
+        WHERE ta.activityType=#{type}
     </select>
 </mapper>
