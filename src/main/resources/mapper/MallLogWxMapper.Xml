@@ -2,19 +2,20 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scoprion.mall.littlesoft.mapper.OrderLogWxMapper">
-    <insert id="add" parameterType="com.scoprion.mall.domain.OrderExt">
-        INSERT INTO t_wx_mall_order_log(goodNo,
+<mapper namespace="com.scoprion.mall.littlesoft.mapper.MallLogWxMapper">
+    <insert id="add" parameterType="com.scoprion.mall.domain.MallLog">
+        INSERT  INTO t_wx_mall_log(goodNo,
         sellerNo,
         type,
         ipAddress,
         createDate,
-        description,)
+        description)
         VALUES (#{goodNo},
-        #{sellerNo}
+        #{sellerNo},
         #{type},
+        #{ipAddress},
         NOW(),
-        #{description}
-        )
+        #{description})
     </insert>
+
 </mapper>
