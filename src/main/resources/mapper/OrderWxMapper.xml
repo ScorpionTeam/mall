@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.littlesoft.mapper.OrderWxMapper">
+    <!--查询用户订单列表-->
+    <select id="getOrderList" resultType="com.scoprion.mall.domain.Order">
+        SELECT id,userId,orderNo,goodSnapShotId,deliveryId,status,createDate
+        FROM t_ord
+    </select>
+</mapper>
