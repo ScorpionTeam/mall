@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scoprion.mall.littlesoft.mapper.GoodListLittleSoftMapper">
+<mapper namespace="com.scoprion.mall.littlesoft.mapper.GoodListWxMapper">
 
-    <select id="" parameterType="java.lang.String" resultType="com.scoprion.mall.domain.GoodExt">
+    <select id="getGoodList" parameterType="java.lang.String" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT ta.id AS activityId,
         ta.type As activityType,
         tg.id AS goodId,

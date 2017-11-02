@@ -3,19 +3,21 @@ package com.scoprion.mall.littlesoft.service.delivery;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Delivery;
-import com.scoprion.mall.littlesoft.mapper.DeliveryLittleSoftMapper;
+import com.scoprion.mall.littlesoft.mapper.DeliveryWxMapper;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Created by admin1 on 2017/11/1.
+ *
+ * @author admin1
+ * @date 2017/11/1
  */
 @Service
-public class DeliveryListLittleSoftServiceImpl implements DeliveryLittleSoftService {
+public class DeliveryWxServiceImpl implements DeliveryWxService {
 
     @Autowired
-    private DeliveryLittleSoftMapper deliveryLittleSoftMapper;
+    private DeliveryWxMapper deliveryLittleSoftMapper;
 
     /**
      * 分页查询用户收获地址列表

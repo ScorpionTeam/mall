@@ -1,9 +1,8 @@
 package com.scoprion.mall.littlesoft.controller;
 
-import com.scoprion.mall.littlesoft.service.delivery.DeliveryLittleSoftService;
+import com.scoprion.mall.littlesoft.service.delivery.DeliveryWxService;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -13,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("wx/delivery")
-public class DeliveryLittleSoftController {
+public class DeliveryWxController {
     @Autowired
-    private DeliveryLittleSoftService deliveryService;
+    private DeliveryWxService deliveryService;
 
     /**
      * 查询用户收获地址列表

@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
  * Created by admin1 on 2017/11/1.
  */
 @Mapper
-public interface GoodListLittleSoftMapper {
+public interface GoodListWxMapper {
 
     /**
      * 活动商品列表

@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Param;
  * Created by admin1 on 2017/11/1.
  */
 @Mapper
-public interface DeliveryLittleSoftMapper {
+public interface DeliveryWxMapper {
 
     /**
      * 分页查询用户收获地址

@@ -1,20 +1,20 @@
 package com.scoprion.mall.littlesoft.controller;
 
-import com.scoprion.mall.littlesoft.service.goodlist.GoodListLittleSoftService;
+import com.scoprion.mall.littlesoft.service.goodlist.GoodWxService;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by admin1 on 2017/11/1.
  */
-@Controller
+@RestController
 @RequestMapping("wx/goodList")
-public class GoodListLittelSoftController {
+public class GoodListWxController {
     @Autowired
-    private  GoodListLittleSoftService goodListLittleSoftService;
+    private GoodWxService goodListLittleSoftService;
 
     @RequestMapping(value = "listByPage",method = RequestMethod.GET)
     /**

@@ -3,7 +3,7 @@ package com.scoprion.mall.littlesoft.service.goodlist;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.GoodExt;
-import com.scoprion.mall.littlesoft.mapper.GoodListLittleSoftMapper;
+import com.scoprion.mall.littlesoft.mapper.GoodListWxMapper;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
  * Created by admin1 on 2017/11/1.
  */
 @Service
-public class GoodListLittleSoftServiceImpl implements GoodListLittleSoftService {
+public class GoodListWxServiceImpl implements GoodWxService {
 
     @Autowired
-    private GoodListLittleSoftMapper goodListLittleSoftMapper;
+    private GoodListWxMapper goodListWxMapper;
 
     /**
      * 获取商品列表
@@ -35,7 +35,7 @@ public class GoodListLittleSoftServiceImpl implements GoodListLittleSoftService 
             return  new PageResult();
         }
 
-        Page<GoodExt> page = goodListLittleSoftMapper.getGoodList(type);
+        Page<GoodExt> page = goodListWxMapper.getGoodList(type);
 
         return new PageResult(page);
     }

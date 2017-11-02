@@ -5,7 +5,7 @@ import com.scoprion.result.PageResult;
 /**
  * Created by admin1 on 2017/11/1.
  */
-public interface GoodListLittleSoftService {
+public interface GoodWxService {
 
     /**
      * 获取商品列表

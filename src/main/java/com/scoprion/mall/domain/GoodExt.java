@@ -28,61 +28,99 @@ public class GoodExt {
      */
     private String target;
 
-    //商品Id
+    /**
+     * 商品Id
+     */
     private Long goodId;
 
-    //商品编码
+    /**
+     * 商品编码
+     */
     private String goodNo;
 
-    //类目id
+    /**
+     * 类目id
+     */
     private Long categoryId;
 
-    //商品名称
+    /**商品名称
+     *
+     */
     private String goodName;
 
-    //商品描述
+    /**商品描述
+     *
+     */
     private String description;
 
-    //促销价格
+    /**促销价格
+     *
+     */
     private BigDecimal promotion;
 
-    //价格
+    /**价格
+     *
+     */
     private BigDecimal price;
 
-    //销量
+    /**销量
+     *
+     */
     private int saleVolume;
 
-    //折扣
+    /**折扣
+     *
+     */
     private int discount;
 
-    //库存
+    /**库存
+     *
+     */
     private int stock;
 
-    //上下架  1上架  0下架    默认上架
+    /**上下架  1上架  0下架    默认上架
+     *
+     */
     private String isOnSale;
 
-    //热销   1是   0否
+    /**热销   1是   0否
+     *
+     */
     private String isHot;
 
-    //新品  1是  0否
+    /**新品  1是  0否
+     *
+     */
     private String isNew;
 
-    //是否包邮  1是  0否
+    /**是否包邮  1是  0否
+     *
+     */
     private String isFreight;
 
-    //所属品牌
+    /**所属品牌
+     *
+     */
     private Long brandId;
 
-    //商户ID
+    /**商户ID
+     *
+     */
     private Long sellerId;
 
-    //商户名称
+    /**商户名称
+     *
+     */
     private Long sellerName;
 
-    //浏览量
+    /**浏览量
+     *
+     */
     private int visitTotal;
 
-    //主图地址
+    /**主图地址
+     *
+     */
     private String mainImgUrl;
 
 
