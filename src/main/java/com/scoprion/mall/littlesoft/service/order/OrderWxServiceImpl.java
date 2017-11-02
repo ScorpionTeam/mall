@@ -7,11 +7,13 @@ import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.littlesoft.mapper.OrderWxMapper;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * @author by admin1
  * @created on 2017/11/2.
  */
+@Service
 public class OrderWxServiceImpl implements  OrderWxService {
     @Autowired
     private OrderWxMapper orderWxMapper;
@@ -33,16 +35,11 @@ public class OrderWxServiceImpl implements  OrderWxService {
     @Override
     public PageResult getMyOrder(Long userId, String status, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo,pageSize);
-        if(StringUtils.isEmpty(userId.toString())){
+        //若userId,status传空或没传,直接返回
+        if(StringUtils.isEmpty(userId.toString())||StringUtils.isEmpty(status)){
             return  new PageResult();
         }
         Page<Order> page = orderWxMapper.getOrderList(userId,status);
-        //如果订单数量为0,直接返回
-        if(page.size()==0){
-            return new PageResult();
-        }
-        Long snapId;
-
         return new PageResult(page);
     }
 }

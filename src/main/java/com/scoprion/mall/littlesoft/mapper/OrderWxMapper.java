@@ -1,14 +1,15 @@
 package com.scoprion.mall.littlesoft.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.GoodSnapshot;
 import com.scoprion.mall.domain.Order;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
  * @author by admin1
  * @created on 2017/11/2.
  */
+@Mapper
 public interface OrderWxMapper {
 
     /**
@@ -20,11 +21,4 @@ public interface OrderWxMapper {
      */
     Page<Order> getOrderList(@Param("userId") Long userId,@Param("status") String status);
 
-    /**
-     * 获取商品快照信息
-     *
-     * @param id
-     * @return
-     */
-    GoodSnapshot getGoodSnapShot(@Param("id") Long id);
 }
