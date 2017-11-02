@@ -13,7 +13,7 @@ public class Brand {
     private Long id;
 
     //品牌名称
-    private String name;
+    private String brandName;
 
     //品牌简称
     private String shortName;
@@ -50,11 +50,11 @@ public class Brand {
     }
 
     public String getName() {
-        return name;
+        return brandName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String brandName) {
+        this.brandName = brandName;
     }
 
     public String getShortName() {
@@ -119,5 +119,21 @@ public class Brand {
 
     public void setUpdateDate(Date updateDate) {
         this.updateDate = updateDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Brand{" +
+                "id=" + id +
+                ", brandName='" + brandName + '\'' +
+                ", shortName='" + shortName + '\'' +
+                ", country='" + country + '\'' +
+                ", status='" + status + '\'' +
+                ", contact='" + contact + '\'' +
+                ", contactPhone='" + contactPhone + '\'' +
+                ", brandImg='" + brandImg + '\'' +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                '}';
     }
 }

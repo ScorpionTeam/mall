@@ -1,5 +1,6 @@
 package com.scoprion.mall.littlesoft.service.order;
 
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
 /**
@@ -22,4 +23,15 @@ public interface OrderWxService {
      * @return
      */
     PageResult getMyOrder(Long userId, String status, Integer pageNo, Integer pageSize);
+
+    /**
+     * 下单
+     *
+     * @param goodId
+     * @param deliveryId
+     * @param ipAdress
+     * @param purchase:订单量
+     * @return
+     */
+    BaseResult ordered(Long goodId,Long deliveryId,String ipAdress,Integer purchase) throws Exception;
 }
