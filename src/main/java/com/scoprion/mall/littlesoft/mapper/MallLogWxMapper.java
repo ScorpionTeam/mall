@@ -7,12 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
  * @author by Administrator
  * @created on 2017/11/2/002.
  */
-@Mapper
-public interface OrderLogWxMapper {
 
-    /**
-     * 创建订单日志
-     * @param mallLog
+@Mapper
+public interface MallLogWxMapper {
+
+    /*
+    *
      */
     int add(MallLog mallLog);
 }
