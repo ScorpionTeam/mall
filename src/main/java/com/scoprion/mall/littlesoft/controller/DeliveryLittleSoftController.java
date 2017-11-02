@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Created by admin1 on 2017/11/1.
  */
 @RestController
-@RequestMapping("wx")
+@RequestMapping("wx/delivery")
 public class DeliveryLittleSoftController {
     @Autowired
     private DeliveryLittleSoftService deliveryService;

@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
  * Created by admin1 on 2017/11/1.
  */
 @Controller
-@RequestMapping("goodList")
+@RequestMapping("wx/goodList")
 public class GoodListLittelSoftController {
     @Autowired
     private  GoodListLittleSoftService goodListLittleSoftService;
 
-    @RequestMapping(value = "list",method = RequestMethod.GET)
+    @RequestMapping(value = "listByPage",method = RequestMethod.GET)
     /**
      * 获取商品列表
      *
