@@ -11,8 +11,11 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface MallLogWxMapper {
 
-    /*
-    *
+    /**
+     * 新增日志
+     *
+     * @param mallLog
+     * @return
      */
-    int add(MallLog mallLog);
+    Integer add(MallLog mallLog);
 }

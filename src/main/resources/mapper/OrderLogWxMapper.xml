@@ -9,10 +9,11 @@
         type,
         ipAddress,
         createDate,
-        description,)
+        description)
         VALUES (#{goodNo},
         #{sellerNo},
         #{type},
+        #{ipAddress},
         NOW(),
         #{description}
         )

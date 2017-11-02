@@ -5,8 +5,6 @@ import com.scoprion.result.PageResult;
 import com.scoprion.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 
 /**
