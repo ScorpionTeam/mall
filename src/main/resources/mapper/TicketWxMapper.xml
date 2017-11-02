@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scoprion.mall.littlesoft.mapper.TicketWxMapper">
+    <insert id="add" parameterType="com.scoprion.mall.domain.Ticket">
+        INSERT INTO t_wx_ticket(ticketNo,
+        ticketName,
+        money,
+        type,
+        createTime,
+        sellerId)
+        VALUES (#{ticketNo},
+        #{ticketName},
+        #{type},
+        NOW(),
+        #{sellerId})
+    </insert>
+</mapper>

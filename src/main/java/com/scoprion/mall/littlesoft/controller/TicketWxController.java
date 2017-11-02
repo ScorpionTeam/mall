@@ -25,7 +25,7 @@ public class TicketWxController {
     *创建优惠券
      */
     @RequestMapping(value = "/add-ticket",method = RequestMethod.POST)
-    public BaseResult addTicket(Ticket ticket){
+    public BaseResult addTicket(Ticket ticket) throws Exception{
         return ticketWxService.addTicket(ticket);
     }
 
