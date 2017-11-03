@@ -15,13 +15,14 @@ import java.util.List;
 
 /**
  * Created on 2017/9/29.
+ * 运营后台商品控制器
  *
  * @author adming
  */
 @Service
 public class GoodServiceImpl implements GoodService {
 
-    private static final String ONSALE = "1";
+    private static final String ON_SALE = "1";
     private static final String SALE_STATUS = "01";
     @Autowired
     private GoodMapper goodMapper;
@@ -145,9 +146,9 @@ public class GoodServiceImpl implements GoodService {
         }
         int result = goodMapper.modifySaleStatus(saleStatus, goodId);
         if (result > 0) {
-            return BaseResult.success(ONSALE.equals(saleStatus) ? "商品上架成功" : "商品下架成功");
+            return BaseResult.success(ON_SALE.equals(saleStatus) ? "商品上架成功" : "商品下架成功");
         }
-        return BaseResult.error("006", ONSALE.equals(saleStatus) ? "商品上架失败" : "商品下架失败");
+        return BaseResult.error("006", ON_SALE.equals(saleStatus) ? "商品上架失败" : "商品下架失败");
     }
 
     /**

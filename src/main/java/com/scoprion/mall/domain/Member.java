@@ -107,6 +107,28 @@ public class Member {
      */
     private String password;
 
+    /**
+     * 类型
+     */
+    private String userType;
+
+    public Member() {
+    }
+
+    public Member(String nickName, String mobile, String password) {
+        this.nickName = nickName;
+        this.mobile = mobile;
+        this.password = password;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
+    }
+
     public String getPassword() {
         return password;
     }

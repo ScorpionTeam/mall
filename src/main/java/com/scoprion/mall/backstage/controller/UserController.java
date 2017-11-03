@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
  *
  * @author adming
  */
-@Controller
+@RestController
 @RequestMapping("user")
 public class UserController {
 
@@ -43,70 +40,47 @@ public class UserController {
 
 
     /**
-     * 手机号登录
+     * 后台登录
      *
-     * @param mobile
-     * @param password
-     * @param request
+     * @param mobile   手机号
+     * @param password 密码
+     * @param request  请求
      * @return
      */
-    @ApiOperation(value = "手机号码登录")
-    @ResponseBody
-    @RequestMapping(value = "/loginByMobileSubmit", method = RequestMethod.POST)
-    public BaseResult loginByMobileSubmit(String mobile, String password, HttpServletRequest request) throws Exception {
-        if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)) {
-            return BaseResult.parameterError();
-        }
+    @ApiOperation(value = "后台登录")
+    @RequestMapping(value = "/backstageLogin", method = RequestMethod.POST)
+    public BaseResult backstageLogin(String mobile, String password, HttpServletRequest request) throws Exception {
         String ip = IPUtil.getIPAddress(request);
-        return userService.loginByMobileSubmit(mobile, password, ip);
+        return userService.backstageLogin(mobile, password, ip);
     }
 
 
-    /**
-     * 邮箱登录
-     *
-     * @param email
-     * @param password
-     * @param request
-     * @return
-     */
-    @ApiOperation(value = "email登录")
-    @ResponseBody
-    @RequestMapping(value = "/loginByEmailSubmit", method = RequestMethod.POST)
-    public BaseResult loginByEmailSubmit(String email, String password, HttpServletRequest request) throws Exception {
-        if (StringUtils.isEmpty(email) || StringUtils.isEmpty(password)) {
-            return BaseResult.parameterError();
-        }
-        String ip = IPUtil.getIPAddress(request);
-        return userService.loginByEmailSubmit(email, password, ip);
-    }
+//    /**
+//     * 跳转注册页面
+//     *
+//     * @return
+//     */
+//    @ApiIgnore
+//    @RequestMapping(value = "/register", method = RequestMethod.GET)
+//    public String register() {
+//        return "register";
+//    }
 
     /**
-     * 跳转注册页面
+     * 管理后台注册
      *
-     * @return
-     */
-    @ApiIgnore
-    @RequestMapping(value = "/register", method = RequestMethod.GET)
-    public String register() {
-        return "register";
-    }
-
-    /**
-     * 注册
-     *
-     * @param member
-     * @param request
+     * @param mobile   手机号
+     * @param password 密码
+     * @param nickName 昵称
+     * @param request  HttpServletRequest
      * @return
      * @throws Exception
      */
-    @ApiOperation(value = "注册")
-    @ResponseBody
-    @RequestMapping(value = "/registerSubmit", method = RequestMethod.POST)
-    public BaseResult registerSubmit(@RequestBody Member member, HttpServletRequest request) throws Exception {
+    @ApiOperation(value = "管理后台注册")
+    @RequestMapping(value = "/backstageRegister", method = RequestMethod.POST)
+    public BaseResult backstageRegister(String mobile, String password, String nickName, HttpServletRequest request) throws Exception {
         String ip = IPUtil.getIPAddress(request);
-        member.setLoginIp(ip);
-        return userService.registerSubmit(member);
+        return userService.backstageRegister(mobile, password, nickName, ip);
     }
 
     /**
@@ -116,41 +90,21 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "编辑个人信息")
-    @RequestMapping(value = "/editProfile", method = RequestMethod.POST)
-    public BaseResult editProfile(Member member) {
-        return userService.editProfile(member);
+    @RequestMapping(value = "/modifyUserInfo", method = RequestMethod.POST)
+    public BaseResult modifyUserInfo(Member member) {
+        return userService.modifyUserInfo(member);
     }
 
     /**
-     * 退出登录
+     * 后台系统退出登录
      *
-     * @return
+     * @param mobile 手机号
+     * @return BaseResult
      */
-    @RequestMapping(value = "/logout", method = RequestMethod.POST)
-    public String logout() {
-        return "";
-    }
-
-
-    /**
-     * 会员详细信息
-     *
-     * @param id
-     * @return
-     */
-    @ApiOperation(value = "会员详情")
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public String profile(Long id) {
-        return "profile";
-    }
-
-    /**
-     * @return
-     */
-    @ApiIgnore
-    @RequestMapping(value = "/user-list-init", method = RequestMethod.GET)
-    public String init(ModelMap map) {
-        return "/backstage/b-user";
+    @ApiOperation(value = "后台系统退出登录")
+    @RequestMapping(value = "/backstageLogout", method = RequestMethod.GET)
+    public BaseResult backstageLogout(String mobile) {
+        return userService.backstageLogout(mobile);
     }
 
     /**
@@ -160,14 +114,13 @@ public class UserController {
      * @param pageSize
      * @param startDate
      * @param endDate
-     * @param sex
+     * @param searchKey
      * @return
      */
     @ApiOperation(value = "会员列表(运营平台)")
-    @ResponseBody
-    @RequestMapping(value = "/user-list", method = RequestMethod.GET)
-    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String sex) {
-        return userService.findByPage(pageNo, pageSize, startDate, endDate, sex);
+    @RequestMapping(value = "/userList", method = RequestMethod.GET)
+    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String searchKey) {
+        return userService.findByPage(pageNo, pageSize, startDate, endDate, searchKey);
     }
 
 }

@@ -6,35 +6,32 @@ import com.scoprion.result.PageResult;
 
 /**
  * Created on 2017/9/27.
+ * @author adming
  */
 public interface UserService {
 
     /**
-     * 手机号登录
+     * 后台登录
      *
-     * @param mobile
-     * @param password
-     * @return
-     */
-    BaseResult loginByMobileSubmit(String mobile, String password, String ip) throws Exception;
-
-    /**
-     * email登录
-     *
-     * @param email
-     * @param password
-     * @return
-     */
-    BaseResult loginByEmailSubmit(String email, String password, String ip) throws Exception;
-
-    /**
-     * 注册
-     *
-     * @param member
+     * @param mobile   手机号
+     * @param password 密码
+     * @param ip       IP地址
      * @return
      * @throws Exception
      */
-    BaseResult registerSubmit(Member member) throws Exception;
+    BaseResult backstageLogin(String mobile, String password, String ip) throws Exception;
+
+    /**
+     * 管理后台注册
+     *
+     * @param mobile   手机号
+     * @param password 密码
+     * @param nickName 昵称
+     * @param ip       注册的IP地址
+     * @return
+     * @throws Exception
+     */
+    BaseResult backstageRegister(String mobile, String password, String nickName, String ip) throws Exception;
 
     /**
      * 修改个人资料
@@ -42,9 +39,15 @@ public interface UserService {
      * @param member
      * @return
      */
-    BaseResult editProfile(Member member);
+    BaseResult modifyUserInfo(Member member);
 
-    void logout();
+    /**
+     * 后台系统退出登录
+     *
+     * @param mobile 手机号
+     * @return BaseResult
+     */
+    BaseResult backstageLogout(String mobile);
 
     /**
      * 分页条件查询 会员列表

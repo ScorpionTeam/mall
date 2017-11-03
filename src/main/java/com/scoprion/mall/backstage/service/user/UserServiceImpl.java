@@ -1,113 +1,125 @@
 package com.scoprion.mall.backstage.service.user;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Member;
 import com.scoprion.mall.backstage.mapper.UserMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.scoprion.utils.Contants;
 import com.scoprion.utils.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created on 2017/9/27.
+ *
+ * @author adming
  */
+@Transactional(rollbackFor = Exception.class)
 @Service
 public class UserServiceImpl implements UserService {
+
 
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
 
     /**
-     * 手机号码登录
+     * 后台登录
      *
-     * @param mobile
-     * @param password
-     * @param ip
-     * @return
+     * @param mobile   手机号
+     * @param password 密码
+     * @param ip       IP地址
+     * @return BaseResult
+     * @throws Exception e
      */
     @Override
-    public BaseResult loginByMobileSubmit(String mobile, String password, String ip) throws Exception {
+    public BaseResult backstageLogin(String mobile, String password, String ip) throws Exception {
+        if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)) {
+            return BaseResult.systemError();
+        }
+        if (mobile.length() < Contants.MOBILE_LENGTH) {
+            return BaseResult.error("phone_error", "手机号码不正确");
+        }
+        if (password.length() < Contants.PASSWORD_MIN_LENGTH) {
+            return BaseResult.error("password_error", "密码不能小于六位");
+        }
         String encryptPassword = EncryptUtil.encryptMD5(password);
-        Member member = userMapper.loginByMobile(mobile, encryptPassword);
+        Member member = userMapper.login(mobile, encryptPassword);
         if (null == member) {
             return BaseResult.error("login_fail", "手机号或密码不正确!");
         }
         //更新用户最后登录IP地址
         userMapper.updateLoginIpAddress(member.getId(), ip);
-        //设置用户登录有效期为30分钟
-        redisTemplate.opsForValue().set("Login:" + member.getMobile(), member.toString(), 30, TimeUnit.MINUTES);
         //将用户手机号码作为加密字符串回传
         String tokenStr = EncryptUtil.aesEncrypt(member.getMobile(), "ScorpionMall8888");
-        return BaseResult.success(tokenStr);
-    }
-
-    /**
-     * email登录
-     *
-     * @param email
-     * @param password
-     * @param ip
-     * @return
-     */
-    @Override
-    public BaseResult loginByEmailSubmit(String email, String password, String ip) throws Exception {
-        String encryptPassword = EncryptUtil.encryptMD5(password);
-        Member member = userMapper.loginByEmail(email, encryptPassword);
-        if (null == member) {
-            return BaseResult.error("login_fail", "邮箱或密码不正确");
-        }
         //设置用户登录有效期为30分钟
-        redisTemplate.opsForValue().set("Login:" + member.getEmail(), member.toString(), 30, TimeUnit.SECONDS);
-        //将用户email作为加密字符串回传
-        String tokenStr = EncryptUtil.aesEncrypt(member.getEmail(), "ScorpionMall8888");
+        redisTemplate.opsForValue().set("Login:" + member.getMobile(), member.toString(), 30, TimeUnit.MINUTES);
         return BaseResult.success(tokenStr);
     }
 
     /**
-     * 注册
+     * 管理后台注册
      *
-     * @param member
-     * @return
+     * @param mobile   手机号
+     * @param password 密码
+     * @param nickName 昵称
+     * @param ip       注册的IP地址
+     * @return BaseResult
+     * @throws Exception e
      */
     @Override
-    public BaseResult registerSubmit(Member member) throws Exception {
-        int mobile = userMapper.findByMobile(member.getMobile());
-        if (mobile > 0) {
+    public BaseResult backstageRegister(String mobile, String password, String nickName, String ip) throws Exception {
+        if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)) {
+            return BaseResult.systemError();
+        }
+        if (mobile.length() < Contants.MOBILE_LENGTH) {
+            return BaseResult.error("phone_error", "手机号码不正确");
+        }
+        if (password.length() < Contants.PASSWORD_MIN_LENGTH) {
+            return BaseResult.error("password_error", "密码不能小于六位");
+        }
+        int mobileCount = userMapper.findByMobile(mobile);
+        if (mobileCount > 0) {
             return BaseResult.error("register_fail", "手机已存在");
         }
-        int nick = userMapper.findByNickName(member.getNickName());
+        int nick = userMapper.findByNickName(nickName);
         if (nick > 0) {
             return BaseResult.error("register_fail", "昵称已存在");
         }
-        String encryptPassword = EncryptUtil.encryptMD5(member.getPassword());
-        member.setPassword(encryptPassword);
+        String encryptPassword = EncryptUtil.encryptMD5(password);
+        Member member = new Member(nickName, mobile, encryptPassword);
         int result = userMapper.register(member);
-        String tokenStr = EncryptUtil.aesEncrypt(member.getMobile(), "ScorpionMall8888");
-        redisTemplate.opsForValue().set("Login:" + member.getMobile(), member.toString(), 30, TimeUnit.SECONDS);
-        if (result > 0){
-            return BaseResult.success(tokenStr);
+        if (result <= 0) {
+            return BaseResult.error("register_fail", "注册失败");
         }
-        return BaseResult.error("register_fail", "注册失败");
+        //将用户手机号码作为加密字符串回传
+        String tokenStr = EncryptUtil.aesEncrypt(mobile, "ScorpionMall8888");
+        return BaseResult.success(tokenStr);
     }
 
 
     /**
      * 编辑个人信息
      *
-     * @param member
-     * @return
+     * @param member Member
+     * @return BaseResult
      */
     @Override
-    public BaseResult editProfile(Member member) {
-        int result = userMapper.editProfile(member);
+    public BaseResult modifyUserInfo(Member member) {
+        if (member.getId() == null) {
+            return BaseResult.error("003", "id不能为空");
+        }
+        int result = userMapper.modifyUserInfo(member);
         if (result > 0) {
             return BaseResult.success("修改成功");
         }
@@ -116,25 +128,44 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * 退出系统
+     * 后台系统退出登录
+     *
+     * @param mobile 手机号
+     * @return BaseResult
      */
     @Override
-    public void logout() {
-
+    public BaseResult backstageLogout(String mobile) {
+        //从缓存区移除当前账号
+        redisTemplate.delete("Login:" + mobile);
+        return BaseResult.success("退出成功");
     }
 
     /**
+     * 查询用户列表
+     *
      * @param pageNo    当前页
      * @param pageSize  每页条数
      * @param startDate 注册时间
      * @param endDate   注册时间
-     * @param sex       性别
-     * @return
+     * @param searchKey
+     * @return PageResult
      */
     @Override
-    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String sex) {
+    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String searchKey) {
         PageHelper.startPage(pageNo, pageSize);
-        Page<Member> page = userMapper.findByPage(startDate, endDate, sex);
+        if (StringUtils.isEmpty(searchKey)) {
+            searchKey = null;
+        }
+        if (!StringUtils.isEmpty(searchKey)) {
+            searchKey = "%" + searchKey + "%";
+        }
+        if (StringUtils.isEmpty(startDate)) {
+            startDate = null;
+        }
+        if (StringUtils.isEmpty(endDate)) {
+            endDate = null;
+        }
+        Page<Member> page = userMapper.findByPage(startDate, endDate, searchKey);
         return new PageResult(page);
     }
 
