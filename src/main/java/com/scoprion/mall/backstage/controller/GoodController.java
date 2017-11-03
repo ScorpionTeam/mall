@@ -17,6 +17,8 @@ import java.math.BigDecimal;
 
 /**
  * Created on 2017/9/29.
+ *
+ * @author adming
  */
 @RestController
 @RequestMapping("/backstage/good")
@@ -40,39 +42,67 @@ public class GoodController {
 
     /**
      * 根据商品id删除商品
+     *
      * @param id
      * @return
      */
     @ApiOperation(value = "删除商品")
-    @RequestMapping(value = "/deleteById",method = RequestMethod.POST)
-    public BaseResult deleteById(Long id){
-        return null;
+    @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
+    public BaseResult deleteById(Long id) {
+        return goodService.deleteGoodById(id);
     }
 
+    /**
+     * 根据商品id查询商品
+     *
+     * @param id 商品id
+     * @return
+     */
+    @ApiOperation(value = "根据商品id查询商品")
+    @RequestMapping(value = "/goodInfo", method = RequestMethod.GET)
+    public BaseResult goodInfo(Long id) {
+        return goodService.goodInfo(id);
+    }
 
     /**
      * 条件查询商品列表分页
+     *
      * @param pageNo
      * @param pageSize
      * @param searchKey
      * @return
      */
     @ApiOperation(value = "查询商品")
-    @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
-    public PageResult findByCondition(int pageNo,int pageSize,String searchKey){
-        return null;
+    @RequestMapping(value = "/findByCondition", method = RequestMethod.POST)
+    public PageResult findByCondition(int pageNo, int pageSize, String searchKey) {
+        return goodService.findByCondition(pageNo, pageSize, searchKey);
     }
+
     /**
      * 修改商品
+     *
      * @param good
      * @return
      */
     @ApiOperation(value = "修改商品")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public BaseResult updateById(Good good) {
+    public BaseResult update(Good good) {
         return goodService.update(good);
     }
 
+
+    /**
+     * 商品上下架
+     *
+     * @param saleStatus 1上架 0下架 默认上架
+     * @param goodId     商品id
+     * @return
+     */
+    @ApiOperation(value = "商品上下架")
+    @RequestMapping(value = "/modifySaleStatus", method = RequestMethod.GET)
+    public BaseResult modifySaleStatus(String saleStatus, Long goodId) {
+        return goodService.modifySaleStatus(saleStatus, goodId);
+    }
 
     /**
      * 模拟商品信息

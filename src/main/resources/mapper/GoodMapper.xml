@@ -71,6 +71,7 @@
         FROM t_good
     </select>
 
+    <!--根据商品id查询详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.Good">
         SELECT
          id,
@@ -101,4 +102,46 @@
     <update id="goodDeduction">
         UPDATE t_good SET stock=stock-1 WHERE id=#{goodId}
     </update>
+
+    <!--更新商品信息-->
+    <update id="updateGood" parameterType="com.scoprion.mall.domain.Good">
+        UPDATE t_good SET
+        <if test="categoryId!=null">categoryId=#{categoryId},</if>
+        <if test="goodName!=null">goodName=#{goodName},</if>
+        <if test="description!=null">description=#{description},</if>
+        <if test="promotion!=null">promotion=#{promotion},</if>
+        <if test="price!=null">price=#{price},</if>
+        <if test="saleVolume!=null">saleVolume=#{saleVolume},</if>
+        <if test="discount!=null">discount=#{discount},</if>
+        <if test="stock!=null">stock=#{stock},</if>
+        <if test="isOnSale!=null">isOnSale=#{isOnSale},</if>
+        <if test="isHot!=null">isHot=#{isHot},</if>
+        <if test="isNew!=null">isNew=#{isNew},</if>
+        <if test="isFreight!=null">isFreight=#{isFreight},</if>
+        <if test="brandId!=null">brandId=#{brandId},</if>
+        <if test="sellerId!=null">sellerId=#{sellerId},</if>
+        <if test="visitTotal!=null">visitTotal=#{visitTotal},</if>
+        <if test="goodNo!=null">goodNo=#{goodNo},</if>
+        <if test="mainImgUrl!=null">mainImgUrl=#{mainImgUrl},</if>
+        lastUpdateDate=NOW()
+        WHERE id=#{id}
+    </update>
+
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.Good">
+        SELECT * FROM t_good WHERE 1=1
+        <if test="searchKey!=null">AND (goodName,description,goodNo) LIKE #{searchKey}</if>
+    </select>
+
+    <!--商品上下架-->
+    <update id="modifySaleStatus">
+        UPDATE t_good SET
+        isOnSale=#{saleStatus},
+        lastUpdateDate=NOW()
+        WHERE id=#{goodId}
+    </update>
+
+    <!--根据商品id删除商品-->
+    <delete id="deleteGoodById">
+        DELETE FROM  t_good WHERE  id=#{id}
+    </delete>
 </mapper>

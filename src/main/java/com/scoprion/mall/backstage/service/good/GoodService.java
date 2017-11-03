@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Created on 2017/9/29.
+ * @author adming
  */
 public interface GoodService {
 
@@ -54,9 +55,37 @@ public interface GoodService {
 
     /**
      * 根据id修改商品信息
+     *
      * @param good
      * @return
      */
     BaseResult update(Good good);
+
+    /**
+     * 根据条件差查询商品列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey
+     * @return
+     */
+    PageResult findByCondition(int pageNo, int pageSize, String searchKey);
+
+    /**
+     * 商品上下架
+     *
+     * @param saleStatus saleStatus 1上架 0下架 默认上架
+     * @param goodId     商品id
+     * @return
+     */
+    BaseResult modifySaleStatus(String saleStatus, Long goodId);
+
+    /**
+     * 根据商品id删除商品
+     *
+     * @param id 商品id
+     * @return
+     */
+    BaseResult deleteGoodById(Long id);
 
 }
