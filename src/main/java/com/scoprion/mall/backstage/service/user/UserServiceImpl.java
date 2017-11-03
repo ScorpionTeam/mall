@@ -92,8 +92,9 @@ public class UserServiceImpl implements UserService {
         int result = userMapper.register(member);
         String tokenStr = EncryptUtil.aesEncrypt(member.getMobile(), "ScorpionMall8888");
         redisTemplate.opsForValue().set("Login:" + member.getMobile(), member.toString(), 30, TimeUnit.SECONDS);
-        if (result > 0)
+        if (result > 0){
             return BaseResult.success(tokenStr);
+        }
         return BaseResult.error("register_fail", "注册失败");
     }
 
@@ -106,8 +107,11 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public BaseResult editProfile(Member member) {
-
-        return null;
+        int result = userMapper.editProfile(member);
+        if (result > 0) {
+            return BaseResult.success("修改成功");
+        }
+        return BaseResult.error("error", "修改失败");
     }
 
 
