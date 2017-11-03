@@ -1,5 +1,6 @@
 package com.scoprion.mall.littlesoft.service.Ticket;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Ticket;
@@ -45,10 +46,33 @@ public class TicketWxServiceImpl implements TicketWxService {
     @Override
     public PageResult ticketList(Integer pageNo, Integer pageSize, String ticketName){
         PageHelper.startPage(pageNo,pageSize);
-        if(ticketName==null){
-            return new PageResult();
+        if(StringUtils.isEmpty(ticketName)){
+            ticketName="%"+ticketName+"%";
         }
         Page<Ticket> page=ticketWxMapper.ticketList(ticketName);
         return new PageResult(page);
     };
+
+    /**
+     * 修改优惠券
+     */
+    @Override
+    public BaseResult alter(Ticket ticket){
+        int validResult=ticketWxMapper.validByName(ticket.getTicketName());
+        if (validResult==1){
+            return BaseResult.error("alter_fail","名称已存在");
+        }
+        ticketWxMapper.edit(ticket);
+        return BaseResult.success("修改成功");
+    }
+
+
+    /**
+     * 删除优惠券
+     */
+    @Override
+    public BaseResult deleteTicket(Long id){
+        ticketWxMapper.delete(id);
+        return BaseResult.success("删除成功");
+    }
 }
