@@ -8,4 +8,42 @@
     <select id="deliveryList" parameterType="java.lang.Long" resultType="com.scoprion.mall.domain.Delivery">
         SELECT * from t_delivery WHERE userId = #{userId}
     </select>
+
+    <!--新增收货地址-->
+    <insert id="addDelivery" parameterType="com.scoprion.mall.domain.Delivery">
+      INSERT INTO  t_delivery (userId,
+                               wechat,
+                               recipients,
+                               phone,
+                               province,
+                               city,
+                               area,
+                               address,
+                               postCode,
+                               createDate,
+                               updateDate)
+              VALUES (#{userId},
+                  #{wechat},
+                  #{recipients},
+                  #{phone},
+                  #{province},
+                  #{city},
+                  #{area},
+                  #{address},
+                  #{postCode},
+                  NOW(),
+                  NOW())
+    </insert>
+
+    <!--修改收货地址-->
+    <update id="updateDelivery" parameterType="com.scoprion.mall.domain.Delivery">
+        UPDATE t_delivery SET recipients=#{recipients},phone=#{phone},province=#{province},
+            area=#{area},address=#{address},postCode=#{postCode},updateDate=NOW()
+            WHERE  id = #{id}
+    </update>
+
+    <!--删除收获地址-->
+    <delete id="deleteDelivery">
+        DELETE FROM  t_delivery WHERE id = #{id}
+    </delete>
 </mapper>
