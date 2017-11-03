@@ -21,4 +21,12 @@ public interface OrderWxMapper {
      */
     Page<Order> getOrderList(@Param("userId") Long userId,@Param("status") String status);
 
+    /**
+     * 新增订单
+     *
+     * @param order
+     * @return
+     */
+    Integer add(Order order);
+
 }

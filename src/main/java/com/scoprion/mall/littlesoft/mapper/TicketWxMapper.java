@@ -18,7 +18,29 @@ public interface TicketWxMapper {
      */
     int add(Ticket ticket);
 
-    int validByName(String name);
 
+    /**
+     * 校验卡券名称是否存在
+     * @param ticketName
+     * @return
+     */
+    int validByName(@Param("ticketName") String ticketName);
+
+    /**
+     * 优惠券分页
+     * @param ticketName
+     * @return
+     */
     Page<Ticket>ticketList(@Param("ticketName") String ticketName);
+
+    /**
+     * 修改优惠券
+     */
+    int edit(Ticket ticket);
+
+
+    /**
+     * 删除优惠券
+     */
+    int delete(Long id);
 }

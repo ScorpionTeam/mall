@@ -3,7 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.littlesoft.mapper.MallLogWxMapper">
-    <insert id="add" parameterType="com.scoprion.mall.domain.MallLog">
+    <!--新增日志-->
+    <insert  id="add" parameterType="com.scoprion.mall.domain.MallLog">
         INSERT  INTO t_wx_mall_log(goodNo,
         sellerNo,
         type,
@@ -17,5 +18,4 @@
         NOW(),
         #{description})
     </insert>
-
 </mapper>

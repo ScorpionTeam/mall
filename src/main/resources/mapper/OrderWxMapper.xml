@@ -41,4 +41,22 @@
         LEFT JOIN  t_good_snapshot tgs ON tgs.id= tor.goodSnapShotId
         WHERE tor.orderStatus = #{status}
     </select>
+
+    <!--新增订单-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.Order">
+        INSERT INTO t_order(orderNo,
+                            goodSnapShotId,
+                            deliveryId,
+                            orderStatus,
+                            orderType,
+                            createDate,
+                            updateDate)
+        VALUES (#{orderNo},
+                #{goodSnapShotId},
+                #{deliveryId},
+                #{orderStatus},
+                #{orderType},
+                NOW(),
+                NOW())
+    </insert>
 </mapper>

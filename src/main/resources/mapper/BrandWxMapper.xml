@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.littlesoft.mapper.BrandWxMapper">
+    <!--查询品牌列表-->
+    <select id="listByPage" resultType="com.scoprion.mall.domain.Brand">
+        SELECT * from t_brand WHERE status = "1"
+    </select>
+</mapper>

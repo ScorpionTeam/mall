@@ -25,7 +25,7 @@ public class TicketWxController {
     *创建优惠券
      */
     @RequestMapping(value = "/add-ticket",method = RequestMethod.POST)
-    public BaseResult addTicket(Ticket ticket){
+    public BaseResult addTicket(Ticket ticket) throws Exception{
         return ticketWxService.addTicket(ticket);
     }
 
@@ -35,5 +35,21 @@ public class TicketWxController {
     @RequestMapping(value = "/ticket-list",method = RequestMethod.GET)
     public PageResult ticketList(Integer pageNo,Integer pageSize,String ticketName){
         return ticketWxService.ticketList(pageNo,pageSize,ticketName);
+    }
+
+    /**
+     * 优惠券修改
+     */
+    @RequestMapping(value = "/ticket-alter",method = RequestMethod.POST)
+    public BaseResult alter(Ticket ticket){
+        return ticketWxService.alter(ticket);
+    }
+
+    /**
+     * 删除优惠券
+     */
+    @RequestMapping(value = "delete-ticket",method = RequestMethod.POST)
+    public BaseResult deleteTicket(Long id){
+        return ticketWxService.deleteTicket(id);
     }
 }

@@ -7,4 +7,9 @@
     <select id="goodDetail" resultType="com.scoprion.mall.domain.Good">
         SELECT * FROM t_good WHERE id = #{goodId}
     </select>
+
+    <!--库存减少-->
+    <select id="goodDeduct">
+        UPDATE t_good SET stock=stock-#{purchase} WHERE id=#{goodId}
+    </select>
 </mapper>
