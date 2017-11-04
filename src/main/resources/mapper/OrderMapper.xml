@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.OrderMapper">
 
+
     <!--下单-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Order">
         INSERT INTO t_order(orderNo,

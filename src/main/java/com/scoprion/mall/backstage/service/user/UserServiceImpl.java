@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,7 +23,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
+    @Resource
     private RedisTemplate redisTemplate;
 
     /**
@@ -79,21 +80,21 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public BaseResult registerSubmit(Member member) throws Exception {
-        int mobile = userMapper.findByMobile(member.getMobile());
-        if (mobile > 0) {
-            return BaseResult.error("register_fail", "手机已存在");
-        }
-        int nick = userMapper.findByNickName(member.getNickName());
-        if (nick > 0) {
-            return BaseResult.error("register_fail", "昵称已存在");
-        }
-        String encryptPassword = EncryptUtil.encryptMD5(member.getPassword());
-        member.setPassword(encryptPassword);
-        int result = userMapper.register(member);
-        String tokenStr = EncryptUtil.aesEncrypt(member.getMobile(), "ScorpionMall8888");
+//        int mobile = userMapper.findByMobile(member.getMobile());
+//        if (mobile > 0) {
+//            return BaseResult.error("register_fail", "手机已存在");
+//        }
+//        int nick = userMapper.findByNickName(member.getNickName());
+//        if (nick > 0) {
+//            return BaseResult.error("register_fail", "昵称已存在");
+//        }
+//        String encryptPassword = EncryptUtil.encryptMD5(member.getPassword());
+//        member.setPassword(encryptPassword);
+//        int result = userMapper.register(member);
+//        String tokenStr = EncryptUtil.aesEncrypt(member.getMobile(), "ScorpionMall8888");
         redisTemplate.opsForValue().set("Login:" + member.getMobile(), member.toString(), 30, TimeUnit.SECONDS);
-        if (result > 0)
-            return BaseResult.success(tokenStr);
+//        if (result > 0)
+//            return BaseResult.success(tokenStr);
         return BaseResult.error("register_fail", "注册失败");
     }
 
