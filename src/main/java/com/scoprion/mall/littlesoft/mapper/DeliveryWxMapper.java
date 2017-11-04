@@ -19,4 +19,26 @@ public interface DeliveryWxMapper {
      * @return
      */
     Page<Delivery> deliveryList(@Param("userId") Long userId);
+
+    /**
+     * 新增收货地址
+     * @param delivery
+     * @return
+     */
+    Integer addDelivery(Delivery delivery);
+
+    /**
+     * 修改收货地址
+     *
+     * @param delivery
+     * @return
+     */
+    Integer updateDelivery(Delivery delivery);
+
+    /**
+     * 删除收获地址
+     * @param id
+     * @return
+     */
+    Integer deleteDelivery(@Param("id") Long id);
 }

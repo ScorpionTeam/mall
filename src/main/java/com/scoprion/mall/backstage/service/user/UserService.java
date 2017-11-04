@@ -32,6 +32,7 @@ public interface UserService {
      *
      * @param member
      * @return
+     * @throws Exception
      */
     BaseResult registerSubmit(Member member) throws Exception;
 
@@ -47,11 +48,12 @@ public interface UserService {
 
     /**
      * 分页条件查询 会员列表
-     * @param pageNo     当前页
-     * @param pageSize   每页条数
-     * @param startDate  注册时间
-     * @param endDate    注册时间
-     * @param sex        性别
+     *
+     * @param pageNo    当前页
+     * @param pageSize  每页条数
+     * @param startDate 注册时间
+     * @param endDate   注册时间
+     * @param sex       性别
      * @return
      */
     PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String sex);

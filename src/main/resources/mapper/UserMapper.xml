@@ -48,15 +48,15 @@
     </select>
     <!--根据手机号查询用户-->
     <select id="findByMobile" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM t_user WHERE status='1' AND mobile=#{mobile}
+        SELECT COUNT(*) FROM t_user WHERE status='1' AND mobile=#{mobile}
     </select>
     <!--根据email查询用户-->
     <select id="findByEmail" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM t_user WHERE status='1' AND email=#{email}
+        SELECT COUNT(*) FROM t_user WHERE status='1' AND email=#{email}
     </select>
     <!--根据昵称查询用户-->
     <select id="findByNickName" resultType="java.lang.Integer">
-        SELECT COUNT(1) FROM t_user WHERE status='1' AND nickName=#{nickName}
+        SELECT COUNT(*) FROM t_user WHERE status='1' AND nickName=#{nickName}
     </select>
 
     <!--用户注册-->
@@ -122,4 +122,26 @@
         FROM t_user
     </select>
 
+    <update id="editProfile" parameterType="com.scoprion.mall.domain.Member">
+        UPDATE t_user SET
+        <if test="name!=null">name=#{name},</if>
+        <if test="headPic!=null">headPic=#{headPic},</if>
+        <if test="nickName!=null">nickName=#{nickName},</if>
+        <if test="sex!=null">sex=#{sex},</if>
+        <if test="age!=null">age=#{age},</if>
+        <if test="certificateId!=null">certificateId=#{certificateId},</if>
+        <if test="mobile!=null">mobile=#{mobile},</if>
+        <if test="address!=null">address=#{address},</if>
+        <if test="city!=null">city=#{city},</if>
+        <if test="email!=null">email=#{email},</if>
+        <if test="bornDate!=null">bornDate=#{bornDate},</if>
+        <if test="certification!=null">certification=#{certification},</if>
+        <if test="status!=null">status=#{status},</if>
+        <if test="lastLoginDate!=null">lastLoginDate=#{lastLoginDate},</if>
+        <if test="loginIp!=null">loginIp=#{loginIp},</if>
+        <if test="password!=null">password=#{password},</if>
+        <if test="userType!=null">userType=#{userType},</if>
+        updateDate=NOW()
+        WHERE id=#{id}
+    </update>
 </mapper>

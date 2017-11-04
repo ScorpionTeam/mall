@@ -1,5 +1,7 @@
 package com.scoprion.mall.littlesoft.service.delivery;
 
+import com.scoprion.mall.domain.Delivery;
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
 /**
@@ -16,4 +18,27 @@ public interface DeliveryWxService {
      * @return
      */
     PageResult DeliveryList(Long userId, Integer pageNo, Integer pageSize);
+
+    /**
+     * 新增收货地址
+     * @param delivery
+     * @return
+     */
+    BaseResult addDelivery(Delivery delivery);
+
+    /**
+     * 修改收货地址
+     *
+     * @param delivery
+     * @return
+     */
+    BaseResult updateDelivery(Delivery delivery);
+
+    /**
+     * 删除收获地址
+     *
+     * @param id
+     * @return
+     */
+    BaseResult deleteDelivery(Long id);
 }

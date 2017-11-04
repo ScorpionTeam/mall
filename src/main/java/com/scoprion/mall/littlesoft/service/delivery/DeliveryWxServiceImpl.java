@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.littlesoft.mapper.DeliveryWxMapper;
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class DeliveryWxServiceImpl implements DeliveryWxService {
 
     @Autowired
-    private DeliveryWxMapper deliveryLittleSoftMapper;
+    private DeliveryWxMapper deliveryWxMapper;
 
     /**
      * 分页查询用户收获地址列表
@@ -34,7 +35,52 @@ public class DeliveryWxServiceImpl implements DeliveryWxService {
         if(userId==null){
             return new PageResult();
         }
-        Page<Delivery> page = deliveryLittleSoftMapper.deliveryList(userId);
+        Page<Delivery> page = deliveryWxMapper.deliveryList(userId);
         return new PageResult(page);
+    }
+
+    /**
+     * 新增收货地址
+     *
+     * @param delivery
+     * @return
+     */
+    @Override
+    public BaseResult addDelivery(Delivery delivery) {
+        Integer result = deliveryWxMapper.addDelivery(delivery);
+        if(result <=0){
+            return  BaseResult.error("error","新增失败");
+        }
+        return BaseResult.success("新增成功");
+    }
+
+    /**
+     * 修改收货地址
+     *
+     * @param delivery
+     * @return
+     */
+    @Override
+    public BaseResult updateDelivery(Delivery delivery) {
+        Integer result = deliveryWxMapper.updateDelivery(delivery);
+        if(result <=0){
+            return  BaseResult.error("error","修改失败");
+        }
+        return BaseResult.success("修改成功");
+    }
+
+    /**
+     * 删除收获地址
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseResult deleteDelivery(Long id) {
+        Integer result = deliveryWxMapper.deleteDelivery(id);
+        if(result<=0){
+            return BaseResult.error("error","删除失败");
+        }
+        return BaseResult.success("删除成功");
     }
 }

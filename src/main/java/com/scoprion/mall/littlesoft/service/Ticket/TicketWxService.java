@@ -20,4 +20,14 @@ public interface TicketWxService {
      */
     PageResult ticketList(Integer pageNo,Integer pageSize,String ticketName);
 
+    /**
+     * 修改优惠券
+     */
+    BaseResult alter(Ticket ticket);
+
+
+    /**
+     * 删除优惠券
+     */
+    BaseResult deleteTicket(Long id);
 }

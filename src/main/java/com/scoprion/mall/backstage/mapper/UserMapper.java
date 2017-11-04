@@ -72,7 +72,6 @@ public interface UserMapper {
     int register(Member member);
 
     /**
-     *
      * @param startDate
      * @param endDate
      * @param sex
@@ -80,4 +79,11 @@ public interface UserMapper {
      */
     Page<Member> findByPage(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("sex") String sex);
 
+    /**
+     * 修改个人信息
+     *
+     * @param member
+     * @return
+     */
+    int editProfile(Member member);
 }
