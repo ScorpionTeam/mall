@@ -43,9 +43,11 @@ public class WxUtil {
             httpsURLConnection.setUseCaches(false);
             //设置请求方式
             httpsURLConnection.setRequestMethod(requestMethod);
+
             if ("GET".equalsIgnoreCase(requestMethod)) {
                 httpsURLConnection.connect();
             }
+
             if (null != outputStr) {
                 OutputStream outputStream = httpsURLConnection.getOutputStream();
                 outputStream.write(outputStr.getBytes("UTF-8"));

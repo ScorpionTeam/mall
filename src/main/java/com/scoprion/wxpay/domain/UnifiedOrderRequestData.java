@@ -136,7 +136,7 @@ public class UnifiedOrderRequestData {
         return map;
     }
 
-    private UnifiedOrderRequestData(UnifiedOrderReqDataBuilder builder) {
+    public UnifiedOrderRequestData(UnifiedOrderReqDataBuilder builder) {
         this.appid = builder.appid;
         this.mch_id = builder.mch_id;
         this.device_info = builder.device_info;
