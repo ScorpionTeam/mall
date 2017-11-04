@@ -2,6 +2,7 @@ package com.scoprion.wxpay.domain;
 
 import com.scoprion.wxpay.WxPayConfig;
 import com.scoprion.wxpay.WxUtil;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
 
 import java.lang.reflect.Field;
 import java.util.SortedMap;

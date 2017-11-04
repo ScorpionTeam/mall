@@ -13,11 +13,14 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 /**
  * @author by kunlun
@@ -139,6 +142,47 @@ public class WxPayUtil {
         }
         String stringSignTemp = stringA.append("&key=").append(WxPayConfig.KEY).substring(1);
         return WxUtil.MD5(stringSignTemp).toUpperCase();
+    }
+
+    /**
+     * map转 xml
+     *
+     * @param map
+     * @return
+     */
+    public static String MapConvertToXML(Map<String, Object> map) {
+        StringBuffer stringBuffer = new StringBuffer();
+        stringBuffer.append("<xml>");
+        for (String key : map.keySet()) {
+            stringBuffer.append("<" + key + ">" + map.get(key) + "</" + key + ">");
+        }
+        stringBuffer.append("</xml>");
+        return stringBuffer.toString();
+    }
+
+    /**
+     * 签名排序
+     *
+     * @param map
+     * @return
+     */
+    public static String sort(Map<String, Object> map) {
+        StringBuffer stringBuffer = new StringBuffer();
+        Collection collection = map.keySet();
+        List list = new ArrayList<String>(collection);
+        Collections.sort(list);
+        int j = 0;
+        for (int i = 0; i < list.size(); i++) {
+            if (j == 0) {
+                stringBuffer.append(list.get(i) + "=" + map.get(list.get(i)));
+            } else {
+                stringBuffer.append("&" + list.get(i) + "=" + map.get(list.get(i)));
+            }
+            j++;
+        }
+        stringBuffer.append("&key=rzxlszyykpbgqcflzxsqcysyhljttclb");
+        System.out.println(stringBuffer.toString());
+        return stringBuffer.toString();
     }
 
 

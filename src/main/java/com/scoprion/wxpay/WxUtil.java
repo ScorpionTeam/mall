@@ -81,7 +81,7 @@ public class WxUtil {
     }
 
     public final static String MD5(String s) {
-        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
+        char hexDigits[] = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
         try {
             byte[] bytes = s.getBytes("UTF-8");
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");
