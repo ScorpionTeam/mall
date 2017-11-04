@@ -18,6 +18,7 @@ public class WxPayUtil {
         String method ="POST";
         String responseString = WxUtil.httpsRequest(requertUrl,method,requestXMLData);
 
+        return null;
     }
 
     private static String castDataToXMLString(Object object) {
