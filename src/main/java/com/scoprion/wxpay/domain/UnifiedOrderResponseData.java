@@ -76,6 +76,8 @@ public class UnifiedOrderResponseData {
      */
     private String code_url;
 
+    private String paySign;
+
     public String getReturn_code() {
         return return_code;
     }
@@ -180,6 +182,14 @@ public class UnifiedOrderResponseData {
         this.code_url = code_url;
     }
 
+    public String getPaySign() {
+        return paySign;
+    }
+
+    public void setPaySign(String paySign) {
+        this.paySign = paySign;
+    }
+
     @Override
     public String toString() {
         return "UnifiedOrderResponseData{" +
@@ -196,6 +206,7 @@ public class UnifiedOrderResponseData {
                 ", trade_type='" + trade_type + '\'' +
                 ", prepay_id='" + prepay_id + '\'' +
                 ", code_url='" + code_url + '\'' +
+                ", paySign='" + paySign + '\'' +
                 '}';
     }
 }

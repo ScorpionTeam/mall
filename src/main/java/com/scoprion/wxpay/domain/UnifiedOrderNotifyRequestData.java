@@ -11,7 +11,7 @@ public class UnifiedOrderNotifyRequestData {
 
     private String return_code;
 
-    private String return_mmsg;
+    private String return_msg;
 
     private String appid;
 
@@ -57,6 +57,17 @@ public class UnifiedOrderNotifyRequestData {
 
     private String time_end;
 
+    private String  prepay_id;
+
+
+    public String getPrepay_id() {
+        return prepay_id;
+    }
+
+    public void setPrepay_id(String prepay_id) {
+        this.prepay_id = prepay_id;
+    }
+
     public String getReturn_code() {
         return return_code;
     }
@@ -65,12 +76,12 @@ public class UnifiedOrderNotifyRequestData {
         this.return_code = return_code;
     }
 
-    public String getReturn_mmsg() {
-        return return_mmsg;
+    public String getReturn_msg() {
+        return return_msg;
     }
 
-    public void setReturn_mmsg(String return_mmsg) {
-        this.return_mmsg = return_mmsg;
+    public void setReturn_msg(String return_msg) {
+        this.return_msg = return_msg;
     }
 
     public String getAppid() {
@@ -249,33 +260,5 @@ public class UnifiedOrderNotifyRequestData {
         this.time_end = time_end;
     }
 
-    @Override
-    public String toString() {
-        return "UnifiedOrderNotifyRequestData{" +
-                "return_code='" + return_code + '\'' +
-                ", return_mmsg='" + return_mmsg + '\'' +
-                ", appid='" + appid + '\'' +
-                ", mch_id='" + mch_id + '\'' +
-                ", device_info='" + device_info + '\'' +
-                ", nonce_str='" + nonce_str + '\'' +
-                ", sign='" + sign + '\'' +
-                ", result_code='" + result_code + '\'' +
-                ", err_code='" + err_code + '\'' +
-                ", err_code_desc='" + err_code_desc + '\'' +
-                ", openid='" + openid + '\'' +
-                ", is_subscribe='" + is_subscribe + '\'' +
-                ", trade_type='" + trade_type + '\'' +
-                ", bank_type='" + bank_type + '\'' +
-                ", total_fee=" + total_fee +
-                ", fee_type='" + fee_type + '\'' +
-                ", cash_fee='" + cash_fee + '\'' +
-                ", cash_fee_type='" + cash_fee_type + '\'' +
-                ", coupon_fee='" + coupon_fee + '\'' +
-                ", coupon_count='" + coupon_count + '\'' +
-                ", transaction_id='" + transaction_id + '\'' +
-                ", out_trade_no='" + out_trade_no + '\'' +
-                ", attach='" + attach + '\'' +
-                ", time_end='" + time_end + '\'' +
-                '}';
-    }
+
 }

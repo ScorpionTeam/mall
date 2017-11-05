@@ -63,7 +63,7 @@ public class WxPayUtil {
      * @param responseString
      * @return return:UnifiedOrderResponseData
      */
-    private static UnifiedOrderResponseData castXMLStringToUnifiedOrderResponseData(String responseString) {
+    public static UnifiedOrderResponseData castXMLStringToUnifiedOrderResponseData(String responseString) {
         XStream xStream = new XStream(new DomDriver());
         xStream.alias("xml", UnifiedOrderResponseData.class);
         xStream.processAnnotations(UnifiedOrderResponseData.class);
