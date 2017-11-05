@@ -4,7 +4,7 @@ package com.scoprion.wxpay;
  * @author by kunlun
  * @created on 2017/11/4.
  */
-public class OpenId {
+public class AuthorizationCode {
 
     private String session_key;
 
@@ -38,7 +38,7 @@ public class OpenId {
 
     @Override
     public String toString() {
-        return "OpenId{" +
+        return "AuthorizationCode{" +
                 "session_key='" + session_key + '\'' +
                 ", expires_in=" + expires_in +
                 ", openid='" + openid + '\'' +

@@ -78,6 +78,8 @@ public class UnifiedOrderResponseData {
 
     private String paySign;
 
+    private String timeStamp;
+
     public String getReturn_code() {
         return return_code;
     }
@@ -190,6 +192,14 @@ public class UnifiedOrderResponseData {
         this.paySign = paySign;
     }
 
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
     @Override
     public String toString() {
         return "UnifiedOrderResponseData{" +
@@ -207,6 +217,7 @@ public class UnifiedOrderResponseData {
                 ", prepay_id='" + prepay_id + '\'' +
                 ", code_url='" + code_url + '\'' +
                 ", paySign='" + paySign + '\'' +
+                ", timeStamp='" + timeStamp + '\'' +
                 '}';
     }
 }

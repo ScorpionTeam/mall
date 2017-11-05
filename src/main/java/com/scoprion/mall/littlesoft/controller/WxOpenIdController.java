@@ -1,16 +1,7 @@
 package com.scoprion.mall.littlesoft.controller;
 
-import com.alibaba.fastjson.JSON;
-import com.scoprion.constant.Constant;
-import com.scoprion.wxpay.OpenId;
-import com.scoprion.result.BaseResult;
-import com.scoprion.wxpay.WxPayConfig;
-import com.scoprion.wxpay.WxUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author by kunlun
@@ -36,7 +27,7 @@ public class WxOpenIdController {
 //                + code
 //                + "&grant_type=authorization_code";
 //        String response = WxUtil.httpsRequest(apiUrl,"GET",null);
-//        OpenId openId = JSON.parseObject(response, OpenId.class);
+//        AuthorizationCode openId = JSON.parseObject(response, AuthorizationCode.class);
 //        System.out.println("返回信息------>" + response);
 //        return BaseResult.success(openId);
 //    }

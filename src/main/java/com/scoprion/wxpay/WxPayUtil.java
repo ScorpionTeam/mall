@@ -181,7 +181,6 @@ public class WxPayUtil {
             j++;
         }
         stringBuffer.append("&key=rzxlszyykpbgqcflzxsqcysyhljttclb");
-        System.out.println(stringBuffer.toString());
         return stringBuffer.toString();
     }
 
