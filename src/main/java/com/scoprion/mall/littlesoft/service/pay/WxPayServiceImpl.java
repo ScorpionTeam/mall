@@ -70,6 +70,8 @@ public class WxPayServiceImpl implements WxPayService {
         String openid = findOpenID(wxCode);
         String xmlString = preOrderSend(good.getGoodName(), good.getDescription(), "妆口袋", openid, order.getOrderNo(),
                 ipAddress);
+        //生成预付款订单
+        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL,"GET",xmlString);
 
         return null;
     }
