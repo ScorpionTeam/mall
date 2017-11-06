@@ -61,7 +61,7 @@ public class GoodController {
     @ApiOperation(value = "根据商品id查询商品")
     @RequestMapping(value = "/goodInfo", method = RequestMethod.GET)
     public BaseResult goodInfo(Long id) {
-        return goodService.goodInfo(id);
+        return null;
     }
 
     /**

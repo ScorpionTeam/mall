@@ -3,6 +3,7 @@ package com.scoprion.mall.domain;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import javax.persistence.Transient;
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -59,6 +60,26 @@ public class Order {
      * 3 储蓄卡
      */
     private String payType;
+
+    /**
+     * 买家留言
+     */
+    private String message;
+
+    /**
+     * 商品金额
+     */
+    private BigDecimal goodFee;
+
+    /**
+     * 优惠金额
+     */
+    private BigDecimal ticketFee;
+
+    /**
+     * 实付金额
+     */
+    private BigDecimal totalFee;
 
     /**
      * 下单时间
@@ -146,6 +167,38 @@ public class Order {
         this.payType = payType;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public BigDecimal getGoodFee() {
+        return goodFee;
+    }
+
+    public void setGoodFee(BigDecimal goodFee) {
+        this.goodFee = goodFee;
+    }
+
+    public BigDecimal getTicketFee() {
+        return ticketFee;
+    }
+
+    public void setTicketFee(BigDecimal ticketFee) {
+        this.ticketFee = ticketFee;
+    }
+
+    public BigDecimal getTotalFee() {
+        return totalFee;
+    }
+
+    public void setTotalFee(BigDecimal totalFee) {
+        this.totalFee = totalFee;
+    }
+
     public Date getCreateDate() {
         return createDate;
     }
@@ -189,6 +242,10 @@ public class Order {
                 ", orderStatus='" + orderStatus + '\'' +
                 ", orderType='" + orderType + '\'' +
                 ", payType='" + payType + '\'' +
+                ", message='" + message + '\'' +
+                ", goodFee=" + goodFee +
+                ", ticketFee=" + ticketFee +
+                ", totalFee=" + totalFee +
                 ", createDate=" + createDate +
                 ", payDate=" + payDate +
                 ", deliveryDate=" + deliveryDate +
