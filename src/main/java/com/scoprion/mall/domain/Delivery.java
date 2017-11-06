@@ -5,45 +5,64 @@ import com.alibaba.fastjson.annotation.JSONField;
 import java.util.Date;
 
 /**
- * Created on 2017/10/13.
+ * @author by kunlun
+ * @created on 2017/10/13.
  */
 public class Delivery {
 
-    //主键
+    /**
+     * 主键
+     */
     private Long id;
-
-    //微信账号
-    private String wechat;
-
-    //用户id
+    /**
+     * 用户id
+     */
     private Long userId;
 
-    //收件人
+    /**
+     * 收件人
+     */
     private String recipients;
 
-    //电话
+    /**
+     * 电话
+     */
     private String phone;
 
-    //省
+    /**
+     * 省
+     */
     private String province;
 
-    //市
+    /**
+     * 市
+     */
     private String city;
 
-    //区
+    /**
+     * 区
+     */
     private String area;
 
-    //详细地址
+    /**
+     * 详细地址
+     */
     private String address;
 
-    //邮政编码
+    /**
+     * 邮政编码
+     */
     private String postCode;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
-    //修改时间
+    /**
+     * 修改时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
 
@@ -135,19 +154,10 @@ public class Delivery {
         this.updateDate = updateDate;
     }
 
-    public String getWechat() {
-        return wechat;
-    }
-
-    public void setWechat(String wechat) {
-        this.wechat = wechat;
-    }
-
     @Override
     public String toString() {
         return "Delivery{" +
                 "id=" + id +
-                ", wechat='" + wechat + '\'' +
                 ", userId=" + userId +
                 ", recipients='" + recipients + '\'' +
                 ", phone='" + phone + '\'' +
