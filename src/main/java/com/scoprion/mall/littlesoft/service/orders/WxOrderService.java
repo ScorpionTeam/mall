@@ -1,5 +1,6 @@
 package com.scoprion.mall.littlesoft.service.orders;
 
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
 /**
@@ -9,12 +10,15 @@ import com.scoprion.result.PageResult;
 public interface WxOrderService {
 
     /**
-     *
+     *订单列表
      * @param pageNo
      * @param pageSize
      * @param userId
      * @param orderStatus
      * @return
      */
-    PageResult findAll(Integer pageNo,Integer pageSize,Long userId,String orderStatus);
+    PageResult findByCondition (Integer pageNo,Integer pageSize,Long userId,String orderStatus);
+
+
+    BaseResult findByCondition(Long orderId);
 }

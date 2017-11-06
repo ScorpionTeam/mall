@@ -19,13 +19,22 @@ public class WxOrderController {
 
     @Autowired
     private WxOrderService wxOrderService;
-    @RequestMapping(value = "/listByPage",method = RequestMethod.GET)
-    public PageResult findAll(Integer pageNo,Integer pageSize,Long userId,String orderStatus){
-        return wxOrderService.findAll(pageNo,pageSize,userId,orderStatus);
+
+    /**
+     * 订单列表
+     * @param pageNo
+     * @param pageSize
+     * @param userId
+     * @param orderStatus
+     * @return
+     */
+    @RequestMapping(value = "/findByCondition",method = RequestMethod.GET)
+    public PageResult findByCondition (Integer pageNo,Integer pageSize,Long userId,String orderStatus){
+        return wxOrderService.findByCondition (pageNo,pageSize,userId,orderStatus);
     }
 
     @RequestMapping(value = "/orderLog",method = RequestMethod.GET)
-    public BaseResult  findByCondition(Long id){
-        return null;
+    public BaseResult  findByCondition(Long orderId){
+        return wxOrderService.findByCondition(orderId);
     }
 }
