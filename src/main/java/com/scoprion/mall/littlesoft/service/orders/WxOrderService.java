@@ -20,5 +20,10 @@ public interface WxOrderService {
     PageResult findByCondition (Integer pageNo,Integer pageSize,Long userId,String orderStatus);
 
 
-    BaseResult findByCondition(Long orderId);
+    /**
+     * 根据订单id查询日志
+     * @param orderId
+     * @return
+     */
+    BaseResult findOrderLog(Long orderId);
 }
