@@ -3,6 +3,7 @@ package com.scoprion.mall.domain;
 import com.alibaba.fastjson.annotation.JSONField;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @author by kunlun
@@ -53,8 +54,23 @@ public class Activity {
      * 0 小程序
      * 1 app
      * 2 网站
+     * 3 全部
      */
     private String target;
+
+
+    /**
+     * 参加活动的商品ID集合
+     */
+    private List<Long> goodIdList;
+
+    public List<Long> getGoodIdList() {
+        return goodIdList;
+    }
+
+    public void setGoodIdList(List<Long> goodIdList) {
+        this.goodIdList = goodIdList;
+    }
 
     public Long getId() {
         return id;

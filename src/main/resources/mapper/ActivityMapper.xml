@@ -3,5 +3,85 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.ActivityMapper">
+    <!--新增活动-->
+    <insert id="add">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_activity
+        (name,activityType,status,createDate,target)
+        VALUES
+        (#{name},#{activityType},#{status},now(),#{target})
+    </insert>
+    <!--修改活动-->
+    <update id="update">
+        UPDATE t_activity SET
+        <if test="name!=null">name=#{name},</if>
+        <if test="activityType!=null">activityType=#{activityType},</if>
+        <if test="status!=null">status=#{status},</if>
+        <if test="target!=null">target=#{target},</if>
+        <if test="createDate!=null">createDate=#{createDate},</if>
+        updateDate=now()
+        WHERE id=#{id}
+    </update>
 
+    <!--根据活动名称模糊查询-->
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.Activity">
+        SELECT
+        id,
+        name,
+        status,
+        activityType,
+        target,
+        createDate
+        FROM t_activity WHERE 1=1
+        <if test="type!=null">AND activityType=#{type}</if>
+        <if test="status!=null">AND status=#{status}</if>
+        <if test="searchKey!=null">AND name LIKE #{searchKey}</if>
+    </select>
+
+    <!--根据ID删除活动物理删除-->
+    <!--<delete id="deleteById">&#45;&#45; -->
+    <!--DELETE  t_activity WHERE  id=#{id}-->
+    <!--</delete>-->
+
+    <!--根据ID删除活动,不做物理删除-->
+    <update id="deleteById">
+    UPDATE  t_activity  SET  status='1' WHERE  id=#{id}
+    </update>
+
+    <!--查询活动名称数量-->
+    <select id="validByName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM  t_activity WHERE  name=#{name}
+    </select>
+
+    <!--根据ID查询活动详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.Activity">
+        SELECT  * FROM  t_activity   WHERE  id=#{id}
+    </select>
+
+    <!--根据商品id查询商品参加的活动-->
+    <select id="findActivityByGoodId" resultType="java.lang.Integer">
+        SELECT  COUNT(*) FROM  t_activity_good tag
+        LEFT  JOIN t_activity ta ON  tag.activityId=ta.id AND ta.status='0'
+        WHERE tag.goodId=#{goodId}
+    </select>
+
+    <!--添加商品活动关系-->
+    <insert id="addActivityGood">
+        INSERT INTO t_activity_good
+        (activityId,goodId,createDate)
+        VALUES
+        (#{activityId},#{goodId},now())
+    </insert>
+
+    <!--清空活动跟商品的绑定关系-->
+    <delete id="deleteActivityGood">
+        DELETE  FROM  t_activity_good WHERE goodId=#{goodId}
+    </delete>
+
+    <!--根据活动ID查询商品匹配列表-->
+    <select id="findGoodIdByActivityId" resultType="java.lang.Long">
+        SELECT goodId FROM t_activity_good WHERE activityId=#{activityId}
+    </select>
 </mapper>

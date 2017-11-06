@@ -68,7 +68,7 @@ public class GoodController {
      * @return
      */
     @ApiOperation(value = "根据商品id查询商品")
-    @RequestMapping(value = "/goodInfo", method = RequestMethod.GET)
+    @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findByGoodId(Long id) {
         return goodService.findByGoodId(id);
     }
