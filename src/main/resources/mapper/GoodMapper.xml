@@ -99,8 +99,8 @@
     </select>
 
     <!--库存扣减-->
-    <update id="goodDeduction">
-        UPDATE t_good SET stock=stock-1 WHERE id=#{goodId}
+    <update id="modifyGoodDeduction">
+        UPDATE t_good SET stock=stock+#{count} WHERE id=#{goodId}
     </update>
 
     <!--更新商品信息-->
@@ -129,7 +129,7 @@
 
     <select id="findByCondition" resultType="com.scoprion.mall.domain.Good">
         SELECT * FROM t_good WHERE 1=1
-        <if test="searchKey!=null">AND (goodName,description,goodNo) LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND CONCAT(goodName,description,goodNo) LIKE #{searchKey}</if>
     </select>
 
     <!--商品上下架-->

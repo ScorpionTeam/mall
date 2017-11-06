@@ -58,7 +58,7 @@ public interface GoodMapper {
      * @param goodId
      * @return
      */
-    int goodDeduction(@Param("goodId") Long goodId);
+    int modifyGoodDeduction(@Param("goodId") Long goodId, @Param("count") Integer count);
 
     /**
      * 更新商品信息

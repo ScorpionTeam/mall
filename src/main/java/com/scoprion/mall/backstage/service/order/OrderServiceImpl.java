@@ -89,7 +89,7 @@ public class OrderServiceImpl implements OrderService {
         MallLog orderLog = this.constructLog(ipAddress, good.getGoodNo(), null, "2", "订单生成");
         mallLogMapper.add(orderLog);
         //扣减商品库存
-        goodMapper.goodDeduction(goodId);
+        goodMapper.modifyGoodDeduction(goodId, -1);
         //记录商品扣减日志
         MallLog goodLog = this.constructLog(ipAddress, good.getGoodNo(), null, "4", "商品库存扣减");
         mallLogMapper.add(goodLog);
@@ -119,8 +119,8 @@ public class OrderServiceImpl implements OrderService {
         List<Order> orderList = page.getResult();
         if (null != orderList && orderList.size() > 0) {
             for (Order order : orderList) {
-                GoodSnapshot goodSnapshot = goodSnapShotMapper.findById(order.getGoodSnapShotId());
-                order.setGoodSnapshot(goodSnapshot);
+//                GoodSnapshot goodSnapshot = goodSnapShotMapper.findById(order.getGoodSnapShotId());
+//                order.setGoodSnapshot(goodSnapshot);
             }
         }
         return new PageResult(page);
@@ -133,7 +133,7 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
-    private List<Order> mockList1() {
+    public List<Order> mockList1() {
         List<Order> orders = orderMapper.mockList();
         return orders;
     }

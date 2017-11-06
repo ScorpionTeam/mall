@@ -8,10 +8,12 @@ import com.scoprion.mall.domain.Good;
 import com.scoprion.mall.backstage.mapper.GoodMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.DOMStringList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -61,7 +63,7 @@ public class GoodServiceImpl implements GoodService {
     public BaseResult add(Good good) {
         int result = goodMapper.add(good);
         if (result > 0) {
-            return BaseResult.success("创建商品成功....");
+            return BaseResult.success("创建商品成功");
         }
         return BaseResult.error("mock_fail", "创建商品失败....");
     }
@@ -87,12 +89,12 @@ public class GoodServiceImpl implements GoodService {
      * @return
      */
     @Override
-    public Good findByGoodId(Long goodId) {
+    public BaseResult findByGoodId(Long goodId) {
         Good good = goodMapper.findById(goodId);
         if (null == good) {
-            return null;
+            BaseResult.notFound();
         }
-        return good;
+        return BaseResult.success(good);
     }
 
     /**
@@ -102,7 +104,10 @@ public class GoodServiceImpl implements GoodService {
      * @return
      */
     @Override
-    public BaseResult update(Good good) {
+    public BaseResult updateGood(Good good) {
+        if (good.getId() == null) {
+            return BaseResult.parameterError();
+        }
         int result = goodMapper.updateGood(good);
         if (result > 0) {
             return BaseResult.success("更新成功");
@@ -125,6 +130,9 @@ public class GoodServiceImpl implements GoodService {
             searchKey = "%" + searchKey + "%";
         }
         Page<Good> page = goodMapper.findByCondition(searchKey);
+        if (page == null) {
+            return new PageResult(new ArrayList<Good>());
+        }
         return new PageResult(page);
     }
 
@@ -163,5 +171,14 @@ public class GoodServiceImpl implements GoodService {
             return BaseResult.success("删除商品成功");
         }
         return BaseResult.error("sysError", "删除商品失败");
+    }
+
+    @Override
+    public BaseResult modifyGoodDeduction(Long id, Integer count) {
+        int result = goodMapper.modifyGoodDeduction(id, count);
+        if (result > 0) {
+            return BaseResult.success("修改成功");
+        }
+        return BaseResult.error("modify-error", "修改失败");
     }
 }
