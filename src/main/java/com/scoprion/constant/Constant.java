@@ -5,11 +5,14 @@ package com.scoprion.constant;
  * @created on 2017/11/4.
  */
 public class Constant {
-//
+    //
 //    public static final String APP_ID = "wx5e495b0ad7d9ac5d";
 //
 //    public static final String SECRET = "c389e38d157de6a4212ea46be3657474";
+    public static final int MOBILE_LENGTH = 11;
+    public static final int PASSWORD_MIN_LENGTH = 6;
 
-
+    public static final String ON_SALE = "1";
+    public static final String SALE_STATUS = "01";
 
 }

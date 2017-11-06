@@ -3,11 +3,11 @@ package com.scoprion.mall.backstage.service.user;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.Member;
 import com.scoprion.mall.backstage.mapper.UserMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-import com.scoprion.utils.Contants;
 import com.scoprion.utils.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -47,10 +47,10 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)) {
             return BaseResult.systemError();
         }
-        if (mobile.length() < Contants.MOBILE_LENGTH) {
+        if (mobile.length() < Constant.MOBILE_LENGTH) {
             return BaseResult.error("phone_error", "手机号码不正确");
         }
-        if (password.length() < Contants.PASSWORD_MIN_LENGTH) {
+        if (password.length() < Constant.PASSWORD_MIN_LENGTH) {
             return BaseResult.error("password_error", "密码不能小于六位");
         }
         String encryptPassword = EncryptUtil.encryptMD5(password);
@@ -82,10 +82,10 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)) {
             return BaseResult.systemError();
         }
-        if (mobile.length() < Contants.MOBILE_LENGTH) {
+        if (mobile.length() < Constant.MOBILE_LENGTH) {
             return BaseResult.error("phone_error", "手机号码不正确");
         }
-        if (password.length() < Contants.PASSWORD_MIN_LENGTH) {
+        if (password.length() < Constant.PASSWORD_MIN_LENGTH) {
             return BaseResult.error("password_error", "密码不能小于六位");
         }
         int mobileCount = userMapper.findByMobile(mobile);

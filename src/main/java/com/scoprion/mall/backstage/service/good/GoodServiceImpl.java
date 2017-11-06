@@ -3,6 +3,7 @@ package com.scoprion.mall.backstage.service.good;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.Good;
 import com.scoprion.mall.backstage.mapper.GoodMapper;
 import com.scoprion.result.BaseResult;
@@ -22,8 +23,6 @@ import java.util.List;
 @Service
 public class GoodServiceImpl implements GoodService {
 
-    private static final String ON_SALE = "1";
-    private static final String SALE_STATUS = "01";
     @Autowired
     private GoodMapper goodMapper;
 
@@ -62,9 +61,9 @@ public class GoodServiceImpl implements GoodService {
     public BaseResult add(Good good) {
         int result = goodMapper.add(good);
         if (result > 0) {
-            return BaseResult.success("创建模拟商品成功....");
+            return BaseResult.success("创建商品成功....");
         }
-        return BaseResult.error("mock_fail", "创建模拟商品失败....");
+        return BaseResult.error("mock_fail", "创建商品失败....");
     }
 
     /**
@@ -141,14 +140,14 @@ public class GoodServiceImpl implements GoodService {
         if (StringUtils.isEmpty(saleStatus) || null == goodId) {
             return BaseResult.parameterError();
         }
-        if (!SALE_STATUS.contains(saleStatus)) {
+        if (!Constant.SALE_STATUS.contains(saleStatus)) {
             return BaseResult.error("parameterError", "上下架状态不正确");
         }
         int result = goodMapper.modifySaleStatus(saleStatus, goodId);
         if (result > 0) {
-            return BaseResult.success(ON_SALE.equals(saleStatus) ? "商品上架成功" : "商品下架成功");
+            return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品上架成功" : "商品下架成功");
         }
-        return BaseResult.error("006", ON_SALE.equals(saleStatus) ? "商品上架失败" : "商品下架失败");
+        return BaseResult.error("006", Constant.ON_SALE.equals(saleStatus) ? "商品上架失败" : "商品下架失败");
     }
 
     /**
