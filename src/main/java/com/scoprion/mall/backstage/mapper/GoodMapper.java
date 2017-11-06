@@ -118,4 +118,13 @@ public interface GoodMapper {
      * @return
      */
     int deleteImageByGoodId(@Param("goodId") Long goodId);
+
+    /**
+     * 库存扣减
+     *
+     * @param goodId
+     * @param stock
+     * @return
+     */
+    int updateGoodStockById(@Param("goodId") Long goodId, @Param("stock") int stock);
 }

@@ -1,7 +1,5 @@
 package com.scoprion.mall.littlesoft.mapper;
 
-import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.domain.OrderLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -12,14 +10,13 @@ import org.apache.ibatis.annotations.Param;
  */
 
 @Mapper
-public interface WxOrderMapper {
+public interface WxOrderLogMapper {
+
 
     /**
-     *订单列表
-     * @param userId
-     * @param orderStatus
+     * 根据id获取订单日志
+     * @param orderId
      * @return
      */
-    Page<Order> findByCondition (@Param("userId")Long userId,@Param("orderStatus")String orderStatus);
-
+    OrderLog findOrderLog(@Param("orderId")Long orderId);
 }

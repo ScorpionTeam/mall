@@ -38,14 +38,6 @@ public interface OrderWxMapper {
      */
     int updateOrderForWxOrderNo(@Param("orderId") Long orderId, @Param("wxOrderNo") String wxOrderNo);
 
-    /**
-     * 更新订单用户id
-     *
-     * @param userId
-     * @param orderId
-     * @return
-     */
-    int updateUserIdForOrder(@Param("userId") String userId, @Param("orderId") Long orderId);
 
     /**
      * 根据openid 订单号 查询预付款单号
@@ -55,6 +47,22 @@ public interface OrderWxMapper {
      * @return
      */
     String findPrepayIdByOpenid(@Param("openid") String openid, @Param("orderId") Long orderId);
+
+    /**
+     * 根据wxOrderNo修改订单状态 以及付款状态
+     *
+     * @param wxOrderNo
+     * @return
+     */
+    int updateOrderStatusAndPayStatus(String payDate, String wxOrderNo);
+
+    /**
+     * 根据微信单号查询订单信息
+     *
+     * @param wxOrderNo
+     * @return
+     */
+    Order findByWxOrderNo(@Param("wxOrderNo") String wxOrderNo);
 
 
 }

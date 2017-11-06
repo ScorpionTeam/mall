@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.domain.OrderLog;
+import com.scoprion.mall.littlesoft.mapper.WxOrderLogMapper;
 import com.scoprion.mall.littlesoft.mapper.WxOrderMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -21,6 +22,8 @@ public class WxOrderServiceImpl implements WxOrderService {
 
     @Autowired
     private WxOrderMapper wxOrderMapper;
+    @Autowired
+    private WxOrderLogMapper wxOrderLogMapper;
 
     /**
      * 订单列表
@@ -41,12 +44,12 @@ public class WxOrderServiceImpl implements WxOrderService {
         return new PageResult(page);
     }
 
-    @Override
-    public BaseResult findByCondition(Long orderId) {
+   @Override
+    public BaseResult findOrderLog(Long orderId) {
         if(StringUtils.isEmpty(orderId.toString())){
             return BaseResult.error("orderLog_fail","无订单日志");
         }
-        OrderLog result=wxOrderMapper.findByCondition(orderId);
+        OrderLog result=wxOrderLogMapper.findOrderLog(orderId);
         return BaseResult.success(result);
     }
 }

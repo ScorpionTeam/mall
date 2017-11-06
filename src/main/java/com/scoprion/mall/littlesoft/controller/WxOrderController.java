@@ -1,5 +1,6 @@
 package com.scoprion.mall.littlesoft.controller;
 
+
 import com.scoprion.mall.littlesoft.service.orders.WxOrderService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -20,6 +21,7 @@ public class WxOrderController {
     @Autowired
     private WxOrderService wxOrderService;
 
+
     /**
      * 订单列表
      * @param pageNo
@@ -34,7 +36,7 @@ public class WxOrderController {
     }
 
     @RequestMapping(value = "/orderLog",method = RequestMethod.GET)
-    public BaseResult  findByCondition(Long orderId){
-        return wxOrderService.findByCondition(orderId);
+    public BaseResult  findOrderLog(Long orderId){
+        return wxOrderService.findOrderLog(orderId);
     }
 }

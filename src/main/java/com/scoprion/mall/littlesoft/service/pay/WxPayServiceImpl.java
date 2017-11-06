@@ -19,6 +19,7 @@ import com.scoprion.wxpay.AuthorizationCode;
 import com.scoprion.wxpay.WxPayConfig;
 import com.scoprion.wxpay.WxPayUtil;
 import com.scoprion.wxpay.WxUtil;
+import com.scoprion.wxpay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.wxpay.domain.UnifiedOrderResponseData;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,17 +75,15 @@ public class WxPayServiceImpl implements WxPayService {
         if (null == delivery) {
             return BaseResult.error("not_found_address", "收货地址出错");
         }
-        Order order = constructOrder(good, goodSnapshot.getId(), delivery, wxOrderRequestData);
+        //查询用户openid
+        String openid = findOpenID(wxCode);
+        Order order = constructOrder(good, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
         int orderResult = orderWxMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("pre_order_error", "下单出错");
         }
-        OrderLog orderLog = constructOrderLog(order, "生成预付款订单", ipAddress);
+        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress);
         orderLogWxMapper.add(orderLog);
-        //查询用户openid
-        String openid = findOpenID(wxCode);
-        //更新订单用户信息
-        orderWxMapper.updateUserIdForOrder(openid, order.getId());
         String xmlString = preOrderSend(good.getGoodName(), good.getDescription(), "妆口袋", openid, order.getOrderNo(),
                 ipAddress, wxOrderRequestData.getTotalFee().intValue());
         //生成预付款订单
@@ -132,7 +131,33 @@ public class WxPayServiceImpl implements WxPayService {
         resultMap.put("nonceStr", nonceStr);
         resultMap.put("package", "prepay_id=" + prepayId);
         resultMap.put("signType", "MD5");
+        resultMap.put("paySign", paySign);
         return BaseResult.success(JSON.toJSON(resultMap));
+    }
+
+    /**
+     * 支付成功回调
+     *
+     * @param unifiedOrderNotifyRequestData
+     * @return
+     */
+    @Override
+    public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData, String ipAddress) {
+        //修改订单状态
+        orderWxMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
+                unifiedOrderNotifyRequestData.getOut_trade_no());
+        //记录订单日志
+        OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款", ipAddress);
+        orderLogWxMapper.add(orderLog);
+        //库存扣减
+        Order order =orderWxMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
+        goodMapper.updateGoodStockById(order.getGoodId(),order.getCount());
+        //积分 扣减 新增
+        //优惠券扣减
+        //
+
+        //
+        return null;
     }
 
     /**
@@ -142,11 +167,13 @@ public class WxPayServiceImpl implements WxPayService {
      * @param goodSnapShotId     快照id
      * @param delivery           配送地址
      * @param wxOrderRequestData 下单参数
+     * @param userId
      * @return
      */
-    private Order constructOrder(Good good, Long goodSnapShotId, Delivery delivery, WxOrderRequestData wxOrderRequestData) {
+    private Order constructOrder(Good good, Long goodSnapShotId, Delivery delivery, WxOrderRequestData wxOrderRequestData, String userId) {
         Order order = new Order();
         String orderNo = OrderNoUtil.getOrderNo();
+        order.setUserId(userId);
         order.setOrderNo(orderNo);
         order.setGoodSnapShotId(goodSnapShotId);
         order.setPayType("");
@@ -158,6 +185,7 @@ public class WxPayServiceImpl implements WxPayService {
         order.setGoodFee(wxOrderRequestData.getGoodPrice());
         order.setCount(wxOrderRequestData.getCount());
         order.setMessage(wxOrderRequestData.getMessage());
+        order.setGoodId(good.getId());
         BeanUtils.copyProperties(delivery, order);
         return order;
     }
@@ -246,17 +274,16 @@ public class WxPayServiceImpl implements WxPayService {
     /**
      * 订单日志构造
      *
-     * @param order     订单
+     * @param orderNo   订单no
      * @param action    动作
      * @param ipAddress IP地址
      * @return
      */
-    private OrderLog constructOrderLog(Order order, String action, String ipAddress) {
+    private OrderLog constructOrderLog(String orderNo, String action, String ipAddress) {
         OrderLog orderLog = new OrderLog();
         orderLog.setAction(action);
-        orderLog.setOrderNo(order.getOrderNo());
+        orderLog.setOrderNo(orderNo);
         orderLog.setIpAddress(ipAddress);
-        orderLog.setOrderId(order.getId());
         return orderLog;
     }
 
