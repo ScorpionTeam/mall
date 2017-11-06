@@ -52,7 +52,7 @@
 
     <!--查询活动名称数量-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM  t_activity WHERE  name=#{name}
+        SELECT COUNT(*) FROM  t_activity WHERE  name=#{name} AND status='0'
     </select>
 
     <!--根据ID查询活动详情-->

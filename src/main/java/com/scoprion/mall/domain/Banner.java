@@ -7,6 +7,8 @@ import java.util.Date;
 
 /**
  * Created on 2017/9/29.
+ *
+ * @author adming
  */
 public class Banner {
 
@@ -39,6 +41,10 @@ public class Banner {
      * 状态
      */
     private String status;
+    /**
+     * 显示顺序，值越大越靠前
+     */
+    private int sort;
 
     /**
      * 创建时间
@@ -51,6 +57,14 @@ public class Banner {
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
 
     public Long getId() {
         return id;

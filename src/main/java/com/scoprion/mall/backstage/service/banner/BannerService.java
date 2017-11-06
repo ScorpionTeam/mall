@@ -23,7 +23,7 @@ public interface BannerService {
      * @param banner
      * @return
      */
-    BaseResult edit(Banner banner);
+    BaseResult modify(Banner banner);
 
     /**
      * 根据主键删除Banner
@@ -31,7 +31,7 @@ public interface BannerService {
      * @param id
      * @return
      */
-    BaseResult deleteByPrimaryKey(Long id);
+    BaseResult deleteById(Long id);
 
     /**
      * 分页查询Banner

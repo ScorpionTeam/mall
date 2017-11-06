@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created on 2017/9/29.
+ *
  * @author admin1
  */
 @Mapper
@@ -34,10 +35,10 @@ public interface BannerMapper {
      * 根据id 名称校验banner名称是否存在
      *
      * @param id
-     * @param name
+     * @param bannerName
      * @return
      */
-    int validByNameAndId(Long id, String name);
+    int validByNameAndId(@Param("id") Long id, @Param("bannerName") String bannerName);
 
     /**
      * 编辑banner
@@ -45,7 +46,7 @@ public interface BannerMapper {
      * @param banner
      * @return
      */
-    int edit(Banner banner);
+    int modify(Banner banner);
 
     /**
      * 根据主键删除banner
@@ -53,10 +54,11 @@ public interface BannerMapper {
      * @param id
      * @return
      */
-    int deleteByPrimaryKey(Long id);
+    int deleteById(@Param("id") Long id);
 
     /**
      * 分页查询Banner
+     *
      * @param bannerName
      * @return
      */
@@ -64,6 +66,7 @@ public interface BannerMapper {
 
     /**
      * 首页展示banner
+     *
      * @return
      */
     List<Banner> homeShow();

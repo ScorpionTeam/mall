@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * Created on 2017/9/29.
+ *
+ * @author adming
  */
 @Controller
-@RequestMapping("banner")
+@RequestMapping("backstage/banner")
 public class BannerController {
 
     @Autowired
@@ -42,8 +44,8 @@ public class BannerController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/init", method = RequestMethod.GET)
-    public PageResult init(int pageNo, int pageSize, String bannerName) {
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public PageResult list(int pageNo, int pageSize, String bannerName) {
         return bannerService.listByPage(pageNo, pageSize, bannerName);
     }
 
@@ -60,12 +62,13 @@ public class BannerController {
 
     /**
      * 编辑banner
+     *
      * @param banner
      * @return
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public BaseResult edit(Banner banner) {
-        return bannerService.edit(banner);
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public BaseResult modify(Banner banner) {
+        return bannerService.modify(banner);
     }
 
     /**
@@ -74,9 +77,9 @@ public class BannerController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/deleteByPrimaryKey", method = RequestMethod.POST)
-    public BaseResult deleteByPrimaryKey(Long id) {
-        return bannerService.deleteByPrimaryKey(id);
+    @RequestMapping(value = "/deleteById", method = RequestMethod.POST)
+    public BaseResult deleteById(Long id) {
+        return bannerService.deleteById(id);
     }
 
 }

@@ -10,17 +10,18 @@ import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Created on 2017/9/29.
- * @author admin1
+ *
+ * @author admin
  */
 @Service
 public class BannerServiceImpl implements BannerService {
 
-
     @Autowired
     private BannerMapper bannerMapper;
-
 
     /**
      * 创建banner
@@ -32,7 +33,7 @@ public class BannerServiceImpl implements BannerService {
     public BaseResult add(Banner banner) {
         int validName = bannerMapper.validByName(banner.getName());
         if (validName != 0) {
-            return BaseResult.error("add_fail", "名称不能重复");
+            return BaseResult.error("add_fail", "广告名称不能重复");
         }
         bannerMapper.add(banner);
         return BaseResult.success("创建成功");
@@ -45,13 +46,13 @@ public class BannerServiceImpl implements BannerService {
      * @return
      */
     @Override
-    public BaseResult edit(Banner banner) {
+    public BaseResult modify(Banner banner) {
         int validResult = bannerMapper.validByNameAndId(banner.getId(), banner.getName());
         if (validResult != 0) {
-            return BaseResult.error("edit_fail", "名称已存在");
+            return BaseResult.error("edit_fail", "广告名称已存在");
         }
-        bannerMapper.edit(banner);
-        return BaseResult.success("编辑成功");
+        bannerMapper.modify(banner);
+        return BaseResult.success("修改成功");
     }
 
     /**
@@ -61,9 +62,12 @@ public class BannerServiceImpl implements BannerService {
      * @return
      */
     @Override
-    public BaseResult deleteByPrimaryKey(Long id) {
-        bannerMapper.deleteByPrimaryKey(id);
-        return BaseResult.success("删除成功");
+    public BaseResult deleteById(Long id) {
+        int result = bannerMapper.deleteById(id);
+        if (result > 0) {
+            return BaseResult.success("删除成功");
+        }
+        return BaseResult.success("删除失败");
     }
 
     /**
@@ -78,6 +82,9 @@ public class BannerServiceImpl implements BannerService {
     public PageResult listByPage(int pageNo, int pageSize, String bannerName) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(bannerName)) {
+            bannerName = null;
+        }
+        if (!StringUtils.isEmpty(bannerName)) {
             bannerName = "%" + bannerName + "%";
         }
         Page<Banner> page = bannerMapper.listByPage(bannerName);
@@ -91,6 +98,7 @@ public class BannerServiceImpl implements BannerService {
      */
     @Override
     public BaseResult homeShow() {
-        return BaseResult.success(bannerMapper.homeShow());
+        List<Banner> result = bannerMapper.homeShow();
+        return BaseResult.success(result);
     }
 }

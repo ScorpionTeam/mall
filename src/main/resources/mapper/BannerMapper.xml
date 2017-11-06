@@ -1,7 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
-        <!DOCTYPE mapper
-                PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-                "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.BannerMapper">
+    <!--增加广告-->
+    <insert id="add">
+     INSERT INTO t_banner
+        (name,imgUrl,actionUrl,visitTotal,status,createDate)
+        VALUES
+        (#{name},#{imgUrl},#{actionUrl},#{visitTotal},#{status},now())
+     </insert>
+    <!--广告名称校验-->
+    <select id="validByName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_banner WHERE name =#{bannerName} AND status='0'
+    </select>
+
+    <!--广告id、名称校验-->
+    <select id="validByNameAndId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_banner WHERE name =#{bannerName} AND status='0' AND id=#{id}
+    </select>
+
+    <!--修改广告信息-->
+    <update id="modify" parameterType="com.scoprion.mall.domain.Banner">
+        UPDATE t_banner SET
+        <if test="name!=null">name=#{name},</if>
+        <if test="status!=null">status=#{status},</if>
+        <if test="imgUrl!=null">imgUrl=#{imgUrl},</if>
+        <if test="actionUrl!=null">actionUrl=#{actionUrl},</if>
+        <if test="sort!=null">sort=#{sort},</if>
+        <if test="createDate!=null">createDate=#{createDate},</if>
+        updateDate=now()
+        WHERE id=#{id}
+    </update>
+
+    <!--根据ID删除广告-->
+    <delete id="deleteById">
+        DELETE FROM t_banner WHERE id=#{id}
+    </delete>
+
+    <!--分页列表查询-->
+    <select id="listByPage" resultType="com.scoprion.mall.domain.Banner">
+        SELECT * FROM t_banner WHERE  name like bannerName
+    </select>
+
+    <!--首页轮播查询-->
+    <select id="homeShow" resultType="com.scoprion.mall.domain.Banner">
+            SELECT * FROM t_banner WHERE 1=1 ORDER BY  sort  DESC LIMIT 4
+    </select>
 
 </mapper>
