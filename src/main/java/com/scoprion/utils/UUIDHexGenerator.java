@@ -67,17 +67,5 @@ public class UUIDHexGenerator {
                 .append(format(getHiTime())).append(sep).append(format(getLoTime())).append(sep)
                 .append(format(getCount())).toString();
     }
-    /**
-     * @param args
-     */
-    public static void main(String[] args) {
-        String id="";
-        UUIDHexGenerator uuid = UUIDHexGenerator.getInstance();
-        /*
-        for (int i = 0; i < 100; i++) {
-            id = uuid.generate();
-        }*/
-        id = uuid.generate();
-        System.out.println(id);
-    }
+
 }

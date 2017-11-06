@@ -3,6 +3,9 @@ package com.scoprion.mall.littlesoft.controller;
 import com.alibaba.fastjson.JSON;
 import com.scoprion.mall.backstage.service.good.GoodService;
 import com.scoprion.mall.domain.OrderExt;
+import com.scoprion.mall.domain.WxOrderRequestData;
+import com.scoprion.mall.littlesoft.service.order.OrderWxService;
+import com.scoprion.mall.littlesoft.service.pay.WxPayService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.utils.IPUtil;
 import com.scoprion.utils.UUIDHexGenerator;
@@ -29,6 +32,8 @@ import java.util.Map;
 @RequestMapping("wx")
 public class WxPayController {
 
+    @Autowired
+    private WxPayService wxPayService;
 
     @Autowired
     private GoodService goodService;
@@ -118,6 +123,34 @@ public class WxPayController {
     }
 
     /**
+     * 生成预付款订单并付款
+     *
+     * @param order
+     * @param wxCode
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/jsapi/order/pre-order", method = RequestMethod.GET)
+    public BaseResult preOrder(String order, String wxCode, HttpServletRequest request) {
+        WxOrderRequestData wxOrderRequestData = JSON.parseObject(order, WxOrderRequestData.class);
+        String ipAddress = IPUtil.getIPAddress(request);
+        return wxPayService.preOrder(wxOrderRequestData, wxCode, ipAddress);
+    }
+
+
+    /**
+     * 去支付
+     *
+     * @param wxCode
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "/jsapi/order/pay", method = RequestMethod.GET)
+    public BaseResult pay(String wxCode, Long orderId) {
+        return null;
+    }
+
+    /**
      * 接收微信回调
      *
      * @param request
@@ -130,10 +163,5 @@ public class WxPayController {
         return null;
     }
 
-    @RequestMapping(value = "/jsapi/order/pre-order",method = RequestMethod.GET)
-    public BaseResult preOrder(@RequestBody OrderExt orderExt){
-
-        return null;
-    }
 
 }

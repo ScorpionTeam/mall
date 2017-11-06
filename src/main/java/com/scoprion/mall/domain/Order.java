@@ -20,7 +20,7 @@ public class Order {
     /**
      * 用户Id
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 订单编号
@@ -156,14 +156,6 @@ public class Order {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getOrderNo() {
@@ -348,6 +340,14 @@ public class Order {
 
     public void setWxOrderNo(String wxOrderNo) {
         this.wxOrderNo = wxOrderNo;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Override
