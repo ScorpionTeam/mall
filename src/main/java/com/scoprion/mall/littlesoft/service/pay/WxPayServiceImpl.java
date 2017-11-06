@@ -15,6 +15,7 @@ import com.scoprion.wxpay.AuthorizationCode;
 import com.scoprion.wxpay.WxPayConfig;
 import com.scoprion.wxpay.WxPayUtil;
 import com.scoprion.wxpay.WxUtil;
+import com.scoprion.wxpay.domain.UnifiedOrderResponseData;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,7 +72,10 @@ public class WxPayServiceImpl implements WxPayService {
         String xmlString = preOrderSend(good.getGoodName(), good.getDescription(), "妆口袋", openid, order.getOrderNo(),
                 ipAddress);
         //生成预付款订单
-        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL,"GET",xmlString);
+        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "GET", xmlString);
+        //将xml返回信息转换为bean
+        UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
+                wxOrderResponse);
 
         return null;
     }
