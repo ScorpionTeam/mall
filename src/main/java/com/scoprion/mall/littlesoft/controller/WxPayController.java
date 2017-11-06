@@ -1,6 +1,8 @@
 package com.scoprion.mall.littlesoft.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.scoprion.mall.backstage.service.good.GoodService;
+import com.scoprion.mall.domain.OrderExt;
 import com.scoprion.result.BaseResult;
 import com.scoprion.utils.IPUtil;
 import com.scoprion.utils.UUIDHexGenerator;
@@ -9,7 +11,8 @@ import com.scoprion.wxpay.WxPayConfig;
 import com.scoprion.wxpay.WxPayUtil;
 import com.scoprion.wxpay.WxUtil;
 import com.scoprion.wxpay.domain.UnifiedOrderResponseData;
-import org.apache.http.auth.AUTH;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,6 +29,9 @@ import java.util.Map;
 @RequestMapping("wx")
 public class WxPayController {
 
+
+    @Autowired
+    private GoodService goodService;
 
     /**
      * 根据code 获取用户openid
@@ -55,12 +61,15 @@ public class WxPayController {
      */
     @RequestMapping(value = "/jsapi/pre-order", method = RequestMethod.GET)
     public BaseResult preparaOrder(String code, String body, int total_fee, String detail, HttpServletRequest request) {
+
+        //获取openid
         String apiUrl = WxPayConfig.OPEN_ID_URL
                 + "appid=" + WxPayConfig.APPID
                 + "&secret=" + WxPayConfig.APPSECRET +
                 "&js_code=" + code
                 + "&grant_type=authorization_code";
         String response = WxUtil.httpsRequest(apiUrl, "GET", null);
+
         AuthorizationCode authorizationCode = JSON.parseObject(response, AuthorizationCode.class);
         Map<String, Object> map = new HashMap<>();
         String appid = WxPayConfig.APPID;
@@ -118,6 +127,12 @@ public class WxPayController {
     public BaseResult pay(HttpServletRequest request) {
 
         System.out.println("进入回调");
+        return null;
+    }
+
+    @RequestMapping(value = "/jsapi/order/pre-order",method = RequestMethod.GET)
+    public BaseResult preOrder(@RequestBody OrderExt orderExt){
+
         return null;
     }
 

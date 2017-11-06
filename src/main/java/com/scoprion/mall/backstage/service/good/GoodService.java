@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * Created on 2017/9/29.
+ *
  * @author adming
  */
 public interface GoodService {
@@ -51,7 +52,7 @@ public interface GoodService {
      * @param goodId
      * @return
      */
-    BaseResult goodInfo(Long goodId);
+    Good findByGoodId(Long goodId);
 
     /**
      * 根据id修改商品信息
@@ -87,5 +88,7 @@ public interface GoodService {
      * @return
      */
     BaseResult deleteGoodById(Long id);
+
+
 
 }

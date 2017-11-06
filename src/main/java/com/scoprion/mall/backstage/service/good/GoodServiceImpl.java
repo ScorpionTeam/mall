@@ -87,12 +87,12 @@ public class GoodServiceImpl implements GoodService {
      * @return
      */
     @Override
-    public BaseResult goodInfo(Long goodId) {
+    public Good findByGoodId(Long goodId) {
         Good good = goodMapper.findById(goodId);
         if (null == good) {
-            return BaseResult.notFound();
+            return null;
         }
-        return BaseResult.success(good);
+        return good;
     }
 
     /**
