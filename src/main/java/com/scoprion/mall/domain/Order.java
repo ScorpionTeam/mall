@@ -90,7 +90,7 @@ public class Order {
     /**
      * 支付时间
      */
-    private String payDate;
+    private Date payDate;
 
     /**
      * 发货时间
@@ -346,7 +346,7 @@ public class Order {
         this.userId = userId;
     }
 
-    public String getPayDate() {
+    public Date getPayDate() {
         return payDate;
     }
 
