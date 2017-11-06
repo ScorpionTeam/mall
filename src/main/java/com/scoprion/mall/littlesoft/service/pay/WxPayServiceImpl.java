@@ -8,13 +8,17 @@ import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.domain.Good;
 import com.scoprion.mall.domain.GoodSnapshot;
 import com.scoprion.mall.domain.Order;
+import com.scoprion.mall.domain.OrderLog;
 import com.scoprion.mall.domain.WxOrderRequestData;
+import com.scoprion.mall.littlesoft.mapper.OrderLogWxMapper;
+import com.scoprion.mall.littlesoft.mapper.OrderWxMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.utils.OrderNoUtil;
 import com.scoprion.wxpay.AuthorizationCode;
 import com.scoprion.wxpay.WxPayConfig;
 import com.scoprion.wxpay.WxPayUtil;
 import com.scoprion.wxpay.WxUtil;
+import com.scoprion.wxpay.domain.UnifiedOrderResponseData;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +40,10 @@ public class WxPayServiceImpl implements WxPayService {
     private DeliveryMapper deliveryMapper;
 
     @Autowired
-    private OrderMapper orderMapper;
+    private OrderWxMapper orderWxMapper;
+
+    @Autowired
+    private OrderLogWxMapper orderLogWxMapper;
 
     /**
      * 微信预下单
@@ -62,14 +69,22 @@ public class WxPayServiceImpl implements WxPayService {
             return BaseResult.error("not_found_address", "收货地址出错");
         }
         Order order = constructOrder(good, goodSnapshot.getId(), delivery, wxOrderNo);
-        int orderResult = orderMapper.add(order);
+        int orderResult = orderWxMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("pre_order_error", "下单出错");
         }
+        OrderLog orderLog = constructOrderLog(order, "生成预付款订单", ipAddress);
+        orderLogWxMapper.add(orderLog);
+
         //查询用户openid
         String openid = findOpenID(wxCode);
         String xmlString = preOrderSend(good.getGoodName(), good.getDescription(), "妆口袋", openid, order.getOrderNo(),
                 ipAddress);
+        //生成预付款订单
+        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "GET", xmlString);
+        //将xml返回信息转换为bean
+        UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
+                wxOrderResponse);
 
         return null;
     }
@@ -157,6 +172,23 @@ public class WxPayServiceImpl implements WxPayService {
         String response = WxUtil.httpsRequest(apiUrl, "GET", null);
         AuthorizationCode authorizationCode = JSON.parseObject(response, AuthorizationCode.class);
         return authorizationCode.getOpenid();
+    }
+
+    /**
+     * 订单日志构造
+     *
+     * @param order     订单
+     * @param action    动作
+     * @param ipAddress IP地址
+     * @return
+     */
+    private OrderLog constructOrderLog(Order order, String action, String ipAddress) {
+        OrderLog orderLog = new OrderLog();
+        orderLog.setAction(action);
+        orderLog.setOrderNo(order.getOrderNo());
+        orderLog.setIpAddress(ipAddress);
+        orderLog.setOrderId(order.getId());
+        return orderLog;
     }
 
 }

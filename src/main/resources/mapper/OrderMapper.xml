@@ -7,21 +7,50 @@
 
     <!--下单-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Order">
-        INSERT INTO t_order(orderNo,
-        goodSnapShotId,
+        INSERT INTO t_order(userId,
+        orderNo,
+        goodSnapshotId,
         deliveryId,
         orderStatus,
         orderType,
-        createDate,
-        updateDate)
-        VALUES (#{orderNo},
-        #{goodSnapShotId},
+        message,
+        goodFee,
+        ticketFee,
+        totalFee,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        postCode,
+        goodName,
+        count,
+        wxOrderNo,
+        createDate)
+        VALUES (#{userId},
+        #{orderNo},
+        #{goodSnapshotId},
         #{deliveryId},
         #{orderStatus},
         #{orderType},
-        NOW(),
+        #{message},
+        #{goodFee},
+        #{ticketFee},
+        #{totalFee},
+        #{recipients},
+        #{phone},
+        #{province},
+        #{city},
+        #{area},
+        #{address},
+        #{postCode},
+        #{goodName},
+        #{count},
+        #{wxOrderNo},
         NOW())
     </insert>
+
     <select id="mockList" resultType="com.scoprion.mall.domain.Order">
         SELECT * from t_order
     </select>
