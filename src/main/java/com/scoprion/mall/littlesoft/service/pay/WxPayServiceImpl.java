@@ -1,7 +1,6 @@
 package com.scoprion.mall.littlesoft.service.pay;
 
 import com.alibaba.fastjson.JSON;
-import com.scoprion.mall.backstage.mapper.DeliveryMapper;
 import com.scoprion.mall.backstage.mapper.GoodMapper;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.domain.Good;
@@ -25,6 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,13 +69,12 @@ public class WxPayServiceImpl implements WxPayService {
         }
         GoodSnapshot goodSnapshot = constructSnapshot(good);
         goodSnapShotWxMapper.add(goodSnapshot);
-        String wxOrderNo = "";
         //查询收货地址
         Delivery delivery = deliveryWxMapper.findById(wxOrderRequestData.getDeliveryId());
         if (null == delivery) {
             return BaseResult.error("not_found_address", "收货地址出错");
         }
-        Order order = constructOrder(good, goodSnapshot.getId(), delivery, wxOrderNo);
+        Order order = constructOrder(good, goodSnapshot.getId(), delivery, wxOrderRequestData);
         int orderResult = orderWxMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("pre_order_error", "下单出错");
@@ -86,9 +85,10 @@ public class WxPayServiceImpl implements WxPayService {
         //查询用户openid
         String openid = findOpenID(wxCode);
         String xmlString = preOrderSend(good.getGoodName(), good.getDescription(), "妆口袋", openid, order.getOrderNo(),
-                ipAddress);
+                ipAddress, wxOrderRequestData.getTotalFee().intValue());
         //生成预付款订单
         String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "GET", xmlString);
+        System.out.println(wxOrderResponse);
         //将xml返回信息转换为bean
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
@@ -108,13 +108,13 @@ public class WxPayServiceImpl implements WxPayService {
     /**
      * 构造订单
      *
-     * @param good           商品
-     * @param goodSnapShotId 快照id
-     * @param delivery       配送地址
-     * @param wxOrderNo      微信订单号
+     * @param good               商品
+     * @param goodSnapShotId     快照id
+     * @param delivery           配送地址
+     * @param wxOrderRequestData 下单参数
      * @return
      */
-    private Order constructOrder(Good good, Long goodSnapShotId, Delivery delivery, String wxOrderNo) {
+    private Order constructOrder(Good good, Long goodSnapShotId, Delivery delivery, WxOrderRequestData wxOrderRequestData) {
         Order order = new Order();
         String orderNo = OrderNoUtil.getOrderNo();
         order.setOrderNo(orderNo);
@@ -122,8 +122,12 @@ public class WxPayServiceImpl implements WxPayService {
         order.setPayType("");
         order.setOrderType("2");
         order.setOrderStatus("1");
+        order.setGoodName(good.getGoodName());
         order.setDeliveryId(delivery.getId());
-        order.setWxOrderNo(wxOrderNo);
+        order.setTotalFee(wxOrderRequestData.getTotalFee());
+        order.setGoodFee(wxOrderRequestData.getGoodPrice());
+        order.setCount(wxOrderRequestData.getCount());
+        order.setMessage(wxOrderRequestData.getMessage());
         BeanUtils.copyProperties(delivery, order);
         return order;
     }
@@ -151,7 +155,7 @@ public class WxPayServiceImpl implements WxPayService {
      * @param ipAddress  ip地址
      * @return
      */
-    private String preOrderSend(String body, String detail, String attach, String openid, String outTradeNo, String ipAddress) {
+    private String preOrderSend(String body, String detail, String attach, String openid, String outTradeNo, String ipAddress, int totalFee) {
 
         Map<String, Object> map = new HashMap<>(16);
         map.put("appid", WxPayConfig.APPID);
@@ -163,6 +167,7 @@ public class WxPayServiceImpl implements WxPayService {
         map.put("detail", detail);
         map.put("attach", attach);
         map.put("out_trade_no", outTradeNo);
+        map.put("total_fee",totalFee);
         map.put("spbill_create_ip", ipAddress);
         map.put("notify_url", WxPayConfig.NOTIFY_URL);
         map.put("trade_type", "JSAPI");
