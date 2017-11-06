@@ -3,13 +3,14 @@ package com.scoprion.mall.littlesoft.service.pay;
 import com.alibaba.fastjson.JSON;
 import com.scoprion.mall.backstage.mapper.DeliveryMapper;
 import com.scoprion.mall.backstage.mapper.GoodMapper;
-import com.scoprion.mall.backstage.mapper.OrderMapper;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.domain.Good;
 import com.scoprion.mall.domain.GoodSnapshot;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.domain.OrderLog;
 import com.scoprion.mall.domain.WxOrderRequestData;
+import com.scoprion.mall.littlesoft.mapper.DeliveryWxMapper;
+import com.scoprion.mall.littlesoft.mapper.GoodSnapShotWxMapper;
 import com.scoprion.mall.littlesoft.mapper.OrderLogWxMapper;
 import com.scoprion.mall.littlesoft.mapper.OrderWxMapper;
 import com.scoprion.result.BaseResult;
@@ -22,6 +23,7 @@ import com.scoprion.wxpay.domain.UnifiedOrderResponseData;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,13 +39,16 @@ public class WxPayServiceImpl implements WxPayService {
     private GoodMapper goodMapper;
 
     @Autowired
-    private DeliveryMapper deliveryMapper;
+    private DeliveryWxMapper deliveryWxMapper;
 
     @Autowired
     private OrderWxMapper orderWxMapper;
 
     @Autowired
     private OrderLogWxMapper orderLogWxMapper;
+
+    @Autowired
+    private GoodSnapShotWxMapper goodSnapShotWxMapper;
 
     /**
      * 微信预下单
@@ -53,6 +58,7 @@ public class WxPayServiceImpl implements WxPayService {
      * @param ipAddress
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
 
@@ -62,9 +68,10 @@ public class WxPayServiceImpl implements WxPayService {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
         GoodSnapshot goodSnapshot = constructSnapshot(good);
+        goodSnapShotWxMapper.add(goodSnapshot);
         String wxOrderNo = "";
         //查询收货地址
-        Delivery delivery = deliveryMapper.findById(wxOrderRequestData.getDeliveryId());
+        Delivery delivery = deliveryWxMapper.findById(wxOrderRequestData.getDeliveryId());
         if (null == delivery) {
             return BaseResult.error("not_found_address", "收货地址出错");
         }
@@ -85,8 +92,17 @@ public class WxPayServiceImpl implements WxPayService {
         //将xml返回信息转换为bean
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
-
-        return null;
+        //修改订单预付款订单号
+        orderWxMapper.updateOrderForWxOrderNo(order.getId(), unifiedOrderResponseData.getPrepay_id());
+        //时间戳
+        Long timeStamp = System.currentTimeMillis() / 1000;
+        //随机字符串
+        String nonceStr = WxUtil.createRandom(false, 10);
+        String paySign = paySign(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
+        unifiedOrderResponseData.setPaySign(paySign);
+        unifiedOrderResponseData.setNonce_str(nonceStr);
+        unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
+        return BaseResult.success(unifiedOrderResponseData);
     }
 
     /**
@@ -154,6 +170,24 @@ public class WxPayServiceImpl implements WxPayService {
         String sign = WxUtil.MD5(signTemp).toUpperCase();
         map.put("sign", sign);
         return WxPayUtil.MapConvertToXML(map);
+    }
+
+    /**
+     * 调起支付  签名
+     *
+     * @param timeStamp
+     * @param nonceStr
+     * @param prepayId
+     * @return
+     */
+    private String paySign(Long timeStamp, String nonceStr, String prepayId) {
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("appId", WxPayConfig.APPID);
+        map.put("nonceStr", nonceStr);
+        map.put("package", "prepay_id=" + prepayId);
+        map.put("signType", "MD5");
+        map.put("timeStamp", timeStamp);
+        return WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
     }
 
     /**

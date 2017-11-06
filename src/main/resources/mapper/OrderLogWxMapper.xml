@@ -3,19 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.littlesoft.mapper.OrderLogWxMapper">
-    <insert id="add" parameterType="com.scoprion.mall.domain.OrderExt">
-        INSERT INTO t_wx_mall_order_log(goodNo,
-        sellerNo,
-        type,
-        ipAddress,
-        createDate,
-        description)
-        VALUES (#{goodNo},
-        #{sellerNo},
-        #{type},
-        #{ipAddress},
-        NOW(),
-        #{description}
-        )
+
+    <!--订单日志-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.OrderLog">
+        INSERT INTO t_order_log(orderNo,action,ipAddress,createDate,orderId)
+        VALUES (#{orderNo},#{action},#{ipAddress},NOW(),#{orderId})
     </insert>
 </mapper>

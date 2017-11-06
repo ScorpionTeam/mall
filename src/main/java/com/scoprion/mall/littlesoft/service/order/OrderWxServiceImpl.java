@@ -93,8 +93,8 @@ public class OrderWxServiceImpl implements OrderWxService {
         Order order = this.constructOrder(goodSnapshot, deliveryId);
         orderWxMapper.add(order);
         //组装订单快照日志
-        MallLog orderLog = this.constructLog(ipAdress, goodSnapshot.getGoodSnapShotNo(), null, "2", "生成订单");
-        orderLogWxMapper.add(orderLog);
+//        MallLog orderLog = this.constructLog(ipAdress, goodSnapshot.getGoodSnapShotNo(), null, "2", "生成订单");
+//        orderLogWxMapper.add(orderLog);
         //扣减库存
         goodWxMapper.goodDeduct(goodId, purchase);
         //扣减日志

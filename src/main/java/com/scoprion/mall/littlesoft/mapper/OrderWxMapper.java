@@ -19,7 +19,7 @@ public interface OrderWxMapper {
      * @param status
      * @return
      */
-    Page<Order> getOrderList(@Param("userId") Long userId,@Param("status") String status);
+    Page<Order> getOrderList(@Param("userId") Long userId, @Param("status") String status);
 
     /**
      * 新增订单
@@ -27,6 +27,16 @@ public interface OrderWxMapper {
      * @param order
      * @return
      */
-    Integer add(Order order);
+    int add(Order order);
+
+    /**
+     * 修改订单微信返回的预付款订单号
+     *
+     * @param orderId
+     * @param wxOrderNo
+     * @return
+     */
+    int updateOrderForWxOrderNo(@Param("orderId") Long orderId, @Param("wxOrderNo") String wxOrderNo);
+
 
 }

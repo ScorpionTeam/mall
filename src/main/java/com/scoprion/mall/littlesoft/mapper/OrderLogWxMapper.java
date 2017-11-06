@@ -1,6 +1,5 @@
 package com.scoprion.mall.littlesoft.mapper;
 
-import com.scoprion.mall.domain.MallLog;
 import com.scoprion.mall.domain.OrderLog;
 import org.apache.ibatis.annotations.Mapper;
 
