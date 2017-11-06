@@ -92,4 +92,30 @@ public interface GoodMapper {
      * @return
      */
     int deleteGoodById(@Param("id") Long id);
+
+
+    /**
+     * 修改图片对应的商品ID
+     *
+     * @param url
+     * @param goodId
+     * @return
+     */
+    int updateImageWithGoodId(@Param("url") String url, @Param("goodId") Long goodId);
+
+    /**
+     * 根据商品ID查找图片列表
+     *
+     * @param goodId
+     * @return
+     */
+    List<String> findImgUrlByGoodId(@Param("goodId") Long goodId);
+
+    /**
+     * 根据商品id删除图片
+     *
+     * @param goodId
+     * @return
+     */
+    int deleteImageByGoodId(@Param("goodId") Long goodId);
 }

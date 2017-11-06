@@ -63,9 +63,14 @@ public class GoodServiceImpl implements GoodService {
     public BaseResult add(Good good) {
         int result = goodMapper.add(good);
         if (result > 0) {
+            //更新图片信息
+            List<String> imgList = good.getImgUrlList();
+            for (String url : imgList) {
+                goodMapper.updateImageWithGoodId(url, good.getId());
+            }
             return BaseResult.success("创建商品成功");
         }
-        return BaseResult.error("mock_fail", "创建商品失败....");
+        return BaseResult.error("mock_fail", "创建商品失败");
     }
 
     /**
@@ -92,8 +97,11 @@ public class GoodServiceImpl implements GoodService {
     public BaseResult findByGoodId(Long goodId) {
         Good good = goodMapper.findById(goodId);
         if (null == good) {
-            BaseResult.notFound();
+            return BaseResult.notFound();
         }
+        //获取图片列表
+        List<String> imgList = goodMapper.findImgUrlByGoodId(good.getId());
+        good.setImgUrlList(imgList);
         return BaseResult.success(good);
     }
 
@@ -111,6 +119,15 @@ public class GoodServiceImpl implements GoodService {
         int result = goodMapper.updateGood(good);
         if (result > 0) {
             return BaseResult.success("更新成功");
+        }
+        List<String> imgList = good.getImgUrlList();
+        if (imgList != null && imgList.size() > 0) {
+            //清空原来的图片
+            goodMapper.deleteImageByGoodId(good.getId());
+            //插入图片
+            for (String url : imgList) {
+                goodMapper.updateImageWithGoodId(url, good.getId());
+            }
         }
         return BaseResult.success("更新失败");
     }

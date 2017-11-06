@@ -5,6 +5,9 @@
 <mapper namespace="com.scoprion.mall.backstage.mapper.GoodMapper">
 
     <insert id="add" parameterType="com.scoprion.mall.domain.Good">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO t_good(categoryId,
         goodName,
         description,
@@ -142,6 +145,20 @@
 
     <!--根据商品id删除商品-->
     <delete id="deleteGoodById">
-        DELETE FROM  t_good WHERE  id=#{id}
+        DELETE FROM t_good WHERE id=#{id}
+    </delete>
+
+    <!--插入图片地址，跟商品ID绑定-->
+    <insert id="updateImageWithGoodId">
+        INSERT INTO t_good_image(goodId,createDate,imgUrl) VALUES(#{goodId},now(),#{url})
+    </insert>
+
+    <!--根据商品ID查找图片列表-->
+    <select id="findImgUrlByGoodId" resultType="java.lang.String">
+        SELECT imgUrl FROM t_good_image WHERE goodId=#{goodId}
+    </select>
+    <!--根据商品id删除图片-->
+    <delete id="deleteImageByGoodId">
+        DELETE FROM t_good_image WHERE goodId=#{goodId}
     </delete>
 </mapper>

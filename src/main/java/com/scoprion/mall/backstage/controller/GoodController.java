@@ -1,5 +1,8 @@
 package com.scoprion.mall.backstage.controller;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.annotation.JSONField;
 import com.scoprion.mall.domain.Good;
 import com.scoprion.mall.backstage.service.good.GoodService;
 import com.scoprion.result.BaseResult;
@@ -8,12 +11,11 @@ import com.scoprion.utils.IDWorker;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created on 2017/9/29.
@@ -31,12 +33,19 @@ public class GoodController {
     /**
      * 创建商品
      *
-     * @param good
+     * @param object
      * @return
      */
     @ApiOperation(value = "创建商品")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public BaseResult add(Good good) {
+    public BaseResult add(@RequestBody JSONObject object) {
+        Good good = object.getObject("good", Good.class);
+        JSONArray jsonArray = object.getJSONArray("imageList");
+        List<String> imgList = new ArrayList<>();
+        for (Object obj : jsonArray) {
+            imgList.add((String) obj);
+        }
+        good.setImgUrlList(imgList);
         return goodService.add(good);
     }
 

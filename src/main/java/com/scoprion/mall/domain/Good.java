@@ -4,73 +4,126 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created on 2017/9/28.
  */
 public class Good {
 
-    //主键
+    /**
+     * 主键
+     */
     private Long id;
 
-    //商品编码
+    /**
+     * 商品编码
+     */
     private String goodNo;
 
-    //类目id
+    /**
+     * 类目id
+     */
     private Long categoryId;
 
-    //商品名称
+    /**
+     * 商品名称
+     */
     private String goodName;
 
-    //商品描述
+    /**
+     * 商品描述
+     */
     private String description;
 
-    //促销价格
+    /**
+     * 促销价格
+     */
     private BigDecimal promotion;
 
-    //价格
+    /**
+     * 价格
+     */
     private BigDecimal price;
 
-    //销量
+    /**
+     * 销量
+     */
     private int saleVolume;
 
-    //折扣
+    /**
+     * 折扣
+     */
     private int discount;
 
-    //库存
+    /**
+     * 库存
+     */
     private int stock;
 
-    //上下架  1上架  0下架    默认上架
+    /**
+     * 上下架  1上架  0下架    默认上架
+     */
     private String isOnSale;
 
-    //热销   1是   0否
+    /**
+     * 热销   1是   0否
+     */
     private String isHot;
 
-    //新品  1是  0否
+    /**
+     * 新品  1是  0否
+     */
     private String isNew;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
-    //最后更新时间
+    /**
+     * 最后更新时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date lastUpdateDate;
 
-    //是否包邮  1是  0否
+    /**
+     * 是否包邮  1是  0否
+     */
     private String isFreight;
 
-    //所属品牌
+    /**
+     * 所属品牌
+     */
     private Long brandId;
 
-    //商户ID
+    /**
+     * 商户ID
+     */
     private Long sellerId;
 
-    //浏览量
+    /**
+     * 浏览量
+     */
     private int visitTotal;
 
-    //主图地址
+    /**
+     * 主图地址
+     */
     private String mainImgUrl;
+    /**
+     * 图片地址暂定最多4-5张
+     */
+    private List<String> imgUrlList;
+
+    public List<String> getImgUrlList() {
+        return imgUrlList;
+    }
+
+    public void setImgUrlList(List<String> imgUrlList) {
+        this.imgUrlList = imgUrlList;
+    }
 
     public Long getId() {
         return id;
