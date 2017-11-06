@@ -19,7 +19,7 @@ public interface UserMapper {
      * @param password
      * @return
      */
-    Member loginByMobile(String mobile, String password);
+    Member login(@Param("mobile") String mobile, @Param("password") String password);
 
     /**
      * 根据email登录
@@ -37,7 +37,7 @@ public interface UserMapper {
      * @param mobile
      * @return
      */
-    int findByMobile(String mobile);
+    int findByMobile(@Param("mobile") String mobile);
 
     /**
      * 根据email查询是否存在
@@ -45,7 +45,7 @@ public interface UserMapper {
      * @param email
      * @return
      */
-    int findByEmail(String email);
+    int findByEmail(@Param("email") String email);
 
     /**
      * 根据昵称查询是否存在
@@ -53,12 +53,13 @@ public interface UserMapper {
      * @param nickName
      * @return
      */
-    int findByNickName(String nickName);
+    int findByNickName(@Param("nickName")String nickName);
 
     /**
      * 更新用户登录IP地址
      *
      * @param id
+     * @param ip
      * @return
      */
     int updateLoginIpAddress(@Param("id") Long id, @Param("ip") String ip);
@@ -72,12 +73,16 @@ public interface UserMapper {
     int register(Member member);
 
     /**
-     * @param startDate
-     * @param endDate
-     * @param sex
-     * @return
+     * 查询用户列表
+     *
+     * @param startDate 开始时间
+     * @param endDate   结束时间
+     * @param searchKey 匹配条件
+     * @return Page
      */
-    Page<Member> findByPage(@Param("startDate") String startDate, @Param("endDate") String endDate, @Param("sex") String sex);
+    Page<Member> findByPage(@Param("startDate") String startDate,
+                            @Param("endDate") String endDate,
+                            @Param("searchKey") String searchKey);
 
     /**
      * 修改个人信息
@@ -85,5 +90,5 @@ public interface UserMapper {
      * @param member
      * @return
      */
-    int editProfile(Member member);
+    int modifyUserInfo(Member member);
 }

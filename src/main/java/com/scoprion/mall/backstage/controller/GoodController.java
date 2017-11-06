@@ -43,7 +43,7 @@ public class GoodController {
     /**
      * 根据商品id删除商品
      *
-     * @param id
+     * @param id 商品id
      * @return
      */
     @ApiOperation(value = "删除商品")
@@ -60,8 +60,8 @@ public class GoodController {
      */
     @ApiOperation(value = "根据商品id查询商品")
     @RequestMapping(value = "/goodInfo", method = RequestMethod.GET)
-    public BaseResult goodInfo(Long id) {
-        return null;
+    public BaseResult findByGoodId(Long id) {
+        return goodService.findByGoodId(id);
     }
 
     /**
@@ -73,7 +73,7 @@ public class GoodController {
      * @return
      */
     @ApiOperation(value = "查询商品")
-    @RequestMapping(value = "/findByCondition", method = RequestMethod.POST)
+    @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(int pageNo, int pageSize, String searchKey) {
         return goodService.findByCondition(pageNo, pageSize, searchKey);
     }
@@ -86,8 +86,8 @@ public class GoodController {
      */
     @ApiOperation(value = "修改商品")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public BaseResult update(Good good) {
-        return goodService.update(good);
+    public BaseResult updateGood(Good good) {
+        return goodService.updateGood(good);
     }
 
 
@@ -95,13 +95,26 @@ public class GoodController {
      * 商品上下架
      *
      * @param saleStatus 1上架 0下架 默认上架
-     * @param goodId     商品id
+     * @param id         商品id
      * @return
      */
     @ApiOperation(value = "商品上下架")
     @RequestMapping(value = "/modifySaleStatus", method = RequestMethod.GET)
-    public BaseResult modifySaleStatus(String saleStatus, Long goodId) {
-        return goodService.modifySaleStatus(saleStatus, goodId);
+    public BaseResult modifySaleStatus(String saleStatus, Long id) {
+        return goodService.modifySaleStatus(saleStatus, id);
+    }
+
+    /**
+     * 商品库存修改
+     *
+     * @param count 数量  小于0 扣减，大于0 增加库存
+     * @param id    商品id，主键
+     * @return
+     */
+    @ApiOperation(value = "商品库存修改")
+    @RequestMapping(value = "/modifyGoodDeduction", method = RequestMethod.GET)
+    public BaseResult modifyGoodDeduction(Long id, Integer count) {
+        return goodService.modifyGoodDeduction(id, count);
     }
 
     /**

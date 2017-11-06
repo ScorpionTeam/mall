@@ -36,4 +36,12 @@ public interface DeliveryMapper {
      */
     int edit(Delivery delivery);
 
+    /**
+     * 根据id查询收货地址
+     *
+     * @param id
+     * @return
+     */
+    Delivery findById(Long id);
+
 }

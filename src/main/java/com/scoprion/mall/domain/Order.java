@@ -100,14 +100,14 @@ public class Order {
     private Date deliveryDate;
 
     /**
-     * 收货人姓名
+     * 收件人
      */
-    private String deliveryUserName;
+    private String recipients;
 
     /**
-     * 收货人电话
+     * 收件人电话
      */
-    private String deliveryUserPhone;
+    private String phone;
 
     /**
      * 省
@@ -133,6 +133,21 @@ public class Order {
      * 邮政编码
      */
     private String postCode;
+
+    /**
+     * 商品名称
+     */
+    private String goodName;
+
+    /**
+     * 数量
+     */
+    private int count;
+
+    /**
+     * 微信订单号
+     */
+    private String wxOrderNo;
 
 
     public Long getId() {
@@ -255,20 +270,20 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
-    public String getDeliveryUserName() {
-        return deliveryUserName;
+    public String getRecipients() {
+        return recipients;
     }
 
-    public void setDeliveryUserName(String deliveryUserName) {
-        this.deliveryUserName = deliveryUserName;
+    public void setRecipients(String recipients) {
+        this.recipients = recipients;
     }
 
-    public String getDeliveryUserPhone() {
-        return deliveryUserPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setDeliveryUserPhone(String deliveryUserPhone) {
-        this.deliveryUserPhone = deliveryUserPhone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getProvince() {
@@ -311,6 +326,30 @@ public class Order {
         this.postCode = postCode;
     }
 
+    public String getGoodName() {
+        return goodName;
+    }
+
+    public void setGoodName(String goodName) {
+        this.goodName = goodName;
+    }
+
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
+    public String getWxOrderNo() {
+        return wxOrderNo;
+    }
+
+    public void setWxOrderNo(String wxOrderNo) {
+        this.wxOrderNo = wxOrderNo;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -329,13 +368,16 @@ public class Order {
                 ", createDate=" + createDate +
                 ", payDate=" + payDate +
                 ", deliveryDate=" + deliveryDate +
-                ", deliveryUserName='" + deliveryUserName + '\'' +
-                ", deliveryUserPhone='" + deliveryUserPhone + '\'' +
+                ", recipients='" + recipients + '\'' +
+                ", phone='" + phone + '\'' +
                 ", province='" + province + '\'' +
                 ", city='" + city + '\'' +
                 ", area='" + area + '\'' +
                 ", address='" + address + '\'' +
                 ", postCode='" + postCode + '\'' +
+                ", goodName='" + goodName + '\'' +
+                ", count=" + count +
+                ", wxOrderNo='" + wxOrderNo + '\'' +
                 '}';
     }
 }

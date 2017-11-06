@@ -5,7 +5,7 @@
 <mapper namespace="com.scoprion.mall.backstage.mapper.UserMapper">
 
     <!--根据手机号登录-->
-    <select id="loginByMobile" resultType="com.scoprion.mall.domain.Member">
+    <select id="login" resultType="com.scoprion.mall.domain.Member">
         SELECT id,name,
         headPic,
         nickName,
@@ -25,6 +25,7 @@
         loginIp
         FROM t_user WHERE status='1' AND mobile=#{mobile} AND password=#{password}
     </select>
+
     <!--根据email登录-->
     <select id="loginByEmail" resultType="com.scoprion.mall.domain.Member">
         SELECT id,name,
@@ -46,14 +47,17 @@
         loginIp
         FROM t_user WHERE status='1' AND email=#{email} AND password=#{password}
     </select>
+
     <!--根据手机号查询用户-->
     <select id="findByMobile" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_user WHERE status='1' AND mobile=#{mobile}
     </select>
+
     <!--根据email查询用户-->
     <select id="findByEmail" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_user WHERE status='1' AND email=#{email}
     </select>
+
     <!--根据昵称查询用户-->
     <select id="findByNickName" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_user WHERE status='1' AND nickName=#{nickName}
@@ -61,7 +65,8 @@
 
     <!--用户注册-->
     <insert id="register" parameterType="com.scoprion.mall.domain.Member">
-        INSERT INTO t_user(name,
+        INSERT INTO t_user(
+        name,
         headPic,
         nickName,
         sex,
@@ -79,7 +84,8 @@
         lastLoginDate,
         loginIp,
         password)
-        VALUES(#{name},
+        VALUES(
+        #{name},
         #{headPic},
         #{nickName},
         #{sex},
@@ -95,8 +101,8 @@
         NOW(),
         NOW(),
         NOW(),
-        loginIp,
-        password)
+        #{loginIp},
+        #{password})
     </insert>
 
     <select id="findByPage" resultType="com.scoprion.mall.domain.Member">
@@ -119,10 +125,22 @@
         lastLoginDate,
         loginIp,
         userType
-        FROM t_user
+        FROM t_user WHERE 1=1
+        <if test="searchKey!=null">
+            AND CONCAT(name,nickName,mobile)LIKE #{searchKey}
+        </if>
+        <if test="startDate!=null and endDate!=null">
+            AND createDate BETWEEN #{startDate} AND #{endDate}
+        </if>
+        <if test="startDate!=null and endDate==null">
+            AND createDate BETWEEN #{startDate} AND NOW()
+        </if>
+        <if test="endDate!=null and startDate==null">
+            AND createDate BETWEEN '1970-01-01' AND #{endDate}
+        </if>
     </select>
 
-    <update id="editProfile" parameterType="com.scoprion.mall.domain.Member">
+    <update id="modifyUserInfo" parameterType="com.scoprion.mall.domain.Member">
         UPDATE t_user SET
         <if test="name!=null">name=#{name},</if>
         <if test="headPic!=null">headPic=#{headPic},</if>
@@ -143,5 +161,11 @@
         <if test="userType!=null">userType=#{userType},</if>
         updateDate=NOW()
         WHERE id=#{id}
+    </update>
+
+    <update id="updateLoginIpAddress">
+      UPDATE  t_user
+      SET loginIp=#{ip}
+      WHERE  id=#{id}
     </update>
 </mapper>

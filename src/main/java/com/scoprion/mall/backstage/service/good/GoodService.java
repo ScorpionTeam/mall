@@ -52,7 +52,7 @@ public interface GoodService {
      * @param goodId
      * @return
      */
-    Good findByGoodId(Long goodId);
+    BaseResult findByGoodId(Long goodId);
 
     /**
      * 根据id修改商品信息
@@ -60,7 +60,7 @@ public interface GoodService {
      * @param good
      * @return
      */
-    BaseResult update(Good good);
+    BaseResult updateGood(Good good);
 
     /**
      * 根据条件差查询商品列表
@@ -89,6 +89,13 @@ public interface GoodService {
      */
     BaseResult deleteGoodById(Long id);
 
-
+    /**
+     * 商品库存减扣
+     *
+     * @param id    商品id--主键
+     * @param count 扣减、增加数量
+     * @return BaseResult
+     */
+    BaseResult modifyGoodDeduction(Long id, Integer count);
 
 }

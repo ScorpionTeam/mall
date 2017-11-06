@@ -3,26 +3,28 @@ package com.scoprion.mall.backstage.service.good;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.Good;
 import com.scoprion.mall.backstage.mapper.GoodMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.DOMStringList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created on 2017/9/29.
+ * 运营后台商品控制器
  *
  * @author adming
  */
 @Service
 public class GoodServiceImpl implements GoodService {
 
-    private static final String ONSALE = "1";
-    private static final String SALE_STATUS = "01";
     @Autowired
     private GoodMapper goodMapper;
 
@@ -61,9 +63,9 @@ public class GoodServiceImpl implements GoodService {
     public BaseResult add(Good good) {
         int result = goodMapper.add(good);
         if (result > 0) {
-            return BaseResult.success("创建模拟商品成功....");
+            return BaseResult.success("创建商品成功");
         }
-        return BaseResult.error("mock_fail", "创建模拟商品失败....");
+        return BaseResult.error("mock_fail", "创建商品失败....");
     }
 
     /**
@@ -87,12 +89,12 @@ public class GoodServiceImpl implements GoodService {
      * @return
      */
     @Override
-    public Good findByGoodId(Long goodId) {
+    public BaseResult findByGoodId(Long goodId) {
         Good good = goodMapper.findById(goodId);
         if (null == good) {
-            return null;
+            BaseResult.notFound();
         }
-        return good;
+        return BaseResult.success(good);
     }
 
     /**
@@ -102,7 +104,10 @@ public class GoodServiceImpl implements GoodService {
      * @return
      */
     @Override
-    public BaseResult update(Good good) {
+    public BaseResult updateGood(Good good) {
+        if (good.getId() == null) {
+            return BaseResult.parameterError();
+        }
         int result = goodMapper.updateGood(good);
         if (result > 0) {
             return BaseResult.success("更新成功");
@@ -125,6 +130,9 @@ public class GoodServiceImpl implements GoodService {
             searchKey = "%" + searchKey + "%";
         }
         Page<Good> page = goodMapper.findByCondition(searchKey);
+        if (page == null) {
+            return new PageResult(new ArrayList<Good>());
+        }
         return new PageResult(page);
     }
 
@@ -140,14 +148,14 @@ public class GoodServiceImpl implements GoodService {
         if (StringUtils.isEmpty(saleStatus) || null == goodId) {
             return BaseResult.parameterError();
         }
-        if (!SALE_STATUS.contains(saleStatus)) {
+        if (!Constant.SALE_STATUS.contains(saleStatus)) {
             return BaseResult.error("parameterError", "上下架状态不正确");
         }
         int result = goodMapper.modifySaleStatus(saleStatus, goodId);
         if (result > 0) {
-            return BaseResult.success(ONSALE.equals(saleStatus) ? "商品上架成功" : "商品下架成功");
+            return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品上架成功" : "商品下架成功");
         }
-        return BaseResult.error("006", ONSALE.equals(saleStatus) ? "商品上架失败" : "商品下架失败");
+        return BaseResult.error("006", Constant.ON_SALE.equals(saleStatus) ? "商品上架失败" : "商品下架失败");
     }
 
     /**
@@ -163,5 +171,14 @@ public class GoodServiceImpl implements GoodService {
             return BaseResult.success("删除商品成功");
         }
         return BaseResult.error("sysError", "删除商品失败");
+    }
+
+    @Override
+    public BaseResult modifyGoodDeduction(Long id, Integer count) {
+        int result = goodMapper.modifyGoodDeduction(id, count);
+        if (result > 0) {
+            return BaseResult.success("修改成功");
+        }
+        return BaseResult.error("modify-error", "修改失败");
     }
 }

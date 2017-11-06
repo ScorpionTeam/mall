@@ -14,7 +14,9 @@ public interface WxPayService {
      * 微信预下单
      *
      * @param wxOrderRequestData
+     * @param wxCode
+     * @param ipAddress
      * @return
      */
-    BaseResult preOrder(WxOrderRequestData wxOrderRequestData);
+    BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress);
 }
