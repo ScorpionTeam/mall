@@ -144,6 +144,11 @@ public class Order {
      */
     private int count;
 
+    /**
+     * 微信订单号
+     */
+    private String wxOrderNo;
+
 
     public Long getId() {
         return id;
@@ -337,6 +342,14 @@ public class Order {
         this.count = count;
     }
 
+    public String getWxOrderNo() {
+        return wxOrderNo;
+    }
+
+    public void setWxOrderNo(String wxOrderNo) {
+        this.wxOrderNo = wxOrderNo;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -364,6 +377,7 @@ public class Order {
                 ", postCode='" + postCode + '\'' +
                 ", goodName='" + goodName + '\'' +
                 ", count=" + count +
+                ", wxOrderNo='" + wxOrderNo + '\'' +
                 '}';
     }
 }
