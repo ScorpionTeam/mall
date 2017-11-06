@@ -19,4 +19,13 @@ public interface WxPayService {
      * @return
      */
     BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress);
+
+    /**
+     * 调起支付
+     *
+     * @param wxCode
+     * @param orderId
+     * @return
+     */
+    BaseResult pay(String wxCode, Long orderId);
 }

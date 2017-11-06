@@ -47,5 +47,14 @@ public interface OrderWxMapper {
      */
     int updateUserIdForOrder(@Param("userId") String userId, @Param("orderId") Long orderId);
 
+    /**
+     * 根据openid 订单号 查询预付款单号
+     *
+     * @param openid
+     * @param orderId
+     * @return
+     */
+    String findPrepayIdByOpenid(@Param("openid") String openid, @Param("orderId") Long orderId);
+
 
 }

@@ -1,5 +1,6 @@
 package com.scoprion.mall.littlesoft.service.pay;
 
+import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.scoprion.mall.backstage.mapper.GoodMapper;
 import com.scoprion.mall.domain.Delivery;
@@ -23,6 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +84,7 @@ public class WxPayServiceImpl implements WxPayService {
         //查询用户openid
         String openid = findOpenID(wxCode);
         //更新订单用户信息
-        orderWxMapper.updateUserIdForOrder(openid,order.getId());
+        orderWxMapper.updateUserIdForOrder(openid, order.getId());
         String xmlString = preOrderSend(good.getGoodName(), good.getDescription(), "妆口袋", openid, order.getOrderNo(),
                 ipAddress, wxOrderRequestData.getTotalFee().intValue());
         //生成预付款订单
@@ -102,6 +104,35 @@ public class WxPayServiceImpl implements WxPayService {
         unifiedOrderResponseData.setNonce_str(nonceStr);
         unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
         return BaseResult.success(unifiedOrderResponseData);
+    }
+
+    /**
+     * 去支付
+     *
+     * @param wxCode
+     * @param orderId
+     * @return
+     */
+    @Override
+    public BaseResult pay(String wxCode, Long orderId) {
+        String openid = findOpenID(wxCode);
+        //根据openid查询用户订单信息
+        String prepayId = orderWxMapper.findPrepayIdByOpenid(openid, orderId);
+        if (StringUtils.isEmpty(prepayId)) {
+            return BaseResult.error("query_error", "查询订单出错");
+        }
+        //时间戳
+        Long timeStamp = System.currentTimeMillis() / 1000;
+        //随机字符串
+        String nonceStr = WxUtil.createRandom(false, 10);
+        String paySign = paySign(timeStamp, nonceStr, prepayId);
+        Map<String, String> resultMap = new HashMap<>(16);
+        resultMap.put("appId", WxPayConfig.APPID);
+        resultMap.put("timeStamp", timeStamp.toString());
+        resultMap.put("nonceStr", nonceStr);
+        resultMap.put("package", "prepay_id=" + prepayId);
+        resultMap.put("signType", "MD5");
+        return BaseResult.success(JSON.toJSON(resultMap));
     }
 
     /**
@@ -166,7 +197,7 @@ public class WxPayServiceImpl implements WxPayService {
         map.put("detail", detail);
         map.put("attach", attach);
         map.put("out_trade_no", outTradeNo);
-        map.put("total_fee",totalFee);
+        map.put("total_fee", totalFee);
         map.put("spbill_create_ip", ipAddress);
         map.put("notify_url", WxPayConfig.NOTIFY_URL);
         map.put("trade_type", "JSAPI");

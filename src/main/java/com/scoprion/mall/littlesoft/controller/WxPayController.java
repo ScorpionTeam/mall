@@ -123,7 +123,7 @@ public class WxPayController {
     }
 
     /**
-     * 生成预付款订单
+     * 生成预付款订单并付款
      *
      * @param order
      * @param wxCode
@@ -138,8 +138,15 @@ public class WxPayController {
     }
 
 
+    /**
+     * 去支付
+     *
+     * @param wxCode
+     * @param orderId
+     * @return
+     */
     @RequestMapping(value = "/jsapi/order/pay", method = RequestMethod.GET)
-    public BaseResult pay(String wxCode) {
+    public BaseResult pay(String wxCode, Long orderId) {
         return null;
     }
 
