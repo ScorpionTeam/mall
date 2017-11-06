@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.littlesoft.mapper.WxGoodsMapper">
+    <!--商品列表-->
+    <select id="findAll" resultType="com.scoprion.mall.domain.Good">
+        SELECT
+        id,
+        goodNo,
+        categoryId,
+        goodName,
+        description,
+        promotion,
+        price,
+        saleVolume,
+        discount,
+        stock,
+        isOnSale,
+        isHot,
+        isNew,
+        createDate,
+        lastUpdateDate,
+        isFreight,
+        brandId,
+        sellerId,
+        visitTotal,
+        mainImgUrl
+        FROM t_good WHERE isOnSale='1'
+    </select>
+
+
+    <!--商品详情-->
+    <select id="goodsDetail" resultType="com.scoprion.mall.domain.Good">
+        SELECT
+        id,
+        goodNo,
+        categoryId,
+        goodName,
+        description,
+        promotion,
+        price,
+        saleVolume,
+        discount,
+        stock,
+        isOnSale,
+        isHot,
+        isNew,
+        createDate,
+        lastUpdateDate,
+        isFreight,
+        brandId,
+        sellerId,
+        visitTotal,
+        mainImgUrl
+        FROM t_good
+        WHERE id=#{id}
+    </select>
+</mapper>
