@@ -49,7 +49,8 @@
         goodName,
         count,
         wxOrderNo,
-        createDate)
+        createDate,
+        goodId)
         VALUES (#{userId},
         #{orderNo},
         #{goodSnapShotId},
@@ -70,7 +71,8 @@
         #{goodName},
         #{count},
         #{wxOrderNo},
-        NOW())
+        NOW(),
+        #{goodId})
     </insert>
 
     <!--修改订单微信预付款订单号-->
@@ -82,4 +84,14 @@
     <update id="updateUserIdForOrder">
         UPDATE t_order SET userId=#{userId} WHERE id=#{orderId}
     </update>
+
+    <!--根据微信订单号修改订单状态以及支付状态-->
+    <update id="updateOrderStatusAndPayStatus">
+        UPDATE t_order SET order_status='2' AND payType='1' AND payDate=#{payDate} WHERE wxOrderNo=#{wxOrderNo}
+    </update>
+
+    <!--根据微信号查询订单-->
+    <select id="findByWxOrderNo" resultType="com.scoprion.mall.domain.Order">
+        SELECT id,userId,orderNo,count,goodId FROM t_order WHERE wxOrderNo=#{wxOrderNo}
+    </select>
 </mapper>

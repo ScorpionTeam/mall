@@ -12,10 +12,6 @@ public class OrderLog {
      */
     private Long id;
 
-    /**
-     * 订单id
-     */
-    private Long orderId;
 
     /**
      * 订单号码
@@ -43,14 +39,6 @@ public class OrderLog {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
     }
 
     public String getOrderNo() {
@@ -89,7 +77,6 @@ public class OrderLog {
     public String toString() {
         return "OrderLog{" +
                 "id=" + id +
-                ", orderId=" + orderId +
                 ", orderNo='" + orderNo + '\'' +
                 ", action='" + action + '\'' +
                 ", ipAddress='" + ipAddress + '\'' +
