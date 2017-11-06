@@ -23,8 +23,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -81,9 +79,10 @@ public class WxPayServiceImpl implements WxPayService {
         }
         OrderLog orderLog = constructOrderLog(order, "生成预付款订单", ipAddress);
         orderLogWxMapper.add(orderLog);
-
         //查询用户openid
         String openid = findOpenID(wxCode);
+        //更新订单用户信息
+        orderWxMapper.updateUserIdForOrder(openid,order.getId());
         String xmlString = preOrderSend(good.getGoodName(), good.getDescription(), "妆口袋", openid, order.getOrderNo(),
                 ipAddress, wxOrderRequestData.getTotalFee().intValue());
         //生成预付款订单

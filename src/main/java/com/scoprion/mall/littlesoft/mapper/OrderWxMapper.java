@@ -38,5 +38,14 @@ public interface OrderWxMapper {
      */
     int updateOrderForWxOrderNo(@Param("orderId") Long orderId, @Param("wxOrderNo") String wxOrderNo);
 
+    /**
+     * 更新订单用户id
+     *
+     * @param userId
+     * @param orderId
+     * @return
+     */
+    int updateUserIdForOrder(@Param("userId") String userId, @Param("orderId") Long orderId);
+
 
 }

@@ -77,4 +77,9 @@
     <update id="updateOrderForWxOrderNo">
         UPDATE t_order SET wxOrderNo=#{wxOrderNo} WHERE id=#{orderId}
     </update>
+
+    <!--修改订单用户openid-->
+    <update id="updateUserIdForOrder">
+        UPDATE t_order SET userId=#{userId} WHERE id=#{orderId}
+    </update>
 </mapper>

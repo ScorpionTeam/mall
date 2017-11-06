@@ -132,11 +132,16 @@ public class WxPayController {
      */
     @RequestMapping(value = "/jsapi/order/pre-order", method = RequestMethod.GET)
     public BaseResult preOrder(String order, String wxCode, HttpServletRequest request) {
-        WxOrderRequestData wxOrderRequestData = JSON.parseObject(order,WxOrderRequestData.class);
+        WxOrderRequestData wxOrderRequestData = JSON.parseObject(order, WxOrderRequestData.class);
         String ipAddress = IPUtil.getIPAddress(request);
         return wxPayService.preOrder(wxOrderRequestData, wxCode, ipAddress);
     }
 
+
+    @RequestMapping(value = "/jsapi/order/pay", method = RequestMethod.GET)
+    public BaseResult pay(String wxCode) {
+        return null;
+    }
 
     /**
      * 接收微信回调
