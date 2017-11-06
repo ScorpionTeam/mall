@@ -99,9 +99,41 @@ public class Order {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date deliveryDate;
 
-    //商品快照
-    @Transient
-    private GoodSnapshot goodSnapshot;
+    /**
+     * 收货人姓名
+     */
+    private String deliveryUserName;
+
+    /**
+     * 收货人电话
+     */
+    private String deliveryUserPhone;
+
+    /**
+     * 省
+     */
+    private String province;
+
+    /**
+     * 市
+     */
+    private String city;
+
+    /**
+     * 区
+     */
+    private String area;
+
+    /**
+     * 详细地址
+     */
+    private String address;
+
+    /**
+     * 邮政编码
+     */
+    private String postCode;
+
 
     public Long getId() {
         return id;
@@ -223,12 +255,60 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
-    public GoodSnapshot getGoodSnapshot() {
-        return goodSnapshot;
+    public String getDeliveryUserName() {
+        return deliveryUserName;
     }
 
-    public void setGoodSnapshot(GoodSnapshot goodSnapshot) {
-        this.goodSnapshot = goodSnapshot;
+    public void setDeliveryUserName(String deliveryUserName) {
+        this.deliveryUserName = deliveryUserName;
+    }
+
+    public String getDeliveryUserPhone() {
+        return deliveryUserPhone;
+    }
+
+    public void setDeliveryUserPhone(String deliveryUserPhone) {
+        this.deliveryUserPhone = deliveryUserPhone;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPostCode() {
+        return postCode;
+    }
+
+    public void setPostCode(String postCode) {
+        this.postCode = postCode;
     }
 
     @Override
@@ -249,7 +329,13 @@ public class Order {
                 ", createDate=" + createDate +
                 ", payDate=" + payDate +
                 ", deliveryDate=" + deliveryDate +
-                ", goodSnapshot=" + goodSnapshot +
+                ", deliveryUserName='" + deliveryUserName + '\'' +
+                ", deliveryUserPhone='" + deliveryUserPhone + '\'' +
+                ", province='" + province + '\'' +
+                ", city='" + city + '\'' +
+                ", area='" + area + '\'' +
+                ", address='" + address + '\'' +
+                ", postCode='" + postCode + '\'' +
                 '}';
     }
 }
