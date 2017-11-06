@@ -46,4 +46,9 @@
     <delete id="deleteDelivery">
         DELETE FROM  t_delivery WHERE id = #{id}
     </delete>
+
+    <!--根据id查询收货地址-->
+    <select id="findById" resultType="com.scoprion.mall.domain.Delivery">
+        SELECT * from t_delivery WHERE id=#{id}
+    </select>
 </mapper>

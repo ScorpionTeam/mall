@@ -41,4 +41,11 @@ public interface DeliveryWxMapper {
      * @return
      */
     Integer deleteDelivery(@Param("id") Long id);
+
+    /**
+     * 根据主键查询收件人信息
+     * @param id
+     * @return
+     */
+    Delivery findById(Long id);
 }
