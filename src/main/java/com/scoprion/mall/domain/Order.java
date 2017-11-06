@@ -90,8 +90,7 @@ public class Order {
     /**
      * 支付时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date payDate;
+    private String payDate;
 
     /**
      * 发货时间
@@ -148,6 +147,11 @@ public class Order {
      * 微信订单号
      */
     private String wxOrderNo;
+
+    /**
+     * 商品id
+     */
+    private Long goodId;
 
 
     public Long getId() {
@@ -246,14 +250,6 @@ public class Order {
         this.createDate = createDate;
     }
 
-    public Date getPayDate() {
-        return payDate;
-    }
-
-    public void setPayDate(Date payDate) {
-        this.payDate = payDate;
-    }
-
     public Date getDeliveryDate() {
         return deliveryDate;
     }
@@ -350,11 +346,27 @@ public class Order {
         this.userId = userId;
     }
 
+    public String getPayDate() {
+        return payDate;
+    }
+
+    public void setPayDate(String payDate) {
+        this.payDate = payDate;
+    }
+
+    public Long getGoodId() {
+        return goodId;
+    }
+
+    public void setGoodId(Long goodId) {
+        this.goodId = goodId;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userId='" + userId + '\'' +
                 ", orderNo='" + orderNo + '\'' +
                 ", goodSnapShotId=" + goodSnapShotId +
                 ", deliveryId=" + deliveryId +
@@ -366,7 +378,7 @@ public class Order {
                 ", ticketFee=" + ticketFee +
                 ", totalFee=" + totalFee +
                 ", createDate=" + createDate +
-                ", payDate=" + payDate +
+                ", payDate='" + payDate + '\'' +
                 ", deliveryDate=" + deliveryDate +
                 ", recipients='" + recipients + '\'' +
                 ", phone='" + phone + '\'' +
@@ -378,6 +390,7 @@ public class Order {
                 ", goodName='" + goodName + '\'' +
                 ", count=" + count +
                 ", wxOrderNo='" + wxOrderNo + '\'' +
+                ", goodId=" + goodId +
                 '}';
     }
 }

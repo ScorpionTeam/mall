@@ -22,4 +22,5 @@
         orderId
         FROM t_wx_mall_order_log WHERE orderId=#{orderId}
     </select>
+
 </mapper>

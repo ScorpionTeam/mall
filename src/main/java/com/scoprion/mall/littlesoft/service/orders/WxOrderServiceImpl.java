@@ -21,17 +21,8 @@ public class WxOrderServiceImpl implements WxOrderService {
 
     @Autowired
     private WxOrderMapper wxOrderMapper;
-
-    /**
-     * 订单列表
-     * @param pageNo
-     * @param pageSize
-     * @param userId
-     * @param orderStatus
-     * @return
-     */
     @Override
-    public PageResult findByCondition (Integer pageNo, Integer pageSize,Long userId,String orderStatus) {
+    public PageResult findByCondition(Integer pageNo, Integer pageSize,Long userId,String orderStatus) {
         PageHelper.startPage(pageNo,pageSize);
         //若userId,status传空或没传,直接返回
         if (StringUtils.isEmpty(userId.toString()) || StringUtils.isEmpty(orderStatus)) {

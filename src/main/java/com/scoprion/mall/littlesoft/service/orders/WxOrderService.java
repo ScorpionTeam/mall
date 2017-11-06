@@ -21,4 +21,5 @@ public interface WxOrderService {
 
 
     BaseResult findByCondition(Long orderId);
+
 }
