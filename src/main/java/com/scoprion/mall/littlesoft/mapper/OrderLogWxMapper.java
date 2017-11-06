@@ -1,6 +1,7 @@
 package com.scoprion.mall.littlesoft.mapper;
 
 import com.scoprion.mall.domain.MallLog;
+import com.scoprion.mall.domain.OrderLog;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -12,7 +13,7 @@ public interface OrderLogWxMapper {
 
     /**
      * 创建订单日志
-     * @param mallLog
+     * @param orderLog
      */
-    int add(MallLog mallLog);
+    int add(OrderLog orderLog);
 }

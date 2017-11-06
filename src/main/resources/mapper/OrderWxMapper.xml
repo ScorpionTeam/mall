@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.littlesoft.mapper.OrderWxMapper">
-    <resultMap  id="orderResult" type="com.scoprion.mall.domain.Order">
+    <resultMap id="orderResult" type="com.scoprion.mall.domain.Order">
         <id property="id" column="id"></id>
         <result property="orderNo" column="orderNo"></result>
         <result property="userId" column="userId"></result>
@@ -42,21 +42,49 @@
         WHERE tor.orderStatus = #{status}
     </select>
 
-    <!--新增订单-->
+    <!--下单-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Order">
-        INSERT INTO t_order(orderNo,
-                            goodSnapShotId,
-                            deliveryId,
-                            orderStatus,
-                            orderType,
-                            createDate,
-                            updateDate)
-        VALUES (#{orderNo},
-                #{goodSnapShotId},
-                #{deliveryId},
-                #{orderStatus},
-                #{orderType},
-                NOW(),
-                NOW())
+            INSERT INTO t_order(userId,
+            orderNo,
+            goodSnapshotId,
+            deliveryId,
+            orderStatus,
+            orderType,
+            message,
+            goodFee,
+            ticketFee,
+            totalFee,
+            recipients,
+            phone,
+            province,
+            city,
+            area,
+            address,
+            postCode,
+            goodName,
+            count,
+            wxOrderNo,
+            createDate)
+            VALUES (#{userId},
+            #{orderNo},
+            #{goodSnapshotId},
+            #{deliveryId},
+            #{orderStatus},
+            #{orderType},
+            #{message},
+            #{goodFee},
+            #{ticketFee},
+            #{totalFee},
+            #{recipients},
+            #{phone},
+            #{province},
+            #{city},
+            #{area},
+            #{address},
+            #{postCode},
+            #{goodName},
+            #{count},
+            #{wxOrderNo},
+            NOW())
     </insert>
 </mapper>
