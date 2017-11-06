@@ -77,7 +77,7 @@ public class BannerController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/deleteById", method = RequestMethod.POST)
+    @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     public BaseResult deleteById(Long id) {
         return bannerService.deleteById(id);
     }
