@@ -76,4 +76,16 @@
     </select>
 
 
+    <!--付款回调-->
+    <update id="updateOrderStatusAndPayStatus">
+        UPDATE t_order SET payDate=#{payDate},orderStatus='2' WHERE orderNo=#{orderNo}
+    </update>
+
+    <!--根据微信号查询订单-->
+    <select id="findByWxOrderNo" resultType="com.scoprion.mall.domain.Order">
+        SELECT id,userId,orderNo,count,goodId,goodName,totalFee,payDate FROM t_order WHERE orderNo=#{orderNo}
+    </select>
+
+
+
 </mapper>
