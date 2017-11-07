@@ -1,6 +1,5 @@
 package com.scoprion.mall.backstage.controller;
 
-import com.alibaba.druid.util.StringUtils;
 import com.scoprion.mall.domain.Member;
 import com.scoprion.mall.backstage.service.user.UserService;
 import com.scoprion.result.BaseResult;
@@ -8,10 +7,7 @@ import com.scoprion.result.PageResult;
 import com.scoprion.utils.IPUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,23 +17,10 @@ import javax.servlet.http.HttpServletRequest;
  * @author adming
  */
 @RestController
-@RequestMapping("user")
+@RequestMapping("/backstage/user")
 public class UserController {
-
     @Autowired
     private UserService userService;
-
-    /**
-     * 跳转登录页面
-     *
-     * @return
-     */
-    @ApiIgnore
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login() {
-        return "login";
-    }
-
 
     /**
      * 后台登录
@@ -48,23 +31,12 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "后台登录")
-    @RequestMapping(value = "/backstageLogin", method = RequestMethod.POST)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public BaseResult backstageLogin(String mobile, String password, HttpServletRequest request) throws Exception {
         String ip = IPUtil.getIPAddress(request);
         return userService.backstageLogin(mobile, password, ip);
     }
 
-
-//    /**
-//     * 跳转注册页面
-//     *
-//     * @return
-//     */
-//    @ApiIgnore
-//    @RequestMapping(value = "/register", method = RequestMethod.GET)
-//    public String register() {
-//        return "register";
-//    }
 
     /**
      * 管理后台注册
@@ -77,7 +49,7 @@ public class UserController {
      * @throws Exception
      */
     @ApiOperation(value = "管理后台注册")
-    @RequestMapping(value = "/backstageRegister", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
     public BaseResult backstageRegister(String mobile, String password, String nickName, HttpServletRequest request) throws Exception {
         String ip = IPUtil.getIPAddress(request);
         return userService.backstageRegister(mobile, password, nickName, ip);
@@ -89,8 +61,8 @@ public class UserController {
      * @param member
      * @return
      */
-    @ApiOperation(value = "编辑个人信息")
-    @RequestMapping(value = "/modifyUserInfo", method = RequestMethod.POST)
+    @ApiOperation(value = "修改个人信息")
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modifyUserInfo(Member member) {
         return userService.modifyUserInfo(member);
     }
@@ -102,7 +74,7 @@ public class UserController {
      * @return BaseResult
      */
     @ApiOperation(value = "后台系统退出登录")
-    @RequestMapping(value = "/backstageLogout", method = RequestMethod.GET)
+    @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public BaseResult backstageLogout(String mobile) {
         return userService.backstageLogout(mobile);
     }
