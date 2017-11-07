@@ -78,7 +78,7 @@
 
     <!--付款回调-->
     <update id="updateOrderStatusAndPayStatus">
-        UPDATE t_order SET payDate=#{payDate},orderStatus='2' WHERE orderNo=#{orderNo}
+        UPDATE t_order SET payDate=#{payDate},payType='1',orderStatus='2' WHERE orderNo=#{orderNo}
     </update>
 
     <!--根据微信号查询订单-->
