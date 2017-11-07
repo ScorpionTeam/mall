@@ -1,16 +1,15 @@
 package com.scoprion.mall.wx.mapper;
 
 import com.scoprion.mall.domain.Good;
-import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * @author by admin1
- * @created on 2017/11/2.
+ * @author by kunlun
+ * @created on 2017/11/7.
  */
 @Mapper
-public interface GoodWxMapper {
+public interface WxGoodMapper {
 
     /**
      * 查询商品详情
@@ -18,14 +17,14 @@ public interface GoodWxMapper {
      * @param goodId
      * @return
      */
-    Good goodDetail(@Param("goodId") Long goodId);
-
+    Good findById(@Param("goodId") Long goodId);
+    
     /**
-     * 商品扣减
+     * 库存扣减
      *
      * @param goodId
-     * @param purchase
+     * @param stock
      * @return
      */
-    Integer goodDeduct(@Param("goodId") Long goodId, @Param("purchase") Integer purchase);
+    int updateGoodStockById(@Param("goodId") Long goodId, @Param("stock") int stock);
 }

@@ -1,4 +1,4 @@
-package com.scoprion.mall.littlesoft.mapper;
+package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Order;
@@ -15,11 +15,29 @@ import org.apache.ibatis.annotations.Param;
 public interface WxOrderMapper {
 
     /**
-     *订单列表
-     * @param userId
-     * @param orderStatus
+     * 创建订单
+     *
+     * @param order
      * @return
      */
-    Page<Order> findByCondition (@Param("userId")Long userId,@Param("orderStatus")String orderStatus);
+    int add(Order order);
+
+    /**
+     * 根据订单号修改微信返回订单号
+     *
+     * @param orderId
+     * @param wxOrderNo
+     * @return
+     */
+    int updateOrderForWxOrderNo(Long orderId, String wxOrderNo);
+
+    /**
+     * 根据openid查询微信预付款订单号
+     *
+     * @param openId
+     * @param orderId
+     * @return
+     */
+    String findPrepayIdByOpenid(@Param("openId") String openId, @Param("orderId") Long orderId);
 
 }

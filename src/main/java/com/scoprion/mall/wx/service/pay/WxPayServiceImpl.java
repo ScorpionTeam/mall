@@ -2,17 +2,19 @@ package com.scoprion.mall.wx.service.pay;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
-import com.scoprion.mall.backstage.mapper.GoodMapper;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.domain.Good;
 import com.scoprion.mall.domain.GoodSnapshot;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.domain.OrderLog;
 import com.scoprion.mall.domain.WxOrderRequestData;
-import com.scoprion.mall.wx.mapper.DeliveryWxMapper;
+import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
 import com.scoprion.mall.wx.mapper.GoodSnapShotWxMapper;
 import com.scoprion.mall.wx.mapper.OrderLogWxMapper;
 import com.scoprion.mall.wx.mapper.OrderWxMapper;
+import com.scoprion.mall.wx.mapper.WxGoodMapper;
+import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
+import com.scoprion.mall.wx.mapper.WxOrderMapper;
 import com.scoprion.mall.wx.pay.domain.AuthorizationCode;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
@@ -37,16 +39,16 @@ import java.util.Map;
 public class WxPayServiceImpl implements WxPayService {
 
     @Autowired
-    private GoodMapper goodMapper;
+    private WxGoodMapper wxGoodMapper;
 
     @Autowired
-    private DeliveryWxMapper deliveryWxMapper;
+    private WxDeliveryMapper wxDeliveryMapper;
 
     @Autowired
-    private OrderWxMapper orderWxMapper;
+    private WxOrderMapper wxOrderMapper;
 
     @Autowired
-    private OrderLogWxMapper orderLogWxMapper;
+    private WxOrderLogMapper wxOrderLogMapper;
 
     @Autowired
     private GoodSnapShotWxMapper goodSnapShotWxMapper;
@@ -64,21 +66,21 @@ public class WxPayServiceImpl implements WxPayService {
     public BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
 
         //查询商品库存
-        Good good = goodMapper.findById(wxOrderRequestData.getGoodId());
+        Good good = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
         if (null == good || good.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
         GoodSnapshot goodSnapshot = constructSnapshot(good);
         goodSnapShotWxMapper.add(goodSnapshot);
         //查询收货地址
-        Delivery delivery = deliveryWxMapper.findById(wxOrderRequestData.getDeliveryId());
+        Delivery delivery = wxDeliveryMapper.findById(wxOrderRequestData.getDeliveryId());
         if (null == delivery) {
             return BaseResult.error("not_found_address", "收货地址出错");
         }
         //查询用户openid
         String openid = findOpenID(wxCode);
         Order order = constructOrder(good, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
-        int orderResult = orderWxMapper.add(order);
+        int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("pre_order_error", "下单出错");
         }
@@ -93,7 +95,7 @@ public class WxPayServiceImpl implements WxPayService {
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
         //修改订单预付款订单号
-        orderWxMapper.updateOrderForWxOrderNo(order.getId(), unifiedOrderResponseData.getPrepay_id());
+        wxOrderMapper.updateOrderForWxOrderNo(order.getId(), unifiedOrderResponseData.getPrepay_id());
         //时间戳
         Long timeStamp = System.currentTimeMillis() / 1000;
         //随机字符串
@@ -116,7 +118,7 @@ public class WxPayServiceImpl implements WxPayService {
     public BaseResult pay(String wxCode, Long orderId) {
         String openid = findOpenID(wxCode);
         //根据openid查询用户订单信息
-        String prepayId = orderWxMapper.findPrepayIdByOpenid(openid, orderId);
+        String prepayId = wxOrderMapper.findPrepayIdByOpenid(openid, orderId);
         if (StringUtils.isEmpty(prepayId)) {
             return BaseResult.error("query_error", "查询订单出错");
         }
@@ -151,8 +153,9 @@ public class WxPayServiceImpl implements WxPayService {
         orderLogWxMapper.add(orderLog);
         //库存扣减
         Order order =orderWxMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
-        goodMapper.updateGoodStockById(order.getGoodId(),order.getCount());
+        wxGoodMapper.updateGoodStockById(order.getGoodId(),order.getCount());
         //积分 扣减 新增
+
         //优惠券扣减
         //
 

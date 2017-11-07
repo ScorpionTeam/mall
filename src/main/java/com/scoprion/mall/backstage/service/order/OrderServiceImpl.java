@@ -166,7 +166,6 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     private GoodSnapshot constructGoodSnapShot(Good good) throws Exception {
-        //生成商品快照编码
         String goodSnapShotNo = String.valueOf(IDWorker.getFlowIdWorkerInstance().nextId());
         GoodSnapshot goodSnapshot = new GoodSnapshot();
         goodSnapshot.setGoodSnapShotNo(goodSnapShotNo);

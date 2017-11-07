@@ -2,9 +2,8 @@ package com.scoprion.mall.wx.service.delivery;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.mall.backstage.mapper.DeliveryMapper;
 import com.scoprion.mall.domain.Delivery;
-import com.scoprion.mall.wx.mapper.DeliveryWxMapper;
+import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class DeliveryWxServiceImpl implements DeliveryWxService {
 
     @Autowired
-    private DeliveryWxMapper deliveryWxMapper;
+    private WxDeliveryMapper deliveryWxMapper;
 
     /**
      * 分页查询用户收获地址列表

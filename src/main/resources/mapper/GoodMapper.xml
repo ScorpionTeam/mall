@@ -161,9 +161,4 @@
     <delete id="deleteImageByGoodId">
         DELETE FROM t_good_image WHERE goodId=#{goodId}
     </delete>
-
-    <!--库存扣减-->
-    <update id="updateGoodStockById">
-        UPDATE t_good SET stock=(stock-#{stock}) WHERE id=#{goodId}
-    </update>
 </mapper>

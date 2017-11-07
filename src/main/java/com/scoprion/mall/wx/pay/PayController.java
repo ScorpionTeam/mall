@@ -31,9 +31,6 @@ public class PayController {
     @Autowired
     private WxPayService wxPayService;
 
-    @Autowired
-    private GoodService goodService;
-
     /**
      * 生成预付款订单并付款
      *
