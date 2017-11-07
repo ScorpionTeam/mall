@@ -126,7 +126,7 @@ public class WxPayServiceImpl implements WxPayService {
         String nonceStr = WxUtil.createRandom(false, 10);
         String paySign = paySign(timeStamp, nonceStr, prepayId);
         Map<String, String> resultMap = new HashMap<>(16);
-        resultMap.put("appId", WxPayConfig.APPID);
+        resultMap.put("appId", WxPayConfig.APP_ID);
         resultMap.put("timeStamp", timeStamp.toString());
         resultMap.put("nonceStr", nonceStr);
         resultMap.put("package", "prepay_id=" + prepayId);
@@ -217,7 +217,7 @@ public class WxPayServiceImpl implements WxPayService {
     private String preOrderSend(String body, String detail, String attach, String openid, String outTradeNo, String ipAddress, int totalFee) {
 
         Map<String, Object> map = new HashMap<>(16);
-        map.put("appid", WxPayConfig.APPID);
+        map.put("appid", WxPayConfig.APP_ID);
         map.put("openid", openid);
         map.put("mch_id", WxPayConfig.MCHID);
         map.put("device_info", "10000");
@@ -246,7 +246,7 @@ public class WxPayServiceImpl implements WxPayService {
      */
     private String paySign(Long timeStamp, String nonceStr, String prepayId) {
         Map<String, Object> map = new HashMap<>(16);
-        map.put("appId", WxPayConfig.APPID);
+        map.put("appId", WxPayConfig.APP_ID);
         map.put("nonceStr", nonceStr);
         map.put("package", "prepay_id=" + prepayId);
         map.put("signType", "MD5");
@@ -263,8 +263,8 @@ public class WxPayServiceImpl implements WxPayService {
     private String findOpenID(String wxCode) {
 
         String apiUrl = WxPayConfig.OPEN_ID_URL
-                + "appid=" + WxPayConfig.APPID
-                + "&secret=" + WxPayConfig.APPSECRET
+                + "appid=" + WxPayConfig.APP_ID
+                + "&secret=" + WxPayConfig.APP_SECRET
                 + "&js_code=" + wxCode
                 + "&grant_type=authorization_code";
         String response = WxUtil.httpsRequest(apiUrl, "GET", null);
