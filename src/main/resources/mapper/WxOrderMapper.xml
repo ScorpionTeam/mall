@@ -70,9 +70,26 @@
         orderNo,
         orderStatus,
         payType,
-        totalFee
+        totalFee,
+        goodName,
+        count,
+        goodSnapShotId,
+        message,
+        ticketFee,
+        totalFee,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        postCode,
+        payDate,goodId
         FROM t_order
-        WHERE userId=#{userId} AND orderStatus=#{orderStatus}
+        WHERE userId=#{userId}
+        <if test="orderStatus!=null">
+            AND orderStatus=#{orderStatus}
+        </if>
     </select>
 
 
@@ -85,7 +102,6 @@
     <select id="findByWxOrderNo" resultType="com.scoprion.mall.domain.Order">
         SELECT id,userId,orderNo,count,goodId,goodName,totalFee,payDate FROM t_order WHERE orderNo=#{orderNo}
     </select>
-
 
 
 </mapper>

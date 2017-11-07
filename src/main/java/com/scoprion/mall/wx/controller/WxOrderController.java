@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("wx/orders")
+@RequestMapping("wx/order")
 public class WxOrderController {
 
     @Autowired
