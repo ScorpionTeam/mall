@@ -26,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,8 +85,13 @@ public class WxPayServiceImpl implements WxPayService {
         }
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress);
         wxOrderLogMapper.add(orderLog);
-        String xmlString = preOrderSend(good.getGoodName(), good.getDescription(), "妆口袋", openid, order.getOrderNo(),
-                ipAddress, wxOrderRequestData.getTotalFee().intValue());
+        String nonce_str = WxUtil.createRandom(false, 10);
+        String xmlString = preOrderSend(good.getGoodName(),
+                "妆口袋",
+                openid,
+                order.getOrderNo(),
+                wxOrderRequestData.getTotalFee().intValue(),
+                nonce_str);
         //生成预付款订单
         String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "GET", xmlString);
         System.out.println(wxOrderResponse);
@@ -99,6 +105,7 @@ public class WxPayServiceImpl implements WxPayService {
         //随机字符串
         String nonceStr = WxUtil.createRandom(false, 10);
         String paySign = paySign(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
+        System.out.println("支付PaySign:" + paySign);
         unifiedOrderResponseData.setPaySign(paySign);
         unifiedOrderResponseData.setNonce_str(nonceStr);
         unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
@@ -143,21 +150,37 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Override
     public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
-        //修改订单状态
-        wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
-                unifiedOrderNotifyRequestData.getOut_trade_no());
-        //记录订单日志
-        OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款", null);
-        wxOrderLogMapper.add(orderLog);
-        //库存扣减
         Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
-        wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
-        //积分 扣减 新增
+//        //判断签名是否被篡改
+//        String sign = unifiedOrderNotifyRequestData.getSign();
+//        System.out.println("回调返回Sign:" + sign);
+//        String nonce_str = unifiedOrderNotifyRequestData.getNonce_str();
+//        BigDecimal fee = order.getTotalFee().multiply(new BigDecimal(100));
+//        int totalFee = fee.intValue() / 100;
+//        String localSign = preOrderSend(order.getGoodName(),
+//                "妆口袋",
+//                unifiedOrderNotifyRequestData.getOpenid(),
+//                order.getOrderNo(),
+//                totalFee,
+//                nonce_str);
+//        System.out.println("本地再签:" + localSign);
+        //判断是否成功接收回调
+        if (null == order.getPayDate()) {
+            //修改订单状态
+            wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
+                    unifiedOrderNotifyRequestData.getOut_trade_no());
+            //记录订单日志
+            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款", null);
+            wxOrderLogMapper.add(orderLog);
+            //库存扣减
+            wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
+            //积分 扣减 新增
 
-        //优惠券扣减
-        //
+            //优惠券扣减
+            //
 
-        //
+            //
+        }
         return BaseResult.success("支付回调成功");
     }
 
@@ -171,7 +194,11 @@ public class WxPayServiceImpl implements WxPayService {
      * @param userId
      * @return
      */
-    private Order constructOrder(Good good, Long goodSnapShotId, Delivery delivery, WxOrderRequestData wxOrderRequestData, String userId) {
+    private Order constructOrder(Good good,
+                                 Long goodSnapShotId,
+                                 Delivery delivery,
+                                 WxOrderRequestData wxOrderRequestData,
+                                 String userId) {
         Order order = new Order();
         String orderNo = OrderNoUtil.getOrderNo();
         order.setUserId(userId);
@@ -207,31 +234,33 @@ public class WxPayServiceImpl implements WxPayService {
      * 预付款订单签名
      *
      * @param body       商品描述
-     * @param detail     商品详情
      * @param attach
      * @param openid     用户openid
      * @param outTradeNo 商户订单号
-     * @param ipAddress  ip地址
      * @return
      */
-    private String preOrderSend(String body, String detail, String attach, String openid, String outTradeNo, String ipAddress, int totalFee) {
+    private String preOrderSend(String body,
+                                String attach,
+                                String openid,
+                                String outTradeNo,
+                                int totalFee,
+                                String nonceStr) {
 
         Map<String, Object> map = new HashMap<>(16);
         map.put("appid", WxPayConfig.APP_ID);
         map.put("openid", openid);
         map.put("mch_id", WxPayConfig.MCHID);
         map.put("device_info", "10000");
-        map.put("nonce_str", WxUtil.createRandom(false, 10));
+        map.put("nonce_str", nonceStr);
         map.put("body", body);
-        map.put("detail", detail);
         map.put("attach", attach);
         map.put("out_trade_no", outTradeNo);
         map.put("total_fee", totalFee);
-        map.put("spbill_create_ip", ipAddress);
         map.put("notify_url", WxPayConfig.NOTIFY_URL);
         map.put("trade_type", "JSAPI");
         String signTemp = WxPayUtil.sort(map);
         String sign = WxUtil.MD5(signTemp).toUpperCase();
+        System.out.println("预付款Sign:" + sign);
         map.put("sign", sign);
         return WxPayUtil.MapConvertToXML(map);
     }

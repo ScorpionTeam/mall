@@ -1,4 +1,4 @@
-package com.scoprion.mall.littlesoft.controller;
+package com.scoprion.mall.wx.controller;
 
 import com.scoprion.result.BaseResult;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,4 +17,12 @@ public class IndexController {
     public BaseResult index() {
         return BaseResult.success("Hello world");
     }
+
+    
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public BaseResult test(String world) {
+        return BaseResult.success(world);
+    }
+
+
 }

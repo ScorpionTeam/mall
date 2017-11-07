@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scoprion.mall.littlesoft.mapper.WxOrderMapper">
+<mapper namespace="com.scoprion.mall.wx.mapper.WxOrderMapper">
     <!--下单-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Order">
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
@@ -70,9 +70,42 @@
         orderNo,
         orderStatus,
         payType,
-        totalFee
+        totalFee,
+        goodName,
+        count,
+        goodSnapShotId,
+        message,
+        ticketFee,
+        totalFee,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        postCode,
+        payDate,goodId
         FROM t_order
-        WHERE userId=#{userId} AND orderStatus=#{orderStatus}
+        WHERE userId=#{userId}
+        <if test="orderStatus!=null">
+            AND orderStatus=#{orderStatus}
+        </if>
+    </select>
+
+
+    <!--付款回调-->
+    <update id="updateOrderStatusAndPayStatus">
+        UPDATE t_order SET payDate=#{payDate},payType='1',orderStatus='2' WHERE orderNo=#{orderNo}
+    </update>
+
+    <!--根据微信号查询订单-->
+    <select id="findByWxOrderNo" resultType="com.scoprion.mall.domain.Order">
+        SELECT id,userId,orderNo,count,goodId,goodName,totalFee,payDate FROM t_order WHERE orderNo=#{orderNo}
+    </select>
+
+    <!--订单详情-->
+    <select id="findByOrderId" resultType="com.scoprion.mall.domain.Order">
+
     </select>
 
 

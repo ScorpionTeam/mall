@@ -20,6 +20,13 @@ public interface WxOrderService {
      */
     PageResult findByUserId(int pageNo, int pageSize, String userId, String orderStatus);
 
+    /**
+     * 查询订单详情
+     * @param orderId
+     * @return
+     */
+    BaseResult findByOrderId(Long orderId);
+
 
 
 }

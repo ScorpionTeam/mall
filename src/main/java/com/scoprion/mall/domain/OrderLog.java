@@ -33,6 +33,11 @@ public class OrderLog {
      */
     private Date createDate;
 
+    /**
+     * 订单id
+     */
+    private Long orderId;
+
     public Long getId() {
         return id;
     }
@@ -73,6 +78,14 @@ public class OrderLog {
         this.createDate = createDate;
     }
 
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
+
     @Override
     public String toString() {
         return "OrderLog{" +
@@ -81,6 +94,7 @@ public class OrderLog {
                 ", action='" + action + '\'' +
                 ", ipAddress='" + ipAddress + '\'' +
                 ", createDate=" + createDate +
+                ", orderId=" + orderId +
                 '}';
     }
 }

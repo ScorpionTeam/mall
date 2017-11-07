@@ -47,5 +47,5 @@ public interface WxDeliveryMapper {
      * @param id
      * @return
      */
-    Delivery findById(Long id);
+    Delivery findById(@Param("id") Long id);
 }

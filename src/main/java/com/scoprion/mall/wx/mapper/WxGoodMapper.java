@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.mapper;
 
+import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Good;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -27,4 +28,6 @@ public interface WxGoodMapper {
      * @return
      */
     int updateGoodStockById(@Param("goodId") Long goodId, @Param("stock") int stock);
+
+    Page<Good> findOnline();
 }
