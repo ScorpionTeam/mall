@@ -1,6 +1,6 @@
-package com.scoprion.mall.littlesoft.controller;
+package com.scoprion.mall.wx.controller;
 
-import com.scoprion.mall.littlesoft.service.goods.WxGoodsService;
+import com.scoprion.mall.wx.service.good.WxGoodService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("wx/goods")
-public class WxGoodsController {
-
+public class WxGoodController {
 
     @Autowired
-    private WxGoodsService wxGoodsService;
+    private WxGoodService wxGoodService;
 
     /**
      * 商品列表
@@ -28,20 +27,20 @@ public class WxGoodsController {
      * @param pageSize
      * @return
      */
-    @RequestMapping(value = "/listByPage",method = RequestMethod.GET)
-    public PageResult findAll(Integer pageNo,Integer pageSize){
-        return wxGoodsService.findAll(pageNo,pageSize);
+    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    public PageResult findAll(int pageNo, int pageSize) {
+        return wxGoodService.findOnline(pageNo, pageSize);
     }
 
     /**
-     * 根据商品id获取商品详情
+     * 查询商品详情
      *
-     * @param id
+     * @param goodId
      * @return
      */
-    @RequestMapping(value = "/detail",method = RequestMethod.GET)
-    public BaseResult goodsDetail(Long id){
-        return wxGoodsService.goodsDetail(id);
+    @RequestMapping(value = "/findByGoodId", method = RequestMethod.GET)
+    public BaseResult findByGoodId(Long goodId) {
+        return wxGoodService.findById(goodId);
     }
 
 }

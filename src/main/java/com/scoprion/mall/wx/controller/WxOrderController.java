@@ -1,7 +1,9 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.mall.wx.service.order.WxOrderService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,19 +17,21 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("wx/orders")
 public class WxOrderController {
 
+    @Autowired
+    private WxOrderService wxOrderService;
 
     /**
      * 查询我的订单列表
      *
      * @param pageNo
      * @param pageSize
+     * @param userId
      * @param orderStatus
      * @return
      */
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
-    public PageResult findByUserId(int pageNo, int pageSize, String orderStatus) {
-
-        return null;
+    public PageResult findByUserId(int pageNo, int pageSize, String userId, String orderStatus) {
+        return wxOrderService.findByUserId(pageNo, pageSize, userId, orderStatus);
     }
 
 

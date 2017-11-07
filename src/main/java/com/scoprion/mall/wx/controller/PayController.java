@@ -1,5 +1,6 @@
-package com.scoprion.mall.wx.pay;
+package com.scoprion.mall.wx.controller;
 
+import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import org.springframework.web.bind.annotation.RestController;

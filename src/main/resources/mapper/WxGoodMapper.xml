@@ -36,4 +36,32 @@
     <update id="updateGoodStockById">
         UPDATE t_good SET stock=(stock-#{stock}) WHERE id=#{goodId}
     </update>
+
+    <!--商品列表-->
+    <select id="findOnline" resultType="com.scoprion.mall.domain.Good">
+        SELECT
+        id,
+        goodNo,
+        categoryId,
+        goodName,
+        description,
+        promotion,
+        price,
+        saleVolume,
+        discount,
+        stock,
+        isOnSale,
+        isHot,
+        isNew,
+        createDate,
+        lastUpdateDate,
+        isFreight,
+        brandId,
+        sellerId,
+        visitTotal,
+        mainImgUrl
+        FROM t_good WHERE isOnSale='1'
+    </select>
+
+
 </mapper>
