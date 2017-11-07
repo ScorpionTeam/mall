@@ -1,4 +1,5 @@
 target/
+/src/main/java/com/scoprion/mall/wx/pay/WxPayConfig.java
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###

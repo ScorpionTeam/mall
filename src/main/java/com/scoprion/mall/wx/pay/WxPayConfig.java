@@ -6,11 +6,11 @@ package com.scoprion.mall.wx.pay;
  */
 public class WxPayConfig {
 
-    public final static String APP_ID = "";
+    public final static String APP_ID = "wx5e495b0ad7d9ac5d";
 
-    public final static String APP_SECRET = "";
+    public final static String APP_SECRET = "6eb633a285acdb7b44932cacb6a9a5f2";
 
-    public final static String MCH_SECRET = "";
+    public final static String MCH_SECRET = "rzxlszyykpbgqcflzxsqcysyhljttclb";
     /**
      * 证书
      */
@@ -20,7 +20,7 @@ public class WxPayConfig {
     /**
      * 商户号
      */
-    public final static String MCHID = ""; //
+    public final static String MCHID = "1491404382"; //
 
     public final static String OPEN_ID_URL = "https://api.weixin.qq.com/sns/jscode2session?";
     /**
