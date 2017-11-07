@@ -1,102 +1,69 @@
 package com.scoprion.mall.backstage.controller;
 
-import com.scoprion.annotation.AccessSecret;
-import com.scoprion.mall.domain.Member;
 import com.scoprion.mall.backstage.service.order.OrderService;
+import com.scoprion.mall.domain.Order;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-import com.scoprion.utils.EncryptUtil;
-import com.scoprion.utils.IPUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created on 2017/9/29.
+ * @author ycj
+ * @version V1.0 <订单控制器>
+ * @date 2017-11-07 10:21
  */
-@Controller
-@RequestMapping("order")
+@RestController
+@RequestMapping("/backstage/order")
 public class OrderController {
-
     @Autowired
     private OrderService orderService;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
 
     /**
-     * 我的订单
+     * 修改订单
+     *
+     * @param order
+     * @return
+     */
+    @ApiOperation(value = "修改订单")
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public BaseResult modify(Order order) {
+        return orderService.modify(order);
+    }
+
+
+    /**
+     * 订单列表
      *
      * @param pageNo
      * @param pageSize
-     * @param status   状态
-     *                 0 全部
-     *                 1 待付款
-     *                 2 待发货
-     *                 3 待收货
-     *                 4 已完成
-     * @param userId
+     * @param payType     支付类型0 支付宝1 微信2 信用卡3 储蓄卡
+     * @param orderType   订单类型 1pc订单  2手机订单
+     * @param orderStatus 状态  0 全部  1 待付款   2 待发货  3 待收货 4 已完成
+     * @param searchKey   模糊查询信息
+     * @param startDate   开始时间
+     * @param endDate     结束时间
      * @return
      */
-    @AccessSecret
-    @RequestMapping(value = "/my-order", method = RequestMethod.GET)
-    public PageResult myOrder(int pageNo, int pageSize, Long userId, String status) {
-        return orderService.myOrder(pageNo, pageSize, userId, status);
+    @ApiOperation(value = "订单列表")
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public PageResult list(Integer pageNo, Integer pageSize, String payType, String orderType,
+                           String orderStatus, String searchKey, String startDate, String endDate) {
+        return orderService.listPage(pageNo, pageSize, payType, orderType, orderStatus, searchKey, startDate, endDate);
     }
 
     /**
-     * 查询订单列表
+     * 根据id查询详情
      *
-     * @param pageNo
-     * @param pageSize
-     * @param status
-     * @param request
+     * @param id
      * @return
      */
-    @AccessSecret
-    @ResponseBody
-    @RequestMapping(value = "/order-list", method = RequestMethod.GET)
-    public PageResult findByPage(int pageNo, int pageSize, String status, HttpServletRequest request) throws Exception {
-        String tokenStr = request.getHeader("oauth");
-        String decryptStr = EncryptUtil.aesDecrypt(tokenStr, "ScorpionMall8888");
-        Member member = (Member) redisTemplate.opsForValue().get("Login:" + decryptStr);
-        return orderService.findByPage(pageNo, pageSize, status, member.getId());
+    @ApiOperation(value = "根据id查询详情")
+    @RequestMapping(value = "/findById", method = RequestMethod.GET)
+    public BaseResult findById(Long id) {
+        return orderService.findById(id);
     }
-
-    /**
-     * 下单
-     *
-     * @param goodId
-     * @param deliveryId
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "/order-confirm", method = RequestMethod.POST)
-    public BaseResult orderConfirm(Long goodId, Long deliveryId, HttpServletRequest request) throws Exception {
-        String ipAddress = IPUtil.getIPAddress(request);
-        return orderService.orderConfirm(goodId, deliveryId, ipAddress);
-    }
-
-    /**
-     * 小程序   下拉刷新查询我的订单列表
-     *
-     * @return
-     */
-    @RequestMapping(value = "pageOnPullDownRefresh", method = RequestMethod.GET)
-    public PageResult pageOnPullDownRefresh() {
-        String str = "";
-        return null;
-    }
-
-    @RequestMapping(value = "/mock-list", method = RequestMethod.GET)
-    public BaseResult mockList() {
-        return orderService.mockList();
-    }
-
-
 }

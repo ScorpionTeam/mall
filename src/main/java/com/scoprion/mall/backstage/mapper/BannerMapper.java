@@ -59,10 +59,10 @@ public interface BannerMapper {
     /**
      * 分页查询Banner
      *
-     * @param bannerName
+     * @param searchKey
      * @return
      */
-    Page<Banner> listByPage(@Param("bannerName") String bannerName);
+    Page<Banner> listByPage(@Param("searchKey") String searchKey);
 
     /**
      * 首页展示banner

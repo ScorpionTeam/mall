@@ -47,7 +47,7 @@ public class BannerServiceImpl implements BannerService {
      */
     @Override
     public BaseResult modify(Banner banner) {
-        int validResult = bannerMapper.validByNameAndId(banner.getId(), banner.getName());
+        int validResult = bannerMapper.validByName(banner.getName());
         if (validResult != 0) {
             return BaseResult.error("edit_fail", "广告名称已存在");
         }
@@ -75,19 +75,19 @@ public class BannerServiceImpl implements BannerService {
      *
      * @param pageNo
      * @param pageSize
-     * @param bannerName
+     * @param searchKey
      * @return
      */
     @Override
-    public PageResult listByPage(int pageNo, int pageSize, String bannerName) {
+    public PageResult listByPage(int pageNo, int pageSize, String searchKey) {
         PageHelper.startPage(pageNo, pageSize);
-        if (StringUtils.isEmpty(bannerName)) {
-            bannerName = null;
+        if (StringUtils.isEmpty(searchKey)) {
+            searchKey = null;
         }
-        if (!StringUtils.isEmpty(bannerName)) {
-            bannerName = "%" + bannerName + "%";
+        if (!StringUtils.isEmpty(searchKey)) {
+            searchKey = "%" + searchKey + "%";
         }
-        Page<Banner> page = bannerMapper.listByPage(bannerName);
+        Page<Banner> page = bannerMapper.listByPage(searchKey);
         return new PageResult(page);
     }
 

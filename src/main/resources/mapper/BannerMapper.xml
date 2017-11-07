@@ -8,7 +8,7 @@
      INSERT INTO t_banner
         (name,imgUrl,actionUrl,visitTotal,status,createDate)
         VALUES
-        (#{name},#{imgUrl},#{actionUrl},#{visitTotal},#{status},now())
+        (#{name},#{imgUrl},#{actionUrl},#{visitTotal},0,now())
      </insert>
     <!--广告名称校验-->
     <select id="validByName" resultType="java.lang.Integer">
@@ -17,7 +17,7 @@
 
     <!--广告id、名称校验-->
     <select id="validByNameAndId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_banner WHERE name =#{bannerName} AND status='0' AND id=#{id}
+        SELECT COUNT(*) FROM t_banner WHERE name =#{bannerName} AND status='0'
     </select>
 
     <!--修改广告信息-->
@@ -40,7 +40,8 @@
 
     <!--分页列表查询-->
     <select id="listByPage" resultType="com.scoprion.mall.domain.Banner">
-        SELECT * FROM t_banner WHERE  name like bannerName
+        SELECT * FROM t_banner WHERE 1=1
+        <if test="searchKey!=null">AND name like #{searchKey}</if>
     </select>
 
     <!--首页轮播查询-->

@@ -9,13 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created on 2017/9/29.
  *
  * @author adming
  */
-@Controller
+@RestController
 @RequestMapping("backstage/banner")
 public class BannerController {
 
@@ -40,13 +41,13 @@ public class BannerController {
      *
      * @param pageNo
      * @param pageSize
-     * @param bannerName
+     * @param searchKey
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public PageResult list(int pageNo, int pageSize, String bannerName) {
-        return bannerService.listByPage(pageNo, pageSize, bannerName);
+    public PageResult list(int pageNo, int pageSize, String searchKey) {
+        return bannerService.listByPage(pageNo, pageSize, searchKey);
     }
 
     /**

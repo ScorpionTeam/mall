@@ -38,10 +38,10 @@ public interface BannerService {
      *
      * @param pageNo
      * @param pageSize
-     * @param bannerName
+     * @param searchKey
      * @return
      */
-    PageResult listByPage(int pageNo, int pageSize, String bannerName);
+    PageResult listByPage(int pageNo, int pageSize, String searchKey);
 
     /**
      * 首页展示Banner

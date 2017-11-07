@@ -143,6 +143,9 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public PageResult findByCondition(int pageNo, int pageSize, String searchKey) {
         PageHelper.startPage(pageNo, pageSize);
+        if (StringUtils.isEmpty(searchKey)) {
+            searchKey = null;
+        }
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
