@@ -103,5 +103,10 @@
         SELECT id,userId,orderNo,count,goodId,goodName,totalFee,payDate FROM t_order WHERE orderNo=#{orderNo}
     </select>
 
+    <!--订单详情-->
+    <select id="findByOrderId" resultType="com.scoprion.mall.domain.Order">
+
+    </select>
+
 
 </mapper>

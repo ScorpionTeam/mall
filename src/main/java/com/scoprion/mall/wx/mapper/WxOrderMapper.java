@@ -66,4 +66,12 @@ public interface WxOrderMapper {
      */
     Page<Order> findByUserId(@Param("userId") String userId, @Param("orderStatus") String orderStatus);
 
+    /**
+     * 查询订单详情
+     *
+     * @param orderId
+     * @return
+     */
+    Order findByOrderId(@Param("orderId") Long orderId);
+
 }

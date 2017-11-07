@@ -39,5 +39,17 @@ public class WxOrderServiceImpl implements WxOrderService {
         return new PageResult(page);
     }
 
+    /**
+     * 查询订单详情
+     *
+     * @param orderId
+     * @return
+     */
+    @Override
+    public BaseResult findByOrderId(Long orderId) {
+
+        return null;
+    }
+
 
 }
