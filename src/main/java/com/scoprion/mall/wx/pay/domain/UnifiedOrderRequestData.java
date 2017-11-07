@@ -194,7 +194,7 @@ public class UnifiedOrderRequestData {
         public UnifiedOrderReqDataBuilder(String body, String out_trade_no,
                                           Integer total_fee, String spbill_create_ip, String trade_type) {
 
-            this(WxPayConfig.APPID, WxPayConfig.MCHID, WxPayConfig.NOTIFY_URL,
+            this(WxPayConfig.APP_ID, WxPayConfig.MCHID, WxPayConfig.NOTIFY_URL,
                     body, out_trade_no, total_fee, spbill_create_ip, trade_type);
         }
 

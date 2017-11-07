@@ -11,7 +11,7 @@ public class OrderQueryRequestData {
     /**
      * 小程序id
      */
-    private String appid = WxPayConfig.APPID;
+    private String appid = WxPayConfig.APP_ID;
 
     /**
      * 商户号
