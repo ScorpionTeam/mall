@@ -2,7 +2,6 @@ package com.scoprion.mall.wx.mapper;
 
 import com.scoprion.mall.domain.OrderLog;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * @author by Administrator
@@ -13,5 +12,12 @@ import org.apache.ibatis.annotations.Param;
 public interface WxOrderLogMapper {
 
 
+    /**
+     * 创建订单日志
+     *
+     * @param orderLog
+     * @return
+     */
+    int add(OrderLog orderLog);
 
 }

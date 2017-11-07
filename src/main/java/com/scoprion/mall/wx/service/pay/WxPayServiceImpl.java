@@ -10,8 +10,6 @@ import com.scoprion.mall.domain.OrderLog;
 import com.scoprion.mall.domain.WxOrderRequestData;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
 import com.scoprion.mall.wx.mapper.GoodSnapShotWxMapper;
-import com.scoprion.mall.wx.mapper.OrderLogWxMapper;
-import com.scoprion.mall.wx.mapper.OrderWxMapper;
 import com.scoprion.mall.wx.mapper.WxGoodMapper;
 import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
 import com.scoprion.mall.wx.mapper.WxOrderMapper;
@@ -85,7 +83,7 @@ public class WxPayServiceImpl implements WxPayService {
             return BaseResult.error("pre_order_error", "下单出错");
         }
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress);
-        orderLogWxMapper.add(orderLog);
+        wxOrderLogMapper.add(orderLog);
         String xmlString = preOrderSend(good.getGoodName(), good.getDescription(), "妆口袋", openid, order.getOrderNo(),
                 ipAddress, wxOrderRequestData.getTotalFee().intValue());
         //生成预付款订单
@@ -146,13 +144,13 @@ public class WxPayServiceImpl implements WxPayService {
     @Override
     public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
         //修改订单状态
-        orderWxMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
+        wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
                 unifiedOrderNotifyRequestData.getOut_trade_no());
         //记录订单日志
         OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款", null);
-        orderLogWxMapper.add(orderLog);
+        wxOrderLogMapper.add(orderLog);
         //库存扣减
-        Order order =orderWxMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
+        Order order =wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
         wxGoodMapper.updateGoodStockById(order.getGoodId(),order.getCount());
         //积分 扣减 新增
 

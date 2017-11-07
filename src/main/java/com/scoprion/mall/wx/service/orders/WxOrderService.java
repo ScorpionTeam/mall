@@ -1,4 +1,4 @@
-package com.scoprion.mall.littlesoft.service.orders;
+package com.scoprion.mall.wx.service.orders;
 
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -9,21 +9,5 @@ import com.scoprion.result.PageResult;
  */
 public interface WxOrderService {
 
-    /**
-     *订单列表
-     * @param pageNo
-     * @param pageSize
-     * @param userId
-     * @param orderStatus
-     * @return
-     */
-    PageResult findByCondition (Integer pageNo,Integer pageSize,Long userId,String orderStatus);
 
-
-    /**
-     * 根据订单id查询日志
-     * @param orderId
-     * @return
-     */
-    BaseResult findOrderLog(Long orderId);
 }
