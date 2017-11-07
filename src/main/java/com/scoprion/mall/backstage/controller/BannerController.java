@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author adming
  */
 @RestController
-@RequestMapping("backstage/banner")
+@RequestMapping("/backstage/banner")
 public class BannerController {
 
     @Autowired

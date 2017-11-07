@@ -21,7 +21,7 @@ import java.util.List;
  * @created on 2017/10/10.
  */
 @RestController
-@RequestMapping("backstage/activity")
+@RequestMapping("/backstage/activity")
 public class ActivityController {
 
     @Autowired
