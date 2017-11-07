@@ -3,19 +3,77 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.littlesoft.mapper.WxOrderMapper">
-    <select id="findByCondition" resultType="com.scoprion.mall.domain.Order">
-        SELECT
-        id,
+    <!--下单-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.Order">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_order(userId,
         orderNo,
         goodSnapShotId,
         deliveryId,
         orderStatus,
         orderType,
+        message,
+        goodFee,
+        ticketFee,
+        totalFee,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        postCode,
+        goodName,
+        count,
+        wxOrderNo,
         createDate,
-        updateDate,
-        userId
-        FROM t_order
-        WHERE
-        userId=#{userId} AND orderStatus=#{orderStatus}
+        goodId)
+        VALUES (#{userId},
+        #{orderNo},
+        #{goodSnapShotId},
+        #{deliveryId},
+        #{orderStatus},
+        #{orderType},
+        #{message},
+        #{goodFee},
+        #{ticketFee},
+        #{totalFee},
+        #{recipients},
+        #{phone},
+        #{province},
+        #{city},
+        #{area},
+        #{address},
+        #{postCode},
+        #{goodName},
+        #{count},
+        #{wxOrderNo},
+        NOW(),
+        #{goodId})
+    </insert>
+
+    <!--修改订单微信预付款订单号-->
+    <update id="updateOrderForWxOrderNo">
+        UPDATE t_order SET wxOrderNo=#{wxOrderNo} WHERE id=#{orderId}
+    </update>
+
+    <!--根据用户openid查询预付款订单-->
+    <select id="findPrepayIdByOpenid" resultType="java.lang.String">
+        SELECT wxOrderNo FROM t_order WHERE userId=#{openId} AND id=#{orderId}
     </select>
+
+    <!--我的订单-->
+    <select id="findByUserId" resultType="com.scoprion.mall.domain.Order">
+        SELECT userId,
+        orderNo,
+        orderStatus,
+        payType,
+        totalFee
+        FROM t_order
+        WHERE userId=#{userId} AND orderStatus=#{orderStatus}
+    </select>
+
+
 </mapper>

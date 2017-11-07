@@ -17,7 +17,7 @@ public class Point {
     /**
      * 用户ID
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 积分
@@ -54,11 +54,11 @@ public class Point {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
