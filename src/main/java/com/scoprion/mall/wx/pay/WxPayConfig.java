@@ -20,11 +20,7 @@ public class WxPayConfig {
     /**
      * 商户号
      */
-    public final static String MCHID = "1491404382"; //
-    /**
-     * 公众平台商户KEY
-     */
-    public final static String KEY = "rzxlszyykpbgqcflzxsqcysyhljttclb";
+    public final static String MCHID = ""; //
 
     public final static String OPEN_ID_URL = "https://api.weixin.qq.com/sns/jscode2session?";
     /**
