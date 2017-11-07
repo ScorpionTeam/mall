@@ -6,6 +6,7 @@ import com.scoprion.result.PageResult;
 
 /**
  * Created on 2017/9/27.
+ *
  * @author adming
  */
 public interface UserService {
@@ -19,19 +20,17 @@ public interface UserService {
      * @return
      * @throws Exception
      */
-    BaseResult backstageLogin(String mobile, String password, String ip) throws Exception;
+    BaseResult login(String mobile, String password, String ip) throws Exception;
 
     /**
      * 管理后台注册
      *
-     * @param mobile   手机号
-     * @param password 密码
-     * @param nickName 昵称
-     * @param ip       注册的IP地址
+     * @param ip     注册的IP地址
+     * @param member Member
      * @return
      * @throws Exception
      */
-    BaseResult backstageRegister(String mobile, String password, String nickName, String ip) throws Exception;
+    BaseResult register(Member member, String ip) throws Exception;
 
     /**
      * 修改个人资料
@@ -60,4 +59,13 @@ public interface UserService {
      * @return
      */
     PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String sex);
+
+    /**
+     * 根据id查询详情
+     *
+     * @param id
+     * @return
+     */
+    BaseResult findById(Long id);
+
 }

@@ -116,10 +116,7 @@ public class GoodServiceImpl implements GoodService {
         if (good.getId() == null) {
             return BaseResult.parameterError();
         }
-        int result = goodMapper.updateGood(good);
-        if (result > 0) {
-            return BaseResult.success("更新成功");
-        }
+        goodMapper.updateGood(good);
         List<String> imgList = good.getImgUrlList();
         if (imgList != null && imgList.size() > 0) {
             //清空原来的图片

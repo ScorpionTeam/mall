@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * Created on 2017/9/27.
+ * @author adming
  */
 @Mapper
 public interface UserMapper {
@@ -40,12 +41,12 @@ public interface UserMapper {
     int findByMobile(@Param("mobile") String mobile);
 
     /**
-     * 根据email查询是否存在
+     * 根据id查询
      *
-     * @param email
+     * @param id
      * @return
      */
-    int findByEmail(@Param("email") String email);
+    Member findById(@Param("id") Long id);
 
     /**
      * 根据昵称查询是否存在
@@ -53,7 +54,7 @@ public interface UserMapper {
      * @param nickName
      * @return
      */
-    int findByNickName(@Param("nickName")String nickName);
+    int findByNickName(@Param("nickName") String nickName);
 
     /**
      * 更新用户登录IP地址

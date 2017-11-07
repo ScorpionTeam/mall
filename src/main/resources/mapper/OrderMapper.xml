@@ -19,7 +19,7 @@
         <if test="orderStatus!=null">AND orderStatus =#{orderStatus}</if>
 
         <if test="startDate!=null and endDate!=null">AND createDate BETWEEN #{startDate} AND #{endDate}</if>
-        <if test="startDate==null and endDate!=null">AND createDate BETWEEN 0 AND #{endDate}</if>
+        <if test="startDate==null and endDate!=null">AND createDate BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND createDate BETWEEN #{startDate} AND now()</if>
     </select>
 
