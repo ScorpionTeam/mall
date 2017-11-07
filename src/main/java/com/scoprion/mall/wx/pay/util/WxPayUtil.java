@@ -179,7 +179,7 @@ public class WxPayUtil {
             }
             j++;
         }
-        stringBuffer.append("&key=rzxlszyykpbgqcflzxsqcysyhljttclb");
+        stringBuffer.append("&key="+WxPayConfig.MCH_SECRET);
         return stringBuffer.toString();
     }
 

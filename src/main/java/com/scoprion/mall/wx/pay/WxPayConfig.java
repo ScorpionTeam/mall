@@ -9,11 +9,14 @@ public class WxPayConfig {
     /**
      * 小程序id
      */
-    public final static String APPID = "wx5e495b0ad7d9ac5d"; //
+    public final static String APPID = "";
     /**
      * 小程序secret
      */
-    public final static String APPSECRET = "6eb633a285acdb7b44932cacb6a9a5f2";
+    public final static String APPSECRET = "";
+
+
+    public final static String MCH_SECRET="";
     /**
      * 证书
      */
