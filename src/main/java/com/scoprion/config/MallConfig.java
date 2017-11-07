@@ -9,7 +9,8 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
- * Created on 2017/9/25.
+ * @author  by kunlun
+ * @created on 2017/9/25.
  */
 @Configuration
 public class MallConfig extends WebMvcConfigurerAdapter {
