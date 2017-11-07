@@ -155,7 +155,6 @@ public class OrderServiceImpl implements OrderService {
         order.setGoodSnapShotId(goodSnapshot.getId());
         order.setOrderStatus("1");
         order.setOrderType("2");
-        order.setPayDate(new Date());
         order.setPayType("1");
         return order;
     }

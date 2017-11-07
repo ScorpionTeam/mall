@@ -90,7 +90,7 @@ public class Order {
     /**
      * 支付时间
      */
-    private Date payDate;
+    private String payDate;
 
     /**
      * 发货时间
@@ -346,11 +346,11 @@ public class Order {
         this.userId = userId;
     }
 
-    public Date getPayDate() {
+    public String getPayDate() {
         return payDate;
     }
 
-    public void setPayDate(Date payDate) {
+    public void setPayDate(String payDate) {
         this.payDate = payDate;
     }
 
