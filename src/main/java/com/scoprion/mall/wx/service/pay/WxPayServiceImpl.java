@@ -150,15 +150,15 @@ public class WxPayServiceImpl implements WxPayService {
         OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款", null);
         wxOrderLogMapper.add(orderLog);
         //库存扣减
-        Order order =wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
-        wxGoodMapper.updateGoodStockById(order.getGoodId(),order.getCount());
+        Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
+        wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
         //积分 扣减 新增
 
         //优惠券扣减
         //
 
         //
-        return null;
+        return BaseResult.success("支付回调成功");
     }
 
     /**

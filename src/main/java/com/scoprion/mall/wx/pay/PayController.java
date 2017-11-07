@@ -3,9 +3,7 @@ package com.scoprion.mall.wx.pay;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.alibaba.fastjson.JSON;
-import com.scoprion.mall.backstage.service.good.GoodService;
 import com.scoprion.mall.domain.WxOrderRequestData;
 import com.scoprion.mall.wx.service.pay.WxPayService;
 import com.scoprion.result.BaseResult;

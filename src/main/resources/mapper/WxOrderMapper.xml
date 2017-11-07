@@ -64,5 +64,16 @@
         SELECT wxOrderNo FROM t_order WHERE userId=#{openId} AND id=#{orderId}
     </select>
 
+    <!--我的订单-->
+    <select id="findByUserId" resultType="com.scoprion.mall.domain.Order">
+        SELECT userId,
+        orderNo,
+        orderStatus,
+        payType,
+        totalFee
+        FROM t_order
+        WHERE userId=#{userId} AND orderStatus=#{orderStatus}
+    </select>
+
 
 </mapper>

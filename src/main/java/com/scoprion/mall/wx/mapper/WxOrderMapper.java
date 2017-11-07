@@ -44,6 +44,7 @@ public interface WxOrderMapper {
      * 根据wxOrderNo修改订单状态 以及付款状态
      *
      * @param wxOrderNo
+     * @param payDate
      * @return
      */
     int updateOrderStatusAndPayStatus(String payDate, String wxOrderNo);
@@ -55,5 +56,14 @@ public interface WxOrderMapper {
      * @return
      */
     Order findByWxOrderNo(@Param("wxOrderNo") String wxOrderNo);
+
+    /**
+     * 我的订单
+     *
+     * @param userId
+     * @param orderStatus
+     * @return
+     */
+    Page<Order> findByUserId(@Param("userId") String userId, @Param("orderStatus") String orderStatus);
 
 }
