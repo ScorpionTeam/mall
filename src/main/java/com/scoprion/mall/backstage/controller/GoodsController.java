@@ -1,9 +1,9 @@
 package com.scoprion.mall.backstage.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.backstage.service.good.GoodsService;
+import com.scoprion.mall.domain.GoodsImage;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.IDWorker;
@@ -37,13 +37,15 @@ public class GoodsController {
     @ApiOperation(value = "创建商品")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody JSONObject object) {
-        Goods goods = object.getObject("goods", Goods.class);
-        JSONArray jsonArray = object.getJSONArray("imageList");
-        List<String> imgList = new ArrayList<>();
-        for (Object obj : jsonArray) {
-            imgList.add((String) obj);
+        GoodExt goods = object.getObject("good", GoodExt.class);
+        List<String> imageList = object.getJSONArray("imageList").toJavaList(String.class);
+        if (imageList != null && imageList.size() > 0) {
+            List<GoodsImage> imgList = new ArrayList<>();
+            for (String url : imageList) {
+                imgList.add(new GoodsImage(url));
+            }
+            goods.setImgList(imgList);
         }
-        goods.setImgUrlList(imgList);
         return goodsService.add(goods);
     }
 
@@ -57,6 +59,18 @@ public class GoodsController {
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     public BaseResult deleteById(Long id) {
         return goodsService.deleteGoodsById(id);
+    }
+
+    /**
+     * 批量删除商品
+     *
+     * @return
+     */
+    @ApiOperation(value = "删除商品")
+    @RequestMapping(value = "/bathDeleteGoods", method = RequestMethod.POST)
+    public BaseResult bathDeleteGoods(@RequestBody JSONObject jsonObject) {
+        List<Long> idList = jsonObject.getJSONArray("idList").toJavaList(Long.class);
+        return goodsService.bathDeleteGoods(idList);
     }
 
     /**
@@ -88,12 +102,21 @@ public class GoodsController {
     /**
      * 修改商品
      *
-     * @param goods
+     * @param object
      * @return
      */
     @ApiOperation(value = "修改商品")
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public BaseResult updateGood(@RequestBody Goods goods) {
+    public BaseResult updateGood(@RequestBody JSONObject object) {
+        GoodExt goods = object.getObject("good", GoodExt.class);
+        List<String> imageList = object.getJSONArray("imageList").toJavaList(String.class);
+        if (imageList != null) {
+            List<GoodsImage> imgList = new ArrayList<>();
+            for (String url : imageList) {
+                imgList.add(new GoodsImage(url));
+            }
+            goods.setImgList(imgList);
+        }
         return goodsService.updateGood(goods);
     }
 
@@ -139,34 +162,4 @@ public class GoodsController {
     public BaseResult modifyGoodsDeduction(Long id, Integer count) {
         return goodsService.modifyGoodsDeduction(id, count);
     }
-
-    /**
-     * 模拟商品信息
-     *
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "/mock-good", method = RequestMethod.GET)
-    public BaseResult mockGood() throws Exception {
-        Goods goods = new Goods();
-        goods.setGoodNo(String.valueOf(IDWorker.getFlowIdWorkerInstance().nextId()));
-        goods.setGoodName("【韩国代购】the  SAEM 得鲜 爱可按钮唇膏 M系列 哑光系列 2克/支");
-        goods.setCategoryId(100001L);
-        goods.setDescription(
-                "【富含葡萄籽油、坚果籽油、橄榄果油，质地丝滑柔顺，均匀色调，不易脱色，长效持久，有效锁住唇部水分，精华滋养改善干裂，淡化唇部细纹。tips：唇色不同，上色效果不同，详情图仅供参考哦。");
-        goods.setPromotion(new BigDecimal(79.9));
-        goods.setPrice(new BigDecimal(109.9));
-        goods.setSaleVolume(300);
-        goods.setDiscount(7);
-        goods.setStock(1000);
-        goods.setIsOnSale("1");
-        goods.setIsHot("1");
-        goods.setIsNew("1");
-        goods.setIsFreight("0");
-        goods.setBrandId(100000101L);
-        goods.setSellerId(20000001L);
-        goods.setVisitTotal(10000);
-        return goodsService.add(goods);
-    }
-
 }

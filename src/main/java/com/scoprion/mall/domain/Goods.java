@@ -115,18 +115,6 @@ public class Goods {
      * 主图地址
      */
     private String mainImgUrl;
-    /**
-     * 图片地址暂定最多4-5张
-     */
-    private List<String> imgUrlList;
-
-    public List<String> getImgUrlList() {
-        return imgUrlList;
-    }
-
-    public void setImgUrlList(List<String> imgUrlList) {
-        this.imgUrlList = imgUrlList;
-    }
 
     public Long getId() {
         return id;

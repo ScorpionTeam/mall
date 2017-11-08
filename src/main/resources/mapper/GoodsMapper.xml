@@ -75,7 +75,7 @@
     </select>
 
     <!--根据商品id查询详情-->
-    <select id="findById" resultType="com.scoprion.mall.domain.Goods">
+    <select id="findById" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
          id,
          categoryId,
@@ -149,13 +149,13 @@
     </delete>
 
     <!--插入图片地址，跟商品ID绑定-->
-    <insert id="updateImageWithGoodsId">
-        INSERT INTO t_good_image(goodId,createDate,imgUrl) VALUES(#{goodId},now(),#{url})
+    <insert id="updateImageWithGoodsId" parameterType="com.scoprion.mall.domain.GoodsImage">
+        INSERT INTO t_good_image(goodId,createDate,imgUrl) VALUES(#{goodId},now(),#{imgUrl})
     </insert>
 
     <!--根据商品ID查找图片列表-->
-    <select id="findImgUrlByGoodsId" resultType="java.lang.String">
-        SELECT imgUrl FROM t_good_image WHERE goodId=#{goodId}
+    <select id="findImgUrlByGoodsId" resultType="com.scoprion.mall.domain.GoodsImage">
+        SELECT * FROM t_good_image WHERE goodId=#{goodId}
     </select>
     <!--根据商品id删除图片-->
     <delete id="deleteImageByGoodsId">

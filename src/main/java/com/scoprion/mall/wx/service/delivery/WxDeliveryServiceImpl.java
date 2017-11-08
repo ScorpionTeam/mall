@@ -10,15 +10,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
  * @author admin1
  * @date 2017/11/1
  */
 @Service
-public class DeliveryWxServiceImpl implements DeliveryWxService {
+public class WxDeliveryServiceImpl implements WxDeliveryService {
 
     @Autowired
-    private WxDeliveryMapper deliveryWxMapper;
+    private WxDeliveryMapper wxDeliveryMapper;
 
     /**
      * 分页查询用户收获地址列表
@@ -30,12 +29,12 @@ public class DeliveryWxServiceImpl implements DeliveryWxService {
      */
     @Override
     public PageResult DeliveryList(Long userId, Integer pageNo, Integer pageSize) {
-        PageHelper.startPage(pageNo,pageSize);
+        PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
-        if(userId==null){
+        if (userId == null) {
             return new PageResult();
         }
-        Page<Delivery> page = deliveryWxMapper.deliveryList(userId);
+        Page<Delivery> page = wxDeliveryMapper.deliveryList(userId);
         return new PageResult(page);
     }
 
@@ -46,10 +45,10 @@ public class DeliveryWxServiceImpl implements DeliveryWxService {
      * @return
      */
     @Override
-    public BaseResult addDelivery(Delivery delivery) {
-        Integer result = deliveryWxMapper.addDelivery(delivery);
-        if(result <=0){
-            return  BaseResult.error("error","新增失败");
+    public BaseResult add(Delivery delivery) {
+        Integer result = wxDeliveryMapper.add(delivery);
+        if (result <= 0) {
+            return BaseResult.error("error", "新增失败");
         }
         return BaseResult.success("新增成功");
     }
@@ -62,9 +61,9 @@ public class DeliveryWxServiceImpl implements DeliveryWxService {
      */
     @Override
     public BaseResult updateDelivery(Delivery delivery) {
-        Integer result = deliveryWxMapper.updateDelivery(delivery);
-        if(result <=0){
-            return  BaseResult.error("error","修改失败");
+        Integer result = wxDeliveryMapper.updateDelivery(delivery);
+        if (result <= 0) {
+            return BaseResult.error("error", "修改失败");
         }
         return BaseResult.success("修改成功");
     }
@@ -77,9 +76,9 @@ public class DeliveryWxServiceImpl implements DeliveryWxService {
      */
     @Override
     public BaseResult deleteDelivery(Long id) {
-        Integer result = deliveryWxMapper.deleteDelivery(id);
-        if(result<=0){
-            return BaseResult.error("error","删除失败");
+        Integer result = wxDeliveryMapper.deleteDelivery(id);
+        if (result <= 0) {
+            return BaseResult.error("error", "删除失败");
         }
         return BaseResult.success("删除成功");
     }

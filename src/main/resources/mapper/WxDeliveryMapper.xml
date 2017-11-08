@@ -4,51 +4,61 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.wx.mapper.WxDeliveryMapper">
 
-    <!--根据userId查询用户收获地址-->
-    <select id="deliveryList" parameterType="java.lang.Long" resultType="com.scoprion.mall.domain.Delivery">
-        SELECT * from t_delivery WHERE userId = #{userId}
-    </select>
 
-    <!--新增收货地址-->
-    <insert id="addDelivery" parameterType="com.scoprion.mall.domain.Delivery">
-      INSERT INTO  t_delivery (userId,
-                               wechat,
-                               recipients,
-                               phone,
-                               province,
-                               city,
-                               area,
-                               address,
-                               postCode,
-                               createDate,
-                               updateDate)
-              VALUES (#{userId},
-                  #{wechat},
-                  #{recipients},
-                  #{phone},
-                  #{province},
-                  #{city},
-                  #{area},
-                  #{address},
-                  #{postCode},
-                  NOW(),
-                  NOW())
+    <!--创建收获地址-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.Delivery">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_delivery(userId,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        postCode,
+        createDate,
+        updateDate,
+        wechat)
+        VALUES(#{userId},
+        #{recipients},
+        #{phone},
+        #{province},
+        #{city},
+        #{area},
+        #{address},
+        #{postCode},
+        NOW(),
+        NOW(),
+        #{wechat})
     </insert>
 
-    <!--修改收货地址-->
-    <update id="updateDelivery" parameterType="com.scoprion.mall.domain.Delivery">
-        UPDATE t_delivery SET recipients=#{recipients},phone=#{phone},province=#{province},
-            area=#{area},address=#{address},postCode=#{postCode},updateDate=NOW()
-            WHERE  id = #{id}
+    <!--编辑收货地址-->
+    <update id="edit" parameterType="com.scoprion.mall.domain.Delivery">
+        UPDATE t_delivery SET recipients=#{recipients},
+        phone=#{phone},
+        province=#{province},
+        city=#{city},
+        area=#{area},
+        address=#{address},
+        postCode=#{postCode},
+        updateDate=NOW()
+        WHERE userId=#{userId}
     </update>
 
-    <!--删除收获地址-->
-    <delete id="deleteDelivery">
-        DELETE FROM  t_delivery WHERE id = #{id}
-    </delete>
-
-    <!--根据id查询收货地址-->
     <select id="findById" resultType="com.scoprion.mall.domain.Delivery">
-        SELECT * from t_delivery WHERE id=#{id}
+        SELECT id,
+        userId,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        postCode
+        FROM t_delivery
+        WHERE id=#{id}
     </select>
+
 </mapper>

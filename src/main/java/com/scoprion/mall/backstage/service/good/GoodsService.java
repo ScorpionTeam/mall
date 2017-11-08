@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.service.good;
 
+import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -35,7 +36,7 @@ public interface GoodsService {
      * @param goods
      * @return
      */
-    BaseResult add(Goods goods);
+    BaseResult add(GoodExt goods);
 
     /**
      * 优选
@@ -60,7 +61,7 @@ public interface GoodsService {
      * @param goods
      * @return
      */
-    BaseResult updateGood(Goods goods);
+    BaseResult updateGood(GoodExt goods);
 
     /**
      * 根据条件差查询商品列表
@@ -88,6 +89,14 @@ public interface GoodsService {
      * @return
      */
     BaseResult deleteGoodsById(Long id);
+
+    /**
+     * 批量删除商品
+     *
+     * @param idList 商品id集合
+     * @return
+     */
+    BaseResult bathDeleteGoods(List<Long> idList);
 
     /**
      * 商品库存减扣

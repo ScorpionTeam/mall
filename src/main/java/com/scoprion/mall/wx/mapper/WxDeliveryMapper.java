@@ -25,7 +25,7 @@ public interface WxDeliveryMapper {
      * @param delivery
      * @return
      */
-    Integer addDelivery(Delivery delivery);
+    int add(Delivery delivery);
 
     /**
      * 修改收货地址

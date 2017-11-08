@@ -43,7 +43,7 @@ public class ActivityController {
         for (Object goodId : jsonArray) {
             goodIdList.add(Long.valueOf(goodId.toString()));
         }
-        activity.setGoodIdList(goodIdList);
+//        activity.setGoodIdList(goodIdList);
         return activityService.add(activity);
     }
 
@@ -74,7 +74,7 @@ public class ActivityController {
         for (Object goodId : jsonArray) {
             goodIdList.add(Long.valueOf(goodId.toString()));
         }
-        activity.setGoodIdList(goodIdList);
+//        activity.setGoodIdList(goodIdList);
         return activityService.update(activity);
     }
 
