@@ -42,4 +42,5 @@
     <select id="findByWxOrderNo" resultType="com.scoprion.mall.domain.Order">
         SELECT id,userId,orderNo,count,goodId FROM t_order WHERE wxOrderNo=#{wxOrderNo}
     </select>
+
 </mapper>

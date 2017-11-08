@@ -53,7 +53,8 @@ public class OrderController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public PageResult list(Integer pageNo, Integer pageSize, String payType, String orderType,
                            String orderStatus, String searchKey, String startDate, String endDate, String phone) {
-        return orderService.listPage(pageNo, pageSize, payType, orderType, orderStatus, searchKey, startDate, endDate, phone);
+        return orderService.listPage(pageNo, pageSize, payType, orderType, orderStatus, searchKey, startDate, endDate,
+                phone);
     }
 
     /**
@@ -66,5 +67,20 @@ public class OrderController {
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
         return orderService.findById(id);
+    }
+
+    /**
+     * 退款处理
+     *
+     * @param orderId   订单id
+     * @param flag      0 拒绝  1 通过
+     * @param remark    退款备注
+     * @param refundFee 退款金额
+     * @return
+     */
+    @RequestMapping(value = "/audit/refund", method = RequestMethod.POST)
+    public BaseResult refund(Long orderId, String flag, String remark, int refundFee) {
+
+        return null;
     }
 }

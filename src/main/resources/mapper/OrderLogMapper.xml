@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.backstage.mapper.OrderLogMapper">
+    <!-- 添加日志信息 -->
+    <insert id="add" parameterType="com.scoprion.mall.domain.OrderLog">
+        INSERT INTO t_order_log(
+          orderNo,
+          action,
+          ipAddress,
+          createDate
+        ) VALUES (
+         #{orderNo},
+         #{action},
+         #{ipAddress},
+         now()
+        )
+    </insert>
+</mapper>

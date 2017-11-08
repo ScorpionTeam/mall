@@ -46,6 +46,7 @@ public class Order {
      * 4 已完成
      * 5 申请退款中
      * 6 退款已完成
+     * 7 退款拒绝
      */
     private String orderStatus;
 
