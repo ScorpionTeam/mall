@@ -5,7 +5,7 @@
 <mapper namespace="com.scoprion.mall.wx.mapper.WxDeliveryMapper">
 
 
-    <!--创建收货地址-->
+    <!--创建收获地址-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Delivery">
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
@@ -45,11 +45,12 @@
         <if test="address!=null">address=#{address},</if>
         <if test="postCode!=null">postCode=#{postCode},</if>
         updateDate=NOW()
-        WHERE id=#{id}
+        WHERE userId=#{userId}
     </update>
 
-    <!--查询用户收货地址列表-->
-    <select id="deliveryList" resultType="com.scoprion.mall.domain.Delivery">
+
+    <!--地址详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.Delivery">
         SELECT id,
         userId,
         recipients,
@@ -60,11 +61,23 @@
         address,
         postCode
         FROM t_delivery
-        WHERE userId=#{userId}
+        WHERE id=#{id}
     </select>
 
-    <!-- 删除收货地址 -->
-    <delete id="deleteByDelivery" parameterType="com.scoprion.mall.domain.Delivery">
-        DELETE FROM t_delivery WHERE id=#{id}
-    </delete>
+    <!--分页查询用户收获地址-->
+    <select id="listPage" resultType="com.scoprion.mall.domain.Delivery">
+        SELECT id,
+        userId,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        postCode,
+        createDate,
+        updateDate
+        FROM t_delivery
+        WHERE userId=#{userId}
+    </select>
 </mapper>

@@ -28,13 +28,13 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public PageResult deliveryList(Long userId, Integer pageNo, Integer pageSize) {
+    public PageResult listPage(Long userId, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
         if (userId == null) {
             return new PageResult();
         }
-        Page<Delivery> page = wxDeliveryMapper.deliveryList(userId);
+        Page<Delivery> page = wxDeliveryMapper.listPage(userId);
         return new PageResult(page);
     }
 
@@ -60,11 +60,11 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult updateByDelivery(Delivery delivery) {
-        Integer result = wxDeliveryMapper.updateDelivery(delivery);
-        if (result <= 0) {
-            return BaseResult.error("error", "修改失败");
+    public BaseResult updateDelivery(Delivery delivery) {
+        if(delivery.getId()==null){
+            return BaseResult.parameterError();
         }
+        wxDeliveryMapper.updateDelivery(delivery);
         return BaseResult.success("修改成功");
     }
 
@@ -75,11 +75,28 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult deleteByDelivery(Long id) {
-        Integer result = wxDeliveryMapper.deleteByDelivery(id);
+    public BaseResult deleteDelivery(Long id) {
+        Integer result = wxDeliveryMapper.deleteDelivery(id);
         if (result <= 0) {
             return BaseResult.error("error", "删除失败");
         }
         return BaseResult.success("删除成功");
+    }
+
+    /**
+     * 获取详情
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseResult findById(Long id) {
+        if(id==null){
+            return BaseResult.parameterError();
+        }
+        Delivery delivery=wxDeliveryMapper.findById(id);
+        if (delivery==null){
+            return BaseResult.notFound();
+        }
+        return BaseResult.success(delivery);
     }
 }

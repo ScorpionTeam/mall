@@ -18,7 +18,7 @@ public interface WxDeliveryMapper {
      * @param userId
      * @return
      */
-    Page<Delivery> deliveryList(@Param("userId") Long userId);
+    Page<Delivery> listPage(@Param("userId") Long userId);
 
     /**
      * 新增收货地址
@@ -36,11 +36,11 @@ public interface WxDeliveryMapper {
     Integer updateDelivery(Delivery delivery);
 
     /**
-     * 删除收货地址
+     * 删除收获地址
      * @param id
      * @return
      */
-    Integer deleteByDelivery(@Param("id") Long id);
+    Integer deleteDelivery(@Param("id") Long id);
 
     /**
      * 根据主键查询收件人信息

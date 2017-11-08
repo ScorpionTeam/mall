@@ -17,7 +17,7 @@ public interface WxDeliveryService {
      * @param pageSize
      * @return
      */
-    PageResult deliveryList(Long userId, Integer pageNo, Integer pageSize);
+    PageResult listPage(Long userId, Integer pageNo, Integer pageSize);
 
     /**
      * 新增收货地址
@@ -32,7 +32,7 @@ public interface WxDeliveryService {
      * @param delivery
      * @return
      */
-    BaseResult updateByDelivery(Delivery delivery);
+    BaseResult updateDelivery(Delivery delivery);
 
     /**
      * 删除收获地址
@@ -40,5 +40,12 @@ public interface WxDeliveryService {
      * @param id
      * @return
      */
-    BaseResult deleteByDelivery(Long id);
+    BaseResult deleteDelivery(Long id);
+
+    /**
+     * 获取详情
+     * @param id
+     * @return
+     */
+    BaseResult findById(Long id);
 }

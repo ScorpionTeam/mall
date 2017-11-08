@@ -17,7 +17,7 @@ public class WxDeliveryController {
     private WxDeliveryService wxDeliveryService;
 
     /**
-     * 查询用户收货地址列表
+     * 查询用户收获地址列表
      *
      * @param userId
      * @param pageNo
@@ -25,18 +25,19 @@ public class WxDeliveryController {
      * @return
      */
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public PageResult deliveryList(Long userId, Integer pageNo, Integer pageSize){
-        return wxDeliveryService.deliveryList(userId,pageNo,pageSize);
+    public PageResult listPage(Long userId, Integer pageNo, Integer pageSize){
+        return wxDeliveryService.listPage(userId,pageNo,pageSize);
     }
 
     /**
-     * 创建收货地址
+     * 新增收货地址
      * @param delivery
      * @return
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult add(@RequestBody Delivery delivery){
+    public BaseResult addDelivery(@RequestBody Delivery delivery){
+
         return wxDeliveryService.add(delivery);
     }
 
@@ -48,19 +49,31 @@ public class WxDeliveryController {
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult updateByDelivery(@RequestBody Delivery delivery){
-        return  wxDeliveryService.updateByDelivery(delivery);
+    public BaseResult updateDelivery(@RequestBody Delivery delivery){
+        return  wxDeliveryService.updateDelivery(delivery);
     }
 
 
     /**
-     * 删除收货地址
+     * 删除收获地址
      *
      * @param id
      * @return
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public BaseResult deleteByDelivery(Long id){
-        return  wxDeliveryService.deleteByDelivery(id);
+    @ResponseBody
+    public BaseResult deleteDelivery(Long id){
+        return  wxDeliveryService.deleteDelivery(id);
+    }
+
+
+    /**
+     * 获取详情
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/findById",method = RequestMethod.GET)
+    public BaseResult findById(Long id){
+        return wxDeliveryService.findById(id);
     }
 }
