@@ -6,12 +6,10 @@ import com.scoprion.mall.backstage.service.good.GoodsService;
 import com.scoprion.mall.domain.GoodsImage;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-import com.scoprion.utils.IDWorker;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +23,7 @@ import java.util.List;
 public class GoodsController {
 
 
+    private static final String IMAGE_LIST = "imageList";
     @Autowired
     private GoodsService goodsService;
 
@@ -38,13 +37,15 @@ public class GoodsController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody JSONObject object) {
         GoodExt goods = object.getObject("good", GoodExt.class);
-        List<String> imageList = object.getJSONArray("imageList").toJavaList(String.class);
-        if (imageList != null && imageList.size() > 0) {
-            List<GoodsImage> imgList = new ArrayList<>();
-            for (String url : imageList) {
-                imgList.add(new GoodsImage(url));
+        if (object.containsKey(IMAGE_LIST)) {
+            List<String> imageList = object.getJSONArray(IMAGE_LIST).toJavaList(String.class);
+            if (imageList != null && imageList.size() > 0) {
+                List<GoodsImage> imgList = new ArrayList<>();
+                for (String url : imageList) {
+                    imgList.add(new GoodsImage(url));
+                }
+                goods.setImgList(imgList);
             }
-            goods.setImgList(imgList);
         }
         return goodsService.add(goods);
     }
@@ -109,13 +110,15 @@ public class GoodsController {
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public BaseResult updateGood(@RequestBody JSONObject object) {
         GoodExt goods = object.getObject("good", GoodExt.class);
-        List<String> imageList = object.getJSONArray("imageList").toJavaList(String.class);
-        if (imageList != null) {
-            List<GoodsImage> imgList = new ArrayList<>();
-            for (String url : imageList) {
-                imgList.add(new GoodsImage(url));
+        if (object.containsKey(IMAGE_LIST)) {
+            List<String> imageList = object.getJSONArray(IMAGE_LIST).toJavaList(String.class);
+            if (imageList != null) {
+                List<GoodsImage> imgList = new ArrayList<>();
+                for (String url : imageList) {
+                    imgList.add(new GoodsImage(url));
+                }
+                goods.setImgList(imgList);
             }
-            goods.setImgList(imgList);
         }
         return goodsService.updateGood(goods);
     }

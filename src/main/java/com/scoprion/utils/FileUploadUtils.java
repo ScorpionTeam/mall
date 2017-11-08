@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -21,8 +22,8 @@ import java.util.List;
  */
 public class FileUploadUtils {
 
-    public static String upload(MultipartFile file, String imageType, String cut, List<ImageCutSize> cutSizeList,
-                                String waterRemark, String waterRemarkText) throws IOException {
+    public static List<String> upload(MultipartFile file, String imageType, String cut, List<ImageCutSize> cutSizeList,
+                                      String waterRemark, String waterRemarkText) throws IOException {
         String path = parseFilePathByType(imageType);
         existDir(path);
         Calendar calendar = Calendar.getInstance();
@@ -31,40 +32,77 @@ public class FileUploadUtils {
         String endName = "." + name.substring(name.lastIndexOf(".") + 1);
         File image = new File(path + fileName + endName);
         file.transferTo(image);
+        List<String> urlList = new ArrayList<>();
         if (Constant.CUT_TRUE.equals(cut)) {
             //裁剪
             for (ImageCutSize imageCutSize : cutSizeList) {
-                String toFileName = getToFileName(path, fileName, endName, imageCutSize);
+                String absolutePath = getAbsolutePath(path, fileName, endName, imageCutSize);
                 Thumbnails.of(image)
                         .size(imageCutSize.getWidth(), imageCutSize.getHeight())
-                        .toFile(toFileName);
+                        .toFile(absolutePath);
                 if (Constant.WATER_REMARK_TRUE.equals(waterRemark)) {
                     //加水印
-                    Thumbnails.of(toFileName)
+                    Thumbnails.of(absolutePath)
                             .size(imageCutSize.getWidth(), imageCutSize.getHeight())
-                            .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File("D:\\Downloads\\log.png")), 1f)
-                            .toFile(toFileName);
+                            .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(Constant.WATER_REMARK_IMAGE_PATH)), 1f)
+                            .toFile(absolutePath);
                 }
+                //存储图片名
+                urlList.add(getFileName(path, fileName, endName, imageCutSize));
             }
         } else {
             if (Constant.WATER_REMARK_TRUE.equals(waterRemark)) {
-                String toFileName = getToFileName(path, fileName, endName, null);
+                String absolutePath = getAbsolutePath(path, fileName, endName, null);
                 //加水印
-                Thumbnails.of(toFileName)
-                        .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File("D:\\Downloads\\log.png")), 1f)
-                        .toFile(toFileName);
+                Thumbnails.of(absolutePath)
+                        .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(Constant.WATER_REMARK_IMAGE_PATH)), 1f)
+                        .toFile(absolutePath);
+                //存储图片名
+                urlList.add(getFileName(path, fileName, endName, null));
             }
         }
-        return fileName + endName;
+        return urlList;
     }
 
-    private static String getToFileName(String path, String fileName, String endName, ImageCutSize imageCutSize) {
+    /**
+     * 获取图片名称
+     *
+     * @param path
+     * @param fileName     示例：122334441121212
+     * @param endName      后缀名 示例： .png
+     * @param imageCutSize
+     * @return
+     */
+    private static String getFileName(String path, String fileName, String endName, ImageCutSize imageCutSize) {
+        path = path.replace(Constant.BASE_IMG_DIR, "");
         if (imageCutSize == null) {
             return path + fileName + endName;
         }
         return path + fileName + "_" + imageCutSize.getWidth() + "x" + imageCutSize.getHeight() + endName;
     }
 
+    /**
+     * 获取绝对路径
+     *
+     * @param path         示例： D:Downloads/
+     * @param fileName     示例：122334441121212
+     * @param endName      后缀名 示例： .png
+     * @param imageCutSize
+     * @return
+     */
+    private static String getAbsolutePath(String path, String fileName, String endName, ImageCutSize imageCutSize) {
+        if (imageCutSize == null) {
+            return path + fileName + endName;
+        }
+        return path + fileName + "_" + imageCutSize.getWidth() + "x" + imageCutSize.getHeight() + endName;
+    }
+
+    /**
+     * 根据类型获取图片地址
+     *
+     * @param imageType
+     * @return
+     */
     public static String parseFilePathByType(String imageType) {
         String path;
         switch (imageType) {

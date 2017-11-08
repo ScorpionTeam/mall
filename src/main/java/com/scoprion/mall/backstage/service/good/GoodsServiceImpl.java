@@ -66,9 +66,11 @@ public class GoodsServiceImpl implements GoodsService {
         if (result > 0) {
             //更新图片信息
             List<GoodsImage> imgList = goods.getImgList();
-            for (GoodsImage goodsImage : imgList) {
-                goodsImage.setGoodId(goods.getId());
-                goodsMapper.updateImageWithGoodsId(goodsImage);
+            if (imgList != null && imgList.size() > 0) {
+                for (GoodsImage goodsImage : imgList) {
+                    goodsImage.setGoodId(goods.getId());
+                    goodsMapper.updateImageWithGoodsId(goodsImage);
+                }
             }
             return BaseResult.success("创建商品成功");
         }
