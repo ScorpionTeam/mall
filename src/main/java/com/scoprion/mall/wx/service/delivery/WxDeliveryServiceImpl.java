@@ -20,17 +20,21 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     private WxDeliveryMapper wxDeliveryMapper;
 
     /**
-     * 查询收货地址列表
+     * 分页查询用户收获地址列表
      *
+     * @param userId
      * @param pageNo
      * @param pageSize
-     * @param userId
      * @return
      */
     @Override
-    public PageResult findByUserId(int pageNo, int pageSize, String userId) {
+    public PageResult listPage(Long userId, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        Page<Delivery> page = wxDeliveryMapper.findByUserId(userId);
+        //判断userId是否为空
+        if (userId == null) {
+            return new PageResult();
+        }
+        Page<Delivery> page = wxDeliveryMapper.listPage(userId);
         return new PageResult(page);
     }
 
@@ -57,15 +61,15 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public BaseResult updateDelivery(Delivery delivery) {
-        Integer result = wxDeliveryMapper.updateDelivery(delivery);
-        if (result <= 0) {
-            return BaseResult.error("error", "修改失败");
+        if(delivery.getId()==null){
+            return BaseResult.parameterError();
         }
+        wxDeliveryMapper.updateDelivery(delivery);
         return BaseResult.success("修改成功");
     }
 
     /**
-     * 删除收获地址
+     * 删除收货地址
      *
      * @param id
      * @return
@@ -77,5 +81,22 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
             return BaseResult.error("error", "删除失败");
         }
         return BaseResult.success("删除成功");
+    }
+
+    /**
+     * 获取收货地址详情
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseResult findById(Long id) {
+        if(id==null){
+            return BaseResult.parameterError();
+        }
+        Delivery delivery=wxDeliveryMapper.findById(id);
+        if (delivery==null){
+            return BaseResult.notFound();
+        }
+        return BaseResult.success(delivery);
     }
 }

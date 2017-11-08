@@ -44,6 +44,8 @@ public class Order {
      * 2 待发货
      * 3 待收货
      * 4 已完成
+     * 5 申请退款中
+     * 6 退款已完成
      */
     private String orderStatus;
 
@@ -69,17 +71,21 @@ public class Order {
     /**
      * 商品金额
      */
-    private BigDecimal goodFee;
+    private int goodFee;
 
+    /**
+     * 订单金额
+     */
+    private int orderFee;
     /**
      * 优惠金额
      */
-    private BigDecimal ticketFee;
+    private int ticketFee;
 
     /**
      * 实付金额
      */
-    private BigDecimal totalFee;
+    private int totalFee;
 
     /**
      * 下单时间
@@ -144,6 +150,11 @@ public class Order {
     private int count;
 
     /**
+     * 预付款id
+     */
+    private String prePayId;
+
+    /**
      * 微信订单号
      */
     private String wxOrderNo;
@@ -153,6 +164,18 @@ public class Order {
      */
     private Long goodId;
 
+    /**
+     * 审核备注
+     */
+    private String remark;
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 
     public Long getId() {
         return id;
@@ -218,27 +241,31 @@ public class Order {
         this.message = message;
     }
 
-    public BigDecimal getGoodFee() {
+    public int getGoodFee() {
         return goodFee;
     }
 
-    public void setGoodFee(BigDecimal goodFee) {
+    public void setGoodFee(int goodFee) {
         this.goodFee = goodFee;
     }
 
-    public BigDecimal getTicketFee() {
+    public void setOrderFee(int orderFee) {
+        this.orderFee = orderFee;
+    }
+
+    public int getTicketFee() {
         return ticketFee;
     }
 
-    public void setTicketFee(BigDecimal ticketFee) {
+    public void setTicketFee(int ticketFee) {
         this.ticketFee = ticketFee;
     }
 
-    public BigDecimal getTotalFee() {
+    public int getTotalFee() {
         return totalFee;
     }
 
-    public void setTotalFee(BigDecimal totalFee) {
+    public void setTotalFee(int totalFee) {
         this.totalFee = totalFee;
     }
 
@@ -362,6 +389,18 @@ public class Order {
         this.goodId = goodId;
     }
 
+    public int getOrderFee() {
+        return orderFee;
+    }
+
+    public String getPrePayId() {
+        return prePayId;
+    }
+
+    public void setPrePayId(String prePayId) {
+        this.prePayId = prePayId;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -375,6 +414,7 @@ public class Order {
                 ", payType='" + payType + '\'' +
                 ", message='" + message + '\'' +
                 ", goodFee=" + goodFee +
+                ", orderFee=" + orderFee +
                 ", ticketFee=" + ticketFee +
                 ", totalFee=" + totalFee +
                 ", createDate=" + createDate +
@@ -389,8 +429,10 @@ public class Order {
                 ", postCode='" + postCode + '\'' +
                 ", goodName='" + goodName + '\'' +
                 ", count=" + count +
+                ", prePayId='" + prePayId + '\'' +
                 ", wxOrderNo='" + wxOrderNo + '\'' +
                 ", goodId=" + goodId +
+                ", remark='" + remark + '\'' +
                 '}';
     }
 }

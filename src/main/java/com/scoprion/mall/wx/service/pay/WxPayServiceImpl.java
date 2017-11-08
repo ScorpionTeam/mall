@@ -85,11 +85,10 @@ public class WxPayServiceImpl implements WxPayService {
                 "妆口袋",
                 openid,
                 order.getOrderNo(),
-                wxOrderRequestData.getTotalFee().intValue(),
+                wxOrderRequestData.getTotalFee(),
                 nonce_str);
         //生成预付款订单
         String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "GET", xmlString);
-        System.out.println(wxOrderResponse);
         //将xml返回信息转换为bean
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
@@ -100,7 +99,6 @@ public class WxPayServiceImpl implements WxPayService {
         //随机字符串
         String nonceStr = WxUtil.createRandom(false, 10);
         String paySign = paySign(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
-        System.out.println("支付PaySign:" + paySign);
         unifiedOrderResponseData.setPaySign(paySign);
         unifiedOrderResponseData.setNonce_str(nonceStr);
         unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
@@ -161,9 +159,10 @@ public class WxPayServiceImpl implements WxPayService {
 //        System.out.println("本地再签:" + localSign);
         //判断是否成功接收回调
         if (null == order.getPayDate()) {
-            //修改订单状态
+            //修改订单状态 以及微信订单号
             wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
-                    unifiedOrderNotifyRequestData.getOut_trade_no());
+                    unifiedOrderNotifyRequestData.getOut_trade_no(),
+                    unifiedOrderNotifyRequestData.getTransaction_id());
             //记录订单日志
             OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款", null);
             wxOrderLogMapper.add(orderLog);

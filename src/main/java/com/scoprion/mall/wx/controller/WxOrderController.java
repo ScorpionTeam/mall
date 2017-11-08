@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.service.order.WxOrderService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -7,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author by Administrator
@@ -25,13 +29,13 @@ public class WxOrderController {
      *
      * @param pageNo
      * @param pageSize
-     * @param userId
+     * @param wxCode
      * @param orderStatus
      * @return
      */
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
-    public PageResult findByUserId(int pageNo, int pageSize, String userId, String orderStatus) {
-        return wxOrderService.findByUserId(pageNo, pageSize, userId, orderStatus);
+    public PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus) {
+        return wxOrderService.findByUserId(pageNo, pageSize, wxCode, orderStatus);
     }
 
 
@@ -46,4 +50,14 @@ public class WxOrderController {
         return wxOrderService.findByOrderId(orderId);
     }
 
+
+    /**
+     * 退款申请
+     *
+     * @return
+     */
+    @RequestMapping(value = "/refund", method = RequestMethod.POST)
+    public BaseResult refund(Long orderId) {
+        return wxOrderService.refund(orderId);
+    }
 }

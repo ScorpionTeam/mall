@@ -51,12 +51,17 @@ public class WxOrderRequestData {
     /**
      * 商品总额
      */
-    private BigDecimal goodPrice;
+    private int goodPrice;
 
     /**
      * 实付金额
      */
-    private BigDecimal totalFee;
+    private int totalFee;
+
+    /**
+     * 订单金额
+     */
+    private int orderFee;
 
     public Long getGoodId() {
         return goodId;
@@ -122,20 +127,28 @@ public class WxOrderRequestData {
         this.point = point;
     }
 
-    public BigDecimal getGoodPrice() {
+    public int getGoodPrice() {
         return goodPrice;
     }
 
-    public void setGoodPrice(BigDecimal goodPrice) {
+    public void setGoodPrice(int goodPrice) {
         this.goodPrice = goodPrice;
     }
 
-    public BigDecimal getTotalFee() {
+    public int getTotalFee() {
         return totalFee;
     }
 
-    public void setTotalFee(BigDecimal totalFee) {
+    public void setTotalFee(int totalFee) {
         this.totalFee = totalFee;
+    }
+
+    public int getOrderFee() {
+        return orderFee;
+    }
+
+    public void setOrderFee(int orderFee) {
+        this.orderFee = orderFee;
     }
 
     @Override
@@ -151,6 +164,7 @@ public class WxOrderRequestData {
                 ", point=" + point +
                 ", goodPrice=" + goodPrice +
                 ", totalFee=" + totalFee +
+                ", orderFee=" + orderFee +
                 '}';
     }
 }

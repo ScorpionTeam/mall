@@ -23,13 +23,14 @@ public interface WxOrderMapper {
     int add(Order order);
 
     /**
-     * 根据订单号修改微信返回订单号
+     * 根据订单号修改微信预付款订单号
      *
      * @param orderId
-     * @param wxOrderNo
+     * @param prepayId
      * @return
      */
-    int updateOrderForWxOrderNo(@Param("orderId") Long orderId, @Param("wxOrderNo") String wxOrderNo);
+    int updateOrderForWxOrderNo(@Param("orderId") Long orderId,
+                                @Param("prepayId") String prepayId);
 
     /**
      * 根据openid查询微信预付款订单号
@@ -38,16 +39,20 @@ public interface WxOrderMapper {
      * @param orderId
      * @return
      */
-    String findPrepayIdByOpenid(@Param("openId") String openId, @Param("orderId") Long orderId);
+    String findPrepayIdByOpenid(@Param("openId") String openId,
+                                @Param("orderId") Long orderId);
 
     /**
-     * 根据订单号修改订单状态 以及付款状态
+     * 根据订单号修改订单状态 以及付款状态 & 微信订单号
      *
      * @param orderNo
      * @param payDate
+     * @param wxOrderNo
      * @return
      */
-    int updateOrderStatusAndPayStatus(@Param("payDate") String payDate, @Param("orderNo") String orderNo);
+    int updateOrderStatusAndPayStatus(@Param("payDate") String payDate,
+                                      @Param("orderNo") String orderNo,
+                                      @Param("wxOrderNo") String wxOrderNo);
 
     /**
      * 根据微信单号查询订单信息
@@ -64,7 +69,8 @@ public interface WxOrderMapper {
      * @param orderStatus
      * @return
      */
-    Page<Order> findByUserId(@Param("userId") String userId, @Param("orderStatus") String orderStatus);
+    Page<Order> findByUserId(@Param("userId") String userId,
+                             @Param("orderStatus") String orderStatus);
 
     /**
      * 查询订单详情
@@ -73,5 +79,14 @@ public interface WxOrderMapper {
      * @return
      */
     Order findByOrderId(@Param("orderId") Long orderId);
+
+    /**
+     * 根据订单id修改订单状态
+     *
+     * @param orderId
+     * @param orderStatus
+     * @return
+     */
+    int updateByOrderID(@Param("orderId") Long orderId, @Param("orderStatus") String orderStatus);
 
 }

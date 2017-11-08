@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("wx/ticket")
-public class TicketWxController {
+public class WxTicketController {
 
 
     @Autowired
