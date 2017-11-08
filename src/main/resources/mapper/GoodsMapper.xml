@@ -131,8 +131,39 @@
     </update>
 
     <select id="findByCondition" resultType="com.scoprion.mall.domain.Goods">
-        SELECT * FROM t_good WHERE 1=1
-        <if test="searchKey!=null">AND CONCAT(goodName,description,goodNo) LIKE #{searchKey}</if>
+        SELECT
+        id,
+        goodNo,
+        categoryId,
+        goodName,
+        description,
+        promotion,
+        price,
+        saleVolume,
+        discount,
+        stock,
+        isOnSale,
+        isHot,
+        isNew,
+        isFreight,
+        brandId,
+        sellerId,
+        visitTotal,
+        mainImgUrl,
+        createDate
+        FROM t_good
+        WHERE 1=1
+        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(goodName,description,goodNo) LIKE #{searchKey}</if>
+        <if test="startDate!=null and endDate!=null">AND createDate BETWEEN #{startDate} AND #{endDate}</if>
+        <if test="startDate==null and endDate!=null">AND createDate BETWEEN '1970-01-01' AND #{endDate}</if>
+        <if test="startDate!=null and endDate==null">AND createDate BETWEEN #{startDate} AND now()</if>
+        <if test="goodNo!=null and   goodNo!=''">AND goodNo= #{goodNo}</if>
+        <if test="saleStatus!=null and   saleStatus!=''">AND isOnSale= #{saleStatus}</if>
+        <if test="isHot!=null and   isHot!=''">AND isHot= #{isHot}</if>
+        <if test="isNew!=null and   isNew!=''">AND isNew= #{isNew}</if>
+        <if test="isFreight!=null and   isFreight!=''">AND isFreight= #{isFreight}</if>
+        <if test="categoryId!=null and   categoryId!=''">AND categoryId= #{categoryId}</if>
+        <if test="brandId!=null and   brandId!=''">AND brandId= #{brandId}</if>
     </select>
 
     <!--商品上下架-->

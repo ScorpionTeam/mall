@@ -139,11 +139,22 @@ public class GoodsServiceImpl implements GoodsService {
      *
      * @param pageNo
      * @param pageSize
-     * @param searchKey
+     * @param searchKey  模糊信息
+     * @param goodNo     商品编号
+     * @param saleStatus 上下架
+     * @param startDate  开始时间
+     * @param endDate    结束时间
+     * @param categoryId 类目
+     * @param isHot      热销
+     * @param isNew      新品
+     * @param isFreight  包邮
+     * @param brandId    品牌
      * @return
      */
     @Override
-    public PageResult findByCondition(int pageNo, int pageSize, String searchKey) {
+    public PageResult findByCondition(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
+                                      String startDate, String endDate, Long categoryId, String isHot, String isNew,
+                                      String isFreight, Long brandId) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(searchKey)) {
             searchKey = null;
@@ -151,7 +162,8 @@ public class GoodsServiceImpl implements GoodsService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Goods> page = goodsMapper.findByCondition(searchKey);
+        Page<Goods> page = goodsMapper.findByCondition(searchKey, goodNo, saleStatus, startDate, endDate, categoryId,
+                isHot, isNew, isFreight, brandId);
         if (page == null) {
             return new PageResult(new ArrayList<Goods>());
         }

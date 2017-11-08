@@ -91,14 +91,40 @@ public class GoodsController {
      *
      * @param pageNo
      * @param pageSize
-     * @param searchKey
+     * @param searchKey  模糊信息
+     * @param goodNo     商品编号
+     * @param saleStatus 上下架
+     * @param startDate  开始时间
+     * @param endDate    结束时间
+     * @param categoryId   类目
+     * @param isHot      热销
+     * @param isNew      新品
+     * @param isFreight    包邮
+     * @param brandId      品牌
      * @return
      */
     @ApiOperation(value = "查询商品")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
-    public PageResult findByCondition(int pageNo, int pageSize, String searchKey) {
-        return goodsService.findByCondition(pageNo, pageSize, searchKey);
+    public PageResult findByCondition(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
+                                      String startDate, String endDate, Long categoryId, String isHot, String isNew,
+                                      String isFreight, Long brandId) {
+        return goodsService.findByCondition(pageNo, pageSize, searchKey, goodNo, saleStatus, startDate, endDate,
+                categoryId, isHot, isNew, isFreight, brandId);
     }
+//    /**
+//     * 条件查询商品列表分页
+//     *
+//     * @param pageNo
+//     * @param pageSize
+//     * @param searchKey
+//     * @return
+//     */
+//    @ApiOperation(value = "模糊查询商品")
+//    @RequestMapping(value = "/findBySearchKey", method = RequestMethod.GET)
+//    public PageResult findBySearchKey(int pageNo, int pageSize, String searchKey, String goodNo, String status,
+//                                      String startDate, String endDate, String category,) {
+//        return goodsService.findByCondition(pageNo, pageSize, searchKey);
+//    }
 
     /**
      * 修改商品
