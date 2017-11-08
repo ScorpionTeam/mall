@@ -34,11 +34,12 @@ public class OrderServiceImpl implements OrderService {
      * @param searchKey   模糊查询信息
      * @param startDate   开始时间
      * @param endDate     结束时间
+     * @param phone       收件人手机号
      * @return
      */
     @Override
     public PageResult listPage(Integer pageNo, Integer pageSize, String payType, String orderType,
-                               String orderStatus, String searchKey, String startDate, String endDate) {
+                               String orderStatus, String searchKey, String startDate, String endDate, String phone) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(startDate)) {
             startDate = null;
@@ -52,7 +53,7 @@ public class OrderServiceImpl implements OrderService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Order> orderPage = orderMapper.listPage(payType, orderType, orderStatus, searchKey, startDate, endDate);
+        Page<Order> orderPage = orderMapper.listPage(payType, orderType, orderStatus, searchKey, startDate, endDate, phone);
         if (orderPage == null) {
             return new PageResult(new ArrayList());
         }

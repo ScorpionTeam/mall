@@ -32,8 +32,23 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Override
     public PageResult findByUserId(int pageNo, int pageSize, String userId, String orderStatus) {
         PageHelper.startPage(pageNo, pageSize);
+        if ("0".equals(orderStatus)) {
+            orderStatus = null;
+        }
         Page<Order> page = wxOrderMapper.findByUserId(userId, orderStatus);
         return new PageResult(page);
+    }
+
+    /**
+     * 查询订单详情
+     *
+     * @param orderId
+     * @return
+     */
+    @Override
+    public BaseResult findByOrderId(Long orderId) {
+
+        return null;
     }
 
 

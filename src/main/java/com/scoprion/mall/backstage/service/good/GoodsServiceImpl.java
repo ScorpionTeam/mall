@@ -4,14 +4,12 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
-import com.scoprion.mall.domain.Good;
-import com.scoprion.mall.backstage.mapper.GoodMapper;
+import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.w3c.dom.DOMStringList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +21,10 @@ import java.util.List;
  * @author adming
  */
 @Service
-public class GoodServiceImpl implements GoodService {
+public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
-    private GoodMapper goodMapper;
+    private GoodsMapper goodsMapper;
 
 
     /**
@@ -35,8 +33,8 @@ public class GoodServiceImpl implements GoodService {
      * @return
      */
     @Override
-    public List<Good> findLimit4ByTimeGoods() {
-        return goodMapper.findLimit4ByTimeGoods();
+    public List<Goods> findLimit4ByTimeGoods() {
+        return goodsMapper.findLimit4ByTimeGoods();
     }
 
     /**
@@ -49,24 +47,24 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public PageResult findByPageAndLimit(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        Page<Good> page = goodMapper.findByPageAndLimit();
+        Page<Goods> page = goodsMapper.findByPageAndLimit();
         return new PageResult(page);
     }
 
     /**
      * 创建商品
      *
-     * @param good
+     * @param goods
      * @return
      */
     @Override
-    public BaseResult add(Good good) {
-        int result = goodMapper.add(good);
+    public BaseResult add(Goods goods) {
+        int result = goodsMapper.add(goods);
         if (result > 0) {
             //更新图片信息
-            List<String> imgList = good.getImgUrlList();
+            List<String> imgList = goods.getImgUrlList();
             for (String url : imgList) {
-                goodMapper.updateImageWithGoodId(url, good.getId());
+                goodsMapper.updateImageWithGoodsId(url, goods.getId());
             }
             return BaseResult.success("创建商品成功");
         }
@@ -83,51 +81,50 @@ public class GoodServiceImpl implements GoodService {
     @Override
     public PageResult preferenceGiven(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        Page<Good> page = goodMapper.preferenceGivenByPage();
+        Page<Goods> page = goodsMapper.preferenceGivenByPage();
         return new PageResult(page);
     }
 
     /**
      * 根据id查询商品详情
      *
-     * @param goodId
+     * @param goodsId
      * @return
      */
     @Override
-    public BaseResult findByGoodId(Long goodId) {
-        Good good = goodMapper.findById(goodId);
-        if (null == good) {
+    public BaseResult findByGoodId(Long goodsId) {
+        Goods goods = goodsMapper.findById(goodsId);
+        if (null == goods) {
             return BaseResult.notFound();
         }
         //获取图片列表
-        List<String> imgList = goodMapper.findImgUrlByGoodId(good.getId());
-        good.setImgUrlList(imgList);
-        return BaseResult.success(good);
+        List<String> imgList = goodsMapper.findImgUrlByGoodsId(goods.getId());
+        goods.setImgUrlList(imgList);
+        return BaseResult.success(goods);
     }
 
     /**
      * 根据id修改商品信息
      *
-     * @param good Good
+     * @param goods Goods
      * @return
      */
     @Override
-    public BaseResult updateGood(Good good) {
-        if (good.getId() == null) {
+    public BaseResult updateGood(Goods goods) {
+        if (goods.getId() == null) {
             return BaseResult.parameterError();
         }
-        goodMapper.updateGood(good);
-        List<String> imgList = good.getImgUrlList();
+        goodsMapper.updateGoods(goods);
+        List<String> imgList = goods.getImgUrlList();
         if (imgList != null && imgList.size() > 0) {
             //清空原来的图片
-            goodMapper.deleteImageByGoodId(good.getId());
+            goodsMapper.deleteImageByGoodsId(goods.getId());
             //插入图片
             for (String url : imgList) {
-                goodMapper.updateImageWithGoodId(url, good.getId());
+                goodsMapper.updateImageWithGoodsId(url, goods.getId());
             }
         }
-
-        return BaseResult.success("更新成功");
+        return BaseResult.success("更新失败");
     }
 
     /**
@@ -147,9 +144,9 @@ public class GoodServiceImpl implements GoodService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Good> page = goodMapper.findByCondition(searchKey);
+        Page<Goods> page = goodsMapper.findByCondition(searchKey);
         if (page == null) {
-            return new PageResult(new ArrayList<Good>());
+            return new PageResult(new ArrayList<Goods>());
         }
         return new PageResult(page);
     }
@@ -158,18 +155,18 @@ public class GoodServiceImpl implements GoodService {
      * 商品上下架
      *
      * @param saleStatus saleStatus 1上架 0下架 默认上架
-     * @param goodId     商品id
+     * @param goodsId    商品id
      * @return
      */
     @Override
-    public BaseResult modifySaleStatus(String saleStatus, Long goodId) {
-        if (StringUtils.isEmpty(saleStatus) || null == goodId) {
+    public BaseResult modifySaleStatus(String saleStatus, Long goodsId) {
+        if (StringUtils.isEmpty(saleStatus) || null == goodsId) {
             return BaseResult.parameterError();
         }
         if (!Constant.SALE_STATUS.contains(saleStatus)) {
             return BaseResult.error("parameterError", "上下架状态不正确");
         }
-        int result = goodMapper.modifySaleStatus(saleStatus, goodId);
+        int result = goodsMapper.modifySaleStatus(saleStatus, goodsId);
         if (result > 0) {
             return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品上架成功" : "商品下架成功");
         }
@@ -183,8 +180,12 @@ public class GoodServiceImpl implements GoodService {
      * @return
      */
     @Override
-    public BaseResult deleteGoodById(Long id) {
-        int result = goodMapper.deleteGoodById(id);
+    public BaseResult deleteGoodsById(Long id) {
+        Goods goods = goodsMapper.findById(id);
+        if (Constant.ON_SALE.equals(goods.getIsOnSale())) {
+            return BaseResult.error("del_error", "删除失败，商品未下架，不能删除");
+        }
+        int result = goodsMapper.deleteGoodsById(id);
         if (result > 0) {
             return BaseResult.success("删除商品成功");
         }
@@ -192,11 +193,32 @@ public class GoodServiceImpl implements GoodService {
     }
 
     @Override
-    public BaseResult modifyGoodDeduction(Long id, Integer count) {
-        int result = goodMapper.modifyGoodDeduction(id, count);
+    public BaseResult modifyGoodsDeduction(Long id, Integer count) {
+        int result = goodsMapper.modifyGoodsDeduction(id, count);
         if (result > 0) {
             return BaseResult.success("修改成功");
         }
         return BaseResult.error("modify-error", "修改失败");
+    }
+
+    /**
+     * 批量商品上下架
+     *
+     * @param saleStatus  1上架 0下架 默认上架
+     * @param goodsIdList 商品id集合
+     * @return
+     */
+    @Override
+    public BaseResult bathModifySaleStatus(String saleStatus, List<Long> goodsIdList) {
+        if (goodsIdList == null || goodsIdList.size() == 0) {
+            return BaseResult.parameterError();
+        }
+        if (!Constant.SALE_STATUS.contains(saleStatus)) {
+            return BaseResult.parameterError();
+        }
+        goodsIdList.forEach(goodsId -> {
+            goodsMapper.modifySaleStatus(saleStatus, goodsId);
+        });
+        return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品批量上架成功" : "商品批量下架成功");
     }
 }

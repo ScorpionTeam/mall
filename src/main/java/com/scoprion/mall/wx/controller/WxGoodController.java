@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping("wx/goods")
+@RequestMapping("wx/good")
 public class WxGoodController {
 
     @Autowired

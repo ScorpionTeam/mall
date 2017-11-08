@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scoprion.mall.backstage.mapper.GoodMapper">
+<mapper namespace="com.scoprion.mall.backstage.mapper.GoodsMapper">
 
-    <insert id="add" parameterType="com.scoprion.mall.domain.Good">
+    <insert id="add" parameterType="com.scoprion.mall.domain.Goods">
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -49,7 +49,7 @@
     </insert>
 
     <!--优选商品分页查询-->
-    <select id="preferenceGivenByPage" resultType="com.scoprion.mall.domain.Good">
+    <select id="preferenceGivenByPage" resultType="com.scoprion.mall.domain.Goods">
         SELECT
          id,
          categoryId,
@@ -75,7 +75,7 @@
     </select>
 
     <!--根据商品id查询详情-->
-    <select id="findById" resultType="com.scoprion.mall.domain.Good">
+    <select id="findById" resultType="com.scoprion.mall.domain.Goods">
         SELECT
          id,
          categoryId,
@@ -102,12 +102,12 @@
     </select>
 
     <!--库存扣减-->
-    <update id="modifyGoodDeduction">
+    <update id="modifyGoodsDeduction">
         UPDATE t_good SET stock=stock+#{count} WHERE id=#{goodId}
     </update>
 
     <!--更新商品信息-->
-    <update id="updateGood" parameterType="com.scoprion.mall.domain.Good">
+    <update id="updateGoods" parameterType="com.scoprion.mall.domain.Goods">
         UPDATE t_good SET
         <if test="categoryId!=null">categoryId=#{categoryId},</if>
         <if test="goodName!=null">goodName=#{goodName},</if>
@@ -130,7 +130,7 @@
         WHERE id=#{id}
     </update>
 
-    <select id="findByCondition" resultType="com.scoprion.mall.domain.Good">
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.Goods">
         SELECT * FROM t_good WHERE 1=1
         <if test="searchKey!=null">AND CONCAT(goodName,description,goodNo) LIKE #{searchKey}</if>
     </select>
@@ -144,21 +144,21 @@
     </update>
 
     <!--根据商品id删除商品-->
-    <delete id="deleteGoodById">
+    <delete id="deleteGoodsById">
         DELETE FROM t_good WHERE id=#{id}
     </delete>
 
     <!--插入图片地址，跟商品ID绑定-->
-    <insert id="updateImageWithGoodId">
+    <insert id="updateImageWithGoodsId">
         INSERT INTO t_good_image(goodId,createDate,imgUrl) VALUES(#{goodId},now(),#{url})
     </insert>
 
     <!--根据商品ID查找图片列表-->
-    <select id="findImgUrlByGoodId" resultType="java.lang.String">
+    <select id="findImgUrlByGoodsId" resultType="java.lang.String">
         SELECT imgUrl FROM t_good_image WHERE goodId=#{goodId}
     </select>
     <!--根据商品id删除图片-->
-    <delete id="deleteImageByGoodId">
+    <delete id="deleteImageByGoodsId">
         DELETE FROM t_good_image WHERE goodId=#{goodId}
     </delete>
 </mapper>

@@ -1,7 +1,7 @@
 package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.Good;
+import com.scoprion.mall.domain.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +18,7 @@ public interface WxGoodMapper {
      * @param goodId
      * @return
      */
-    Good findById(@Param("goodId") Long goodId);
+    Goods findById(@Param("goodId") Long goodId);
     
     /**
      * 库存扣减
@@ -29,5 +29,5 @@ public interface WxGoodMapper {
      */
     int updateGoodStockById(@Param("goodId") Long goodId, @Param("stock") int stock);
 
-    Page<Good> findOnline();
+    Page<Goods> findOnline();
 }

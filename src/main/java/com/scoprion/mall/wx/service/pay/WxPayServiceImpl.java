@@ -2,12 +2,8 @@ package com.scoprion.mall.wx.service.pay;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
-import com.scoprion.mall.domain.Delivery;
-import com.scoprion.mall.domain.Good;
-import com.scoprion.mall.domain.GoodSnapshot;
-import com.scoprion.mall.domain.Order;
-import com.scoprion.mall.domain.OrderLog;
-import com.scoprion.mall.domain.WxOrderRequestData;
+import com.scoprion.mall.domain.*;
+import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
 import com.scoprion.mall.wx.mapper.GoodSnapShotWxMapper;
 import com.scoprion.mall.wx.mapper.WxGoodMapper;
@@ -26,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,11 +60,11 @@ public class WxPayServiceImpl implements WxPayService {
     public BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
 
         //查询商品库存
-        Good good = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
-        if (null == good || good.getStock() <= 0) {
+        Goods goods = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
+        if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        GoodSnapshot goodSnapshot = constructSnapshot(good);
+        GoodSnapshot goodSnapshot = constructSnapshot(goods);
         goodSnapShotWxMapper.add(goodSnapshot);
         //查询收货地址
         Delivery delivery = wxDeliveryMapper.findById(wxOrderRequestData.getDeliveryId());
@@ -78,7 +73,7 @@ public class WxPayServiceImpl implements WxPayService {
         }
         //查询用户openid
         String openid = findOpenID(wxCode);
-        Order order = constructOrder(good, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
+        Order order = constructOrder(goods, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("pre_order_error", "下单出错");
@@ -86,7 +81,7 @@ public class WxPayServiceImpl implements WxPayService {
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress);
         wxOrderLogMapper.add(orderLog);
         String nonce_str = WxUtil.createRandom(false, 10);
-        String xmlString = preOrderSend(good.getGoodName(),
+        String xmlString = preOrderSend(goods.getGoodName(),
                 "妆口袋",
                 openid,
                 order.getOrderNo(),
@@ -187,14 +182,14 @@ public class WxPayServiceImpl implements WxPayService {
     /**
      * 构造订单
      *
-     * @param good               商品
+     * @param goods               商品
      * @param goodSnapShotId     快照id
      * @param delivery           配送地址
      * @param wxOrderRequestData 下单参数
      * @param userId
      * @return
      */
-    private Order constructOrder(Good good,
+    private Order constructOrder(Goods goods,
                                  Long goodSnapShotId,
                                  Delivery delivery,
                                  WxOrderRequestData wxOrderRequestData,
@@ -207,13 +202,13 @@ public class WxPayServiceImpl implements WxPayService {
         order.setPayType("");
         order.setOrderType("2");
         order.setOrderStatus("1");
-        order.setGoodName(good.getGoodName());
+        order.setGoodName(goods.getGoodName());
         order.setDeliveryId(delivery.getId());
         order.setTotalFee(wxOrderRequestData.getTotalFee());
         order.setGoodFee(wxOrderRequestData.getGoodPrice());
         order.setCount(wxOrderRequestData.getCount());
         order.setMessage(wxOrderRequestData.getMessage());
-        order.setGoodId(good.getId());
+        order.setGoodId(goods.getId());
         BeanUtils.copyProperties(delivery, order);
         return order;
     }
@@ -221,12 +216,12 @@ public class WxPayServiceImpl implements WxPayService {
     /**
      * 构造商品快照
      *
-     * @param good
+     * @param goods
      * @return
      */
-    private GoodSnapshot constructSnapshot(Good good) {
+    private GoodSnapshot constructSnapshot(Goods goods) {
         GoodSnapshot goodSnapshot = new GoodSnapshot();
-        BeanUtils.copyProperties(good, goodSnapshot);
+        BeanUtils.copyProperties(goods, goodSnapshot);
         return goodSnapshot;
     }
 

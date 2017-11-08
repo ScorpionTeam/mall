@@ -1,6 +1,6 @@
 package com.scoprion.mall.backstage.service.good;
 
-import com.scoprion.mall.domain.Good;
+import com.scoprion.mall.domain.Goods;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -11,14 +11,14 @@ import java.util.List;
  *
  * @author adming
  */
-public interface GoodService {
+public interface GoodsService {
 
     /**
      * 首页展示  限时购商品列表
      *
      * @return
      */
-    List<Good> findLimit4ByTimeGoods();
+    List<Goods> findLimit4ByTimeGoods();
 
     /**
      * 查询限时购买商品   分页展示
@@ -32,10 +32,10 @@ public interface GoodService {
     /**
      * 创建商品
      *
-     * @param good
+     * @param goods
      * @return
      */
-    BaseResult add(Good good);
+    BaseResult add(Goods goods);
 
     /**
      * 优选
@@ -57,10 +57,10 @@ public interface GoodService {
     /**
      * 根据id修改商品信息
      *
-     * @param good
+     * @param goods
      * @return
      */
-    BaseResult updateGood(Good good);
+    BaseResult updateGood(Goods goods);
 
     /**
      * 根据条件差查询商品列表
@@ -87,7 +87,7 @@ public interface GoodService {
      * @param id 商品id
      * @return
      */
-    BaseResult deleteGoodById(Long id);
+    BaseResult deleteGoodsById(Long id);
 
     /**
      * 商品库存减扣
@@ -96,6 +96,14 @@ public interface GoodService {
      * @param count 扣减、增加数量
      * @return BaseResult
      */
-    BaseResult modifyGoodDeduction(Long id, Integer count);
+    BaseResult modifyGoodsDeduction(Long id, Integer count);
 
+    /**
+     * 批量商品上下架
+     *
+     * @param saleStatus  1上架 0下架 默认上架
+     * @param goodsIdList 商品id集合
+     * @return
+     */
+    BaseResult bathModifySaleStatus(String saleStatus, List<Long> goodsIdList);
 }

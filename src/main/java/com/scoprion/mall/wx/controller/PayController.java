@@ -38,7 +38,7 @@ public class PayController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/jsapi/order/pre-order", method = RequestMethod.GET)
+    @RequestMapping(value = "/jsapi/order/preOrder", method = RequestMethod.GET)
     public BaseResult preOrder(String order, String wxCode, HttpServletRequest request) {
         WxOrderRequestData wxOrderRequestData = JSON.parseObject(order, WxOrderRequestData.class);
         String ipAddress = IPUtil.getIPAddress(request);

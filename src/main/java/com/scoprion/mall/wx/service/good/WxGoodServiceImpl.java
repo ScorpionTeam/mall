@@ -2,7 +2,7 @@ package com.scoprion.mall.wx.service.good;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.mall.domain.Good;
+import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.wx.mapper.WxGoodMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -29,7 +29,7 @@ public class WxGoodServiceImpl implements WxGoodService {
     @Override
     public PageResult findOnline(int pageNo, int PageSize) {
         PageHelper.startPage(pageNo, PageSize);
-        Page<Good> page = wxGoodMapper.findOnline();
+        Page<Goods> page = wxGoodMapper.findOnline();
         return new PageResult(page);
     }
 
@@ -41,10 +41,10 @@ public class WxGoodServiceImpl implements WxGoodService {
      */
     @Override
     public BaseResult findById(Long goodId) {
-        Good good = wxGoodMapper.findById(goodId);
-        if (null == good) {
+        Goods goods = wxGoodMapper.findById(goodId);
+        if (null == goods) {
             return BaseResult.notFound();
         }
-        return BaseResult.success(good);
+        return BaseResult.success(goods);
     }
 }

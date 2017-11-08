@@ -168,4 +168,8 @@
       SET loginIp=#{ip}
       WHERE  id=#{id}
     </update>
+
+    <select id="findById" resultType="com.scoprion.mall.domain.Member">
+        SELECT * FROM t_user WHERE id=#{id}
+    </select>
 </mapper>

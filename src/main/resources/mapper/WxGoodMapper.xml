@@ -5,7 +5,7 @@
 <mapper namespace="com.scoprion.mall.wx.mapper.WxGoodMapper">
 
     <!--根据商品id查询详情-->
-    <select id="findById" resultType="com.scoprion.mall.domain.Good">
+    <select id="findById" resultType="com.scoprion.mall.domain.Goods">
         SELECT
         id,
         categoryId,
@@ -38,7 +38,7 @@
     </update>
 
     <!--商品列表-->
-    <select id="findOnline" resultType="com.scoprion.mall.domain.Good">
+    <select id="findOnline" resultType="com.scoprion.mall.domain.Goods">
         SELECT
         id,
         goodNo,

@@ -1,7 +1,7 @@
 package com.scoprion.mall.littlesoft.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.Good;
+import com.scoprion.mall.domain.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +18,7 @@ public interface WxGoodsMapper {
      *
      * @return
      */
-    Page<Good>findAll();
+    Page<Goods>findAll();
 
     /**
      * 根据id获取商品详情
@@ -26,5 +26,5 @@ public interface WxGoodsMapper {
      * @param id
      * @return
      */
-    Good goodsDetail(@Param("id")Long id);
+    Goods goodsDetail(@Param("id")Long id);
 }

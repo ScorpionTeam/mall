@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
      * @throws Exception e
      */
     @Override
-    public BaseResult backstageLogin(String mobile, String password, String ip) throws Exception {
+    public BaseResult login(String mobile, String password, String ip) throws Exception {
         if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)) {
             return BaseResult.systemError();
         }
@@ -70,15 +70,16 @@ public class UserServiceImpl implements UserService {
     /**
      * 管理后台注册
      *
-     * @param mobile   手机号
-     * @param password 密码
-     * @param nickName 昵称
-     * @param ip       注册的IP地址
+     * @param member Member
+     * @param ip     注册的IP地址
      * @return BaseResult
      * @throws Exception e
      */
     @Override
-    public BaseResult backstageRegister(String mobile, String password, String nickName, String ip) throws Exception {
+    public BaseResult register(Member member, String ip) throws Exception {
+        String mobile = member.getMobile();
+        String password = member.getPassword();
+        String nickName = member.getNickName();
         if (StringUtils.isEmpty(mobile) || StringUtils.isEmpty(password)) {
             return BaseResult.systemError();
         }
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserService {
             return BaseResult.error("register_fail", "昵称已存在");
         }
         String encryptPassword = EncryptUtil.encryptMD5(password);
-        Member member = new Member(nickName, mobile, encryptPassword);
+        member.setPassword(encryptPassword);
         int result = userMapper.register(member);
         if (result <= 0) {
             return BaseResult.error("register_fail", "注册失败");
@@ -167,6 +168,24 @@ public class UserServiceImpl implements UserService {
         }
         Page<Member> page = userMapper.findByPage(startDate, endDate, searchKey);
         return new PageResult(page);
+    }
+
+    /**
+     * 根据id查询详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseResult findById(Long id) {
+        if (id == null) {
+            return BaseResult.parameterError();
+        }
+        Member member = userMapper.findById(id);
+        if (member == null) {
+            return BaseResult.notFound();
+        }
+        return BaseResult.success(member);
     }
 
 }

@@ -32,27 +32,25 @@ public class UserController {
      */
     @ApiOperation(value = "后台登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public BaseResult backstageLogin(String mobile, String password, HttpServletRequest request) throws Exception {
+    public BaseResult login(String mobile, String password, HttpServletRequest request) throws Exception {
         String ip = IPUtil.getIPAddress(request);
-        return userService.backstageLogin(mobile, password, ip);
+        return userService.login(mobile, password, ip);
     }
 
 
     /**
      * 管理后台注册
      *
-     * @param mobile   手机号
-     * @param password 密码
-     * @param nickName 昵称
-     * @param request  HttpServletRequest
+     * @param member  Member
+     * @param request HttpServletRequest
      * @return
      * @throws Exception
      */
     @ApiOperation(value = "管理后台注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public BaseResult backstageRegister(String mobile, String password, String nickName, HttpServletRequest request) throws Exception {
+    public BaseResult register(@RequestBody Member member, HttpServletRequest request) throws Exception {
         String ip = IPUtil.getIPAddress(request);
-        return userService.backstageRegister(mobile, password, nickName, ip);
+        return userService.register(member, ip);
     }
 
     /**
@@ -63,7 +61,7 @@ public class UserController {
      */
     @ApiOperation(value = "修改个人信息")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public BaseResult modifyUserInfo(Member member) {
+    public BaseResult modifyUserInfo(@RequestBody Member member) {
         return userService.modifyUserInfo(member);
     }
 
@@ -91,8 +89,21 @@ public class UserController {
      */
     @ApiOperation(value = "会员列表(运营平台)")
     @RequestMapping(value = "/userList", method = RequestMethod.GET)
-    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String searchKey) {
+    public PageResult findByPage(int pageNo, int pageSize, String startDate,
+                                 String endDate, String searchKey) {
         return userService.findByPage(pageNo, pageSize, startDate, endDate, searchKey);
     }
 
+
+    /**
+     * 根据id查询详情
+     *
+     * @param id 主键
+     * @return BaseResult
+     */
+    @ApiOperation(value = "根据id查询详情")
+    @RequestMapping(value = "/findById", method = RequestMethod.GET)
+    public BaseResult findById(Long id) {
+        return userService.findById(id);
+    }
 }
