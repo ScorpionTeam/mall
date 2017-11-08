@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
  * @date 2017/11/1
  */
 @Service
-public class DeliveryWxServiceImpl implements DeliveryWxService {
+public class WxDeliveryServiceImpl implements WxDeliveryService {
 
     @Autowired
-    private WxDeliveryMapper deliveryWxMapper;
+    private WxDeliveryMapper wxDeliveryMapper;
 
     /**
      * 分页查询用户收获地址列表
@@ -35,7 +35,7 @@ public class DeliveryWxServiceImpl implements DeliveryWxService {
         if(userId==null){
             return new PageResult();
         }
-        Page<Delivery> page = deliveryWxMapper.deliveryList(userId);
+        Page<Delivery> page = wxDeliveryMapper.deliveryList(userId);
         return new PageResult(page);
     }
 
@@ -47,7 +47,7 @@ public class DeliveryWxServiceImpl implements DeliveryWxService {
      */
     @Override
     public BaseResult addDelivery(Delivery delivery) {
-        Integer result = deliveryWxMapper.addDelivery(delivery);
+        Integer result = wxDeliveryMapper.addDelivery(delivery);
         if(result <=0){
             return  BaseResult.error("error","新增失败");
         }
@@ -62,7 +62,7 @@ public class DeliveryWxServiceImpl implements DeliveryWxService {
      */
     @Override
     public BaseResult updateDelivery(Delivery delivery) {
-        Integer result = deliveryWxMapper.updateDelivery(delivery);
+        Integer result = wxDeliveryMapper.updateDelivery(delivery);
         if(result <=0){
             return  BaseResult.error("error","修改失败");
         }
@@ -77,7 +77,7 @@ public class DeliveryWxServiceImpl implements DeliveryWxService {
      */
     @Override
     public BaseResult deleteDelivery(Long id) {
-        Integer result = deliveryWxMapper.deleteDelivery(id);
+        Integer result = wxDeliveryMapper.deleteDelivery(id);
         if(result<=0){
             return BaseResult.error("error","删除失败");
         }

@@ -59,19 +59,6 @@ public class Activity {
     private String target;
 
 
-    /**
-     * 参加活动的商品ID集合
-     */
-    private List<Long> goodIdList;
-
-    public List<Long> getGoodIdList() {
-        return goodIdList;
-    }
-
-    public void setGoodIdList(List<Long> goodIdList) {
-        this.goodIdList = goodIdList;
-    }
-
     public Long getId() {
         return id;
     }
@@ -128,16 +115,4 @@ public class Activity {
         this.target = target;
     }
 
-    @Override
-    public String toString() {
-        return "Activity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", activityType='" + activityType + '\'' +
-                ", status='" + status + '\'' +
-                ", updateDate=" + updateDate +
-                ", createDate=" + createDate +
-                ", target='" + target + '\'' +
-                '}';
-    }
 }
