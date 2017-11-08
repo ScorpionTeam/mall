@@ -4,10 +4,13 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
+import com.scoprion.mall.domain.GoodsImage;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,13 +61,14 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public BaseResult add(Goods goods) {
+    public BaseResult add(GoodExt goods) {
         int result = goodsMapper.add(goods);
         if (result > 0) {
             //更新图片信息
-            List<String> imgList = goods.getImgUrlList();
-            for (String url : imgList) {
-                goodsMapper.updateImageWithGoodsId(url, goods.getId());
+            List<GoodsImage> imgList = goods.getImgList();
+            for (GoodsImage goodsImage : imgList) {
+                goodsImage.setGoodId(goods.getId());
+                goodsMapper.updateImageWithGoodsId(goodsImage);
             }
             return BaseResult.success("创建商品成功");
         }
@@ -93,13 +97,13 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public BaseResult findByGoodId(Long goodsId) {
-        Goods goods = goodsMapper.findById(goodsId);
+        GoodExt goods = goodsMapper.findById(goodsId);
         if (null == goods) {
             return BaseResult.notFound();
         }
         //获取图片列表
-        List<String> imgList = goodsMapper.findImgUrlByGoodsId(goods.getId());
-        goods.setImgUrlList(imgList);
+        List<GoodsImage> imgList = goodsMapper.findImgUrlByGoodsId(goods.getId());
+        goods.setImgList(imgList);
         return BaseResult.success(goods);
     }
 
@@ -110,21 +114,22 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public BaseResult updateGood(Goods goods) {
+    public BaseResult updateGood(GoodExt goods) {
         if (goods.getId() == null) {
             return BaseResult.parameterError();
         }
         goodsMapper.updateGoods(goods);
-        List<String> imgList = goods.getImgUrlList();
+        List<GoodsImage> imgList = goods.getImgList();
         if (imgList != null && imgList.size() > 0) {
             //清空原来的图片
             goodsMapper.deleteImageByGoodsId(goods.getId());
             //插入图片
-            for (String url : imgList) {
-                goodsMapper.updateImageWithGoodsId(url, goods.getId());
+            for (GoodsImage goodsImage : imgList) {
+                goodsImage.setGoodId(goods.getId());
+                goodsMapper.updateImageWithGoodsId(goodsImage);
             }
         }
-        return BaseResult.success("更新失败");
+        return BaseResult.success("修改成功");
     }
 
     /**
@@ -190,6 +195,33 @@ public class GoodsServiceImpl implements GoodsService {
             return BaseResult.success("删除商品成功");
         }
         return BaseResult.error("sysError", "删除商品失败");
+    }
+
+    /**
+     * 批量删除商品
+     *
+     * @param idList 商品id集合
+     * @return
+     */
+    @Override
+    public BaseResult bathDeleteGoods(List<Long> idList) {
+        if (idList == null || idList.size() == 0) {
+            return BaseResult.parameterError();
+        }
+        List<Long> unDelGoods = new ArrayList<>();
+        for (Long goodsId : idList) {
+            Goods goods = goodsMapper.findById(goodsId);
+            if (goods != null && Constant.ON_SALE.equals(goods.getIsOnSale())) {
+                unDelGoods.add(goodsId);
+                //未下架商品不能删除
+                continue;
+            }
+            goodsMapper.deleteGoodsById(goodsId);
+        }
+        if (unDelGoods.size() > 0) {
+            return BaseResult.error("del_error", "删除失败，商品未下架，不能删除" + unDelGoods.toString());
+        }
+        return BaseResult.success("删除成功");
     }
 
     @Override

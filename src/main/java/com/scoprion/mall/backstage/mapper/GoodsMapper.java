@@ -1,7 +1,9 @@
 package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
+import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.GoodsImage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -50,7 +52,7 @@ public interface GoodsMapper {
      * @param goodId
      * @return
      */
-    Goods findById(@Param("goodId") Long goodId);
+    GoodExt findById(@Param("goodId") Long goodId);
 
     /**
      * 商品库存扣减
@@ -98,11 +100,10 @@ public interface GoodsMapper {
     /**
      * 修改图片对应的商品ID
      *
-     * @param url
-     * @param goodId
+     * @param goodsImage
      * @return
      */
-    int updateImageWithGoodsId(@Param("url") String url, @Param("goodId") Long goodId);
+    int updateImageWithGoodsId(GoodsImage goodsImage);
 
     /**
      * 根据商品ID查找图片列表
@@ -110,7 +111,7 @@ public interface GoodsMapper {
      * @param goodId
      * @return
      */
-    List<String> findImgUrlByGoodsId(@Param("goodId") Long goodId);
+    List<GoodsImage> findImgUrlByGoodsId(@Param("goodId") Long goodId);
 
     /**
      * 根据商品id删除图片
