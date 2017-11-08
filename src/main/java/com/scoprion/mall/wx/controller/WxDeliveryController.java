@@ -16,27 +16,29 @@ public class WxDeliveryController {
     @Autowired
     private WxDeliveryService wxDeliveryService;
 
+
     /**
-     * 查询用户收获地址列表
+     * 分页查询收货地址
      *
-     * @param userId
      * @param pageNo
      * @param pageSize
+     * @param userId
      * @return
      */
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public PageResult DeliveryList(Long userId, Integer pageNo, Integer pageSize){
-        return wxDeliveryService.DeliveryList(userId,pageNo,pageSize);
+    @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
+    public PageResult findByUserId(int pageNo, int pageSize, String userId) {
+        return wxDeliveryService.findByUserId(pageNo, pageSize, userId);
     }
 
     /**
      * 新增收货地址
+     *
      * @param delivery
      * @return
      */
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult addDelivery(@RequestBody Delivery delivery){
+    public BaseResult addDelivery(@RequestBody Delivery delivery) {
 
         return wxDeliveryService.add(delivery);
     }
@@ -44,13 +46,14 @@ public class WxDeliveryController {
 
     /**
      * 修改收货地址
+     *
      * @param delivery
      * @return
      */
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult updateDelivery(@RequestBody Delivery delivery){
-        return  wxDeliveryService.updateDelivery(delivery);
+    public BaseResult updateDelivery(@RequestBody Delivery delivery) {
+        return wxDeliveryService.updateDelivery(delivery);
     }
 
 
@@ -60,9 +63,9 @@ public class WxDeliveryController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult deleteDelivery(Long id){
-        return  wxDeliveryService.deleteDelivery(id);
+    public BaseResult deleteDelivery(Long id) {
+        return wxDeliveryService.deleteDelivery(id);
     }
 }
