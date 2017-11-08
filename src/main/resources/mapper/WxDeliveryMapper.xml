@@ -45,7 +45,7 @@
         <if test="address!=null">address=#{address},</if>
         <if test="postCode!=null">postCode=#{postCode},</if>
         updateDate=NOW()
-        WHERE userId=#{userId}
+        WHERE id=#{id}
     </update>
 
 
