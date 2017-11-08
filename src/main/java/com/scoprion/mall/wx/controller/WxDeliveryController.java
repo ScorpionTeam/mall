@@ -17,7 +17,7 @@ public class WxDeliveryController {
     private WxDeliveryService wxDeliveryService;
 
     /**
-     * 查询用户收获地址列表
+     * 查询用户收货地址列表
      *
      * @param userId
      * @param pageNo
@@ -25,19 +25,18 @@ public class WxDeliveryController {
      * @return
      */
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public PageResult DeliveryList(Long userId, Integer pageNo, Integer pageSize){
-        return wxDeliveryService.DeliveryList(userId,pageNo,pageSize);
+    public PageResult deliveryList(Long userId, Integer pageNo, Integer pageSize){
+        return wxDeliveryService.deliveryList(userId,pageNo,pageSize);
     }
 
     /**
-     * 新增收货地址
+     * 创建收货地址
      * @param delivery
      * @return
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult addDelivery(@RequestBody Delivery delivery){
-
+    public BaseResult add(@RequestBody Delivery delivery){
         return wxDeliveryService.add(delivery);
     }
 
@@ -49,20 +48,19 @@ public class WxDeliveryController {
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult updateDelivery(@RequestBody Delivery delivery){
-        return  wxDeliveryService.updateDelivery(delivery);
+    public BaseResult updateByDelivery(@RequestBody Delivery delivery){
+        return  wxDeliveryService.updateByDelivery(delivery);
     }
 
 
     /**
-     * 删除收获地址
+     * 删除收货地址
      *
      * @param id
      * @return
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    @ResponseBody
-    public BaseResult deleteDelivery(Long id){
-        return  wxDeliveryService.deleteDelivery(id);
+    public BaseResult deleteByDelivery(Long id){
+        return  wxDeliveryService.deleteByDelivery(id);
     }
 }

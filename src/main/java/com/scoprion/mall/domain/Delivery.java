@@ -66,6 +66,11 @@ public class Delivery {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
 
+    /**
+     * 微信账号
+     */
+    private String wechat;
+
     public Long getId() {
         return id;
     }
@@ -154,6 +159,14 @@ public class Delivery {
         this.updateDate = updateDate;
     }
 
+    public String getWechat() {
+        return wechat;
+    }
+
+    public void setWechat(String wechat) {
+        this.wechat = wechat;
+    }
+
     @Override
     public String toString() {
         return "Delivery{" +
@@ -168,6 +181,7 @@ public class Delivery {
                 ", postCode='" + postCode + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
+                ", wechat='" + wechat + '\'' +
                 '}';
     }
 }

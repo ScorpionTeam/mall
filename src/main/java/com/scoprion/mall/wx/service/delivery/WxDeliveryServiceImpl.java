@@ -28,7 +28,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public PageResult DeliveryList(Long userId, Integer pageNo, Integer pageSize) {
+    public PageResult deliveryList(Long userId, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
         if (userId == null) {
@@ -60,7 +60,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult updateDelivery(Delivery delivery) {
+    public BaseResult updateByDelivery(Delivery delivery) {
         Integer result = wxDeliveryMapper.updateDelivery(delivery);
         if (result <= 0) {
             return BaseResult.error("error", "修改失败");
@@ -75,8 +75,8 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult deleteDelivery(Long id) {
-        Integer result = wxDeliveryMapper.deleteDelivery(id);
+    public BaseResult deleteByDelivery(Long id) {
+        Integer result = wxDeliveryMapper.deleteByDelivery(id);
         if (result <= 0) {
             return BaseResult.error("error", "删除失败");
         }

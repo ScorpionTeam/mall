@@ -36,11 +36,11 @@ public interface WxDeliveryMapper {
     Integer updateDelivery(Delivery delivery);
 
     /**
-     * 删除收获地址
+     * 删除收货地址
      * @param id
      * @return
      */
-    Integer deleteDelivery(@Param("id") Long id);
+    Integer deleteByDelivery(@Param("id") Long id);
 
     /**
      * 根据主键查询收件人信息
