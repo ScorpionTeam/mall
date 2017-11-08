@@ -12,20 +12,22 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface WxDeliveryMapper {
 
+
     /**
-     * 分页查询用户收获地址
+     * 查询收货地址列表
      *
      * @param userId
      * @return
      */
-    Page<Delivery> deliveryList(@Param("userId") Long userId);
+    Page<Delivery> findByUserId(String userId);
 
     /**
      * 新增收货地址
+     *
      * @param delivery
      * @return
      */
-    Integer addDelivery(Delivery delivery);
+    int add(Delivery delivery);
 
     /**
      * 修改收货地址
@@ -37,6 +39,7 @@ public interface WxDeliveryMapper {
 
     /**
      * 删除收获地址
+     *
      * @param id
      * @return
      */
@@ -44,6 +47,7 @@ public interface WxDeliveryMapper {
 
     /**
      * 根据主键查询收件人信息
+     *
      * @param id
      * @return
      */

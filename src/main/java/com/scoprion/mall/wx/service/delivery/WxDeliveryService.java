@@ -7,24 +7,26 @@ import com.scoprion.result.PageResult;
 /**
  * Created by admin1 on 2017/11/1.
  */
-public interface DeliveryWxService {
+public interface WxDeliveryService {
+
 
     /**
-     * 查询用户收获地址列表
+     * 查询收货地址列表
      *
-     * @param userId
      * @param pageNo
      * @param pageSize
+     * @param userId
      * @return
      */
-    PageResult DeliveryList(Long userId, Integer pageNo, Integer pageSize);
+    PageResult findByUserId(int pageNo, int pageSize, String userId);
 
     /**
      * 新增收货地址
+     *
      * @param delivery
      * @return
      */
-    BaseResult addDelivery(Delivery delivery);
+    BaseResult add(Delivery delivery);
 
     /**
      * 修改收货地址

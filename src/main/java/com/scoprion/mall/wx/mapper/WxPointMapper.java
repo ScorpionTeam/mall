@@ -27,4 +27,6 @@ public interface WxPointMapper {
      * @return
      */
     int updatePoint(@Param("userId") String userId, @Param("currentPoint") int currentPoint);
+
+
 }
