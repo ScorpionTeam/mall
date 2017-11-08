@@ -56,12 +56,12 @@
 
     <!--修改订单微信预付款订单号-->
     <update id="updateOrderForWxOrderNo">
-        UPDATE t_order SET wxOrderNo=#{wxOrderNo} WHERE id=#{orderId}
+        UPDATE t_order SET prepayId=#{prepayId} WHERE id=#{orderId}
     </update>
 
     <!--根据用户openid查询预付款订单-->
     <select id="findPrepayIdByOpenid" resultType="java.lang.String">
-        SELECT wxOrderNo FROM t_order WHERE userId=#{openId} AND id=#{orderId}
+        SELECT prePayId FROM t_order WHERE userId=#{openId} AND id=#{orderId}
     </select>
 
     <!--我的订单-->
@@ -95,7 +95,7 @@
 
     <!--付款回调-->
     <update id="updateOrderStatusAndPayStatus">
-        UPDATE t_order SET payDate=#{payDate},payType='1',orderStatus='2' WHERE orderNo=#{orderNo}
+        UPDATE t_order SET payDate=#{payDate},payType='1',orderStatus='2',wxOrderNo=#{wxOrderNo} WHERE orderNo=#{orderNo}
     </update>
 
     <!--根据微信号查询订单-->
@@ -105,8 +105,13 @@
 
     <!--订单详情-->
     <select id="findByOrderId" resultType="com.scoprion.mall.domain.Order">
-
+      SELECT * FROM t_order WHERE id=#{orderId}
     </select>
+
+    <!--根据订单号修改订单状态-->
+    <update id="updateByOrderID">
+        UPDATE t_order SET  orderStatus=#{orderStatus} WHERE id=#{orderId}
+    </update>
 
 
 </mapper>

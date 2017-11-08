@@ -23,6 +23,11 @@ public class WxPayConfig {
     public final static String MCHID = "1491404382"; //
 
     public final static String OPEN_ID_URL = "https://api.weixin.qq.com/sns/jscode2session?";
+
+    /**
+     * 退款
+     */
+    public final static String WECHAT_REFUND="https://api.mch.weixin.qq.com/secapi/pay/refund";
     /**
      * 微信商户平台支付结果通知URL
      * 线上环境
