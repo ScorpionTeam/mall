@@ -38,7 +38,7 @@ public class WxDeliveryController {
     @ResponseBody
     public BaseResult addDelivery(@RequestBody Delivery delivery){
 
-        return wxDeliveryService.addDelivery(delivery);
+        return wxDeliveryService.add(delivery);
     }
 
 
