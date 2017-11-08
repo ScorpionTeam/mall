@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- *
  * @author admin1
  * @date 2017/11/1
  */
@@ -30,9 +29,9 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public PageResult DeliveryList(Long userId, Integer pageNo, Integer pageSize) {
-        PageHelper.startPage(pageNo,pageSize);
+        PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
-        if(userId==null){
+        if (userId == null) {
             return new PageResult();
         }
         Page<Delivery> page = wxDeliveryMapper.deliveryList(userId);
@@ -46,10 +45,10 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult addDelivery(Delivery delivery) {
-        Integer result = wxDeliveryMapper.addDelivery(delivery);
-        if(result <=0){
-            return  BaseResult.error("error","新增失败");
+    public BaseResult add(Delivery delivery) {
+        Integer result = wxDeliveryMapper.add(delivery);
+        if (result <= 0) {
+            return BaseResult.error("error", "新增失败");
         }
         return BaseResult.success("新增成功");
     }
@@ -63,8 +62,8 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     @Override
     public BaseResult updateDelivery(Delivery delivery) {
         Integer result = wxDeliveryMapper.updateDelivery(delivery);
-        if(result <=0){
-            return  BaseResult.error("error","修改失败");
+        if (result <= 0) {
+            return BaseResult.error("error", "修改失败");
         }
         return BaseResult.success("修改成功");
     }
@@ -78,8 +77,8 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     @Override
     public BaseResult deleteDelivery(Long id) {
         Integer result = wxDeliveryMapper.deleteDelivery(id);
-        if(result<=0){
-            return BaseResult.error("error","删除失败");
+        if (result <= 0) {
+            return BaseResult.error("error", "删除失败");
         }
         return BaseResult.success("删除成功");
     }

@@ -24,7 +24,7 @@ public interface WxDeliveryService {
      * @param delivery
      * @return
      */
-    BaseResult addDelivery(Delivery delivery);
+    BaseResult add(Delivery delivery);
 
     /**
      * 修改收货地址
