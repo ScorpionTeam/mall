@@ -37,4 +37,5 @@ public interface WxPayService {
      * @return
      */
     BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData);
+    
 }

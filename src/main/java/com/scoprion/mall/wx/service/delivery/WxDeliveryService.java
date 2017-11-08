@@ -9,18 +9,20 @@ import com.scoprion.result.PageResult;
  */
 public interface WxDeliveryService {
 
+
     /**
-     * 查询用户收获地址列表
+     * 查询收货地址列表
      *
-     * @param userId
      * @param pageNo
      * @param pageSize
+     * @param userId
      * @return
      */
-    PageResult DeliveryList(Long userId, Integer pageNo, Integer pageSize);
+    PageResult findByUserId(int pageNo, int pageSize, String userId);
 
     /**
      * 新增收货地址
+     *
      * @param delivery
      * @return
      */

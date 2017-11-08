@@ -20,21 +20,17 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     private WxDeliveryMapper wxDeliveryMapper;
 
     /**
-     * 分页查询用户收获地址列表
+     * 查询收货地址列表
      *
-     * @param userId
      * @param pageNo
      * @param pageSize
+     * @param userId
      * @return
      */
     @Override
-    public PageResult DeliveryList(Long userId, Integer pageNo, Integer pageSize) {
+    public PageResult findByUserId(int pageNo, int pageSize, String userId) {
         PageHelper.startPage(pageNo, pageSize);
-        //判断userId是否为空
-        if (userId == null) {
-            return new PageResult();
-        }
-        Page<Delivery> page = wxDeliveryMapper.deliveryList(userId);
+        Page<Delivery> page = wxDeliveryMapper.findByUserId(userId);
         return new PageResult(page);
     }
 

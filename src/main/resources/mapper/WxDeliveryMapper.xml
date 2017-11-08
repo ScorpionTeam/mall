@@ -61,4 +61,18 @@
         WHERE id=#{id}
     </select>
 
+    <select id="findByUserId" resultType="com.scoprion.mall.domain.Delivery">
+        SELECT id,
+        userId,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        postCode
+        FROM t_delivery
+        WHERE userId=#{userId}
+    </select>
+
 </mapper>
