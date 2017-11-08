@@ -69,7 +69,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     }
 
     /**
-     * 删除收获地址
+     * 删除收货地址
      *
      * @param id
      * @return
@@ -84,7 +84,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     }
 
     /**
-     * 获取详情
+     * 获取收货地址详情
      * @param id
      * @return
      */

@@ -36,7 +36,7 @@ public class WxDeliveryController {
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult addDelivery(@RequestBody Delivery delivery){
+    public BaseResult add(@RequestBody Delivery delivery){
 
         return wxDeliveryService.add(delivery);
     }
@@ -68,7 +68,7 @@ public class WxDeliveryController {
 
 
     /**
-     * 获取详情
+     * 获取收货地址详情
      * @param id
      * @return
      */

@@ -35,7 +35,7 @@ public interface WxDeliveryService {
     BaseResult updateDelivery(Delivery delivery);
 
     /**
-     * 删除收获地址
+     * 删除收货地址
      *
      * @param id
      * @return
@@ -43,7 +43,7 @@ public interface WxDeliveryService {
     BaseResult deleteDelivery(Long id);
 
     /**
-     * 获取详情
+     * 获取收货地址详情
      * @param id
      * @return
      */
