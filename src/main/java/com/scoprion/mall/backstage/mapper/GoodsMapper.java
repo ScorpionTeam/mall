@@ -1,7 +1,7 @@
 package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.Good;
+import com.scoprion.mall.domain.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,36 +13,36 @@ import java.util.List;
  * @author adming
  */
 @Mapper
-public interface GoodMapper {
+public interface GoodsMapper {
 
     /**
      * 首页展示 查询限时购买商品   4条
      *
      * @return
      */
-    List<Good> findLimit4ByTimeGoods();
+    List<Goods> findLimit4ByTimeGoods();
 
     /**
      * 分页查询 限时购买商品列表
      *
      * @return
      */
-    Page<Good> findByPageAndLimit();
+    Page<Goods> findByPageAndLimit();
 
     /**
      * 创建商品
      *
-     * @param good
+     * @param goods
      * @return
      */
-    int add(Good good);
+    int add(Goods goods);
 
     /**
      * 优选  分页查询
      *
      * @return
      */
-    Page<Good> preferenceGivenByPage();
+    Page<Goods> preferenceGivenByPage();
 
     /**
      * 根据id查询商品详情
@@ -50,23 +50,24 @@ public interface GoodMapper {
      * @param goodId
      * @return
      */
-    Good findById(@Param("goodId") Long goodId);
+    Goods findById(@Param("goodId") Long goodId);
 
     /**
      * 商品库存扣减
      *
      * @param goodId
+     * @param count
      * @return
      */
-    int modifyGoodDeduction(@Param("goodId") Long goodId, @Param("count") Integer count);
+    int modifyGoodsDeduction(@Param("goodId") Long goodId, @Param("count") Integer count);
 
     /**
      * 更新商品信息
      *
-     * @param good
+     * @param goods
      * @return
      */
-    int updateGood(Good good);
+    int updateGoods(Goods goods);
 
     /**
      * 根据条件模糊查询
@@ -74,7 +75,7 @@ public interface GoodMapper {
      * @param searchKey String
      * @return
      */
-    Page<Good> findByCondition(@Param("searchKey") String searchKey);
+    Page<Goods> findByCondition(@Param("searchKey") String searchKey);
 
     /**
      * 商品上下架
@@ -91,7 +92,7 @@ public interface GoodMapper {
      * @param id 商品id
      * @return
      */
-    int deleteGoodById(@Param("id") Long id);
+    int deleteGoodsById(@Param("id") Long id);
 
 
     /**
@@ -101,7 +102,7 @@ public interface GoodMapper {
      * @param goodId
      * @return
      */
-    int updateImageWithGoodId(@Param("url") String url, @Param("goodId") Long goodId);
+    int updateImageWithGoodsId(@Param("url") String url, @Param("goodId") Long goodId);
 
     /**
      * 根据商品ID查找图片列表
@@ -109,7 +110,7 @@ public interface GoodMapper {
      * @param goodId
      * @return
      */
-    List<String> findImgUrlByGoodId(@Param("goodId") Long goodId);
+    List<String> findImgUrlByGoodsId(@Param("goodId") Long goodId);
 
     /**
      * 根据商品id删除图片
@@ -117,7 +118,7 @@ public interface GoodMapper {
      * @param goodId
      * @return
      */
-    int deleteImageByGoodId(@Param("goodId") Long goodId);
+    int deleteImageByGoodsId(@Param("goodId") Long goodId);
 
     /**
      * 库存扣减

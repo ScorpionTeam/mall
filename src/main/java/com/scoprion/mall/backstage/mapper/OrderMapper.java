@@ -25,6 +25,7 @@ public interface OrderMapper {
      * @param searchKey   模糊查询信息
      * @param startDate   开始时间
      * @param endDate     结束时间
+     * @param phone      手机号
      * @return
      */
     Page<Order> listPage(@Param("payType") String payType,
@@ -32,7 +33,8 @@ public interface OrderMapper {
                          @Param("orderStatus") String orderStatus,
                          @Param("searchKey") String searchKey,
                          @Param("startDate") String startDate,
-                         @Param("endDate") String endDate);
+                         @Param("endDate") String endDate,
+                         @Param("phone") String phone);
 
     /**
      * 根据id查询详情

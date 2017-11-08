@@ -7,9 +7,12 @@ import java.util.Date;
 import java.util.List;
 
 /**
+ * <商品实体/>
  * Created on 2017/9/28.
+ *
+ * @author adming
  */
-public class Good {
+public class Goods {
 
     /**
      * 主键
@@ -287,7 +290,7 @@ public class Good {
 
     @Override
     public String toString() {
-        return "Good{" +
+        return "Goods{" +
                 "id=" + id +
                 ", goodNo='" + goodNo + '\'' +
                 ", categoryId=" + categoryId +
