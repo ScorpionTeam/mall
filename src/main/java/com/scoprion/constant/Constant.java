@@ -23,7 +23,7 @@ public class Constant {
     /**
      * 销售状态
      */
-    public static final String SALE_STATUS = "01";
+    public static final String STATUS_01 = "01";
 
 
     /**
@@ -72,4 +72,13 @@ public class Constant {
      * 水印图片地址 绝对路径
      */
     public static final String WATER_REMARK_IMAGE_PATH = "D:\\Downloads\\logo.png";
+
+    /**
+     * idList参数
+     */
+    public static final String ID_LIST = "idList";
+    /**
+     * status参数
+     */
+    public static final String STATUS = "status";
 }

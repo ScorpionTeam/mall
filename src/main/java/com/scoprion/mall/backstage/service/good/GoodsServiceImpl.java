@@ -170,7 +170,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (StringUtils.isEmpty(saleStatus) || null == goodsId) {
             return BaseResult.parameterError();
         }
-        if (!Constant.SALE_STATUS.contains(saleStatus)) {
+        if (!Constant.STATUS_01.contains(saleStatus)) {
             return BaseResult.error("parameterError", "上下架状态不正确");
         }
         int result = goodsMapper.modifySaleStatus(saleStatus, goodsId);
@@ -247,7 +247,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (goodsIdList == null || goodsIdList.size() == 0) {
             return BaseResult.parameterError();
         }
-        if (!Constant.SALE_STATUS.contains(saleStatus)) {
+        if (!Constant.STATUS_01.contains(saleStatus)) {
             return BaseResult.parameterError();
         }
         goodsIdList.forEach(goodsId -> {

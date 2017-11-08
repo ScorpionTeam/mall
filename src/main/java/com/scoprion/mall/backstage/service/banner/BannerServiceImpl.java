@@ -47,7 +47,7 @@ public class BannerServiceImpl implements BannerService {
      */
     @Override
     public BaseResult modify(Banner banner) {
-        int validResult = bannerMapper.validByName(banner.getName());
+        int validResult = bannerMapper.validByNameAndId(banner.getId(), banner.getName());
         if (validResult != 0) {
             return BaseResult.error("edit_fail", "广告名称已存在");
         }
