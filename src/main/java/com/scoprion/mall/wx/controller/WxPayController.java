@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("wx")
-public class PayController {
+public class WxPayController {
 
     @Autowired
     private WxPayService wxPayService;
