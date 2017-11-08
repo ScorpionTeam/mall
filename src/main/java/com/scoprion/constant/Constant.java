@@ -71,5 +71,5 @@ public class Constant {
     /**
      * 水印图片地址 绝对路径
      */
-    public static final String WATER_REMARK_IMAGE_PATH = "D:\\Downloads\\log.png";
+    public static final String WATER_REMARK_IMAGE_PATH = "D:\\Downloads\\logo.png";
 }

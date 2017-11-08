@@ -5,7 +5,6 @@ import com.scoprion.mall.domain.ImageCutSize;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -21,6 +20,13 @@ import java.util.List;
  * @date 2017-11-07 14:50
  */
 public class FileUploadUtils {
+    /**
+     * 网站图片尺寸
+     * 商品列表小 ：30x30
+     * 商品列表大 ：220x220
+     * 商品详情：400x400
+     */
+
 
     public static List<String> upload(MultipartFile file, String imageType, String cut, List<ImageCutSize> cutSizeList,
                                       String waterRemark, String waterRemarkText) throws IOException {
@@ -33,19 +39,13 @@ public class FileUploadUtils {
         File image = new File(path + fileName + endName);
         file.transferTo(image);
         List<String> urlList = new ArrayList<>();
+        //裁剪
         if (Constant.CUT_TRUE.equals(cut)) {
-            //裁剪
             for (ImageCutSize imageCutSize : cutSizeList) {
                 String absolutePath = getAbsolutePath(path, fileName, endName, imageCutSize);
-                Thumbnails.of(image)
-                        .size(imageCutSize.getWidth(), imageCutSize.getHeight())
-                        .toFile(absolutePath);
+                cutImage(image, imageCutSize, absolutePath);
                 if (Constant.WATER_REMARK_TRUE.equals(waterRemark)) {
-                    //加水印
-                    Thumbnails.of(absolutePath)
-                            .size(imageCutSize.getWidth(), imageCutSize.getHeight())
-                            .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(Constant.WATER_REMARK_IMAGE_PATH)), 1f)
-                            .toFile(absolutePath);
+                    waterRemark(imageCutSize, absolutePath);
                 }
                 //存储图片名
                 urlList.add(getFileName(path, fileName, endName, imageCutSize));
@@ -53,15 +53,48 @@ public class FileUploadUtils {
         } else {
             if (Constant.WATER_REMARK_TRUE.equals(waterRemark)) {
                 String absolutePath = getAbsolutePath(path, fileName, endName, null);
-                //加水印
-                Thumbnails.of(absolutePath)
-                        .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(Constant.WATER_REMARK_IMAGE_PATH)), 1f)
-                        .toFile(absolutePath);
-                //存储图片名
+                waterRemark(null, absolutePath);
                 urlList.add(getFileName(path, fileName, endName, null));
             }
         }
         return urlList;
+    }
+
+    /**
+     * 图片裁剪
+     *
+     * @param image        源文件
+     * @param imageCutSize 尺寸
+     * @param absolutePath 目标路径
+     * @throws IOException
+     */
+    private static void cutImage(File image, ImageCutSize imageCutSize, String absolutePath) throws IOException {
+        Thumbnails.of(image)
+                .size(imageCutSize.getWidth(), imageCutSize.getHeight())
+                .toFile(absolutePath);
+    }
+
+    /**
+     * 添加水印
+     *
+     * @param imageCutSize
+     * @param absolutePath
+     * @throws IOException
+     */
+    private static void waterRemark(ImageCutSize imageCutSize, String absolutePath) throws IOException {
+        if (imageCutSize == null) {
+            //加水印
+            Thumbnails.of(absolutePath)
+                    .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(Constant.WATER_REMARK_IMAGE_PATH)), 1f)
+                    .toFile(absolutePath);
+        } else {
+            //加水印
+            Thumbnails.of(absolutePath)
+                    .size(imageCutSize.getWidth(), imageCutSize.getHeight())
+                    .watermark(Positions.BOTTOM_RIGHT, ImageIO.read(new File(Constant.WATER_REMARK_IMAGE_PATH)), 1f)
+                    .toFile(absolutePath);
+        }
+
     }
 
     /**
