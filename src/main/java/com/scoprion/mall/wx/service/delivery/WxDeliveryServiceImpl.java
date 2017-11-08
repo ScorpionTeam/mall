@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.service.delivery;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Delivery;
@@ -31,7 +32,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     public PageResult listPage(Long userId, Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
-        if (userId == null) {
+        if (StringUtils.isEmpty(userId.toString())) {
             return new PageResult();
         }
         Page<Delivery> page = wxDeliveryMapper.listPage(userId);
@@ -61,7 +62,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public BaseResult updateDelivery(Delivery delivery) {
-        if(delivery.getId()==null){
+        if(StringUtils.isEmpty(delivery.getId().toString())){
             return BaseResult.parameterError();
         }
         wxDeliveryMapper.updateDelivery(delivery);
@@ -90,11 +91,11 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public BaseResult findById(Long id) {
-        if(id==null){
+        if(StringUtils.isEmpty(id.toString())){
             return BaseResult.parameterError();
         }
         Delivery delivery=wxDeliveryMapper.findById(id);
-        if (delivery==null){
+        if (StringUtils.isEmpty(delivery.toString())){
             return BaseResult.notFound();
         }
         return BaseResult.success(delivery);
