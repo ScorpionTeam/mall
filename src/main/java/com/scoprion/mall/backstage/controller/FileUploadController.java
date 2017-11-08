@@ -36,14 +36,15 @@ public class FileUploadController {
         if (StringUtils.isEmpty(jsonContent)) {
             return BaseResult.parameterError();
         }
+        jsonContent = jsonContent.replace("\r\n", "");
         JSONObject jsonObject = JSON.parseObject(jsonContent);
         String imageType = jsonObject.getString("imageType");
         String cut = jsonObject.getString("cut");
         String watermark = jsonObject.getString("watermark");
         String watermarkText = jsonObject.getString("watermarkText");
         List<ImageCutSize> cutSizeList = jsonObject.getJSONArray("cutSizeList").toJavaList(ImageCutSize.class);
-        String url = FileUploadUtils.upload(file, imageType, cut, cutSizeList, watermark, watermarkText);
-        return BaseResult.success(url);
+        List<String> urlList = FileUploadUtils.upload(file, imageType, cut, cutSizeList, watermark, watermarkText);
+        return BaseResult.success(urlList);
     }
 
 }

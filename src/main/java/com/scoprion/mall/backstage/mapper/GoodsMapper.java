@@ -72,12 +72,30 @@ public interface GoodsMapper {
     int updateGoods(Goods goods);
 
     /**
-     * 根据条件模糊查询
+     * 条件查询商品列表分页
      *
-     * @param searchKey String
+     * @param searchKey  模糊信息
+     * @param goodNo     商品编号
+     * @param saleStatus 上下架
+     * @param startDate  开始时间
+     * @param endDate    结束时间
+     * @param categoryId   类目
+     * @param isHot      热销
+     * @param isNew      新品
+     * @param isFreight    包邮
+     * @param brandId      品牌
      * @return
      */
-    Page<Goods> findByCondition(@Param("searchKey") String searchKey);
+    Page<Goods> findByCondition(@Param("searchKey") String searchKey,
+                                @Param("goodNo") String goodNo,
+                                @Param("saleStatus") String saleStatus,
+                                @Param("startDate") String startDate,
+                                @Param("endDate") String endDate,
+                                @Param("categoryId") Long categoryId,
+                                @Param("isHot") String isHot,
+                                @Param("isNew") String isNew,
+                                @Param("isFreight") String isFreight,
+                                @Param("brandId") Long brandId);
 
     /**
      * 商品上下架

@@ -6,38 +6,60 @@ import java.util.Date;
 
 /**
  * Created on 2017/9/29.
+ *
+ * @author adming
  */
 public class Brand {
 
-    //主键
+    /**
+     * 主键
+     */
     private Long id;
 
-    //品牌名称
+    /**
+     * 品牌名称
+     */
     private String brandName;
 
-    //品牌简称
+    /**
+     * 品牌简称
+     */
     private String shortName;
 
-    //品牌所属国家
+    /**
+     * 品牌所属国家
+     */
     private String country;
 
-    //品牌状态 1入驻  0 退出
+    /**
+     * 品牌状态 1入驻  0 退出
+     */
     private String status;
 
-    //品牌负责人
+    /**
+     * 品牌负责人
+     */
     private String contact;
 
-    //负责人电话
+    /**
+     * 负责人电话
+     */
     private String contactPhone;
 
-    //品牌图片
+    /**
+     * 品牌图片
+     */
     private String brandImg;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
-    //修改时间
+    /**
+     * 修改时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
 
@@ -49,11 +71,11 @@ public class Brand {
         this.id = id;
     }
 
-    public String getName() {
+    public String getBrandName() {
         return brandName;
     }
 
-    public void setName(String brandName) {
+    public void setBrandName(String brandName) {
         this.brandName = brandName;
     }
 

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.backstage.mapper.BrandMapper">
+
+    <!--新增品牌-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.Brand">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_brand
+        (brandName,brandImg,createDate,updateDate,status,shortName,country,contact,contactPhone)
+        VALUES
+        (#{brandName},#{brandImg},now(),now(),#{status},#{shortName},#{country},#{contact},#{contactPhone})
+    </insert>
+
+    <!--修改品牌-->
+    <update id="modify" parameterType="com.scoprion.mall.domain.Brand">
+        UPDATE t_brand SET
+        <if test="brandName!=null">brandName=#{brandName},</if>
+        <if test="brandImg!=null">brandImg=#{brandImg},</if>
+        <if test="status!=null">status=#{status},</if>
+        <if test="shortName!=null">shortName=#{shortName},</if>
+        <if test="createDate!=null">createDate=#{createDate},</if>
+        <if test="country!=null">country=#{country},</if>
+        <if test="contact!=null">contact=#{contact},</if>
+        <if test="contactPhone!=null">contactPhone=#{contactPhone},</if>
+        updateDate=now()
+        WHERE id=#{id}
+    </update>
+
+    <!--模糊查询-->
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.Brand">
+        SELECT
+        id,
+        brandName,
+        brandImg,
+        createDate,
+        status,
+        shortName
+        FROM t_brand WHERE 1=1
+        <if test="searchKey!=null">AND CONCAT(brandName,shortName) LIKE #{searchKey}</if>
+    </select>
+
+    <!--查询品牌名称数量-->
+    <select id="validByName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM  t_brand WHERE  brandName=#{brandName} AND status='1'
+    </select>
+
+    <!--品牌id、名称校验-->
+    <select id="validByNameAndId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_brand WHERE brandName =#{brandName} AND id!=#{id} AND status='1'
+    </select>
+
+    <!--根据ID查询品牌详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.Brand">
+        SELECT  * FROM  t_brand   WHERE  id=#{id}
+    </select>
+
+    <update id="batchModifyStatus">
+        UPDATE t_brand SET
+        status=#{status},
+        updateDate=now()
+        WHERE id IN
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--批量删除-->
+    <delete id="batchDelete">
+        DELETE FROM t_brand WHERE id IN
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+</mapper>

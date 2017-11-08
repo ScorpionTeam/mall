@@ -60,7 +60,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (activity.getId() == null) {
             return BaseResult.parameterError();
         }
-        int validResult = activityMapper.validByName(activity.getName());
+        int validResult = activityMapper.validByNameAndId(activity.getId(), activity.getName());
         if (validResult > 0) {
             return BaseResult.error("not_allowed_repeat_name", "活动名称不可重复");
         }

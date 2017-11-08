@@ -66,9 +66,11 @@ public class GoodsServiceImpl implements GoodsService {
         if (result > 0) {
             //更新图片信息
             List<GoodsImage> imgList = goods.getImgList();
-            for (GoodsImage goodsImage : imgList) {
-                goodsImage.setGoodId(goods.getId());
-                goodsMapper.updateImageWithGoodsId(goodsImage);
+            if (imgList != null && imgList.size() > 0) {
+                for (GoodsImage goodsImage : imgList) {
+                    goodsImage.setGoodId(goods.getId());
+                    goodsMapper.updateImageWithGoodsId(goodsImage);
+                }
             }
             return BaseResult.success("创建商品成功");
         }
@@ -137,11 +139,22 @@ public class GoodsServiceImpl implements GoodsService {
      *
      * @param pageNo
      * @param pageSize
-     * @param searchKey
+     * @param searchKey  模糊信息
+     * @param goodNo     商品编号
+     * @param saleStatus 上下架
+     * @param startDate  开始时间
+     * @param endDate    结束时间
+     * @param categoryId 类目
+     * @param isHot      热销
+     * @param isNew      新品
+     * @param isFreight  包邮
+     * @param brandId    品牌
      * @return
      */
     @Override
-    public PageResult findByCondition(int pageNo, int pageSize, String searchKey) {
+    public PageResult findByCondition(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
+                                      String startDate, String endDate, Long categoryId, String isHot, String isNew,
+                                      String isFreight, Long brandId) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(searchKey)) {
             searchKey = null;
@@ -149,7 +162,8 @@ public class GoodsServiceImpl implements GoodsService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Goods> page = goodsMapper.findByCondition(searchKey);
+        Page<Goods> page = goodsMapper.findByCondition(searchKey, goodNo, saleStatus, startDate, endDate, categoryId,
+                isHot, isNew, isFreight, brandId);
         if (page == null) {
             return new PageResult(new ArrayList<Goods>());
         }
@@ -168,7 +182,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (StringUtils.isEmpty(saleStatus) || null == goodsId) {
             return BaseResult.parameterError();
         }
-        if (!Constant.SALE_STATUS.contains(saleStatus)) {
+        if (!Constant.STATUS_01.contains(saleStatus)) {
             return BaseResult.error("parameterError", "上下架状态不正确");
         }
         int result = goodsMapper.modifySaleStatus(saleStatus, goodsId);
@@ -245,7 +259,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (goodsIdList == null || goodsIdList.size() == 0) {
             return BaseResult.parameterError();
         }
-        if (!Constant.SALE_STATUS.contains(saleStatus)) {
+        if (!Constant.STATUS_01.contains(saleStatus)) {
             return BaseResult.parameterError();
         }
         goodsIdList.forEach(goodsId -> {

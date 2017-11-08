@@ -61,6 +61,16 @@ public interface ActivityMapper {
     int validByName(@Param("name") String name);
 
     /**
+     * 根据id 名称校验banner名称是否存在
+     *
+     * @param id
+     * @param name
+     * @return
+     */
+    int validByNameAndId(@Param("id") Long id, @Param("name") String name);
+
+
+    /**
      * 添加活动商品匹配关系
      *
      * @param activityId

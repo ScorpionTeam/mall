@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.ActivityMapper">
     <!--新增活动-->
-    <insert id="add">
+    <insert id="add" parameterType="com.scoprion.mall.domain.Activity">
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -14,7 +14,7 @@
         (#{name},#{activityType},#{status},now(),#{target})
     </insert>
     <!--修改活动-->
-    <update id="update">
+    <update id="update" parameterType="com.scoprion.mall.domain.Activity">
         UPDATE t_activity SET
         <if test="name!=null">name=#{name},</if>
         <if test="activityType!=null">activityType=#{activityType},</if>
@@ -55,6 +55,11 @@
         SELECT COUNT(*) FROM  t_activity WHERE  name=#{name} AND status='0'
     </select>
 
+    <!--活动id、名称校验-->
+    <select id="validByNameAndId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_activity WHERE name =#{name} AND id!=#{id} AND status='0'
+    </select>
+
     <!--根据ID查询活动详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.Activity">
         SELECT  * FROM  t_activity   WHERE  id=#{id}
@@ -84,4 +89,5 @@
     <select id="findGoodIdByActivityId" resultType="java.lang.Long">
         SELECT goodId FROM t_activity_good WHERE activityId=#{activityId}
     </select>
+
 </mapper>
