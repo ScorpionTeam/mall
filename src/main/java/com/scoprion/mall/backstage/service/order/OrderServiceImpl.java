@@ -3,7 +3,9 @@ package com.scoprion.mall.backstage.service.order;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.mall.backstage.mapper.OrderLogMapper;
+import com.scoprion.mall.backstage.mapper.PointMapper;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.backstage.mapper.OrderMapper;
 import com.scoprion.mall.domain.OrderLog;
@@ -33,6 +35,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderLogMapper orderLogMapper;
+
+    @Autowired
+    private GoodsMapper goodsMapper;
+
+    @Autowired
+    private PointMapper pointMapper;
 
     /**
      * 订单列表
@@ -151,10 +159,20 @@ public class OrderServiceImpl implements OrderService {
             orderLog.setOrderNo(order.getOrderNo());
             orderLog.setAction("退款");
             orderLogMapper.add(orderLog);
-            //TODO 积分返还
+            //TODO 商品库存返还
+            goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
+            //记录商品库存反还日志
 
+            //TODO 积分返还  10块钱  = 1积分
+            int point = order.getTotalFee()/1000;
+            pointMapper.updatePoint(order.getUserId(),point);
+            //记录积分反还日志
+
+
+        } else {
+            return BaseResult.error(wxRefundNotifyResponseData.getReturn_code(),
+                    wxRefundNotifyResponseData.getReturn_msg());
         }
-        //TODO  put  sign
         return null;
     }
 

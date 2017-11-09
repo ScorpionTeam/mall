@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.service.order;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.wx.mapper.WxOrderMapper;
 import com.scoprion.mall.wx.pay.WxPayConfig;
@@ -12,10 +13,6 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author by Administrator
@@ -41,12 +38,12 @@ public class WxOrderServiceImpl implements WxOrderService {
     public PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus) {
 
         //暂时使用直接传userId的方式 查询订单列表
-        String userId = openid(wxCode);
+        String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         if ("0".equals(orderStatus)) {
             orderStatus = null;
         }
-        Page<Order> page = wxOrderMapper.findByUserId(wxCode, orderStatus);
+        Page<Order> page = wxOrderMapper.findByUserId(userId, orderStatus);
         return new PageResult(page);
     }
 
@@ -74,24 +71,40 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Override
     public BaseResult refund(Long orderId) {
         wxOrderMapper.updateByOrderID(orderId, "5");
-        return BaseResult.success("退款已提交申请");
+        return BaseResult.success("申请成功");
+    }
+
+
+    /**
+     * 签收后评价
+     * @param estimate
+     * @return
+     */
+    @Override
+    public BaseResult estimate(Estimate estimate) {
+        if(estimate.getId() == null) {
+            return BaseResult.notFound();
+        }
+        int result = wxOrderMapper.estimate(estimate);
+        if(result > 0) {
+            return BaseResult.success("评价成功");
+        }
+        return BaseResult.error("estimate_fail","评价失败");
     }
 
     /**
-     * 获取openid
-     *
-     * @param wxCode
+     * 投诉
+     * @param id
+     * @param complain
      * @return
      */
-    private String openid(String wxCode) {
-        String apiUrl = WxPayConfig.OPEN_ID_URL
-                + "appid=" + WxPayConfig.APP_ID
-                + "&secret=" + WxPayConfig.APP_SECRET
-                + "&js_code=" + wxCode
-                + "&grant_type=authorization_code";
-        String response = WxUtil.httpsRequest(apiUrl, "GET", null);
-        AuthorizationCode authorizationCode = JSON.parseObject(response, AuthorizationCode.class);
-        return authorizationCode.getOpenid();
+    @Override
+    public BaseResult complain(Long id, String complain) {
+        int result = wxOrderMapper.complain(id, complain);
+        if(result > 0) {
+            return BaseResult.success("投诉成功");
+        }
+        return BaseResult.error("complain_fail", "投诉失败");
     }
 
 

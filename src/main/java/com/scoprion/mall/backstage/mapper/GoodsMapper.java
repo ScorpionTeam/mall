@@ -140,7 +140,7 @@ public interface GoodsMapper {
     int deleteImageByGoodsId(@Param("goodId") Long goodId);
 
     /**
-     * 库存扣减
+     * 库存反还
      *
      * @param goodId
      * @param stock

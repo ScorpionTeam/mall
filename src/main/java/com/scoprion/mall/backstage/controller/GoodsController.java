@@ -14,9 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created on 2017/9/29.
- *
- * @author adming
+ * @author ycj
+ * @created on 2017/9/29.
  */
 @RestController
 @RequestMapping("/backstage/good")
@@ -96,11 +95,11 @@ public class GoodsController {
      * @param saleStatus 上下架
      * @param startDate  开始时间
      * @param endDate    结束时间
-     * @param categoryId   类目
+     * @param categoryId 类目
      * @param isHot      热销
      * @param isNew      新品
-     * @param isFreight    包邮
-     * @param brandId      品牌
+     * @param isFreight  包邮
+     * @param brandId    品牌
      * @return
      */
     @ApiOperation(value = "查询商品")

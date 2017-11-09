@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Created on 2017/10/10.
+ * @author  by kunlun
+ * @created on 2017/10/10.
  */
 @Controller
 @RequestMapping("behavior")

@@ -16,10 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * Created on 2017/10/10
- * 品牌
- *
  * @author ycj
+ * @created on 2017/10/10
+ * 品牌
  */
 @RestController
 @RequestMapping("/backstage/brand")

@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Created on 2017/10/14.
+ * @author by kunlun
+ * @created on 2017/10/14.
  */
 @RestController
 @RequestMapping("log")
