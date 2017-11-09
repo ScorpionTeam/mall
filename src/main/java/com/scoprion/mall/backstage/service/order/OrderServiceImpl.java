@@ -144,10 +144,11 @@ public class OrderServiceImpl implements OrderService {
         map.put("op_user_id", "100000");
         String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
         map.put("sign", sign);
-        String refundXML = WxPayUtil.castDataToXMLString(map);
+        String refundXML = WxPayUtil.MapConvertToXML(map);
         System.out.println("退款参数:" + refundXML);
         //定义接收退款返回字符串
         String response = WxUtil.httpsRequest(WxPayConfig.WECHAT_REFUND, "POST", refundXML);
+        System.out.println("返回数据:" + response);
         WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
                 response);
         Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
@@ -164,8 +165,8 @@ public class OrderServiceImpl implements OrderService {
             //记录商品库存反还日志
 
             //TODO 积分返还  10块钱  = 1积分
-            int point = order.getTotalFee()/1000;
-            pointMapper.updatePoint(order.getUserId(),point);
+            int point = order.getTotalFee() / 1000;
+            pointMapper.updatePoint(order.getUserId(), point);
             //记录积分反还日志
 
 

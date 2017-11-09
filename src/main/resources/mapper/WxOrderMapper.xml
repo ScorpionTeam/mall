@@ -34,7 +34,7 @@
         #{orderNo},
         #{goodSnapShotId},
         #{deliveryId},
-        #{orderStatus},
+        '1',
         #{orderType},
         #{message},
         #{goodFee},
