@@ -36,16 +36,11 @@ public class GoodsController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody JSONObject object) {
         GoodExt goods = object.getObject("good", GoodExt.class);
-        if (object.containsKey(IMAGE_LIST)) {
-            List<String> imageList = object.getJSONArray(IMAGE_LIST).toJavaList(String.class);
-            if (imageList != null && imageList.size() > 0) {
-                List<MallImage> imgList = new ArrayList<>();
-                for (String url : imageList) {
-                    imgList.add(new MallImage(url));
-                }
-                goods.setImgList(imgList);
-            }
+        if (!object.containsKey(IMAGE_LIST)) {
+            return BaseResult.error("add_error", "图片为必传信息");
         }
+        List<MallImage> imgList = object.getJSONArray(IMAGE_LIST).toJavaList(MallImage.class);
+        goods.setImgList(imgList);
         return goodsService.add(goods);
     }
 
@@ -122,14 +117,8 @@ public class GoodsController {
     public BaseResult updateGood(@RequestBody JSONObject object) {
         GoodExt goods = object.getObject("good", GoodExt.class);
         if (object.containsKey(IMAGE_LIST)) {
-            List<String> imageList = object.getJSONArray(IMAGE_LIST).toJavaList(String.class);
-            if (imageList != null) {
-                List<MallImage> imgList = new ArrayList<>();
-                for (String url : imageList) {
-                    imgList.add(new MallImage(url));
-                }
-                goods.setImgList(imgList);
-            }
+            List<MallImage> imageList = object.getJSONArray(IMAGE_LIST).toJavaList(MallImage.class);
+            goods.setImgList(imageList);
         }
         return goodsService.updateGood(goods);
     }

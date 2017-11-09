@@ -33,7 +33,7 @@ public class Constant {
     /**
      * 商品图片路径 0
      */
-    public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/Mall/MallImage/";
+    public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodImage/";
 
     /**
      * 品牌图片路径1
