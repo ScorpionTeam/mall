@@ -72,7 +72,7 @@ public class WxPayServiceImpl implements WxPayService {
             return BaseResult.error("not_found_address", "收货地址出错");
         }
         //查询用户openid
-        String openid = findOpenID(wxCode);
+        String openid = WxUtil.getOpenId(wxCode);
         Order order = constructOrder(goods, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
@@ -114,7 +114,7 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Override
     public BaseResult pay(String wxCode, Long orderId) {
-        String openid = findOpenID(wxCode);
+        String openid = WxUtil.getOpenId(wxCode);
         //根据openid查询用户订单信息
         String prepayId = wxOrderMapper.findPrepayIdByOpenid(openid, orderId);
         if (StringUtils.isEmpty(prepayId)) {
@@ -276,24 +276,6 @@ public class WxPayServiceImpl implements WxPayService {
         map.put("signType", "MD5");
         map.put("timeStamp", timeStamp);
         return WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
-    }
-
-    /**
-     * 查询openid
-     *
-     * @param wxCode
-     * @return
-     */
-    private String findOpenID(String wxCode) {
-
-        String apiUrl = WxPayConfig.OPEN_ID_URL
-                + "appid=" + WxPayConfig.APP_ID
-                + "&secret=" + WxPayConfig.APP_SECRET
-                + "&js_code=" + wxCode
-                + "&grant_type=authorization_code";
-        String response = WxUtil.httpsRequest(apiUrl, "GET", null);
-        AuthorizationCode authorizationCode = JSON.parseObject(response, AuthorizationCode.class);
-        return authorizationCode.getOpenid();
     }
 
     /**

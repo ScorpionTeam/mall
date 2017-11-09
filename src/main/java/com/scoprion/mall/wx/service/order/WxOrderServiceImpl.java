@@ -41,7 +41,7 @@ public class WxOrderServiceImpl implements WxOrderService {
     public PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus) {
 
         //暂时使用直接传userId的方式 查询订单列表
-        String userId = openid(wxCode);
+        String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         if ("0".equals(orderStatus)) {
             orderStatus = null;
@@ -76,23 +76,5 @@ public class WxOrderServiceImpl implements WxOrderService {
         wxOrderMapper.updateByOrderID(orderId, "5");
         return BaseResult.success("申请成功");
     }
-
-    /**
-     * 获取openid
-     *
-     * @param wxCode
-     * @return
-     */
-    private String openid(String wxCode) {
-        String apiUrl = WxPayConfig.OPEN_ID_URL
-                + "appid=" + WxPayConfig.APP_ID
-                + "&secret=" + WxPayConfig.APP_SECRET
-                + "&js_code=" + wxCode
-                + "&grant_type=authorization_code";
-        String response = WxUtil.httpsRequest(apiUrl, "GET", null);
-        AuthorizationCode authorizationCode = JSON.parseObject(response, AuthorizationCode.class);
-        return authorizationCode.getOpenid();
-    }
-
 
 }
