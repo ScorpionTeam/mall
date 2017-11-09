@@ -114,5 +114,26 @@
         UPDATE t_order SET  orderStatus=#{orderStatus} WHERE id=#{orderId}
     </update>
 
+    <!-- 签收后评价 -->
+    <insert id="estimate" parameterType="com.scoprion.mall.domain.Estimate">
+        INSERT INTO t_estimate(
+        goodId,
+        message,
+        userId,
+        createDate,
+        updateDate)
+        VALUES (#{goodId},
+        #{message},
+        #{userId},
+        now(),
+        now())
+    </insert>
 
+    <!-- 投诉 -->
+    <update id="complain">
+        UPDATE t_estimate SET
+        <if test="complain!=null">complain=#{complain},</if>
+        updateDate=now()
+        WHERE id=#{id}
+    </update>
 </mapper>

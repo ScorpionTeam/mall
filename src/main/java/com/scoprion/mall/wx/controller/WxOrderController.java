@@ -1,9 +1,11 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.wx.service.order.WxOrderService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -55,5 +57,26 @@ public class WxOrderController {
     @RequestMapping(value = "/refund", method = RequestMethod.POST)
     public BaseResult refund(Long orderId) {
         return wxOrderService.refund(orderId);
+    }
+
+    /**
+     * 签收后评价
+     * @param estimate
+     * @return
+     */
+    @RequestMapping(value = "/estimate", method = RequestMethod.POST)
+    public BaseResult estimate(@RequestBody Estimate estimate) {
+        return wxOrderService.estimate(estimate);
+    }
+
+    /**
+     * 投诉
+     * @param id
+     * @param complain
+     * @return
+     */
+    @RequestMapping(value = "/complain", method = RequestMethod.POST)
+    public BaseResult complain(Long id, String complain) {
+        return wxOrderService.complain(id, complain);
     }
 }

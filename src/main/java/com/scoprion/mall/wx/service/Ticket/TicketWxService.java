@@ -1,4 +1,4 @@
-package com.scoprion.mall.littlesoft.service.Ticket;
+package com.scoprion.mall.wx.service.Ticket;
 
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.result.BaseResult;

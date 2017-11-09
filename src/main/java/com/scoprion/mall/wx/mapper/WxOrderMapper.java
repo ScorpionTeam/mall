@@ -1,8 +1,8 @@
 package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
+import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.domain.Order;
-import com.scoprion.mall.domain.OrderLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -89,4 +89,18 @@ public interface WxOrderMapper {
      */
     int updateByOrderID(@Param("orderId") Long orderId, @Param("orderStatus") String orderStatus);
 
+    /**
+     * 签收后评价
+     * @param estimate
+     * @return
+     */
+    int estimate(Estimate estimate);
+
+    /**
+     * 投诉
+     * @param id
+     * @param complain
+     * @return
+     */
+    int complain(@Param("id") Long id, @Param("complain") String complain);
 }
