@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.OrderMapper">
     <!--订单列表-->
-    <select id="listPage" resultType="com.scoprion.mall.domain.Order">
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.Order">
         SELECT
         id,
         orderNo,

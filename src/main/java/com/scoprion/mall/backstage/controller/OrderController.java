@@ -51,11 +51,11 @@ public class OrderController {
      * @return
      */
     @ApiOperation(value = "订单列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public PageResult list(Integer pageNo, Integer pageSize, String payType, String orderType,
+    @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
+    public PageResult findByCondition(Integer pageNo, Integer pageSize, String payType, String orderType,
                            String orderStatus, String searchKey, String startDate, String endDate,
                            String phone, String orderNo) {
-        return orderService.listPage(pageNo, pageSize, payType, orderType, orderStatus, searchKey, startDate, endDate,
+        return orderService.findByCondition(pageNo, pageSize, payType, orderType, orderStatus, searchKey, startDate, endDate,
                 phone, orderNo);
     }
 
