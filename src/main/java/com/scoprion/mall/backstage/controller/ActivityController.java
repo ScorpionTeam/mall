@@ -38,14 +38,25 @@ public class ActivityController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody JSONObject jsonObject) {
         Activity activity = jsonObject.getObject("activity", Activity.class);
-        JSONArray jsonArray = jsonObject.getJSONArray("goodIdList");
-        List<Long> goodIdList = new ArrayList<>();
-        for (Object goodId : jsonArray) {
-            goodIdList.add(Long.valueOf(goodId.toString()));
-        }
+//        List<Long> goodIdList = jsonObject.getJSONArray("goodIdList").toJavaList(Long.class);
 //        activity.setGoodIdList(goodIdList);
         return activityService.add(activity);
     }
+
+    /**
+     * 批量修改活动
+     *
+     * @param jsonObject
+     * @return
+     */
+    @ApiOperation(value = "批量修改活动")
+    @RequestMapping(value = "/batchModifyStatus", method = RequestMethod.POST)
+    public BaseResult batchModifyStatus(@RequestBody JSONObject jsonObject) {
+        String status = jsonObject.getString("status");
+        List<Long> idList = jsonObject.getJSONArray("idList").toJavaList(Long.class);
+        return activityService.batchModifyStatus(status, idList);
+    }
+
 
     /**
      * 根据活动id删除活动
@@ -66,8 +77,8 @@ public class ActivityController {
      * @return
      */
     @ApiOperation(value = "修改活动")
-    @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public BaseResult update(@RequestBody JSONObject jsonObject) {
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public BaseResult modify(@RequestBody JSONObject jsonObject) {
         Activity activity = jsonObject.getObject("activity", Activity.class);
         JSONArray jsonArray = jsonObject.getJSONArray("goodIdList");
         List<Long> goodIdList = new ArrayList<>();
@@ -75,7 +86,7 @@ public class ActivityController {
             goodIdList.add(Long.valueOf(goodId.toString()));
         }
 //        activity.setGoodIdList(goodIdList);
-        return activityService.update(activity);
+        return activityService.modify(activity);
     }
 
     /**

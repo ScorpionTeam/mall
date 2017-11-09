@@ -107,7 +107,7 @@ public interface GoodsService {
      * @param idList 商品id集合
      * @return
      */
-    BaseResult bathDeleteGoods(List<Long> idList);
+    BaseResult batchDeleteGood(List<Long> idList);
 
     /**
      * 商品库存减扣
@@ -125,5 +125,5 @@ public interface GoodsService {
      * @param goodsIdList 商品id集合
      * @return
      */
-    BaseResult bathModifySaleStatus(String saleStatus, List<Long> goodsIdList);
+    BaseResult batchModifySaleStatus(String saleStatus, List<Long> goodsIdList);
 }

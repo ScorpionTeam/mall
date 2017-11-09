@@ -47,6 +47,21 @@ public class GoodExt extends Goods {
      */
     private List<GoodsImage> imgList;
 
+    /**
+     * 商品状态 0正常，1删除
+     */
+    private String status;
+
+    @Override
+    public String getStatus() {
+        return status;
+    }
+
+    @Override
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Long getActivityId() {
         return activityId;
     }

@@ -70,4 +70,13 @@ public interface BannerMapper {
      * @return
      */
     List<Banner> homeShow();
+
+    /**
+     * 批量修改广告状态
+     *
+     * @param status 0 正常 1 删除
+     * @param idList id集合
+     * @return int
+     */
+    int batchModifyStatus(@Param("status") String status, @Param("idList") List<Long> idList);
 }

@@ -68,10 +68,10 @@ public class GoodsController {
      * @return
      */
     @ApiOperation(value = "删除商品")
-    @RequestMapping(value = "/bathDeleteGoods", method = RequestMethod.POST)
-    public BaseResult bathDeleteGoods(@RequestBody JSONObject jsonObject) {
+    @RequestMapping(value = "/batchDeleteGood", method = RequestMethod.POST)
+    public BaseResult batchDeleteGood(@RequestBody JSONObject jsonObject) {
         List<Long> idList = jsonObject.getJSONArray("idList").toJavaList(Long.class);
-        return goodsService.bathDeleteGoods(idList);
+        return goodsService.batchDeleteGood(idList);
     }
 
     /**
@@ -111,20 +111,6 @@ public class GoodsController {
         return goodsService.findByCondition(pageNo, pageSize, searchKey, goodNo, saleStatus, startDate, endDate,
                 categoryId, isHot, isNew, isFreight, brandId);
     }
-//    /**
-//     * 条件查询商品列表分页
-//     *
-//     * @param pageNo
-//     * @param pageSize
-//     * @param searchKey
-//     * @return
-//     */
-//    @ApiOperation(value = "模糊查询商品")
-//    @RequestMapping(value = "/findBySearchKey", method = RequestMethod.GET)
-//    public PageResult findBySearchKey(int pageNo, int pageSize, String searchKey, String goodNo, String status,
-//                                      String startDate, String endDate, String category,) {
-//        return goodsService.findByCondition(pageNo, pageSize, searchKey);
-//    }
 
     /**
      * 修改商品
@@ -170,13 +156,13 @@ public class GoodsController {
      * @return
      */
     @ApiOperation(value = "批量商品上下架")
-    @RequestMapping(value = "/bathModifySaleStatus", method = RequestMethod.POST)
-    public BaseResult bathModifySaleStatus(@RequestBody JSONObject object) {
+    @RequestMapping(value = "/batchModifySaleStatus", method = RequestMethod.POST)
+    public BaseResult batchModifySaleStatus(@RequestBody JSONObject object) {
         //1上架 0下架 默认上架
         String saleStatus = object.getString("saleStatus");
         //商品id集合
         List<Long> goodsIdList = object.getJSONArray("goodsIdList").toJavaList(Long.class);
-        return goodsService.bathModifySaleStatus(saleStatus, goodsIdList);
+        return goodsService.batchModifySaleStatus(saleStatus, goodsIdList);
     }
 
     /**

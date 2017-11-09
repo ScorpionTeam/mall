@@ -49,4 +49,14 @@
             SELECT * FROM t_banner WHERE 1=1 ORDER BY  sort  DESC LIMIT 4
     </select>
 
+    <!--批量修改状态-->
+    <update id="batchModifyStatus">
+        UPDATE t_banner SET
+        status=#{status},
+        updateDate=now()
+        WHERE id IN
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>

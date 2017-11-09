@@ -101,18 +101,18 @@ public interface GoodsMapper {
      * 商品上下架
      *
      * @param saleStatus saleStatus 1上架 0下架 默认上架
-     * @param goodId     商品id
+     * @param idList     商品id集合
      * @return 更新是否成功 1 成功  0 失败
      */
-    int modifySaleStatus(@Param("saleStatus") String saleStatus, @Param("goodId") Long goodId);
+    int batchModifySaleStatus(@Param("saleStatus") String saleStatus, @Param("idList") List<Long> idList);
 
     /**
      * 根据商品id删除商品
      *
-     * @param id 商品id
+     * @param idList 商品id
      * @return
      */
-    int deleteGoodsById(@Param("id") Long id);
+    int batchDeleteGood(@Param("idList") List<Long> idList);
 
 
     /**

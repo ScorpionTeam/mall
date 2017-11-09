@@ -26,6 +26,7 @@
         sellerId,
         visitTotal,
         goodNo,
+        status,
         mainImgUrl)
         VALUES (#{categoryId},
         #{goodName},
@@ -45,6 +46,7 @@
         #{sellerId},
         #{visitTotal},
         #{goodNo},
+        #{status},
         #{mainImgUrl})
     </insert>
 
@@ -70,6 +72,7 @@
          sellerId,
          visitTotal,
          goodNo,
+         status,
          mainImgUrl
         FROM t_good
     </select>
@@ -96,6 +99,7 @@
          sellerId,
          visitTotal,
          goodNo,
+         status,
          mainImgUrl
         FROM t_good
         WHERE id=#{goodId}
@@ -126,6 +130,7 @@
         <if test="visitTotal!=null">visitTotal=#{visitTotal},</if>
         <if test="goodNo!=null">goodNo=#{goodNo},</if>
         <if test="mainImgUrl!=null">mainImgUrl=#{mainImgUrl},</if>
+        <if test="status!=null">status=#{status},</if>
         lastUpdateDate=NOW()
         WHERE id=#{id}
     </update>
@@ -167,17 +172,27 @@
     </select>
 
     <!--商品上下架-->
-    <update id="modifySaleStatus">
+    <update id="batchModifySaleStatus">
         UPDATE t_good SET
         isOnSale=#{saleStatus},
         lastUpdateDate=NOW()
-        WHERE id=#{goodId}
+        WHERE id IN
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </update>
 
-    <!--根据商品id删除商品-->
-    <delete id="deleteGoodsById">
-        DELETE FROM t_good WHERE id=#{id}
-    </delete>
+    <!--批量删除商品-->
+    <update id="batchDeleteGood">
+        UPDATE t_good
+        SET status='1',
+        lastUpdateDate=now()
+        WHERE id IN
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND isOnSale='0'
+    </update>
 
     <!--插入图片地址，跟商品ID绑定-->
     <insert id="updateImageWithGoodsId" parameterType="com.scoprion.mall.domain.GoodsImage">

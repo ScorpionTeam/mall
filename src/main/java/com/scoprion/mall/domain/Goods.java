@@ -116,6 +116,19 @@ public class Goods {
      */
     private String mainImgUrl;
 
+    /**
+     * 商品状态 0正常，1删除
+     */
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Long getId() {
         return id;
     }

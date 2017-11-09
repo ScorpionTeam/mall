@@ -1,15 +1,16 @@
 package com.scoprion.mall.backstage.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.scoprion.mall.domain.Banner;
 import com.scoprion.mall.backstage.service.banner.BannerService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * Created on 2017/9/29.
@@ -83,4 +84,17 @@ public class BannerController {
         return bannerService.deleteById(id);
     }
 
+    /**
+     * 批量修改广告状态
+     *
+     * @param jsonObject
+     * @return
+     */
+    @ApiOperation(value = "批量修改广告状态")
+    @RequestMapping(value = "/batchModifyStatus", method = RequestMethod.POST)
+    public BaseResult batchModifyStatus(@RequestBody JSONObject jsonObject) {
+        String status = jsonObject.getString("status");
+        List<Long> idList = jsonObject.getJSONArray("idList").toJavaList(Long.class);
+        return bannerService.batchModifyStatus(status, idList);
+    }
 }
