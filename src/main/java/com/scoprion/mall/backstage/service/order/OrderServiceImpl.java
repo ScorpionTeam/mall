@@ -144,10 +144,11 @@ public class OrderServiceImpl implements OrderService {
         map.put("op_user_id", "100000");
         String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
         map.put("sign", sign);
-        String refundXML = WxPayUtil.castDataToXMLString(map);
+        String refundXML = WxPayUtil.MapConvertToXML(map);
         System.out.println("退款参数:" + refundXML);
         //定义接收退款返回字符串
         String response = WxUtil.httpsRequest(WxPayConfig.WECHAT_REFUND, "POST", refundXML);
+        System.out.println("返回数据:" + response);
         WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
                 response);
         Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
