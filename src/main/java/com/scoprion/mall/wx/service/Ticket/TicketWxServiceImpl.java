@@ -1,10 +1,10 @@
-package com.scoprion.mall.littlesoft.service.Ticket;
+package com.scoprion.mall.wx.service.Ticket;
 
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Ticket;
-import com.scoprion.mall.littlesoft.mapper.TicketWxMapper;
+import com.scoprion.mall.wx.mapper.TicketWxMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.IDWorker;

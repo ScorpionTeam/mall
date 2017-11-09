@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.service.order;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.wx.mapper.WxOrderMapper;
 import com.scoprion.mall.wx.pay.WxPayConfig;
@@ -12,10 +13,6 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author by Administrator
@@ -92,6 +89,38 @@ public class WxOrderServiceImpl implements WxOrderService {
         String response = WxUtil.httpsRequest(apiUrl, "GET", null);
         AuthorizationCode authorizationCode = JSON.parseObject(response, AuthorizationCode.class);
         return authorizationCode.getOpenid();
+    }
+
+    /**
+     * 签收后评价
+     * @param estimate
+     * @return
+     */
+    @Override
+    public BaseResult estimate(Estimate estimate) {
+        if(estimate.getId() == null) {
+            return BaseResult.notFound();
+        }
+        int result = wxOrderMapper.estimate(estimate);
+        if(result > 0) {
+            return BaseResult.success("评价成功");
+        }
+        return BaseResult.error("estimate_fail","评价失败");
+    }
+
+    /**
+     * 投诉
+     * @param id
+     * @param complain
+     * @return
+     */
+    @Override
+    public BaseResult complain(Long id, String complain) {
+        int result = wxOrderMapper.complain(id, complain);
+        if(result > 0) {
+            return BaseResult.success("投诉成功");
+        }
+        return BaseResult.error("complain_fail", "投诉失败");
     }
 
 

@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.service.order;
 
+import com.scoprion.mall.domain.Estimate;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -34,6 +35,18 @@ public interface WxOrderService {
      */
     BaseResult refund(Long orderId);
 
+    /**
+     * 签收后评价
+     * @param estimate
+     * @return
+     */
+    BaseResult estimate(Estimate estimate);
 
-
+    /**
+     * 投诉
+     * @param id
+     * @param complain
+     * @return
+     */
+    BaseResult complain(Long id, String complain);
 }
