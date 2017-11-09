@@ -27,7 +27,7 @@ public interface ActivityService {
      * @param activity
      * @return
      */
-    BaseResult update(Activity activity);
+    BaseResult modify(Activity activity);
 
     /**
      * 删除活动
@@ -65,4 +65,13 @@ public interface ActivityService {
      * @return
      */
     BaseResult bindActivityWithGood(Long activityId, List<Long> goodIdList);
+
+    /**
+     * 批量修改活动状态
+     *
+     * @param status 状态 0正常 1删除
+     * @param idList id集合
+     * @return BaseResult
+     */
+    BaseResult batchModifyStatus(String status, List<Long> idList);
 }

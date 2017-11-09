@@ -61,11 +61,12 @@ public class BrandController {
     @ApiOperation("批量删除品牌")
     @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
     public BaseResult batchDelete(@RequestBody JSONObject jsonObject) {
-        if (!jsonObject.containsKey(Constant.ID_LIST)) {
-            return BaseResult.parameterError();
-        }
-        List<Long> idList = jsonObject.getJSONArray(Constant.ID_LIST).toJavaList(Long.class);
-        return brandService.batchDelete(idList);
+        return BaseResult.error("delete_error", "调用批量修改品牌状态（batchModifyStatus）接口");
+//        if (!jsonObject.containsKey(Constant.ID_LIST)) {
+//            return BaseResult.parameterError();
+//        }
+//        List<Long> idList = jsonObject.getJSONArray(Constant.ID_LIST).toJavaList(Long.class);
+//        return brandService.batchDelete(idList);
     }
 
     /**
