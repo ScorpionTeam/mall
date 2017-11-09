@@ -12,8 +12,12 @@
         deliveryId,
         orderType,
         totalFee,
-        createDate
-        FROM t_order WHERE 1=1
+        createDate,
+        orderStatus,
+        payDate
+        FROM
+        t_order
+        WHERE 1=1
         <if test="searchKey!=null">AND CONCAT(goodName,postCode,address,phone,recipients) LIKE searchKey</if>
         <if test="payType!=null">AND payType =#{payType}</if>
         <if test="orderType!=null">AND orderType =#{orderType}</if>
