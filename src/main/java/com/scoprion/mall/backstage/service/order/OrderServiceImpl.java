@@ -9,7 +9,6 @@ import com.scoprion.mall.backstage.mapper.PointMapper;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.backstage.mapper.OrderMapper;
 import com.scoprion.mall.domain.OrderLog;
-import com.scoprion.mall.domain.Point;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
