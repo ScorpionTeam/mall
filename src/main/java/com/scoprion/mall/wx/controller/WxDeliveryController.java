@@ -21,14 +21,14 @@ public class WxDeliveryController {
     /**
      * 查询用户收获地址列表
      *
-     * @param userId
+     * @param wxCode
      * @param pageNo
      * @param pageSize
      * @return
      */
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public PageResult listPage(Long userId, Integer pageNo, Integer pageSize){
-        return wxDeliveryService.listPage(userId,pageNo,pageSize);
+    public PageResult listPage(String wxCode, Integer pageNo, Integer pageSize){
+        return wxDeliveryService.listPage(wxCode,pageNo,pageSize);
     }
 
     /**

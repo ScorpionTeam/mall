@@ -3,8 +3,10 @@ package com.scoprion.mall.wx.service.delivery;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.mall.backstage.controller.UserController;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
+import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +25,20 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     /**
      * 分页查询用户收获地址列表
      *
-     * @param userId
+     * @param wxCode
      * @param pageNo
      * @param pageSize
      * @return
      */
     @Override
-    public PageResult listPage(Long userId, Integer pageNo, Integer pageSize) {
+    public PageResult listPage(String wxCode, Integer pageNo, Integer pageSize) {
+        String openId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
-        if (StringUtils.isEmpty(userId.toString())) {
+        if (StringUtils.isEmpty(openId)) {
             return new PageResult();
         }
-        Page<Delivery> page = wxDeliveryMapper.listPage(userId);
+        Page<Delivery> page = wxDeliveryMapper.listPage(openId);
         return new PageResult(page);
     }
 
