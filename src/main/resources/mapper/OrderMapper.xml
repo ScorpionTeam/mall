@@ -60,4 +60,10 @@
         updateDate=now()
         WHERE id=#{id}
     </update>
+
+
+    <!--修改订单状态为拒绝-->
+    <update id="updateOrderRefundById">
+        UPDATE t_order SET orderStatus=#{status},remark=#{remark} WHERE id=#{orderId}
+    </update>
 </mapper>

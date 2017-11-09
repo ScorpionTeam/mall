@@ -25,7 +25,7 @@ public interface OrderMapper {
      * @param searchKey   模糊查询信息
      * @param startDate   开始时间
      * @param endDate     结束时间
-     * @param phone      手机号
+     * @param phone       手机号
      * @return
      */
     Page<Order> listPage(@Param("payType") String payType,
@@ -51,4 +51,13 @@ public interface OrderMapper {
      * @return
      */
     int modify(Order order);
+
+    /**
+     * 将订单状态修改为  拒绝退款
+     *
+     * @param orderId
+     * @param remark
+     * @return
+     */
+    int updateOrderRefundById(Long orderId,String status, String remark);
 }

@@ -22,7 +22,7 @@ public interface OrderService {
      * @param searchKey   模糊查询信息
      * @param startDate   开始时间
      * @param endDate     结束时间
-     * @param phone      收件人手机号
+     * @param phone       收件人手机号
      * @return
      */
     PageResult listPage(Integer pageNo, Integer pageSize, String payType, String orderType,
@@ -43,4 +43,15 @@ public interface OrderService {
      * @return
      */
     BaseResult modify(Order order);
+
+    /**
+     * 退款
+     *
+     * @param orderId
+     * @param flag
+     * @param remark
+     * @param refundFee
+     * @return
+     */
+    BaseResult refund(Long orderId, String flag, String remark, int refundFee);
 }

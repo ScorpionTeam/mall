@@ -6,9 +6,11 @@ import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderRequestData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderResponseData;
 import com.scoprion.mall.wx.pay.WxPayConfig;
+import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -61,6 +63,19 @@ public class WxPayUtil {
         xStream.alias("xml", UnifiedOrderResponseData.class);
         xStream.processAnnotations(UnifiedOrderResponseData.class);
         return (UnifiedOrderResponseData) xStream.fromXML(responseString);
+    }
+
+    /**
+     * 把XML字符串转换为退款返回对象
+     *
+     * @param responseString
+     * @return
+     */
+    public static WxRefundNotifyResponseData castXMLStringToWxRefundNotifyResponseData(String responseString) {
+        XStream xStream = new XStream(new DomDriver());
+        xStream.alias("xml", WxRefundNotifyResponseData.class);
+        xStream.processAnnotations(WxRefundNotifyResponseData.class);
+        return (WxRefundNotifyResponseData) xStream.fromXML(responseString);
     }
 
     /**
@@ -173,7 +188,7 @@ public class WxPayUtil {
             }
             j++;
         }
-        stringBuffer.append("&key="+WxPayConfig.MCH_SECRET);
+        stringBuffer.append("&key=" + WxPayConfig.MCH_SECRET);
         return stringBuffer.toString();
     }
 
