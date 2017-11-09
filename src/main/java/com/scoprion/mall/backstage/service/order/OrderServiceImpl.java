@@ -58,7 +58,7 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public PageResult listPage(Integer pageNo, Integer pageSize, String payType, String orderType,
+    public PageResult findByCondition(Integer pageNo, Integer pageSize, String payType, String orderType,
                                String orderStatus, String searchKey, String startDate, String endDate,
                                String phone, String orderNo) {
         PageHelper.startPage(pageNo, pageSize);
@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Order> orderPage = orderMapper.listPage(payType, orderType, orderStatus, searchKey, startDate, endDate,
+        Page<Order> orderPage = orderMapper.findByCondition(payType, orderType, orderStatus, searchKey, startDate, endDate,
                 phone, orderNo);
         if (orderPage == null) {
             return new PageResult();

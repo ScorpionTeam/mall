@@ -26,7 +26,7 @@ public interface OrderService {
      * @param orderNo     订单号
      * @return
      */
-    PageResult listPage(Integer pageNo, Integer pageSize, String payType, String orderType,
+    PageResult findByCondition(Integer pageNo, Integer pageSize, String payType, String orderType,
                         String orderStatus, String searchKey, String startDate, String endDate,
                         String phone, String orderNo);
 
