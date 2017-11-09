@@ -23,10 +23,12 @@ public interface OrderService {
      * @param startDate   开始时间
      * @param endDate     结束时间
      * @param phone       收件人手机号
+     * @param orderNo     订单号
      * @return
      */
     PageResult listPage(Integer pageNo, Integer pageSize, String payType, String orderType,
-                        String orderStatus, String searchKey, String startDate, String endDate, String phone);
+                        String orderStatus, String searchKey, String startDate, String endDate,
+                        String phone, String orderNo);
 
     /**
      * 根据id查询详情

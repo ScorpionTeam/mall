@@ -18,6 +18,7 @@
         <if test="orderType!=null">AND orderType =#{orderType}</if>
         <if test="orderStatus!=null">AND orderStatus =#{orderStatus}</if>
         <if test="phone!=null">AND phone =#{phone}</if>
+        <if test="orderNo!=null">AND orderNo =#{orderNo}</if>
 
         <if test="startDate!=null and endDate!=null">AND createDate BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND createDate BETWEEN '1970-01-01' AND #{endDate}</if>

@@ -3,7 +3,7 @@ package com.scoprion.mall.backstage.mapper;
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
-import com.scoprion.mall.domain.GoodsImage;
+import com.scoprion.mall.domain.MallImage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -118,10 +118,10 @@ public interface GoodsMapper {
     /**
      * 修改图片对应的商品ID
      *
-     * @param goodsImage
+     * @param mallImage
      * @return
      */
-    int updateImageWithGoodsId(GoodsImage goodsImage);
+    int updateImageWithGoodsId(MallImage mallImage);
 
     /**
      * 根据商品ID查找图片列表
@@ -129,7 +129,7 @@ public interface GoodsMapper {
      * @param goodId
      * @return
      */
-    List<GoodsImage> findImgUrlByGoodsId(@Param("goodId") Long goodId);
+    List<MallImage> findImgUrlByGoodsId(@Param("goodId") Long goodId);
 
     /**
      * 根据商品id删除图片

@@ -3,7 +3,7 @@ package com.scoprion.mall.backstage.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.backstage.service.good.GoodsService;
-import com.scoprion.mall.domain.GoodsImage;
+import com.scoprion.mall.domain.MallImage;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
@@ -40,9 +40,9 @@ public class GoodsController {
         if (object.containsKey(IMAGE_LIST)) {
             List<String> imageList = object.getJSONArray(IMAGE_LIST).toJavaList(String.class);
             if (imageList != null && imageList.size() > 0) {
-                List<GoodsImage> imgList = new ArrayList<>();
+                List<MallImage> imgList = new ArrayList<>();
                 for (String url : imageList) {
-                    imgList.add(new GoodsImage(url));
+                    imgList.add(new MallImage(url));
                 }
                 goods.setImgList(imgList);
             }
@@ -125,9 +125,9 @@ public class GoodsController {
         if (object.containsKey(IMAGE_LIST)) {
             List<String> imageList = object.getJSONArray(IMAGE_LIST).toJavaList(String.class);
             if (imageList != null) {
-                List<GoodsImage> imgList = new ArrayList<>();
+                List<MallImage> imgList = new ArrayList<>();
                 for (String url : imageList) {
-                    imgList.add(new GoodsImage(url));
+                    imgList.add(new MallImage(url));
                 }
                 goods.setImgList(imgList);
             }

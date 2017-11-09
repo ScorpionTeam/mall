@@ -45,7 +45,7 @@ public class GoodExt extends Goods {
     /**
      * 图片地址暂定最多4-5张
      */
-    private List<GoodsImage> imgList;
+    private List<MallImage> imgList;
 
     /**
      * 商品状态 0正常，1删除
@@ -102,11 +102,11 @@ public class GoodExt extends Goods {
         this.sellerName = sellerName;
     }
 
-    public List<GoodsImage> getImgList() {
+    public List<MallImage> getImgList() {
         return imgList;
     }
 
-    public void setImgList(List<GoodsImage> imgList) {
+    public void setImgList(List<MallImage> imgList) {
         this.imgList = imgList;
     }
 

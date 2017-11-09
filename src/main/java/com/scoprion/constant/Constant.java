@@ -33,7 +33,7 @@ public class Constant {
     /**
      * 商品图片路径 0
      */
-    public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodsImage/";
+    public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/Mall/MallImage/";
 
     /**
      * 品牌图片路径1
@@ -71,7 +71,7 @@ public class Constant {
     /**
      * 水印图片地址 绝对路径
      */
-    public static final String WATER_REMARK_IMAGE_PATH = "D:\\Downloads\\logo.png";
+    public static final String WATER_REMARK_IMAGE_PATH = "D:\\Downloads\\logo_60x60.png";
 
     /**
      * idList参数
@@ -81,4 +81,13 @@ public class Constant {
      * status参数
      */
     public static final String STATUS = "status";
+
+    /**
+     * 图片尺寸集合
+     */
+    public static final String[] SIZE_ARR = {"30x30", "40x40", "60x60", "220x220", "400x400"};
+    /**
+     * 添加水印的图片尺寸不能小于这个值
+     */
+    public static final int WATER_REMARK_SIZE = 220;
 }

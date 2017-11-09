@@ -47,14 +47,16 @@ public class OrderController {
      * @param startDate   开始时间
      * @param endDate     结束时间
      * @param phone       收件人手机号
+     * @param orderNo     订单号
      * @return
      */
     @ApiOperation(value = "订单列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public PageResult list(Integer pageNo, Integer pageSize, String payType, String orderType,
-                           String orderStatus, String searchKey, String startDate, String endDate, String phone) {
+                           String orderStatus, String searchKey, String startDate, String endDate,
+                           String phone, String orderNo) {
         return orderService.listPage(pageNo, pageSize, payType, orderType, orderStatus, searchKey, startDate, endDate,
-                phone);
+                phone, orderNo);
     }
 
     /**

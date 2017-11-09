@@ -7,10 +7,9 @@ import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
-import com.scoprion.mall.domain.GoodsImage;
+import com.scoprion.mall.domain.MallImage;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -65,11 +64,11 @@ public class GoodsServiceImpl implements GoodsService {
         int result = goodsMapper.add(goods);
         if (result > 0) {
             //更新图片信息
-            List<GoodsImage> imgList = goods.getImgList();
+            List<MallImage> imgList = goods.getImgList();
             if (imgList != null && imgList.size() > 0) {
-                for (GoodsImage goodsImage : imgList) {
-                    goodsImage.setGoodId(goods.getId());
-                    goodsMapper.updateImageWithGoodsId(goodsImage);
+                for (MallImage mallImage : imgList) {
+                    mallImage.setTargetId(goods.getId());
+                    goodsMapper.updateImageWithGoodsId(mallImage);
                 }
             }
             return BaseResult.success("创建商品成功");
@@ -104,7 +103,7 @@ public class GoodsServiceImpl implements GoodsService {
             return BaseResult.notFound();
         }
         //获取图片列表
-        List<GoodsImage> imgList = goodsMapper.findImgUrlByGoodsId(goods.getId());
+        List<MallImage> imgList = goodsMapper.findImgUrlByGoodsId(goods.getId());
         goods.setImgList(imgList);
         return BaseResult.success(goods);
     }
@@ -121,14 +120,14 @@ public class GoodsServiceImpl implements GoodsService {
             return BaseResult.parameterError();
         }
         goodsMapper.updateGoods(goods);
-        List<GoodsImage> imgList = goods.getImgList();
+        List<MallImage> imgList = goods.getImgList();
         if (imgList != null && imgList.size() > 0) {
             //清空原来的图片
             goodsMapper.deleteImageByGoodsId(goods.getId());
             //插入图片
-            for (GoodsImage goodsImage : imgList) {
-                goodsImage.setGoodId(goods.getId());
-                goodsMapper.updateImageWithGoodsId(goodsImage);
+            for (MallImage mallImage : imgList) {
+                mallImage.setTargetId(goods.getId());
+                goodsMapper.updateImageWithGoodsId(mallImage);
             }
         }
         return BaseResult.success("修改成功");

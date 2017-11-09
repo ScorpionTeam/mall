@@ -46,11 +46,13 @@ public class OrderServiceImpl implements OrderService {
      * @param startDate   开始时间
      * @param endDate     结束时间
      * @param phone       收件人手机号
+     * @param orderNo     订单号
      * @return
      */
     @Override
     public PageResult listPage(Integer pageNo, Integer pageSize, String payType, String orderType,
-                               String orderStatus, String searchKey, String startDate, String endDate, String phone) {
+                               String orderStatus, String searchKey, String startDate, String endDate,
+                               String phone, String orderNo) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(startDate)) {
             startDate = null;
@@ -65,9 +67,9 @@ public class OrderServiceImpl implements OrderService {
             searchKey = "%" + searchKey + "%";
         }
         Page<Order> orderPage = orderMapper.listPage(payType, orderType, orderStatus, searchKey, startDate, endDate,
-                phone);
+                phone, orderNo);
         if (orderPage == null) {
-            return new PageResult(new ArrayList());
+            return new PageResult();
         }
         return new PageResult(orderPage);
     }
@@ -117,7 +119,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public BaseResult refund(Long orderId, String flag, String remark, int refundFee) {
         if ("0".equals(flag)) {
-            orderMapper.updateOrderRefundById(orderId,"7",remark);
+            orderMapper.updateOrderRefundById(orderId, "7", remark);
             return BaseResult.success("审核完成");
         }
         String nonce_str = WxUtil.createRandom(false, 10);
@@ -141,8 +143,8 @@ public class OrderServiceImpl implements OrderService {
         WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
                 response);
         Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
-        if(result) {
-            orderMapper.updateOrderRefundById(order.getId(),"6","");
+        if (result) {
+            orderMapper.updateOrderRefundById(order.getId(), "6", "");
             OrderLog orderLog = new OrderLog();
             orderLog.setOrderId(order.getId());
             orderLog.setIpAddress("");

@@ -26,6 +26,7 @@ public interface OrderMapper {
      * @param startDate   开始时间
      * @param endDate     结束时间
      * @param phone       手机号
+     * @param orderNo     订单号
      * @return
      */
     Page<Order> listPage(@Param("payType") String payType,
@@ -34,7 +35,7 @@ public interface OrderMapper {
                          @Param("searchKey") String searchKey,
                          @Param("startDate") String startDate,
                          @Param("endDate") String endDate,
-                         @Param("phone") String phone);
+                         @Param("phone") String phone, @Param("orderNo") String orderNo);
 
     /**
      * 根据id查询详情
@@ -59,5 +60,5 @@ public interface OrderMapper {
      * @param remark
      * @return
      */
-    int updateOrderRefundById(Long orderId,String status, String remark);
+    int updateOrderRefundById(Long orderId, String status, String remark);
 }

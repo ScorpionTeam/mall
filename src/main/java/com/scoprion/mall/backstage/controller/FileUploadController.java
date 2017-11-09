@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,7 +23,7 @@ import java.util.List;
  * @date 2017-11-07 14:53
  */
 @RestController
-@RequestMapping("/upload")
+@RequestMapping("/file")
 public class FileUploadController {
     /**
      * 图片上传
@@ -31,7 +32,7 @@ public class FileUploadController {
      * @return
      * @throws IOException
      */
-    @RequestMapping(value = "/image", method = RequestMethod.POST)
+    @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
     public BaseResult upload(@RequestParam MultipartFile file, String jsonContent) throws IOException {
         if (StringUtils.isEmpty(jsonContent)) {
             return BaseResult.parameterError();
@@ -41,10 +42,33 @@ public class FileUploadController {
         String imageType = jsonObject.getString("imageType");
         String cut = jsonObject.getString("cut");
         String watermark = jsonObject.getString("watermark");
-        String watermarkText = jsonObject.getString("watermarkText");
-        List<ImageCutSize> cutSizeList = jsonObject.getJSONArray("cutSizeList").toJavaList(ImageCutSize.class);
-        List<String> urlList = FileUploadUtils.upload(file, imageType, cut, cutSizeList, watermark, watermarkText);
+        List<ImageCutSize> cutSizeList;
+        if (jsonObject.containsKey("cutSizeList")) {
+            cutSizeList = jsonObject.getJSONArray("cutSizeList").toJavaList(ImageCutSize.class);
+        } else {
+            cutSizeList = new ArrayList<>();
+        }
+        if (StringUtils.isEmpty(imageType) || StringUtils.isEmpty(cut)) {
+            return BaseResult.parameterError();
+        }
+        List<String> urlList = FileUploadUtils.uploadImage(file, imageType, cut, cutSizeList, watermark);
         return BaseResult.success(urlList);
+    }
+
+    /**
+     * 图片删除
+     *
+     * @param imageName 图片名
+     * @return
+     * @throws IOException
+     */
+    @RequestMapping(value = "/deleteImage", method = RequestMethod.GET)
+    public BaseResult delete(String imageName) throws IOException {
+        if (StringUtils.isEmpty(imageName)) {
+            return BaseResult.parameterError();
+        }
+        FileUploadUtils.deleteImage(imageName);
+        return BaseResult.success("删除成功");
     }
 
 }

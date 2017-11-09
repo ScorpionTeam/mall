@@ -6,10 +6,10 @@ import java.util.Date;
 
 /**
  * @author ycj
- * @version V1.0 <商品图片实体>
+ * @version V1.0 <商城图片绑定关系实体>
  * @date 2017-11-08 10:13
  */
-public class GoodsImage {
+public class MallImage {
 
     /**
      * 主键
@@ -18,7 +18,7 @@ public class GoodsImage {
     /**
      * 商品ID，
      */
-    private Long goodId;
+    private Long targetId;
     /**
      * 创建时间
      */
@@ -27,13 +27,13 @@ public class GoodsImage {
     /**
      * 商品图片地址
      */
-    private String imgUrl;
+    private String url;
 
-    public GoodsImage() {
+    public MallImage() {
     }
 
-    public GoodsImage(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public MallImage(String url) {
+        this.url = url;
     }
 
     public Long getId() {
@@ -44,12 +44,12 @@ public class GoodsImage {
         this.id = id;
     }
 
-    public Long getGoodId() {
-        return goodId;
+    public Long getTargetId() {
+        return targetId;
     }
 
-    public void setGoodId(Long goodId) {
-        this.goodId = goodId;
+    public void setTargetId(Long targetId) {
+        this.targetId = targetId;
     }
 
     public Date getCreateDate() {
@@ -60,21 +60,21 @@ public class GoodsImage {
         this.createDate = createDate;
     }
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getUrl() {
+        return url;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
     public String toString() {
-        return "GoodsImage{" +
+        return "MallImage{" +
                 "id=" + id +
-                ", goodId=" + goodId +
+                ", targetId=" + targetId +
                 ", createDate=" + createDate +
-                ", imgUrl='" + imgUrl + '\'' +
+                ", url='" + url + '\'' +
                 '}';
     }
 }
