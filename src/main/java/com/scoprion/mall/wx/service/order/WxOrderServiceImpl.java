@@ -38,12 +38,12 @@ public class WxOrderServiceImpl implements WxOrderService {
     public PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus) {
 
         //暂时使用直接传userId的方式 查询订单列表
-        String userId = openid(wxCode);
+        String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         if ("0".equals(orderStatus)) {
             orderStatus = null;
         }
-        Page<Order> page = wxOrderMapper.findByUserId(wxCode, orderStatus);
+        Page<Order> page = wxOrderMapper.findByUserId(userId, orderStatus);
         return new PageResult(page);
     }
 
@@ -73,5 +73,39 @@ public class WxOrderServiceImpl implements WxOrderService {
         wxOrderMapper.updateByOrderID(orderId, "5");
         return BaseResult.success("申请成功");
     }
+
+
+    /**
+     * 签收后评价
+     * @param estimate
+     * @return
+     */
+    @Override
+    public BaseResult estimate(Estimate estimate) {
+        if(estimate.getId() == null) {
+            return BaseResult.notFound();
+        }
+        int result = wxOrderMapper.estimate(estimate);
+        if(result > 0) {
+            return BaseResult.success("评价成功");
+        }
+        return BaseResult.error("estimate_fail","评价失败");
+    }
+
+    /**
+     * 投诉
+     * @param id
+     * @param complain
+     * @return
+     */
+    @Override
+    public BaseResult complain(Long id, String complain) {
+        int result = wxOrderMapper.complain(id, complain);
+        if(result > 0) {
+            return BaseResult.success("投诉成功");
+        }
+        return BaseResult.error("complain_fail", "投诉失败");
+    }
+
 
 }
