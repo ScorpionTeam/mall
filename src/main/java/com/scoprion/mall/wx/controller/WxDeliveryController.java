@@ -1,6 +1,8 @@
 package com.scoprion.mall.wx.controller;
 
 import com.scoprion.mall.domain.Delivery;
+import com.scoprion.mall.domain.DeliveryExt;
+import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.mall.wx.service.delivery.WxDeliveryService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -36,8 +38,9 @@ public class WxDeliveryController {
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     @ResponseBody
-    public BaseResult add(@RequestBody Delivery delivery){
-
+    public BaseResult add(@RequestBody DeliveryExt delivery){
+        String openId = WxUtil.getOpenId(delivery.getWxCode());
+        delivery.setUserId(openId);
         return wxDeliveryService.add(delivery);
     }
 
