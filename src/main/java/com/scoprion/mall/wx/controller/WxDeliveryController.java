@@ -37,7 +37,6 @@ public class WxDeliveryController {
      * @return
      */
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    @ResponseBody
     public BaseResult add(@RequestBody DeliveryExt delivery){
         String openId = WxUtil.getOpenId(delivery.getWxCode());
         delivery.setUserId(openId);
@@ -51,7 +50,6 @@ public class WxDeliveryController {
      * @return
      */
     @RequestMapping(value = "/update",method = RequestMethod.POST)
-    @ResponseBody
     public BaseResult updateDelivery(@RequestBody Delivery delivery){
         return  wxDeliveryService.updateDelivery(delivery);
     }
@@ -64,7 +62,6 @@ public class WxDeliveryController {
      * @return
      */
     @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    @ResponseBody
     public BaseResult deleteDelivery(Long id){
         return  wxDeliveryService.deleteDelivery(id);
     }
