@@ -185,7 +185,9 @@ public class GoodsServiceImpl implements GoodsService {
         if (!Constant.STATUS_01.contains(saleStatus)) {
             return BaseResult.error("parameterError", "上下架状态不正确");
         }
-        int result = goodsMapper.modifySaleStatus(saleStatus, goodsId);
+        List<Long> idList = new ArrayList<>();
+        idList.add(goodsId);
+        int result = goodsMapper.batchModifySaleStatus(saleStatus, idList);
         if (result > 0) {
             return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品上架成功" : "商品下架成功");
         }
@@ -204,7 +206,9 @@ public class GoodsServiceImpl implements GoodsService {
         if (Constant.ON_SALE.equals(goods.getIsOnSale())) {
             return BaseResult.error("del_error", "删除失败，商品未下架，不能删除");
         }
-        int result = goodsMapper.deleteGoodsById(id);
+        List<Long> idList = new ArrayList<>();
+        idList.add(id);
+        int result = goodsMapper.batchDeleteGood(idList);
         if (result > 0) {
             return BaseResult.success("删除商品成功");
         }
@@ -218,22 +222,16 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public BaseResult bathDeleteGoods(List<Long> idList) {
+    public BaseResult batchDeleteGood(List<Long> idList) {
         if (idList == null || idList.size() == 0) {
             return BaseResult.parameterError();
         }
-        List<Long> unDelGoods = new ArrayList<>();
-        for (Long goodsId : idList) {
-            Goods goods = goodsMapper.findById(goodsId);
-            if (goods != null && Constant.ON_SALE.equals(goods.getIsOnSale())) {
-                unDelGoods.add(goodsId);
-                //未下架商品不能删除
-                continue;
-            }
-            goodsMapper.deleteGoodsById(goodsId);
+        int result = goodsMapper.batchDeleteGood(idList);
+        if (result == 0) {
+            return BaseResult.error("delete_error", "商品未下架，不能删除");
         }
-        if (unDelGoods.size() > 0) {
-            return BaseResult.error("del_error", "删除失败，商品未下架，不能删除" + unDelGoods.toString());
+        if (idList.size() > result) {
+            return BaseResult.success("部分商品未下架，不能删除，其余的已经删除成功");
         }
         return BaseResult.success("删除成功");
     }
@@ -255,16 +253,14 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public BaseResult bathModifySaleStatus(String saleStatus, List<Long> goodsIdList) {
+    public BaseResult batchModifySaleStatus(String saleStatus, List<Long> goodsIdList) {
         if (goodsIdList == null || goodsIdList.size() == 0) {
             return BaseResult.parameterError();
         }
         if (!Constant.STATUS_01.contains(saleStatus)) {
             return BaseResult.parameterError();
         }
-        goodsIdList.forEach(goodsId -> {
-            goodsMapper.modifySaleStatus(saleStatus, goodsId);
-        });
+        goodsMapper.batchModifySaleStatus(saleStatus, goodsIdList);
         return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品批量上架成功" : "商品批量下架成功");
     }
 }
