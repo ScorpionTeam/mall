@@ -74,7 +74,7 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Override
     public BaseResult refund(Long orderId) {
         wxOrderMapper.updateByOrderID(orderId, "5");
-        return BaseResult.success("退款已提交申请");
+        return BaseResult.success("申请成功");
     }
 
     /**

@@ -159,6 +159,7 @@ public class WxPayServiceImpl implements WxPayService {
 //        System.out.println("本地再签:" + localSign);
         //判断是否成功接收回调
         if (null == order.getPayDate()) {
+
             //修改订单状态 以及微信订单号
             wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
                     unifiedOrderNotifyRequestData.getOut_trade_no(),
@@ -181,7 +182,7 @@ public class WxPayServiceImpl implements WxPayService {
     /**
      * 构造订单
      *
-     * @param goods               商品
+     * @param goods              商品
      * @param goodSnapShotId     快照id
      * @param delivery           配送地址
      * @param wxOrderRequestData 下单参数
