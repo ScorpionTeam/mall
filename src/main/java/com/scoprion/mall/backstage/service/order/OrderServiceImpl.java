@@ -164,8 +164,8 @@ public class OrderServiceImpl implements OrderService {
             //记录商品库存反还日志
 
             //TODO 积分返还  10块钱  = 1积分
-            int point = order.getTotalFee()/1000;
-            pointMapper.updatePoint(order.getUserId(),point);
+            int point = order.getTotalFee() / 1000;
+            pointMapper.updatePoint(order.getUserId(), point);
             //记录积分反还日志
 
 
