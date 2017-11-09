@@ -80,7 +80,6 @@ public class OrderController {
      */
     @RequestMapping(value = "/audit/refund", method = RequestMethod.POST)
     public BaseResult refund(Long orderId, String flag, String remark, int refundFee) {
-
-        return null;
+        return orderService.refund(orderId,flag,remark,refundFee);
     }
 }

@@ -3,10 +3,13 @@ package com.scoprion.mall.backstage.service.order;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.mall.backstage.mapper.OrderLogMapper;
+import com.scoprion.mall.backstage.mapper.PointMapper;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.backstage.mapper.OrderMapper;
 import com.scoprion.mall.domain.OrderLog;
+import com.scoprion.mall.domain.Point;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
@@ -33,6 +36,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private OrderLogMapper orderLogMapper;
+
+    @Autowired
+    private GoodsMapper goodsMapper;
+
+    @Autowired
+    private PointMapper pointMapper;
 
     /**
      * 订单列表
@@ -117,7 +126,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public BaseResult refund(Long orderId, String flag, String remark, int refundFee) {
         if ("0".equals(flag)) {
-            orderMapper.updateOrderRefundById(orderId,"7",remark);
+            orderMapper.updateOrderRefundById(orderId, "7", remark);
             return BaseResult.success("审核完成");
         }
         String nonce_str = WxUtil.createRandom(false, 10);
@@ -141,18 +150,28 @@ public class OrderServiceImpl implements OrderService {
         WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
                 response);
         Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
-        if(result) {
-            orderMapper.updateOrderRefundById(order.getId(),"6","");
+        if (result) {
+            orderMapper.updateOrderRefundById(order.getId(), "6", "");
             OrderLog orderLog = new OrderLog();
             orderLog.setOrderId(order.getId());
             orderLog.setIpAddress("");
             orderLog.setOrderNo(order.getOrderNo());
             orderLog.setAction("退款");
             orderLogMapper.add(orderLog);
-            //TODO 积分返还
+            //TODO 商品库存返还
+            goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
+            //记录商品库存反还日志
 
+            //TODO 积分返还  10块钱  = 1积分
+            int point = order.getTotalFee()/1000;
+            pointMapper.updatePoint(order.getUserId(),point);
+            //记录积分反还日志
+
+
+        } else {
+            return BaseResult.error(wxRefundNotifyResponseData.getReturn_code(),
+                    wxRefundNotifyResponseData.getReturn_msg());
         }
-        //TODO  put  sign
         return null;
     }
 

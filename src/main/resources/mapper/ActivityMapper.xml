@@ -14,7 +14,7 @@
         (#{name},#{activityType},#{status},now(),#{target})
     </insert>
     <!--修改活动-->
-    <update id="update" parameterType="com.scoprion.mall.domain.Activity">
+    <update id="modify" parameterType="com.scoprion.mall.domain.Activity">
         UPDATE t_activity SET
         <if test="name!=null">name=#{name},</if>
         <if test="activityType!=null">activityType=#{activityType},</if>
@@ -47,7 +47,7 @@
 
     <!--根据ID删除活动,不做物理删除-->
     <update id="deleteById">
-    UPDATE  t_activity  SET  status='1' WHERE  id=#{id}
+          UPDATE  t_activity  SET  status='1' WHERE  id=#{id}
     </update>
 
     <!--查询活动名称数量-->
@@ -90,4 +90,14 @@
         SELECT goodId FROM t_activity_good WHERE activityId=#{activityId}
     </select>
 
+    <!--批量修改状态-->
+    <update id="batchModifyStatus">
+        UPDATE t_activity SET
+        status=#{status},
+        updateDate=now()
+        WHERE id IN
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>

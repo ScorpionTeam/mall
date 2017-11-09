@@ -79,11 +79,11 @@ public interface GoodsMapper {
      * @param saleStatus 上下架
      * @param startDate  开始时间
      * @param endDate    结束时间
-     * @param categoryId   类目
+     * @param categoryId 类目
      * @param isHot      热销
      * @param isNew      新品
-     * @param isFreight    包邮
-     * @param brandId      品牌
+     * @param isFreight  包邮
+     * @param brandId    品牌
      * @return
      */
     Page<Goods> findByCondition(@Param("searchKey") String searchKey,
@@ -101,18 +101,18 @@ public interface GoodsMapper {
      * 商品上下架
      *
      * @param saleStatus saleStatus 1上架 0下架 默认上架
-     * @param goodId     商品id
+     * @param idList     商品id集合
      * @return 更新是否成功 1 成功  0 失败
      */
-    int modifySaleStatus(@Param("saleStatus") String saleStatus, @Param("goodId") Long goodId);
+    int batchModifySaleStatus(@Param("saleStatus") String saleStatus, @Param("idList") List<Long> idList);
 
     /**
      * 根据商品id删除商品
      *
-     * @param id 商品id
+     * @param idList 商品id
      * @return
      */
-    int deleteGoodsById(@Param("id") Long id);
+    int batchDeleteGood(@Param("idList") List<Long> idList);
 
 
     /**
@@ -140,7 +140,7 @@ public interface GoodsMapper {
     int deleteImageByGoodsId(@Param("goodId") Long goodId);
 
     /**
-     * 库存扣减
+     * 库存反还
      *
      * @param goodId
      * @param stock

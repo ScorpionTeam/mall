@@ -72,7 +72,7 @@ public class WxPayServiceImpl implements WxPayService {
             return BaseResult.error("not_found_address", "收货地址出错");
         }
         //查询用户openid
-        String openid = findOpenID(wxCode);
+        String openid = WxUtil.getOpenId(wxCode);
         Order order = constructOrder(goods, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
@@ -114,7 +114,7 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Override
     public BaseResult pay(String wxCode, Long orderId) {
-        String openid = findOpenID(wxCode);
+        String openid = WxUtil.getOpenId(wxCode);
         //根据openid查询用户订单信息
         String prepayId = wxOrderMapper.findPrepayIdByOpenid(openid, orderId);
         if (StringUtils.isEmpty(prepayId)) {
@@ -159,6 +159,7 @@ public class WxPayServiceImpl implements WxPayService {
 //        System.out.println("本地再签:" + localSign);
         //判断是否成功接收回调
         if (null == order.getPayDate()) {
+
             //修改订单状态 以及微信订单号
             wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
                     unifiedOrderNotifyRequestData.getOut_trade_no(),
@@ -181,7 +182,7 @@ public class WxPayServiceImpl implements WxPayService {
     /**
      * 构造订单
      *
-     * @param goods               商品
+     * @param goods              商品
      * @param goodSnapShotId     快照id
      * @param delivery           配送地址
      * @param wxOrderRequestData 下单参数
@@ -275,24 +276,6 @@ public class WxPayServiceImpl implements WxPayService {
         map.put("signType", "MD5");
         map.put("timeStamp", timeStamp);
         return WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
-    }
-
-    /**
-     * 查询openid
-     *
-     * @param wxCode
-     * @return
-     */
-    private String findOpenID(String wxCode) {
-
-        String apiUrl = WxPayConfig.OPEN_ID_URL
-                + "appid=" + WxPayConfig.APP_ID
-                + "&secret=" + WxPayConfig.APP_SECRET
-                + "&js_code=" + wxCode
-                + "&grant_type=authorization_code";
-        String response = WxUtil.httpsRequest(apiUrl, "GET", null);
-        AuthorizationCode authorizationCode = JSON.parseObject(response, AuthorizationCode.class);
-        return authorizationCode.getOpenid();
     }
 
     /**

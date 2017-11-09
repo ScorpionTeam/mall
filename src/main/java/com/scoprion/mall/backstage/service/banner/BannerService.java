@@ -4,6 +4,8 @@ import com.scoprion.mall.domain.Banner;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
+import java.util.List;
+
 /**
  * Created on 2017/9/29.
  */
@@ -50,4 +52,11 @@ public interface BannerService {
      */
     BaseResult homeShow();
 
+    /**
+     * 批量修改广告状态
+     * @param status 0 正常 1 删除
+     * @param idList id集合
+     * @return
+     */
+    BaseResult batchModifyStatus(String status, List<Long> idList);
 }

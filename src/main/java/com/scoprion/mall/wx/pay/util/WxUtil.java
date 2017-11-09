@@ -1,5 +1,8 @@
 package com.scoprion.mall.wx.pay.util;
 
+import com.alibaba.fastjson.JSON;
+import com.scoprion.mall.wx.pay.WxPayConfig;
+import com.scoprion.mall.wx.pay.domain.AuthorizationCode;
 import com.scoprion.mall.wx.pay.util.WxTrustManager;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -126,5 +129,22 @@ public class WxUtil {
         } while (bDone);
 
         return retStr.toString();
+    }
+
+    /**
+     * 查询openId
+     *
+     * @param wxCode
+     * @return
+     */
+    public static String getOpenId(String wxCode) {
+        String apiUrl = WxPayConfig.OPEN_ID_URL
+                + "appid=" + WxPayConfig.APP_ID
+                + "&secret=" + WxPayConfig.APP_SECRET
+                + "&js_code=" + wxCode
+                + "&grant_type=authorization_code";
+        String response = WxUtil.httpsRequest(apiUrl, "GET", null);
+        AuthorizationCode authorizationCode = JSON.parseObject(response, AuthorizationCode.class);
+        return authorizationCode.getOpenid();
     }
 }

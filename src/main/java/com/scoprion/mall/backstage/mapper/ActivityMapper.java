@@ -38,7 +38,7 @@ public interface ActivityMapper {
      * @param activity
      * @return
      */
-    int update(Activity activity);
+    int modify(Activity activity);
 
     /**
      * 条件查询h活动列表
@@ -103,4 +103,13 @@ public interface ActivityMapper {
 
 
     List<Long> findGoodIdByActivityId(@Param("activityId") Long activityId);
+
+    /**
+     * 批量修改活动状态
+     *
+     * @param status 状态 0正常 1删除
+     * @param idList id集合
+     * @return int
+     */
+    int batchModifyStatus(@Param("status") String status,@Param("idList") List<Long> idList);
 }

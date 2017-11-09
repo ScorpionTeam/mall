@@ -56,7 +56,7 @@ public class ActivityServiceImpl implements ActivityService {
      * @return
      */
     @Override
-    public BaseResult update(Activity activity) {
+    public BaseResult modify(Activity activity) {
         if (activity.getId() == null) {
             return BaseResult.parameterError();
         }
@@ -64,7 +64,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (validResult > 0) {
             return BaseResult.error("not_allowed_repeat_name", "活动名称不可重复");
         }
-        int result = activityMapper.update(activity);
+        int result = activityMapper.modify(activity);
         if (result == 0) {
             return BaseResult.error("update_fail", "修改活动失败");
         }
@@ -126,7 +126,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (activity == null) {
             return BaseResult.notFound();
         }
-        List<Long> goodIdList = activityMapper.findGoodIdByActivityId(id);
+//        List<Long> goodIdList = activityMapper.findGoodIdByActivityId(id);
 //        activity.setGoodIdList(goodIdList);
         return BaseResult.success(activity);
     }
@@ -148,5 +148,27 @@ public class ActivityServiceImpl implements ActivityService {
             activityMapper.addActivityGood(activityId, goodId);
         }
         return BaseResult.success("活动绑定成功");
+    }
+
+    /**
+     * 批量修改活动状态
+     *
+     * @param status 状态 0正常 1删除
+     * @param idList id集合
+     * @return BaseResult
+     */
+    @Override
+    public BaseResult batchModifyStatus(String status, List<Long> idList) {
+        if (StringUtils.isEmpty(status) || idList == null || idList.size() == 0) {
+            return BaseResult.parameterError();
+        }
+        int result = activityMapper.batchModifyStatus(status, idList);
+        if (result == 0) {
+            BaseResult.error("error", "修改失败");
+        }
+        if (idList.size() > result) {
+            BaseResult.success("部分修改成功，其余数据请刷新后重试");
+        }
+        return BaseResult.success("修改成功");
     }
 }

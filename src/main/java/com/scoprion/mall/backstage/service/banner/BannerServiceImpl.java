@@ -101,4 +101,23 @@ public class BannerServiceImpl implements BannerService {
         List<Banner> result = bannerMapper.homeShow();
         return BaseResult.success(result);
     }
+
+    /**
+     * 批量修改广告状态
+     *
+     * @param status 0 正常 1 删除
+     * @param idList id集合
+     * @return
+     */
+    @Override
+    public BaseResult batchModifyStatus(String status, List<Long> idList) {
+        if (StringUtils.isEmpty(status) || idList == null || idList.size() == 0) {
+            return BaseResult.parameterError();
+        }
+        int result = bannerMapper.batchModifyStatus(status, idList);
+        if (result == 0) {
+            return BaseResult.error("del_error", "修改失败");
+        }
+        return BaseResult.success("修改成功");
+    }
 }
