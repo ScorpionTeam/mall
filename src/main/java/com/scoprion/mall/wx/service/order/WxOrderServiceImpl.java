@@ -46,7 +46,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         if ("0".equals(orderStatus)) {
             orderStatus = null;
         }
-        Page<Order> page = wxOrderMapper.findByUserId(wxCode, orderStatus);
+        Page<Order> page = wxOrderMapper.findByUserId(userId, orderStatus);
         return new PageResult(page);
     }
 

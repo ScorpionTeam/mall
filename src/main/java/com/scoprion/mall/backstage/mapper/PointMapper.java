@@ -2,6 +2,7 @@ package com.scoprion.mall.backstage.mapper;
 
 import com.scoprion.mall.domain.Point;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * Created on 2017/10/29.
@@ -38,6 +39,6 @@ public interface PointMapper {
      * @param pointVal
      * @return
      */
-    int updatePoint(Long userId,int pointVal);
+    int updatePoint(@Param("userId") String userId, @Param("pointVal") int pointVal);
 
 }

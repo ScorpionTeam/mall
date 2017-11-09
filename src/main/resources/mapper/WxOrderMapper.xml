@@ -66,7 +66,8 @@
 
     <!--我的订单-->
     <select id="findByUserId" resultType="com.scoprion.mall.domain.Order">
-        SELECT userId,
+        SELECT id,
+        userId,
         orderNo,
         orderStatus,
         payType,
