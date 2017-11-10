@@ -1,26 +1,16 @@
 package com.scoprion.mall.backstage.controller;
 
-import com.alibaba.druid.util.StringUtils;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.scoprion.mall.backstage.service.file.FileOperationService;
-import com.scoprion.mall.domain.ImageCutSize;
-import com.scoprion.mall.domain.MallImage;
 import com.scoprion.result.BaseResult;
-import com.scoprion.utils.FileUploadUtils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author ycj
