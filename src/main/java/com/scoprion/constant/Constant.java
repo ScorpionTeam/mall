@@ -90,4 +90,33 @@ public class Constant {
      * 添加水印的图片尺寸不能小于这个值
      */
     public static final int WATER_REMARK_SIZE = 220;
+
+    /**
+     * 微信订单查询返回--支付成功
+     */
+    public static final String WX_PAY_SUCCESS = "SUCCESS";
+    /**
+     * 微信订单查询返回--转入退款
+     */
+    public static final String WX_PAY_REFUND = "REFUND";
+    /**
+     * 微信订单查询返回--未支付
+     */
+    public static final String WX_PAY_NOT_PAY = "NOTPAY";
+    /**
+     * 微信订单查询返回--已关闭
+     */
+    public static final String WX_PAY_CLOSED = "CLOSED";
+    /**
+     * 微信订单查询返回--已撤销（刷卡支付）
+     */
+    public static final String WX_PAY_REVOKED = "REVOKED";
+    /**
+     * 微信订单查询返回--用户支付中
+     */
+    public static final String WX_PAY_USER_PAYING = "USERPAYING";
+    /**
+     * 微信订单查询返回--支付失败(其他原因，如银行返回失败)
+     */
+    public static final String WX_PAY_PAY_ERROR = "PAYERROR";
 }

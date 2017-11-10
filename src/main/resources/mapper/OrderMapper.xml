@@ -3,6 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.OrderMapper">
+
+    <!--查询4-24小时内未支付的订单列表 UNIX_TIMESTAMP秒  -->
+    <select id="findByScheduler" resultType="com.scoprion.mall.domain.Order">
+        SELECT
+        id,
+        wxOrderNo,
+        orderStatus
+        FROM
+        t_order
+        WHERE orderStatus ='1' AND wxOrderNo!=null
+        AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(createDate) BETWEEN 60*60*4  AND 60*60*24
+    </select>
+
     <!--订单列表-->
     <select id="findByCondition" resultType="com.scoprion.mall.domain.Order">
         SELECT
@@ -14,6 +27,7 @@
         totalFee,
         createDate,
         orderStatus,
+        payType,
         payDate
         FROM
         t_order
@@ -21,7 +35,7 @@
         <if test="searchKey!=null">AND CONCAT(goodName,postCode,address,phone,recipients) LIKE searchKey</if>
         <if test="payType!=null">AND payType =#{payType}</if>
         <if test="orderType!=null">AND orderType =#{orderType}</if>
-        <if test="orderStatus!=null">AND orderStatus =#{orderStatus}</if>
+        <if test="orderStatus!=null and orderStatus!='0'">AND orderStatus =#{orderStatus}</if>
         <if test="phone!=null">AND phone =#{phone}</if>
         <if test="orderNo!=null">AND orderNo =#{orderNo}</if>
 
@@ -72,4 +86,10 @@
     <update id="updateOrderRefundById">
         UPDATE t_order SET orderStatus=#{status},remark=#{remark} WHERE id=#{orderId}
     </update>
+
+    <!--修改订单支付状态-->
+    <update id="updateOrderPayStatus">
+        UPDATE t_order SET orderStatus=#{orderStatus} WHERE id=#{orderId}
+    </update>
+
 </mapper>

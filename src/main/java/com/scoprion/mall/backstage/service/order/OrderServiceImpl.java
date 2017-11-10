@@ -146,7 +146,7 @@ public class OrderServiceImpl implements OrderService {
             map.put("op_user_id", "100000");
             String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
             map.put("sign", sign);
-            String refundXML = WxPayUtil.MapConvertToXML(map);
+            String refundXML = WxPayUtil.mapConvertToXML(map);
 
             //读取退款证书
 

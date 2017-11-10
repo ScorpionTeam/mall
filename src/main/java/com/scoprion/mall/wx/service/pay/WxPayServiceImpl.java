@@ -257,7 +257,7 @@ public class WxPayServiceImpl implements WxPayService {
         String sign = WxUtil.MD5(signTemp).toUpperCase();
         System.out.println("预付款Sign:" + sign);
         map.put("sign", sign);
-        return WxPayUtil.MapConvertToXML(map);
+        return WxPayUtil.mapConvertToXML(map);
     }
 
     /**

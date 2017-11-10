@@ -19,6 +19,13 @@ public interface OrderMapper {
     /**
      * 订单列表
      *
+     * @return
+     */
+    Page<Order> findByScheduler();
+
+    /**
+     * 订单列表
+     *
      * @param payType     支付类型0 支付宝1 微信2 信用卡3 储蓄卡
      * @param orderType   订单类型 1pc订单  2手机订单
      * @param orderStatus 状态  0 全部  1 待付款   2 待发货  3 待收货 4 已完成
@@ -30,12 +37,13 @@ public interface OrderMapper {
      * @return
      */
     Page<Order> findByCondition(@Param("payType") String payType,
-                         @Param("orderType") String orderType,
-                         @Param("orderStatus") String orderStatus,
-                         @Param("searchKey") String searchKey,
-                         @Param("startDate") String startDate,
-                         @Param("endDate") String endDate,
-                         @Param("phone") String phone, @Param("orderNo") String orderNo);
+                                @Param("orderType") String orderType,
+                                @Param("orderStatus") String orderStatus,
+                                @Param("searchKey") String searchKey,
+                                @Param("startDate") String startDate,
+                                @Param("endDate") String endDate,
+                                @Param("phone") String phone,
+                                @Param("orderNo") String orderNo);
 
     /**
      * 根据id查询详情
@@ -57,8 +65,21 @@ public interface OrderMapper {
      * 将订单状态修改为  拒绝退款
      *
      * @param orderId
+     * @param status
      * @param remark
      * @return
      */
-    int updateOrderRefundById(Long orderId, String status, String remark);
+    int updateOrderRefundById(@Param("orderId") Long orderId,
+                              @Param("status") String status,
+                              @Param("remark") String remark);
+
+    /**
+     * 将订单支付状态
+     *
+     * @param orderId
+     * @param orderStatus
+     * @return
+     */
+    int updateOrderPayStatus(@Param("orderId") Long orderId,
+                             @Param("orderStatus") String orderStatus);
 }

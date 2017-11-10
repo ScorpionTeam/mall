@@ -1,11 +1,14 @@
 package com.scoprion.mall.wx.pay.domain;
 
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+
 /**
  * 调用订单查询接口返回的数据
  *
  * @author by kunlun
  * @created on 2017/11/4.
  */
+@XStreamAlias("xml")
 public class OrderQueryResponseData {
 
     /**

@@ -158,7 +158,7 @@ public class WxPayUtil {
      * @param map
      * @return
      */
-    public static String MapConvertToXML(Map<String, Object> map) {
+    public static String mapConvertToXML(Map<String, Object> map) {
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("<xml>");
         for (String key : map.keySet()) {
