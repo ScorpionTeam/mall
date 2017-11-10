@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.backstage.mapper.FileOperationMapper">
+    <!--删除图片-->
+    <delete id="deleteImage">
+        DELETE FROM  t_mall_image WHERE url = #{imageName}
+    </delete>
+</mapper>

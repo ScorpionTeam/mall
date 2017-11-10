@@ -12,15 +12,16 @@ public interface WxDeliveryService {
     /**
      * 查询用户收获地址列表
      *
-     * @param userId
+     * @param wxCode
      * @param pageNo
      * @param pageSize
      * @return
      */
-    PageResult listPage(Long userId, Integer pageNo, Integer pageSize);
+    PageResult listPage(String wxCode, Integer pageNo, Integer pageSize);
 
     /**
      * 新增收货地址
+     *
      * @param delivery
      * @return
      */
@@ -44,6 +45,7 @@ public interface WxDeliveryService {
 
     /**
      * 获取收货地址详情
+     *
      * @param id
      * @return
      */

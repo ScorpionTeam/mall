@@ -18,7 +18,7 @@ public interface WxDeliveryMapper {
      * @param userId
      * @return
      */
-    Page<Delivery> listPage(@Param("userId") Long userId);
+    Page<Delivery> listPage(@Param("userId") String userId);
 
     /**
      * 新增收货地址
