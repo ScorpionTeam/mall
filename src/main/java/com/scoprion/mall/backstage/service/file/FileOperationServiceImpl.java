@@ -1,10 +1,17 @@
-package com.scoprion.utils;
+package com.scoprion.mall.backstage.service.file;
 
+import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.scoprion.constant.Constant;
+import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.domain.ImageCutSize;
 import com.scoprion.mall.domain.MallImage;
+import com.scoprion.result.BaseResult;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -17,34 +24,46 @@ import java.util.List;
 
 /**
  * @author ycj
- * @version V1.0 <文件上传接口>
- * @date 2017-11-07 14:50
+ * @version V1.0 <文件操作>
+ * 网站图片尺寸
+ * 商品列表小 ：30x30
+ * 商品列表大 ：220x220
+ * 商品详情大：400x400
+ * 商品详情小：60x60
+ * 商品详情小：40x40
+ * @date 2017-11-09 17:40
  */
-public class FileUploadUtils {
+@Service
+public class FileOperationServiceImpl implements FileOperationService {
 
-    /**
-     * 网站图片尺寸
-     * 商品列表小 ：30x30
-     * 商品列表大 ：220x220
-     * 商品详情大：400x400
-     * 商品详情小：60x60
-     * 商品详情小：40x40
-     */
+    @Autowired
+    FileOperationMapper fileOperationMapper;
 
     /**
      * @param file        文件
-     * @param imageType   图片类型
-     * @param cut         是否裁剪
-     * @param cutSizeList 裁剪尺寸
-     * @param waterRemark 是否水印
+     * @param jsonContent
      * @return
      * @throws IOException
      */
-    public static List<MallImage> uploadImage(MultipartFile file,
-                                              String imageType,
-                                              String cut,
-                                              List<ImageCutSize> cutSizeList,
-                                              String waterRemark) throws IOException {
+    @Override
+    public BaseResult uploadImage(MultipartFile file, String jsonContent) throws IOException {
+        if (StringUtils.isEmpty(jsonContent)) {
+            return BaseResult.parameterError();
+        }
+        jsonContent = jsonContent.replace("\r\n", "");
+        JSONObject jsonObject = JSON.parseObject(jsonContent);
+        String imageType = jsonObject.getString("imageType");
+        String cut = jsonObject.getString("cut");
+        String watermark = jsonObject.getString("watermark");
+        List<ImageCutSize> cutSizeList;
+        if (jsonObject.containsKey("cutSizeList")) {
+            cutSizeList = jsonObject.getJSONArray("cutSizeList").toJavaList(ImageCutSize.class);
+        } else {
+            cutSizeList = new ArrayList<>();
+        }
+        if (StringUtils.isEmpty(imageType) || StringUtils.isEmpty(cut)) {
+            return BaseResult.parameterError();
+        }
         String path = parseFilePathByType(imageType);
         existDir(path);
         Calendar calendar = Calendar.getInstance();
@@ -54,53 +73,85 @@ public class FileUploadUtils {
         File image = new File(path + fileName + endName);
         file.transferTo(image);
         List<MallImage> urlList = new ArrayList<>();
-//        urlList.add(new MallImage(getFileName(path, fileName, endName, null)));
-//        //裁剪
-//        if (Constant.CUT_TRUE.equals(cut)) {
-//            for (ImageCutSize imageCutSize : cutSizeList) {
-//                String absolutePath = getAbsolutePath(path, fileName, endName, imageCutSize);
-//                cutImage(image, imageCutSize, absolutePath);
-//                if (Constant.WATER_REMARK_TRUE.equals(waterRemark)) {
-//                    waterRemark(imageCutSize, absolutePath);
-//                }
-//                //存储图片名
-//                urlList.add(new MallImage(getFileName(path, fileName, endName, imageCutSize)));
-//            }
-//        } else {
-//            if (Constant.WATER_REMARK_TRUE.equals(waterRemark)) {
-//                String absolutePath = getAbsolutePath(path, fileName, endName, null);
-//                waterRemark(null, absolutePath);
-//                urlList.add(new MallImage(getFileName(path, fileName, endName, null)));
-//            }
-//        }
-        return urlList;
+        urlList.add(new MallImage(getFileName(path, fileName, endName, null)));
+        //裁剪
+        if (Constant.CUT_TRUE.equals(cut)) {
+            for (ImageCutSize imageCutSize : cutSizeList) {
+                String absolutePath = getAbsolutePath(path, fileName, endName, imageCutSize);
+                cutImage(image, imageCutSize, absolutePath);
+                if (Constant.WATER_REMARK_TRUE.equals(watermark)) {
+                    waterRemark(imageCutSize, absolutePath);
+                }
+                //存储图片名
+                urlList.add(new MallImage(getFileName(path, fileName, endName, imageCutSize)));
+            }
+        } else {
+            if (Constant.WATER_REMARK_TRUE.equals(watermark)) {
+                String absolutePath = getAbsolutePath(path, fileName, endName, null);
+                waterRemark(null, absolutePath);
+                urlList.add(new MallImage(getFileName(path, fileName, endName, null)));
+            }
+        }
+        return BaseResult.success(urlList);
     }
-
 
     /**
      * 删除图片
      *
-     * @param imgName 图片名称 /Mall/BrandImage/1510215075689.jpg
+     * @param imageName 图片名称 /Mall/BrandImage/1510215075689.jpg
      */
-    public static void deleteImage(String imgName) {
-//        //图片根目录
-//        String basePath = Constant.BASE_IMG_DIR;
-//        String filePath = basePath + imgName;
-//        if (isChildImage(imgName)) {
-//            //删除子图
-//            deleteFile(filePath);
-//        } else {
-//            //删除主图
-//            deleteFile(filePath);
-//            //循环删除子图
-//            for (String size : Constant.SIZE_ARR) {
-//                String endName = imgName.substring(imgName.lastIndexOf("."));
-//                String startName = imgName.substring(0, imgName.lastIndexOf("."));
-//                filePath = basePath + startName + "_" + size + endName;
-//                deleteFile(filePath);
-//            }
-//        }
+    @Override
+    public BaseResult deleteImage(String imageName) throws IOException {
+        if (StringUtils.isEmpty(imageName)) {
+            return BaseResult.parameterError();
+        }
+        //删除数据库信息
+        deleteDBImage(imageName);
+        //删除源文件
+        deleteDiskImage(imageName);
+        return BaseResult.success("删除成功");
     }
+
+    /**
+     * 删除数据库图片
+     *
+     * @param imageName
+     */
+    private void deleteDBImage(String imageName) {
+        //子图
+        fileOperationMapper.deleteImage(imageName);
+        if (!isChildImage(imageName)) {
+            //循环删除主图对应的子图
+            for (String size : Constant.SIZE_ARR) {
+                String endName = imageName.substring(imageName.lastIndexOf("."));
+                String startName = imageName.substring(0, imageName.lastIndexOf("."));
+                String filePath = startName + "_" + size + endName;
+                fileOperationMapper.deleteImage(filePath);
+            }
+        }
+    }
+
+    /**
+     * 删除磁盘图片
+     *
+     * @param imageName
+     */
+    private void deleteDiskImage(String imageName) {
+        //图片根目录
+        String basePath = Constant.BASE_IMG_DIR;
+        String filePath = basePath + imageName;
+        deleteFile(filePath);
+        if (!isChildImage(imageName)) {
+            //循环删除主图对应的子图
+            for (String size : Constant.SIZE_ARR) {
+                String endName = imageName.substring(imageName.lastIndexOf("."));
+                String startName = imageName.substring(0, imageName.lastIndexOf("."));
+                filePath = basePath + startName + "_" + size + endName;
+                deleteFile(filePath);
+            }
+        }
+    }
+
 
     /**
      * @param imageName 是否是子图
