@@ -1,5 +1,7 @@
 package com.scoprion.mall.wx.service.point;
 
+import com.scoprion.mall.domain.Order;
+import com.scoprion.mall.domain.PointLog;
 import com.scoprion.result.BaseResult;
 
 /**
@@ -16,5 +18,11 @@ public interface WxPointService {
      */
     BaseResult findByUserId(String userId);
 
-
+    /**
+     * 个人积分
+     * @param id
+     * @param userId
+     * @return
+     */
+    BaseResult personalScore(Long id, String userId);
 }

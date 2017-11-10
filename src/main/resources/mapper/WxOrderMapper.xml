@@ -136,4 +136,9 @@
         updateDate=now()
         WHERE id=#{id}
     </update>
+
+    <!-- 订单详情 -->
+    <select id="personalScore" resultType="com.scoprion.mall.domain.Order">
+        SELECT userId,goodFee FROM t_order WHERE id=#{id}
+    </select>
 </mapper>

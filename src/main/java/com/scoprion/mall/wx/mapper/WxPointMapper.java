@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.mapper;
 
+import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.domain.Point;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -28,5 +29,5 @@ public interface WxPointMapper {
      */
     int updatePoint(@Param("userId") String userId, @Param("currentPoint") int currentPoint);
 
-
+    Order personalScore(@Param("id") Long id, @Param("userId") long userId);
 }

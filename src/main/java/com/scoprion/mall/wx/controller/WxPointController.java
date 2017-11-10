@@ -1,5 +1,7 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.mall.domain.Order;
+import com.scoprion.mall.domain.PointLog;
 import com.scoprion.mall.wx.service.point.WxPointService;
 import com.scoprion.result.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,6 @@ public class WxPointController {
 
     /**
      * 个人信息
-     *
      * @param userId
      * @return
      */
@@ -28,4 +29,18 @@ public class WxPointController {
     public BaseResult profile(String userId) {
         return wxPointService.findByUserId(userId);
     }
+
+    /**
+     * 个人积分
+     * @param id
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/personalScore",method = RequestMethod.GET)
+    public BaseResult personalScore(Long id, String userId){
+        return wxPointService.personalScore(id,userId);
+    }
+
+
+    //TODO  等级划分  抢购拼团
 }
