@@ -4,13 +4,15 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.scoprion.mall.wx.mapper.WxPointLogMapper">
+
     <select id="personalScore" resultType="com.scoprion.mall.domain.PointLog">
         SELECT * FROM t_point_log WHERE userId=#{userId}
     </select>
 
-    <update id="personal" parameterType="com.scoprion.mall.domain.PointLog">
+    <update id="personal">
         UPDATE t_point_log SET
-        <if test="currentPoint!=null">currentPoint=#{currentPoint},</if>
+        <if test="userId!=null">userId=#{userId},</if>
+        <if test="currentPoint!=null">currentPoint=#{currentPoint}</if>
         WHERE
         userId=#{userId}
     </update>
