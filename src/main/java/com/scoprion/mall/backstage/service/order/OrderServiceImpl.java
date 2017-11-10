@@ -18,7 +18,8 @@ import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -59,8 +60,8 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String payType, String orderType,
-                               String orderStatus, String searchKey, String startDate, String endDate,
-                               String phone, String orderNo) {
+                                      String orderStatus, String searchKey, String startDate, String endDate,
+                                      String phone, String orderNo) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(startDate)) {
             startDate = null;
@@ -74,7 +75,8 @@ public class OrderServiceImpl implements OrderService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Order> orderPage = orderMapper.findByCondition(payType, orderType, orderStatus, searchKey, startDate, endDate,
+        Page<Order> orderPage = orderMapper.findByCondition(payType, orderType, orderStatus, searchKey, startDate,
+                endDate,
                 phone, orderNo);
         if (orderPage == null) {
             return new PageResult();
@@ -129,51 +131,56 @@ public class OrderServiceImpl implements OrderService {
         if ("0".equals(flag)) {
             orderMapper.updateOrderRefundById(orderId, "7", remark);
             return BaseResult.success("审核完成");
-        }
-        String nonce_str = WxUtil.createRandom(false, 10);
-        Order order = orderMapper.findById(orderId);
-        String refundOrderNo = order.getOrderNo() + "T";
-        Map<String, Object> map = new HashMap<>(16);
-        map.put("appid", WxPayConfig.APP_ID);
-        map.put("mch_id", WxPayConfig.MCHID);
-        map.put("nonce_str", nonce_str);
-        map.put("transaction_id", order.getWxOrderNo());
-        map.put("out_refund_no", refundOrderNo);
-        map.put("total_fee", order.getTotalFee());
-        map.put("refund_fee", refundFee);
-        map.put("op_user_id", "100000");
-        String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
-        map.put("sign", sign);
-        String refundXML = WxPayUtil.MapConvertToXML(map);
-        System.out.println("退款参数:" + refundXML);
-        //定义接收退款返回字符串
-        String response = WxUtil.httpsRequest(WxPayConfig.WECHAT_REFUND, "POST", refundXML);
-        System.out.println("返回数据:" + response);
-        WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
-                response);
-        Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
-        if (result) {
-            orderMapper.updateOrderRefundById(order.getId(), "6", "");
-            OrderLog orderLog = new OrderLog();
-            orderLog.setOrderId(order.getId());
-            orderLog.setIpAddress("");
-            orderLog.setOrderNo(order.getOrderNo());
-            orderLog.setAction("退款");
-            orderLogMapper.add(orderLog);
-            //TODO 商品库存返还
-            goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
-            //记录商品库存反还日志
-
-            //TODO 积分返还  10块钱  = 1积分
-            int point = order.getTotalFee() / 1000;
-            pointMapper.updatePoint(order.getUserId(), point);
-            //记录积分反还日志
-
-
         } else {
-            return BaseResult.error(wxRefundNotifyResponseData.getReturn_code(),
-                    wxRefundNotifyResponseData.getReturn_msg());
+            String nonce_str = WxUtil.createRandom(false, 10);
+            Order order = orderMapper.findById(orderId);
+            String refundOrderNo = order.getOrderNo() + "T";
+            Map<String, Object> map = new HashMap<>(16);
+            map.put("appid", WxPayConfig.APP_ID);
+            map.put("mch_id", WxPayConfig.MCHID);
+            map.put("nonce_str", nonce_str);
+            map.put("transaction_id", order.getWxOrderNo());
+            map.put("out_refund_no", refundOrderNo);
+            map.put("total_fee", order.getTotalFee());
+            map.put("refund_fee", refundFee);
+            map.put("op_user_id", "100000");
+            String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
+            map.put("sign", sign);
+            String refundXML = WxPayUtil.MapConvertToXML(map);
+
+            //读取退款证书
+
+            System.out.println("退款参数:" + refundXML);
+            //定义接收退款返回字符串
+            String response = WxUtil.httpsRequest(WxPayConfig.WECHAT_REFUND, "POST", refundXML);
+            System.out.println("返回数据:" + response);
+            WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
+                    response);
+            Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
+            if (result) {
+                orderMapper.updateOrderRefundById(order.getId(), "6", "");
+                OrderLog orderLog = new OrderLog();
+                orderLog.setOrderId(order.getId());
+                orderLog.setIpAddress("");
+                orderLog.setOrderNo(order.getOrderNo());
+                orderLog.setAction("退款");
+                orderLogMapper.add(orderLog);
+                //TODO 商品库存返还
+                goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
+                //记录商品库存反还日志
+
+                //TODO 积分返还  10块钱  = 1积分
+                int point = order.getTotalFee() / 1000;
+                pointMapper.updatePoint(order.getUserId(), point);
+                //记录积分反还日志
+
+
+            } else {
+                return BaseResult.error(wxRefundNotifyResponseData.getReturn_code(),
+                        wxRefundNotifyResponseData.getReturn_msg());
+            }
         }
+
         return null;
     }
 
@@ -215,5 +222,35 @@ public class OrderServiceImpl implements OrderService {
                 break;
         }
         return result;
+    }
+
+    /**
+     * 退款读取证书
+     *
+     * @param request
+     * @param response
+     * @param appid
+     * @param secret
+     * @param shh
+     * @param key
+     * @param orderId
+     * @param total_fee
+     * @param refund_fee
+     * @param path
+     * @return
+     */
+    private Object wxRefundCert(HttpServletRequest request,
+                                HttpServletResponse response,
+                                String appid,
+                                String secret,
+                                String shh,
+                                String key,
+                                String orderId,
+                                String total_fee,
+                                String refund_fee,
+                                String path) {
+
+
+        return null;
     }
 }
