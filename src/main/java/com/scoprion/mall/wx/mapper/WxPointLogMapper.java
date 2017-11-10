@@ -22,6 +22,12 @@ public interface WxPointLogMapper {
     PointLog personalScore(@Param("id") Long id,@Param("userId") String userId);
 
 
+    /**
+     * 修改积分
+     * @param userId
+     * @param currentPoint
+     * @return
+     */
     int personal(@Param("userId") String userId, @Param("currentPoint") Integer currentPoint);
 
 }

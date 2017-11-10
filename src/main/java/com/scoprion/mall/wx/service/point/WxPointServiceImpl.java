@@ -68,4 +68,9 @@ public class WxPointServiceImpl implements WxPointService {
         wxPointLogMapper.personal(userId,currentPoint);
         return BaseResult.success("操作成功");
     }
+
+    @Override
+    public BaseResult grade(String userId) {
+        return null;
+    }
 }

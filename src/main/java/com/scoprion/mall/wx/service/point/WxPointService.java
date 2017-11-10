@@ -25,4 +25,11 @@ public interface WxPointService {
      * @return
      */
     BaseResult personalScore(Long id, String userId);
+
+    /**
+     * 等级划分
+     * @param userId
+     * @return
+     */
+    BaseResult grade(String userId);
 }

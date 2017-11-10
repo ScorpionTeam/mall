@@ -43,4 +43,14 @@ public class WxPointController {
 
 
     //TODO  等级划分  抢购拼团
+
+    /**
+     * 等级划分
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/grade",method = RequestMethod.GET)
+    public BaseResult grade(String userId){
+        return wxPointService.grade(userId);
+    }
 }
