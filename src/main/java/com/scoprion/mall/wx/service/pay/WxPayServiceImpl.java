@@ -78,6 +78,7 @@ public class WxPayServiceImpl implements WxPayService {
         if (orderResult <= 0) {
             return BaseResult.error("pre_order_error", "下单出错");
         }
+        //系统内部生成订单信息
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress);
         wxOrderLogMapper.add(orderLog);
         String nonce_str = WxUtil.createRandom(false, 10);
@@ -88,7 +89,7 @@ public class WxPayServiceImpl implements WxPayService {
                 wxOrderRequestData.getTotalFee(),
                 nonce_str);
         //生成预付款订单
-        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "GET", xmlString);
+        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", xmlString);
         //将xml返回信息转换为bean
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
@@ -196,7 +197,6 @@ public class WxPayServiceImpl implements WxPayService {
                                  String userId) {
         Order order = new Order();
         String orderNo = OrderNoUtil.getOrderNo();
-        order.setUserId(userId);
         order.setOrderNo(orderNo);
         order.setGoodSnapShotId(goodSnapShotId);
         order.setPayType("");
@@ -210,6 +210,7 @@ public class WxPayServiceImpl implements WxPayService {
         order.setMessage(wxOrderRequestData.getMessage());
         order.setGoodId(goods.getId());
         BeanUtils.copyProperties(delivery, order);
+        order.setUserId(userId);
         return order;
     }
 

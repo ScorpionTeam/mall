@@ -43,6 +43,7 @@ public class WxPointServiceImpl implements WxPointService {
 
     /**
      * 个人积分
+     *
      * @param id
      * @param userId
      * @return
@@ -57,23 +58,24 @@ public class WxPointServiceImpl implements WxPointService {
 
         Integer currentPoint = pointLog.getCurrentPoint(); //当前积分  2
         userId = pointLog.getUserId();
-        String action=wxPointLogMapper.personalScore(id, userId).toString();
-        if(action=="0"){
+        String action = wxPointLogMapper.personalScore(id, userId).toString();
+        if (action == "0") {
             if (currentPoint >= score) {
                 currentPoint = currentPoint - score;
             } else {
                 currentPoint = 0;
             }
-        }else {
-            currentPoint=currentPoint+score;
+        } else {
+            currentPoint = currentPoint + score;
         }
 
-        wxPointLogMapper.personal(userId,currentPoint);
+        wxPointLogMapper.personal(userId, currentPoint);
         return BaseResult.success("操作成功");
     }
 
     /**
      * 等级划分
+     *
      * @param userId
      * @return
      */
@@ -83,24 +85,24 @@ public class WxPointServiceImpl implements WxPointService {
         PointLog pointLog = wxPointLogMapper.grade(userId);
         int score = point.getPoint();
         int operatePoint = pointLog.getOperatePoint();
-        int integral = score+operatePoint;
+        int integral = score + operatePoint;
         point.setPoint(integral);
-        if (integral < 36){
-           int level = 1;
-          String levelName="青铜";
-          point.setLevel(level);
-          point.setLevelName(levelName);
-        }else if(integral >= 36 || integral < 750) {
+        if (integral < 36) {
+            int level = 1;
+            String levelName = "青铜";
+            point.setLevel(level);
+            point.setLevelName(levelName);
+        } else if (integral >= 36 || integral < 750) {
             int level = 2;
             String levelName = "白银";
             point.setLevel(level);
             point.setLevelName(levelName);
-        }else if(integral >= 750 || integral < 1500) {
+        } else if (integral >= 750 || integral < 1500) {
             int level = 3;
             String levelName = "黄金";
             point.setLevel(level);
             point.setLevelName(levelName);
-        }else {
+        } else {
             int level = 3;
             String levelName = "钻石";
             point.setLevel(level);
