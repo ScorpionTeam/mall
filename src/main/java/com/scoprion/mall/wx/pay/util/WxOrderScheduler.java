@@ -28,22 +28,24 @@ public class WxOrderScheduler {
     @Autowired
     OrderMapper orderMapper;
 
-    @Scheduled(fixedRate = 60 * 60 * 1000)
+    @Scheduled(fixedRate = 2 * 60 * 1000)
     public void findOrderTasks() {
-        logger.info("每60分钟执行一次。开始");
+        logger.info("每2分钟执行一次。开始");
         Page<Order> page = orderMapper.findByScheduler();
         if (page == null || page.size() == 0) {
-            logger.info("每60分钟执行一次。结束。");
+            logger.info("每2分钟执行一次。结束。");
             return;
         }
         page.forEach(order -> {
             if (order.getWxOrderNo() != null) {
-                queryOrder(order.getId(), order.getWxOrderNo());
+                queryOrder(order.getId(), order.getWxOrderNo(), null);
+            } else if (order.getOrderNo() != null) {
+                queryOrder(order.getId(), null, order.getOrderNo());
             }
             //测试代码
             //queryOrder(order.getId(), "4200000024201711093467988381");
         });
-        logger.info("每60分钟执行一次。结束。");
+        logger.info("每2分钟执行一次。结束。");
     }
 
     /**
@@ -52,11 +54,15 @@ public class WxOrderScheduler {
      * @param orderId
      * @param wxOrderNo
      */
-    public void queryOrder(Long orderId, String wxOrderNo) {
+    public void queryOrder(Long orderId, String wxOrderNo, String orderNo) {
         Map<String, Object> data = new HashMap<>(16);
         data.put("appid", WxPayConfig.APP_ID);
         data.put("mch_id", WxPayConfig.MCHID);
-        data.put("transaction_id", wxOrderNo);
+        if (wxOrderNo != null) {
+            data.put("transaction_id", wxOrderNo);
+        } else {
+            data.put("out_trade_no", orderNo);
+        }
         data.put("nonce_str", WxUtil.createRandom(false, 32));
         String sign = WxPayUtil.sort(data);
         sign = WxUtil.MD5(sign).toUpperCase();
@@ -65,7 +71,7 @@ public class WxOrderScheduler {
         String result = WxUtil.httpsRequest(WxPayConfig.WECHAT_ORDER_QUERY_URL, "POST", param);
         logger.info(result);
         OrderQueryResponseData response = WxPayUtil.castXMLStringToOrderQueryResponseData(result);
-        updateLocalStatus(orderId, response.getTrade_state());
+        updateLocalStatus(orderId, response.getTrade_state(), response.getTransaction_id());
     }
 
     /**
@@ -77,9 +83,9 @@ public class WxOrderScheduler {
      *                       CLOSED—已关闭
      *                       REVOKED—已撤销（刷卡支付）
      *                       USERPAYING--用户支付中
-     *                       PAYERROR--支付失败(其他原因，如银行返回失败)
+     * @param wxOrderNo
      */
-    private void updateLocalStatus(Long orderId, String responseStatus) {
+    private void updateLocalStatus(Long orderId, String responseStatus, String wxOrderNo) {
         /*
          * 1 待付款
          * 2 待发货
@@ -102,32 +108,32 @@ public class WxOrderScheduler {
         switch (responseStatus) {
             case Constant.WX_PAY_SUCCESS:
                 //SUCCESS—支付成功
-                orderMapper.updateOrderPayStatus(orderId, "4");
+                orderMapper.updateOrderPayStatus(orderId, "4", wxOrderNo);
                 break;
-            case Constant.WX_PAY_REFUND:
-                //REFUND—转入退款
-                orderMapper.updateOrderPayStatus(orderId, "10");
-                break;
-            case Constant.WX_PAY_NOT_PAY:
-                //NOTPAY—未支付
-                orderMapper.updateOrderPayStatus(orderId, "1");
-                break;
-            case Constant.WX_PAY_CLOSED:
-                //CLOSED—已关闭
-                orderMapper.updateOrderPayStatus(orderId, "13");
-                break;
-            case Constant.WX_PAY_REVOKED:
-                //REVOKED—已撤销（刷卡支付）
-                orderMapper.updateOrderPayStatus(orderId, "14");
-                break;
-            case Constant.WX_PAY_USER_PAYING:
-                // USERPAYING--用户支付中
-                orderMapper.updateOrderPayStatus(orderId, "12");
-                break;
-            case Constant.WX_PAY_PAY_ERROR:
-                //PAYERROR--支付失败(其他原因，如银行返回失败)
-                orderMapper.updateOrderPayStatus(orderId, "11");
-                break;
+//            case Constant.WX_PAY_REFUND:
+//                //REFUND—转入退款
+//                orderMapper.updateOrderPayStatus(orderId, "10", wxOrderNo);
+//                break;
+//            case Constant.WX_PAY_NOT_PAY:
+//                //NOTPAY—未支付
+//                orderMapper.updateOrderPayStatus(orderId, "1", wxOrderNo);
+//                break;
+//            case Constant.WX_PAY_CLOSED:
+//                //CLOSED—已关闭
+//                orderMapper.updateOrderPayStatus(orderId, "13", wxOrderNo);
+//                break;
+//            case Constant.WX_PAY_REVOKED:
+//                //REVOKED—已撤销（刷卡支付）
+//                orderMapper.updateOrderPayStatus(orderId, "14", wxOrderNo);
+//                break;
+//            case Constant.WX_PAY_USER_PAYING:
+//                // USERPAYING--用户支付中
+//                orderMapper.updateOrderPayStatus(orderId, "12", wxOrderNo);
+//                break;
+//            case Constant.WX_PAY_PAY_ERROR:
+//                //PAYERROR--支付失败(其他原因，如银行返回失败)
+//                orderMapper.updateOrderPayStatus(orderId, "11", wxOrderNo);
+//                break;
             default:
                 break;
         }
