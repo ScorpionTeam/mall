@@ -49,7 +49,7 @@ public class Brand {
     /**
      * 品牌图片
      */
-    private String brandImg;
+    private String brandImgId;
 
     /**
      * 创建时间
@@ -119,12 +119,12 @@ public class Brand {
         this.contactPhone = contactPhone;
     }
 
-    public String getBrandImg() {
-        return brandImg;
+    public String getBrandImgId() {
+        return brandImgId;
     }
 
-    public void setBrandImg(String brandImg) {
-        this.brandImg = brandImg;
+    public void setBrandImgId(String brandImgId) {
+        this.brandImgId = brandImgId;
     }
 
     public Date getCreateDate() {
@@ -153,7 +153,7 @@ public class Brand {
                 ", status='" + status + '\'' +
                 ", contact='" + contact + '\'' +
                 ", contactPhone='" + contactPhone + '\'' +
-                ", brandImg='" + brandImg + '\'' +
+                ", brandImgId='" + brandImgId + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 '}';
