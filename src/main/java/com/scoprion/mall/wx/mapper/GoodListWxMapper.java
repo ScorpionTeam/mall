@@ -1,4 +1,4 @@
-package com.scoprion.mall.littlesoft.mapper;
+package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.GoodExt;

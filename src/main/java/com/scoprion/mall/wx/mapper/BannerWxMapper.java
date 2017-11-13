@@ -1,8 +1,9 @@
-package com.scoprion.mall.littlesoft.mapper;
+package com.scoprion.mall.wx.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Banner;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**

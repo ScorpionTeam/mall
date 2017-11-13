@@ -110,7 +110,11 @@ public class Order {
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date deliveryDate;
-
+    /**
+     * 修改时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date updateDate;
     /**
      * 收件人
      */
@@ -409,6 +413,14 @@ public class Order {
         this.prePayId = prePayId;
     }
 
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -428,6 +440,7 @@ public class Order {
                 ", createDate=" + createDate +
                 ", payDate='" + payDate + '\'' +
                 ", deliveryDate=" + deliveryDate +
+                ", updateDate=" + updateDate +
                 ", recipients='" + recipients + '\'' +
                 ", phone='" + phone + '\'' +
                 ", province='" + province + '\'' +
