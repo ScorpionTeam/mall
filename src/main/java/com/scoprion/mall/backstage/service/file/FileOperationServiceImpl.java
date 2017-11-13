@@ -10,6 +10,8 @@ import com.scoprion.mall.domain.MallImage;
 import com.scoprion.result.BaseResult;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,16 +27,19 @@ import java.util.List;
 /**
  * @author ycj
  * @version V1.0 <文件操作>
- * 网站图片尺寸
- * 商品列表小 ：30x30
- * 商品列表大 ：220x220
- * 商品详情大：400x400
- * 商品详情小：60x60
- * 商品详情小：40x40
+ *          网站图片尺寸
+ *          商品列表小 ：30x30
+ *          商品列表大 ：220x220
+ *          商品详情大：400x400
+ *          商品详情小：60x60
+ *          商品详情小：40x40
  * @date 2017-11-09 17:40
  */
 @Service
 public class FileOperationServiceImpl implements FileOperationService {
+
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(FileOperationServiceImpl.class);
 
     @Autowired
     FileOperationMapper fileOperationMapper;
@@ -310,6 +315,7 @@ public class FileOperationServiceImpl implements FileOperationService {
         File file = new File(path);
         if (!file.exists()) {
             if (!file.mkdirs()) {
+                LOGGER.error("创建文件夹出错--------------");
                 System.out.print("创建文件夹出错-------------------");
             }
         }
