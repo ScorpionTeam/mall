@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @created on 2017/11/8.
  */
 @RestController
-@RequestMapping("wx/member")
+@RequestMapping("wx/point")
 public class WxPointController {
 
     @Autowired
@@ -28,16 +28,6 @@ public class WxPointController {
         return wxPointService.findByUserId(userId);
     }
 
-    /**
-     * 个人积分
-     * @param id
-     * @param userId
-     * @return
-     */
-    @RequestMapping(value = "/personalScore",method = RequestMethod.GET)
-    public BaseResult personalScore(Long id, String userId){
-        return wxPointService.personalScore(id,userId);
-    }
 
 
     /**

@@ -10,16 +10,8 @@
         SELECT * FROM t_point_log WHERE userId=#{userId}
     </select>
 
-    <!--积分扣减更新-->
-    <update id="personal">
-        UPDATE t_point_log SET
-        <if test="userId!=null">userId=#{userId},</if>
-        <if test="currentPoint!=null">currentPoint=#{currentPoint}</if>
-        WHERE
-        userId=#{userId}
-    </update>
 
-    <!-- 等级划分 -->
+    <!-- 获取积分日志详情 -->
     <select id="grade" resultType="com.scoprion.mall.domain.PointLog">
         SELECT * FROM t_point_log WHERE userId=#{userId}
     </select>
