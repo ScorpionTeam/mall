@@ -4,6 +4,8 @@ import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.domain.PointLog;
 import com.scoprion.result.BaseResult;
 
+import java.util.List;
+
 /**
  * @author by kunlun
  * @created on 2017/11/8.
@@ -32,4 +34,5 @@ public interface WxPointService {
      * @return
      */
     BaseResult grade(String userId);
+
 }

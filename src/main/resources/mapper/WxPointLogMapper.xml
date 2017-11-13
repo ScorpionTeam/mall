@@ -18,4 +18,9 @@
         WHERE
         userId=#{userId}
     </update>
+
+    <!-- 等级划分 -->
+    <select id="grade" resultType="com.scoprion.mall.domain.PointLog">
+        SELECT * FROM t_point_log WHERE userId=#{userId}
+    </select>
 </mapper>

@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.mapper;
 
+import com.scoprion.mall.domain.Point;
 import com.scoprion.mall.domain.PointLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -21,6 +22,7 @@ public interface WxPointLogMapper {
      */
     PointLog personalScore(@Param("id") Long id,@Param("userId") String userId);
 
+    PointLog grade(@Param("userId") String userId);
 
     /**
      * 修改积分

@@ -1,9 +1,13 @@
 package com.scoprion.mall.wx.mapper;
 
+import com.scoprion.mall.domain.ActivityExt;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.domain.Point;
+import com.scoprion.mall.domain.PointLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author by kunlun
@@ -29,5 +33,18 @@ public interface WxPointMapper {
      */
     int updatePoint(@Param("userId") String userId, @Param("currentPoint") int currentPoint);
 
-    Order personalScore(@Param("id") Long id, @Param("userId") long userId);
+    /**
+     * 获取详情
+     * @param userId
+     * @return
+     */
+    Point grades(@Param("userId") String userId);
+
+    /**
+     * 等级划分
+     * @param point
+     * @return
+     */
+    int level(Point point);
+
 }

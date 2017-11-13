@@ -1,7 +1,5 @@
 package com.scoprion.mall.wx.controller;
 
-import com.scoprion.mall.domain.Order;
-import com.scoprion.mall.domain.PointLog;
 import com.scoprion.mall.wx.service.point.WxPointService;
 import com.scoprion.result.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +40,6 @@ public class WxPointController {
     }
 
 
-    //TODO  等级划分  抢购拼团
-
     /**
      * 等级划分
      * @param userId
@@ -53,4 +49,5 @@ public class WxPointController {
     public BaseResult grade(String userId){
         return wxPointService.grade(userId);
     }
+
 }
