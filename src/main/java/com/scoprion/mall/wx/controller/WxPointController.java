@@ -20,7 +20,6 @@ public class WxPointController {
 
     /**
      * 个人信息
-     *
      * @param userId
      * @return
      */
@@ -28,4 +27,27 @@ public class WxPointController {
     public BaseResult profile(String userId) {
         return wxPointService.findByUserId(userId);
     }
+
+    /**
+     * 个人积分
+     * @param id
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/personalScore",method = RequestMethod.GET)
+    public BaseResult personalScore(Long id, String userId){
+        return wxPointService.personalScore(id,userId);
+    }
+
+
+    /**
+     * 等级划分
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/grade",method = RequestMethod.GET)
+    public BaseResult grade(String userId){
+        return wxPointService.grade(userId);
+    }
+
 }

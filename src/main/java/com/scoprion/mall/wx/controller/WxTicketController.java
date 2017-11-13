@@ -20,16 +20,16 @@ public class WxTicketController {
 
     @Autowired
     private TicketWxService ticketWxService;
-    /*
-    *创建优惠券
+    /**
+     * 创建优惠券
      */
     @RequestMapping(value = "/add-ticket",method = RequestMethod.POST)
     public BaseResult addTicket(Ticket ticket) throws Exception{
         return ticketWxService.addTicket(ticket);
     }
 
-    /*
-    * 优惠券列表
+    /**
+     * 优惠券列表
      */
     @RequestMapping(value = "/ticket-list",method = RequestMethod.GET)
     public PageResult ticketList(Integer pageNo,Integer pageSize,String ticketName){

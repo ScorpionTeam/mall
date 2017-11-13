@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.wx.mapper.WxActivityMapper">
+    <select id="group" resultType="com.scoprion.mall.domain.Activity">
+        SELECT
+        id,
+        name,
+        status,
+        activityType,
+        createDate,
+        updateDate,
+        target
+        FROM t_activity
+        WHERE id=#{id} AND activityType='1'
+
+    </select>
+</mapper>
