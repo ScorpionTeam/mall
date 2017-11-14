@@ -18,5 +18,6 @@ public interface WxActivityService {
      * @param pageSize
      * @return
      */
+
     PageResult group(int pageNo, int pageSize);
 }

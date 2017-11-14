@@ -24,6 +24,7 @@ public class WxActivityServiceImpl implements WxActivityService {
      * @param pageSize
      * @return
      */
+
     @Override
     public PageResult group(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);

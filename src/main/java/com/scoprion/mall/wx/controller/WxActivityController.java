@@ -25,6 +25,7 @@ public class WxActivityController {
      * @param pageSize
      * @return
      */
+
     @RequestMapping(value = "/group", method = RequestMethod.GET)
     public PageResult group(int pageNo, int pageSize) {
         return wxActivityService.group(pageNo, pageSize);

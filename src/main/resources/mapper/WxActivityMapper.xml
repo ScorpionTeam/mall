@@ -23,6 +23,7 @@
         <result property="createDate" column="createDate"/>
     </resultMap>
 
+
     <!-- 抢购拼团 -->
     <select id="group" resultMap="actGoods">
         SELECT

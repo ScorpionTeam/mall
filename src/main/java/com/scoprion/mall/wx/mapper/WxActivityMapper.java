@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface WxActivityMapper {
 
+
     //抢购拼团
     Page<Activity> group();
 }
