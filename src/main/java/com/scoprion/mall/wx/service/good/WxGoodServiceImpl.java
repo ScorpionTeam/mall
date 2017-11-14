@@ -45,6 +45,8 @@ public class WxGoodServiceImpl implements WxGoodService {
         if (null == goods) {
             return BaseResult.notFound();
         }
+        wxGoodMapper.updateVisitTotal(goodId);
         return BaseResult.success(goods);
     }
+
 }
