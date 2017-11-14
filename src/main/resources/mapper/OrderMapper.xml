@@ -25,7 +25,7 @@
         goodSnapShotId,
         deliveryId,
         orderType,
-        totalFee,
+        orderFee,
         createDate,
         orderStatus,
         payType,
@@ -53,18 +53,20 @@
     <!--修改订单-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Order">
         UPDATE t_order SET
+        <if test="userId!=null">userId=#{userId},</if>
         <if test="orderNo!=null">orderNo=#{orderNo},</if>
         <if test="goodSnapShotId!=null">goodSnapShotId=#{goodSnapShotId},</if>
         <if test="deliveryId!=null">deliveryId=#{deliveryId},</if>
         <if test="orderStatus!=null">orderStatus=#{orderStatus},</if>
         <if test="orderType!=null">orderType=#{orderType},</if>
-        <if test="createDate!=null">createDate=#{createDate},</if>
-        <if test="userId!=null">userId=#{userId},</if>
         <if test="payType!=null">payType=#{payType},</if>
         <if test="message!=null">message=#{message},</if>
+        <if test="orderFee!=null">orderFee=#{orderFee},</if>
+        <if test="reduceFee!=null">reduceFee=#{reduceFee},</if>
+        <if test="paymentFee!=null">paymentFee=#{paymentFee},</if>
         <if test="goodFee!=null">goodFee=#{goodFee},</if>
-        <if test="ticketFee!=null">ticketFee=#{ticketFee},</if>
-        <if test="totalFee!=null">totalFee=#{totalFee},</if>
+        <if test="freightFee!=null">freightFee=#{freightFee},</if>
+        <if test="createDate!=null">createDate=#{createDate},</if>
         <if test="payDate!=null">payDate=#{payDate},</if>
         <if test="deliveryDate!=null">deliveryDate=#{deliveryDate},</if>
         <if test="recipients!=null">recipients=#{recipients},</if>
@@ -76,8 +78,13 @@
         <if test="postCode!=null">postCode=#{postCode},</if>
         <if test="goodName!=null">goodName=#{goodName},</if>
         <if test="count!=null">count=#{count},</if>
+        <if test="prePayId!=null">prePayId=#{prePayId},</if>
         <if test="wxOrderNo!=null">wxOrderNo=#{wxOrderNo},</if>
         <if test="goodId!=null">goodId=#{goodId},</if>
+        <if test="remark!=null">remark=#{remark},</if>
+        <if test="deliveryNo!=null">deliveryNo=#{deliveryNo},</if>
+        <if test="useTicket!=null">useTicket=#{useTicket},</if>
+        <if test="ticketId!=null">ticketId=#{ticketId},</if>
         updateDate=now()
         WHERE id=#{id}
     </update>

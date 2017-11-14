@@ -59,7 +59,7 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * 创建商品
      *
-     * @param goods
+     * @param good
      * @return
      */
     @Override
