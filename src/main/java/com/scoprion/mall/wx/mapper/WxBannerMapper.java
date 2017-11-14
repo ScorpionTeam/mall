@@ -1,8 +1,9 @@
-package com.scoprion.mall.littlesoft.mapper;
+package com.scoprion.mall.wx.mapper;
+
+import org.apache.ibatis.annotations.Mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Banner;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -10,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  * @created on 2017/11/3.
  */
 @Mapper
-public interface BannerWxMapper {
+public interface WxBannerMapper {
     /**
      * 查询banner
      * @return

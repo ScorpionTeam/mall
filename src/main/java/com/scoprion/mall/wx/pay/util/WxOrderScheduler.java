@@ -5,7 +5,6 @@ import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.OrderMapper;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.wx.pay.WxPayConfig;
-import com.scoprion.mall.wx.pay.domain.OrderQueryRequestData;
 import com.scoprion.mall.wx.pay.domain.OrderQueryResponseData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +22,9 @@ import java.util.Map;
  */
 @Component
 public class WxOrderScheduler {
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
 
     @Autowired
     OrderMapper orderMapper;

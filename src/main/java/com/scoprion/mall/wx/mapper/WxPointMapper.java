@@ -22,26 +22,12 @@ public interface WxPointMapper {
      * @param userId
      * @return
      */
-    Point findByUserId(String userId);
+    Point findByUserId(@Param("userId") String userId);
+
+
 
     /**
-     * 修改我的积分
-     *
-     * @param userId
-     * @param currentPoint
-     * @return
-     */
-    int updatePoint(@Param("userId") String userId, @Param("currentPoint") int currentPoint);
-
-    /**
-     * 获取详情
-     * @param userId
-     * @return
-     */
-    Point grades(@Param("userId") String userId);
-
-    /**
-     * 等级划分
+     * 修改积分
      * @param point
      * @return
      */

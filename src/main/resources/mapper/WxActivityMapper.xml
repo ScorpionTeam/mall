@@ -3,17 +3,75 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.wx.mapper.WxActivityMapper">
-    <select id="group" resultType="com.scoprion.mall.domain.Activity">
-        SELECT
-        id,
-        name,
-        status,
-        activityType,
-        createDate,
-        updateDate,
-        target
-        FROM t_activity
-        WHERE id=#{id} AND activityType='1'
 
+    <resultMap type="com.scoprion.mall.domain.ActivityGoods" id="activityResult" extends="goods">
+        <result property="id" column="id"/>
+        <result property="activityType" column="activityType"/>
+        <result property="name" column="name"/>
+        <result property="activityId" column="activityId"/>
+        <result property="status" column="status"/>
+        <result property="createDate" column="createDate"/>
+    </resultMap>
+
+    <resultMap type="com.scoprion.mall.domain.Goods" id="goods">
+        <result property="id" column="id"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="goodName" column="goodName"/>
+        <result property="description" column="description"/>
+        <result property="promotion" column="promotion"/>
+        <result property="price" column="price"/>
+        <result property="saleVolume" column="saleVolume"/>
+        <result property="discount" column="discount"/>
+        <result property="stock" column="stock"/>
+        <result property="isOnSale" column="isOnSale"/>
+        <result property="isHot" column="isHot"/>
+        <result property="isNew" column="isNew"/>
+        <!--<result property="createDate" column="createDate"/>-->
+        <result property="lastUpdateDate" column="lastUpdateDate"/>
+        <result property="isFreight" column="isFreight"/>
+        <result property="brandId" column="brandId"/>
+        <result property="sellerId" column="sellerId"/>
+        <result property="visitTotal" column="visitTotal"/>
+        <result property="goodNo" column="goodNo"/>
+        <result property="mainImgUrl" column="mainImgUrl"/>
+        <result property="status" column="status"/>
+    </resultMap>
+
+
+    <!-- 抢购拼团 -->
+    <select id="findByGroup" resultMap="activityResult">
+        SELECT
+        act.name,
+        act.activityType,
+        act.status,
+        act.target,
+        actg.id,
+        actg.activityId,
+        actg.goodId,
+        actg.createDate,
+        tg.id,
+        tg.categoryId,
+        tg.goodName,
+        tg.description,
+        tg.promotion,
+        tg.price,
+        tg.saleVolume,
+        tg.discount,
+        tg.stock,
+        tg.isOnSale,
+        tg.isHot,
+        tg.isNew,
+        tg.lastUpdateDate,
+        tg.isFreight,
+        tg.brandId,
+        tg.sellerId,
+        tg.visitTotal,
+        tg.goodNo,
+        tg.mainImgUrl,
+        tg.status
+        FROM t_activity act LEFT JOIN t_activity_good actg ON act.id=actg.activityId
+        LEFT JOIN t_good tg ON actg.goodId=tg.id
+        AND act.activityType='1'
     </select>
+
 </mapper>

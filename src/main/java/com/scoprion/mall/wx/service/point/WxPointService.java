@@ -20,13 +20,6 @@ public interface WxPointService {
      */
     BaseResult findByUserId(String userId);
 
-    /**
-     * 个人积分
-     * @param id
-     * @param userId
-     * @return
-     */
-    BaseResult personalScore(Long id, String userId);
 
     /**
      * 等级划分

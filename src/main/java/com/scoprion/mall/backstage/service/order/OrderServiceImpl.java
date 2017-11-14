@@ -15,11 +15,24 @@ import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.net.ssl.SSLContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -135,24 +148,14 @@ public class OrderServiceImpl implements OrderService {
             String nonce_str = WxUtil.createRandom(false, 10);
             Order order = orderMapper.findById(orderId);
             String refundOrderNo = order.getOrderNo() + "T";
-            Map<String, Object> map = new HashMap<>(16);
-            map.put("appid", WxPayConfig.APP_ID);
-            map.put("mch_id", WxPayConfig.MCHID);
-            map.put("nonce_str", nonce_str);
-            map.put("transaction_id", order.getWxOrderNo());
-            map.put("out_refund_no", refundOrderNo);
-            map.put("total_fee", order.getTotalFee());
-            map.put("refund_fee", refundFee);
-            map.put("op_user_id", "100000");
-            String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
-            map.put("sign", sign);
-            String refundXML = WxPayUtil.mapConvertToXML(map);
-
-            //读取退款证书
-
-            System.out.println("退款参数:" + refundXML);
             //定义接收退款返回字符串
-            String response = WxUtil.httpsRequest(WxPayConfig.WECHAT_REFUND, "POST", refundXML);
+            String response = wxRefundCert("hk111111",
+                    order.getOrderNo(),
+                    order.getTotalFee(),
+                    refundFee,
+                    WxPayConfig.CERT_SECRET,
+                    refundOrderNo,
+                    nonce_str);
             System.out.println("返回数据:" + response);
             WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
                     response);
@@ -227,34 +230,52 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 退款读取证书
      *
-     * @param request
-     * @param response
-     * @param appid
-     * @param secret
      * @param shh
-     * @param key
-     * @param orderId
+     * @param orderNo
      * @param total_fee
      * @param refund_fee
      * @param path
      * @return
      */
-    private Object wxRefundCert(HttpServletRequest request,
-                                HttpServletResponse response,
-                                String appid,
-                                String secret,
-                                String shh,
-                                String key,
-                                String orderId,
-                                String total_fee,
-                                String refund_fee,
-                                String path) {
+    private String wxRefundCert(
+            String shh,
+            String orderNo,
+            int total_fee,
+            int refund_fee,
+            String path,
+            String refundNo,
+            String nonce_str) {
 
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("appid", WxPayConfig.APP_ID);
+        map.put("mch_id", WxPayConfig.MCHID);
+        map.put("nonce_str", nonce_str);
+        map.put("transaction_id", orderNo);
+        map.put("out_refund_no", refundNo);
+        map.put("total_fee", total_fee);
+        map.put("refund_fee", refund_fee);
+        map.put("op_user_id", "100000");
+        String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
+        map.put("sign", sign);
+        String xml = WxPayUtil.mapConvertToXML(map);
+        String responseXML = "";
+        try {
+            KeyStore keyStore = KeyStore.getInstance("PKCS12");
+            FileInputStream inputStream = new FileInputStream(new File(path));
+            try {
+                keyStore.load(inputStream, shh.toCharArray());
+            } finally {
+                inputStream.close();
+            }
+            responseXML = WxUtil.httpsRequest(WxPayConfig.WECHAT_REFUND, "POST", xml);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return null;
+        return responseXML;
     }
 
     public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis()/1000);
+        System.out.println(System.currentTimeMillis() / 1000);
     }
 }

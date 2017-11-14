@@ -119,4 +119,12 @@ public class Constant {
      * 微信订单查询返回--支付失败(其他原因，如银行返回失败)
      */
     public static final String WX_PAY_PAY_ERROR = "PAYERROR";
+
+    /**
+     * 微信等级划分
+     */
+    public static final int WX_POINT_LEVEL1=36;
+    public static final int WX_POINT_LEVEL2=750;
+    public static final int WX_POINT_LEVEL3=1500;
+
 }
