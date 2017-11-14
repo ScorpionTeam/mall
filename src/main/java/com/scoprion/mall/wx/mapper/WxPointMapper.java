@@ -1,9 +1,7 @@
 package com.scoprion.mall.wx.mapper;
 
-import com.scoprion.mall.domain.ActivityExt;
-import com.scoprion.mall.domain.Order;
+
 import com.scoprion.mall.domain.Point;
-import com.scoprion.mall.domain.PointLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

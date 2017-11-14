@@ -20,12 +20,12 @@ public class WxPointController {
 
     /**
      * 个人信息
-     * @param userId
+     * @param wxCode
      * @return
      */
-    @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    public BaseResult profile(String userId) {
-        return wxPointService.findByUserId(userId);
+    @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
+    public BaseResult findByUserId(String wxCode) {
+        return wxPointService.findByUserId(wxCode);
     }
 
 
