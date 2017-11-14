@@ -218,6 +218,11 @@ public class WxPayServiceImpl implements WxPayService {
         order.setCount(wxOrderRequestData.getCount());
         order.setMessage(wxOrderRequestData.getMessage());
         order.setGoodId(goods.getId());
+        if (StringUtils.isEmpty(wxOrderRequestData.getTicket().toString())) {
+            order.setUseTicket("0");
+        } else {
+            order.setUseTicket("1");
+        }
         BeanUtils.copyProperties(delivery, order);
         order.setUserId(userId);
         return order;

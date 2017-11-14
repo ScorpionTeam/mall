@@ -180,6 +180,11 @@ public class Order {
      */
     private String remark;
 
+    /**
+     * 是否使用优惠券  1是  0 否
+     */
+    private String useTicket;
+
 
     public String getRemark() {
         return remark;
@@ -429,6 +434,14 @@ public class Order {
         this.freightFee = freightFee;
     }
 
+    public String getUseTicket() {
+        return useTicket;
+    }
+
+    public void setUseTicket(String useTicket) {
+        this.useTicket = useTicket;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -463,6 +476,7 @@ public class Order {
                 ", wxOrderNo='" + wxOrderNo + '\'' +
                 ", goodId=" + goodId +
                 ", remark='" + remark + '\'' +
+                ", useTicket='" + useTicket + '\'' +
                 '}';
     }
 }
