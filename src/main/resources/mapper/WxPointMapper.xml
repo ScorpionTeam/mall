@@ -10,10 +10,6 @@
         SELECT * FROM t_point WHERE userId=#{userId}
     </select>
 
-    <!-- 获取详情 -->
-    <select id="grades" resultType="com.scoprion.mall.domain.Point">
-        SELECT * FROM t_point WHERE userId=#{userId}
-    </select>
 
     <!-- 等级划分 -->
     <update id="level">
