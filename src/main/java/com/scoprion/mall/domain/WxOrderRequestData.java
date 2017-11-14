@@ -1,6 +1,5 @@
 package com.scoprion.mall.domain;
 
-import java.math.BigDecimal;
 
 /**
  * @author by kunlun
@@ -51,17 +50,27 @@ public class WxOrderRequestData {
     /**
      * 商品总额
      */
-    private int goodPrice;
+    private int goodFee;
 
     /**
      * 实付金额
      */
-    private int totalFee;
+    private int paymentFee;
 
     /**
      * 订单金额
      */
     private int orderFee;
+
+    /**
+     * 优惠金额
+     */
+    private int reduceFee;
+
+    /**
+     * 运费金额
+     */
+    private int freightFee;
 
     public Long getGoodId() {
         return goodId;
@@ -127,28 +136,44 @@ public class WxOrderRequestData {
         this.point = point;
     }
 
-    public int getGoodPrice() {
-        return goodPrice;
-    }
-
-    public void setGoodPrice(int goodPrice) {
-        this.goodPrice = goodPrice;
-    }
-
-    public int getTotalFee() {
-        return totalFee;
-    }
-
-    public void setTotalFee(int totalFee) {
-        this.totalFee = totalFee;
-    }
-
     public int getOrderFee() {
         return orderFee;
     }
 
     public void setOrderFee(int orderFee) {
         this.orderFee = orderFee;
+    }
+
+    public int getGoodFee() {
+        return goodFee;
+    }
+
+    public void setGoodFee(int goodFee) {
+        this.goodFee = goodFee;
+    }
+
+    public int getPaymentFee() {
+        return paymentFee;
+    }
+
+    public void setPaymentFee(int paymentFee) {
+        this.paymentFee = paymentFee;
+    }
+
+    public int getReduceFee() {
+        return reduceFee;
+    }
+
+    public void setReduceFee(int reduceFee) {
+        this.reduceFee = reduceFee;
+    }
+
+    public int getFreightFee() {
+        return freightFee;
+    }
+
+    public void setFreightFee(int freightFee) {
+        this.freightFee = freightFee;
     }
 
     @Override
@@ -162,9 +187,11 @@ public class WxOrderRequestData {
                 ", ticket=" + ticket +
                 ", useTicket=" + useTicket +
                 ", point=" + point +
-                ", goodPrice=" + goodPrice +
-                ", totalFee=" + totalFee +
+                ", goodFee=" + goodFee +
+                ", paymentFee=" + paymentFee +
                 ", orderFee=" + orderFee +
+                ", reduceFee=" + reduceFee +
+                ", freightFee=" + freightFee +
                 '}';
     }
 }
