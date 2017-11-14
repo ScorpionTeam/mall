@@ -51,7 +51,7 @@ public class TicketWxServiceImpl implements TicketWxService {
         }
         Page<Ticket> page=ticketWxMapper.ticketList(ticketName);
         return new PageResult(page);
-    };
+    }
 
     /**
      * 修改优惠券

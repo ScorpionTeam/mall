@@ -1,18 +1,18 @@
-package com.scoprion.mall.littlesoft.mapper;
+package com.scoprion.mall.wx.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Brand;
-import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @author by admin1
  * @created on 2017/11/2.
  */
 @Mapper
-public interface BrandWxMapper {
+public interface WxBrandMapper {
 
     /**
-     *查询品牌
+     * 查询品牌
      *
      * @return
      */

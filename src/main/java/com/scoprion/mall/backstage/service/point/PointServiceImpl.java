@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * Created on 2017/10/29.
+ * @author by kunlun
+ * @created on 2017/10/29.
  */
 @Service
 public class PointServiceImpl implements PointService {
