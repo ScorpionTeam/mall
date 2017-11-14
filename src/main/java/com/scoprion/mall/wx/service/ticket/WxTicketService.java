@@ -1,9 +1,8 @@
-package com.scoprion.mall.wx.service.ticket;
+package com.scoprion.mall.wx.service.Ticket;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
-import java.util.Date;
 
 /**
  * @author by Administrator

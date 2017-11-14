@@ -210,7 +210,7 @@ public class WxPayServiceImpl implements WxPayService {
         order.setOrderStatus("1");
         order.setGoodName(goods.getGoodName());
         order.setDeliveryId(delivery.getId());
-        order.setTotalFee(wxOrderRequestData.getTotalFee());
+        order.setPaymentFee(wxOrderRequestData.getTotalFee());
         order.setGoodFee(wxOrderRequestData.getGoodPrice());
         order.setCount(wxOrderRequestData.getCount());
         order.setMessage(wxOrderRequestData.getMessage());

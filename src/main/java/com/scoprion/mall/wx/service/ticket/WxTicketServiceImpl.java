@@ -1,4 +1,4 @@
-package com.scoprion.mall.wx.service.ticket;
+package com.scoprion.mall.wx.service.Ticket;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;

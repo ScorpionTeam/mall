@@ -1,6 +1,6 @@
 package com.scoprion.mall.wx.controller;
 import com.scoprion.mall.domain.Ticket;
-import com.scoprion.mall.wx.service.ticket.WxTicketService;
+import com.scoprion.mall.wx.service.Ticket.WxTicketService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Date;
 
 /**
  * @author by Administrator
