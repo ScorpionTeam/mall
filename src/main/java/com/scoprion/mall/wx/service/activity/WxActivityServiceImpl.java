@@ -23,8 +23,8 @@ public class WxActivityServiceImpl implements WxActivityService {
 
     /**
      * 抢购拼团
-     * @param activityType
-     * @param goodIdList
+     * @param pageNo
+     * @param pageSize
      * @return
      */
     @Override

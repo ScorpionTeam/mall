@@ -31,7 +31,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public PageResult listPage(String wxCode, Integer pageNo, Integer pageSize) {
+    public PageResult findByWxCode(String wxCode, Integer pageNo, Integer pageSize) {
         String openId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
@@ -65,7 +65,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public BaseResult updateDelivery(Delivery delivery) {
-        if(StringUtils.isEmpty(delivery.getId().toString())){
+        if (StringUtils.isEmpty(delivery.getId().toString())) {
             return BaseResult.parameterError();
         }
         wxDeliveryMapper.updateDelivery(delivery);
@@ -89,16 +89,17 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
 
     /**
      * 获取收货地址详情
+     *
      * @param id
      * @return
      */
     @Override
     public BaseResult findById(Long id) {
-        if(StringUtils.isEmpty(id.toString())){
+        if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
-        Delivery delivery=wxDeliveryMapper.findById(id);
-        if (StringUtils.isEmpty(delivery.toString())){
+        Delivery delivery = wxDeliveryMapper.findById(id);
+        if (StringUtils.isEmpty(delivery.toString())) {
             return BaseResult.notFound();
         }
         return BaseResult.success(delivery);
