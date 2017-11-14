@@ -1,4 +1,4 @@
-package com.scoprion.mall.wx.service.Ticket;
+package com.scoprion.mall.wx.service.ticket;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
