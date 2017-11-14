@@ -92,7 +92,7 @@ public class WxPayServiceImpl implements WxPayService {
                 "妆口袋",
                 openid,
                 order.getOrderNo(),
-                wxOrderRequestData.getTotalFee(),
+                wxOrderRequestData.getPaymentFee(),
                 nonce_str);
         //生成预付款订单
         String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", xmlString);
@@ -210,8 +210,11 @@ public class WxPayServiceImpl implements WxPayService {
         order.setOrderStatus("1");
         order.setGoodName(goods.getGoodName());
         order.setDeliveryId(delivery.getId());
-        order.setPaymentFee(wxOrderRequestData.getTotalFee());
-        order.setGoodFee(wxOrderRequestData.getGoodPrice());
+        order.setOrderFee(wxOrderRequestData.getOrderFee());
+        order.setGoodFee(wxOrderRequestData.getGoodFee());
+        order.setReduceFee(wxOrderRequestData.getReduceFee());
+        order.setFreightFee(wxOrderRequestData.getFreightFee());
+        order.setPaymentFee(wxOrderRequestData.getPaymentFee());
         order.setCount(wxOrderRequestData.getCount());
         order.setMessage(wxOrderRequestData.getMessage());
         order.setGoodId(goods.getId());
