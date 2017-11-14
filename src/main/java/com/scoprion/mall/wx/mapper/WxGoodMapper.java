@@ -19,7 +19,7 @@ public interface WxGoodMapper {
      * @return
      */
     Goods findById(@Param("goodId") Long goodId);
-    
+
     /**
      * 库存扣减
      *
@@ -28,6 +28,15 @@ public interface WxGoodMapper {
      * @return
      */
     int updateGoodStockById(@Param("goodId") Long goodId, @Param("stock") int stock);
+
+    /**
+     * 修改销量
+     *
+     * @param saleVolume
+     * @param goodId
+     * @return
+     */
+    int updateSaleVolume(@Param("saleVolume") int saleVolume, @Param("goodId") Long goodId);
 
     Page<Goods> findOnline();
 }

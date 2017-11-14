@@ -23,12 +23,19 @@ public interface WxPointMapper {
     Point findByUserId(@Param("userId") String userId);
 
 
-
     /**
      * 修改积分
+     *
      * @param point
      * @return
      */
     int level(Point point);
 
+    /**
+     * 新增积分记录
+     *
+     * @param point
+     * @return
+     */
+    int add(Point point);
 }

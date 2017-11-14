@@ -63,5 +63,8 @@
         FROM t_good WHERE isOnSale='1'
     </select>
 
-
+    <!--修改销量-->
+    <update id="updateSaleVolume">
+        UPDATE t_good SET saleVolume=(saleVolume+#{saleVolume}) WHERE id=#{goodId}
+    </update>
 </mapper>
