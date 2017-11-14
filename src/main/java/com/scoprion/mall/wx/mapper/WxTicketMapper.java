@@ -16,14 +16,12 @@ import java.util.List;
 public interface WxTicketMapper {
 
     /**
-     * 优惠卷列表
-     * @param pageNo
-     * @param pageSize
-     * @param name
+     *用户优惠券列表
+     * @param userId
      * @return
      */
-    Page<Ticket> findByTicketList(@Param("pageNo") Integer pageNo, @Param("pageSize") Integer pageSize, @Param("name") String name);
+    Page<Ticket> findByList(@Param("userId") Long userId);
 
 
-    Ticket findByTicketDate(Ticket ticket);
+
 }

@@ -6,12 +6,16 @@
 <mapper namespace="com.scoprion.mall.wx.mapper.WxTicketMapper">
 
     <!-- 优惠卷列表 -->
-    <select id="findByTicketList" resultType="com.scoprion.mall.domain.Ticket">
-        SELECT * FROM t_ticket
+    <select id="findByList" resultType="com.scoprion.mall.domain.TicketExt">
+        SELECT
+        tu.userId,
+        tu.num as num,
+        tk.id,
+        tk.ticketName,
+        tk.content
+        FROM t_ticket  tk LEFT JOIN t_ticket_user tu ON tk.id=tu.ticketId
+        WHERE   tu.userId=#{userId}
     </select>
 
-    <!-- 查询优惠卷时间 -->
-    <select id="findByTicketDate" resultType="com.scoprion.mall.domain.Ticket">
-        SELECT startDate,endDate FROM t_ticket
-    </select>
+
 </mapper>

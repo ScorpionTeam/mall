@@ -11,18 +11,13 @@ import com.scoprion.result.PageResult;
 public interface WxTicketService {
 
     /**
-     * 优惠卷列表
+     * 用户优惠券列表
      * @param pageNo
      * @param pageSize
-     * @param name 优惠卷名字
+     * @param userId
      * @return
      */
-    PageResult findByTicketList(Integer pageNo, Integer pageSize, String name);
+    PageResult findByList(Integer pageNo, Integer pageSize,Long userId);
 
-    /**
-     * 优惠卷时间限制
-     * @param ticket
-     * @return
-     */
-    BaseResult findByTicketDate(Ticket ticket);
+
 }
