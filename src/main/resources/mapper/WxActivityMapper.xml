@@ -5,10 +5,12 @@
 <mapper namespace="com.scoprion.mall.wx.mapper.WxActivityMapper">
 
     <resultMap type="com.scoprion.mall.domain.ActivityGoods" id="activityResult" extends="goods">
+        <result property="id" column="id"/>
         <result property="activityType" column="activityType"/>
         <result property="name" column="name"/>
         <result property="activityId" column="activityId"/>
         <result property="status" column="status"/>
+        <result property="createDate" column="createDate"/>
     </resultMap>
 
     <resultMap type="com.scoprion.mall.domain.Goods" id="goods">
@@ -18,24 +20,55 @@
         <result property="description" column="description"/>
         <result property="promotion" column="promotion"/>
         <result property="price" column="price"/>
+        <result property="saleVolume" column="saleVolume"/>
+        <result property="discount" column="discount"/>
+        <result property="stock" column="stock"/>
+        <result property="isOnSale" column="isOnSale"/>
+        <result property="isHot" column="isHot"/>
+        <result property="isNew" column="isNew"/>
+        <!--<result property="createDate" column="createDate"/>-->
+        <result property="lastUpdateDate" column="lastUpdateDate"/>
+        <result property="isFreight" column="isFreight"/>
+        <result property="brandId" column="brandId"/>
+        <result property="sellerId" column="sellerId"/>
+        <result property="visitTotal" column="visitTotal"/>
+        <result property="goodNo" column="goodNo"/>
+        <result property="mainImgUrl" column="mainImgUrl"/>
+        <result property="status" column="status"/>
     </resultMap>
 
 
     <!-- 抢购拼团 -->
-    <select id="group" resultMap="activityResult">
+    <select id="findByGroup" resultMap="activityResult">
         SELECT
         act.name,
         act.activityType,
         act.status,
-        act.createDate,
-        act.updateDate,
         act.target,
         actg.id,
         actg.activityId,
         actg.goodId,
-        tg.goodName,
         actg.createDate,
-        tg.promotion
+        tg.id,
+        tg.categoryId,
+        tg.goodName,
+        tg.description,
+        tg.promotion,
+        tg.price,
+        tg.saleVolume,
+        tg.discount,
+        tg.stock,
+        tg.isOnSale,
+        tg.isHot,
+        tg.isNew,
+        tg.lastUpdateDate,
+        tg.isFreight,
+        tg.brandId,
+        tg.sellerId,
+        tg.visitTotal,
+        tg.goodNo,
+        tg.mainImgUrl,
+        tg.status
         FROM t_activity act LEFT JOIN t_activity_good actg ON act.id=actg.activityId
         LEFT JOIN t_good tg ON actg.goodId=tg.id
         AND act.activityType='1'

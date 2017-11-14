@@ -13,5 +13,5 @@ public interface WxActivityMapper {
 
 
     //抢购拼团
-    Page<Activity> group();
+    Page<Activity> findByGroup();
 }

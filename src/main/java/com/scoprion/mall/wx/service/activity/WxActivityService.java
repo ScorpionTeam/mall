@@ -19,5 +19,5 @@ public interface WxActivityService {
      * @return
      */
 
-    PageResult group(int pageNo, int pageSize);
+    PageResult findByGroup(int pageNo, int pageSize);
 }

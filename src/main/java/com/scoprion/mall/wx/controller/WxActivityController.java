@@ -26,8 +26,8 @@ public class WxActivityController {
      * @return
      */
 
-    @RequestMapping(value = "/group", method = RequestMethod.GET)
-    public PageResult group(int pageNo, int pageSize) {
-        return wxActivityService.group(pageNo, pageSize);
+    @RequestMapping(value = "/findByGroup", method = RequestMethod.GET)
+    public PageResult findByGroup(int pageNo, int pageSize) {
+        return wxActivityService.findByGroup(pageNo, pageSize);
     }
 }

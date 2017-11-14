@@ -26,10 +26,10 @@ public class WxActivityServiceImpl implements WxActivityService {
      */
 
     @Override
-    public PageResult group(int pageNo, int pageSize) {
+    public PageResult findByGroup(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
         //活动商品
-        Page<Activity> page = wxActivityMapper.group();
+        Page<Activity> page = wxActivityMapper.findByGroup();
         return new PageResult(page);
     }
 }
