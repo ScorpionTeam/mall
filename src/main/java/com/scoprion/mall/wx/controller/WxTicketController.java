@@ -22,25 +22,16 @@ public class WxTicketController {
     private WxTicketService wxTicketService;
 
     /**
-     * 优惠卷列表
+     * 用户优惠券列表
      * @param pageNo
      * @param pageSize
+     * @param userId
      * @return
      */
-    @RequestMapping(value = "/findByTicketList", method = RequestMethod.GET)
-    public PageResult findByTicketList(Integer pageNo,Integer pageSize,Long userId){
-        return wxTicketService.findByTicketList(pageNo,pageSize,userId);
+    @RequestMapping(value = "/findByList", method = RequestMethod.GET)
+    public PageResult findByList(Integer pageNo,Integer pageSize,Long userId){
+        return wxTicketService.findByList(pageNo,pageSize,userId);
     }
 
-    /**
-     * 优惠卷时间限制
-     * @param ticket
-     * @return
-     */
-    @RequestMapping(value = "/findByTicketDate", method = RequestMethod.GET)
-    public BaseResult findByTicketDate(Ticket ticket) {
-
-        return wxTicketService.findByTicketDate(ticket);
-    }
 }
 

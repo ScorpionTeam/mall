@@ -6,14 +6,15 @@
 <mapper namespace="com.scoprion.mall.wx.mapper.WxTicketMapper">
 
     <!-- 优惠卷列表 -->
-    <select id="findByTicketList" resultType="com.scoprion.mall.domain.Ticket">
+    <select id="findByList" resultType="com.scoprion.mall.domain.TicketExt">
         SELECT
-        userId,
-        number,
-        ticketId,
-        ticketName,
-        content
-        FROM t_ticket_user t_t_u LEFT JOIN t_ticket t_t ON t_t_u.ticketId=t_t.id
+        tu.userId,
+        tu.num as num,
+        tk.id,
+        tk.ticketName,
+        tk.content
+        FROM t_ticket  tk LEFT JOIN t_ticket_user tu ON tk.id=tu.ticketId
+        WHERE   tu.userId=#{userId}
     </select>
 
 
