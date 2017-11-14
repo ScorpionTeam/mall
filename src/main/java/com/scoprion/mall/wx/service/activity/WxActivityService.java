@@ -7,13 +7,15 @@ import com.scoprion.result.PageResult;
 import java.util.List;
 
 /**
- * Created by fk on 2017/11/12.
+ * Created by fk
+ * @create on 2017/11/12.
  */
 public interface WxActivityService {
+
     /**
      * 抢购拼团
-     * @param activityType
-     * @param goodIdList
+     * @param pageNo
+     * @param pageSize
      * @return
      */
     PageResult group(int pageNo, int pageSize);

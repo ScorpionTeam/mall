@@ -203,6 +203,7 @@
     <select id="findImgUrlByGoodsId" resultType="com.scoprion.mall.domain.MallImage">
         SELECT * FROM t_mall_image WHERE targetId=#{goodId}
     </select>
+
     <!--根据商品id删除图片-->
     <delete id="deleteImageByGoodsId">
         DELETE FROM t_mall_image WHERE targetId=#{goodId}
