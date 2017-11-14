@@ -82,7 +82,6 @@ public class FileOperationServiceImpl implements FileOperationService {
                 if (Constant.WATER_REMARK_TRUE.equals(watermark)) {
                     waterRemark(imageCutSize, absolutePath);
                 }
-                //存储图片名
                 urlList.add(new MallImage(getFileName(path, fileName, endName, imageCutSize)));
             }
         } else {
@@ -119,14 +118,14 @@ public class FileOperationServiceImpl implements FileOperationService {
      */
     private void deleteDBImage(String imageName) {
         //子图
-        fileOperationMapper.deleteImage(imageName);
+        fileOperationMapper.deleteByUrl(imageName);
         if (!isChildImage(imageName)) {
             //循环删除主图对应的子图
             for (String size : Constant.SIZE_ARR) {
                 String endName = imageName.substring(imageName.lastIndexOf("."));
                 String startName = imageName.substring(0, imageName.lastIndexOf("."));
                 String filePath = startName + "_" + size + endName;
-                fileOperationMapper.deleteImage(filePath);
+                fileOperationMapper.deleteByUrl(filePath);
             }
         }
     }
@@ -279,7 +278,7 @@ public class FileOperationServiceImpl implements FileOperationService {
                 break;
             case "3":
                 //商品评价图片路径3
-                path = Constant.GOODS_REVIEWS_IMG_PATH;
+                path = Constant.GOODS_ESTIMATE_IMG_PATH;
                 break;
             case "4":
                 //广告图片路径4
@@ -287,7 +286,7 @@ public class FileOperationServiceImpl implements FileOperationService {
                 break;
             case "5":
                 //活动图片路径5
-                path = Constant.ACIVITY_IMG_PATH;
+                path = Constant.ACTIVITY_IMG_PATH;
                 break;
             case "6":
                 //其他模块图片路径6

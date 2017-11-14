@@ -3,8 +3,60 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.FileOperationMapper">
+
     <!--删除图片-->
-    <delete id="deleteImage">
-        DELETE FROM  t_mall_image WHERE url = #{imageName}
+    <delete id="deleteByUrl">
+        DELETE FROM  t_mall_image WHERE url = #{url}
     </delete>
+
+    <!--根据id删除图片-->
+    <delete id="deleteById">
+        DELETE FROM t_mall_image WHERE id=#{id}
+    </delete>
+
+    <!--插入图片地址，跟商品ID绑定-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.MallImage">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_mall_image(otherId,createDate,url,articleId,activityId,bannerId,brandId,goodId,estimateId)
+        VALUES(#{otherId},now(),#{url},#{articleId},#{activityId},#{bannerId},#{brandId},#{goodId},#{estimateId})
+    </insert>
+
+    <!--根据targetId查找图片 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6-->
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.MallImage">
+        SELECT id,
+        articleId,
+        activityId,
+        bannerId,
+        brandId,
+        goodId,
+        estimateId,
+        otherId,
+        createDate,
+        url
+        FROM t_mall_image WHERE 1=1
+        <if test="type==0">AND goodId=#{targetId}</if>
+        <if test="type==1">AND brandId=#{targetId}</if>
+        <if test="type==2">AND articleId=#{targetId}</if>
+        <if test="type==3">AND estimateId=#{targetId}</if>
+        <if test="type==4">AND bannerId=#{targetId}</if>
+        <if test="type==5">AND activityId=#{targetId}</if>
+        <if test="type==5">AND otherId=#{targetId}</if>
+    </select>
+
+    <!--根据id修改图片-->
+    <update id="modify" parameterType="com.scoprion.mall.domain.MallImage">
+        UPDATE t_mall_image SET updateDate=now()
+        <if test="otherId!=null and otherId!=''">,otherId=#{otherId}</if>
+        <if test="createDate!=null and createDate!=''">,createDate=#{createDate}</if>
+        <if test="url!=null and url!=''">,url=#{url}</if>
+        <if test="articleId!=null and articleId!=''">,articleId=#{articleId}</if>
+        <if test="activityId!=null and activityId!=''">,activityId=#{activityId}</if>
+        <if test="bannerId!=null and bannerId!=''">,bannerId=#{bannerId}</if>
+        <if test="brandId!=null and brandId!=''">,brandId=#{brandId}</if>
+        <if test="goodId!=null and goodId!=''">,goodId=#{goodId}</if>
+        <if test="estimateId!=null and estimateId!=''">,estimateId=#{estimateId}</if>
+        WHERE id=#{id}
+    </update>
 </mapper>

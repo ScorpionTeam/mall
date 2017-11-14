@@ -40,11 +40,6 @@
         <if test="searchKey!=null">AND name LIKE #{searchKey}</if>
     </select>
 
-    <!--根据ID删除活动物理删除-->
-    <!--<delete id="deleteById">&#45;&#45; -->
-    <!--DELETE  t_activity WHERE  id=#{id}-->
-    <!--</delete>-->
-
     <!--根据ID删除活动,不做物理删除-->
     <update id="deleteById">
           UPDATE  t_activity  SET  status='1' WHERE  id=#{id}

@@ -193,18 +193,4 @@
         </foreach>
         AND isOnSale='0'
     </update>
-
-    <!--插入图片地址，跟商品ID绑定-->
-    <insert id="updateImageWithGoodsId" parameterType="com.scoprion.mall.domain.MallImage">
-        INSERT INTO t_mall_image(targetId,createDate,url) VALUES(#{targetId},now(),#{url})
-    </insert>
-
-    <!--根据商品ID查找图片列表-->
-    <select id="findImgUrlByGoodsId" resultType="com.scoprion.mall.domain.MallImage">
-        SELECT * FROM t_mall_image WHERE targetId=#{goodId}
-    </select>
-    <!--根据商品id删除图片-->
-    <delete id="deleteImageByGoodsId">
-        DELETE FROM t_mall_image WHERE targetId=#{goodId}
-    </delete>
 </mapper>

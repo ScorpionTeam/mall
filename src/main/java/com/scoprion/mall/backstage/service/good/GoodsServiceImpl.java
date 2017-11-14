@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
@@ -27,6 +28,8 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     private GoodsMapper goodsMapper;
+    @Autowired
+    private FileOperationMapper fileOperationMapper;
 
 
     /**
@@ -60,15 +63,15 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public BaseResult add(GoodExt goods) {
-        int result = goodsMapper.add(goods);
+    public BaseResult add(GoodExt good) {
+        int result = goodsMapper.add(good);
         if (result > 0) {
             //更新图片信息
-            List<MallImage> imgList = goods.getImgList();
+            List<MallImage> imgList = good.getImgList();
             if (imgList != null && imgList.size() > 0) {
                 for (MallImage mallImage : imgList) {
-                    mallImage.setTargetId(goods.getId());
-                    goodsMapper.updateImageWithGoodsId(mallImage);
+                    mallImage.setGoodId(good.getId());
+                    fileOperationMapper.add(mallImage);
                 }
             }
             return BaseResult.success("创建商品成功");
@@ -103,7 +106,7 @@ public class GoodsServiceImpl implements GoodsService {
             return BaseResult.notFound();
         }
         //获取图片列表
-        List<MallImage> imgList = goodsMapper.findImgUrlByGoodsId(goods.getId());
+        List<MallImage> imgList = fileOperationMapper.findByCondition(goods.getId(), 0);
         goods.setImgList(imgList);
         return BaseResult.success(goods);
     }
@@ -123,11 +126,13 @@ public class GoodsServiceImpl implements GoodsService {
         List<MallImage> imgList = goods.getImgList();
         if (imgList != null && imgList.size() > 0) {
             //清空原来的图片
-            goodsMapper.deleteImageByGoodsId(goods.getId());
+            for (MallImage mallImage : imgList) {
+                fileOperationMapper.deleteById(mallImage.getId());
+            }
             //插入图片
             for (MallImage mallImage : imgList) {
-                mallImage.setTargetId(goods.getId());
-                goodsMapper.updateImageWithGoodsId(mallImage);
+                mallImage.setGoodId(goods.getId());
+                fileOperationMapper.add(mallImage);
             }
         }
         return BaseResult.success("修改成功");

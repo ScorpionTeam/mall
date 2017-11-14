@@ -5,7 +5,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.BrandMapper;
+import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.domain.Brand;
+import com.scoprion.mall.domain.MallImage;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,7 +132,7 @@ public class BrandServiceImpl implements BrandService {
     /**
      * 批量修改品牌状态
      *
-     * @param status 状态 1入驻 0 退出
+     * @param status 状态 1入驻 0 退出 2删除
      * @param idList id集合
      * @return
      */

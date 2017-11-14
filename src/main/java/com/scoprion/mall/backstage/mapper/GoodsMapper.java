@@ -114,31 +114,6 @@ public interface GoodsMapper {
      */
     int batchDeleteGood(@Param("idList") List<Long> idList);
 
-
-    /**
-     * 修改图片对应的商品ID
-     *
-     * @param mallImage
-     * @return
-     */
-    int updateImageWithGoodsId(MallImage mallImage);
-
-    /**
-     * 根据商品ID查找图片列表
-     *
-     * @param goodId
-     * @return
-     */
-    List<MallImage> findImgUrlByGoodsId(@Param("goodId") Long goodId);
-
-    /**
-     * 根据商品id删除图片
-     *
-     * @param goodId
-     * @return
-     */
-    int deleteImageByGoodsId(@Param("goodId") Long goodId);
-
     /**
      * 库存反还
      *

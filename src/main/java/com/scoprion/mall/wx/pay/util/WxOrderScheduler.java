@@ -28,12 +28,12 @@ public class WxOrderScheduler {
     @Autowired
     OrderMapper orderMapper;
 
-    @Scheduled(fixedRate = 2 * 60 * 1000)
+    @Scheduled(fixedRate = 4*60 * 60 * 1000)
     public void findOrderTasks() {
-        logger.info("每2分钟执行一次。开始");
+        logger.info("每4小時执行一次。开始");
         Page<Order> page = orderMapper.findByScheduler();
         if (page == null || page.size() == 0) {
-            logger.info("每2分钟执行一次。结束。");
+            logger.info("每4小時执行一次。结束。");
             return;
         }
         page.forEach(order -> {
@@ -45,7 +45,7 @@ public class WxOrderScheduler {
             //测试代码
             //queryOrder(order.getId(), "4200000024201711093467988381");
         });
-        logger.info("每2分钟执行一次。结束。");
+        logger.info("每4小時执行一次。结束。");
     }
 
     /**

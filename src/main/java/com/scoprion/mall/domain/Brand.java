@@ -32,7 +32,7 @@ public class Brand {
     private String country;
 
     /**
-     * 品牌状态 1入驻  0 退出
+     * 品牌状态 1入驻  0 退出 2 删除
      */
     private String status;
 
@@ -49,7 +49,7 @@ public class Brand {
     /**
      * 品牌图片
      */
-    private String brandImgId;
+    private String brandImg;
 
     /**
      * 创建时间
@@ -119,12 +119,12 @@ public class Brand {
         this.contactPhone = contactPhone;
     }
 
-    public String getBrandImgId() {
-        return brandImgId;
+    public String getBrandImg() {
+        return brandImg;
     }
 
-    public void setBrandImgId(String brandImgId) {
-        this.brandImgId = brandImgId;
+    public void setBrandImg(String brandImg) {
+        this.brandImg = brandImg;
     }
 
     public Date getCreateDate() {
@@ -153,7 +153,7 @@ public class Brand {
                 ", status='" + status + '\'' +
                 ", contact='" + contact + '\'' +
                 ", contactPhone='" + contactPhone + '\'' +
-                ", brandImgId='" + brandImgId + '\'' +
+                ", brandImg='" + brandImg + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 '}';

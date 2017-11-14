@@ -10,16 +10,16 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO t_brand
-        (brandName,brandImgId,createDate,updateDate,status,shortName,country,contact,contactPhone)
+        (brandName,brandImg,createDate,updateDate,status,shortName,country,contact,contactPhone)
         VALUES
-        (#{brandName},#{brandImgId},now(),now(),#{status},#{shortName},#{country},#{contact},#{contactPhone})
+        (#{brandName},#{brandImg},now(),now(),#{status},#{shortName},#{country},#{contact},#{contactPhone})
     </insert>
 
     <!--修改品牌-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Brand">
         UPDATE t_brand SET
         <if test="brandName!=null">brandName=#{brandName},</if>
-        <if test="brandImgId!=null">brandImgId=#{brandImgId},</if>
+        <if test="brandImg!=null">brandImg=#{brandImg},</if>
         <if test="status!=null">status=#{status},</if>
         <if test="shortName!=null">shortName=#{shortName},</if>
         <if test="createDate!=null">createDate=#{createDate},</if>
@@ -35,7 +35,7 @@
         SELECT
         id,
         brandName,
-        brandImgId,
+        brandImg,
         createDate,
         status,
         shortName
@@ -69,11 +69,11 @@
     </update>
 
     <!--批量删除-->
-    <delete id="batchDelete">
-        DELETE FROM t_brand WHERE id IN
+    <update id="batchDelete">
+        UPDATE t_brand SET status='2' WHERE id IN
         <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
-    </delete>
+    </update>
 
 </mapper>

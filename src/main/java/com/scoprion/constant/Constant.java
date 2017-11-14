@@ -36,25 +36,25 @@ public class Constant {
     public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodImage/";
 
     /**
-     * 品牌图片路径1
+     * 品牌图片路径 1
      */
     public static final String BRAND_IMG_PATH = BASE_IMG_DIR + "/Mall/BrandImage/";
     /**
-     * 文章图片路径2
+     * 文章图片路径 2
      */
     public static final String ARTICLE_IMG_PATH = BASE_IMG_DIR + "/Mall/ArticleImage/";
     /**
-     * 商品评价图片路径3
+     * 商品评价图片路径 3
      */
-    public static final String GOODS_REVIEWS_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodsReviewsImage/";
+    public static final String GOODS_ESTIMATE_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodsEstimateImage/";
     /**
-     * 广告图片路径4
+     * 广告图片路径 4
      */
     public static final String BANNER_IMG_PATH = BASE_IMG_DIR + "/Mall/BannerImage/";
     /**
-     * 活动图片路径5
+     * 活动图片路径 5
      */
-    public static final String ACIVITY_IMG_PATH = BASE_IMG_DIR + "/Mall/ActivityImage/";
+    public static final String ACTIVITY_IMG_PATH = BASE_IMG_DIR + "/Mall/ActivityImage/";
     /**
      * 其他模块图片路径6
      */
