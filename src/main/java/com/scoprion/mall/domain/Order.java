@@ -193,6 +193,13 @@ public class Order {
      */
     private Integer operatePoint;
 
+    /**
+     * 运单号
+     */
+    private String deliveryNo;
+
+
+
     public Integer getOperatePoint() {
         return operatePoint == null ? 0 : operatePoint;
     }
@@ -200,15 +207,6 @@ public class Order {
     public void setOperatePoint(Integer operatePoint) {
         this.operatePoint = operatePoint;
     }
-
-    public String getUseTicket() {
-        return useTicket;
-    }
-    /**
-     * 运单号
-     */
-    private String deliveryNo;
-
 
     public String getRemark() {
         return remark;
