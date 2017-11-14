@@ -180,6 +180,44 @@ public class Order {
      */
     private String remark;
 
+    /**
+     * 订单号
+     */
+    private String deliveryNo;
+
+    /**
+     * 是否使用优惠券
+     */
+    private String useTicket;
+
+    /**
+     * 优惠券id
+     */
+    private Long ticketId;
+
+    public String getUseTicket() {
+        return useTicket;
+    }
+
+    public void setUseTicket(String useTicket) {
+        this.useTicket = useTicket;
+    }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    public String getDeliveryNo() {
+        return deliveryNo;
+    }
+
+    public void setDeliveryNo(String deliveryNo) {
+        this.deliveryNo = deliveryNo;
+    }
 
     public String getRemark() {
         return remark;
@@ -463,6 +501,7 @@ public class Order {
                 ", wxOrderNo='" + wxOrderNo + '\'' +
                 ", goodId=" + goodId +
                 ", remark='" + remark + '\'' +
+                ", deliveryNo='" + deliveryNo + '\'' +
                 '}';
     }
 }

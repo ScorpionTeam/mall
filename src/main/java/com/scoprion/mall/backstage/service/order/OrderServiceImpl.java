@@ -3,6 +3,7 @@ package com.scoprion.mall.backstage.service.order;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.mall.backstage.mapper.OrderLogMapper;
 import com.scoprion.mall.backstage.mapper.PointMapper;
@@ -113,6 +114,11 @@ public class OrderServiceImpl implements OrderService {
     public BaseResult modify(Order order) {
         if (order.getId() == null) {
             return BaseResult.parameterError();
+        }
+        //1 待付款 2 待发货3 待收货 4 已完成 5 退款 6 关闭 7 待评价 8 已评价
+        Order localOrder = orderMapper.findById(order.getId());
+        if (Constant.STATUS_ONE.equals(localOrder.getOrderStatus())) {
+            return BaseResult.error("modify_error", "未付款的订单不能修改");
         }
         orderMapper.modify(order);
         return BaseResult.success("修改成功");
