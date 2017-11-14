@@ -7,11 +7,14 @@
 
     <!-- 优惠卷列表 -->
     <select id="findByTicketList" resultType="com.scoprion.mall.domain.Ticket">
-        SELECT * FROM t_ticket
+        SELECT
+        userId,
+        number,
+        ticketId,
+        ticketName,
+        content
+        FROM t_ticket_user t_t_u LEFT JOIN t_ticket t_t ON t_t_u.ticketId=t_t.id
     </select>
 
-    <!-- 查询优惠卷时间 -->
-    <select id="findByTicketDate" resultType="com.scoprion.mall.domain.Ticket">
-        SELECT startDate,endDate FROM t_ticket
-    </select>
+
 </mapper>

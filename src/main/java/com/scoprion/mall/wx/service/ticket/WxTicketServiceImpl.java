@@ -30,19 +30,15 @@ public class WxTicketServiceImpl implements WxTicketService {
      * 优惠卷列表
      * @param pageNo
      * @param pageSize
-     * @param name 优惠卷名字
      * @return
      */
     @Override
-    public PageResult findByTicketList(Integer pageNo, Integer pageSize, String name) {
+    public PageResult findByTicketList(Integer pageNo, Integer pageSize,Long userId) {
         PageHelper.startPage(pageNo, pageSize);
-        Page<Ticket> page = wxTicketMapper.findByTicketList(pageNo, pageSize, name);
+        Page<Ticket> page = wxTicketMapper.findByTicketList(pageNo, pageSize,userId);
         if(page == null) {
             return new PageResult(new ArrayList<Page>());
         }
-
-
-
         return new PageResult(page);
     }
 

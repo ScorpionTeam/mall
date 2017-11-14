@@ -25,12 +25,11 @@ public class WxTicketController {
      * 优惠卷列表
      * @param pageNo
      * @param pageSize
-     * @param name 优惠卷名字
      * @return
      */
     @RequestMapping(value = "/findByTicketList", method = RequestMethod.GET)
-    public PageResult findByTicketList(Integer pageNo,Integer pageSize,String name){
-        return wxTicketService.findByTicketList(pageNo,pageSize,name);
+    public PageResult findByTicketList(Integer pageNo,Integer pageSize,Long userId){
+        return wxTicketService.findByTicketList(pageNo,pageSize,userId);
     }
 
     /**

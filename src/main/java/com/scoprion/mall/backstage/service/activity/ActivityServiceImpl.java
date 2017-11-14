@@ -44,7 +44,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (result == 0) {
             return BaseResult.error("add_fail", "创建活动失败");
         }
-//        bindActivityWithGood(activity.getId(), activity.getGoodIdList());
+//        bindActivityWithGood(activityService.getId(), activityService.getGoodIdList());
         return BaseResult.success("创建活动成功");
     }
 
@@ -68,7 +68,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (result == 0) {
             return BaseResult.error("update_fail", "修改活动失败");
         }
-//        bindActivityWithGood(activity.getId(), activity.getGoodIdList());
+//        bindActivityWithGood(activityService.getId(), activityService.getGoodIdList());
         return BaseResult.success("修改活动成功");
     }
 
@@ -127,7 +127,7 @@ public class ActivityServiceImpl implements ActivityService {
             return BaseResult.notFound();
         }
 //        List<Long> goodIdList = activityMapper.findGoodIdByActivityId(id);
-//        activity.setGoodIdList(goodIdList);
+//        activityService.setGoodIdList(goodIdList);
         return BaseResult.success(activity);
     }
 

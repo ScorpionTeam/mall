@@ -14,10 +14,9 @@ public interface WxTicketService {
      * 优惠卷列表
      * @param pageNo
      * @param pageSize
-     * @param name 优惠卷名字
      * @return
      */
-    PageResult findByTicketList(Integer pageNo, Integer pageSize, String name);
+    PageResult findByTicketList(Integer pageNo, Integer pageSize,Long userId);
 
     /**
      * 优惠卷时间限制
