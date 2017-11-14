@@ -38,21 +38,15 @@ public class Order {
     private Long deliveryId;
 
     /**
-     * 状态
+     * 订单状态
      * 1 待付款
      * 2 待发货
      * 3 待收货
      * 4 已完成
-     * 5 申请退款中
-     * 6 退款已完成
-     * 7 退款拒绝
-     * 8 支付失败
-     * 9 正在支付中
-     * 10 转入退款
-     * 11 支付失败(其他原因，如银行返回失败)
-     * 12 用户支付中
-     * 13 已关闭
-     * 14 已撤销
+     * 5 退款
+     * 6 关闭
+     * 7 待评价
+     * 8 已评价
      */
     private String orderStatus;
 
@@ -76,23 +70,29 @@ public class Order {
     private String message;
 
     /**
+     * 订单金额
+     */
+    private int orderFee;
+
+    /**
+     * 优惠金额
+     */
+    private int reduceFee;
+
+    /**
+     * 实付金额
+     */
+    private int paymentFee;
+
+    /**
      * 商品金额
      */
     private int goodFee;
 
     /**
-     * 订单金额
+     * 运费金额
      */
-    private int orderFee;
-    /**
-     * 优惠金额
-     */
-    private int ticketFee;
-
-    /**
-     * 实付金额
-     */
-    private int totalFee;
+    private int freightFee;
 
     /**
      * 下单时间
@@ -253,34 +253,6 @@ public class Order {
         this.message = message;
     }
 
-    public int getGoodFee() {
-        return goodFee;
-    }
-
-    public void setGoodFee(int goodFee) {
-        this.goodFee = goodFee;
-    }
-
-    public void setOrderFee(int orderFee) {
-        this.orderFee = orderFee;
-    }
-
-    public int getTicketFee() {
-        return ticketFee;
-    }
-
-    public void setTicketFee(int ticketFee) {
-        this.ticketFee = ticketFee;
-    }
-
-    public int getTotalFee() {
-        return totalFee;
-    }
-
-    public void setTotalFee(int totalFee) {
-        this.totalFee = totalFee;
-    }
-
     public Date getCreateDate() {
         return createDate;
     }
@@ -401,10 +373,6 @@ public class Order {
         this.goodId = goodId;
     }
 
-    public int getOrderFee() {
-        return orderFee;
-    }
-
     public String getPrePayId() {
         return prePayId;
     }
@@ -421,6 +389,46 @@ public class Order {
         this.updateDate = updateDate;
     }
 
+    public int getOrderFee() {
+        return orderFee;
+    }
+
+    public void setOrderFee(int orderFee) {
+        this.orderFee = orderFee;
+    }
+
+    public int getReduceFee() {
+        return reduceFee;
+    }
+
+    public void setReduceFee(int reduceFee) {
+        this.reduceFee = reduceFee;
+    }
+
+    public int getPaymentFee() {
+        return paymentFee;
+    }
+
+    public void setPaymentFee(int paymentFee) {
+        this.paymentFee = paymentFee;
+    }
+
+    public int getGoodFee() {
+        return goodFee;
+    }
+
+    public void setGoodFee(int goodFee) {
+        this.goodFee = goodFee;
+    }
+
+    public int getFreightFee() {
+        return freightFee;
+    }
+
+    public void setFreightFee(int freightFee) {
+        this.freightFee = freightFee;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -433,10 +441,11 @@ public class Order {
                 ", orderType='" + orderType + '\'' +
                 ", payType='" + payType + '\'' +
                 ", message='" + message + '\'' +
-                ", goodFee=" + goodFee +
                 ", orderFee=" + orderFee +
-                ", ticketFee=" + ticketFee +
-                ", totalFee=" + totalFee +
+                ", reduceFee=" + reduceFee +
+                ", paymentFee=" + paymentFee +
+                ", goodFee=" + goodFee +
+                ", freightFee=" + freightFee +
                 ", createDate=" + createDate +
                 ", payDate='" + payDate + '\'' +
                 ", deliveryDate=" + deliveryDate +

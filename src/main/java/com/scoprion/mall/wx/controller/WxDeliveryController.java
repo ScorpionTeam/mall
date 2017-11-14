@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * Created by admin1 on 2017/11/1.
+ * @author by admin1
+ * @created on 2017/11/1.
  */
 @RestController
 @RequestMapping("wx/delivery")
