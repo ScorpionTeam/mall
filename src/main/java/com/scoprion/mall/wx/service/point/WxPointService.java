@@ -24,6 +24,6 @@ public interface WxPointService {
      * @param userId
      * @return
      */
-    BaseResult grade(String userId);
+    BaseResult updateByGrade(String userId);
 
 }

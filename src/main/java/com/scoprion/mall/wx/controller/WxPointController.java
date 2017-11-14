@@ -35,9 +35,9 @@ public class WxPointController {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/grade",method = RequestMethod.GET)
-    public BaseResult grade(String userId){
-        return wxPointService.grade(userId);
+    @RequestMapping(value = "/updateByGrade",method = RequestMethod.GET)
+    public BaseResult updateByGrade(String userId){
+        return wxPointService.updateByGrade(userId);
     }
 
 }

@@ -56,7 +56,7 @@ public class WxPointServiceImpl implements WxPointService {
      * @return
      */
     @Override
-    public BaseResult grade(String userId) {
+    public BaseResult updateByGrade(String userId) {
         Point point = wxPointMapper.findByUserId(userId);
         PointLog pointLog = wxPointLogMapper.grade(userId);
         int score = point.getPoint();
