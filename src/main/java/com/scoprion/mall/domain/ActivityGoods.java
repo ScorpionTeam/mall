@@ -20,19 +20,19 @@ public class ActivityGoods extends Goods {
     private Long activityId;
 
     /**
-     * 商品ID
+     * 活动名称
      */
-    private Long goodId;
+    private String name;
 
     /**
-     * 商品名称
+     * 活动类型
      */
-    private String goodName;
-
+    private String activityType;
     /**
      * 创建时间
      */
     private Date createDate;
+
 
     @Override
     public Long getId() {
@@ -52,12 +52,20 @@ public class ActivityGoods extends Goods {
         this.activityId = activityId;
     }
 
-    public Long getGoodId() {
-        return goodId;
+    public String getName() {
+        return name;
     }
 
-    public void setGoodId(Long goodId) {
-        this.goodId = goodId;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getActivityType() {
+        return activityType;
+    }
+
+    public void setActivityType(String activityType) {
+        this.activityType = activityType;
     }
 
     @Override
@@ -71,23 +79,13 @@ public class ActivityGoods extends Goods {
     }
 
     @Override
-    public String getGoodName() {
-        return goodName;
-    }
-
-    @Override
-    public void setGoodName(String goodName) {
-        this.goodName = goodName;
-    }
-
-    @Override
     public String toString() {
         return "ActivityGoods{" +
                 "id=" + id +
                 ", activityId=" + activityId +
-                ", goodId=" + goodId +
+                ", name='" + name + '\'' +
+                ", activityType='" + activityType + '\'' +
                 ", createDate=" + createDate +
-                ", goodName='" + goodName + '\'' +
                 '}';
     }
 }

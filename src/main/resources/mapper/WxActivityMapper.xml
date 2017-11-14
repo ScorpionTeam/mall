@@ -4,30 +4,26 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.wx.mapper.WxActivityMapper">
 
-    <resultMap type="com.scoprion.mall.domain.Activity" id="act">
-        <id property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="status" column="status"/>
+    <resultMap type="com.scoprion.mall.domain.ActivityGoods" id="activityResult" extends="goods">
         <result property="activityType" column="activityType"/>
-        <result property="createDate" column="createDate"/>
-        <result property="updateDate" column="updateDate"/>
-        <result property="target" column="target"/>
-        <collection property="activityGoodsList" resultMap="com.scoprion.mall.wx.mapper.WxActivityMapper" />
+        <result property="name" column="name"/>
+        <result property="activityId" column="activityId"/>
+        <result property="status" column="status"/>
     </resultMap>
 
-    <resultMap type="com.scoprion.mall.domain.ActivityGoods" id="actGoods">
-        <id property="id" column="id"/>
-        <result property="activityId" column="activity"/>
+    <resultMap type="com.scoprion.mall.domain.Goods" id="goods">
+        <result property="id" column="id"/>
+        <result property="categoryId" column="categoryId"/>
         <result property="goodName" column="goodName"/>
-        <result property="goodId" column="goodId"/>
-        <result property="createDate" column="createDate"/>
+        <result property="description" column="description"/>
+        <result property="promotion" column="promotion"/>
+        <result property="price" column="price"/>
     </resultMap>
 
 
     <!-- 抢购拼团 -->
-    <select id="group" resultMap="actGoods">
+    <select id="group" resultMap="activityResult">
         SELECT
-        act.id,
         act.name,
         act.activityType,
         act.status,
@@ -37,11 +33,12 @@
         actg.id,
         actg.activityId,
         actg.goodId,
-        actg.goodName,
-        actg.createDate
-        FROM t_activity act, t_activity_good actg
-        WHERE act.id=actg.id
-        AND activityType='1'
+        tg.goodName,
+        actg.createDate,
+        tg.promotion
+        FROM t_activity act LEFT JOIN t_activity_good actg ON act.id=actg.activityId
+        LEFT JOIN t_good tg ON actg.goodId=tg.id
+        AND act.activityType='1'
     </select>
 
 </mapper>
