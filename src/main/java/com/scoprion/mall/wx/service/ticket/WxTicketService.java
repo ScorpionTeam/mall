@@ -3,7 +3,6 @@ import com.scoprion.mall.domain.Ticket;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
-import java.util.Date;
 
 /**
  * @author by Administrator

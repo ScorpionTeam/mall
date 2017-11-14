@@ -79,9 +79,13 @@ public interface OrderMapper {
      * @param orderId
      * @param orderStatus
      * @param wxOrderNo
+     * @param orderNo
+     * @param payDate
      * @return
      */
     int updateOrderPayStatus(@Param("orderId") Long orderId,
                              @Param("orderStatus") String orderStatus,
-                             @Param("wxOrderNo") String wxOrderNo);
+                             @Param("wxOrderNo") String wxOrderNo,
+                             @Param("orderNo") String orderNo,
+                             @Param("payDate") String payDate);
 }

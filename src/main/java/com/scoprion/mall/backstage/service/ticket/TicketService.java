@@ -6,6 +6,7 @@ import com.scoprion.result.PageResult;
 
 /**
  * Created on 2017/10/10.
+ * @author ycj
  */
 public interface TicketService {
 
@@ -23,10 +24,10 @@ public interface TicketService {
      *
      * @param pageNo
      * @param pageSize
-     * @param ticketName
+     * @param searchKey
      * @return
      */
-    PageResult listByPage(int pageNo, int pageSize, String ticketName);
+    PageResult listByPage(int pageNo, int pageSize, String searchKey);
 
     /**
      * 编辑优惠券
@@ -34,7 +35,7 @@ public interface TicketService {
      * @param ticket
      * @return
      */
-    BaseResult edit(Ticket ticket);
+    BaseResult modify(Ticket ticket);
 
     /**
      * 根据主键删除优惠券
@@ -42,6 +43,6 @@ public interface TicketService {
      * @param id
      * @return
      */
-    BaseResult deleteByPrimaryKey(Long id);
+    BaseResult deleteById(Long id);
 
 }

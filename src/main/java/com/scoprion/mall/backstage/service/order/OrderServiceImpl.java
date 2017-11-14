@@ -15,24 +15,12 @@ import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.net.ssl.SSLContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.cert.CertificateException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -151,7 +139,7 @@ public class OrderServiceImpl implements OrderService {
             //定义接收退款返回字符串
             String response = wxRefundCert("hk111111",
                     order.getOrderNo(),
-                    order.getTotalFee(),
+                    order.getPaymentFee(),
                     refundFee,
                     WxPayConfig.CERT_SECRET,
                     refundOrderNo,
@@ -173,7 +161,7 @@ public class OrderServiceImpl implements OrderService {
                 //记录商品库存反还日志
 
                 //TODO 积分返还  10块钱  = 1积分
-                int point = order.getTotalFee() / 1000;
+                int point = order.getPaymentFee() / 1000;
                 pointMapper.updatePoint(order.getUserId(), point);
                 //记录积分反还日志
 
