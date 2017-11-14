@@ -1,10 +1,8 @@
 package com.scoprion.mall.wx.service.point;
 
-import com.scoprion.mall.domain.Order;
-import com.scoprion.mall.domain.PointLog;
+
 import com.scoprion.result.BaseResult;
 
-import java.util.List;
 
 /**
  * @author by kunlun
@@ -15,10 +13,10 @@ public interface WxPointService {
     /**
      * 根据用户id查询用户信息
      *
-     * @param userId
+     * @param wxCode
      * @return
      */
-    BaseResult findByUserId(String userId);
+    BaseResult findByUserId(String wxCode);
 
 
     /**
@@ -26,6 +24,6 @@ public interface WxPointService {
      * @param userId
      * @return
      */
-    BaseResult grade(String userId);
+    BaseResult updateByGrade(String userId);
 
 }

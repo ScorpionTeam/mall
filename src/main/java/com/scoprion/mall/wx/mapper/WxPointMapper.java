@@ -1,9 +1,11 @@
 package com.scoprion.mall.wx.mapper;
 
+
 import com.scoprion.mall.domain.Point;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 
 /**
  * @author by kunlun

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scoprion.mall.wx.mapper.WxTicketMapper">
+
+    <!-- 优惠卷列表 -->
+    <select id="findByTicketList" resultType="com.scoprion.mall.domain.Ticket">
+        SELECT * FROM t_ticket
+    </select>
+
+    <!-- 查询优惠卷时间 -->
+    <select id="findByTicketDate" resultType="com.scoprion.mall.domain.Ticket">
+        SELECT startDate,endDate FROM t_ticket
+    </select>
+</mapper>

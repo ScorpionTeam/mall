@@ -4,44 +4,60 @@ import com.alibaba.fastjson.annotation.JSONField;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created on 2017/9/28.
  */
 public class Ticket {
 
+    /**
+     * 主键
+     */
     private Long id;
 
-    //优惠券编码
-    private String ticketNo;
+    /**
+     * 优惠卷名称
+     */
+    private String name;
 
-    //券名称
-    private String ticketName;
+    /**
+     * 优惠卷说明
+     */
+    private String content;
 
-    //金额
-    private BigDecimal money;
-
-    //类型  1平台  2商家
-    private String type;
-
-    //开始时间
+    /**
+     * 开始时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
-    //结束时间
+    /**
+     * 结束时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
-    //创建时间
+    /**
+     * 优惠卷金额
+     */
+    private BigDecimal money;
+
+    /**
+     * 优惠卷数量
+     */
+    private int num;
+
+    /**
+     * 优惠卷状态
+     */
+    private String status;
+
+    /**
+     * 创建时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
-
-    //修改时间
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date updateDate;
-
-    //商家ID
-    private Long sellerId;
 
     public Long getId() {
         return id;
@@ -51,28 +67,20 @@ public class Ticket {
         this.id = id;
     }
 
-    public String getTicketName() {
-        return ticketName;
+    public String getName() {
+        return name;
     }
 
-    public void setTicketName(String ticketName) {
-        this.ticketName = ticketName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public BigDecimal getMoney() {
-        return money;
+    public String getContent() {
+        return content;
     }
 
-    public void setMoney(BigDecimal money) {
-        this.money = money;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getStartDate() {
@@ -91,6 +99,30 @@ public class Ticket {
         this.endDate = endDate;
     }
 
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
+    }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public Date getCreateDate() {
         return createDate;
     }
@@ -99,43 +131,18 @@ public class Ticket {
         this.createDate = createDate;
     }
 
-    public Date getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(Date updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    public Long getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(Long sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public String getTicketNo() {
-        return ticketNo;
-    }
-
-    public void setTicketNo(String ticketNo) {
-        this.ticketNo = ticketNo;
-    }
-
     @Override
     public String toString() {
         return "Ticket{" +
                 "id=" + id +
-                ", ticketNo='" + ticketNo + '\'' +
-                ", ticketName='" + ticketName + '\'' +
-                ", money=" + money +
-                ", type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                ", content='" + content + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
+                ", money=" + money +
+                ", num=" + num +
+                ", status='" + status + '\'' +
                 ", createDate=" + createDate +
-                ", updateDate=" + updateDate +
-                ", sellerId=" + sellerId +
                 '}';
     }
 }
