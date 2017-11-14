@@ -37,10 +37,10 @@ public class WxOrderRequestData {
      */
     private Long ticket;
 
-    /**
+    /** 1使用  0 不适用
      * 是否使用优惠券
      */
-    private boolean useTicket;
+    private String useTicket;
 
     /**
      * 积分
@@ -120,14 +120,6 @@ public class WxOrderRequestData {
         this.ticket = ticket;
     }
 
-    public boolean isUseTicket() {
-        return useTicket;
-    }
-
-    public void setUseTicket(boolean useTicket) {
-        this.useTicket = useTicket;
-    }
-
     public int getPoint() {
         return point;
     }
@@ -176,6 +168,14 @@ public class WxOrderRequestData {
         this.freightFee = freightFee;
     }
 
+    public String getUseTicket() {
+        return useTicket;
+    }
+
+    public void setUseTicket(String useTicket) {
+        this.useTicket = useTicket;
+    }
+
     @Override
     public String toString() {
         return "WxOrderRequestData{" +
@@ -185,7 +185,7 @@ public class WxOrderRequestData {
                 ", count=" + count +
                 ", message='" + message + '\'' +
                 ", ticket=" + ticket +
-                ", useTicket=" + useTicket +
+                ", useTicket='" + useTicket + '\'' +
                 ", point=" + point +
                 ", goodFee=" + goodFee +
                 ", paymentFee=" + paymentFee +

@@ -39,4 +39,11 @@ public interface WxGoodMapper {
     int updateSaleVolume(@Param("saleVolume") int saleVolume, @Param("goodId") Long goodId);
 
     Page<Goods> findOnline();
+
+    /**
+     * 访问量
+     * @param goodId
+     */
+    void updateVisitTotal(@Param("goodId")Long goodId);
+
 }

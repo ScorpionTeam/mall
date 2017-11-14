@@ -29,14 +29,12 @@
         goodId,
         useTicket,
         ticketId,
-        prepayId,
         remark,
         orderFee,
         reduceFee,
         paymentFee,
         goodFee,
-        freightFee,
-        deliveryNo
+        freightFee
         )
         VALUES (#{userId},
         #{orderNo},
@@ -59,14 +57,12 @@
         #{goodId},
         #{useTicket},
         #{ticketId},
-        #{prepayId},
         #{remark},
         #{orderFee},
         #{reduceFee},
         #{paymentFee},
         #{goodFee},
-        #{freightFee},
-        #{deliveryNo})
+        #{freightFee})
     </insert>
 
     <!--修改订单微信预付款订单号-->
@@ -76,7 +72,7 @@
 
     <!--根据用户openid查询预付款订单-->
     <select id="findPrepayIdByOpenid" resultType="java.lang.String">
-        SELECT prePayId FROM t_order WHERE userId=#{openId} AND id=#{orderId}
+        SELECT prepayId FROM t_order WHERE userId=#{openId} AND id=#{orderId}
     </select>
 
     <!--我的订单-->

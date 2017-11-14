@@ -43,4 +43,5 @@ public class WxGoodController {
         return wxGoodService.findById(goodId);
     }
 
+
 }
