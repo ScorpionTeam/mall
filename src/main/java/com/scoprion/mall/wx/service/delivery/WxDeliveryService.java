@@ -17,7 +17,7 @@ public interface WxDeliveryService {
      * @param pageSize
      * @return
      */
-    PageResult listPage(String wxCode, Integer pageNo, Integer pageSize);
+    PageResult findByWxCode(String wxCode, Integer pageNo, Integer pageSize);
 
     /**
      * 新增收货地址

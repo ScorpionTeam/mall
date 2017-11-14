@@ -58,6 +58,10 @@ public class Activity {
      */
     private String target;
 
+    /**
+     * 商品列表
+     */
+    private List<ActivityGoods> activityGoodsList;
 
     public Long getId() {
         return id;
@@ -115,4 +119,25 @@ public class Activity {
         this.target = target;
     }
 
+    public List<ActivityGoods> getActivityGoodsList() {
+        return activityGoodsList;
+    }
+
+    public void setActivityGoodsList(List<ActivityGoods> activityGoodsList) {
+        this.activityGoodsList = activityGoodsList;
+    }
+
+    @Override
+    public String toString() {
+        return "Activity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", activityType='" + activityType + '\'' +
+                ", status='" + status + '\'' +
+                ", updateDate=" + updateDate +
+                ", createDate=" + createDate +
+                ", target='" + target + '\'' +
+                ", activityGoodsList=" + activityGoodsList +
+                '}';
+    }
 }
