@@ -1,7 +1,10 @@
 package com.scoprion.mall.backstage.mapper;
 
+import com.scoprion.mall.domain.MallImage;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author ycj
@@ -10,12 +13,44 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface FileOperationMapper {
+    /**
+     * 根据商品id删除图片
+     *
+     * @param goodId
+     * @return
+     */
+    int deleteById(@Param("goodId") Long goodId);
 
     /**
      * 删除图片
      *
-     * @param imageName 图片名称
+     * @param url 图片链接
      * @return
      */
-    int deleteImage(@Param("imageName") String imageName);
+    int deleteByUrl(@Param("url") String url);
+
+    /**
+     * 图片对应的商品ID
+     *
+     * @param mallImage
+     * @return
+     */
+    int modify(MallImage mallImage);
+
+    /**
+     * 增加图片
+     *
+     * @param mallImage
+     * @return
+     */
+    int add(MallImage mallImage);
+
+    /**
+     * 根据商品ID查找图片列表
+     *
+     * @param targetId
+     * @param type     类型 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6
+     * @return
+     */
+    List<MallImage> findByCondition(@Param("targetId") Long targetId, @Param("type") Integer type);
 }

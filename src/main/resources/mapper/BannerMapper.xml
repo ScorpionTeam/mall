@@ -34,9 +34,9 @@
     </update>
 
     <!--根据ID删除广告-->
-    <delete id="deleteById">
-        DELETE FROM t_banner WHERE id=#{id}
-    </delete>
+    <update id="deleteById">
+        UPDATE   t_banner  SET status='1' WHERE id=#{id}
+    </update>
 
     <!--分页列表查询-->
     <select id="listByPage" resultType="com.scoprion.mall.domain.Banner">

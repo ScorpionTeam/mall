@@ -1,6 +1,5 @@
 package com.scoprion.mall.backstage.controller;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.scoprion.mall.backstage.service.activity.ActivityService;
 import com.scoprion.mall.domain.Activity;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -80,11 +78,8 @@ public class ActivityController {
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modify(@RequestBody JSONObject jsonObject) {
         Activity activity = jsonObject.getObject("activity", Activity.class);
-        JSONArray jsonArray = jsonObject.getJSONArray("goodIdList");
-        List<Long> goodIdList = new ArrayList<>();
-        for (Object goodId : jsonArray) {
-            goodIdList.add(Long.valueOf(goodId.toString()));
-        }
+        //商品id集合
+//        List<Long> goodIdList = jsonObject.getJSONArray("goodIdList").toJavaList(Long.class);
 //        activity.setGoodIdList(goodIdList);
         return activityService.modify(activity);
     }
@@ -130,11 +125,7 @@ public class ActivityController {
         //活动id、主键
         Long activityId = jsonObject.getObject("activityId", Long.class);
         //商品id集合
-        JSONArray jsonArray = jsonObject.getJSONArray("goodIdList");
-        List<Long> goodIdList = new ArrayList<>();
-        for (Object goodId : jsonArray) {
-            goodIdList.add(Long.valueOf(goodId.toString()));
-        }
+        List<Long> goodIdList = jsonObject.getJSONArray("goodIdList").toJavaList(Long.class);
         return activityService.bindActivityWithGood(activityId, goodIdList);
     }
 }
