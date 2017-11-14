@@ -20,7 +20,7 @@ public interface WxTicketMapper {
      * @param userId
      * @return
      */
-    Page<Ticket> findByList(@Param("userId") Long userId);
+    Page<Ticket> findByUserId(@Param("userId") Long userId);
 
 
 

@@ -17,7 +17,7 @@ public interface WxTicketService {
      * @param userId
      * @return
      */
-    PageResult findByList(Integer pageNo, Integer pageSize,Long userId);
+    PageResult findByUserId(Integer pageNo, Integer pageSize,Long userId);
 
 
 }

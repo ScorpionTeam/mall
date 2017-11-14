@@ -28,9 +28,9 @@ public class WxTicketController {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/findByList", method = RequestMethod.GET)
-    public PageResult findByList(Integer pageNo,Integer pageSize,Long userId){
-        return wxTicketService.findByList(pageNo,pageSize,userId);
+    @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
+    public PageResult findByUserId(Integer pageNo,Integer pageSize,Long userId){
+        return wxTicketService.findByUserId(pageNo,pageSize,userId);
     }
 
 }

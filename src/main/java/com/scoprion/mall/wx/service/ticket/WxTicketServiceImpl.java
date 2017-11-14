@@ -34,9 +34,9 @@ public class WxTicketServiceImpl implements WxTicketService {
      * @return
      */
     @Override
-    public PageResult findByList(Integer pageNo, Integer pageSize,Long userId) {
+    public PageResult findByUserId(Integer pageNo, Integer pageSize,Long userId) {
         PageHelper.startPage(pageNo, pageSize);
-        Page<Ticket> page = wxTicketMapper.findByList(userId);
+        Page<Ticket> page = wxTicketMapper.findByUserId(userId);
         if(page == null) {
             return new PageResult(new ArrayList<Page>());
         }
