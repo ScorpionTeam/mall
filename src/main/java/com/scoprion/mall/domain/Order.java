@@ -163,7 +163,7 @@ public class Order {
     /**
      * 预付款id
      */
-    private String prePayId;
+    private String prepayId;
 
     /**
      * 微信订单号
@@ -184,6 +184,16 @@ public class Order {
      * 是否使用优惠券  1是  0 否
      */
     private String useTicket;
+
+    /**
+     * 优惠券id
+     */
+    private Long ticketId;
+
+    /**
+     * 运单号
+     */
+    private String deliveryNo;
 
 
     public String getRemark() {
@@ -378,14 +388,6 @@ public class Order {
         this.goodId = goodId;
     }
 
-    public String getPrePayId() {
-        return prePayId;
-    }
-
-    public void setPrePayId(String prePayId) {
-        this.prePayId = prePayId;
-    }
-
     public Date getUpdateDate() {
         return updateDate;
     }
@@ -442,6 +444,30 @@ public class Order {
         this.useTicket = useTicket;
     }
 
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    public String getPrepayId() {
+        return prepayId;
+    }
+
+    public void setPrepayId(String prepayId) {
+        this.prepayId = prepayId;
+    }
+
+    public String getDeliveryNo() {
+        return deliveryNo;
+    }
+
+    public void setDeliveryNo(String deliveryNo) {
+        this.deliveryNo = deliveryNo;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -472,11 +498,13 @@ public class Order {
                 ", postCode='" + postCode + '\'' +
                 ", goodName='" + goodName + '\'' +
                 ", count=" + count +
-                ", prePayId='" + prePayId + '\'' +
+                ", prepayId='" + prepayId + '\'' +
                 ", wxOrderNo='" + wxOrderNo + '\'' +
                 ", goodId=" + goodId +
                 ", remark='" + remark + '\'' +
                 ", useTicket='" + useTicket + '\'' +
+                ", ticketId=" + ticketId +
+                ", deliveryNo='" + deliveryNo + '\'' +
                 '}';
     }
 }
