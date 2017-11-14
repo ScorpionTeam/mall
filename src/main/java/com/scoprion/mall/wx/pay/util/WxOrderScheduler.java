@@ -4,8 +4,11 @@ import com.github.pagehelper.Page;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.OrderMapper;
 import com.scoprion.mall.domain.Order;
+import com.scoprion.mall.domain.OrderLog;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.OrderQueryResponseData;
+import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
+import com.scoprion.mall.wx.service.pay.WxPayService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +27,13 @@ import java.util.Map;
 public class WxOrderScheduler {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
-
     @Autowired
     OrderMapper orderMapper;
 
-    @Scheduled(fixedRate = 4*60 * 60 * 1000)
+    @Autowired
+    WxPayService wxPayService;
+
+    @Scheduled(fixedRate = 4 * 60 * 60 * 1000)
     public void findOrderTasks() {
         logger.info("每4小時执行一次。开始");
         Page<Order> page = orderMapper.findByScheduler();
@@ -43,8 +47,6 @@ public class WxOrderScheduler {
             } else if (order.getOrderNo() != null) {
                 queryOrder(order.getId(), null, order.getOrderNo());
             }
-            //测试代码
-            //queryOrder(order.getId(), "4200000024201711093467988381");
         });
         logger.info("每4小時执行一次。结束。");
     }
@@ -52,10 +54,11 @@ public class WxOrderScheduler {
     /**
      * 商户订单号
      *
-     * @param orderId
-     * @param wxOrderNo
+     * @param orderId   订单id
+     * @param orderNo   订单号
+     * @param wxOrderNo 微信订单号
      */
-    public void queryOrder(Long orderId, String wxOrderNo, String orderNo) {
+    private void queryOrder(Long orderId, String wxOrderNo, String orderNo) {
         Map<String, Object> data = new HashMap<>(16);
         data.put("appid", WxPayConfig.APP_ID);
         data.put("mch_id", WxPayConfig.MCHID);
@@ -72,69 +75,26 @@ public class WxOrderScheduler {
         String result = WxUtil.httpsRequest(WxPayConfig.WECHAT_ORDER_QUERY_URL, "POST", param);
         logger.info(result);
         OrderQueryResponseData response = WxPayUtil.castXMLStringToOrderQueryResponseData(result);
-        updateLocalStatus(orderId, response.getTrade_state(), response.getTransaction_id());
+        updateLocalStatus(orderId, response);
     }
 
     /**
-     * @param orderId        订单id
-     * @param responseStatus 微信返回订单状态
-     *                       SUCCESS—支付成功
-     *                       REFUND—转入退款
-     *                       NOTPAY—未支付
-     *                       CLOSED—已关闭
-     *                       REVOKED—已撤销（刷卡支付）
-     *                       USERPAYING--用户支付中
-     * @param wxOrderNo
+     * @param orderId      订单id
+     * @param responseData 微信返回
      */
-    private void updateLocalStatus(Long orderId, String responseStatus, String wxOrderNo) {
-        /*
-         * 1 待付款
-         * 2 待发货
-         * 3 待收货
-         * 4 已完成
-         * 5 申请退款中
-         * 6 退款已完成
-         * 7 退款拒绝
-         * 8 支付失败
-         * 9 正在支付中
-         * 10 转入退款
-         * 11 支付失败(其他原因，如银行返回失败)
-         * 12 用户支付中
-         * 13 已关闭
-         * 14 已撤销
-         */
-        if (orderId == null || responseStatus == null) {
+    private void updateLocalStatus(Long orderId, OrderQueryResponseData responseData) {
+        if (orderId == null || responseData.getTrade_state() == null) {
             return;
         }
-        switch (responseStatus) {
+        switch (responseData.getTrade_state()) {
             case Constant.WX_PAY_SUCCESS:
                 //SUCCESS—支付成功
-                orderMapper.updateOrderPayStatus(orderId, "4", wxOrderNo);
+                UnifiedOrderNotifyRequestData data = new UnifiedOrderNotifyRequestData();
+                data.setTransaction_id(responseData.getTransaction_id());
+                data.setOut_trade_no(responseData.getOut_trade_no());
+                data.setTime_end(responseData.getTime_end());
+                wxPayService.callback(data);
                 break;
-//            case Constant.WX_PAY_REFUND:
-//                //REFUND—转入退款
-//                orderMapper.updateOrderPayStatus(orderId, "10", wxOrderNo);
-//                break;
-//            case Constant.WX_PAY_NOT_PAY:
-//                //NOTPAY—未支付
-//                orderMapper.updateOrderPayStatus(orderId, "1", wxOrderNo);
-//                break;
-//            case Constant.WX_PAY_CLOSED:
-//                //CLOSED—已关闭
-//                orderMapper.updateOrderPayStatus(orderId, "13", wxOrderNo);
-//                break;
-//            case Constant.WX_PAY_REVOKED:
-//                //REVOKED—已撤销（刷卡支付）
-//                orderMapper.updateOrderPayStatus(orderId, "14", wxOrderNo);
-//                break;
-//            case Constant.WX_PAY_USER_PAYING:
-//                // USERPAYING--用户支付中
-//                orderMapper.updateOrderPayStatus(orderId, "12", wxOrderNo);
-//                break;
-//            case Constant.WX_PAY_PAY_ERROR:
-//                //PAYERROR--支付失败(其他原因，如银行返回失败)
-//                orderMapper.updateOrderPayStatus(orderId, "11", wxOrderNo);
-//                break;
             default:
                 break;
         }

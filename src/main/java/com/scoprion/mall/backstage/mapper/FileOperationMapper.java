@@ -16,10 +16,10 @@ public interface FileOperationMapper {
     /**
      * 根据商品id删除图片
      *
-     * @param goodId
+     * @param id
      * @return
      */
-    int deleteById(@Param("goodId") Long goodId);
+    int deleteById(@Param("id") Long id);
 
     /**
      * 删除图片

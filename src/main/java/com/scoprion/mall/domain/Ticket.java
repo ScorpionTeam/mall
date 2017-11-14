@@ -7,41 +7,69 @@ import java.util.Date;
 
 /**
  * Created on 2017/9/28.
+ *
+ * @author ycj
  */
 public class Ticket {
 
     private Long id;
 
-    //优惠券编码
+    /**
+     * 优惠券编码
+     */
     private String ticketNo;
 
-    //券名称
+    /**
+     * 券名称
+     */
     private String ticketName;
 
-    //金额
-    private BigDecimal money;
-
-    //类型  1平台  2商家
+    /**
+     * 类型  1平台  2商家
+     */
     private String type;
-
-    //开始时间
+    /**
+     * 说明
+     */
+    private String content;
+    /**
+     * 开始时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
-    //结束时间
+    /**
+     * 结束时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
-    //创建时间
+    /**
+     * 创建时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
-    //修改时间
+    /**
+     * 修改时间
+     */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
 
-    //商家ID
-    private Long sellerId;
+    /**
+     * 金额
+     */
+    private int money;
+
+    /**
+     * 数量
+     */
+    private int num;
+
+    /**
+     * 状态 1 删除 0 正常
+     */
+    private String status;
 
     public Long getId() {
         return id;
@@ -49,6 +77,14 @@ public class Ticket {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTicketNo() {
+        return ticketNo;
+    }
+
+    public void setTicketNo(String ticketNo) {
+        this.ticketNo = ticketNo;
     }
 
     public String getTicketName() {
@@ -59,20 +95,20 @@ public class Ticket {
         this.ticketName = ticketName;
     }
 
-    public BigDecimal getMoney() {
-        return money;
-    }
-
-    public void setMoney(BigDecimal money) {
-        this.money = money;
-    }
-
     public String getType() {
         return type;
     }
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public Date getStartDate() {
@@ -107,20 +143,28 @@ public class Ticket {
         this.updateDate = updateDate;
     }
 
-    public Long getSellerId() {
-        return sellerId;
+    public int getMoney() {
+        return money;
     }
 
-    public void setSellerId(Long sellerId) {
-        this.sellerId = sellerId;
+    public void setMoney(int money) {
+        this.money = money;
     }
 
-    public String getTicketNo() {
-        return ticketNo;
+    public int getNum() {
+        return num;
     }
 
-    public void setTicketNo(String ticketNo) {
-        this.ticketNo = ticketNo;
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
@@ -129,13 +173,15 @@ public class Ticket {
                 "id=" + id +
                 ", ticketNo='" + ticketNo + '\'' +
                 ", ticketName='" + ticketName + '\'' +
-                ", money=" + money +
                 ", type='" + type + '\'' +
+                ", content='" + content + '\'' +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
-                ", sellerId=" + sellerId +
+                ", money=" + money +
+                ", num=" + num +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

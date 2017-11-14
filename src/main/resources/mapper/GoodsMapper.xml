@@ -32,7 +32,7 @@
         #{goodName},
         #{description},
         #{promotion},
-        #{price},
+        #{price*100},
         #{saleVolume},
         #{discount},
         #{stock},

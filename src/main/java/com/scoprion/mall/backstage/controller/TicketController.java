@@ -5,15 +5,18 @@ import com.scoprion.mall.backstage.service.ticket.TicketService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created on 2017/10/10.
+ *
+ * @author ycj
  */
 @RestController
-@RequestMapping("ticket")
+@RequestMapping("backstage/ticket")
 public class TicketController {
 
     @Autowired
@@ -26,7 +29,7 @@ public class TicketController {
      * @return
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public BaseResult add(Ticket ticket) throws Exception {
+    public BaseResult add(@RequestBody Ticket ticket) throws Exception {
         return ticketService.add(ticket);
     }
 
@@ -35,12 +38,12 @@ public class TicketController {
      *
      * @param pageNo
      * @param pageSize
-     * @param ticketName
+     * @param searchKey
      * @return
      */
-    @RequestMapping(value = "/init", method = RequestMethod.GET)
-    public PageResult init(int pageNo, int pageSize, String ticketName) {
-        return null;
+    @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
+    public PageResult findByCondition(int pageNo, int pageSize, String searchKey) {
+        return ticketService.listByPage(pageNo, pageSize, searchKey);
     }
 
     /**
@@ -49,9 +52,9 @@ public class TicketController {
      * @param ticket
      * @return
      */
-    @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public BaseResult edit(Ticket ticket) {
-        return null;
+    @RequestMapping(value = "/modify", method = RequestMethod.POST)
+    public BaseResult modify(@RequestBody Ticket ticket) {
+        return ticketService.modify(ticket);
     }
 
     /**
@@ -60,9 +63,9 @@ public class TicketController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/deleteByPrimaryKey", method = RequestMethod.POST)
-    public BaseResult deleteByPrimaryKey(Long id) {
-        return null;
+    @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
+    public BaseResult deleteById(Long id) {
+        return ticketService.deleteById(id);
     }
 
 

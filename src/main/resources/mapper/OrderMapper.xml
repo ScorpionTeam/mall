@@ -94,6 +94,8 @@
         updateDate=now()
         <if test="orderStatus!=null">, orderStatus=#{orderStatus}</if>
         <if test="wxOrderNo!=null">,wxOrderNo=#{wxOrderNo}</if>
+        <if test="orderNo!=null">,orderNo=#{orderNo}</if>
+        <if test="payDate!=null">,payDate=#{payDate}</if>
         WHERE id=#{orderId}
     </update>
 

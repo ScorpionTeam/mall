@@ -2,13 +2,10 @@ package com.scoprion.mall.wx.service.pay;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.scoprion.mall.backstage.mapper.TicketMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.domain.Goods;
-import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
-import com.scoprion.mall.wx.mapper.GoodSnapShotWxMapper;
-import com.scoprion.mall.wx.mapper.WxGoodMapper;
-import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
-import com.scoprion.mall.wx.mapper.WxOrderMapper;
+import com.scoprion.mall.wx.mapper.*;
 import com.scoprion.mall.wx.pay.domain.AuthorizationCode;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
@@ -46,6 +43,15 @@ public class WxPayServiceImpl implements WxPayService {
 
     @Autowired
     private GoodSnapShotWxMapper goodSnapShotWxMapper;
+
+    @Autowired
+    private WxPointMapper wxPointMapper;
+
+    @Autowired
+    private WxPointLogMapper wxPointLogMapper;
+
+    @Autowired
+    private TicketMapper ticketMapper;
 
     /**
      * 微信预下单
@@ -160,7 +166,6 @@ public class WxPayServiceImpl implements WxPayService {
 //        System.out.println("本地再签:" + localSign);
         //判断是否成功接收回调
         if (null == order.getPayDate()) {
-
             //修改订单状态 以及微信订单号
             wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
                     unifiedOrderNotifyRequestData.getOut_trade_no(),
@@ -170,10 +175,11 @@ public class WxPayServiceImpl implements WxPayService {
             wxOrderLogMapper.add(orderLog);
             //库存扣减
             wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
-            //积分 扣减 新增
+            //积分 扣减
+
+            // 积分新增
 
             //优惠券扣减
-            //
 
             //
         }
