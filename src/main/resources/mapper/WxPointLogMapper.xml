@@ -15,4 +15,12 @@
     <select id="grade" resultType="com.scoprion.mall.domain.PointLog">
         SELECT * FROM t_point_log WHERE userId=#{userId}
     </select>
+
+    <!--增加-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.PointLog">
+        INSERT  INTO t_point_log
+        (userId,action,currentPoint,operatePoint,createDate)
+        VALUES
+        (#{userId},#{action},#{currentPoint},#{operatePoint},now())
+    </insert>
 </mapper>

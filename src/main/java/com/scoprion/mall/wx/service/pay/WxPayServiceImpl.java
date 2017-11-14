@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.service.pay;
 
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.TicketMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.domain.Goods;
@@ -51,7 +52,7 @@ public class WxPayServiceImpl implements WxPayService {
     private WxPointLogMapper wxPointLogMapper;
 
     @Autowired
-    private TicketMapper ticketMapper;
+    private WxTicketMapper wxTicketMapper;
 
     /**
      * 微信预下单
@@ -175,15 +176,88 @@ public class WxPayServiceImpl implements WxPayService {
             wxOrderLogMapper.add(orderLog);
             //库存扣减
             wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
-            //积分 扣减
-
-            // 积分新增
-
-            //优惠券扣减
-
-            //
+            //积分扣减、增加
+            operatePoint(order);
+            //销量
+            wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
+            //TODO:优惠券扣减
         }
         return BaseResult.success("支付回调成功");
+    }
+
+    private void operatePoint(Order order) {
+        //积分 扣减
+        Point point = wxPointMapper.findByUserId(order.getUserId());
+        if (point == null) {
+            //第一次购买，
+            point = new Point();
+        }
+        //积分扣减
+        subtractPoint(order, point);
+        // 积分增加
+        //获得本次交易增加的积分
+        int addPoint = order.getPaymentFee() / 1000;
+        addPoint(order, point, addPoint);
+
+        int resultPoint = point.getPoint() - order.getOperatePoint() + addPoint;
+        point.setPoint(resultPoint);
+        if (resultPoint < Constant.WX_POINT_LEVEL1) {
+            point.setLevel(1);
+            point.setLevelName("白银");
+        } else if (resultPoint < Constant.WX_POINT_LEVEL2) {
+            point.setLevel(2);
+            point.setLevelName("黄金");
+        } else if (resultPoint < Constant.WX_POINT_LEVEL3) {
+            point.setLevel(3);
+            point.setLevelName("铂金");
+        } else {
+            point.setLevel(4);
+            point.setLevelName("钻石");
+        }
+        if (point.getId() == null) {
+            wxPointMapper.add(point);
+        } else {
+            wxPointMapper.level(point);
+        }
+    }
+
+    /**
+     * 增加积分
+     *
+     * @param order
+     * @param point
+     * @param addPoint
+     */
+    private void addPoint(Order order, Point point, int addPoint) {
+        PointLog pointLog = new PointLog();
+        pointLog.setUserId(order.getUserId());
+        pointLog.setAction(Constant.STATUS_ONE);
+        pointLog.setOperatePoint(addPoint);
+        int currentPoint = point.getPoint() - order.getOperatePoint() + addPoint;
+        pointLog.setCurrentPoint(currentPoint);
+        wxPointLogMapper.add(pointLog);
+    }
+
+    /**
+     * 扣减积分
+     *
+     * @param order
+     * @param point
+     */
+    private void subtractPoint(Order order, Point point) {
+        PointLog pointLog = new PointLog();
+        pointLog.setUserId(order.getUserId());
+        //扣减
+        pointLog.setAction(Constant.STATUS_ZERO);
+        //得到订单消耗的积分
+        int operatePoint = order.getOperatePoint();
+        int currentPoint = point.getPoint() - operatePoint;
+        pointLog.setCurrentPoint(currentPoint);
+        pointLog.setOperatePoint(-operatePoint);
+        if (operatePoint != 0) {
+            //不消耗积分，没有日志
+            wxPointLogMapper.add(pointLog);
+        }
     }
 
     /**

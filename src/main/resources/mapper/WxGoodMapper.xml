@@ -63,6 +63,10 @@
         FROM t_good WHERE isOnSale='1'
     </select>
 
+    <!--修改销量-->
+    <update id="updateSaleVolume">
+        UPDATE t_good SET saleVolume=(saleVolume+#{saleVolume}) WHERE id=#{goodId}
+    </update>
     <!-- 访问量 -->
     <update id="updateVisitTotal">
         UPDATE t_good SET visitTotal=visitTotal+1 WHERE id=#{goodId}

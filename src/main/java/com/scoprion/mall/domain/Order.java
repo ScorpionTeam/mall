@@ -2,8 +2,6 @@ package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-import javax.persistence.Transient;
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -191,10 +189,24 @@ public class Order {
     private Long ticketId;
 
     /**
+     * 此订单消耗的积分，不消耗为0或者null
+     */
+    private Integer operatePoint;
+
+    /**
      * 运单号
      */
     private String deliveryNo;
 
+
+
+    public Integer getOperatePoint() {
+        return operatePoint == null ? 0 : operatePoint;
+    }
+
+    public void setOperatePoint(Integer operatePoint) {
+        this.operatePoint = operatePoint;
+    }
 
     public String getRemark() {
         return remark;

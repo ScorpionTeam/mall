@@ -22,4 +22,13 @@
         WHERE userId=#{userId}
     </update>
 
+
+    <!--增加-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.Point">
+        INSERT  INTO t_point_log
+        (userId,point,level,levelName,createDate)
+        VALUES
+        (#{userId},#{point},#{level},#{levelName},now())
+    </insert>
+
 </mapper>

@@ -25,7 +25,7 @@ public interface TicketMapper {
     /**
      * 校验名称
      *
-     * @param ticket
+     * @param ticketName
      * @return
      */
     int validByName(@Param("ticketName") String ticketName);

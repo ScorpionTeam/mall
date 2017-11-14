@@ -12,11 +12,18 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface WxPointLogMapper {
 
+    /**
+     * 增加
+     *
+     * @param pointLog
+     * @return
+     */
     int add(PointLog pointLog);
 
 
     /**
      * 获取积分日志
+     *
      * @param userId
      * @return
      */
