@@ -1,12 +1,14 @@
 package com.scoprion.mall.wx.controller;
 import com.scoprion.mall.domain.Ticket;
-import com.scoprion.mall.wx.service.Ticket.TicketWxService;
+import com.scoprion.mall.wx.service.ticket.WxTicketService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 /**
  * @author by Administrator
@@ -17,38 +19,30 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("wx/ticket")
 public class WxTicketController {
 
-
     @Autowired
-    private TicketWxService ticketWxService;
+    private WxTicketService wxTicketService;
+
     /**
-     * 创建优惠券
+     * 优惠卷列表
+     * @param pageNo
+     * @param pageSize
+     * @param name 优惠卷名字
+     * @return
      */
-    @RequestMapping(value = "/add-ticket",method = RequestMethod.POST)
-    public BaseResult addTicket(Ticket ticket) throws Exception{
-        return ticketWxService.addTicket(ticket);
+    @RequestMapping(value = "/findByTicketList", method = RequestMethod.GET)
+    public PageResult findByTicketList(Integer pageNo,Integer pageSize,String name){
+        return wxTicketService.findByTicketList(pageNo,pageSize,name);
     }
 
     /**
-     * 优惠券列表
+     * 优惠卷时间限制
+     * @param ticket
+     * @return
      */
-    @RequestMapping(value = "/ticket-list",method = RequestMethod.GET)
-    public PageResult ticketList(Integer pageNo,Integer pageSize,String ticketName){
-        return ticketWxService.ticketList(pageNo,pageSize,ticketName);
-    }
+    @RequestMapping(value = "/findByTicketDate", method = RequestMethod.GET)
+    public BaseResult findByTicketDate(Ticket ticket) {
 
-    /**
-     * 优惠券修改
-     */
-    @RequestMapping(value = "/ticket-alter",method = RequestMethod.POST)
-    public BaseResult alter(Ticket ticket){
-        return ticketWxService.alter(ticket);
-    }
-
-    /**
-     * 删除优惠券
-     */
-    @RequestMapping(value = "delete-ticket",method = RequestMethod.POST)
-    public BaseResult deleteTicket(Long id){
-        return ticketWxService.deleteTicket(id);
+        return wxTicketService.findByTicketDate(ticket);
     }
 }
+

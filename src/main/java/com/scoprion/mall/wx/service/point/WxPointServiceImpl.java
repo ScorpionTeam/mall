@@ -7,6 +7,7 @@ import com.scoprion.mall.domain.Point;
 import com.scoprion.mall.domain.PointLog;
 import com.scoprion.mall.wx.mapper.WxPointLogMapper;
 import com.scoprion.mall.wx.mapper.WxPointMapper;
+import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,11 +32,13 @@ public class WxPointServiceImpl implements WxPointService {
     /**
      * 根据用户id查询用户信息
      *
-     * @param userId
+     * @param wxCode
      * @return
      */
     @Override
-    public BaseResult findByUserId(String userId) {
+    public BaseResult findByUserId(String wxCode) {
+        String openId= WxUtil.getOpenId(wxCode);
+        String userId=openId;
         if(StringUtils.isEmpty(userId)){
             return BaseResult.parameterError();
         }
@@ -53,7 +56,7 @@ public class WxPointServiceImpl implements WxPointService {
      * @return
      */
     @Override
-    public BaseResult grade(String userId) {
+    public BaseResult updateByGrade(String userId) {
         Point point = wxPointMapper.findByUserId(userId);
         PointLog pointLog = wxPointLogMapper.grade(userId);
         int score = point.getPoint();
