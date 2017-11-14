@@ -1,10 +1,10 @@
-package com.scoprion.mall.littlesoft.service.banner;
+package com.scoprion.mall.wx.service.banner;
 
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Banner;
-import com.scoprion.mall.littlesoft.mapper.BannerWxMapper;
+import com.scoprion.mall.wx.mapper.WxBannerMapper;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import org.springframework.stereotype.Service;
  * @created on 2017/11/3.
  */
 @Service
-public class BannerWxServiceImpl implements BannerWxService {
+public class WxBannerServiceImpl implements WxBannerService {
 
     @Autowired
-    private BannerWxMapper bannerWxMapper;
+    private WxBannerMapper wxBannerMapper;
 
 
     /**
@@ -34,7 +34,7 @@ public class BannerWxServiceImpl implements BannerWxService {
         if (!StringUtils.isEmpty(bannerName)) {
             bannerName="%"+bannerName+"%";
         }
-        Page<Banner> page = bannerWxMapper.list(bannerName);
+        Page<Banner> page = wxBannerMapper.list(bannerName);
         return new PageResult(page);
     }
 }

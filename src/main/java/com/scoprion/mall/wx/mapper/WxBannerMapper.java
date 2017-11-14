@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  * @created on 2017/11/3.
  */
 @Mapper
-public interface BannerWxMapper {
+public interface WxBannerMapper {
     /**
      * 查询banner
      * @return

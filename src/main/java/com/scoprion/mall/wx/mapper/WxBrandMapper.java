@@ -9,7 +9,7 @@ import com.scoprion.mall.domain.Brand;
  * @created on 2017/11/2.
  */
 @Mapper
-public interface BrandWxMapper {
+public interface WxBrandMapper {
 
     /**
      * 查询品牌

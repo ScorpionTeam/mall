@@ -1,4 +1,4 @@
-package com.scoprion.mall.littlesoft.service.banner;
+package com.scoprion.mall.wx.service.banner;
 
 import com.scoprion.result.PageResult;
 
@@ -6,7 +6,7 @@ import com.scoprion.result.PageResult;
  * @author by admin1
  * @created on 2017/11/3.
  */
-public interface BannerWxService {
+public interface WxBannerService {
 
     /**
      * 关键字、分页查询banner图
