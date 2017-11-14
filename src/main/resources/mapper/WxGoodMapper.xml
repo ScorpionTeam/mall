@@ -63,5 +63,7 @@
         FROM t_good WHERE isOnSale='1'
     </select>
 
-
+    <update id="updateVisitTotal">
+        UPDATE t_good SET visitTotal=visitTotal+1 WHERE id=#{goodId}
+    </update>
 </mapper>
