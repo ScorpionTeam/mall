@@ -26,18 +26,19 @@ public class WxDeliveryController {
      * @param pageSize
      * @return
      */
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public PageResult listPage(String wxCode, Integer pageNo, Integer pageSize){
-        return wxDeliveryService.listPage(wxCode,pageNo,pageSize);
+    @RequestMapping(value = "/findByWxCode", method = RequestMethod.GET)
+    public PageResult findByWxCode(String wxCode, Integer pageNo, Integer pageSize) {
+        return wxDeliveryService.listPage(wxCode, pageNo, pageSize);
     }
 
     /**
      * 新增收货地址
+     *
      * @param delivery
      * @return
      */
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public BaseResult add(@RequestBody DeliveryExt delivery){
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    public BaseResult add(@RequestBody DeliveryExt delivery) {
         String openId = WxUtil.getOpenId(delivery.getWxCode());
         delivery.setUserId(openId);
         return wxDeliveryService.add(delivery);
@@ -46,12 +47,13 @@ public class WxDeliveryController {
 
     /**
      * 修改收货地址
+     *
      * @param delivery
      * @return
      */
-    @RequestMapping(value = "/update",method = RequestMethod.POST)
-    public BaseResult updateDelivery(@RequestBody Delivery delivery){
-        return  wxDeliveryService.updateDelivery(delivery);
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public BaseResult updateDelivery(@RequestBody Delivery delivery) {
+        return wxDeliveryService.updateDelivery(delivery);
     }
 
 
@@ -61,19 +63,20 @@ public class WxDeliveryController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/delete",method = RequestMethod.POST)
-    public BaseResult deleteDelivery(Long id){
-        return  wxDeliveryService.deleteDelivery(id);
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    public BaseResult deleteDelivery(Long id) {
+        return wxDeliveryService.deleteDelivery(id);
     }
 
 
     /**
      * 获取收货地址详情
+     *
      * @param id
      * @return
      */
-    @RequestMapping(value = "/findById",method = RequestMethod.GET)
-    public BaseResult findById(Long id){
+    @RequestMapping(value = "/findById", method = RequestMethod.GET)
+    public BaseResult findById(Long id) {
         return wxDeliveryService.findById(id);
     }
 }
