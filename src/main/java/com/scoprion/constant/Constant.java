@@ -123,8 +123,11 @@ public class Constant {
     /**
      * 微信等级划分
      */
-    public static final int WX_POINT_LEVEL1=36;
-    public static final int WX_POINT_LEVEL2=750;
-    public static final int WX_POINT_LEVEL3=1500;
+    public static final int WX_POINT_LEVEL1 = 36;
+    public static final int WX_POINT_LEVEL2 = 750;
+    public static final int WX_POINT_LEVEL3 = 1500;
+
+    public static final String STATUS_ZERO = "0";
+    public static final String STATUS_ONE = "1";
 
 }
