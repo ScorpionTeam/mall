@@ -28,7 +28,7 @@ public class WxDeliveryController {
      */
     @RequestMapping(value = "/findByWxCode", method = RequestMethod.GET)
     public PageResult findByWxCode(String wxCode, Integer pageNo, Integer pageSize) {
-        return wxDeliveryService.listPage(wxCode, pageNo, pageSize);
+        return wxDeliveryService.findByWxCode(wxCode, pageNo, pageSize);
     }
 
     /**
