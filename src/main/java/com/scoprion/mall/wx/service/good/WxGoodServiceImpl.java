@@ -48,4 +48,5 @@ public class WxGoodServiceImpl implements WxGoodService {
         wxGoodMapper.updateVisitTotal(goodId);
         return BaseResult.success(goods);
     }
+
 }

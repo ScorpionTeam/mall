@@ -36,4 +36,5 @@ public interface WxGoodMapper {
      * @param goodId
      */
     void updateVisitTotal(@Param("goodId")Long goodId);
+
 }
