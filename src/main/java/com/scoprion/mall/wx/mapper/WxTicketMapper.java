@@ -6,7 +6,6 @@ import com.scoprion.mall.domain.TicketUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,12 +24,22 @@ public interface WxTicketMapper {
      */
     Page<Ticket> findByUserId(@Param("userId") Long userId);
 
+
     /**
-     * 判断优惠卷使用时间(useDate)
-     * @param userId
+     * 获取详情
      * @param ticketId
+     * @param userId
      * @return
      */
+    TicketUser detail(@Param("ticketId")Long ticketId,@Param("userId")Long userId);
+
+    /**
+     * 领取优惠券
+     * @param ticketId
+     * @param userId
+     * @return
+     */
+    int addTicket(@Param("ticketId")Long ticketId,@Param("userId")Long userId);
     TicketUser findByTicketId(@Param("userId") Long userId, @Param("ticketId") Long ticketId);
     /**
      * 根据Id查询优惠券详情

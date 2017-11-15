@@ -9,10 +9,7 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 /**
@@ -44,22 +41,25 @@ public class WxTicketServiceImpl implements WxTicketService {
         return new PageResult(page);
     }
 
+
     /**
-     * 判断优惠卷使用时间(useDate)
-     * @param userId
+     *领取优惠券
      * @param ticketId
+     * @param userId
      * @return
      */
     @Override
-    public BaseResult findByTicketId(Long userId, Long ticketId) {
-        TicketUser useDate = wxTicketMapper.findByTicketId(userId, ticketId);
-        Date date = useDate.getUseDate();
-        //当前时间
-        Date currentDate = new Date();
-        if(date.getTime() > currentDate.getTime()) {
-            return BaseResult.error("date_out", "还未到优惠卷的使用时间");
+    public BaseResult addTicket(Long ticketId, Long userId) {
+        TicketUser ticketUser=wxTicketMapper.detail(ticketId,userId);
+        if(ticketUser==null){
+            Integer result=wxTicketMapper.addTicket(ticketId,userId);
+            if (result>0){
+                ticketUser.setNum(1);
+                return BaseResult.success("领取成功");
+            }
+            return BaseResult.success("领取失败");
         }
-        return BaseResult.success("可以使用优惠卷");
+        return BaseResult.success("每种优惠券只可领取一张");
     }
 
 
