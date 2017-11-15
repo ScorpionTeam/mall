@@ -1,7 +1,5 @@
 package com.scoprion.mall.wx.service.ticket;
 
-import com.scoprion.mall.domain.Ticket;
-import com.scoprion.mall.domain.TicketUser;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -25,11 +23,11 @@ public interface WxTicketService {
     /**
      * 领取优惠券
      *
-     * @param userId
      * @param ticketId
+     * @param userId
      * @return
      */
-    BaseResult addTicket(Long ticketId, Long userId);
+    BaseResult getTicket(Long ticketId, Long userId);
 
     /**
      * * 判断优惠卷使用时间(useDate)

@@ -14,8 +14,6 @@ public class TicketSnapshot {
     private Long id;
 
 
-    private Long ticketId;
-
     /**
      * 优惠券编码
      */
@@ -57,7 +55,11 @@ public class TicketSnapshot {
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
-
+    /**
+     * 使用时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date useDate;
     /**
      * 金额
      */
@@ -91,13 +93,6 @@ public class TicketSnapshot {
         this.id = id;
     }
 
-    public Long getTicketId() {
-        return ticketId;
-    }
-
-    public void setTicketId(Long ticketId) {
-        this.ticketId = ticketId;
-    }
 
     public String getTicketNo() {
         return ticketNo;
@@ -203,11 +198,18 @@ public class TicketSnapshot {
         this.numLimit = numLimit;
     }
 
+    public Date getUseDate() {
+        return useDate;
+    }
+
+    public void setUseDate(Date useDate) {
+        this.useDate = useDate;
+    }
+
     @Override
     public String toString() {
         return "TicketSnapshot{" +
                 "id=" + id +
-                ", ticketId=" + ticketId +
                 ", ticketNo='" + ticketNo + '\'' +
                 ", ticketName='" + ticketName + '\'' +
                 ", type='" + type + '\'' +
@@ -215,6 +217,7 @@ public class TicketSnapshot {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", createDate=" + createDate +
+                ", useDate=" + useDate +
                 ", updateDate=" + updateDate +
                 ", money=" + money +
                 ", num=" + num +

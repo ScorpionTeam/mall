@@ -27,6 +27,7 @@
         visitTotal,
         goodNo,
         status,
+        richContent,
         mainImgUrl)
         VALUES (#{categoryId},
         #{goodName},
@@ -47,6 +48,7 @@
         #{visitTotal},
         #{goodNo},
         #{status},
+        #{richContent},
         #{mainImgUrl})
     </insert>
 
@@ -73,6 +75,7 @@
          visitTotal,
          goodNo,
          status,
+         richContent,
          mainImgUrl
         FROM t_good
     </select>
@@ -100,6 +103,7 @@
          visitTotal,
          goodNo,
          status,
+         richContent,
          mainImgUrl
         FROM t_good
         WHERE id=#{goodId}
@@ -131,6 +135,7 @@
         <if test="goodNo!=null">goodNo=#{goodNo},</if>
         <if test="mainImgUrl!=null">mainImgUrl=#{mainImgUrl},</if>
         <if test="status!=null">status=#{status},</if>
+        <if test="richContent!=null">richContent=#{richContent},</if>
         lastUpdateDate=NOW()
         WHERE id=#{id}
     </update>
@@ -155,6 +160,7 @@
         sellerId,
         visitTotal,
         mainImgUrl,
+        richContent,
         createDate
         FROM t_good
         WHERE 1=1

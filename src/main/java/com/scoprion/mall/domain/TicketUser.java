@@ -34,16 +34,12 @@ public class TicketUser {
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
-    /**
-     * 使用日期
-     */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date useDate;
+
 
     /**
      * 使用状态 0未使用 1已使用
      */
-    private String type;
+    private String status;
 
     public Long getId() {
         return id;
@@ -85,20 +81,12 @@ public class TicketUser {
         this.createDate = createDate;
     }
 
-    public Date getUseDate() {
-        return useDate;
+    public String getStatus() {
+        return status;
     }
 
-    public void setUseDate(Date useDate) {
-        this.useDate = useDate;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
@@ -109,8 +97,7 @@ public class TicketUser {
                 ", ticketId=" + ticketId +
                 ", num=" + num +
                 ", createDate=" + createDate +
-                ", useDate=" + useDate +
-                ", type='" + type + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

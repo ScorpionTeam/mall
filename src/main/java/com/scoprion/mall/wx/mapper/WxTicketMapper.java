@@ -18,7 +18,8 @@ import java.util.List;
 public interface WxTicketMapper {
 
     /**
-     *用户优惠券列表
+     * 用户优惠券列表
+     *
      * @param userId
      * @return
      */
@@ -27,20 +28,30 @@ public interface WxTicketMapper {
     /**
      * 获取用户优惠券详情
      * 判断优惠卷使用时间(useDate)
+     *
      * @param ticketId
      * @param userId
      * @return
      */
-    TicketUser detail(Long ticketId,Long userId);
+    TicketUser findByTicketIdAndUserId(@Param("ticketId") Long ticketId,
+                                       @Param("userId") Long userId);
 
 
-    int add(TicketUser ticketUser);
     /**
-     * 获取优惠券详情
-     * @param ticketId
+     * 新增优惠券-y用户关系记录
+     *
+     * @param ticketUser
      * @return
      */
-    Ticket addTicket(Long ticketId);
+    int addTicketUser(TicketUser ticketUser);
 
-    TicketUser findByTicketId(@Param("userId") Long userId, @Param("ticketId") Long ticketId);
+    /**
+     * 获取优惠券详情
+     *
+     * @param id
+     * @return
+     */
+    Ticket findById(@Param("id") Long id);
+
+
 }

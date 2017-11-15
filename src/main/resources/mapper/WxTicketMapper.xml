@@ -8,41 +8,58 @@
     <!-- 优惠卷列表 -->
     <select id="findByUserId" resultType="com.scoprion.mall.domain.TicketExt">
         SELECT
-        tu.userId,
-        tu.createDate,
-        tu.num,
-        tk.id,
-        tk.ticketName,
-        tk.content,
-        tk.money,
-        tk.ticketNo,
-        tk.type,
-        tk.useRange,
-        tk.numLimit,
-        tk.status
-        FROM t_ticket  tk LEFT JOIN t_ticket_user tu ON tk.id=tu.ticketId
-        WHERE   tu.userId=#{userId}
+        tks.id,
+        tku.userId as userId ,
+        tks.createDate,
+        tks.num,
+        tks.ticketName,
+        tks.content,
+        tks.money,
+        tks.ticketNo,
+        tks.status,
+        tks.useRange,
+        tks.numLimit,
+        tks.status
+        FROM t_ticket_user   tku LEFT JOIN t_ticket_snapshot tks ON tks.id=tku.ticketId
+        WHERE   tku.userId=#{userId}
     </select>
 
-    <!-- 判断优惠卷使用时间(useDate) -->
-    <select id="findByTicketId" resultType="com.scoprion.mall.domain.TicketUser">
-        SELECT useDate FROM t_ticket_user WHERE userId=#{userId} AND ticketId=#{ticketId}
+    <!-- 根据用户id、优惠券id查询记录 -->
+    <select id="findByTicketIdAndUserId" resultType="com.scoprion.mall.domain.TicketUser">
+        SELECT
+        id,
+        userId,
+        ticketId,
+        num,
+        createDate,
+        useDate,
+        status
+        FROM t_ticket_user WHERE userId=#{userId} AND ticketId=#{ticketId}
     </select>
 
-
-    <!--领取优惠券-->
-    <insert id="addTicket" parameterType="com.scoprion.mall.domain.TicketUser">
-        INSERT INTO t_ticket_user
-        (ticketId,
-         userId,
-         num,
-         createDate,
-         type)
+    <!--新增优惠券-y用户关系记录-->
+    <insert id="addTicketUser" parameterType="com.scoprion.mall.domain.TicketUser">
+        INSERT  INTO t_ticket_user(userId,ticketId,num,createDate,useDate,status)
         VALUES
-        (#{ticketId},
-         #{userId},
-         #{num},
-         now(),
-         #{type})
+        (#{userId},#{ticketId},#{num},now(),#{useDate},#{status})
     </insert>
+
+    <select id="findById" resultType="com.scoprion.mall.domain.Ticket">
+        SELECT
+        id,
+        ticketNo,
+        ticketName,
+        type,
+        content,
+        startDate,
+        endDate,
+        createDate,
+        updateDate,
+        money,
+        num,
+        status,
+        useRange,
+        numLimit
+        FROM  t_ticket WHERE  id=#{id}
+    </select>
 </mapper>

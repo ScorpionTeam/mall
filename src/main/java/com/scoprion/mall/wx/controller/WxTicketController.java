@@ -41,9 +41,9 @@ public class WxTicketController {
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/addTicket", method = RequestMethod.GET)
-    BaseResult addTicket(Long ticketId, Long userId) {
-        return wxTicketService.addTicket(userId, ticketId);
+    @RequestMapping(value = "/getTicket", method = RequestMethod.GET)
+    public BaseResult getTicket(Long ticketId, Long userId) {
+        return wxTicketService.getTicket(ticketId, userId);
     }
 
     /**

@@ -117,6 +117,10 @@ public class Goods {
     private String mainImgUrl;
 
     /**
+     * 商品描述富文本
+     */
+    private String richContent;
+    /**
      * 商品状态 0正常，1删除
      */
     private String status;
@@ -289,6 +293,14 @@ public class Goods {
         this.mainImgUrl = mainImgUrl;
     }
 
+    public String getRichContent() {
+        return richContent;
+    }
+
+    public void setRichContent(String richContent) {
+        this.richContent = richContent;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
@@ -312,6 +324,8 @@ public class Goods {
                 ", sellerId=" + sellerId +
                 ", visitTotal=" + visitTotal +
                 ", mainImgUrl='" + mainImgUrl + '\'' +
+                ", richContent='" + richContent + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

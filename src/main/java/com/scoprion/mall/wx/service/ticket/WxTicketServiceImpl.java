@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.service.ticket;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.domain.TicketSnapshot;
 import com.scoprion.mall.domain.TicketUser;
@@ -37,48 +38,59 @@ public class WxTicketServiceImpl implements WxTicketService {
      *
      * @param pageNo
      * @param pageSize
-     * @param userId
+     * @param userId   用户id
      * @return
      */
     @Override
     public PageResult findByUserId(Integer pageNo, Integer pageSize, Long userId) {
         PageHelper.startPage(pageNo, pageSize);
         Page<Ticket> page = wxTicketMapper.findByUserId(userId);
-        if (page == null) {
-            return new PageResult(new ArrayList<Page>());
-        }
         return new PageResult(page);
     }
 
     /**
-     * 判断优惠卷使用时间(useDate)
+     * 领取优惠券
      *
      * @param userId
      * @param ticketId
      * @return
      */
     @Override
-    public BaseResult addTicket(Long ticketId, Long userId) {
-        TicketUser ticketUser = wxTicketMapper.detail(ticketId, userId);
+    public BaseResult getTicket(Long ticketId, Long userId) {
+        TicketUser ticketUser = wxTicketMapper.findByTicketIdAndUserId(ticketId, userId);
         if (ticketUser != null) {
-            return BaseResult.error("fail", "已经领取过了");
+            return BaseResult.error("add_error", "已经领取过了");
         }
-        Ticket ticket = wxTicketMapper.addTicket(ticketId);
+        Ticket ticket = wxTicketMapper.findById(ticketId);
+        if (ticket == null) {
+            return BaseResult.error("add_error", "领取失败,找不到该优惠券");
+        }
         TicketSnapshot snapshot = new TicketSnapshot();
         BeanUtils.copyProperties(ticket, snapshot);
         int result = wxTicketSnapshotMapper.add(snapshot);
-        return BaseResult.success("");
+        if (result > 0) {
+            ticketUser = new TicketUser();
+            ticketUser.setNum(1);
+            ticketUser.setTicketId(ticketId);
+            ticketUser.setUserId(userId);
+            ticketUser.setStatus(Constant.STATUS_ZERO);
+            int addResult = wxTicketMapper.addTicketUser(ticketUser);
+            if (addResult > 0) {
+                return BaseResult.success("领取成功");
+            }
+        }
+        return BaseResult.error("add_error", "领取失败");
     }
 
     @Override
     public BaseResult findByTicketId(Long userId, Long ticketId) {
-        TicketUser useDate = wxTicketMapper.findByTicketId(userId, ticketId);
-        Date date = useDate.getUseDate();
+//        TicketUser ticketUser = wxTicketMapper.findByTicketIdAndUserId(ticketId, userId);
+//        Date date = ticketUser.getUseDate();
         //当前时间
-        Date currentDate = new Date();
-        if (date.getTime() > currentDate.getTime()) {
-            return BaseResult.error("date_out", "还未到优惠卷的使用时间");
-        }
+//        Date currentDate = new Date();
+//        if (date.getTime() > currentDate.getTime()) {
+//            return BaseResult.error("date_out", "还未到优惠卷的使用时间");
+//        }
         return BaseResult.error("fail", "");
     }
 
