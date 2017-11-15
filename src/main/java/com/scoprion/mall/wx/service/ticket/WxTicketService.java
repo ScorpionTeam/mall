@@ -27,4 +27,5 @@ public interface WxTicketService {
      * @return
      */
     BaseResult findByTicketId(Long userId, Long ticketId);
+
 }

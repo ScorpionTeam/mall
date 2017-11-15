@@ -9,6 +9,7 @@ import java.util.Date;
  * @created on 2017/11/14/014.
  */
 public class TicketExt extends Ticket {
+
     /**
      * 用户id
      */
@@ -45,4 +46,5 @@ public class TicketExt extends Ticket {
                 ", createDate=" + createDate +
                 '}';
     }
+
 }

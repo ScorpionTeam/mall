@@ -31,4 +31,5 @@ public interface WxTicketMapper {
      * @return
      */
     TicketUser findByTicketId(@Param("userId") Long userId, @Param("ticketId") Long ticketId);
+
 }
