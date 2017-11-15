@@ -1,5 +1,4 @@
 package com.scoprion.mall.wx.controller;
-import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.wx.service.ticket.WxTicketService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -7,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 
 /**
@@ -31,6 +32,17 @@ public class WxTicketController {
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
     public PageResult findByUserId(Integer pageNo,Integer pageSize,Long userId){
         return wxTicketService.findByUserId(pageNo,pageSize,userId);
+    }
+
+    /**
+     * 判断优惠卷使用时间(useDate)
+     * @param userId
+     * @param ticketId
+     * @return
+     */
+    @RequestMapping(value = "/findByTicketId", method = RequestMethod.GET)
+    public BaseResult findByTicketId(Long userId, Long ticketId) {
+        return wxTicketService.findByTicketId(userId, ticketId);
     }
 
 }
