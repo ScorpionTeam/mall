@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +53,9 @@ public class WxPayServiceImpl implements WxPayService {
     private WxPointLogMapper wxPointLogMapper;
 
     @Autowired
+    private WxTicketSnapshotMapper wxTicketSnapshotMapper;
+
+    @Autowired
     private WxTicketMapper wxTicketMapper;
 
     /**
@@ -65,19 +69,36 @@ public class WxPayServiceImpl implements WxPayService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
-
+        //使用优惠券
+        if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
+            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findById(wxOrderRequestData.getTicket());
+            if (ticketSnapshot == null) {
+                return BaseResult.error("error", "请先领取优惠券");
+            }
+            if (Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
+                return BaseResult.error("error", "优惠券已经使用过了");
+            }
+            if (ticketSnapshot.getStartDate().after(new Date())) {
+                return BaseResult.error("error", "优惠券未到使用日期");
+            }
+            if (ticketSnapshot.getEndDate().before(new Date())) {
+                return BaseResult.error("error", "优惠券已过期");
+            }
+            wxTicketSnapshotMapper.modifyStatus(Constant.STATUS_ONE, ticketSnapshot.getId());
+        }
         //查询商品库存
         Goods goods = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        GoodSnapshot goodSnapshot = constructSnapshot(goods);
-        goodSnapShotWxMapper.add(goodSnapshot);
         //查询收货地址
         Delivery delivery = wxDeliveryMapper.findById(wxOrderRequestData.getDeliveryId());
         if (null == delivery) {
             return BaseResult.error("not_found_address", "收货地址出错");
         }
+        //商品快照
+        GoodSnapshot goodSnapshot = constructSnapshot(goods);
+        goodSnapShotWxMapper.add(goodSnapshot);
         //查询用户openid
         String openid = WxUtil.getOpenId(wxCode);
         Order order = constructOrder(goods, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
@@ -85,6 +106,7 @@ public class WxPayServiceImpl implements WxPayService {
         if (orderResult <= 0) {
             return BaseResult.error("pre_order_error", "下单出错");
         }
+
         //系统内部生成订单信息
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress);
         wxOrderLogMapper.add(orderLog);
@@ -180,7 +202,6 @@ public class WxPayServiceImpl implements WxPayService {
             operatePoint(order);
             //销量
             wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
-            //TODO:优惠券扣减
         }
         return BaseResult.success("支付回调成功");
     }
@@ -292,6 +313,11 @@ public class WxPayServiceImpl implements WxPayService {
         order.setCount(wxOrderRequestData.getCount());
         order.setMessage(wxOrderRequestData.getMessage());
         order.setGoodId(goods.getId());
+        if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
+            if (wxOrderRequestData.getTicket() != null) {
+                order.setTicketId(wxOrderRequestData.getTicket());
+            }
+        }
         BeanUtils.copyProperties(delivery, order);
         order.setUserId(userId);
         return order;
@@ -307,6 +333,18 @@ public class WxPayServiceImpl implements WxPayService {
         GoodSnapshot goodSnapshot = new GoodSnapshot();
         BeanUtils.copyProperties(goods, goodSnapshot);
         return goodSnapshot;
+    }
+
+    /**
+     * 构造优惠券快照
+     *
+     * @param ticket
+     * @return
+     */
+    private TicketSnapshot constructTicketSnapshot(Ticket ticket) {
+        TicketSnapshot snapshot = new TicketSnapshot();
+        BeanUtils.copyProperties(ticket, snapshot);
+        return snapshot;
     }
 
     /**

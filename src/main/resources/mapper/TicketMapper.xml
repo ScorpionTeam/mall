@@ -7,9 +7,10 @@
     <!--增加-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Ticket">
         INSERT INTO t_ticket
-        (ticketName,content,startDate,endDate,money,num,status,createDate,ticketNo,type)
+        (ticketName,content,startDate,endDate,money,num,status,createDate,ticketNo,type,numLimit,useRange)
         VALUES
-        (#{ticketName},#{content},#{startDate},#{endDate},#{money},#{num},#{status},now(),#{ticketNo},#{type})
+        (#{ticketName},#{content},#{startDate},#{endDate},#{money},#{num},#{status},now(),
+        #{ticketNo},#{type},#{numLimit},#{useRange})
     </insert>
 
     <!--修改-->
@@ -24,6 +25,8 @@
         <if test="status!=null and status!=''">status=#{status},</if>
         <if test="ticketNo!=null and ticketNo!=''">ticketNo=#{ticketNo},</if>
         <if test="type!=null and type!=''">type=#{type},</if>
+        <if test="useRange!=null and useRange!=''">useRange=#{useRange},</if>
+        <if test="numLimit!=null and numLimit!=''">numLimit=#{numLimit},</if>
         updateDate=now()
         WHERE id=#{id}
     </update>
@@ -57,6 +60,8 @@
         createDate,
         ticketNo,
         type,
+        useRange,
+        numLimit,
         updateDate
         FROM t_ticket where 1=1
         <if test="searchKey!=null">AND CONCAT(ticketName,content) LIKE #{searchKey}</if>
@@ -75,6 +80,8 @@
         updateDate,
         money,
         num,
+        useRange,
+        numLimit,
         status
         FROM  t_ticket WHERE id=#{id}
     </select>
