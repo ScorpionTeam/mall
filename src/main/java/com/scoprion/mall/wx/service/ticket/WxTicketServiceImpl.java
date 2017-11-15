@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 /**
@@ -49,6 +50,12 @@ public class WxTicketServiceImpl implements WxTicketService {
         return new PageResult(page);
     }
 
+    /**
+     * 判断优惠卷使用时间(useDate)
+     * @param userId
+     * @param ticketId
+     * @return
+     */
     @Override
     public BaseResult addTicket(Long ticketId, Long userId) {
         TicketUser ticketUser = wxTicketMapper.detail(ticketId, userId);
@@ -67,9 +74,15 @@ public class WxTicketServiceImpl implements WxTicketService {
                 }
                 return BaseResult.success("领取失败");
             }
+    public BaseResult findByTicketId(Long userId, Long ticketId) {
+        TicketUser useDate = wxTicketMapper.findByTicketId(userId, ticketId);
+        Date date = useDate.getUseDate();
+        //当前时间
+        Date currentDate = new Date();
+        if(date.getTime() > currentDate.getTime()) {
+            return BaseResult.error("date_out", "还未到优惠卷的使用时间");
         }
         return BaseResult.error("fail", "");
     }
-
 
 }

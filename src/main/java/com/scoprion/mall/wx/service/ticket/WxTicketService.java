@@ -20,11 +20,14 @@ public interface WxTicketService {
      */
     PageResult findByUserId(Integer pageNo, Integer pageSize,Long userId);
 
-
     /**
      * 领取优惠券
      * @param ticketUser
+     * 判断优惠卷使用时间(useDate)
+     * @param userId
+     * @param ticketId
      * @return
      */
     BaseResult addTicket(Long ticketId,Long userId);
+    BaseResult findByTicketId(Long userId, Long ticketId);
 }

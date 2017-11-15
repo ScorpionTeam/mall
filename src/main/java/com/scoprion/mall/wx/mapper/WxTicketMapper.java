@@ -24,9 +24,9 @@ public interface WxTicketMapper {
      */
     Page<Ticket> findByUserId(@Param("userId") Long userId);
 
-
     /**
      * 获取用户优惠券详情
+     * 判断优惠卷使用时间(useDate)
      * @param ticketId
      * @param userId
      * @return
@@ -42,4 +42,5 @@ public interface WxTicketMapper {
      */
     Ticket addTicket(Long ticketId);
 
+    TicketUser findByTicketId(@Param("userId") Long userId, @Param("ticketId") Long ticketId);
 }
