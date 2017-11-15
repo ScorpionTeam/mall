@@ -30,7 +30,7 @@ public interface WxTicketMapper {
      * @param userId
      * @return
      */
-    TicketUser detail(@Param("ticketId")Long ticketId,@Param("userId")Long userId);
+    TicketUser detail(TicketUser ticketUser);
 
     /**
      * 领取优惠券
@@ -38,5 +38,5 @@ public interface WxTicketMapper {
      * @param userId
      * @return
      */
-    int addTicket(@Param("ticketId")Long ticketId,@Param("userId")Long userId);
+    int addTicket(TicketUser ticketUser);
 }

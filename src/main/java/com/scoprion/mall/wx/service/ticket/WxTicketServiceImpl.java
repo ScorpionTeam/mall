@@ -49,12 +49,11 @@ public class WxTicketServiceImpl implements WxTicketService {
      * @return
      */
     @Override
-    public BaseResult addTicket(Long ticketId, Long userId) {
-        TicketUser ticketUser=wxTicketMapper.detail(ticketId,userId);
-        if(ticketUser==null){
-            Integer result=wxTicketMapper.addTicket(ticketId,userId);
+    public BaseResult addTicket(TicketUser ticketUser) {
+        TicketUser NewTicketUser=wxTicketMapper.detail(ticketUser);
+        if(NewTicketUser==null){
+            Integer result=wxTicketMapper.addTicket(ticketUser);
             if (result>0){
-                ticketUser.setNum(1);
                 return BaseResult.success("领取成功");
             }
             return BaseResult.success("领取失败");

@@ -41,8 +41,8 @@ public class WxTicketController {
      * @return
      */
     @RequestMapping(value = "/add-ticket",method = RequestMethod.POST)
-    public BaseResult addTicket(Long ticketId,Long userId){
-        return wxTicketService.addTicket(ticketId,userId);
+    public BaseResult addTicket(TicketUser ticketUser){
+        return wxTicketService.addTicket(ticketUser);
     }
 
 }

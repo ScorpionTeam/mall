@@ -27,5 +27,5 @@ public interface WxTicketService {
      * @param userId
      * @return
      */
-    BaseResult addTicket(Long ticketId ,Long userId);
+    BaseResult addTicket(TicketUser ticketUser);
 }

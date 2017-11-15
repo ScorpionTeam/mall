@@ -33,10 +33,14 @@
         INSERT INTO t_ticket_user
         (ticketId,
          userId,
-         createDate)
+         num,
+         createDate,
+         type)
         VALUES
         (#{ticketId},
          #{userId},
-         now())
+         #{num},
+         now(),
+         #{type})
     </insert>
 </mapper>
