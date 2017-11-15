@@ -46,5 +46,4 @@ public class TicketExt extends Ticket {
                 ", createDate=" + createDate +
                 '}';
     }
-
 }

@@ -22,10 +22,10 @@ public interface WxTicketService {
 
 
     /**
-     * 领取优惠券
-     * @param ticketId
+     * 判断优惠卷使用时间(useDate)
      * @param userId
+     * @param ticketId
      * @return
      */
-    BaseResult addTicket(Long ticketId ,Long userId);
+    BaseResult findByTicketId(Long userId, Long ticketId);
 }
