@@ -216,8 +216,8 @@ public class WxPayServiceImpl implements WxPayService {
         //积分扣减
         subtractPoint(order, point);
         // 积分增加
-        //获得本次交易增加的积分
-        int addPoint = order.getPaymentFee() / 1000;
+        //TODO 获得本次交易增加的积分  暂时未除以1000
+        int addPoint = order.getPaymentFee();
         addPoint(order, point, addPoint);
 
         int resultPoint = point.getPoint() - order.getOperatePoint() + addPoint;
