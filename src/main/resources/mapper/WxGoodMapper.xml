@@ -26,7 +26,8 @@
         sellerId,
         visitTotal,
         goodNo,
-        mainImgUrl
+        mainImgUrl,
+        richContent
         FROM t_good
         WHERE id=#{goodId}
     </select>
@@ -59,7 +60,8 @@
         brandId,
         sellerId,
         visitTotal,
-        mainImgUrl
+        mainImgUrl,
+        richContent
         FROM t_good WHERE isOnSale='1'
     </select>
 

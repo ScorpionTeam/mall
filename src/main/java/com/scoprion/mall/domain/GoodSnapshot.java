@@ -37,6 +37,8 @@ public class GoodSnapshot {
     //商品主图
     private String mainImgUrl;
 
+    private String richContent;
+
     //创建时间
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
@@ -121,6 +123,14 @@ public class GoodSnapshot {
         this.createDate = createDate;
     }
 
+    public String getRichContent() {
+        return richContent;
+    }
+
+    public void setRichContent(String richContent) {
+        this.richContent = richContent;
+    }
+
     @Override
     public String toString() {
         return "GoodSnapshot{" +
@@ -130,6 +140,7 @@ public class GoodSnapshot {
                 ", goodName='" + goodName + '\'' +
                 ", goodDescription='" + goodDescription + '\'' +
                 ", promotion=" + promotion +
+                ", richContent=" + richContent +
                 ", price=" + price +
                 ", discount=" + discount +
                 ", mainImgUrl='" + mainImgUrl + '\'' +
