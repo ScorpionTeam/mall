@@ -20,6 +20,22 @@ public interface WxTicketSnapshotMapper {
      */
     int add(TicketSnapshot ticketSnapshot);
 
+    /**
+     * 修改优惠券快照
+     *
+     * @param ticketSnapshot
+     * @return
+     */
+    int update(TicketSnapshot ticketSnapshot);
+
+    /**
+     * 修改状态
+     *
+     * @param status
+     * @param id
+     * @return
+     */
+    int modifyStatus(@Param("status") String status, @Param("id") Long id);
 
     /**
      * 根据id查询详情

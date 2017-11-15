@@ -31,4 +31,32 @@
         numLimit
         FROM  t_ticket_snapshot WHERE id=#{id}
     </select>
+
+    <!--修改-->
+    <update id="update" parameterType="com.scoprion.mall.domain.TicketSnapshot">
+        UPDATE t_ticket_snapshot SET
+        <if test="ticketNo!=null and ticketNo!=''">ticketNo=#{ticketNo},</if>
+        <if test="ticketName!=null and ticketName!=''">ticketName=#{ticketName},</if>
+        <if test="type!=null and type!=''">type=#{type},</if>
+        <if test="content!=null and content!=''">content=#{content},</if>
+        <if test="startDate!=null and startDate!=''">startDate=#{startDate},</if>
+        <if test="endDate!=null and endDate!=''">endDate=#{endDate},</if>
+        <if test="createDate!=null and createDate!=''">createDate=#{createDate},</if>
+        <if test="money!=null and money!=''">money=#{money},</if>
+        <if test="num!=null and num!=''">num=#{num},</if>
+        <if test="status!=null and status!=''">status=#{status},</if>
+        <if test="useRange!=null and useRange!=''">useRange=#{useRange},</if>
+        <if test="numLimit!=null and numLimit!=''">numLimit=#{numLimit},</if>
+        updateDate=now()
+        where id=#{id}
+    </update>
+
+    <!--修改状态-->
+    <update id="modifyStatus" parameterType="com.scoprion.mall.domain.TicketSnapshot">
+        UPDATE t_ticket_snapshot SET
+        <if test="status!=null and status!=''">status=#{status},</if>
+        updateDate=now()
+        where id=#{id}
+    </update>
+
 </mapper>

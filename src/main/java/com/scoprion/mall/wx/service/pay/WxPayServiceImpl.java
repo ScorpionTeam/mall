@@ -72,19 +72,19 @@ public class WxPayServiceImpl implements WxPayService {
         //使用优惠券
         if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
             TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findById(wxOrderRequestData.getTicket());
-            if (ticketSnapshot != null && Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
+            if (ticketSnapshot == null) {
+                return BaseResult.error("error", "请先领取优惠券");
+            }
+            if (Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
                 return BaseResult.error("error", "优惠券已经使用过了");
             }
-            Ticket ticket = wxTicketMapper.findById(wxOrderRequestData.getTicket());
-            if (ticket.getStartDate().after(new Date())) {
+            if (ticketSnapshot.getStartDate().after(new Date())) {
                 return BaseResult.error("error", "优惠券未到使用日期");
             }
-            if (ticket.getEndDate().before(new Date())) {
+            if (ticketSnapshot.getEndDate().before(new Date())) {
                 return BaseResult.error("error", "优惠券已过期");
             }
-            ticket.setStatus(Constant.STATUS_ONE);
-            TicketSnapshot snapshot = constructTicketSnapshot(ticket);
-            wxTicketSnapshotMapper.add(snapshot);
+            wxTicketSnapshotMapper.modifyStatus(Constant.STATUS_ONE, ticketSnapshot.getId());
         }
         //查询商品库存
         Goods goods = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
