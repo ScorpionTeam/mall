@@ -20,7 +20,6 @@ public interface WxTicketService {
      */
     PageResult findByUserId(Integer pageNo, Integer pageSize,Long userId);
 
-
     /**
      * 判断优惠卷使用时间(useDate)
      * @param userId

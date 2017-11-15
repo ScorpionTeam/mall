@@ -60,5 +60,4 @@ public class WxTicketServiceImpl implements WxTicketService {
         return BaseResult.success("每种优惠券只可领取一张");
     }
 
-
 }

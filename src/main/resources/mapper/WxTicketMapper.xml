@@ -28,4 +28,5 @@
     <select id="findByTicketId" resultType="com.scoprion.mall.domain.TicketUser">
         SELECT useDate FROM t_ticket_user WHERE userId=#{userId} AND ticketId=#{ticketId}
     </select>
+
 </mapper>
