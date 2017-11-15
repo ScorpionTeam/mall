@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.service.ticket;
 import com.scoprion.mall.domain.Ticket;
+import com.scoprion.mall.domain.TicketUser;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -20,4 +21,11 @@ public interface WxTicketService {
     PageResult findByUserId(Integer pageNo, Integer pageSize,Long userId);
 
 
+    /**
+     * 领取优惠券
+     * @param ticketId
+     * @param userId
+     * @return
+     */
+    BaseResult addTicket(Long ticketId ,Long userId);
 }

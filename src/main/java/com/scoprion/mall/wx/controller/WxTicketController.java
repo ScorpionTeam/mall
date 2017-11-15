@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 import com.scoprion.mall.domain.Ticket;
+import com.scoprion.mall.domain.TicketUser;
 import com.scoprion.mall.wx.service.ticket.WxTicketService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -31,6 +32,17 @@ public class WxTicketController {
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
     public PageResult findByUserId(Integer pageNo,Integer pageSize,Long userId){
         return wxTicketService.findByUserId(pageNo,pageSize,userId);
+    }
+
+    /**
+     *
+     * @param ticketId
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/add-ticket",method = RequestMethod.POST)
+    public BaseResult addTicket(Long ticketId,Long userId){
+        return wxTicketService.addTicket(ticketId,userId);
     }
 
 }

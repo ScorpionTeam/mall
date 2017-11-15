@@ -3,15 +3,13 @@ package com.scoprion.mall.wx.service.ticket;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Ticket;
+import com.scoprion.mall.domain.TicketUser;
 import com.scoprion.mall.wx.mapper.WxTicketMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 
 /**
@@ -41,6 +39,28 @@ public class WxTicketServiceImpl implements WxTicketService {
             return new PageResult(new ArrayList<Page>());
         }
         return new PageResult(page);
+    }
+
+
+    /**
+     *
+     * @param ticketId
+     * @param userId
+     * @return
+     */
+    @Override
+    public BaseResult addTicket(Long ticketId, Long userId) {
+        TicketUser ticketUser=wxTicketMapper.detail(ticketId,userId);
+        Long ticketId1=ticketUser.getTicketId();
+        Long userId1=ticketUser.getUserId();
+        if(ticketId1==null||userId1==null){
+            Integer result=wxTicketMapper.addTicket(ticketId,userId);
+            if (result>0){
+                return BaseResult.success("领取成功");
+            }
+            return BaseResult.success("领取失败");
+        }
+        return BaseResult.success("每种优惠券只可领取一张");
     }
 
 

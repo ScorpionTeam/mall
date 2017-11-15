@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Ticket;
+import com.scoprion.mall.domain.TicketUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -23,5 +24,19 @@ public interface WxTicketMapper {
     Page<Ticket> findByUserId(@Param("userId") Long userId);
 
 
+    /**
+     * 获取详情
+     * @param ticketId
+     * @param userId
+     * @return
+     */
+    TicketUser detail(@Param("ticketId")Long ticketId,@Param("userId")Long userId);
 
+    /**
+     * 领取优惠券
+     * @param ticketId
+     * @param userId
+     * @return
+     */
+    int addTicket(@Param("ticketId")Long ticketId,@Param("userId")Long userId);
 }
