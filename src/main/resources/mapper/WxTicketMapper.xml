@@ -17,6 +17,8 @@
         tk.money,
         tk.ticketNo,
         tk.type,
+        tk.useRange,
+        tk.numLimit,
         tk.status
         FROM t_ticket  tk LEFT JOIN t_ticket_user tu ON tk.id=tu.ticketId
         WHERE   tu.userId=#{userId}
