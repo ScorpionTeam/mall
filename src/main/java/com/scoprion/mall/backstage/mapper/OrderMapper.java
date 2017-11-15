@@ -2,11 +2,8 @@ package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Order;
-import com.scoprion.result.BaseResult;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * Created on 2017/9/29.

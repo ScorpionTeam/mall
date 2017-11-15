@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
@@ -7,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
  * @version V1.0 <>
  * @date 2017-11-15 17:06
  */
+@Mapper
 public interface PointMapper {
     void updatePoint(@Param("userId") String userId, @Param("point") int pointVal);
 }

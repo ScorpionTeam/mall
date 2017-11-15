@@ -3,11 +3,9 @@ package com.scoprion.mall.wx.service.pay;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.scoprion.constant.Constant;
-import com.scoprion.mall.backstage.mapper.TicketMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.wx.mapper.*;
-import com.scoprion.mall.wx.pay.domain.AuthorizationCode;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
@@ -44,7 +42,7 @@ public class WxPayServiceImpl implements WxPayService {
     private WxOrderLogMapper wxOrderLogMapper;
 
     @Autowired
-    private GoodSnapShotWxMapper goodSnapShotWxMapper;
+    private WxGoodSnapShotMapper wxGoodSnapShotMapper;
 
     @Autowired
     private WxPointMapper wxPointMapper;
@@ -98,7 +96,7 @@ public class WxPayServiceImpl implements WxPayService {
         }
         //商品快照
         GoodSnapshot goodSnapshot = constructSnapshot(goods);
-        goodSnapShotWxMapper.add(goodSnapshot);
+        wxGoodSnapShotMapper.add(goodSnapshot);
         //查询用户openid
         String openid = WxUtil.getOpenId(wxCode);
         Order order = constructOrder(goods, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
