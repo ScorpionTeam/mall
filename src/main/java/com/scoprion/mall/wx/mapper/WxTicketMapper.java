@@ -27,20 +27,24 @@ public interface WxTicketMapper {
 
     /**
      * 获取详情
+     *
      * @param ticketId
      * @param userId
      * @return
      */
-    TicketUser detail(@Param("ticketId")Long ticketId,@Param("userId")Long userId);
+    TicketUser detail(@Param("ticketId") Long ticketId, @Param("userId") Long userId);
 
     /**
      * 领取优惠券
+     *
      * @param ticketId
      * @param userId
      * @return
      */
-    int addTicket(@Param("ticketId")Long ticketId,@Param("userId")Long userId);
+    int addTicket(@Param("ticketId") Long ticketId, @Param("userId") Long userId);
+
     TicketUser findByTicketId(@Param("userId") Long userId, @Param("ticketId") Long ticketId);
+
     /**
      * 根据Id查询优惠券详情
      *
