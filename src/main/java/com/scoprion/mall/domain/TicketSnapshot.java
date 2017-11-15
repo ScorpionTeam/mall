@@ -2,15 +2,14 @@ package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
- * Created on 2017/9/28.
- *
  * @author ycj
+ * @version V1.0 <优惠券快照>
+ * @date 2017-11-15 09:50
  */
-public class Ticket {
+public class TicketSnapshot {
 
     private Long id;
 
@@ -80,7 +79,6 @@ public class Ticket {
      * 是否限量 0是 1否
      */
     private String limit;
-
 
     public Long getId() {
         return id;
@@ -196,7 +194,7 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{" +
+        return "TicketSnapshot{" +
                 "id=" + id +
                 ", ticketNo='" + ticketNo + '\'' +
                 ", ticketName='" + ticketName + '\'' +

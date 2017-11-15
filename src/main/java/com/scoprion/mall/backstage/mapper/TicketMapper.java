@@ -62,4 +62,12 @@ public interface TicketMapper {
      * @return
      */
     int deleteById(@Param("id") Long id);
+
+    /**
+     * 根据主键查询优惠券
+     *
+     * @param id
+     * @return
+     */
+    Ticket findById(@Param("id") Long id);
 }

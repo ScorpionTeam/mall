@@ -61,4 +61,21 @@
         FROM t_ticket where 1=1
         <if test="searchKey!=null">AND CONCAT(ticketName,content) LIKE #{searchKey}</if>
     </select>
+
+    <!--查询详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.Ticket">
+        SELECT  id,
+        ticketName,
+        ticketNo,
+        type,
+        content,
+        startDate,
+        endDate,
+        createDate,
+        updateDate,
+        money,
+        num,
+        status
+        FROM  t_ticket WHERE id=#{id}
+    </select>
 </mapper>
