@@ -26,36 +26,36 @@ public class WxTicketController {
      *
      * @param pageNo
      * @param pageSize
-     * @param userId
+     * @param wxCode
      * @return
      */
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
-    public PageResult findByUserId(Integer pageNo, Integer pageSize, Long userId) {
-        return wxTicketService.findByUserId(pageNo, pageSize, userId);
+    public PageResult findByUserId(Integer pageNo, Integer pageSize, String  wxCode) {
+        return wxTicketService.findByUserId(pageNo, pageSize, wxCode);
     }
 
     /**
      * * 领取优惠券
      *
      * @param ticketId
-     * @param userId
+     * @param wxCode
      * @return
      */
     @RequestMapping(value = "/getTicket", method = RequestMethod.GET)
-    public BaseResult getTicket(Long ticketId, Long userId) {
-        return wxTicketService.getTicket(ticketId, userId);
+    public BaseResult getTicket(Long ticketId,  String wxCode  ) {
+        return wxTicketService.getTicket(ticketId, wxCode);
     }
 
     /**
      * 判断优惠卷使用时间(useDate)
      *
      * @param ticketId
-     * @param userId
+     * @param wxCode
      * @return
      */
     @RequestMapping(value = "/findByTicketId", method = RequestMethod.GET)
-    public BaseResult findByTicketId(Long userId, Long ticketId) {
-        return wxTicketService.findByTicketId(userId, ticketId);
+    public BaseResult findByTicketId(String wxCode, Long ticketId) {
+        return wxTicketService.findByTicketId(wxCode, ticketId);
     }
 
 }

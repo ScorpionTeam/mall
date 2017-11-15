@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @created on 2017/11/2.
  */
 @Mapper
-public interface GoodSnapShotWxMapper {
+public interface WxGoodSnapShotMapper {
 
     /**
      * 新增快照

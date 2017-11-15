@@ -47,7 +47,42 @@
 
     <!--详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.Order">
-        SELECT * FROM t_order WHERE id=#{id}
+        SELECT id,
+        userId,
+        orderNo,
+        goodSnapShotId,
+        deliveryId,
+        orderStatus,
+        orderType,
+        payType,
+        message,
+        orderFee,
+        reduceFee,
+        paymentFee,
+        goodFee,
+        freightFee,
+        createDate,
+        payDate,
+        deliveryDate,
+        updateDate,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        postCode,
+        goodName,
+        count,
+        prepayId,
+        wxOrderNo,
+        goodId,
+        remark,
+        useTicket,
+        ticketId,
+        operatePoint,
+        deliveryNo
+        FROM t_order WHERE id=#{id}
     </select>
 
     <!--修改订单-->
