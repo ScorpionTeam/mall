@@ -12,6 +12,11 @@
         <result column="attrValue" property="attrValue"/>
     </resultMap>
 
+    <!--AttrValueExt-->
+    <resultMap id="attrValueExtResultMap" type="com.scoprion.mall.domain.AttrValueExt" extends="attrValueResultMap">
+        <result column="attrValueId" property="attrValueId"/>
+    </resultMap>
+
     <!--Attr-->
     <resultMap id="attrResultMap" type="com.scoprion.mall.domain.Attr">
         <result column="id" property="id"/>
@@ -22,7 +27,7 @@
 
     <!--AttrExt-->
     <resultMap id="attrExtResultMap" type="com.scoprion.mall.domain.AttrExt" extends="attrResultMap">
-        <collection property="attrValueList" resultMap="attrValueResultMap"/>
+        <collection property="attrValueList" resultMap="attrValueExtResultMap"/>
     </resultMap>
 
     <select id="findAttrExt" resultMap="attrExtResultMap">
@@ -30,6 +35,7 @@
         ta.attrName,
         ta.defaultValueId,
         ta.verNo,
+        tav.id as attrValueId,
         tav.attrId,
         tav.attrValueName,
         tav.attrValue
