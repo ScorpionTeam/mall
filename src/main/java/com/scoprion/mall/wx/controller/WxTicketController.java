@@ -35,14 +35,13 @@ public class WxTicketController {
     }
 
     /**
-     *
-     * @param ticketId
-     * @param userId
+     * 领取优惠券
+     * @param ticketUser
      * @return
      */
     @RequestMapping(value = "/add-ticket",method = RequestMethod.POST)
-    public BaseResult addTicket(TicketUser ticketUser){
-        return wxTicketService.addTicket(ticketUser);
+    public BaseResult addTicket(Long ticketId,Long userId){
+        return wxTicketService.addTicket(ticketId,userId);
     }
 
 }

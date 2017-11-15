@@ -13,6 +13,9 @@ public class TicketSnapshot {
 
     private Long id;
 
+
+    private Long ticketId;
+
     /**
      * 优惠券编码
      */
@@ -86,6 +89,14 @@ public class TicketSnapshot {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
     }
 
     public String getTicketNo() {
@@ -196,6 +207,7 @@ public class TicketSnapshot {
     public String toString() {
         return "TicketSnapshot{" +
                 "id=" + id +
+                ", ticketId=" + ticketId +
                 ", ticketNo='" + ticketNo + '\'' +
                 ", ticketName='" + ticketName + '\'' +
                 ", type='" + type + '\'' +

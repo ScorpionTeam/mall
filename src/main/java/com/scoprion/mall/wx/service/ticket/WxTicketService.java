@@ -23,9 +23,8 @@ public interface WxTicketService {
 
     /**
      * 领取优惠券
-     * @param ticketId
-     * @param userId
+     * @param ticketUser
      * @return
      */
-    BaseResult addTicket(TicketUser ticketUser);
+    BaseResult addTicket(Long ticketId,Long userId);
 }
