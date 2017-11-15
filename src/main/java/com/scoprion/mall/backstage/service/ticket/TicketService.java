@@ -45,4 +45,11 @@ public interface TicketService {
      */
     BaseResult deleteById(Long id);
 
+    /**
+     * 根据主键查询优惠券
+     *
+     * @param id
+     * @return
+     */
+    BaseResult findById(Long id);
 }

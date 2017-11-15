@@ -97,4 +97,22 @@ public class TicketServiceImpl implements TicketService {
         }
         return BaseResult.error("delete_error", "删除失败");
     }
+
+    /**
+     * 根据主键查询优惠券
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseResult findById(Long id) {
+        if (id == null) {
+            return BaseResult.parameterError();
+        }
+        Ticket ticket = ticketMapper.findById(id);
+        if (ticket == null) {
+            return BaseResult.notFound();
+        }
+        return BaseResult.success(ticket);
+    }
 }

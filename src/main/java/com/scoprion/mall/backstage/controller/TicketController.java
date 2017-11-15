@@ -69,4 +69,14 @@ public class TicketController {
     }
 
 
+    /**
+     * 根据主键查询优惠券
+     *
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/findById", method = RequestMethod.GET)
+    public BaseResult findById(Long id) {
+        return ticketService.findById(id);
+    }
 }
