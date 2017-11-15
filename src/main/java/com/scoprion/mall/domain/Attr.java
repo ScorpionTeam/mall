@@ -21,7 +21,7 @@ public class Attr {
     /**
      * 属性默认属性值id
      */
-    private Long defaultValueId;
+    private String defaultValueId;
 
     /**
      * 版本号
@@ -44,11 +44,11 @@ public class Attr {
         this.attrName = attrName;
     }
 
-    public Long getDefaultValueId() {
+    public String getDefaultValueId() {
         return defaultValueId;
     }
 
-    public void setDefaultValueId(Long defaultValueId) {
+    public void setDefaultValueId(String defaultValueId) {
         this.defaultValueId = defaultValueId;
     }
 

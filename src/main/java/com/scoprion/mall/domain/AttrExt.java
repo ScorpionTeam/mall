@@ -6,11 +6,8 @@ import java.util.List;
  * @author by kunlun
  * @created on 2017/11/15.
  */
-public class AttrExt extends AttrValue {
+public class AttrExt extends Attr {
 
-    /**
-     * 属性值集合
-     */
     private List<AttrValue> attrValueList;
 
     public List<AttrValue> getAttrValueList() {

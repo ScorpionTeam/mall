@@ -6,25 +6,22 @@ import java.util.List;
  * @author by kunlun
  * @created on 2017/11/15.
  */
-public class GoodAttrExt extends AttrExt {
+public class GoodAttrExt extends GoodAttr {
 
-    /**
-     * 属性集合
-     */
-    private List<AttrExt> attrExtList;
+    private List<Attr> attrList;
 
-    public List<AttrExt> getAttrExtList() {
-        return attrExtList;
+    public List<Attr> getAttrList() {
+        return attrList;
     }
 
-    public void setAttrExtList(List<AttrExt> attrExtList) {
-        this.attrExtList = attrExtList;
+    public void setAttrList(List<Attr> attrList) {
+        this.attrList = attrList;
     }
 
     @Override
     public String toString() {
         return "GoodAttrExt{" +
-                "attrExtList=" + attrExtList +
+                "attrList=" + attrList +
                 '}';
     }
 }

@@ -21,7 +21,7 @@ public class AttrValue {
     /**
      * 属性名称
      */
-    private String attrName;
+    private String attrValueName;
 
     /**
      * 属性值
@@ -44,12 +44,12 @@ public class AttrValue {
         this.attrId = attrId;
     }
 
-    public String getAttrName() {
-        return attrName;
+    public String getAttrValueName() {
+        return attrValueName;
     }
 
-    public void setAttrName(String attrName) {
-        this.attrName = attrName;
+    public void setAttrValueName(String attrValueName) {
+        this.attrValueName = attrValueName;
     }
 
     public String getAttrValue() {
@@ -65,7 +65,7 @@ public class AttrValue {
         return "AttrValue{" +
                 "id=" + id +
                 ", attrId=" + attrId +
-                ", attrName='" + attrName + '\'' +
+                ", attrValueName='" + attrValueName + '\'' +
                 ", attrValue='" + attrValue + '\'' +
                 '}';
     }
