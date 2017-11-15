@@ -22,5 +22,8 @@
         WHERE   tu.userId=#{userId}
     </select>
 
-
+    <!-- 判断优惠卷使用时间(useDate) -->
+    <select id="findByTicketId" resultType="com.scoprion.mall.domain.TicketUser">
+        SELECT useDate FROM t_ticket_user WHERE userId=#{userId} AND ticketId=#{ticketId}
+    </select>
 </mapper>

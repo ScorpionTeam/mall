@@ -2,9 +2,11 @@ package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Ticket;
+import com.scoprion.mall.domain.TicketUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +24,11 @@ public interface WxTicketMapper {
      */
     Page<Ticket> findByUserId(@Param("userId") Long userId);
 
-
-
+    /**
+     * 判断优惠卷使用时间(useDate)
+     * @param userId
+     * @param ticketId
+     * @return
+     */
+    TicketUser findByTicketId(@Param("userId") Long userId, @Param("ticketId") Long ticketId);
 }

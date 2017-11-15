@@ -35,6 +35,16 @@ public class TicketUser {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
+    /**
+     * 优惠卷类型 0未使用 1已使用
+     */
+    private Boolean type;
+
+    /**
+     * 使用时间
+     */
+    private Date useDate;
+
     public Long getId() {
         return id;
     }
@@ -75,6 +85,22 @@ public class TicketUser {
         this.createDate = createDate;
     }
 
+    public Boolean getType() {
+        return type;
+    }
+
+    public void setType(Boolean type) {
+        this.type = type;
+    }
+
+    public Date getUseDate() {
+        return useDate;
+    }
+
+    public void setUseDate(Date useDate) {
+        this.useDate = useDate;
+    }
+
     @Override
     public String toString() {
         return "TicketUser{" +
@@ -83,6 +109,8 @@ public class TicketUser {
                 ", ticketId=" + ticketId +
                 ", num=" + num +
                 ", createDate=" + createDate +
+                ", type=" + type +
+                ", useDate=" + useDate +
                 '}';
     }
 }
