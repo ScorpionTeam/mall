@@ -45,6 +45,5 @@ public class WxTicketController {
         return wxTicketService.findByTicketId(userId, ticketId);
     }
 
-
 }
 
