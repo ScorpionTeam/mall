@@ -34,6 +34,11 @@ public class TicketUser {
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
+    /**
+     * 使用日期
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date useDate;
 
     public Long getId() {
         return id;
@@ -75,6 +80,14 @@ public class TicketUser {
         this.createDate = createDate;
     }
 
+    public Date getUseDate() {
+        return useDate;
+    }
+
+    public void setUseDate(Date useDate) {
+        this.useDate = useDate;
+    }
+
     @Override
     public String toString() {
         return "TicketUser{" +
@@ -83,6 +96,7 @@ public class TicketUser {
                 ", ticketId=" + ticketId +
                 ", num=" + num +
                 ", createDate=" + createDate +
+                ", useDate=" + useDate +
                 '}';
     }
 }
