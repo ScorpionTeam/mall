@@ -23,7 +23,7 @@ public interface WxTicketMapper {
      * @param userId
      * @return
      */
-    Page<Ticket> findByUserId(@Param("userId") Long userId);
+    Page<Ticket> findByUserId(@Param("userId") String userId);
 
     /**
      * 获取用户优惠券详情
@@ -34,7 +34,7 @@ public interface WxTicketMapper {
      * @return
      */
     TicketUser findByTicketIdAndUserId(@Param("ticketId") Long ticketId,
-                                       @Param("userId") Long userId);
+                                       @Param("userId") String userId);
 
 
     /**

@@ -8,6 +8,7 @@ import com.scoprion.mall.domain.TicketSnapshot;
 import com.scoprion.mall.domain.TicketUser;
 import com.scoprion.mall.wx.mapper.WxTicketMapper;
 import com.scoprion.mall.wx.mapper.WxTicketSnapshotMapper;
+import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.BeanUtils;
@@ -38,12 +39,13 @@ public class WxTicketServiceImpl implements WxTicketService {
      *
      * @param pageNo
      * @param pageSize
-     * @param userId   用户id
+     * @param wxCode
      * @return
      */
     @Override
-    public PageResult findByUserId(Integer pageNo, Integer pageSize, Long userId) {
+    public PageResult findByUserId(Integer pageNo, Integer pageSize, String wxCode) {
         PageHelper.startPage(pageNo, pageSize);
+        String userId = WxUtil.getOpenId(wxCode);
         Page<Ticket> page = wxTicketMapper.findByUserId(userId);
         return new PageResult(page);
     }
@@ -51,12 +53,13 @@ public class WxTicketServiceImpl implements WxTicketService {
     /**
      * 领取优惠券
      *
-     * @param userId
+     * @param wxCode
      * @param ticketId
      * @return
      */
     @Override
-    public BaseResult getTicket(Long ticketId, Long userId) {
+    public BaseResult getTicket(Long ticketId, String wxCode) {
+        String userId = WxUtil.getOpenId(wxCode);
         TicketUser ticketUser = wxTicketMapper.findByTicketIdAndUserId(ticketId, userId);
         if (ticketUser != null) {
             return BaseResult.error("add_error", "已经领取过了");
@@ -83,7 +86,8 @@ public class WxTicketServiceImpl implements WxTicketService {
     }
 
     @Override
-    public BaseResult findByTicketId(Long userId, Long ticketId) {
+    public BaseResult findByTicketId(String wxCode, Long ticketId) {
+//        String userId = WxUtil.getOpenId(wxCode);
 //        TicketUser ticketUser = wxTicketMapper.findByTicketIdAndUserId(ticketId, userId);
 //        Date date = ticketUser.getUseDate();
         //当前时间

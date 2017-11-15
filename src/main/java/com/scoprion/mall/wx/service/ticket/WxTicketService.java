@@ -15,26 +15,26 @@ public interface WxTicketService {
      *
      * @param pageNo
      * @param pageSize
-     * @param userId
+     * @param wxCode
      * @return
      */
-    PageResult findByUserId(Integer pageNo, Integer pageSize, Long userId);
+    PageResult findByUserId(Integer pageNo, Integer pageSize, String  wxCode);
 
     /**
      * 领取优惠券
      *
      * @param ticketId
-     * @param userId
+     * @param wxCode
      * @return
      */
-    BaseResult getTicket(Long ticketId, Long userId);
+    BaseResult getTicket(Long ticketId, String wxCode);
 
     /**
      * * 判断优惠卷使用时间(useDate)
      *
-     * @param userId
+     * @param wxCode
      * @param ticketId
      * @return
      */
-    BaseResult findByTicketId(Long userId, Long ticketId);
+    BaseResult findByTicketId(String wxCode, Long ticketId);
 }

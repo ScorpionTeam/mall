@@ -19,7 +19,7 @@ public class TicketUser {
     /**
      * 用户id
      */
-    private Long userId;
+    private String userId;
 
     /**
      * 优惠券id
@@ -49,11 +49,11 @@ public class TicketUser {
         this.id = id;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
