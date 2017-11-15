@@ -52,6 +52,7 @@ public class WxTicketServiceImpl implements WxTicketService {
 
     /**
      * 判断优惠卷使用时间(useDate)
+     *
      * @param userId
      * @param ticketId
      * @return
@@ -66,20 +67,16 @@ public class WxTicketServiceImpl implements WxTicketService {
         TicketSnapshot snapshot = new TicketSnapshot();
         BeanUtils.copyProperties(ticket, snapshot);
         int result = wxTicketSnapshotMapper.add(snapshot);
-        if (result > 0) {
-            if (ticketUser == null) {
-                int NewResult = wxTicketMapper.add(ticketUser);
-                if (NewResult > 0) {
-                    return BaseResult.success("领取成功");
-                }
-                return BaseResult.success("领取失败");
-            }
+        return BaseResult.success("");
+    }
+
+    @Override
     public BaseResult findByTicketId(Long userId, Long ticketId) {
         TicketUser useDate = wxTicketMapper.findByTicketId(userId, ticketId);
         Date date = useDate.getUseDate();
         //当前时间
         Date currentDate = new Date();
-        if(date.getTime() > currentDate.getTime()) {
+        if (date.getTime() > currentDate.getTime()) {
             return BaseResult.error("date_out", "还未到优惠卷的使用时间");
         }
         return BaseResult.error("fail", "");

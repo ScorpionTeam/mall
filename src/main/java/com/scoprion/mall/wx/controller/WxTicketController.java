@@ -1,4 +1,5 @@
 package com.scoprion.mall.wx.controller;
+
 import com.scoprion.mall.wx.service.ticket.WxTicketService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -22,22 +23,32 @@ public class WxTicketController {
 
     /**
      * 用户优惠券列表
+     *
      * @param pageNo
      * @param pageSize
      * @param userId
      * @return
      */
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
-    public PageResult findByUserId(Integer pageNo,Integer pageSize,Long userId){
-        return wxTicketService.findByUserId(pageNo,pageSize,userId);
+    public PageResult findByUserId(Integer pageNo, Integer pageSize, Long userId) {
+        return wxTicketService.findByUserId(pageNo, pageSize, userId);
     }
 
+    /**
+     * * 领取优惠券
+     *
+     * @param ticketId
+     * @param userId
+     * @return
+     */
+    @RequestMapping(value = "/addTicket", method = RequestMethod.GET)
+    BaseResult addTicket(Long ticketId, Long userId) {
+        return wxTicketService.addTicket(userId, ticketId);
+    }
 
     /**
-     * 领取优惠券
-     * @param ticketUser
      * 判断优惠卷使用时间(useDate)
-     * @param userId
+     *
      * @param ticketId
      * @param userId
      * @return
