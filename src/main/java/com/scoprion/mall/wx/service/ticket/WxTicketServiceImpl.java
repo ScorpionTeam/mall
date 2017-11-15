@@ -41,27 +41,9 @@ public class WxTicketServiceImpl implements WxTicketService {
         return new PageResult(page);
     }
 
-    /**
-     * 判断优惠卷使用时间(useDate)
-     * @param userId
-     * @param ticketId
-     * @return
-     */
-    @Override
-    public BaseResult findByTicketId(Long userId, Long ticketId) {
-        TicketUser useDate = wxTicketMapper.findByTicketId(userId, ticketId);
-        Date date = useDate.getUseDate();
-        //当前时间
-        Date currentDate = new Date();
-        if(date.getTime() > currentDate.getTime()) {
-            return BaseResult.error("date_out", "还未到优惠卷的使用时间");
-        }
-        return BaseResult.success("可以使用优惠卷");
-    }
-
 
     /**
-     *
+     *领取优惠券
      * @param ticketId
      * @param userId
      * @return
@@ -69,11 +51,10 @@ public class WxTicketServiceImpl implements WxTicketService {
     @Override
     public BaseResult addTicket(Long ticketId, Long userId) {
         TicketUser ticketUser=wxTicketMapper.detail(ticketId,userId);
-        Long ticketId1=ticketUser.getTicketId();
-        Long userId1=ticketUser.getUserId();
-        if(ticketId1==null||userId1==null){
+        if(ticketUser==null){
             Integer result=wxTicketMapper.addTicket(ticketId,userId);
             if (result>0){
+                ticketUser.setNum(1);
                 return BaseResult.success("领取成功");
             }
             return BaseResult.success("领取失败");

@@ -24,15 +24,19 @@
 
     <!--获取用户优惠券详情-->
     <select id="detail" resultType="com.scoprion.mall.domain.TicketUser">
-        SELECT * FROM t_ticket_user WHERE userId={#userId} AND ticketId={#ticketId}
+        SELECT * FROM t_ticket_user WHERE userId=#{userId} AND ticketId=#{ticketId}
     </select>
 
 
     <!--领取优惠券-->
     <insert id="addTicket" parameterType="com.scoprion.mall.domain.TicketUser">
-        INNER INTO t_ticket_user
-        (ticketId,userId,num,createDate,type)
+        INSERT INTO t_ticket_user
+        (ticketId,
+         userId,
+         createDate)
         VALUES
-        (#{ticketId,#{userId},#{num},now(),#{type}
+        (#{ticketId},
+         #{userId},
+         now())
     </insert>
 </mapper>
