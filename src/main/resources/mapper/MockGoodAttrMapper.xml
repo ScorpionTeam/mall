@@ -30,6 +30,7 @@
         ta.attrName,
         ta.defaultValueId,
         ta.verNo,
+        tav.attrId,
         tav.attrValueName,
         tav.attrValue
         FROM t_attr ta LEFT JOIN t_attr_value tav ON ta.id=tav.attrId
