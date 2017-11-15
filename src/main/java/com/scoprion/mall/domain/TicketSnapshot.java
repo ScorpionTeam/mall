@@ -66,7 +66,7 @@ public class TicketSnapshot {
     private int num;
 
     /**
-     * 状态 1 删除 0 正常
+     * 状态 1 删除(已使用) 0 正常
      */
     private String status;
 

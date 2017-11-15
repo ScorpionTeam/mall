@@ -52,6 +52,9 @@ public class WxPayServiceImpl implements WxPayService {
     private WxPointLogMapper wxPointLogMapper;
 
     @Autowired
+    private WxTicketSnapshotMapper wxTicketSnapshotMapper;
+
+    @Autowired
     private WxTicketMapper wxTicketMapper;
 
     /**
@@ -71,19 +74,31 @@ public class WxPayServiceImpl implements WxPayService {
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        GoodSnapshot goodSnapshot = constructSnapshot(goods);
-        goodSnapShotWxMapper.add(goodSnapshot);
         //查询收货地址
         Delivery delivery = wxDeliveryMapper.findById(wxOrderRequestData.getDeliveryId());
         if (null == delivery) {
             return BaseResult.error("not_found_address", "收货地址出错");
         }
+        //商品快照
+        GoodSnapshot goodSnapshot = constructSnapshot(goods);
+        goodSnapShotWxMapper.add(goodSnapshot);
         //查询用户openid
         String openid = WxUtil.getOpenId(wxCode);
         Order order = constructOrder(goods, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("pre_order_error", "下单出错");
+        }
+        //使用优惠券
+        if (Constant.STATUS_ONE.equals(order.getUseTicket())) {
+            Long ticketId = order.getTicketId();
+            Ticket ticket = wxTicketMapper.findById(ticketId);
+            if (Constant.STATUS_ONE.equals(ticket.getStatus())) {
+                return BaseResult.error("unable_use_ticket", "优惠券已经使用过了");
+            }
+            ticket.setStatus(Constant.STATUS_ONE);
+            TicketSnapshot ticketSnapshot = constructTicketSnapshot(ticket);
+            wxTicketSnapshotMapper.add(ticketSnapshot);
         }
         //系统内部生成订单信息
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress);
@@ -180,7 +195,6 @@ public class WxPayServiceImpl implements WxPayService {
             operatePoint(order);
             //销量
             wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
-            //TODO:优惠券扣减
         }
         return BaseResult.success("支付回调成功");
     }
@@ -307,6 +321,18 @@ public class WxPayServiceImpl implements WxPayService {
         GoodSnapshot goodSnapshot = new GoodSnapshot();
         BeanUtils.copyProperties(goods, goodSnapshot);
         return goodSnapshot;
+    }
+
+    /**
+     * 构造优惠券快照
+     *
+     * @param ticket
+     * @return
+     */
+    private TicketSnapshot constructTicketSnapshot(Ticket ticket) {
+        TicketSnapshot snapshot = new TicketSnapshot();
+        BeanUtils.copyProperties(ticket, snapshot);
+        return snapshot;
     }
 
     /**
