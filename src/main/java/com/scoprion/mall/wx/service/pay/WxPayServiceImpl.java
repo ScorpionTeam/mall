@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,7 +69,23 @@ public class WxPayServiceImpl implements WxPayService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
-
+        //使用优惠券
+        if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
+            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findById(wxOrderRequestData.getTicket());
+            if (ticketSnapshot != null && Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
+                return BaseResult.error("error", "优惠券已经使用过了");
+            }
+            Ticket ticket = wxTicketMapper.findById(wxOrderRequestData.getTicket());
+            if (ticket.getStartDate().after(new Date())) {
+                return BaseResult.error("error", "优惠券未到使用日期");
+            }
+            if (ticket.getEndDate().before(new Date())) {
+                return BaseResult.error("error", "优惠券已过期");
+            }
+            ticket.setStatus(Constant.STATUS_ONE);
+            TicketSnapshot snapshot = constructTicketSnapshot(ticket);
+            wxTicketSnapshotMapper.add(snapshot);
+        }
         //查询商品库存
         Goods goods = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
         if (null == goods || goods.getStock() <= 0) {
@@ -89,17 +106,7 @@ public class WxPayServiceImpl implements WxPayService {
         if (orderResult <= 0) {
             return BaseResult.error("pre_order_error", "下单出错");
         }
-        //使用优惠券
-        if (Constant.STATUS_ONE.equals(order.getUseTicket())) {
-            Long ticketId = order.getTicketId();
-            Ticket ticket = wxTicketMapper.findById(ticketId);
-            if (Constant.STATUS_ONE.equals(ticket.getStatus())) {
-                return BaseResult.error("unable_use_ticket", "优惠券已经使用过了");
-            }
-            ticket.setStatus(Constant.STATUS_ONE);
-            TicketSnapshot ticketSnapshot = constructTicketSnapshot(ticket);
-            wxTicketSnapshotMapper.add(ticketSnapshot);
-        }
+
         //系统内部生成订单信息
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress);
         wxOrderLogMapper.add(orderLog);
@@ -306,6 +313,11 @@ public class WxPayServiceImpl implements WxPayService {
         order.setCount(wxOrderRequestData.getCount());
         order.setMessage(wxOrderRequestData.getMessage());
         order.setGoodId(goods.getId());
+        if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
+            if (wxOrderRequestData.getTicket() != null) {
+                order.setTicketId(wxOrderRequestData.getTicket());
+            }
+        }
         BeanUtils.copyProperties(delivery, order);
         order.setUserId(userId);
         return order;

@@ -78,7 +78,7 @@ public class TicketSnapshot {
     /**
      * 是否限量 0是 1否
      */
-    private String limit;
+    private String numLimit;
 
     public Long getId() {
         return id;
@@ -184,12 +184,12 @@ public class TicketSnapshot {
         this.useRange = useRange;
     }
 
-    public String getLimit() {
-        return limit;
+    public String getNumLimit() {
+        return numLimit;
     }
 
-    public void setLimit(String limit) {
-        this.limit = limit;
+    public void setNumLimit(String numLimit) {
+        this.numLimit = numLimit;
     }
 
     @Override
@@ -208,7 +208,7 @@ public class TicketSnapshot {
                 ", num=" + num +
                 ", status='" + status + '\'' +
                 ", useRange='" + useRange + '\'' +
-                ", limit='" + limit + '\'' +
+                ", numLimit='" + numLimit + '\'' +
                 '}';
     }
 }
