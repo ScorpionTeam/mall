@@ -6,12 +6,15 @@
 
     <!--新增-->
     <insert id="add" parameterType="com.scoprion.mall.domain.TicketSnapshot">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
        INSERT INTO t_ticket_snapshot
-        (id,ticketName,content,startDate,endDate,money,num,status,createDate,
-        ticketNo,type,useRange,numLimit,useDate)
+        (ticketName,content,startDate,endDate,money,num,createDate,
+        ticketNo,type,useRange,numLimit,ticketId,status)
         VALUES
-        (#{id},#{ticketName},#{content},#{startDate},#{endDate},#{money},#{num},
-        #{status},now(),#{ticketNo} ,#{type},#{useRange},#{numLimit},#{useDate})
+        (#{ticketName},#{content},#{startDate},#{endDate},#{money},#{num},
+         now(),#{ticketNo} ,#{type},#{useRange},#{numLimit},#{ticketId},#{status})
     </insert>
 
     <!--查询详情-->

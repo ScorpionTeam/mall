@@ -46,8 +46,8 @@ public class WxTicketServiceImpl implements WxTicketService {
     @Override
     public PageResult findByUserId(Integer pageNo, Integer pageSize, String wxCode) {
         PageHelper.startPage(pageNo, pageSize);
-//        String userId = WxUtil.getOpenId(wxCode);
-        Page<TicketExt> page = wxTicketMapper.findByUserId(wxCode);
+        String userId = WxUtil.getOpenId(wxCode);
+        Page<TicketExt> page = wxTicketMapper.findByUserId(userId);
         List<TicketExt> list = page.getResult();
         Date currentTime = new Date();
         list.forEach(item -> {
@@ -76,23 +76,28 @@ public class WxTicketServiceImpl implements WxTicketService {
      */
     @Override
     public BaseResult getTicket(Long ticketId, String wxCode) {
-        String userId = WxUtil.getOpenId(wxCode);
-        TicketUser ticketUser = wxTicketMapper.findByTicketIdAndUserId(ticketId, userId);
+//        String userId = WxUtil.getOpenId(wxCode);
+        TicketUser ticketUser = wxTicketMapper.findByTicketIdAndUserId(ticketId, wxCode);
         if (ticketUser != null) {
             return BaseResult.error("add_error", "已经领取过了");
         }
+        //   获取优惠券详情
         Ticket ticket = wxTicketMapper.findById(ticketId);
         if (ticket == null) {
             return BaseResult.error("add_error", "领取失败,找不到该优惠券");
+        }else if(ticket.getNum()==0){
+            return BaseResult.error("add_error","领取失败,优惠券已经领完了");
         }
         TicketSnapshot snapshot = new TicketSnapshot();
         BeanUtils.copyProperties(ticket, snapshot);
+        snapshot.setTicketId(ticket.getId());
         int result = wxTicketSnapshotMapper.add(snapshot);
         if (result > 0) {
             ticketUser = new TicketUser();
             ticketUser.setNum(1);
+            ticketUser.setSnapshotId(snapshot.getId());
+            ticketUser.setUserId(wxCode);
             ticketUser.setTicketId(ticketId);
-            ticketUser.setUserId(userId);
             ticketUser.setStatus(Constant.STATUS_ZERO);
             int addResult = wxTicketMapper.addTicketUser(ticketUser);
             if (addResult > 0) {
