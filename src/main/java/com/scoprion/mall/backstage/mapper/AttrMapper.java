@@ -4,6 +4,7 @@ import com.scoprion.mall.domain.Attr;
 import com.scoprion.mall.domain.AttrValue;
 import com.scoprion.mall.domain.GoodAttr;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface AttrMapper {
      * @param attrValueList
      * @return
      */
-    int addAttrValue(List<AttrValue> attrValueList);
+    int addAttrValue(@Param("attrValueList") List<AttrValue> attrValueList);
 
     /**
      * 创建商品属性
