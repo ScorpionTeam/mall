@@ -92,11 +92,10 @@ public class WxTicketServiceImpl implements WxTicketService {
         BeanUtils.copyProperties(ticket, snapshot);
         snapshot.setTicketId(ticket.getId());
         int result = wxTicketSnapshotMapper.add(snapshot);
-        Long snapshotId=snapshot.getId();
         if (result > 0) {
             ticketUser = new TicketUser();
             ticketUser.setNum(1);
-            ticketUser.setSnapshotId(snapshotId);
+            ticketUser.setSnapshotId(snapshot.getId());
             ticketUser.setUserId(wxCode);
             ticketUser.setTicketId(ticketId);
             ticketUser.setStatus(Constant.STATUS_ZERO);
