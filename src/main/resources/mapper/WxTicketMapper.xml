@@ -19,7 +19,7 @@
         tks.status,
         tks.useRange,
         tks.numLimit,
-        tks.status,
+        tks.type,
         tks.startDate,
         tks.endDate
         FROM t_ticket_snapshot tks  LEFT JOIN t_ticket_user  tku  ON tks.id=tku.ticketId
