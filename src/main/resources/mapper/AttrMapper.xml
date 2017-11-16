@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.backstage.mapper.AttrMapper">
+
+    <!--创建属性-->
+    <insert id="addAttr" parameterType="com.scoprion.mall.domain.AttrExt">
+        INSERT INTO t_attr(attrName,defaultValueId,verNo,categoryId)
+        VALUES (#{attrName},#{defaultValueId},#{verNo},#{categoryId})
+    </insert>
+
+    <!--创建属性值-->
+    <insert id="addAttrValue" parameterType="java.util.List">
+        INSERT INTO t_attr_value(attrId,attrValueName,attrValue)
+        VALUES
+        <foreach collection="attrValueList" item="item" index="index" separator=",">
+            (#{item.attrId},#{item.attrValueName},#{item.attrValue})
+        </foreach>
+    </insert>
+
+    <!--创建商品属性-->
+    <insert id="addGoodAttr" parameterType="com.scoprion.mall.domain.GoodAttr">
+        INSERT INTO t_good_attr(goodId,
+        attrId,
+        attrName,
+        verNo,
+        attrVisible,
+        defaultValue,
+        seq,
+        attrType,
+        displayType)
+        VALUES (#{goodId},
+        #{attrId},
+        #{attrName},
+        #{verNo},
+        #{attrVisible},
+        #{defaultValue},
+        #{seq},
+        #{attrType},
+        #{displayType})
+    </insert>
+
+</mapper>

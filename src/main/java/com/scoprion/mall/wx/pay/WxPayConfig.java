@@ -54,4 +54,14 @@ public class WxPayConfig {
      * oauth2授权接口(GET)
      */
     public final static String OAUTH2_URL = "https://api.weixin.qq.com/sns/oauth2/access_token";
+
+    /**
+     * ==================================访问分析======================================================
+     */
+
+    /**
+     * 访问趋势
+     */
+    public final static String VISIT_REND="https://api.weixin.qq.com/datacube/getweanalysisappiddailyvisittrend?access_token="+APP_SECRET;
+
 }

@@ -52,7 +52,7 @@ public class GoodAttr {
     private String attrType;
 
     /**
-     * 多选  单选  下拉  输入
+     * 0 多选  1 单选  2 下拉  3 输入
      */
     private String displayType;
 

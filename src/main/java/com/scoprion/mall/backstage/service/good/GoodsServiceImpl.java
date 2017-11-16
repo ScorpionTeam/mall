@@ -273,18 +273,4 @@ public class GoodsServiceImpl implements GoodsService {
         return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品批量上架成功" : "商品批量下架成功");
     }
 
-    /**
-     * 创建商品规格
-     *
-     * @param jsonObject
-     * @return
-     */
-    @Override
-    public BaseResult addAttr(JSONObject jsonObject) {
-
-        List<AttrExt> attrExts = jsonObject.getJSONArray("attrExts").toJavaList(AttrExt.class);
-
-
-        return null;
-    }
 }
