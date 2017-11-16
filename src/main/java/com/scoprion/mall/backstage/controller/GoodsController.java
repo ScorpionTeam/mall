@@ -23,6 +23,7 @@ public class GoodsController {
 
 
     private static final String IMAGE_LIST = "imageList";
+
     @Autowired
     private GoodsService goodsService;
 

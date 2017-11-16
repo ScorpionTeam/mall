@@ -52,8 +52,8 @@
     </insert>
 
     <insert id="addAttrValue" parameterType="com.scoprion.mall.domain.AttrValue">
-        INSERT INTO t_attr_value(attrId,attrName,attrValue)
-        VALUES (#{attrId},#{attrName},#{attrValue})
+        INSERT INTO t_attr_value(attrId,attrValueName,attrValue)
+        VALUES (#{attrId},#{attrValueName},#{attrValue})
     </insert>
 
     <insert id="addGoodAttr" parameterType="com.scoprion.mall.domain.GoodAttr">

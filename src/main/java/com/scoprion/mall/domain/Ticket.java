@@ -196,7 +196,7 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{" +
+        return "ticket{" +
                 "id=" + id +
                 ", ticketNo='" + ticketNo + '\'' +
                 ", ticketName='" + ticketName + '\'' +

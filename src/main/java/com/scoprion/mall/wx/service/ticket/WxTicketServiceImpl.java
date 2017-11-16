@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.Ticket;
+import com.scoprion.mall.domain.TicketExt;
 import com.scoprion.mall.domain.TicketSnapshot;
 import com.scoprion.mall.domain.TicketUser;
 import com.scoprion.mall.wx.mapper.WxTicketMapper;
@@ -15,8 +16,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -45,8 +46,25 @@ public class WxTicketServiceImpl implements WxTicketService {
     @Override
     public PageResult findByUserId(Integer pageNo, Integer pageSize, String wxCode) {
         PageHelper.startPage(pageNo, pageSize);
-        String userId = WxUtil.getOpenId(wxCode);
-        Page<Ticket> page = wxTicketMapper.findByUserId(userId);
+//        String userId = WxUtil.getOpenId(wxCode);
+        Page<TicketExt> page = wxTicketMapper.findByUserId(wxCode);
+        List<TicketExt> list = page.getResult();
+        Date currentTime = new Date();
+        list.forEach(item -> {
+
+            Date startDate = item.getStartDate();
+            Date endDate = item.getEndDate();
+            if (startDate.before(currentTime)) {
+                item.setExpire("未到期");
+            }
+            if (endDate.after(currentTime)) {
+                item.setExpire("已过期");
+            }
+            if (startDate.compareTo(currentTime) == -1 && startDate.compareTo(
+                    currentTime) == 0 && currentTime.compareTo(endDate) == -1 && currentTime.compareTo(endDate) == 0) {
+                item.setExpire("正常");
+            }
+        });
         return new PageResult(page);
     }
 
