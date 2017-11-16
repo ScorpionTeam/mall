@@ -27,16 +27,9 @@
     </select>
 
     <!-- 根据用户id、优惠券id查询记录 -->
-    <select id="findByTicketIdAndUserId" resultType="com.scoprion.mall.domain.TicketUser">
-        SELECT
-        id,
-        userId,
-        ticketId,
-        num,
-        createDate,
-        useDate,
-        status
-        FROM t_ticket_user WHERE userId=#{userId} AND ticketId=#{ticketId}
+    <select id="findByTicketIdAndUserId" resultType="java.lang.Integer">
+        SELECT count(*) FROM t_ticket_snapshot ts LEFT JOIN t_ticket_user tu ON ts.snapshotId=tu.id
+        WHERE tu.ticketId=#{ticketId}
     </select>
 
     <!--新增优惠券-y用户关系记录-->
@@ -65,4 +58,7 @@
         FROM  t_ticket WHERE  id=#{id}
     </select>
 
+    <update id="updateTicketNum">
+        UPDATE t_ticket SET num=num-1 WHERE id=#{id}
+    </update>
 </mapper>
