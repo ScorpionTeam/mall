@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.service.good;
 
+import com.alibaba.fastjson.JSONObject;
 import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.result.BaseResult;
@@ -126,4 +127,12 @@ public interface GoodsService {
      * @return
      */
     BaseResult batchModifySaleStatus(String saleStatus, List<Long> goodsIdList);
+
+    /**
+     * 创建商品规格
+     *
+     * @param jsonObject
+     * @return
+     */
+    BaseResult addAttr(JSONObject jsonObject);
 }

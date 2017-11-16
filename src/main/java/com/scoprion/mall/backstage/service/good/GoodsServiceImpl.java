@@ -1,10 +1,15 @@
 package com.scoprion.mall.backstage.service.good;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
+import com.scoprion.mall.domain.Attr;
+import com.scoprion.mall.domain.AttrExt;
+import com.scoprion.mall.domain.GoodAttr;
+import com.scoprion.mall.domain.GoodAttrExt;
 import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
@@ -266,5 +271,20 @@ public class GoodsServiceImpl implements GoodsService {
         }
         goodsMapper.batchModifySaleStatus(saleStatus, goodsIdList);
         return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品批量上架成功" : "商品批量下架成功");
+    }
+
+    /**
+     * 创建商品规格
+     *
+     * @param jsonObject
+     * @return
+     */
+    @Override
+    public BaseResult addAttr(JSONObject jsonObject) {
+
+        List<AttrExt> attrExts = jsonObject.getJSONArray("attrExts").toJavaList(AttrExt.class);
+
+
+        return null;
     }
 }

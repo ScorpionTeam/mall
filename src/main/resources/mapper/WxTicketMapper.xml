@@ -9,7 +9,7 @@
     <select id="findByUserId" resultType="com.scoprion.mall.domain.TicketExt">
         SELECT
         tks.id,
-        tku.userId as userId ,
+        tku.userId ,
         tks.createDate,
         tks.num,
         tks.ticketName,
