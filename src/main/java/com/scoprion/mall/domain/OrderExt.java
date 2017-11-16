@@ -32,9 +32,21 @@ public class OrderExt extends Order {
      * 商品图片
      */
     private String goodMainImage;
+    /**
+     * 快递公司名称
+     */
+    private String expressName;
 
     public OrderExt() {
 
+    }
+
+    public String getExpressName() {
+        return expressName;
+    }
+
+    public void setExpressName(String expressName) {
+        this.expressName = expressName;
     }
 
     public String getGoodMainImage() {

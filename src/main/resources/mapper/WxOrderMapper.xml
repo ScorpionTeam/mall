@@ -102,12 +102,16 @@
         tor.goodFee,
         tor.deliveryNo,
         tor.freightFee,
-        tg.mainImgUrl as goodMainImage
-        FROM t_order tor LEFT JOIN t_good_snapshot tg ON tor.goodSnapShotId=tg.id
+        tg.mainImgUrl as goodMainImage,
+        tsg.expressName as expressName
+        FROM t_order tor
+        LEFT JOIN t_good_snapshot tg ON tor.goodSnapShotId=tg.id
+        LEFT JOIN t_send_good tsg ON tor.id=tsg.orderId
         WHERE tor.userId=#{userId}
         <if test="orderStatus!=null">
             AND tor.orderStatus=#{orderStatus}
         </if>
+        GROUP BY tor.id
     </select>
 
 
