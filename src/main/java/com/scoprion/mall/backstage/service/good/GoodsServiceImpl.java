@@ -79,7 +79,7 @@ public class GoodsServiceImpl implements GoodsService {
                     fileOperationMapper.add(mallImage);
                 }
             }
-            return BaseResult.success("创建商品成功");
+            return BaseResult.success(good.getId());
         }
         return BaseResult.error("mock_fail", "创建商品失败");
     }
@@ -119,16 +119,25 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * 根据id修改商品信息
      *
-     * @param goods Goods
+     * @param good 商品信息
      * @return
      */
     @Override
-    public BaseResult updateGood(GoodExt goods) {
-        if (goods.getId() == null) {
+    public BaseResult updateGood(GoodExt good) {
+        if (good.getId() == null) {
             return BaseResult.parameterError();
         }
-        goodsMapper.updateGoods(goods);
-        List<MallImage> imgList = goods.getImgList();
+        GoodExt localGood = goodsMapper.findById(good.getId());
+        if (localGood == null) {
+            return BaseResult.error("unable_update", "未找到商品");
+        }
+        if (!StringUtils.isEmpty(localGood.getIsOnSale()) &&
+                Constant.STATUS_ONE.equals(localGood.getIsOnSale())) {
+            //上架状态，不能修改
+            return BaseResult.error("unable_update", "商品为上架状态，不能修改");
+        }
+        goodsMapper.updateGoods(good);
+        List<MallImage> imgList = good.getImgList();
         if (imgList != null && imgList.size() > 0) {
             //清空原来的图片
             for (MallImage mallImage : imgList) {
@@ -136,7 +145,7 @@ public class GoodsServiceImpl implements GoodsService {
             }
             //插入图片
             for (MallImage mallImage : imgList) {
-                mallImage.setGoodId(goods.getId());
+                mallImage.setGoodId(good.getId());
                 fileOperationMapper.add(mallImage);
             }
         }
@@ -273,18 +282,4 @@ public class GoodsServiceImpl implements GoodsService {
         return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品批量上架成功" : "商品批量下架成功");
     }
 
-    /**
-     * 创建商品规格
-     *
-     * @param jsonObject
-     * @return
-     */
-    @Override
-    public BaseResult addAttr(JSONObject jsonObject) {
-
-        List<AttrExt> attrExts = jsonObject.getJSONArray("attrExts").toJavaList(AttrExt.class);
-
-
-        return null;
-    }
 }

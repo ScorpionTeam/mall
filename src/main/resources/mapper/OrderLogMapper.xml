@@ -7,11 +7,13 @@
     <insert id="add" parameterType="com.scoprion.mall.domain.OrderLog">
         INSERT INTO t_order_log(
           orderNo,
+          orderId,
           action,
           ipAddress,
           createDate
         ) VALUES (
          #{orderNo},
+         #{orderId},
          #{action},
          #{ipAddress},
          now()

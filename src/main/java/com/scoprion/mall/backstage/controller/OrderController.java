@@ -24,6 +24,23 @@ public class OrderController {
 
 
     /**
+     * 商品发货
+     *
+     * @param orderId     订单号
+     * @param deliveryNo  运单号
+     * @param expressName 快递公司
+     * @param expressNo   快递公司编号
+     * @param senderId    寄件人Id
+     * @return
+     */
+    @ApiOperation(value = "商品发货")
+    @RequestMapping(value = "/sendGood", method = RequestMethod.GET)
+    public BaseResult sendGood(Long orderId, String deliveryNo, String expressName, String expressNo, Long senderId) {
+        return orderService.sendGood(orderId, deliveryNo, expressName, expressNo, senderId);
+    }
+
+
+    /**
      * 修改订单
      *
      * @param order
@@ -54,8 +71,8 @@ public class OrderController {
     @ApiOperation(value = "订单列表")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String payType, String orderType,
-                           String orderStatus, String searchKey, String startDate, String endDate,
-                           String phone, String orderNo) {
+                                      String orderStatus, String searchKey, String startDate, String endDate,
+                                      String phone, String orderNo) {
         return orderService.findByCondition(pageNo, pageSize, payType, orderType, orderStatus, searchKey, startDate, endDate,
                 phone, orderNo);
     }
@@ -83,6 +100,6 @@ public class OrderController {
      */
     @RequestMapping(value = "/audit/refund", method = RequestMethod.POST)
     public BaseResult refund(Long orderId, String flag, String remark, int refundFee) {
-        return orderService.refund(orderId,flag,remark,refundFee);
+        return orderService.refund(orderId, flag, remark, refundFee);
     }
 }

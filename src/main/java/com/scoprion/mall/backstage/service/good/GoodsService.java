@@ -128,11 +128,4 @@ public interface GoodsService {
      */
     BaseResult batchModifySaleStatus(String saleStatus, List<Long> goodsIdList);
 
-    /**
-     * 创建商品规格
-     *
-     * @param jsonObject
-     * @return
-     */
-    BaseResult addAttr(JSONObject jsonObject);
 }

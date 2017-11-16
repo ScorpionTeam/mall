@@ -31,6 +31,7 @@ public class MallConfig extends WebMvcConfigurerAdapter {
 //        registry.addInterceptor(getMallInterceptor());
         super.addInterceptors(registry);
     }
+    
 
     /**
      * 重写消息转换格式

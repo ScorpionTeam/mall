@@ -8,6 +8,11 @@ import java.util.List;
  */
 public class AttrExt extends Attr {
 
+    /**
+     * 排序
+     */
+    private int seq;
+
     private List<AttrValue> attrValueList;
 
     public List<AttrValue> getAttrValueList() {
@@ -18,10 +23,19 @@ public class AttrExt extends Attr {
         this.attrValueList = attrValueList;
     }
 
+    public int getSeq() {
+        return seq;
+    }
+
+    public void setSeq(int seq) {
+        this.seq = seq;
+    }
+
     @Override
     public String toString() {
         return "AttrExt{" +
-                "attrValueList=" + attrValueList +
+                "seq=" + seq +
+                ", attrValueList=" + attrValueList +
                 '}';
     }
 }
