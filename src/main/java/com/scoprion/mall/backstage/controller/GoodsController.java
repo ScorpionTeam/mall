@@ -167,16 +167,6 @@ public class GoodsController {
         return goodsService.modifyGoodsDeduction(id, count);
     }
 
-    /**
-     * 创建商品规格
-     *
-     * @param jsonObject
-     * @return
-     */
-    @RequestMapping(value = "/addAttr", method = RequestMethod.POST)
-    public BaseResult addAttr(@RequestBody JSONObject jsonObject) {
-        return null;
-    }
 
 
 }
