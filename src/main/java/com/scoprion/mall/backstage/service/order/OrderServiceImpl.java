@@ -64,9 +64,10 @@ public class OrderServiceImpl implements OrderService {
      *
      * @return
      */
-    public BaseResult goodReject(Long orderId) {
+    public BaseResult goodReject(Long orderId, Integer count) {
         Order order = orderMapper.findById(orderId);
-
+        //返回库存
+        goodsMapper.modifyGoodsDeduction(order.getGoodId(), count);
         return BaseResult.success("操作成功");
     }
 
