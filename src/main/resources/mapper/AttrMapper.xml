@@ -3,6 +3,55 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.AttrMapper">
+    <!--=====================================================ResultMap==========================================================-->
+
+
+    <!--AttrValue-->
+    <resultMap type="com.scoprion.mall.domain.AttrValue" id="attrValueResultMap">
+        <result column="id" property="id"/>
+        <result column="attrId" property="attrId"/>
+        <result column="attrValueName" property="attrValueName"/>
+        <result column="attrValue" property="attrValue"/>
+    </resultMap>
+
+    <!--AttrValueExt-->
+    <resultMap id="attrValueExtResultMap" type="com.scoprion.mall.domain.AttrValueExt" extends="attrValueResultMap">
+        <result column="attrValueId" property="attrValueId"/>
+    </resultMap>
+
+    <!--Attr-->
+    <resultMap id="attrResultMap" type="com.scoprion.mall.domain.Attr">
+        <result column="id" property="id"/>
+        <result column="attrName" property="attrName"/>
+        <result column="defaultValueId" property="defaultValueId"/>
+        <result column="verNo" property="verNo"/>
+    </resultMap>
+
+    <!--AttrExt-->
+    <resultMap id="attrExtResultMap" type="com.scoprion.mall.domain.AttrExt" extends="attrResultMap">
+        <collection property="attrValueList" resultMap="attrValueExtResultMap"/>
+    </resultMap>
+
+    <!--GoodAttr-->
+    <resultMap id="goodAttrResultMap" type="com.scoprion.mall.domain.GoodAttr">
+        <result column="id" property="id"/>
+        <result column="goodId" property="goodId"/>
+        <result column="attrId" property="attrId"/>
+        <result column="attrName" property="attrName"/>
+        <result column="verNo" property="verNo"/>
+        <result column="attrVisible" property="attrVisible"/>
+        <result column="defaultValue" property="defaultValue"/>
+        <result column="seq" property="seq"/>
+        <result column="attrType" property="attrType"/>
+        <result column="displayType" property="displayType"/>
+    </resultMap>
+
+    <!--GoodAttrExt-->
+    <resultMap id="goodAttrExtResultMap" type="com.scoprion.mall.domain.GoodAttrExt" extends="goodAttrResultMap">
+        <collection property="attrExts" resultMap="goodAttrResultMap"/>
+    </resultMap>
+
+    <!--=====================================================ResultMap==========================================================-->
 
     <!--创建属性-->
     <insert id="addAttr" parameterType="com.scoprion.mall.domain.AttrExt">
@@ -40,5 +89,35 @@
         #{attrType},
         #{displayType})
     </insert>
+
+    <select id="findGoodAttrByGoodId" resultMap="goodAttrExtResultMap">
+        SELECT id,
+        goodId,
+        attrId,
+        attrName,
+        verNo,
+        attrVisible,
+        defaultValue,
+        seq,
+        attrType,
+        displayType
+        FROM t_good_attr
+        WHERE goodId=#{goodId}
+    </select>
+
+    <!--查询属性列表-->
+    <select id="findAttrExt" resultMap="attrExtResultMap">
+        SELECT ta.id,
+        ta.attrName,
+        ta.defaultValueId,
+        ta.verNo,
+        tav.id as attrValueId,
+        tav.attrId,
+        tav.attrValueName,
+        tav.attrValue
+        FROM t_attr ta LEFT JOIN t_attr_value tav ON ta.id=tav.attrId
+        WHERE ta.id=#{attrId}
+    </select>
+
 
 </mapper>

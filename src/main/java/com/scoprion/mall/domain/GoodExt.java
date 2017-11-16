@@ -52,6 +52,11 @@ public class GoodExt extends Goods {
      */
     private String status;
 
+    /**
+     * 商品规格列表
+     */
+    private List<GoodAttrExt> goodAttrExts;
+
     @Override
     public String getStatus() {
         return status;
@@ -110,6 +115,14 @@ public class GoodExt extends Goods {
         this.imgList = imgList;
     }
 
+    public List<GoodAttrExt> getGoodAttrExts() {
+        return goodAttrExts;
+    }
+
+    public void setGoodAttrExts(List<GoodAttrExt> goodAttrExts) {
+        this.goodAttrExts = goodAttrExts;
+    }
+
     @Override
     public String toString() {
         return "GoodExt{" +
@@ -119,6 +132,8 @@ public class GoodExt extends Goods {
                 ", goodId=" + goodId +
                 ", sellerName=" + sellerName +
                 ", imgList=" + imgList +
+                ", status='" + status + '\'' +
+                ", goodAttrExts=" + goodAttrExts +
                 '}';
     }
 }
