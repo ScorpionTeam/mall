@@ -79,6 +79,12 @@ public class Ticket {
      */
     private String numLimit;
 
+    /**
+     * 优惠卷使用时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date useDate;
+
 
     public Long getId() {
         return id;
@@ -192,9 +198,17 @@ public class Ticket {
         this.numLimit = numLimit;
     }
 
+    public Date getUseDate() {
+        return useDate;
+    }
+
+    public void setUseDate(Date useDate) {
+        this.useDate = useDate;
+    }
+
     @Override
     public String toString() {
-        return "ticket{" +
+        return "Ticket{" +
                 "id=" + id +
                 ", ticketNo='" + ticketNo + '\'' +
                 ", ticketName='" + ticketName + '\'' +
@@ -209,6 +223,7 @@ public class Ticket {
                 ", status='" + status + '\'' +
                 ", useRange='" + useRange + '\'' +
                 ", numLimit='" + numLimit + '\'' +
+                ", useDate=" + useDate +
                 '}';
     }
 }

@@ -85,8 +85,28 @@ public class WxTicketServiceImpl implements WxTicketService {
         Ticket ticket = wxTicketMapper.findById(ticketId);
         if (ticket == null) {
             return BaseResult.error("add_error", "领取失败,找不到该优惠券");
-        }else if(ticket.getNum()==0){
-            return BaseResult.error("add_error","领取失败,优惠券已经领完了");
+        }
+        if ("0".equals(ticket.getNumLimit())) {
+            if(ticket.getNum()==0){
+                return BaseResult.error("add_error","领取失败,优惠券已经领完了");
+            }
+            TicketSnapshot snapshot = new TicketSnapshot();
+            BeanUtils.copyProperties(ticket, snapshot);
+            snapshot.setTicketId(ticket.getId());
+            int result = wxTicketSnapshotMapper.add(snapshot);
+            if (result > 0) {
+                ticketUser = new TicketUser();
+                ticketUser.setNum(1);
+                ticketUser.setUserId(wxCode);
+                ticketUser.setSnapshotId(snapshot.getId());
+                ticketUser.setTicketId(ticketId);
+                ticketUser.setStatus(Constant.STATUS_ZERO);
+                int ticketNum=wxTicketMapper.updateTicketNum(ticketId);
+                int addResult = wxTicketMapper.addTicketUser(ticketUser);
+                if (addResult > 0 && ticketNum>0) {
+                    return BaseResult.success("领取成功");
+                }
+            }
         }
         TicketSnapshot snapshot = new TicketSnapshot();
         BeanUtils.copyProperties(ticket, snapshot);

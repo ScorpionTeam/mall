@@ -65,4 +65,7 @@
         FROM  t_ticket WHERE  id=#{id}
     </select>
 
+    <update id="updateTicketNum" parameterType="com.scoprion.mall.domain.Ticket">
+        UPDATE t_ticket SET num=num-1 WHERE id=#{id}
+    </update>
 </mapper>

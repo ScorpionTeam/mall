@@ -53,4 +53,11 @@ public interface WxTicketMapper {
      * @return
      */
     Ticket findById(@Param("id") Long id);
+
+    /**
+     * 更新优惠券数量
+     * @param id
+     * @return
+     */
+    int updateTicketNum(@Param("id") Long id);
 }
