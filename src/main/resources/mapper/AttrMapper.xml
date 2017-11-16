@@ -55,6 +55,9 @@
 
     <!--创建属性-->
     <insert id="addAttr" parameterType="com.scoprion.mall.domain.AttrExt">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO t_attr(attrName,defaultValueId,verNo,categoryId)
         VALUES (#{attrName},#{defaultValueId},#{verNo},#{categoryId})
     </insert>

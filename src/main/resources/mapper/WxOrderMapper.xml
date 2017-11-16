@@ -34,7 +34,8 @@
         reduceFee,
         paymentFee,
         goodFee,
-        freightFee
+        freightFee,
+        deliveryNo
         )
         VALUES (#{userId},
         #{orderNo},
@@ -62,7 +63,8 @@
         #{reduceFee},
         #{paymentFee},
         #{goodFee},
-        #{freightFee})
+        #{freightFee},
+        #{deliveryNo})
     </insert>
 
     <!--修改订单微信预付款订单号-->
@@ -76,34 +78,40 @@
     </select>
 
     <!--我的订单-->
-    <select id="findByUserId" resultType="com.scoprion.mall.domain.Order">
-        SELECT id,
-        userId,
-        orderNo,
-        goodId,
-        goodSnapShotId,
-        deliveryId,
-        orderStatus,
-        orderType,
-        payType,
-        message,
-        goodName,
-        count,
-        payDate,
-        deliveryNo,
-        useTicket,
-        ticketId,
-        remark,
-        orderFee,
-        reduceFee,
-        paymentFee,
-        goodFee,
-        freightFee
-        FROM t_order
-        WHERE userId=#{userId}
+    <select id="findByUserId" resultType="com.scoprion.mall.domain.OrderExt">
+        SELECT tor.id,
+        tor.userId,
+        tor.orderNo,
+        tor.goodId,
+        tor.goodSnapShotId,
+        tor.deliveryId,
+        tor.orderStatus,
+        tor.orderType,
+        tor.payType,
+        tor.message,
+        tor.goodName,
+        tor.count,
+        tor.payDate,
+        tor.sendGoodId,
+        tor.useTicket,
+        tor.ticketId,
+        tor.remark,
+        tor.orderFee,
+        tor.reduceFee,
+        tor.paymentFee,
+        tor.goodFee,
+        tor.deliveryNo,
+        tor.freightFee,
+        tg.mainImgUrl as goodMainImage,
+        tsg.expressName as expressName
+        FROM t_order tor
+        LEFT JOIN t_good_snapshot tg ON tor.goodSnapShotId=tg.id
+        LEFT JOIN t_send_good tsg ON tor.id=tsg.orderId
+        WHERE tor.userId=#{userId}
         <if test="orderStatus!=null">
-            AND orderStatus=#{orderStatus}
+            AND tor.orderStatus=#{orderStatus}
         </if>
+        GROUP BY tor.id
     </select>
 
 

@@ -46,43 +46,46 @@
     </select>
 
     <!--详情-->
-    <select id="findById" resultType="com.scoprion.mall.domain.Order">
-        SELECT id,
-        userId,
-        orderNo,
-        goodSnapShotId,
-        deliveryId,
-        orderStatus,
-        orderType,
-        payType,
-        message,
-        orderFee,
-        reduceFee,
-        paymentFee,
-        goodFee,
-        freightFee,
-        createDate,
-        payDate,
-        deliveryDate,
-        updateDate,
-        recipients,
-        phone,
-        province,
-        city,
-        area,
-        address,
-        postCode,
-        goodName,
-        count,
-        prepayId,
-        wxOrderNo,
-        goodId,
-        remark,
-        useTicket,
-        ticketId,
-        operatePoint,
-        sendGoodId
-        FROM t_order WHERE id=#{id}
+    <select id="findById" resultType="com.scoprion.mall.domain.OrderExt">
+        SELECT tor.id,
+        tor.userId,
+        tor.orderNo,
+        tor.goodSnapShotId,
+        tor.deliveryId,
+        tor.orderStatus,
+        tor.orderType,
+        tor.payType,
+        tor.message,
+        tor.orderFee,
+        tor.reduceFee,
+        tor.paymentFee,
+        tor.goodFee,
+        tor.freightFee,
+        tor.createDate,
+        tor.payDate,
+        tor.deliveryDate,
+        tor.updateDate,
+        tor.recipients,
+        tor.phone,
+        tor.province,
+        tor.city,
+        tor.area,
+        tor.address,
+        tor.postCode,
+        tor.goodName,
+        tor.count,
+        tor.prepayId,
+        tor.wxOrderNo,
+        tor.goodId,
+        tor.remark,
+        tor.useTicket,
+        tor.ticketId,
+        tor.operatePoint,
+        tor.sendGoodId,
+        tor.deliveryNo,
+        tg.mainImgUrl as goodMainImage
+        FROM t_order tor LEFT JOIN t_good_snapshot tg ON tor.goodSnapShotId=tg.id
+        WHERE tor.id=#{id}
     </select>
 
     <!--修改订单-->
@@ -120,6 +123,7 @@
         <if test="sendGoodId!=null">sendGoodId=#{sendGoodId},</if>
         <if test="useTicket!=null">useTicket=#{useTicket},</if>
         <if test="ticketId!=null">ticketId=#{ticketId},</if>
+        <if test="deliveryNo!=null">deliveryNo=#{deliveryNo},</if>
         updateDate=now()
         WHERE id=#{id}
     </update>
@@ -148,6 +152,7 @@
         deliveryDate=now()
         <if test="orderStatus!=null">, orderStatus=#{orderStatus}</if>
         <if test="sendGoodId!=null">,sendGoodId=#{sendGoodId}</if>
+        <if test="deliveryNo!=null">,deliveryNo=#{deliveryNo}</if>
         WHERE id=#{id}
     </update>
 
