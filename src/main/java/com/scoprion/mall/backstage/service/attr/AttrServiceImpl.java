@@ -48,8 +48,7 @@ public class AttrServiceImpl implements AttrService {
             GoodAttr goodAttr = goodAttrConstructor(goodId, item);
             attrMapper.addGoodAttr(goodAttr);
         });
-
-        return null;
+        return BaseResult.success("创建规格成功");
     }
 
     /**

@@ -31,7 +31,7 @@ public interface AttrMapper {
      * @param attrValueList
      * @return
      */
-    int addAttrValue(List<AttrValue> attrValueList);
+    int addAttrValue(@Param("attrValueList") List<AttrValue> attrValueList);
 
     /**
      * 创建商品属性

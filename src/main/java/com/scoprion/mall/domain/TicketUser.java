@@ -26,6 +26,10 @@ public class TicketUser {
      */
     private Long ticketId;
     /**
+     * 优惠券快照id
+     */
+    private Long snapshotId;
+    /**
      * 优惠券数量
      */
     private int num;
@@ -41,6 +45,12 @@ public class TicketUser {
      */
     private String status;
 
+    /**
+     * 使用时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date useDate;
+
     public Long getId() {
         return id;
     }
@@ -55,14 +65,6 @@ public class TicketUser {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public Long getTicketId() {
-        return ticketId;
-    }
-
-    public void setTicketId(Long ticketId) {
-        this.ticketId = ticketId;
     }
 
     public int getNum() {
@@ -89,15 +91,41 @@ public class TicketUser {
         this.status = status;
     }
 
+    public Date getUseDate() {
+        return useDate;
+    }
+
+    public void setUseDate(Date useDate) {
+        this.useDate = useDate;
+    }
+
+    public Long getSnapshotId() {
+        return snapshotId;
+    }
+
+    public void setSnapshotId(Long snapshotId) {
+        this.snapshotId = snapshotId;
+    }
+
+    public Long getTicketId() {
+        return ticketId;
+    }
+
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
+
     @Override
     public String toString() {
         return "TicketUser{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userId='" + userId + '\'' +
                 ", ticketId=" + ticketId +
+                ", snapshotId=" + snapshotId +
                 ", num=" + num +
                 ", createDate=" + createDate +
                 ", status='" + status + '\'' +
+                ", useDate=" + useDate +
                 '}';
     }
 }
