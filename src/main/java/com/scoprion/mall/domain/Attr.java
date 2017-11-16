@@ -28,6 +28,11 @@ public class Attr {
      */
     private int verNo;
 
+    /**
+     * 类目id
+     */
+    private Long categoryId;
+
     public Long getId() {
         return id;
     }
@@ -60,13 +65,22 @@ public class Attr {
         this.verNo = verNo;
     }
 
+    public Long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
     @Override
     public String toString() {
         return "Attr{" +
                 "id=" + id +
                 ", attrName='" + attrName + '\'' +
-                ", defaultValueId=" + defaultValueId +
+                ", defaultValueId='" + defaultValueId + '\'' +
                 ", verNo=" + verNo +
+                ", categoryId=" + categoryId +
                 '}';
     }
 }

@@ -46,17 +46,7 @@ public class WxTicketController {
         return wxTicketService.getTicket(ticketId, wxCode);
     }
 
-    /**
-     * 判断优惠卷使用时间(useDate)
-     *
-     * @param ticketId
-     * @param wxCode
-     * @return
-     */
-    @RequestMapping(value = "/findByTicketId", method = RequestMethod.GET)
-    public BaseResult findByTicketId(String wxCode, Long ticketId) {
-        return wxTicketService.findByTicketId(wxCode, ticketId);
-    }
+
 
 }
 

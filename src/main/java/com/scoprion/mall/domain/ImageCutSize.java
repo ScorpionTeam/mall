@@ -6,7 +6,15 @@ package com.scoprion.mall.domain;
  * @date 2017-11-07 15:44
  */
 public class ImageCutSize {
+    
+    /**
+     * 宽度
+     */
     private Integer width;
+
+    /**
+     * 高度
+     */
     private Integer height;
 
     public Integer getWidth() {

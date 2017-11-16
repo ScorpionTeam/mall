@@ -23,6 +23,7 @@ public class GoodsController {
 
 
     private static final String IMAGE_LIST = "imageList";
+
     @Autowired
     private GoodsService goodsService;
 
@@ -165,4 +166,17 @@ public class GoodsController {
     public BaseResult modifyGoodsDeduction(Long id, Integer count) {
         return goodsService.modifyGoodsDeduction(id, count);
     }
+
+    /**
+     * 创建商品规格
+     *
+     * @param jsonObject
+     * @return
+     */
+    @RequestMapping(value = "/addAttr", method = RequestMethod.POST)
+    public BaseResult addAttr(@RequestBody JSONObject jsonObject) {
+        return null;
+    }
+
+
 }

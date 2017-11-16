@@ -9,9 +9,9 @@
     <select id="findByUserId" resultType="com.scoprion.mall.domain.TicketExt">
         SELECT
         tks.id,
-        tku.userId as userId ,
+        tku.userId ,
         tks.createDate,
-        tks.num,
+        tku.num,
         tks.ticketName,
         tks.content,
         tks.money,
@@ -19,8 +19,10 @@
         tks.status,
         tks.useRange,
         tks.numLimit,
-        tks.status
-        FROM t_ticket_user   tku LEFT JOIN t_ticket_snapshot tks ON tks.id=tku.ticketId
+        tks.type,
+        tks.startDate,
+        tks.endDate
+        FROM t_ticket_snapshot tks  LEFT JOIN t_ticket_user  tku  ON tks.id=tku.ticketId
         WHERE   tku.userId=#{userId}
     </select>
 

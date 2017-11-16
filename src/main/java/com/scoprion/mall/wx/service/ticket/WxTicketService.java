@@ -29,12 +29,4 @@ public interface WxTicketService {
      */
     BaseResult getTicket(Long ticketId, String wxCode);
 
-    /**
-     * * 判断优惠卷使用时间(useDate)
-     *
-     * @param wxCode
-     * @param ticketId
-     * @return
-     */
-    BaseResult findByTicketId(String wxCode, Long ticketId);
 }

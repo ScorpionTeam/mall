@@ -1,8 +1,6 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
-
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -35,13 +33,13 @@ public class Ticket {
     /**
      * 开始时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd")
     private Date startDate;
 
     /**
      * 结束时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd")
     private Date endDate;
 
     /**
@@ -196,7 +194,7 @@ public class Ticket {
 
     @Override
     public String toString() {
-        return "Ticket{" +
+        return "ticket{" +
                 "id=" + id +
                 ", ticketNo='" + ticketNo + '\'' +
                 ", ticketName='" + ticketName + '\'' +

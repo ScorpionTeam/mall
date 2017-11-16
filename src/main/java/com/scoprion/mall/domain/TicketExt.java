@@ -16,9 +16,13 @@ public class TicketExt extends Ticket {
     private String userId;
 
     /**
+     * 是否过期
+     */
+    private String expire;
+    /**
      * 用户领取优惠券时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd")
     private Date createDate;
 
     public String getUserId() {
@@ -39,10 +43,19 @@ public class TicketExt extends Ticket {
         this.createDate = createDate;
     }
 
+    public String getExpire() {
+        return expire;
+    }
+
+    public void setExpire(String expire) {
+        this.expire = expire;
+    }
+
     @Override
     public String toString() {
         return "TicketExt{" +
-                "userId=" + userId +
+                "userId='" + userId + '\'' +
+                ", expire='" + expire + '\'' +
                 ", createDate=" + createDate +
                 '}';
     }
