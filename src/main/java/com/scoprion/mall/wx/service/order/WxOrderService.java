@@ -62,4 +62,6 @@ public interface WxOrderService {
      * @return
      */
     BaseResult confirmReceipt(Long id, String wxCode);
+
+    BaseResult cancelOrder(Long id, String wxCode);
 }

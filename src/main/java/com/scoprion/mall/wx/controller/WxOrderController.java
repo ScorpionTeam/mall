@@ -94,5 +94,16 @@ public class WxOrderController {
     public BaseResult confirmReceipt(Long id, String wxCode) {
         return wxOrderService.confirmReceipt(id, wxCode);
     }
+    /**
+     * 确认收货
+     *
+     * @param id
+     * @param wxCode
+     * @return
+     */
+    @RequestMapping(value = "/cancelOrder", method = RequestMethod.GET)
+    public BaseResult cancelOrder(Long id, String wxCode) {
+        return wxOrderService.cancelOrder(id, wxCode);
+    }
 
 }

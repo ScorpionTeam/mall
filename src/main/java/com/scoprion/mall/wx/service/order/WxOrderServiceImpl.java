@@ -7,6 +7,7 @@ import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.SendGoodMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
+import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
 import com.scoprion.mall.wx.mapper.WxOrderMapper;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
@@ -25,6 +26,9 @@ public class WxOrderServiceImpl implements WxOrderService {
 
     @Autowired
     private WxOrderMapper wxOrderMapper;
+
+    @Autowired
+    private WxOrderLogMapper wxOrderLogMapper;
 
     @Autowired
     private SendGoodMapper sendGoodMapper;
@@ -139,15 +143,56 @@ public class WxOrderServiceImpl implements WxOrderService {
         String userId = WxUtil.getOpenId(wxCode);
         Order order = wxOrderMapper.findByOrderId(id);
         if (!userId.equals(order.getUserId())) {
-            BaseResult.error("confirm_fail", "未找到订单，确认收货失败");
+            return BaseResult.error("confirm_fail", "未找到订单，确认收货失败");
         }
         if (!Constant.STATUS_THREE.equals(order.getOrderStatus())) {
-            BaseResult.error("confirm_fail", "订单状态异常，不能确认收货");
+            return BaseResult.error("confirm_fail", "订单状态异常，不能确认收货");
         }
         int result = wxOrderMapper.updateByOrderID(id, "4");
         if (result > 0) {
+            saveOrderLog("确认收货", order);
             return BaseResult.success("确认收货成功");
         }
         return BaseResult.error("confirm_fail", "确认收货失败");
+    }
+
+
+    /**
+     * 取消订单，进处于代付款状态的订单才能执行取消订单操作
+     *
+     * @param id
+     * @param wxCode
+     * @return
+     */
+    @Override
+    public BaseResult cancelOrder(Long id, String wxCode) {
+        if (id == null) {
+            return BaseResult.parameterError();
+        }
+        if (StringUtils.isEmpty(wxCode)) {
+            return BaseResult.parameterError();
+        }
+        String userId = WxUtil.getOpenId(wxCode);
+        Order order = wxOrderMapper.findByOrderId(id);
+        if (order == null || !userId.equals(order.getUserId())) {
+            return BaseResult.error("cancel_fail", "未找到订单，取消订单失败");
+        }
+        if (!Constant.STATUS_ONE.equals(order.getOrderStatus())) {
+            return BaseResult.error("cancel_fail", "订单状态异常，不能取消订单");
+        }
+        int result = wxOrderMapper.updateByOrderID(id, "6");
+        if (result > 0) {
+            saveOrderLog("取消订单", order);
+            return BaseResult.success("取消订单成功");
+        }
+        return BaseResult.error("cancel_fail", "取消订单失败");
+    }
+
+    private void saveOrderLog(String action, Order order) {
+        OrderLog orderLog = new OrderLog();
+        orderLog.setAction(action);
+        orderLog.setOrderId(order.getId());
+        orderLog.setOrderNo(order.getOrderNo());
+        wxOrderLogMapper.add(orderLog);
     }
 }
