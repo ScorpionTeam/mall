@@ -55,11 +55,7 @@ public class TicketSnapshot {
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
-    /**
-     * 使用时间
-     */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date useDate;
+
     /**
      * 金额
      */
@@ -70,10 +66,6 @@ public class TicketSnapshot {
      */
     private int num;
 
-    /**
-     * 状态 1 删除(已使用) 0 正常
-     */
-    private String status;
 
     /**
      * 使用范围 使用范围 平台0通用，1其他类型 默认0
@@ -84,6 +76,16 @@ public class TicketSnapshot {
      * 是否限量 0是 1否
      */
     private String numLimit;
+
+    /**
+     * 优惠券id
+     */
+    private Long ticketId;
+
+    /**
+     * 状态 1 删除 0正常
+     */
+    private String status;
 
     public Long getId() {
         return id;
@@ -174,13 +176,6 @@ public class TicketSnapshot {
         this.num = num;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 
     public String getUseRange() {
         return useRange;
@@ -198,12 +193,20 @@ public class TicketSnapshot {
         this.numLimit = numLimit;
     }
 
-    public Date getUseDate() {
-        return useDate;
+    public Long getTicketId() {
+        return ticketId;
     }
 
-    public void setUseDate(Date useDate) {
-        this.useDate = useDate;
+    public void setTicketId(Long ticketId) {
+        this.ticketId = ticketId;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     @Override
@@ -217,13 +220,13 @@ public class TicketSnapshot {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", createDate=" + createDate +
-                ", useDate=" + useDate +
                 ", updateDate=" + updateDate +
                 ", money=" + money +
                 ", num=" + num +
-                ", status='" + status + '\'' +
                 ", useRange='" + useRange + '\'' +
                 ", numLimit='" + numLimit + '\'' +
+                ", ticketId=" + ticketId +
+                ", status='" + status + '\'' +
                 '}';
     }
 }

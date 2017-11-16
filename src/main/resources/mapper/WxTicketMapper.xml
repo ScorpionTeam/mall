@@ -22,7 +22,7 @@
         tks.type,
         tks.startDate,
         tks.endDate
-        FROM t_ticket_snapshot tks  LEFT JOIN t_ticket_user  tku  ON tks.id=tku.ticketId
+        FROM t_ticket_snapshot tks  LEFT JOIN t_ticket_user  tku  ON tks.id=tku.snapshotId
         WHERE   tku.userId=#{userId}
     </select>
 
@@ -41,9 +41,9 @@
 
     <!--新增优惠券-y用户关系记录-->
     <insert id="addTicketUser" parameterType="com.scoprion.mall.domain.TicketUser">
-        INSERT  INTO t_ticket_user(userId,ticketId,num,createDate,useDate,status)
+        INSERT  INTO t_ticket_user(userId,snapshotId,num,createDate,useDate,status,ticketId)
         VALUES
-        (#{userId},#{ticketId},#{num},now(),#{useDate},#{status})
+        (#{userId},#{snapshotId},#{num},now(),#{useDate},#{status},#{ticketId})
     </insert>
 
     <select id="findById" resultType="com.scoprion.mall.domain.Ticket">
@@ -64,4 +64,5 @@
         numLimit
         FROM  t_ticket WHERE  id=#{id}
     </select>
+
 </mapper>
