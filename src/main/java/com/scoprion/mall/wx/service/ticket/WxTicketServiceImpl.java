@@ -51,7 +51,6 @@ public class WxTicketServiceImpl implements WxTicketService {
         List<TicketExt> list = page.getResult();
         Date currentTime = new Date();
         list.forEach(item -> {
-
             Date startDate = item.getStartDate();
             Date endDate = item.getEndDate();
             if (startDate.before(currentTime)) {
@@ -101,19 +100,6 @@ public class WxTicketServiceImpl implements WxTicketService {
             }
         }
         return BaseResult.error("add_error", "领取失败");
-    }
-
-    @Override
-    public BaseResult findByTicketId(String wxCode, Long ticketId) {
-//        String userId = WxUtil.getOpenId(wxCode);
-//        TicketUser ticketUser = wxTicketMapper.findByTicketIdAndUserId(ticketId, userId);
-//        Date date = ticketUser.getUseDate();
-        //当前时间
-//        Date currentDate = new Date();
-//        if (date.getTime() > currentDate.getTime()) {
-//            return BaseResult.error("date_out", "还未到优惠卷的使用时间");
-//        }
-        return BaseResult.error("fail", "");
     }
 
 }

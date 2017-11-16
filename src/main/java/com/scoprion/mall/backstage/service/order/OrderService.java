@@ -27,8 +27,8 @@ public interface OrderService {
      * @return
      */
     PageResult findByCondition(Integer pageNo, Integer pageSize, String payType, String orderType,
-                        String orderStatus, String searchKey, String startDate, String endDate,
-                        String phone, String orderNo);
+                               String orderStatus, String searchKey, String startDate, String endDate,
+                               String phone, String orderNo);
 
     /**
      * 根据id查询详情
@@ -56,4 +56,18 @@ public interface OrderService {
      * @return
      */
     BaseResult refund(Long orderId, String flag, String remark, int refundFee);
+
+
+    /**
+     * 商品发货
+     *
+     * @param orderId     订单号
+     * @param deliveryNo  运单号
+     * @param expressName 快递公司
+     * @param expressNo   快递公司编号
+     * @param senderId    寄件人Id
+     * @return
+     */
+    BaseResult sendGood(Long orderId, String deliveryNo, String expressName,
+                        String expressNo, Long senderId);
 }

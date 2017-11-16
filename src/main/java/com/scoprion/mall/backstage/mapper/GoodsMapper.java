@@ -58,7 +58,7 @@ public interface GoodsMapper {
      * 商品库存扣减
      *
      * @param goodId
-     * @param count
+     * @param count  正数为添加、负数为扣减
      * @return
      */
     int modifyGoodsDeduction(@Param("goodId") Long goodId, @Param("count") Integer count);

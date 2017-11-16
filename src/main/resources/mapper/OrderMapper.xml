@@ -81,7 +81,7 @@
         useTicket,
         ticketId,
         operatePoint,
-        deliveryNo
+        sendGoodId
         FROM t_order WHERE id=#{id}
     </select>
 
@@ -117,7 +117,7 @@
         <if test="wxOrderNo!=null">wxOrderNo=#{wxOrderNo},</if>
         <if test="goodId!=null">goodId=#{goodId},</if>
         <if test="remark!=null">remark=#{remark},</if>
-        <if test="deliveryNo!=null">deliveryNo=#{deliveryNo},</if>
+        <if test="sendGoodId!=null">sendGoodId=#{sendGoodId},</if>
         <if test="useTicket!=null">useTicket=#{useTicket},</if>
         <if test="ticketId!=null">ticketId=#{ticketId},</if>
         updateDate=now()
@@ -139,6 +139,16 @@
         <if test="orderNo!=null">,orderNo=#{orderNo}</if>
         <if test="payDate!=null">,payDate=#{payDate}</if>
         WHERE id=#{orderId}
+    </update>
+
+    <!--修改订单发货信息-->
+    <update id="updateSendGood">
+        UPDATE t_order SET
+        updateDate=now(),
+        deliveryDate=now()
+        <if test="orderStatus!=null">, orderStatus=#{orderStatus}</if>
+        <if test="sendGoodId!=null">,sendGoodId=#{sendGoodId}</if>
+        WHERE id=#{id}
     </update>
 
 </mapper>

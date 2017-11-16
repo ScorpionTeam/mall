@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.backstage.mapper.SendGoodMapper">
+    <insert id="add" parameterType="com.scoprion.mall.domain.SendGood">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_send_good(orderId,
+        senderId,
+        expressName,
+        expressNo,
+        deliveryNo,
+        createDate)
+        VALUES (#{orderId},
+        #{senderId},
+        #{expressName},
+        #{expressNo},
+        #{deliveryNo},
+        #{createDate})
+    </insert>
+
+    <select id="findById" resultType="com.scoprion.mall.domain.SendGood">
+        SELECT id,
+        orderId,
+        senderId,
+        expressName,
+        expressNo,
+        deliveryNo,
+        createDate,
+        updateDate
+        FROM  t_send_good
+        WHERE id=#{id}
+    </select>
+</mapper>
