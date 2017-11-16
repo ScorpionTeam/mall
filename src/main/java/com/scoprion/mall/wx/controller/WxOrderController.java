@@ -61,6 +61,7 @@ public class WxOrderController {
 
     /**
      * 签收后评价
+     *
      * @param estimate
      * @return
      */
@@ -71,6 +72,7 @@ public class WxOrderController {
 
     /**
      * 投诉
+     *
      * @param id
      * @param complain
      * @return
@@ -79,4 +81,18 @@ public class WxOrderController {
     public BaseResult complain(Long id, String complain) {
         return wxOrderService.complain(id, complain);
     }
+
+
+    /**
+     * 确认收货
+     *
+     * @param id
+     * @param wxCode
+     * @return
+     */
+    @RequestMapping(value = "/confirmReceipt", method = RequestMethod.GET)
+    public BaseResult confirmReceipt(Long id, String wxCode) {
+        return wxOrderService.confirmReceipt(id, wxCode);
+    }
+
 }

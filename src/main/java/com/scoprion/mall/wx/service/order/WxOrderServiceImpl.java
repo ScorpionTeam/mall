@@ -1,7 +1,9 @@
 package com.scoprion.mall.wx.service.order;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.SendGoodMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
@@ -120,4 +122,32 @@ public class WxOrderServiceImpl implements WxOrderService {
     }
 
 
+    /**
+     * 确认收货
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseResult confirmReceipt(Long id, String wxCode) {
+        if (id == null) {
+            return BaseResult.parameterError();
+        }
+        if (StringUtils.isEmpty(wxCode)) {
+            return BaseResult.parameterError();
+        }
+        String userId = WxUtil.getOpenId(wxCode);
+        Order order = wxOrderMapper.findByOrderId(id);
+        if (!userId.equals(order.getUserId())) {
+            BaseResult.error("confirm_fail", "未找到订单，确认收货失败");
+        }
+        if (!Constant.STATUS_THREE.equals(order.getOrderStatus())) {
+            BaseResult.error("confirm_fail", "订单状态异常，不能确认收货");
+        }
+        int result = wxOrderMapper.updateByOrderID(id, "4");
+        if (result > 0) {
+            return BaseResult.success("确认收货成功");
+        }
+        return BaseResult.error("confirm_fail", "确认收货失败");
+    }
 }
