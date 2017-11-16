@@ -2,12 +2,14 @@ package com.scoprion.mall.wx.service.order;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.mall.domain.Estimate;
-import com.scoprion.mall.domain.Order;
+import com.scoprion.mall.backstage.mapper.SendGoodMapper;
+import com.scoprion.mall.domain.*;
+import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
 import com.scoprion.mall.wx.mapper.WxOrderMapper;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,12 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Autowired
     private WxOrderMapper wxOrderMapper;
 
+    @Autowired
+    private SendGoodMapper sendGoodMapper;
+
+    @Autowired
+    private WxDeliveryMapper wxDeliveryMapper;
+
     /**
      * 我的订单
      *
@@ -33,14 +41,13 @@ public class WxOrderServiceImpl implements WxOrderService {
      */
     @Override
     public PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus) {
-
         //暂时使用直接传userId的方式 查询订单列表
         String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         if ("0".equals(orderStatus)) {
             orderStatus = null;
         }
-        Page<Order> page = wxOrderMapper.findByUserId(userId, orderStatus);
+        Page<OrderExt> page = wxOrderMapper.findByUserId(userId, orderStatus);
         return new PageResult(page);
     }
 
@@ -56,7 +63,13 @@ public class WxOrderServiceImpl implements WxOrderService {
         if (null == order) {
             return BaseResult.notFound();
         }
-        return BaseResult.success(order);
+        SendGood sendGood = sendGoodMapper.findById(order.getSendGoodId());
+        OrderExt orderExt = new OrderExt();
+        BeanUtils.copyProperties(order, orderExt);
+        orderExt.setSendGood(sendGood);
+        Delivery delivery = wxDeliveryMapper.findById(order.getDeliveryId());
+        orderExt.setDelivery(delivery);
+        return BaseResult.success(orderExt);
     }
 
     /**
@@ -74,23 +87,25 @@ public class WxOrderServiceImpl implements WxOrderService {
 
     /**
      * 签收后评价
+     *
      * @param estimate
      * @return
      */
     @Override
     public BaseResult estimate(Estimate estimate) {
-        if(estimate.getId() == null) {
+        if (estimate.getId() == null) {
             return BaseResult.notFound();
         }
         int result = wxOrderMapper.estimate(estimate);
-        if(result > 0) {
+        if (result > 0) {
             return BaseResult.success("评价成功");
         }
-        return BaseResult.error("estimate_fail","评价失败");
+        return BaseResult.error("estimate_fail", "评价失败");
     }
 
     /**
      * 投诉
+     *
      * @param id
      * @param complain
      * @return
@@ -98,7 +113,7 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Override
     public BaseResult complain(Long id, String complain) {
         int result = wxOrderMapper.complain(id, complain);
-        if(result > 0) {
+        if (result > 0) {
             return BaseResult.success("投诉成功");
         }
         return BaseResult.error("complain_fail", "投诉失败");

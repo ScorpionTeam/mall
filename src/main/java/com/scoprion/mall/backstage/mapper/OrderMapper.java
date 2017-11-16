@@ -2,6 +2,7 @@ package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Order;
+import com.scoprion.mall.domain.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -48,7 +49,7 @@ public interface OrderMapper {
      * @param id
      * @return
      */
-    Order findById(@Param("id") Long id);
+    OrderExt findById(@Param("id") Long id);
 
     /**
      * 修改订单
@@ -91,10 +92,12 @@ public interface OrderMapper {
      *
      * @param id          订单id
      * @param orderStatus 订单状态
+     * @param deliveryNo  订单号
      * @param sendGoodId  发货信息id
      * @return
      */
     int updateSendGood(@Param("id") Long id,
                        @Param("orderStatus") Integer orderStatus,
+                       @Param("deliveryNo") String deliveryNo,
                        @Param("sendGoodId") Long sendGoodId);
 }
