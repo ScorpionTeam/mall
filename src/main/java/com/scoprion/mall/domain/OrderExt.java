@@ -47,6 +47,30 @@ public class OrderExt extends Order {
      * 微信用户标识code
      */
     private String openCode;
+    /**
+     * 发货信息
+     */
+    private SendGood sendGood;
+    /**
+     * 收件人信息
+     */
+    private Delivery delivery;
+
+    public Delivery getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Delivery delivery) {
+        this.delivery = delivery;
+    }
+
+    public SendGood getSendGood() {
+        return sendGood;
+    }
+
+    public void setSendGood(SendGood sendGood) {
+        this.sendGood = sendGood;
+    }
 
     public Long getGoodId() {
         return goodId;

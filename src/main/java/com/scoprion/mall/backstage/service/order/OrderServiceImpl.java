@@ -4,18 +4,16 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
-import com.scoprion.mall.backstage.mapper.GoodsMapper;
-import com.scoprion.mall.backstage.mapper.OrderLogMapper;
-import com.scoprion.mall.backstage.mapper.OrderMapper;
-import com.scoprion.mall.backstage.mapper.PointMapper;
-import com.scoprion.mall.domain.Order;
-import com.scoprion.mall.domain.OrderLog;
+import com.scoprion.mall.backstage.mapper.*;
+import com.scoprion.mall.domain.*;
+import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +42,57 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private PointMapper pointMapper;
+
+    @Autowired
+    private SendGoodMapper sendGoodMapper;
+    @Autowired
+    private WxDeliveryMapper wxDeliveryMapper;
+
+    /**
+     * 商品发货
+     *
+     * @param orderId     订单号
+     * @param deliveryNo  运单号
+     * @param expressName 快递公司
+     * @param expressNo   快递公司编号
+     * @param senderId    寄件人Id
+     * @return
+     */
+    @Override
+    public BaseResult sendGood(Long orderId, String deliveryNo, String expressName, String expressNo, Long senderId) {
+        if (orderId == null) {
+            return BaseResult.parameterError();
+        }
+        if (StringUtils.isEmpty(deliveryNo)) {
+            return BaseResult.error("delivery_error", "运单号不能为空");
+        }
+        if (StringUtils.isEmpty(expressName)) {
+            return BaseResult.error("express_error", "快递公司不能为空");
+        }
+        if (senderId == null) {
+            return BaseResult.error("sender_error", "发件人id不能为空");
+        }
+        Order order = orderMapper.findById(orderId);
+        //生成发货信息记录，
+        SendGood sendGood = new SendGood();
+        sendGood.setDeliveryNo(deliveryNo);
+        sendGood.setExpressName(expressName);
+        sendGood.setExpressNo(expressNo);
+        sendGood.setOrderId(orderId);
+        sendGood.setSenderId(senderId);
+        sendGoodMapper.add(sendGood);
+        //修改订单信息，发货时间、状态3(待收货)，发货信息id，
+        orderMapper.updateSendGood(orderId, 3, sendGood.getId());
+        //生成订单日志
+        OrderLog orderLog = new OrderLog();
+        orderLog.setOrderNo(order.getOrderNo());
+        orderLog.setOrderId(orderId);
+        orderLog.setAction("发货");
+        orderLogMapper.add(orderLog);
+        //商品库存扣减
+        goodsMapper.modifyGoodsDeduction(order.getGoodId(), -order.getCount());
+        return BaseResult.success("操作成功");
+    }
 
     /**
      * 订单列表
@@ -101,7 +150,13 @@ public class OrderServiceImpl implements OrderService {
         if (order == null) {
             return BaseResult.notFound();
         }
-        return BaseResult.success(order);
+        SendGood sendGood = sendGoodMapper.findById(order.getSendGoodId());
+        OrderExt orderExt = new OrderExt();
+        BeanUtils.copyProperties(order, orderExt);
+        orderExt.setSendGood(sendGood);
+        Delivery delivery = wxDeliveryMapper.findById(sendGood.getSenderId());
+        orderExt.setDelivery(delivery);
+        return BaseResult.success(orderExt);
     }
 
     /**
@@ -180,6 +235,7 @@ public class OrderServiceImpl implements OrderService {
 
         return null;
     }
+
 
     private String returnMessage(String code) {
         String result = "";

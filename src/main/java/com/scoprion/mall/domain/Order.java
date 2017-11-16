@@ -194,10 +194,9 @@ public class Order {
     private Integer operatePoint;
 
     /**
-     * 运单号
+     * 发货信息主id
      */
-    private String deliveryNo;
-
+    private Long sendGoodId;
 
 
     public Integer getOperatePoint() {
@@ -472,12 +471,12 @@ public class Order {
         this.prepayId = prepayId;
     }
 
-    public String getDeliveryNo() {
-        return deliveryNo;
+    public Long getSendGoodId() {
+        return sendGoodId;
     }
 
-    public void setDeliveryNo(String deliveryNo) {
-        this.deliveryNo = deliveryNo;
+    public void setSendGoodId(Long sendGoodId) {
+        this.sendGoodId = sendGoodId;
     }
 
     @Override
@@ -516,7 +515,7 @@ public class Order {
                 ", remark='" + remark + '\'' +
                 ", useTicket='" + useTicket + '\'' +
                 ", ticketId=" + ticketId +
-                ", deliveryNo='" + deliveryNo + '\'' +
+                ", sendGoodId='" + sendGoodId + '\'' +
                 '}';
     }
 }

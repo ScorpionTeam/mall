@@ -85,4 +85,16 @@ public interface OrderMapper {
                              @Param("wxOrderNo") String wxOrderNo,
                              @Param("orderNo") String orderNo,
                              @Param("payDate") String payDate);
+
+    /**
+     * 修改订单发货状态
+     *
+     * @param id          订单id
+     * @param orderStatus 订单状态
+     * @param sendGoodId  发货信息id
+     * @return
+     */
+    int updateSendGood(@Param("id") Long id,
+                       @Param("orderStatus") Integer orderStatus,
+                       @Param("sendGoodId") Long sendGoodId);
 }

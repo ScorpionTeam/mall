@@ -20,6 +20,7 @@
         postCode,
         createDate,
         updateDate,
+        type,
         wechat)
         VALUES(#{userId},
         #{recipients},
@@ -31,6 +32,7 @@
         #{postCode},
         NOW(),
         NOW(),
+        #{type},
         #{wechat})
     </insert>
 
@@ -44,6 +46,7 @@
         <if test="area!=null">area=#{area},</if>
         <if test="address!=null">address=#{address},</if>
         <if test="postCode!=null">postCode=#{postCode},</if>
+        <if test="type!=null">type=#{type},</if>
         updateDate=NOW()
         WHERE id=#{id}
     </update>
@@ -59,6 +62,7 @@
         city,
         area,
         address,
+        type,
         postCode
         FROM t_delivery
         WHERE id=#{id}
@@ -76,6 +80,7 @@
         address,
         postCode,
         createDate,
+        type,
         updateDate
         FROM t_delivery
         WHERE userId=#{userId}

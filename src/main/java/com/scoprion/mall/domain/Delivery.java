@@ -70,6 +70,18 @@ public class Delivery {
      * 微信账号
      */
     private String wechat;
+    /**
+     * 客户0,商家1 默认0
+     */
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public Long getId() {
         return id;
@@ -181,6 +193,7 @@ public class Delivery {
                 ", postCode='" + postCode + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
+                ", type=" + type +
                 ", wechat='" + wechat + '\'' +
                 '}';
     }
