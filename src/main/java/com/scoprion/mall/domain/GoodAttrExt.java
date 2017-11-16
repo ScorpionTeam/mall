@@ -8,20 +8,20 @@ import java.util.List;
  */
 public class GoodAttrExt extends GoodAttr {
 
-    private List<Attr> attrList;
+    private List<AttrExt> attrExts;
 
-    public List<Attr> getAttrList() {
-        return attrList;
+    public List<AttrExt> getAttrExts() {
+        return attrExts;
     }
 
-    public void setAttrList(List<Attr> attrList) {
-        this.attrList = attrList;
+    public void setAttrExts(List<AttrExt> attrExts) {
+        this.attrExts = attrExts;
     }
 
     @Override
     public String toString() {
         return "GoodAttrExt{" +
-                "attrList=" + attrList +
+                "attrExts=" + attrExts +
                 '}';
     }
 }
