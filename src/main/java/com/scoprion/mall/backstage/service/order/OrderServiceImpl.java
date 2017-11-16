@@ -49,6 +49,28 @@ public class OrderServiceImpl implements OrderService {
     private WxDeliveryMapper wxDeliveryMapper;
 
     /**
+     * 换货
+     *
+     * @return
+     */
+    public BaseResult exchangeGood() {
+
+
+        return BaseResult.success("操作成功");
+    }
+
+    /**
+     * 退货
+     *
+     * @return
+     */
+    public BaseResult goodReject(Long orderId) {
+        Order order = orderMapper.findById(orderId);
+
+        return BaseResult.success("操作成功");
+    }
+
+    /**
      * 商品发货
      *
      * @param orderId     订单号
@@ -90,7 +112,7 @@ public class OrderServiceImpl implements OrderService {
         orderLog.setAction("发货");
         orderLogMapper.add(orderLog);
         //商品库存扣减
-        goodsMapper.modifyGoodsDeduction(order.getGoodId(), -order.getCount());
+        //goodsMapper.modifyGoodsDeduction(order.getGoodId(), -order.getCount());
         return BaseResult.success("操作成功");
     }
 
@@ -154,7 +176,7 @@ public class OrderServiceImpl implements OrderService {
         OrderExt orderExt = new OrderExt();
         BeanUtils.copyProperties(order, orderExt);
         orderExt.setSendGood(sendGood);
-        Delivery delivery = wxDeliveryMapper.findById(sendGood.getSenderId());
+        Delivery delivery = wxDeliveryMapper.findById(order.getDeliveryId());
         orderExt.setDelivery(delivery);
         return BaseResult.success(orderExt);
     }
