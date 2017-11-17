@@ -21,7 +21,7 @@ public class WxGoodController {
     private WxGoodService wxGoodService;
 
     /**
-     * 商品列表
+     * 首页商品列表
      *
      * @param pageNo
      * @param pageSize

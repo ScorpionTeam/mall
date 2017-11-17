@@ -13,12 +13,24 @@ import org.apache.ibatis.annotations.Param;
 public interface WxGoodMapper {
 
     /**
+     * 首页商品列表
+     * @return
+     */
+    Page<Goods> findOnline();
+
+    /**
      * 查询商品详情
      *
      * @param goodId
      * @return
      */
     Goods findById(@Param("goodId") Long goodId);
+
+    /**
+     * 访问量
+     * @param goodId
+     */
+    void updateVisitTotal(@Param("goodId") Long goodId);
 
     /**
      * 库存扣减
@@ -37,13 +49,5 @@ public interface WxGoodMapper {
      * @return
      */
     int updateSaleVolume(@Param("saleVolume") int saleVolume, @Param("goodId") Long goodId);
-
-    Page<Goods> findOnline();
-
-    /**
-     * 访问量
-     * @param goodId
-     */
-    void updateVisitTotal(@Param("goodId")Long goodId);
 
 }

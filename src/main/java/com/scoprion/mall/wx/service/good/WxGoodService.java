@@ -11,7 +11,7 @@ import com.scoprion.result.PageResult;
 public interface WxGoodService {
 
     /**
-     * 商品列表
+     * 首页商品列表
      *
      * @param pageNo
      * @param PageSize
@@ -26,7 +26,5 @@ public interface WxGoodService {
      * @return
      */
     BaseResult findById(Long goodId);
-
-
 
 }

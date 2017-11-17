@@ -20,7 +20,7 @@ public class WxGoodServiceImpl implements WxGoodService {
     private WxGoodMapper wxGoodMapper;
 
     /**
-     * 商品列表
+     * 首页商品列表
      *
      * @param pageNo
      * @param PageSize
