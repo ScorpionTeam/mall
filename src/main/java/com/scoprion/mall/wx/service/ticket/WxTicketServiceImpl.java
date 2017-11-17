@@ -78,14 +78,14 @@ public class WxTicketServiceImpl implements WxTicketService {
     public BaseResult getTicket(Long ticketId, String wxCode) {
 //        String userId = WxUtil.getOpenId(wxCode);
         int count = wxTicketMapper.findByTicketIdAndUserId(ticketId, wxCode);
-        if (count>0) {
+        if (count > 0) {
             return BaseResult.error("add_error", "已经领取过了");
         }
         //查询优惠券详情
         Ticket ticket = wxTicketMapper.findById(ticketId);
         if ("0".equals(ticket.getNumLimit())) {
-            if(ticket.getNum()==0){
-                return BaseResult.error("add_error","领取失败,优惠券已经领完了");
+            if (ticket.getNum() == 0) {
+                return BaseResult.error("add_error", "领取失败,优惠券已经领完了");
             }
             TicketSnapshot snapshot = new TicketSnapshot();
             BeanUtils.copyProperties(ticket, snapshot);
@@ -97,9 +97,9 @@ public class WxTicketServiceImpl implements WxTicketService {
                 ticketUser.setUserId(wxCode);
                 ticketUser.setSnapshotId(snapshot.getId());
                 ticketUser.setStatus(Constant.STATUS_ZERO);
-                int ticketNum=wxTicketMapper.updateTicketNum(ticketId);
+                int ticketNum = wxTicketMapper.updateTicketNum(ticketId);
                 int addResult = wxTicketMapper.addTicketUser(ticketUser);
-                if (addResult > 0 && ticketNum>0) {
+                if (addResult > 0 && ticketNum > 0) {
                     return BaseResult.success("领取成功");
                 }
             }
