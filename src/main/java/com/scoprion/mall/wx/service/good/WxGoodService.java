@@ -37,4 +37,13 @@ public interface WxGoodService {
      */
     BaseResult findEstimate(Integer pageNo, Integer pageSize,
                             Long goodId);
+
+    /**
+     * 商品搜索
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey
+     * @return
+     */
+    PageResult findBySearchKey(Integer pageNo,Integer pageSize,String searchKey);
 }

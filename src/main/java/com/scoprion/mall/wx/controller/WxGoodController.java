@@ -57,4 +57,17 @@ public class WxGoodController {
         return wxGoodService.findEstimate(pageNo, pageSize, goodId);
     }
 
+
+    /**
+     *商品搜索
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey
+     * @return
+     */
+    @RequestMapping(value = "/findBySearchKey",method = RequestMethod.GET)
+    public PageResult findBySearchKey(Integer pageNo,Integer pageSize,String searchKey){
+        return wxGoodService.findBySearchKey(pageNo,pageSize,searchKey);
+    }
+
 }
