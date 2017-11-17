@@ -99,7 +99,10 @@ public class WxOrderServiceImpl implements WxOrderService {
      */
     @Override
     public BaseResult estimate(Estimate estimate) {
-        if (estimate.getId() == null) {
+        if (estimate.getUserId() == null) {
+            return BaseResult.notFound();
+        }
+        if(estimate.getGoodId() == null) {
             return BaseResult.notFound();
         }
         int result = wxOrderMapper.estimate(estimate);
@@ -108,7 +111,6 @@ public class WxOrderServiceImpl implements WxOrderService {
         }
         return BaseResult.error("estimate_fail", "评价失败");
     }
-
 
     /**
      * 确认收货
