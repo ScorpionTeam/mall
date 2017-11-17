@@ -110,8 +110,8 @@ public class WxTicketServiceImpl implements WxTicketService {
         int result = wxTicketSnapshotMapper.add(snapshot);
         if (result > 0) {
             TicketUser ticketUser = new TicketUser();
-            ticketUser.setNum(1);
             ticketUser.setSnapshotId(snapshot.getId());
+            ticketUser.setNum(1);
             ticketUser.setUserId(wxCode);
             ticketUser.setStatus(Constant.STATUS_ZERO);
             int addResult = wxTicketMapper.addTicketUser(ticketUser);
@@ -121,6 +121,5 @@ public class WxTicketServiceImpl implements WxTicketService {
         }
         return BaseResult.error("add_error", "领取失败");
     }
-
 
 }
