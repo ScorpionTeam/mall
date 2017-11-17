@@ -129,5 +129,8 @@ public class Constant {
 
     public static final String STATUS_ZERO = "0";
     public static final String STATUS_ONE = "1";
+    public static final String STATUS_TWO = "2";
+    public static final String STATUS_THREE = "3";
+    public static final String STATUS_FOUR = "4";
 
 }

@@ -23,6 +23,7 @@ public interface WxOrderService {
 
     /**
      * 查询订单详情
+     *
      * @param orderId
      * @return
      */
@@ -30,6 +31,7 @@ public interface WxOrderService {
 
     /**
      * 退款
+     *
      * @param orderId
      * @return
      */
@@ -37,6 +39,7 @@ public interface WxOrderService {
 
     /**
      * 签收后评价
+     *
      * @param estimate
      * @return
      */
@@ -44,9 +47,21 @@ public interface WxOrderService {
 
     /**
      * 投诉
+     *
      * @param id
      * @param complain
      * @return
      */
     BaseResult complain(Long id, String complain);
+
+    /**
+     * 确认收货
+     *
+     * @param id
+     * @param wxCode
+     * @return
+     */
+    BaseResult confirmReceipt(Long id, String wxCode);
+
+    BaseResult cancelOrder(Long id, String wxCode);
 }

@@ -52,14 +52,19 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 换货
      *
+     * @param orderId      订单id
+     * @param goodId       订单中需要换货的id
+     * @param targetGoodId 需要换成哪个规格的商品的id
      * @return
      */
-    public BaseResult exchangeGood(Long orderId, Long goodId) {
+    @Override
+    public BaseResult exchangeGood(Long orderId, Long goodId, Long targetGoodId) {
         Order order = orderMapper.findById(orderId);
         if (goodId.longValue() == order.getGoodId().longValue()) {
             //相同规格的商品，直接换货
         } else {
-            //不同规格的商品，价格不同
+            //不同规格的商品，目标规格商品id跟原规格商品id替换，生成目规格商品快照。重新保存
+
 
         }
         return BaseResult.success("操作成功");
@@ -70,6 +75,7 @@ public class OrderServiceImpl implements OrderService {
      *
      * @return
      */
+    @Override
     public BaseResult goodReject(Long orderId, Integer count) {
         Order order = orderMapper.findById(orderId);
         //返回库存

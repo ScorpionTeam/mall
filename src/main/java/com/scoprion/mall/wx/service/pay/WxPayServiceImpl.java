@@ -197,19 +197,25 @@ public class WxPayServiceImpl implements WxPayService {
             //库存扣减
             wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
             //积分扣减、增加
-            operatePoint(order);
+            BaseResult operateResult = operatePoint(order);
+            if (operateResult != null) {
+                return operateResult;
+            }
             //销量
             wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
         }
         return BaseResult.success("支付回调成功");
     }
 
-    private void operatePoint(Order order) {
+    private BaseResult operatePoint(Order order) {
         //积分 扣减
         Point point = wxPointMapper.findByUserId(order.getUserId());
         if (point == null) {
             //第一次购买，
             point = new Point();
+        }
+        if (order.getOperatePoint() > point.getPoint()) {
+            return BaseResult.error("pay_error", "支付失败积分不足");
         }
         //积分扣减
         subtractPoint(order, point);
@@ -238,6 +244,7 @@ public class WxPayServiceImpl implements WxPayService {
         } else {
             wxPointMapper.level(point);
         }
+        return null;
     }
 
     /**
