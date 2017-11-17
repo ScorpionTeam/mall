@@ -59,6 +59,19 @@
         WHERE id=#{goodId}
     </select>
 
+    <!--商品搜素-->
+    <select id="findBySearchKey" resultType="com.scoprion.mall.domain.Goods">
+        SELECT
+        id,
+        categoryId,
+        goodName,
+        description,
+        promotion,
+        price
+        FROM t_good
+        WHERE 1=1
+        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(goodName) LIKE #{searchKey}</if>
+    </select>
 
     <!--库存扣减-->
     <update id="updateGoodStockById">

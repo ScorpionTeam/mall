@@ -50,4 +50,10 @@ public interface WxGoodMapper {
      */
     int updateSaleVolume(@Param("saleVolume") int saleVolume, @Param("goodId") Long goodId);
 
+    /**
+     * 商品搜索
+     * @param searchKey
+     * @return
+     */
+    Page<Goods> findBySearchKey(@Param("searchKey") String searchKey);
 }

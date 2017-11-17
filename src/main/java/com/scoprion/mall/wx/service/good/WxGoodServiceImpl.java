@@ -13,6 +13,8 @@ import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 /**
  * @author by kunlun
  * @created on 2017/11/7.
@@ -73,5 +75,21 @@ public class WxGoodServiceImpl implements WxGoodService {
         }
         Page<Estimate> page = wxEstimateMapper.findPage(goodId, null);
         return BaseResult.success(page);
+    }
+
+    @Override
+    public PageResult findBySearchKey(Integer pageNo, Integer pageSize, String searchKey) {
+        PageHelper.startPage(pageNo,pageSize);
+        if(StringUtils.isEmpty(searchKey)){
+            searchKey=null;
+        }
+        if (!StringUtils.isEmpty(searchKey)) {
+            searchKey = "%" + searchKey + "%";
+        }
+        Page<Goods>page=wxGoodMapper.findBySearchKey(searchKey);
+        if (page == null) {
+            return new PageResult(new ArrayList<Goods>());
+        }
+        return new PageResult(page);
     }
 }
