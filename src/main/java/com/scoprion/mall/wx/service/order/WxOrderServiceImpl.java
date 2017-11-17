@@ -1,13 +1,18 @@
 package com.scoprion.mall.wx.service.order;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.mall.domain.Estimate;
-import com.scoprion.mall.domain.Order;
+import com.scoprion.constant.Constant;
+import com.scoprion.mall.backstage.mapper.SendGoodMapper;
+import com.scoprion.mall.domain.*;
+import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
+import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
 import com.scoprion.mall.wx.mapper.WxOrderMapper;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +27,15 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Autowired
     private WxOrderMapper wxOrderMapper;
 
+    @Autowired
+    private WxOrderLogMapper wxOrderLogMapper;
+
+    @Autowired
+    private SendGoodMapper sendGoodMapper;
+
+    @Autowired
+    private WxDeliveryMapper wxDeliveryMapper;
+
     /**
      * 我的订单
      *
@@ -33,14 +47,13 @@ public class WxOrderServiceImpl implements WxOrderService {
      */
     @Override
     public PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus) {
-
         //暂时使用直接传userId的方式 查询订单列表
         String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         if ("0".equals(orderStatus)) {
             orderStatus = null;
         }
-        Page<Order> page = wxOrderMapper.findByUserId(userId, orderStatus);
+        Page<OrderExt> page = wxOrderMapper.findByUserId(userId, orderStatus);
         return new PageResult(page);
     }
 
@@ -56,7 +69,13 @@ public class WxOrderServiceImpl implements WxOrderService {
         if (null == order) {
             return BaseResult.notFound();
         }
-        return BaseResult.success(order);
+        SendGood sendGood = sendGoodMapper.findById(order.getSendGoodId());
+        OrderExt orderExt = new OrderExt();
+        BeanUtils.copyProperties(order, orderExt);
+        orderExt.setSendGood(sendGood);
+        Delivery delivery = wxDeliveryMapper.findById(order.getDeliveryId());
+        orderExt.setDelivery(delivery);
+        return BaseResult.success(orderExt);
     }
 
     /**
@@ -74,23 +93,25 @@ public class WxOrderServiceImpl implements WxOrderService {
 
     /**
      * 签收后评价
+     *
      * @param estimate
      * @return
      */
     @Override
     public BaseResult estimate(Estimate estimate) {
-        if(estimate.getId() == null) {
+        if (estimate.getId() == null) {
             return BaseResult.notFound();
         }
         int result = wxOrderMapper.estimate(estimate);
-        if(result > 0) {
+        if (result > 0) {
             return BaseResult.success("评价成功");
         }
-        return BaseResult.error("estimate_fail","评价失败");
+        return BaseResult.error("estimate_fail", "评价失败");
     }
 
     /**
      * 投诉
+     *
      * @param id
      * @param complain
      * @return
@@ -98,11 +119,80 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Override
     public BaseResult complain(Long id, String complain) {
         int result = wxOrderMapper.complain(id, complain);
-        if(result > 0) {
+        if (result > 0) {
             return BaseResult.success("投诉成功");
         }
         return BaseResult.error("complain_fail", "投诉失败");
     }
 
 
+    /**
+     * 确认收货
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseResult confirmReceipt(Long id, String wxCode) {
+        if (id == null) {
+            return BaseResult.parameterError();
+        }
+        if (StringUtils.isEmpty(wxCode)) {
+            return BaseResult.parameterError();
+        }
+        String userId = WxUtil.getOpenId(wxCode);
+        Order order = wxOrderMapper.findByOrderId(id);
+        if (!userId.equals(order.getUserId())) {
+            return BaseResult.error("confirm_fail", "未找到订单，确认收货失败");
+        }
+        if (!Constant.STATUS_THREE.equals(order.getOrderStatus())) {
+            return BaseResult.error("confirm_fail", "订单状态异常，不能确认收货");
+        }
+        int result = wxOrderMapper.updateByOrderID(id, "4");
+        if (result > 0) {
+            saveOrderLog("确认收货", order);
+            return BaseResult.success("确认收货成功");
+        }
+        return BaseResult.error("confirm_fail", "确认收货失败");
+    }
+
+
+    /**
+     * 取消订单，进处于代付款状态的订单才能执行取消订单操作
+     *
+     * @param id
+     * @param wxCode
+     * @return
+     */
+    @Override
+    public BaseResult cancelOrder(Long id, String wxCode) {
+        if (id == null) {
+            return BaseResult.parameterError();
+        }
+        if (StringUtils.isEmpty(wxCode)) {
+            return BaseResult.parameterError();
+        }
+        String userId = WxUtil.getOpenId(wxCode);
+        Order order = wxOrderMapper.findByOrderId(id);
+        if (order == null || !userId.equals(order.getUserId())) {
+            return BaseResult.error("cancel_fail", "未找到订单，取消订单失败");
+        }
+        if (!Constant.STATUS_ONE.equals(order.getOrderStatus())) {
+            return BaseResult.error("cancel_fail", "订单状态异常，不能取消订单");
+        }
+        int result = wxOrderMapper.updateByOrderID(id, "6");
+        if (result > 0) {
+            saveOrderLog("取消订单", order);
+            return BaseResult.success("取消订单成功");
+        }
+        return BaseResult.error("cancel_fail", "取消订单失败");
+    }
+
+    private void saveOrderLog(String action, Order order) {
+        OrderLog orderLog = new OrderLog();
+        orderLog.setAction(action);
+        orderLog.setOrderId(order.getId());
+        orderLog.setOrderNo(order.getOrderNo());
+        wxOrderLogMapper.add(orderLog);
+    }
 }

@@ -45,17 +45,28 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private SendGoodMapper sendGoodMapper;
+
     @Autowired
     private WxDeliveryMapper wxDeliveryMapper;
 
     /**
      * 换货
      *
+     * @param orderId      订单id
+     * @param goodId       订单中需要换货的id
+     * @param targetGoodId 需要换成哪个规格的商品的id
      * @return
      */
-    public BaseResult exchangeGood() {
+    @Override
+    public BaseResult exchangeGood(Long orderId, Long goodId, Long targetGoodId) {
+        Order order = orderMapper.findById(orderId);
+        if (goodId.longValue() == order.getGoodId().longValue()) {
+            //相同规格的商品，直接换货
+        } else {
+            //不同规格的商品，目标规格商品id跟原规格商品id替换，生成目规格商品快照。重新保存
 
 
+        }
         return BaseResult.success("操作成功");
     }
 
@@ -64,10 +75,14 @@ public class OrderServiceImpl implements OrderService {
      *
      * @return
      */
+    @Override
     public BaseResult goodReject(Long orderId, Integer count) {
         Order order = orderMapper.findById(orderId);
         //返回库存
         goodsMapper.modifyGoodsDeduction(order.getGoodId(), count);
+        //待评价
+        order.setOrderStatus("6");
+        orderMapper.modify(order);
         return BaseResult.success("操作成功");
     }
 
@@ -105,7 +120,7 @@ public class OrderServiceImpl implements OrderService {
         sendGood.setSenderId(senderId);
         sendGoodMapper.add(sendGood);
         //修改订单信息，发货时间、状态3(待收货)，发货信息id，
-        orderMapper.updateSendGood(orderId, 3, sendGood.getId());
+        orderMapper.updateSendGood(orderId, 3, deliveryNo, sendGood.getId());
         //生成订单日志
         OrderLog orderLog = new OrderLog();
         orderLog.setOrderNo(order.getOrderNo());
@@ -169,15 +184,13 @@ public class OrderServiceImpl implements OrderService {
         if (id == null) {
             return BaseResult.parameterError();
         }
-        Order order = orderMapper.findById(id);
-        if (order == null) {
+        OrderExt orderExt = orderMapper.findById(id);
+        if (orderExt == null) {
             return BaseResult.notFound();
         }
-        SendGood sendGood = sendGoodMapper.findById(order.getSendGoodId());
-        OrderExt orderExt = new OrderExt();
-        BeanUtils.copyProperties(order, orderExt);
+        SendGood sendGood = sendGoodMapper.findById(orderExt.getSendGoodId());
         orderExt.setSendGood(sendGood);
-        Delivery delivery = wxDeliveryMapper.findById(order.getDeliveryId());
+        Delivery delivery = wxDeliveryMapper.findById(orderExt.getDeliveryId());
         orderExt.setDelivery(delivery);
         return BaseResult.success(orderExt);
     }

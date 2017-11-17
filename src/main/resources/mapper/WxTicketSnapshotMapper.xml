@@ -6,6 +6,9 @@
 
     <!--新增-->
     <insert id="add" parameterType="com.scoprion.mall.domain.TicketSnapshot">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
        INSERT INTO t_ticket_snapshot
         (ticketName,content,startDate,endDate,money,num,createDate,
         ticketNo,type,useRange,numLimit,ticketId,status)

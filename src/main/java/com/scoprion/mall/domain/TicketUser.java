@@ -22,10 +22,6 @@ public class TicketUser {
     private String userId;
 
     /**
-     * 优惠券id
-     */
-    private Long ticketId;
-    /**
      * 优惠券快照id
      */
     private Long snapshotId;
@@ -107,20 +103,12 @@ public class TicketUser {
         this.snapshotId = snapshotId;
     }
 
-    public Long getTicketId() {
-        return ticketId;
-    }
-
-    public void setTicketId(Long ticketId) {
-        this.ticketId = ticketId;
-    }
 
     @Override
     public String toString() {
         return "TicketUser{" +
                 "id=" + id +
                 ", userId='" + userId + '\'' +
-                ", ticketId=" + ticketId +
                 ", snapshotId=" + snapshotId +
                 ", num=" + num +
                 ", createDate=" + createDate +

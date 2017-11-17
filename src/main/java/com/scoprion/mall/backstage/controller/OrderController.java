@@ -102,4 +102,29 @@ public class OrderController {
     public BaseResult refund(Long orderId, String flag, String remark, int refundFee) {
         return orderService.refund(orderId, flag, remark, refundFee);
     }
+
+    /**
+     * 换货
+     *
+     * @param orderId      订单id
+     * @param goodId       订单中需要换货的id
+     * @param targetGoodId 需要换成哪个规格的商品的id
+     * @return
+     */
+    @RequestMapping(value = "/exchangeGood", method = RequestMethod.GET)
+    public BaseResult exchangeGood(Long orderId, Long goodId, Long targetGoodId) {
+        return orderService.exchangeGood(orderId, goodId, targetGoodId);
+    }
+
+    /**
+     * 退货
+     *
+     * @param orderId 订单id
+     * @param count   退货数量
+     * @return
+     */
+    @RequestMapping(value = "/goodReject", method = RequestMethod.GET)
+    public BaseResult goodReject(Long orderId, Integer count) {
+        return orderService.goodReject(orderId, count);
+    }
 }

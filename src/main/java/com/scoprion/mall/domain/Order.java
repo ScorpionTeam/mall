@@ -36,6 +36,11 @@ public class Order {
     private Long deliveryId;
 
     /**
+     * 运单号
+     */
+    private String deliveryNo;
+
+    /**
      * 订单状态
      * 1 待付款
      * 2 待发货
@@ -194,7 +199,7 @@ public class Order {
     private Integer operatePoint;
 
     /**
-     * 发货信息主id
+     * 发货信息id
      */
     private Long sendGoodId;
 
@@ -479,6 +484,14 @@ public class Order {
         this.sendGoodId = sendGoodId;
     }
 
+    public String getDeliveryNo() {
+        return deliveryNo;
+    }
+
+    public void setDeliveryNo(String deliveryNo) {
+        this.deliveryNo = deliveryNo;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
@@ -515,6 +528,7 @@ public class Order {
                 ", remark='" + remark + '\'' +
                 ", useTicket='" + useTicket + '\'' +
                 ", ticketId=" + ticketId +
+                ", deliveryNo=" + deliveryNo +
                 ", sendGoodId='" + sendGoodId + '\'' +
                 '}';
     }

@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.mapper;
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.domain.Order;
+import com.scoprion.mall.domain.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -69,8 +70,8 @@ public interface WxOrderMapper {
      * @param orderStatus
      * @return
      */
-    Page<Order> findByUserId(@Param("userId") String userId,
-                             @Param("orderStatus") String orderStatus);
+    Page<OrderExt> findByUserId(@Param("userId") String userId,
+                                @Param("orderStatus") String orderStatus);
 
     /**
      * 查询订单详情

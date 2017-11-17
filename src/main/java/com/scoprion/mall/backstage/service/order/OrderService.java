@@ -57,6 +57,24 @@ public interface OrderService {
      */
     BaseResult refund(Long orderId, String flag, String remark, int refundFee);
 
+    /**
+     * 换货
+     *
+     * @param orderId      订单id
+     * @param goodId       订单中需要换货的id
+     * @param targetGoodId 需要换成哪个规格的商品的id
+     * @return
+     */
+    BaseResult exchangeGood(Long orderId, Long goodId, Long targetGoodId);
+
+    /**
+     * 退货
+     *
+     * @param orderId 订单id
+     * @param count   退货数量
+     * @return
+     */
+    BaseResult goodReject(Long orderId, Integer count);
 
     /**
      * 商品发货

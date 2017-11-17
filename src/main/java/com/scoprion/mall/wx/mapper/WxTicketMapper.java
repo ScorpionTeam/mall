@@ -34,7 +34,7 @@ public interface WxTicketMapper {
      * @param userId
      * @return
      */
-    TicketUser findByTicketIdAndUserId(@Param("ticketId") Long ticketId,
+    int findByTicketIdAndUserId(@Param("ticketId") Long ticketId,
                                        @Param("userId") String userId);
 
 
@@ -53,4 +53,12 @@ public interface WxTicketMapper {
      * @return
      */
     Ticket findById(@Param("id") Long id);
+
+    /**
+     * 更新优惠券数量
+     * @param id
+     * @return
+     */
+    int updateTicketNum(@Param("id") Long id);
+
 }
