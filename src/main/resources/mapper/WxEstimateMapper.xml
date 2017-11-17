@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.wx.mapper.WxEstimateMapper">
+    <!--add-->
+    <select id="findPage" resultType="com.scoprion.mall.domain.Estimate">
+       SELECT
+       id,
+       userId,
+       goodId,
+       message,
+       createDate,
+       updateDate
+       FROM t_estimate
+       WHERE goodId=#{goodId} AND userId=#{userId}
+    </select>
+
+</mapper>

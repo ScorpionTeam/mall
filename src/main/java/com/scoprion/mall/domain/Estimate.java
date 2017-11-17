@@ -1,9 +1,11 @@
 package com.scoprion.mall.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
- * Created by fk
+ * @author fk
  * @date 2017/11/9.
  */
 public class Estimate {
@@ -16,7 +18,7 @@ public class Estimate {
     /**
      * 商品ID
      */
-    private String goodId;
+    private Long goodId;
 
     /**
      * 签收后用户评价
@@ -31,17 +33,20 @@ public class Estimate {
     /**
      * 创建时间
      */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     /**
      * 修改时间
      */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
 
     /**
      * 投诉
      */
     private String complain;
+
 
     public Long getId() {
         return id;
@@ -51,11 +56,11 @@ public class Estimate {
         this.id = id;
     }
 
-    public String getGoodId() {
+    public Long getGoodId() {
         return goodId;
     }
 
-    public void setGoodId(String goodId) {
+    public void setGoodId(Long goodId) {
         this.goodId = goodId;
     }
 

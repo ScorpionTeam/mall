@@ -71,19 +71,6 @@ public class WxOrderController {
     }
 
     /**
-     * 投诉
-     *
-     * @param id
-     * @param complain
-     * @return
-     */
-    @RequestMapping(value = "/complain", method = RequestMethod.POST)
-    public BaseResult complain(Long id, String complain) {
-        return wxOrderService.complain(id, complain);
-    }
-
-
-    /**
      * 确认收货
      *
      * @param id
@@ -94,6 +81,7 @@ public class WxOrderController {
     public BaseResult confirmReceipt(Long id, String wxCode) {
         return wxOrderService.confirmReceipt(id, wxCode);
     }
+
     /**
      * 确认收货
      *

@@ -46,15 +46,6 @@ public interface WxOrderService {
     BaseResult estimate(Estimate estimate);
 
     /**
-     * 投诉
-     *
-     * @param id
-     * @param complain
-     * @return
-     */
-    BaseResult complain(Long id, String complain);
-
-    /**
      * 确认收货
      *
      * @param id
@@ -63,5 +54,12 @@ public interface WxOrderService {
      */
     BaseResult confirmReceipt(Long id, String wxCode);
 
+    /**
+     * 取消订单
+     *
+     * @param id
+     * @param wxCode
+     * @return
+     */
     BaseResult cancelOrder(Long id, String wxCode);
 }

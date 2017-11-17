@@ -109,22 +109,6 @@ public class WxOrderServiceImpl implements WxOrderService {
         return BaseResult.error("estimate_fail", "评价失败");
     }
 
-    /**
-     * 投诉
-     *
-     * @param id
-     * @param complain
-     * @return
-     */
-    @Override
-    public BaseResult complain(Long id, String complain) {
-        int result = wxOrderMapper.complain(id, complain);
-        if (result > 0) {
-            return BaseResult.success("投诉成功");
-        }
-        return BaseResult.error("complain_fail", "投诉失败");
-    }
-
 
     /**
      * 确认收货

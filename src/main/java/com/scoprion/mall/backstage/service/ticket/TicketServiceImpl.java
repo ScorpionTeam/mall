@@ -3,6 +3,7 @@ package com.scoprion.mall.backstage.service.ticket;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.backstage.mapper.TicketMapper;
 import com.scoprion.result.BaseResult;
@@ -10,6 +11,8 @@ import com.scoprion.result.PageResult;
 import com.scoprion.utils.IDWorker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Date;
 
 /**
  * Created on 2017/10/10.
@@ -55,6 +58,12 @@ public class TicketServiceImpl implements TicketService {
             searchKey = "%" + searchKey + "%";
         }
         Page<Ticket> page = ticketMapper.listPage(searchKey);
+        page.forEach(ticket -> {
+            if (ticket.getEndDate().before(new Date())) {
+                //结束时间在今天之前，状态为取消状态
+                ticket.setStatus(Constant.STATUS_ONE);
+            }
+        });
         return new PageResult(page);
     }
 
@@ -112,6 +121,12 @@ public class TicketServiceImpl implements TicketService {
         Ticket ticket = ticketMapper.findById(id);
         if (ticket == null) {
             return BaseResult.notFound();
+        }
+        if (ticket.getEndDate().before(new Date())) {
+            //结束时间在今天之前，状态为取消状态
+            ticket.setStatus(Constant.STATUS_ONE);
+            //更新
+            ticketMapper.modify(ticket);
         }
         return BaseResult.success(ticket);
     }

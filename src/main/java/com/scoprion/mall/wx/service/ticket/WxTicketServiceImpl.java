@@ -59,8 +59,8 @@ public class WxTicketServiceImpl implements WxTicketService {
             if (endDate.after(currentTime)) {
                 item.setExpire("已过期");
             }
-            if (startDate.compareTo(currentTime) == -1 && startDate.compareTo(
-                    currentTime) == 0 && currentTime.compareTo(endDate) == -1 && currentTime.compareTo(endDate) == 0) {
+            if (startDate.compareTo(currentTime) < 0 && startDate.compareTo(
+                    currentTime) == 0 && currentTime.compareTo(endDate) < 0 && currentTime.compareTo(endDate) == 0) {
                 item.setExpire("正常");
             }
         });
@@ -83,7 +83,10 @@ public class WxTicketServiceImpl implements WxTicketService {
         }
         //查询优惠券详情
         Ticket ticket = wxTicketMapper.findById(ticketId);
-        if ("0".equals(ticket.getNumLimit())) {
+        if (ticket.getEndDate().before(new Date()) || Constant.STATUS_ONE.equals(ticket.getStatus())) {
+            return BaseResult.error("add_error", "优惠券已过期");
+        }
+        if (Constant.STATUS_ZERO.equals(ticket.getNumLimit())) {
             if (ticket.getNum() == 0) {
                 return BaseResult.error("add_error", "领取失败,优惠券已经领完了");
             }
