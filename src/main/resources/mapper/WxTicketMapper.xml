@@ -28,15 +28,15 @@
 
     <!-- 根据用户id、优惠券id查询记录 -->
     <select id="findByTicketIdAndUserId" resultType="java.lang.Integer">
-        SELECT count(*) FROM t_ticket_snapshot ts LEFT JOIN t_ticket_user tu ON ts.snapshotId=tu.id
-        WHERE tu.ticketId=#{ticketId}
+        SELECT count(*) FROM t_ticket_snapshot ts LEFT JOIN t_ticket_user tu ON tu.snapshotId=ts.id
+        WHERE ts.ticketId=#{ticketId} AND tu.userId=#{userId}
     </select>
 
     <!--新增优惠券-y用户关系记录-->
     <insert id="addTicketUser" parameterType="com.scoprion.mall.domain.TicketUser">
-        INSERT  INTO t_ticket_user(userId,snapshotId,num,createDate,useDate,status,ticketId)
+        INSERT  INTO t_ticket_user(userId,snapshotId,num,createDate,useDate,status)
         VALUES
-        (#{userId},#{snapshotId},#{num},now(),#{useDate},#{status},#{ticketId})
+        (#{userId},#{snapshotId},#{num},now(),#{useDate},#{status})
     </insert>
 
     <select id="findById" resultType="com.scoprion.mall.domain.Ticket">
