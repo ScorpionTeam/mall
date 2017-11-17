@@ -72,11 +72,11 @@ public class WxGoodServiceImpl implements WxGoodService {
         if (pageNo == null || pageSize == null || goodId == null) {
             return BaseResult.parameterError();
         }
-        if (StringUtils.isEmpty(wxCode)) {
-            return BaseResult.parameterError();
-        }
-        String userId = WxUtil.getOpenId(wxCode);
-        Page<Estimate> page = wxEstimateMapper.findPage(goodId, userId);
+//        if (StringUtils.isEmpty(wxCode)) {
+//            return BaseResult.parameterError();
+//        }
+//        String userId = WxUtil.getOpenId(wxCode);
+        Page<Estimate> page = wxEstimateMapper.findPage(goodId, null);
         return BaseResult.success(page);
     }
 }
