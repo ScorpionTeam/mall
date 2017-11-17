@@ -49,13 +49,12 @@ public class WxGoodController {
      * @param pageNo
      * @param pageSize
      * @param goodId
-     * @param wxCode
      * @return
      */
     @RequestMapping(value = "/findEstimate", method = RequestMethod.GET)
     public BaseResult findEstimate(Integer pageNo, Integer pageSize,
-                                   Long goodId, String wxCode) {
-        return wxGoodService.findEstimate(pageNo, pageSize, goodId, wxCode);
+                                   Long goodId) {
+        return wxGoodService.findEstimate(pageNo, pageSize, goodId);
     }
 
 }

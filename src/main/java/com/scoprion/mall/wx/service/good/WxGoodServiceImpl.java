@@ -62,20 +62,15 @@ public class WxGoodServiceImpl implements WxGoodService {
      * @param pageNo
      * @param pageSize
      * @param goodId
-     * @param wxCode
      * @return
      */
     @Override
     public BaseResult findEstimate(Integer pageNo, Integer pageSize,
-                                   Long goodId, String wxCode) {
+                                   Long goodId) {
         PageHelper.startPage(pageNo, pageSize);
         if (pageNo == null || pageSize == null || goodId == null) {
             return BaseResult.parameterError();
         }
-//        if (StringUtils.isEmpty(wxCode)) {
-//            return BaseResult.parameterError();
-//        }
-//        String userId = WxUtil.getOpenId(wxCode);
         Page<Estimate> page = wxEstimateMapper.findPage(goodId, null);
         return BaseResult.success(page);
     }

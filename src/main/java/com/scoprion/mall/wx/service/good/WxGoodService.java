@@ -33,9 +33,8 @@ public interface WxGoodService {
      * @param pageNo
      * @param pageSize
      * @param goodId
-     * @param wxCode
      * @return
      */
     BaseResult findEstimate(Integer pageNo, Integer pageSize,
-                            Long goodId, String wxCode);
+                            Long goodId);
 }
