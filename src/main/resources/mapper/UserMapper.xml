@@ -23,7 +23,7 @@
         updateDate,
         lastLoginDate,
         loginIp
-        FROM t_user WHERE status='1' AND mobile=#{mobile} AND password=#{password}
+        FROM t_user WHERE status='0' AND mobile=#{mobile} AND password=#{password}
     </select>
 
     <!--根据email登录-->
@@ -97,7 +97,7 @@
         #{email},
         #{bornDate},
         '0',
-        '1',
+        '0',
         NOW(),
         NOW(),
         NOW(),
