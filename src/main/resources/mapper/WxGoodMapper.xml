@@ -4,6 +4,33 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.wx.mapper.WxGoodMapper">
 
+    <!--首页商品列表-->
+    <select id="findOnline" resultType="com.scoprion.mall.domain.Goods">
+        SELECT
+        id,
+        categoryId,
+        goodName,
+        description,
+        promotion,
+        price,
+        saleVolume,
+        discount,
+        stock,
+        isOnSale,
+        isHot,
+        isNew,
+        createDate,
+        lastUpdateDate,
+        isFreight,
+        brandId,
+        sellerId,
+        visitTotal,
+        goodNo,
+        mainImgUrl,
+        richContent
+        FROM t_good WHERE isOnSale='1'
+    </select>
+
     <!--根据商品id查询详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.Goods">
         SELECT
@@ -38,37 +65,11 @@
         UPDATE t_good SET stock=(stock-#{stock}) WHERE id=#{goodId}
     </update>
 
-    <!--商品列表-->
-    <select id="findOnline" resultType="com.scoprion.mall.domain.Goods">
-        SELECT
-        id,
-        goodNo,
-        categoryId,
-        goodName,
-        description,
-        promotion,
-        price,
-        saleVolume,
-        discount,
-        stock,
-        isOnSale,
-        isHot,
-        isNew,
-        createDate,
-        lastUpdateDate,
-        isFreight,
-        brandId,
-        sellerId,
-        visitTotal,
-        mainImgUrl,
-        richContent
-        FROM t_good WHERE isOnSale='1'
-    </select>
-
     <!--修改销量-->
     <update id="updateSaleVolume">
         UPDATE t_good SET saleVolume=(saleVolume+#{saleVolume}) WHERE id=#{goodId}
     </update>
+
     <!-- 访问量 -->
     <update id="updateVisitTotal">
         UPDATE t_good SET visitTotal=visitTotal+1 WHERE id=#{goodId}

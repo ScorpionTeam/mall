@@ -23,7 +23,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     private WxDeliveryMapper wxDeliveryMapper;
 
     /**
-     * 分页查询用户收获地址列表
+     * 分页查询用户收货地址列表
      *
      * @param wxCode
      * @param pageNo

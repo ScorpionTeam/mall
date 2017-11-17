@@ -27,7 +27,7 @@ public class WxGoodServiceImpl implements WxGoodService {
     private WxEstimateMapper wxEstimateMapper;
 
     /**
-     * 商品列表
+     * 首页商品列表
      *
      * @param pageNo
      * @param PageSize
