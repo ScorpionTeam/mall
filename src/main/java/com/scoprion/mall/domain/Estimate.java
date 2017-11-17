@@ -18,7 +18,7 @@ public class Estimate {
     /**
      * 商品ID
      */
-    private String goodId;
+    private Long goodId;
 
     /**
      * 签收后用户评价
@@ -56,11 +56,11 @@ public class Estimate {
         this.id = id;
     }
 
-    public String getGoodId() {
+    public Long getGoodId() {
         return goodId;
     }
 
-    public void setGoodId(String goodId) {
+    public void setGoodId(Long goodId) {
         this.goodId = goodId;
     }
 

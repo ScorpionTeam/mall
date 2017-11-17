@@ -43,5 +43,19 @@ public class WxGoodController {
         return wxGoodService.findById(goodId);
     }
 
+    /**
+     * 查询商品评价列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param goodId
+     * @param wxCode
+     * @return
+     */
+    @RequestMapping(value = "/findEstimate", method = RequestMethod.GET)
+    public BaseResult findEstimate(Integer pageNo, Integer pageSize,
+                                   Long goodId, String wxCode) {
+        return wxGoodService.findEstimate(pageNo, pageSize, goodId, wxCode);
+    }
 
 }

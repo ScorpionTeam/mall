@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scoprion.mall.wx.mapper.WxUserMapper">
+<mapper namespace="com.scoprion.mall.wx.mapper.WxMemberMapper">
     <!--add-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Suggest">
         INSERT INTO t_suggest(

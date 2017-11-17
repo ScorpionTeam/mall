@@ -1,9 +1,13 @@
 package com.scoprion.mall.wx.service.good;
 
+import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.wx.mapper.WxEstimateMapper;
 import com.scoprion.mall.wx.mapper.WxGoodMapper;
+import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,9 @@ public class WxGoodServiceImpl implements WxGoodService {
 
     @Autowired
     private WxGoodMapper wxGoodMapper;
+
+    @Autowired
+    private WxEstimateMapper wxEstimateMapper;
 
     /**
      * 商品列表
@@ -49,4 +56,27 @@ public class WxGoodServiceImpl implements WxGoodService {
         return BaseResult.success(goods);
     }
 
+    /**
+     * 查询商品评价列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param goodId
+     * @param wxCode
+     * @return
+     */
+    @Override
+    public BaseResult findEstimate(Integer pageNo, Integer pageSize,
+                                   Long goodId, String wxCode) {
+        PageHelper.startPage(pageNo, pageSize);
+        if (pageNo == null || pageSize == null || goodId == null) {
+            return BaseResult.parameterError();
+        }
+        if (StringUtils.isEmpty(wxCode)) {
+            return BaseResult.parameterError();
+        }
+        String userId = WxUtil.getOpenId(wxCode);
+        Page<Estimate> page = wxEstimateMapper.findPage(goodId, userId);
+        return BaseResult.success(page);
+    }
 }
