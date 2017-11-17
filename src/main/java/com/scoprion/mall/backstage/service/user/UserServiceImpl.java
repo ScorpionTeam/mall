@@ -138,7 +138,7 @@ public class UserServiceImpl implements UserService {
     public BaseResult logout(String mobile) {
         //从缓存区移除当前账号
         Boolean result = redisTemplate.hasKey("Login:" + mobile);
-        if (!result) {
+        if (result) {
             redisTemplate.delete("Login:" + mobile);
             return BaseResult.success("退出成功");
         }
