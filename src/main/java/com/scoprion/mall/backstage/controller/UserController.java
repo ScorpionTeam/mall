@@ -73,8 +73,8 @@ public class UserController {
      */
     @ApiOperation(value = "后台系统退出登录")
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public BaseResult backstageLogout(String mobile) {
-        return userService.backstageLogout(mobile);
+    public BaseResult logout(String mobile) {
+        return userService.logout(mobile);
     }
 
     /**

@@ -46,7 +46,7 @@ public interface UserService {
      * @param mobile 手机号
      * @return BaseResult
      */
-    BaseResult backstageLogout(String mobile);
+    BaseResult logout(String mobile);
 
     /**
      * 分页条件查询 会员列表

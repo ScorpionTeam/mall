@@ -135,10 +135,14 @@ public class UserServiceImpl implements UserService {
      * @return BaseResult
      */
     @Override
-    public BaseResult backstageLogout(String mobile) {
+    public BaseResult logout(String mobile) {
         //从缓存区移除当前账号
-        redisTemplate.delete("Login:" + mobile);
-        return BaseResult.success("退出成功");
+        Boolean result = redisTemplate.hasKey("Login:" + mobile);
+        if (!result) {
+            redisTemplate.delete("Login:" + mobile);
+            return BaseResult.success("退出成功");
+        }
+        return BaseResult.error("exit_error", "没有该账号");
     }
 
     /**
