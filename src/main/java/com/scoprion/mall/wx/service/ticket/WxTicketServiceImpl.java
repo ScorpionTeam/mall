@@ -76,8 +76,8 @@ public class WxTicketServiceImpl implements WxTicketService {
      */
     @Override
     public BaseResult getTicket(Long ticketId, String wxCode) {
-//        String userId = WxUtil.getOpenId(wxCode);
-        int count = wxTicketMapper.findByTicketIdAndUserId(ticketId, wxCode);
+        String userId = WxUtil.getOpenId(wxCode);
+        int count = wxTicketMapper.findByTicketIdAndUserId(ticketId, userId);
         if (count > 0) {
             return BaseResult.error("add_error", "已经领取过了");
         }
@@ -97,7 +97,7 @@ public class WxTicketServiceImpl implements WxTicketService {
             if (result > 0) {
                 TicketUser ticketUser = new TicketUser();
                 ticketUser.setNum(1);
-                ticketUser.setUserId(wxCode);
+                ticketUser.setUserId(userId);
                 ticketUser.setSnapshotId(snapshot.getId());
                 ticketUser.setStatus(Constant.STATUS_ZERO);
                 int ticketNum = wxTicketMapper.updateTicketNum(ticketId);
@@ -113,9 +113,9 @@ public class WxTicketServiceImpl implements WxTicketService {
         int result = wxTicketSnapshotMapper.add(snapshot);
         if (result > 0) {
             TicketUser ticketUser = new TicketUser();
-            ticketUser.setSnapshotId(snapshot.getId());
             ticketUser.setNum(1);
-            ticketUser.setUserId(wxCode);
+            ticketUser.setSnapshotId(snapshot.getId());
+            ticketUser.setUserId(userId);
             ticketUser.setStatus(Constant.STATUS_ZERO);
             int addResult = wxTicketMapper.addTicketUser(ticketUser);
             if (addResult > 0) {
@@ -124,5 +124,6 @@ public class WxTicketServiceImpl implements WxTicketService {
         }
         return BaseResult.error("add_error", "领取失败");
     }
+
 
 }
