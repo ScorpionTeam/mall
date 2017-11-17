@@ -13,7 +13,7 @@
        createDate,
        updateDate
        FROM t_estimate
-       WHERE goodId=#{goodId} AND userId=#{userId}
+       WHERE goodId=#{goodId}
     </select>
 
 </mapper>

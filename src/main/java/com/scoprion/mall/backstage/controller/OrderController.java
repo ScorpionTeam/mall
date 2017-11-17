@@ -6,6 +6,7 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +35,7 @@ public class OrderController {
      * @return
      */
     @ApiOperation(value = "商品发货")
-    @RequestMapping(value = "/sendGood", method = RequestMethod.GET)
+    @RequestMapping(value = "/sendGood", method = RequestMethod.POST)
     public BaseResult sendGood(Long orderId, String deliveryNo, String expressName, String expressNo, Long senderId) {
         return orderService.sendGood(orderId, deliveryNo, expressName, expressNo, senderId);
     }
@@ -48,7 +49,7 @@ public class OrderController {
      */
     @ApiOperation(value = "修改订单")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public BaseResult modify(Order order) {
+    public BaseResult modify(@RequestBody Order order) {
         return orderService.modify(order);
     }
 

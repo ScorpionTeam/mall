@@ -78,9 +78,9 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public BaseResult goodReject(Long orderId, Integer count) {
         Order order = orderMapper.findById(orderId);
-        //返回库存
+        //返回库存--商品规则返库
         goodsMapper.modifyGoodsDeduction(order.getGoodId(), count);
-        //待评价
+        //关闭该订单
         order.setOrderStatus("6");
         orderMapper.modify(order);
         return BaseResult.success("操作成功");
@@ -107,6 +107,7 @@ public class OrderServiceImpl implements OrderService {
         if (StringUtils.isEmpty(expressName)) {
             return BaseResult.error("express_error", "快递公司不能为空");
         }
+        senderId = 12L;
         if (senderId == null) {
             return BaseResult.error("sender_error", "发件人id不能为空");
         }

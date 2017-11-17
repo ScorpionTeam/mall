@@ -116,7 +116,7 @@
         <if test="postCode!=null">postCode=#{postCode},</if>
         <if test="goodName!=null">goodName=#{goodName},</if>
         <if test="count!=null">count=#{count},</if>
-        <if test="prePayId!=null">prePayId=#{prePayId},</if>
+        <if test="prepayId!=null">prepayId=#{prepayId},</if>
         <if test="wxOrderNo!=null">wxOrderNo=#{wxOrderNo},</if>
         <if test="goodId!=null">goodId=#{goodId},</if>
         <if test="remark!=null">remark=#{remark},</if>
