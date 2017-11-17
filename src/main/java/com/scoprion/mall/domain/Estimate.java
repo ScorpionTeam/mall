@@ -5,7 +5,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import java.util.Date;
 
 /**
- * Created by fk
+ * @author fk
  * @date 2017/11/9.
  */
 public class Estimate {
@@ -46,6 +46,7 @@ public class Estimate {
      * 投诉
      */
     private String complain;
+
 
     public Long getId() {
         return id;
