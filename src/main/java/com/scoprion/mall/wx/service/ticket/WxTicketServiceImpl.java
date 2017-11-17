@@ -59,8 +59,8 @@ public class WxTicketServiceImpl implements WxTicketService {
             if (endDate.after(currentTime)) {
                 item.setExpire("已过期");
             }
-            if (startDate.compareTo(currentTime) == -1 && startDate.compareTo(
-                    currentTime) == 0 && currentTime.compareTo(endDate) == -1 && currentTime.compareTo(endDate) == 0) {
+            if (startDate.compareTo(currentTime) < 0 && startDate.compareTo(
+                    currentTime) == 0 && currentTime.compareTo(endDate) < 0 && currentTime.compareTo(endDate) == 0) {
                 item.setExpire("正常");
             }
         });
@@ -78,14 +78,17 @@ public class WxTicketServiceImpl implements WxTicketService {
     public BaseResult getTicket(Long ticketId, String wxCode) {
 //        String userId = WxUtil.getOpenId(wxCode);
         int count = wxTicketMapper.findByTicketIdAndUserId(ticketId, wxCode);
-        if (count>0) {
+        if (count > 0) {
             return BaseResult.error("add_error", "已经领取过了");
         }
         //查询优惠券详情
         Ticket ticket = wxTicketMapper.findById(ticketId);
-        if ("0".equals(ticket.getNumLimit())) {
-            if(ticket.getNum()==0){
-                return BaseResult.error("add_error","领取失败,优惠券已经领完了");
+        if (ticket.getEndDate().before(new Date()) || Constant.STATUS_ONE.equals(ticket.getStatus())) {
+            return BaseResult.error("add_error", "优惠券已过期");
+        }
+        if (Constant.STATUS_ZERO.equals(ticket.getNumLimit())) {
+            if (ticket.getNum() == 0) {
+                return BaseResult.error("add_error", "领取失败,优惠券已经领完了");
             }
             TicketSnapshot snapshot = new TicketSnapshot();
             BeanUtils.copyProperties(ticket, snapshot);
@@ -97,9 +100,9 @@ public class WxTicketServiceImpl implements WxTicketService {
                 ticketUser.setUserId(wxCode);
                 ticketUser.setSnapshotId(snapshot.getId());
                 ticketUser.setStatus(Constant.STATUS_ZERO);
-                int ticketNum=wxTicketMapper.updateTicketNum(ticketId);
+                int ticketNum = wxTicketMapper.updateTicketNum(ticketId);
                 int addResult = wxTicketMapper.addTicketUser(ticketUser);
-                if (addResult > 0 && ticketNum>0) {
+                if (addResult > 0 && ticketNum > 0) {
                     return BaseResult.success("领取成功");
                 }
             }

@@ -33,13 +33,13 @@ public class Ticket {
     /**
      * 开始时间
      */
-    @JSONField(format = "yyyy-MM-dd")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
     /**
      * 结束时间
      */
-    @JSONField(format = "yyyy-MM-dd")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     /**
