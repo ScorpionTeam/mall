@@ -10,8 +10,22 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface WxActivityMapper {
-
-
-    //抢购拼团
+    /**
+     * 拼团
+     * @return
+     */
     Page<Activity> findByGroup();
+
+    /**
+     * 秒杀
+     * @return
+     */
+    Page<Activity> secKill();
+
+    /**
+     * 优选
+     * @return
+     */
+    Page<Activity> preference();
+
 }

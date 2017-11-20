@@ -19,17 +19,44 @@ public class WxActivityServiceImpl implements WxActivityService {
     private WxActivityMapper wxActivityMapper;
 
     /**
-     * 抢购拼团
+     * 拼团
      * @param pageNo
      * @param pageSize
      * @return
      */
-
     @Override
     public PageResult findByGroup(int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
         //活动商品
         Page<Activity> page = wxActivityMapper.findByGroup();
+        return new PageResult(page);
+    }
+
+    /**
+     * 秒杀
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public PageResult secKill(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        //活动商品
+        Page<Activity> page = wxActivityMapper.secKill();
+        return new PageResult(page);
+    }
+
+    /**
+     * 优选
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public PageResult preference(int pageNo, int pageSize) {
+        PageHelper.startPage(pageNo, pageSize);
+        //活动商品
+        Page<Activity> page = wxActivityMapper.preference();
         return new PageResult(page);
     }
 }

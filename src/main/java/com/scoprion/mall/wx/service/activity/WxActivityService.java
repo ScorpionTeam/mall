@@ -13,11 +13,28 @@ import java.util.List;
 public interface WxActivityService {
 
     /**
-     * 抢购拼团
+     * 拼团
      * @param pageNo
      * @param pageSize
      * @return
      */
-
     PageResult findByGroup(int pageNo, int pageSize);
+
+    /**
+     * 秒杀
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    PageResult secKill(int pageNo, int pageSize);
+
+    /**
+     * 优选
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    PageResult preference(int pageNo, int pageSize);
+
+
 }
