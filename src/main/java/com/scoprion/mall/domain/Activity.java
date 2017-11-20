@@ -58,6 +58,12 @@ public class Activity {
      */
     private String target;
 
+
+    /**
+     * 参加活动人数
+     */
+    private int num;
+
     /**
      * 商品列表
      */
@@ -127,6 +133,14 @@ public class Activity {
         this.activityGoodsList = activityGoodsList;
     }
 
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
     @Override
     public String toString() {
         return "Activity{" +
@@ -137,6 +151,7 @@ public class Activity {
                 ", updateDate=" + updateDate +
                 ", createDate=" + createDate +
                 ", target='" + target + '\'' +
+                ", num=" + num +
                 ", activityGoodsList=" + activityGoodsList +
                 '}';
     }
