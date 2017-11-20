@@ -34,7 +34,7 @@ public interface OrderMapper {
      * @param orderNo     订单号
      * @return
      */
-    Page<Order> findByCondition(@Param("payType") String payType,
+    Page<OrderExt> findByCondition(@Param("payType") String payType,
                                 @Param("orderType") String orderType,
                                 @Param("orderStatus") String orderStatus,
                                 @Param("searchKey") String searchKey,

@@ -165,9 +165,8 @@ public class OrderServiceImpl implements OrderService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Order> orderPage = orderMapper.findByCondition(payType, orderType, orderStatus, searchKey, startDate,
-                endDate,
-                phone, orderNo);
+        Page<OrderExt> orderPage = orderMapper.findByCondition(payType, orderType, orderStatus, searchKey, startDate,
+                endDate, phone, orderNo);
         if (orderPage == null) {
             return new PageResult();
         }
