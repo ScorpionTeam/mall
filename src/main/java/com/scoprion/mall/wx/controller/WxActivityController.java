@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created by fk
+ *
  * @created on 2017/11/12.
  */
 @RestController
@@ -22,6 +23,7 @@ public class WxActivityController {
 
     /**
      * 拼团
+     *
      * @param pageNo
      * @param pageSize
      * @return
@@ -33,6 +35,7 @@ public class WxActivityController {
 
     /**
      * 秒杀
+     *
      * @param pageNo
      * @param pageSize
      * @return
@@ -44,6 +47,7 @@ public class WxActivityController {
 
     /**
      * 优选
+     *
      * @param pageNo
      * @param pageSize
      * @return

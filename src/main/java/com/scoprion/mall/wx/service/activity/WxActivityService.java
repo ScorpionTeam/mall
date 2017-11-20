@@ -8,12 +8,14 @@ import java.util.List;
 
 /**
  * Created by fk
+ *
  * @create on 2017/11/12.
  */
 public interface WxActivityService {
 
     /**
      * 拼团
+     *
      * @param pageNo
      * @param pageSize
      * @return
@@ -22,6 +24,7 @@ public interface WxActivityService {
 
     /**
      * 秒杀
+     *
      * @param pageNo
      * @param pageSize
      * @return
@@ -30,6 +33,7 @@ public interface WxActivityService {
 
     /**
      * 优选
+     *
      * @param pageNo
      * @param pageSize
      * @return
