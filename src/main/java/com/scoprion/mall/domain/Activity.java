@@ -64,6 +64,19 @@ public class Activity {
      */
     private int num;
 
+
+    /**
+     * 活动开始时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date startDate;
+
+    /**
+     * 活动结束时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date endDate;
+
     /**
      * 互动开始时间
      */
