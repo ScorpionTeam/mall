@@ -22,9 +22,20 @@ public interface FreeMapper {
 
     /**
      * 查询是否参加过该活动
+     *
      * @param activityId
      * @param userId
      * @return
      */
-    int validByActivityId(@Param("activityId")Long activityId,@Param("userId")String userId);
+    int validByActivityId(@Param("activityId") Long activityId, @Param("userId") String userId);
+
+    /**
+     * 校验活动是否过期
+     *
+     * @param activityId
+     * @return
+     */
+    int validByActivityIdAndDate(@Param("activityId") Long activityId);
+
+
 }

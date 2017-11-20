@@ -41,12 +41,22 @@ public class FreeServiceImpl implements FreeService {
     public BaseResult apply(Long activityId, String wxCode) {
         String openId = WxUtil.getOpenId(wxCode);
         //查询是否参加过该活动
-        int result = freeMapper.validByActivityId(activityId,openId);
-        if(result>0){
-            return BaseResult.error("apply_fail","您已参加过该活动");
+        int result = freeMapper.validByActivityId(activityId, openId);
+        if (result > 0) {
+            return BaseResult.error("apply_fail", "您已参加过该活动");
+        }
+
+        int result1 = freeMapper.validByActivityIdAndDate(activityId);
+        if (result1 <= 0) {
+            return BaseResult.error("apply_fail", "活动已过期");
         }
         //查询活动详情
         Activity activity = freeMapper.findById(activityId);
+        if (0 == activity.getNum()) {
+            return BaseResult.error("apply_fail", "活动人数已满");
+        }
+
+        //生成预付款订单
         return null;
     }
 

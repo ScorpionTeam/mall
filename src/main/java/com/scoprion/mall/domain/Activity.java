@@ -65,6 +65,16 @@ public class Activity {
     private int num;
 
     /**
+     * 互动开始时间
+     */
+    private Date startDate;
+
+    /**
+     * 活动结束时间
+     */
+    private Date endDate;
+
+    /**
      * 商品列表
      */
     private List<ActivityGoods> activityGoodsList;
@@ -141,6 +151,22 @@ public class Activity {
         this.num = num;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     @Override
     public String toString() {
         return "Activity{" +
@@ -152,6 +178,8 @@ public class Activity {
                 ", createDate=" + createDate +
                 ", target='" + target + '\'' +
                 ", num=" + num +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 ", activityGoodsList=" + activityGoodsList +
                 '}';
     }
