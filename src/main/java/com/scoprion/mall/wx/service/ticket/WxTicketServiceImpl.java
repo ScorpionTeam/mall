@@ -86,6 +86,7 @@ public class WxTicketServiceImpl implements WxTicketService {
         if (ticket.getEndDate().before(new Date()) || Constant.STATUS_ONE.equals(ticket.getStatus())) {
             return BaseResult.error("add_error", "优惠券已过期");
         }
+        //判断优惠券是否限量
         if (Constant.STATUS_ZERO.equals(ticket.getNumLimit())) {
             if (ticket.getNum() == 0) {
                 return BaseResult.error("add_error", "领取失败,优惠券已经领完了");

@@ -121,7 +121,7 @@ public class Constant {
     public static final String WX_PAY_PAY_ERROR = "PAYERROR";
 
     /**
-     * 微信等级划分
+     * 个人积分等级划分
      */
     public static final int WX_POINT_LEVEL1 = 36;
     public static final int WX_POINT_LEVEL2 = 750;
