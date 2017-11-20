@@ -62,9 +62,10 @@ public class UserServiceImpl implements UserService {
         userMapper.updateLoginIpAddress(member.getId(), ip);
         //将用户手机号码作为加密字符串回传
         String tokenStr = EncryptUtil.aesEncrypt(member.getMobile(), "ScorpionMall8888");
+        member.setToken(tokenStr);
         //设置用户登录有效期为30分钟
         redisTemplate.opsForValue().set("Login:" + member.getMobile(), member.toString(), 30, TimeUnit.MINUTES);
-        return BaseResult.success(tokenStr);
+        return BaseResult.success(member);
     }
 
     /**
@@ -105,7 +106,8 @@ public class UserServiceImpl implements UserService {
         }
         //将用户手机号码作为加密字符串回传
         String tokenStr = EncryptUtil.aesEncrypt(mobile, "ScorpionMall8888");
-        return BaseResult.success(tokenStr);
+        member.setToken(tokenStr);
+        return BaseResult.success(member);
     }
 
 

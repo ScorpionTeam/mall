@@ -106,7 +106,10 @@ public class Member {
      * 密码
      */
     private String password;
-
+    /**
+     * 登录token
+     */
+    private String token;
     /**
      * 类型
      */
@@ -119,6 +122,14 @@ public class Member {
         this.nickName = nickName;
         this.mobile = mobile;
         this.password = password;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getUserType() {
