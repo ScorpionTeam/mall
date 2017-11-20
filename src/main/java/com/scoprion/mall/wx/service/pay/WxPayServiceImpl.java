@@ -53,9 +53,6 @@ public class WxPayServiceImpl implements WxPayService {
     @Autowired
     private WxTicketSnapshotMapper wxTicketSnapshotMapper;
 
-    @Autowired
-    private WxTicketMapper wxTicketMapper;
-
     /**
      * 微信预下单
      *
@@ -149,7 +146,7 @@ public class WxPayServiceImpl implements WxPayService {
         String openid = WxUtil.getOpenId(wxCode);
         Order order = wxOrderMapper.findByOrderId(orderId);
         if (order == null) {
-            return BaseResult.error("can_not_order", "订单状态异常");
+            return BaseResult.error("can_not_order", "找不到订单");
         }
         //查询商品库存
         Goods goods = wxGoodMapper.findById(order.getGoodId());
