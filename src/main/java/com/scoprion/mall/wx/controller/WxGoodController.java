@@ -59,7 +59,7 @@ public class WxGoodController {
 
 
     /**
-     *商品搜索
+     * 商品搜索
      * @param pageNo
      * @param pageSize
      * @param searchKey

@@ -76,6 +76,13 @@ public class WxGoodServiceImpl implements WxGoodService {
         return BaseResult.success(page);
     }
 
+    /**
+     * 商品搜索
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey
+     * @return
+     */
     @Override
     public PageResult findBySearchKey(Integer pageNo, Integer pageSize, String searchKey) {
         PageHelper.startPage(pageNo,pageSize);

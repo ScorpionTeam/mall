@@ -58,6 +58,35 @@ public class Activity {
      */
     private String target;
 
+
+    /**
+     * 参加活动人数
+     */
+    private int num;
+
+
+    /**
+     * 活动开始时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date startDate;
+
+    /**
+     * 活动结束时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date endDate;
+
+    /**
+     * 互动开始时间
+     */
+    private Date startDate;
+
+    /**
+     * 活动结束时间
+     */
+    private Date endDate;
+
     /**
      * 商品列表
      */
@@ -127,6 +156,30 @@ public class Activity {
         this.activityGoodsList = activityGoodsList;
     }
 
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     @Override
     public String toString() {
         return "Activity{" +
@@ -137,6 +190,9 @@ public class Activity {
                 ", updateDate=" + updateDate +
                 ", createDate=" + createDate +
                 ", target='" + target + '\'' +
+                ", num=" + num +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 ", activityGoodsList=" + activityGoodsList +
                 '}';
     }
