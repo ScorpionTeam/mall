@@ -32,7 +32,7 @@ public class WxPayConfig {
      * 微信商户平台支付结果通知URL
      * 线上环境
      */
-    public final static String NOTIFY_URL = "http://2cjhzf.natappfree.cc/mall/wx/jsapi/callback/pay";
+    public final static String NOTIFY_URL = "http://ki99t7.natappfree.cc/mall/wx/jsapi/callback/pay";
     /**
      * 统一下单URL
      */

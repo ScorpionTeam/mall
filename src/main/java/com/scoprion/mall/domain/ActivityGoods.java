@@ -1,6 +1,8 @@
 package com.scoprion.mall.domain;
 
 
+import com.alibaba.fastjson.serializer.SerializeFilter;
+
 import java.util.Date;
 
 /**
