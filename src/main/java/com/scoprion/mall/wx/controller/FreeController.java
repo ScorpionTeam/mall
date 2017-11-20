@@ -41,7 +41,7 @@ public class FreeController {
      * @return
      */
     @RequestMapping(value = "/ally", method = RequestMethod.POST)
-    public BaseResult apply(Long activityId) {
-        return freeService.apply(activityId);
+    public BaseResult apply(Long activityId, String wxCode) {
+        return freeService.apply(activityId, wxCode);
     }
 }

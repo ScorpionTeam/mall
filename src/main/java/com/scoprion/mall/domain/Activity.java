@@ -78,16 +78,6 @@ public class Activity {
     private Date endDate;
 
     /**
-     * 互动开始时间
-     */
-    private Date startDate;
-
-    /**
-     * 活动结束时间
-     */
-    private Date endDate;
-
-    /**
      * 商品列表
      */
     private List<ActivityGoods> activityGoodsList;
