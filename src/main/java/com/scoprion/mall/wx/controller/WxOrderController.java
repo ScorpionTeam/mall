@@ -83,7 +83,7 @@ public class WxOrderController {
     }
 
     /**
-     * 确认收货
+     * 取消订单
      *
      * @param id
      * @param wxCode
