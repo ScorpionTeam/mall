@@ -52,4 +52,5 @@ public class WxActivityController {
     public PageResult preference(int pageNo, int pageSize) {
         return wxActivityService.preference(pageNo, pageSize);
     }
+
 }

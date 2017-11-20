@@ -36,5 +36,4 @@ public interface WxActivityService {
      */
     PageResult preference(int pageNo, int pageSize);
 
-
 }

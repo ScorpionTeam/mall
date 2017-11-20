@@ -26,7 +26,6 @@
         <result property="isOnSale" column="isOnSale"/>
         <result property="isHot" column="isHot"/>
         <result property="isNew" column="isNew"/>
-        <!--<result property="createDate" column="createDate"/>-->
         <result property="lastUpdateDate" column="lastUpdateDate"/>
         <result property="isFreight" column="isFreight"/>
         <result property="brandId" column="brandId"/>
@@ -110,7 +109,7 @@
         AND act.activityType = '0'
     </select>
 
-    <!--  -->
+    <!-- 优选 -->
     <select id="preference" resultMap="activityResult">
         SELECT
         act.name,

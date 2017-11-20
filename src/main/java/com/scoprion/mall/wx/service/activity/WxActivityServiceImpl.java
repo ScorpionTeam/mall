@@ -59,4 +59,5 @@ public class WxActivityServiceImpl implements WxActivityService {
         Page<Activity> page = wxActivityMapper.preference();
         return new PageResult(page);
     }
+
 }
