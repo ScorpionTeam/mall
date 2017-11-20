@@ -72,6 +72,16 @@ public class WxOrderRequestData {
      */
     private int freightFee;
 
+    /**
+     * 商品属性id
+     */
+    private Long attrId;
+
+    /**
+     * 商品属性值id
+     */
+    private Long attrValueId;
+
     public Long getGoodId() {
         return goodId;
     }
@@ -176,6 +186,22 @@ public class WxOrderRequestData {
         this.useTicket = useTicket;
     }
 
+    public Long getAttrId() {
+        return attrId;
+    }
+
+    public void setAttrId(Long attrId) {
+        this.attrId = attrId;
+    }
+
+    public Long getAttrValueId() {
+        return attrValueId;
+    }
+
+    public void setAttrValueId(Long attrValueId) {
+        this.attrValueId = attrValueId;
+    }
+
     @Override
     public String toString() {
         return "WxOrderRequestData{" +
@@ -192,6 +218,8 @@ public class WxOrderRequestData {
                 ", orderFee=" + orderFee +
                 ", reduceFee=" + reduceFee +
                 ", freightFee=" + freightFee +
+                ", attrId=" + attrId +
+                ", attrValueId=" + attrValueId +
                 '}';
     }
 }

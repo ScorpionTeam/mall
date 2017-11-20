@@ -39,6 +39,16 @@ public class GoodSnapshot {
 
     private String richContent;
 
+    /**
+     * 商品属性id
+     */
+    private Long attrId;
+
+    /**
+     * 商品属性值id
+     */
+    private Long attrValueId;
+
     //创建时间
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;

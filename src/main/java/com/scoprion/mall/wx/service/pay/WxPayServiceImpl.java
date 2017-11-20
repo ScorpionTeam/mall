@@ -53,9 +53,6 @@ public class WxPayServiceImpl implements WxPayService {
     @Autowired
     private WxTicketSnapshotMapper wxTicketSnapshotMapper;
 
-    @Autowired
-    private WxTicketMapper wxTicketMapper;
-
     /**
      * 微信预下单
      *
@@ -88,6 +85,10 @@ public class WxPayServiceImpl implements WxPayService {
         Goods goods = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
+        }
+        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+            //商品处于下架状态，不能下单
+            return BaseResult.error("can_not_order", "商品已下架");
         }
         //查询收货地址
         Delivery delivery = wxDeliveryMapper.findById(wxOrderRequestData.getDeliveryId());
@@ -143,6 +144,20 @@ public class WxPayServiceImpl implements WxPayService {
     @Override
     public BaseResult pay(String wxCode, Long orderId) {
         String openid = WxUtil.getOpenId(wxCode);
+        Order order = wxOrderMapper.findByOrderId(orderId);
+        if (order == null) {
+            return BaseResult.error("can_not_order", "找不到订单");
+        }
+        //查询商品库存
+        Goods goods = wxGoodMapper.findById(order.getGoodId());
+        if (null == goods || goods.getStock() <= 0) {
+            return BaseResult.error("not_enough_stock", "商品库存不足");
+        }
+        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+            //商品处于下架状态，不能下单
+            return BaseResult.error("can_not_order", "商品已下架");
+        }
+
         //根据openid查询用户订单信息
         String prepayId = wxOrderMapper.findPrepayIdByOpenid(openid, orderId);
         if (StringUtils.isEmpty(prepayId)) {

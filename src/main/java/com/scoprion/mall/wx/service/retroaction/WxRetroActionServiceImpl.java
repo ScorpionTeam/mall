@@ -20,4 +20,5 @@ public class WxRetroActionServiceImpl implements WxRetroActionService {
     public BaseResult add(RetroAction retroAction) {
         return null;
     }
+    
 }

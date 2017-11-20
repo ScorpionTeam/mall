@@ -1,16 +1,10 @@
 package com.scoprion.mall.backstage.service.good;
 
 import com.alibaba.druid.util.StringUtils;
-import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
-import com.scoprion.mall.backstage.mapper.AttrMapper;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
-import com.scoprion.mall.domain.Attr;
-import com.scoprion.mall.domain.AttrExt;
-import com.scoprion.mall.domain.GoodAttr;
-import com.scoprion.mall.domain.GoodAttrExt;
 import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
@@ -37,9 +31,6 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     private FileOperationMapper fileOperationMapper;
-
-    @Autowired
-    private AttrMapper attrMapper;
 
 
     /**
@@ -115,13 +106,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (null == goods) {
             return BaseResult.notFound();
         }
-
-        List<GoodAttrExt> goodAttrs = attrMapper.findGoodAttrByGoodId(goodsId);
-        goodAttrs.forEach(item -> {
-            List<AttrExt> attrExt = attrMapper.findAttrExt(item.getAttrId());
-            item.setAttrExts(attrExt);
-        });
-        goods.setGoodAttrExts(goodAttrs);
+        
         //获取图片列表
         List<MallImage> imgList = fileOperationMapper.findByCondition(goods.getId(), 0);
         goods.setImgList(imgList);

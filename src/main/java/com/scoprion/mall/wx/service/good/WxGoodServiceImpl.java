@@ -7,7 +7,6 @@ import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.wx.mapper.WxEstimateMapper;
 import com.scoprion.mall.wx.mapper.WxGoodMapper;
-import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
