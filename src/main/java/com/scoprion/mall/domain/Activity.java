@@ -60,6 +60,12 @@ public class Activity {
 
 
     /**
+     * 参加活动人数
+     */
+    private int num;
+
+
+    /**
      * 活动开始时间
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
@@ -140,6 +146,14 @@ public class Activity {
         this.activityGoodsList = activityGoodsList;
     }
 
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
     public Date getStartDate() {
         return startDate;
     }
@@ -166,6 +180,7 @@ public class Activity {
                 ", updateDate=" + updateDate +
                 ", createDate=" + createDate +
                 ", target='" + target + '\'' +
+                ", num=" + num +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", activityGoodsList=" + activityGoodsList +

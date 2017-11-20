@@ -26,7 +26,6 @@
         <result property="isOnSale" column="isOnSale"/>
         <result property="isHot" column="isHot"/>
         <result property="isNew" column="isNew"/>
-        <!--<result property="createDate" column="createDate"/>-->
         <result property="lastUpdateDate" column="lastUpdateDate"/>
         <result property="isFreight" column="isFreight"/>
         <result property="brandId" column="brandId"/>
@@ -38,7 +37,7 @@
     </resultMap>
 
 
-    <!-- 抢购拼团 -->
+    <!-- 拼团 -->
     <select id="findByGroup" resultMap="activityResult">
         SELECT
         act.name,
@@ -69,9 +68,81 @@
         tg.goodNo,
         tg.mainImgUrl,
         tg.status
-        FROM t_activity act LEFT JOIN t_activity_good actg ON act.id=actg.activityId
-        LEFT JOIN t_good tg ON actg.goodId=tg.id
-        AND act.activityType='1'
+        FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activityId
+        INNER JOIN t_good tg ON actg.goodId=tg.id
+        AND act.activityType = '1'
+    </select>
+
+    <!-- 秒杀 -->
+    <select id="secKill" resultMap="activityResult">
+        SELECT
+        act.name,
+        act.activityType,
+        act.status,
+        act.target,
+        actg.id,
+        actg.activityId,
+        actg.goodId,
+        actg.createDate,
+        tg.id,
+        tg.categoryId,
+        tg.goodName,
+        tg.description,
+        tg.promotion,
+        tg.price,
+        tg.saleVolume,
+        tg.discount,
+        tg.stock,
+        tg.isOnSale,
+        tg.isHot,
+        tg.isNew,
+        tg.lastUpdateDate,
+        tg.isFreight,
+        tg.brandId,
+        tg.sellerId,
+        tg.visitTotal,
+        tg.goodNo,
+        tg.mainImgUrl,
+        tg.status
+        FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activityId
+        INNER JOIN t_good tg ON actg.goodId=tg.id
+        AND act.activityType = '0'
+    </select>
+
+    <!-- 优选 -->
+    <select id="preference" resultMap="activityResult">
+        SELECT
+        act.name,
+        act.activityType,
+        act.status,
+        act.target,
+        actg.id,
+        actg.activityId,
+        actg.goodId,
+        actg.createDate,
+        tg.id,
+        tg.categoryId,
+        tg.goodName,
+        tg.description,
+        tg.promotion,
+        tg.price,
+        tg.saleVolume,
+        tg.discount,
+        tg.stock,
+        tg.isOnSale,
+        tg.isHot,
+        tg.isNew,
+        tg.lastUpdateDate,
+        tg.isFreight,
+        tg.brandId,
+        tg.sellerId,
+        tg.visitTotal,
+        tg.goodNo,
+        tg.mainImgUrl,
+        tg.status
+        FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activityId
+        INNER JOIN t_good tg ON actg.goodId=tg.id
+        AND act.activityType = '2'
     </select>
 
 </mapper>
