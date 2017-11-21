@@ -185,7 +185,7 @@
         <if test="categoryId!=null and categoryId!=''">AND good.categoryId= #{categoryId}</if>
         <if test="brandId!=null and brandId!=''">AND good.brandId= #{brandId}</if>
         <if test="activityId!=null and activityId!=''">AND tacg.activityId= #{activityId}</if>
-        ORDER BY good.id
+        GROUP BY good.id
     </select>
 
     <!--商品上下架-->
