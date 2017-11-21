@@ -40,11 +40,16 @@ public class ActivityServiceImpl implements ActivityService {
         if (validResult > 0) {
             return BaseResult.error("not_allowed_repeat_name", "活动名称不可重复");
         }
+        int typeResult = activityMapper.validByTypeAndTime(activity.getStartDate(),
+                activity.getEndDate(), activity.getActivityType());
+        if (typeResult > 0) {
+            return BaseResult.error("not_allowed_repeat_type", "相同时间段内，不允许创建相同类型的活动");
+        }
         int result = activityMapper.add(activity);
         if (result == 0) {
             return BaseResult.error("add_fail", "创建活动失败");
         }
-//        bindActivityWithGood(activityService.getId(), activityService.getGoodIdList());
+        //bindActivityWithGood(activityService.getId(), activityService.getGoodIdList());
         return BaseResult.success("创建活动成功");
     }
 

@@ -5,6 +5,7 @@ import com.scoprion.mall.domain.Activity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -111,5 +112,17 @@ public interface ActivityMapper {
      * @param idList id集合
      * @return int
      */
-    int batchModifyStatus(@Param("status") String status,@Param("idList") List<Long> idList);
+    int batchModifyStatus(@Param("status") String status, @Param("idList") List<Long> idList);
+
+    /**
+     * 校验相同时间内是否存在相同类型的活动
+     *
+     * @param startDate
+     * @param endDate
+     * @param activityType
+     * @return
+     */
+    int validByTypeAndTime(@Param("startDate") Date startDate,
+                           @Param("endDate") Date endDate,
+                           @Param("activityType") String activityType);
 }
