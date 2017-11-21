@@ -3,8 +3,11 @@ package com.scoprion.mall.wx.service.good;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.domain.Estimate;
+import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.MallImage;
 import com.scoprion.mall.wx.mapper.WxEstimateMapper;
 import com.scoprion.mall.wx.mapper.WxGoodMapper;
 import com.scoprion.result.BaseResult;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author by kunlun
@@ -26,6 +30,9 @@ public class WxGoodServiceImpl implements WxGoodService {
 
     @Autowired
     private WxEstimateMapper wxEstimateMapper;
+
+    @Autowired
+    private FileOperationMapper fileOperationMapper;
 
     /**
      * 首页商品列表
@@ -49,10 +56,16 @@ public class WxGoodServiceImpl implements WxGoodService {
      */
     @Override
     public BaseResult findById(Long goodId) {
-        Goods goods = wxGoodMapper.findById(goodId);
-        if (null == goods) {
+        if(StringUtils.isEmpty(goodId.toString())){
+            return BaseResult.parameterError();
+        }
+        GoodExt goods = wxGoodMapper.findById(goodId);
+        if (StringUtils.isEmpty(goods.toString())){
             return BaseResult.notFound();
         }
+        //获取图片列表
+        List<MallImage> imgList = fileOperationMapper.findByCondition(goods.getId(), 0);
+        goods.setImgList(imgList);
         wxGoodMapper.updateVisitTotal(goodId);
         return BaseResult.success(goods);
     }
