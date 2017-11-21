@@ -66,7 +66,7 @@ public class WxOrderServiceImpl implements WxOrderService {
     @Override
     public BaseResult findByOrderId(Long orderId) {
         Order order = wxOrderMapper.findByOrderId(orderId);
-        if (null == order) {
+        if (StringUtils.isEmpty(order.toString())) {
             return BaseResult.notFound();
         }
         SendGood sendGood = sendGoodMapper.findById(order.getSendGoodId());
@@ -99,10 +99,10 @@ public class WxOrderServiceImpl implements WxOrderService {
      */
     @Override
     public BaseResult estimate(Estimate estimate) {
-        if (estimate.getUserId() == null) {
+        if (StringUtils.isEmpty(estimate.getUserId())) {
             return BaseResult.notFound();
         }
-        if(estimate.getGoodId() == null) {
+        if(StringUtils.isEmpty(estimate.getGoodId().toString())) {
             return BaseResult.notFound();
         }
         int result = wxOrderMapper.estimate(estimate);
@@ -119,18 +119,11 @@ public class WxOrderServiceImpl implements WxOrderService {
      * @return
      */
     @Override
-    public BaseResult confirmReceipt(Long id, String wxCode) {
-        if (id == null) {
+    public BaseResult confirmReceipt(Long id) {
+        if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
-        if (StringUtils.isEmpty(wxCode)) {
-            return BaseResult.parameterError();
-        }
-        String userId = WxUtil.getOpenId(wxCode);
         Order order = wxOrderMapper.findByOrderId(id);
-        if (!userId.equals(order.getUserId())) {
-            return BaseResult.error("confirm_fail", "未找到订单，确认收货失败");
-        }
         if (!Constant.STATUS_THREE.equals(order.getOrderStatus())) {
             return BaseResult.error("confirm_fail", "订单状态异常，不能确认收货");
         }
@@ -147,22 +140,14 @@ public class WxOrderServiceImpl implements WxOrderService {
      * 取消订单，进处于代付款状态的订单才能执行取消订单操作
      *
      * @param id
-     * @param wxCode
      * @return
      */
     @Override
-    public BaseResult cancelOrder(Long id, String wxCode) {
-        if (id == null) {
+    public BaseResult cancelOrder(Long id) {
+        if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
-        if (StringUtils.isEmpty(wxCode)) {
-            return BaseResult.parameterError();
-        }
-        String userId = WxUtil.getOpenId(wxCode);
         Order order = wxOrderMapper.findByOrderId(id);
-        if (order == null || !userId.equals(order.getUserId())) {
-            return BaseResult.error("cancel_fail", "未找到订单，取消订单失败");
-        }
         if (!Constant.STATUS_ONE.equals(order.getOrderStatus())) {
             return BaseResult.error("cancel_fail", "订单状态异常，不能取消订单");
         }

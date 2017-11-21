@@ -74,4 +74,13 @@ public interface ActivityService {
      * @return BaseResult
      */
     BaseResult batchModifyStatus(String status, List<Long> idList);
+
+    /**
+     * 解绑商品跟图片
+     *
+     * @param activityId
+     * @param goodIdList
+     * @return
+     */
+    BaseResult unbindActivityWithGood(Long activityId, List<Long> goodIdList);
 }

@@ -61,4 +61,10 @@ public interface WxTicketMapper {
      */
     int updateTicketNum(@Param("id") Long id);
 
+
+    /**
+     * 查询所有优惠券列表
+     * @return
+     */
+    Page<Ticket>findAll();
 }
