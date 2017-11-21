@@ -127,4 +127,18 @@ public class WxTicketServiceImpl implements WxTicketService {
     }
 
 
+    /**
+     * 查询优惠券所有列表
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public PageResult findAll(Integer pageNo, Integer pageSize) {
+        PageHelper.startPage(pageNo,pageSize);
+        Page<Ticket>page=wxTicketMapper.findAll();
+        return new PageResult(page);
+    }
+
+
 }

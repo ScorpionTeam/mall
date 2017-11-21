@@ -97,19 +97,4 @@ public interface WxOrderMapper {
      */
     int estimate(Estimate estimate);
 
-    /**
-     * 投诉
-     * @param id
-     * @param complain
-     * @return
-     */
-    int complain(@Param("id") Long id, @Param("complain") String complain);
-
-    /**
-     * 订单详情
-     * @param id
-     * @param userId
-     * @return
-     */
-    Order personalScore(@Param("id") Long id, @Param("userId") String userId);
 }
