@@ -14,9 +14,13 @@ import java.util.List;
 public interface MenuService {
     BaseResult add(SysMenu sysMenu);
 
-    BaseResult findByCondition();
+    BaseResult findByCondition(Integer pageNo, Integer pageSize, String searchKey);
 
     BaseResult modify(SysMenu sysMenu);
 
     BaseResult init(String userId);
+
+    BaseResult findById(Long id);
+
+    BaseResult deleteById(Long id);
 }

@@ -30,9 +30,9 @@ public class MenuController {
     }
 
     @ApiOperation("菜单列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public BaseResult findByCondition() {
-        return menuService.findByCondition();
+    @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
+    public BaseResult findByCondition(Integer pageNo, Integer pageSize, String searchKey) {
+        return menuService.findByCondition(pageNo, pageSize, searchKey);
     }
 
     @ApiOperation("菜单添加")
@@ -45,5 +45,17 @@ public class MenuController {
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modify(@Validated @RequestBody SysMenu sysMenu) {
         return menuService.modify(sysMenu);
+    }
+
+    @ApiOperation("菜单详情")
+    @RequestMapping(value = "/findById", method = RequestMethod.GET)
+    public BaseResult findById(Long id) {
+        return menuService.findById(id);
+    }
+
+    @ApiOperation("菜单删除")
+    @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
+    public BaseResult deleteById(Long id) {
+        return menuService.deleteById(id);
     }
 }
