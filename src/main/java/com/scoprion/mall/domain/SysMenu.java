@@ -45,7 +45,7 @@ public class SysMenu {
     private String type;
 
     /**
-     * 状态
+     * 状态 0 启用 1 停用
      */
     private String status;
 

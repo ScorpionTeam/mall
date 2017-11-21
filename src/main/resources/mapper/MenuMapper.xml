@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.backstage.mapper.MenuMapper">
+    <!--新增-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.SysMenu">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_sys_menu
+        (name,pid,url,type,status,icon,description,operator,sort,createDate)
+        VALUES
+        (#{name},#{pid},#{url},#{type},#{status},#{icon},#{description},#{operator},#{sort},now())
+    </insert>
+    <!--修改-->
+    <update id="modify" parameterType="com.scoprion.mall.domain.SysMenu">
+        UPDATE t_sys_menu SET
+        <if test="name!=null">name=#{name},</if>
+        <if test="pid!=null">pid=#{pid},</if>
+        <if test="url!=null">url=#{url},</if>
+        <if test="type!=null">type=#{type},</if>
+        <if test="status!=null">status=#{status},</if>
+        <if test="icon!=null">icon=#{icon},</if>
+        <if test="sort!=null">sort=#{sort},</if>
+        <if test="createDate!=null">createDate=#{createDate},</if>
+        <if test="description!=null">description=#{description},</if>
+        <if test="operator!=null">operator=#{operator},</if>
+        updateDate=now()
+        WHERE id=#{id}
+    </update>
+
+    <!--模糊查询-->
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.SysMenu">
+        SELECT
+        id,
+        name,
+        pid,
+        url,
+        type,
+        status,
+        icon,
+        sort,
+        createDate,
+        updateDate,
+        description,
+        operator
+        FROM t_sys_menu WHERE 1=1
+        <if test="searchKey!=null">AND CONCAT(name,description) LIKE #{searchKey}</if>
+    </select>
+
+    <!--根据ID删除活动,不做物理删除-->
+    <update id="deleteById">
+          UPDATE  t_sys_menu  SET  status='1' WHERE  id=#{id}
+    </update>
+
+    <!--查询名称数量-->
+    <select id="validByName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM  t_sys_menu WHERE  name=#{name} AND status='0'
+    </select>
+
+    <!--活动id、名称校验-->
+    <select id="validByIdAndNameAndUrl" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_sys_menu
+        WHERE url =#{url}
+        AND name =#{name}
+        AND id!=#{id} AND status='0'
+    </select>
+
+    <!--根据ID查询详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.SysMenu">
+        SELECT
+         id,
+        name,
+        pid,
+        url,
+        type,
+        status,
+        icon,
+        sort,
+        createDate,
+        updateDate,
+        description,
+        operator
+        FROM  t_sys_menu
+        WHERE  id=#{id}
+    </select>
+
+    <select id="validAdmin" resultType="java.lang.Integer">
+        SELECT  COUNT(*) FROM  t_user  WHERE mobile=#{userId} AND userType='0'
+    </select>
+
+    <!--查询所有-->
+    <select id="findRootMenuList" resultType="com.scoprion.mall.domain.SysMenu">
+        SELECT
+        id,
+        name,
+        pid,
+        url,
+        type,
+        status,
+        icon,
+        sort,
+        createDate,
+        updateDate,
+        description,
+        operator
+        FROM  t_sys_menu
+        WHERE  pid='0'
+    </select>
+</mapper>

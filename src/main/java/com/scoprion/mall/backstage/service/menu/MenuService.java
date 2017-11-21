@@ -2,6 +2,7 @@ package com.scoprion.mall.backstage.service.menu;
 
 import com.scoprion.mall.domain.SysMenu;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 
 import java.awt.*;
 import java.util.List;
@@ -14,13 +15,15 @@ import java.util.List;
 public interface MenuService {
     BaseResult add(SysMenu sysMenu);
 
-    BaseResult findByCondition(Integer pageNo, Integer pageSize, String searchKey);
+    PageResult findByCondition(Integer pageNo, Integer pageSize, String searchKey);
 
     BaseResult modify(SysMenu sysMenu);
 
-    BaseResult init(String userId);
+    PageResult init(String userId);
 
     BaseResult findById(Long id);
 
     BaseResult deleteById(Long id);
+
+    BaseResult list(String userId);
 }
