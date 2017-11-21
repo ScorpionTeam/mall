@@ -33,14 +33,6 @@ public interface FreeMapper {
     int validByActivityId(@Param("activityId") Long activityId, @Param("userId") String userId);
 
     /**
-     * 校验活动是否过期
-     *
-     * @param activityId
-     * @return
-     */
-    int validByActivityIdAndDate(@Param("activityId") Long activityId);
-
-    /**
      * 查询免费试用商品列表
      * @return
      */

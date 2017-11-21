@@ -346,8 +346,4 @@ public class OrderServiceImpl implements OrderService {
 
         return responseXML;
     }
-
-    public static void main(String[] args) {
-        System.out.println(System.currentTimeMillis() / 1000);
-    }
 }

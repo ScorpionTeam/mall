@@ -1,6 +1,6 @@
 package com.scoprion.mall.wx.service.free;
 
-import com.scoprion.constant.Constant;
+
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.FreeMapper;
 import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,7 +55,7 @@ public class FreeServiceImpl implements FreeService {
      * @return
      */
     @Override
-    public BaseResult apply(Long activityGoodId, String wxCode, String ipAddress) {
+    public BaseResult apply(Long activityGoodId, String wxCode,Long deliveryId, String ipAddress) {
         //String openId = WxUtil.getOpenId(wxCode);
         ActivityGoods activityGoods = freeMapper.findByActivityGoodId(activityGoodId);
         Long activityId = activityGoods.getActivityId();
@@ -63,15 +64,13 @@ public class FreeServiceImpl implements FreeService {
         if (result > 0) {
             return BaseResult.error("apply_fail", "您已参加过该活动");
         }
-
-        int result1 = freeMapper.validByActivityIdAndDate(activityId);
-        if (result1 <= 0) {
-            return BaseResult.error("apply_fail", "活动已过期");
-        }
+        Date currentDate=new Date();
         //查询活动详情
         Activity activity = freeMapper.findById(activityId);
         if (0 == activity.getNum()) {
             return BaseResult.error("apply_fail", "活动人数已满");
+        }else if(currentDate.after(activity.getEndDate())){
+            return BaseResult.error("apply_fail","活动已过期");
         }
 
         //生成商品快照
@@ -86,14 +85,14 @@ public class FreeServiceImpl implements FreeService {
         order.setOrderNo(orderNo);
         order.setUserId(wxCode);
         order.setPayType("");
-        order.setOrderType("2");
+        order.setOrderType("3");
         order.setOrderStatus("1");
         order.setGoodName(goods.getGoodName());
         order.setGoodSnapShotId(goodSnapshot.getId());
         order.setGoodId(goodId);
         order.setGoodName(goods.getGoodName());
         order.setGoodFee(goods.getPrice());
-        order.setDeliveryId(order.getDeliveryId());
+        order.setDeliveryId(deliveryId);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");

@@ -5,15 +5,19 @@
 
 <mapper namespace="com.scoprion.mall.wx.mapper.FreeMapper">
 
-    <select id="findAllByFree" resultType="com.scoprion.mall.domain.Goods">
-
+    <select id="findById" resultType="com.scoprion.mall.domain.Activity">
+        SELECT * FROM t_activity WHERE id=#{activityId}
     </select>
 
     <select id="findByActivityGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
-        SELECT * FROM t_activity_good WHERE activityGoodId=#{id}
+        SELECT * FROM t_activity_good WHERE id=#{activityGoodId}
     </select>
 
     <select id="findByGoodId" resultType="com.scoprion.mall.domain.Goods">
-        SELECT * FROM t_good WHERE goodId=#{id}
+        SELECT * FROM t_good WHERE id=#{goodId}
+    </select>
+
+    <select id="validByActivityId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_order WHERE orderType='3'
     </select>
 </mapper>
