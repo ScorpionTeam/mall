@@ -8,24 +8,39 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO t_good_snapshot(goodSnapShotNo,
-                                    goodName,
-                                    goodDescription,
-                                    promotion,
-                                    price,
-                                    discount,
-                                    mainImgUrl,
-                                    createDate,
-                                    richContent,
-                                    goodId)
+        goodName,
+        goodDescription,
+        promotion,
+        price,
+        discount,
+        mainImgUrl,
+        createDate,
+        richContent,
+        goodId)
         VALUES (#{goodSnapShotNo},
-                #{goodName},
-                #{goodDescription},
-                #{promotion},
-                #{price},
-                #{discount},
-                #{mainImgUrl},
-                NOW(),
-                #{richContent},
-                #{goodId})
+        #{goodName},
+        #{goodDescription},
+        #{promotion},
+        #{price},
+        #{discount},
+        #{mainImgUrl},
+        NOW(),
+        #{richContent},
+        #{goodId})
     </insert>
+
+    <select id="findById" resultType="com.scoprion.mall.domain.GoodSnapshot">
+        SELECT  id,
+        goodId,
+        goodSnapShotNo,
+        goodName,
+        goodDescription,
+        promotion,
+        price,
+        discount,
+        mainImgUrl,
+        richContent,
+        createDate
+        FROM  t_good_snapshot WHERE  id=#{id}
+    </select>
 </mapper>

@@ -26,10 +26,10 @@ public class GoodSnapshot {
     private String goodDescription;
 
     //促销价
-    private BigDecimal promotion;
+    private Integer promotion;
 
     //商品原价
-    private BigDecimal price;
+    private Integer price;
 
     //折扣
     private int discount;
@@ -93,19 +93,19 @@ public class GoodSnapshot {
         this.goodDescription = goodDescription;
     }
 
-    public BigDecimal getPromotion() {
+    public Integer getPromotion() {
         return promotion;
     }
 
-    public void setPromotion(BigDecimal promotion) {
+    public void setPromotion(Integer promotion) {
         this.promotion = promotion;
     }
 
-    public BigDecimal getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

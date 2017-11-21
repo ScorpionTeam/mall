@@ -7,6 +7,7 @@ import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.*;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
+import com.scoprion.mall.wx.mapper.WxGoodSnapShotMapper;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
@@ -49,26 +50,6 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private WxDeliveryMapper wxDeliveryMapper;
 
-    /**
-     * 换货
-     *
-     * @param orderId      订单id
-     * @param goodId       订单中需要换货的id
-     * @param targetGoodId 需要换成哪个规格的商品的id
-     * @return
-     */
-    @Override
-    public BaseResult exchangeGood(Long orderId, Long goodId, Long targetGoodId) {
-        Order order = orderMapper.findById(orderId);
-        if (goodId.longValue() == order.getGoodId().longValue()) {
-            //相同规格的商品，直接换货
-        } else {
-            //不同规格的商品，目标规格商品id跟原规格商品id替换，生成目规格商品快照。重新保存
-
-
-        }
-        return BaseResult.success("操作成功");
-    }
 
     /**
      * 退货
