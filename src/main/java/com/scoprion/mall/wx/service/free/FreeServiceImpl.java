@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,15 +64,13 @@ public class FreeServiceImpl implements FreeService {
         if (result > 0) {
             return BaseResult.error("apply_fail", "您已参加过该活动");
         }
-
-        int result1 = freeMapper.validByActivityIdAndDate(activityId);
-        if (result1 <= 0) {
-            return BaseResult.error("apply_fail", "活动已过期");
-        }
+        Date currentDate=new Date();
         //查询活动详情
         Activity activity = freeMapper.findById(activityId);
         if (0 == activity.getNum()) {
             return BaseResult.error("apply_fail", "活动人数已满");
+        }else if(currentDate.after(activity.getEndDate())){
+            return BaseResult.error("apply_fail","活动已过期");
         }
 
         //生成商品快照
