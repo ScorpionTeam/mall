@@ -53,4 +53,5 @@ public interface WxActivityMapper {
      * @return
      */
     Activity findByActivityTypeThree();
+
 }
