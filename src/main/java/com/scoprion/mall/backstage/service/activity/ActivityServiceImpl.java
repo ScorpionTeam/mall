@@ -3,8 +3,11 @@ package com.scoprion.mall.backstage.service.activity;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.ActivityMapper;
+import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.mall.domain.Activity;
+import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,6 +28,9 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Autowired
     private ActivityMapper activityMapper;
+
+    @Autowired
+    private GoodsMapper goodsMapper;
 
     /**
      * 创建活动
@@ -49,7 +56,6 @@ public class ActivityServiceImpl implements ActivityService {
         if (result == 0) {
             return BaseResult.error("add_fail", "创建活动失败");
         }
-        //bindActivityWithGood(activityService.getId(), activityService.getGoodIdList());
         return BaseResult.success("创建活动成功");
     }
 
@@ -73,7 +79,6 @@ public class ActivityServiceImpl implements ActivityService {
         if (result == 0) {
             return BaseResult.error("update_fail", "修改活动失败");
         }
-//        bindActivityWithGood(activityService.getId(), activityService.getGoodIdList());
         return BaseResult.success("修改活动成功");
     }
 
@@ -98,7 +103,7 @@ public class ActivityServiceImpl implements ActivityService {
      * @param pageNo
      * @param pageSize
      * @param searchKey
-     * @param type      * 0秒杀, 1拼团,2优选
+     * @param type      * 0秒杀, 1拼团,2优选，3全部
      * @param status    0正常,1删除
      * @return
      */
@@ -110,6 +115,10 @@ public class ActivityServiceImpl implements ActivityService {
         }
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
+        }
+        if (Constant.STATUS_THREE.equals(type)) {
+            //全部
+            type = null;
         }
         Page<Activity> page = activityMapper.findByCondition(type, status, searchKey);
         if (page.getTotal() <= 0L) {
@@ -131,28 +140,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (activity == null) {
             return BaseResult.notFound();
         }
-//        List<Long> goodIdList = activityMapper.findGoodIdByActivityId(id);
-//        activityService.setGoodIdList(goodIdList);
         return BaseResult.success(activity);
-    }
-
-    @Override
-    public BaseResult bindActivityWithGood(Long activityId, List<Long> goodIdList) {
-        if (activityId == null || goodIdList == null || goodIdList.size() == 0) {
-            return BaseResult.parameterError();
-        }
-        //活动跟商品绑定
-        for (Long goodId : goodIdList) {
-            //查询活动与商品匹配关系
-            int activityCount = activityMapper.findActivityByGoodId(goodId);
-            if (activityCount > 0) {
-                //存在已经绑定的关系，清空掉
-                activityMapper.deleteActivityGood(goodId);
-            }
-            //添加活动与商品匹配关系
-            activityMapper.addActivityGood(activityId, goodId);
-        }
-        return BaseResult.success("活动绑定成功");
     }
 
     /**
@@ -175,5 +163,54 @@ public class ActivityServiceImpl implements ActivityService {
             BaseResult.success("部分修改成功，其余数据请刷新后重试");
         }
         return BaseResult.success("修改成功");
+    }
+
+    @Override
+    public BaseResult bindActivityWithGood(Long activityId, List<Long> goodIdList) {
+        if (activityId == null || goodIdList == null || goodIdList.size() == 0) {
+            return BaseResult.parameterError();
+        }
+        //活动跟商品绑定
+        for (Long goodId : goodIdList) {
+            //查询活动与商品匹配关系
+            GoodExt good = goodsMapper.findById(goodId);
+            if (good.getActivityId() != null) {
+                //商品存在已经绑定的关系
+                Activity activity = activityMapper.findById(good.getActivityId());
+                if (activity.getStartDate().after(new Date())) {
+                    //活动还未开始
+                    continue;
+                } else if (activity.getEndDate().before(new Date())) {
+                    //活动已经结束
+                    //商品存在已经绑定的关系
+                    activityMapper.deleteActivityGood(goodId);
+                } else {
+                    //活动进行中
+                    continue;
+                }
+            }
+            //添加活动与商品匹配关系
+            activityMapper.addActivityGood(activityId, goodId);
+        }
+        return BaseResult.success("活动绑定成功");
+    }
+
+    /**
+     * 解绑活动跟商品关系
+     *
+     * @param activityId
+     * @param goodIdList
+     * @return
+     */
+    @Override
+    public BaseResult unbindActivityWithGood(Long activityId, List<Long> goodIdList) {
+        if (activityId == null || goodIdList == null || goodIdList.size() == 0) {
+            return BaseResult.parameterError();
+        }
+        int result = activityMapper.unbindActivityWithGood(activityId, goodIdList);
+        if (result == 0) {
+            return BaseResult.error("unbind_error", "解绑失败");
+        }
+        return BaseResult.success("解绑成功");
     }
 }

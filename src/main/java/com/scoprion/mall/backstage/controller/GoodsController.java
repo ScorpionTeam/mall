@@ -102,9 +102,9 @@ public class GoodsController {
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
                                       String startDate, String endDate, Long categoryId, String isHot, String isNew,
-                                      String isFreight, Long brandId) {
+                                      String isFreight, Long brandId, Long activityId) {
         return goodsService.findByCondition(pageNo, pageSize, searchKey, goodNo, saleStatus, startDate, endDate,
-                categoryId, isHot, isNew, isFreight, brandId);
+                categoryId, isHot, isNew, isFreight, brandId, activityId);
     }
 
     /**
@@ -166,7 +166,6 @@ public class GoodsController {
     public BaseResult modifyGoodsDeduction(Long id, Integer count) {
         return goodsService.modifyGoodsDeduction(id, count);
     }
-
 
 
 }

@@ -113,4 +113,15 @@
           ( #{endDate} BETWEEN startDate AND endDate)
           )
     </select>
+
+    <delete id="unbindActivityWithGood">
+        DELETE FROM t_activity_good
+        WHERE activityId=#{activityId}
+        AND goodId IN
+        <foreach collection="goodIdList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
 </mapper>

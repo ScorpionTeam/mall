@@ -125,4 +125,14 @@ public interface ActivityMapper {
     int validByTypeAndTime(@Param("startDate") Date startDate,
                            @Param("endDate") Date endDate,
                            @Param("activityType") String activityType);
+
+    /**
+     * 解绑商品跟活动
+     *
+     * @param activityId
+     * @param goodIdList
+     * @return
+     */
+    int unbindActivityWithGood(@Param("activityId") Long activityId,
+                               @Param("goodIdList") List<Long> goodIdList);
 }

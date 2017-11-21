@@ -106,7 +106,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (null == goods) {
             return BaseResult.notFound();
         }
-        
+
         //获取图片列表
         List<MallImage> imgList = fileOperationMapper.findByCondition(goods.getId(), 0);
         goods.setImgList(imgList);
@@ -169,7 +169,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public PageResult findByCondition(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
                                       String startDate, String endDate, Long categoryId, String isHot, String isNew,
-                                      String isFreight, Long brandId) {
+                                      String isFreight, Long brandId, Long activityId) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(searchKey)) {
             searchKey = null;
@@ -177,10 +177,10 @@ public class GoodsServiceImpl implements GoodsService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Goods> page = goodsMapper.findByCondition(searchKey, goodNo, saleStatus, startDate, endDate, categoryId,
-                isHot, isNew, isFreight, brandId);
+        Page<GoodExt> page = goodsMapper.findByCondition(searchKey, goodNo, saleStatus, startDate, endDate, categoryId,
+                isHot, isNew, isFreight, brandId, activityId);
         if (page == null) {
-            return new PageResult(new ArrayList<Goods>());
+            return new PageResult();
         }
         return new PageResult(page);
     }

@@ -84,18 +84,20 @@ public interface GoodsMapper {
      * @param isNew      新品
      * @param isFreight  包邮
      * @param brandId    品牌
+     * @param activityId    活动id
      * @return
      */
-    Page<Goods> findByCondition(@Param("searchKey") String searchKey,
-                                @Param("goodNo") String goodNo,
-                                @Param("saleStatus") String saleStatus,
-                                @Param("startDate") String startDate,
-                                @Param("endDate") String endDate,
-                                @Param("categoryId") Long categoryId,
-                                @Param("isHot") String isHot,
-                                @Param("isNew") String isNew,
-                                @Param("isFreight") String isFreight,
-                                @Param("brandId") Long brandId);
+    Page<GoodExt> findByCondition(@Param("searchKey") String searchKey,
+                                  @Param("goodNo") String goodNo,
+                                  @Param("saleStatus") String saleStatus,
+                                  @Param("startDate") String startDate,
+                                  @Param("endDate") String endDate,
+                                  @Param("categoryId") Long categoryId,
+                                  @Param("isHot") String isHot,
+                                  @Param("isNew") String isNew,
+                                  @Param("isFreight") String isFreight,
+                                  @Param("brandId") Long brandId,
+                                  @Param("activityId") Long activityId);
 
     /**
      * 商品上下架
