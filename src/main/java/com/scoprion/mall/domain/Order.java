@@ -203,7 +203,6 @@ public class Order {
      */
     private Long sendGoodId;
 
-
     public Integer getOperatePoint() {
         return operatePoint == null ? 0 : operatePoint;
     }

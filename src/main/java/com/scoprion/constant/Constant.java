@@ -133,4 +133,5 @@ public class Constant {
     public static final String STATUS_THREE = "3";
     public static final String STATUS_FOUR = "4";
 
+    public static final long TIME_TWO_HOUR = 1000 * 60 * 60 * 2;
 }
