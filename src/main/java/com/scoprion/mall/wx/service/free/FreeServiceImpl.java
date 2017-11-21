@@ -1,15 +1,22 @@
 package com.scoprion.mall.wx.service.free;
 
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
-import com.scoprion.mall.domain.Activity;
-import com.scoprion.mall.domain.Goods;
+import com.scoprion.constant.Constant;
+import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.FreeMapper;
+import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
+import com.scoprion.mall.wx.mapper.WxOrderMapper;
+import com.scoprion.mall.wx.pay.WxPayConfig;
+import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.scoprion.utils.OrderNoUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author by kunlun
@@ -21,6 +28,12 @@ public class FreeServiceImpl implements FreeService {
     @Autowired
     private FreeMapper freeMapper;
 
+    @Autowired
+    private WxOrderMapper wxOrderMapper;
+
+    @Autowired
+    private WxOrderLogMapper wxOrderLogMapper;
+
     /**
      * 查询试用商品列表
      *
@@ -30,24 +43,23 @@ public class FreeServiceImpl implements FreeService {
      */
     @Override
     public PageResult findAll(int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        Page<Goods> page = freeMapper.findAllByFree();
-        
-        return new PageResult(page);
+        return null;
     }
 
     /**
      * 参加试用活动
      *
-     * @param activityId
+     * @param activityGoodId
      * @param wxCode
      * @return
      */
     @Override
-    public BaseResult apply(Long activityId, String wxCode) {
-        String openId = WxUtil.getOpenId(wxCode);
+    public BaseResult apply(Long activityGoodId, String wxCode, String ipAddress) {
+        //String openId = WxUtil.getOpenId(wxCode);
+        ActivityGoods activityGoods = freeMapper.findByActivityGoodId(activityGoodId);
+        Long activityId = activityGoods.getActivityId();
         //查询是否参加过该活动
-        int result = freeMapper.validByActivityId(activityId, openId);
+        int result = freeMapper.validByActivityId(activityId, wxCode);
         if (result > 0) {
             return BaseResult.error("apply_fail", "您已参加过该活动");
         }
@@ -62,9 +74,51 @@ public class FreeServiceImpl implements FreeService {
             return BaseResult.error("apply_fail", "活动人数已满");
         }
 
-        //生成预付款订单
+        //生成商品快照
+        Long goodId = activityGoods.getGoodId();
+        Goods goods = freeMapper.findByGoodId(goodId);
+        GoodSnapshot goodSnapshot = new GoodSnapshot();
+        BeanUtils.copyProperties(goods, goodSnapshot);
 
-        return null;
+        //生成预付款订单
+        Order order = new Order();
+        String orderNo = OrderNoUtil.getOrderNo();
+        order.setOrderNo(orderNo);
+        order.setUserId(wxCode);
+        order.setPayType("");
+        order.setOrderType("2");
+        order.setOrderStatus("1");
+        order.setGoodName(goods.getGoodName());
+        order.setGoodSnapShotId(goodSnapshot.getId());
+        order.setGoodId(goodId);
+        order.setGoodName(goods.getGoodName());
+        order.setGoodFee(goods.getPrice());
+        order.setDeliveryId(order.getDeliveryId());
+        int orderResult = wxOrderMapper.add(order);
+        if (orderResult <= 0) {
+            return BaseResult.error("order_fail", "下单失败");
+        }
+
+        //系统内生成订单信息
+        OrderLog orderLog=constructOrderLog(order.getOrderNo(),"生成试用订单",ipAddress);
+        wxOrderLogMapper.add(orderLog);
+        return BaseResult.success("成功");
+    }
+
+    /**
+     * 订单日志构造
+     *
+     * @param orderNo   订单no
+     * @param action    动作
+     * @param ipAddress IP地址
+     * @return
+     */
+    private OrderLog constructOrderLog(String orderNo, String action, String ipAddress) {
+        OrderLog orderLog = new OrderLog();
+        orderLog.setOrderNo(orderNo);
+        orderLog.setAction(action);
+        orderLog.setIpAddress(ipAddress);
+        return orderLog;
     }
 
 }

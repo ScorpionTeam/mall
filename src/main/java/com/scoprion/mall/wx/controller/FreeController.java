@@ -3,10 +3,13 @@ package com.scoprion.mall.wx.controller;
 import com.scoprion.mall.wx.service.free.FreeService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.scoprion.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * 试用接口
@@ -37,11 +40,12 @@ public class FreeController {
     /**
      * 参加试用
      *
-     * @param activityId
+     * @param activityGoodId
      * @return
      */
     @RequestMapping(value = "/ally", method = RequestMethod.POST)
-    public BaseResult apply(Long activityId, String wxCode) {
-        return freeService.apply(activityId, wxCode);
+    public BaseResult apply(Long activityGoodId, String wxCode, HttpServletRequest request) {
+        String ipAddress = IPUtil.getIPAddress(request);
+        return freeService.apply(activityGoodId, wxCode, ipAddress);
     }
 }

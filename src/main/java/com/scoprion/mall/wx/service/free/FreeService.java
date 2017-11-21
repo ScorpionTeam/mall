@@ -21,8 +21,9 @@ public interface FreeService {
     /**
      * 参加试用活动
      *
-     * @param activityId
+     * @param activityGoodId
+     * @param wxCode
      * @return
      */
-    BaseResult apply(Long activityId,String wxCode);
+    BaseResult apply(Long activityGoodId, String wxCode, String ipAddress);
 }
