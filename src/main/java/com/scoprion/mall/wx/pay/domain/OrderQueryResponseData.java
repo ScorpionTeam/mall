@@ -54,7 +54,7 @@ public class OrderQueryResponseData {
     /**
      * 错误代码描述
      */
-    private String err_code_desc;
+    private String err_code_des;
 
     //以下字段在return_code 和  result_code 都为SUCCESS的时候返回
 
@@ -202,13 +202,6 @@ public class OrderQueryResponseData {
         this.err_code = err_code;
     }
 
-    public String getErr_code_desc() {
-        return err_code_desc;
-    }
-
-    public void setErr_code_desc(String err_code_desc) {
-        this.err_code_desc = err_code_desc;
-    }
 
     public String getDevice_info() {
         return device_info;
@@ -370,6 +363,14 @@ public class OrderQueryResponseData {
         this.trade_state_desc = trade_state_desc;
     }
 
+    public String getErr_code_des() {
+        return err_code_des;
+    }
+
+    public void setErr_code_des(String err_code_des) {
+        this.err_code_des = err_code_des;
+    }
+
     @Override
     public String toString() {
         return "OrderQueryResponseData{" +
@@ -381,7 +382,7 @@ public class OrderQueryResponseData {
                 ", sign='" + sign + '\'' +
                 ", result_code='" + result_code + '\'' +
                 ", err_code='" + err_code + '\'' +
-                ", err_code_desc='" + err_code_desc + '\'' +
+                ", err_code_des='" + err_code_des + '\'' +
                 ", device_info='" + device_info + '\'' +
                 ", openid='" + openid + '\'' +
                 ", is_subscribe='" + is_subscribe + '\'' +
