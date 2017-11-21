@@ -47,6 +47,16 @@ public class WxTicketController {
     }
 
 
+    /**
+     * 查询所有优惠券列表
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    @RequestMapping(value = "/findAll",method = RequestMethod.GET)
+    public PageResult findAll(Integer pageNo,Integer pageSize){
+        return wxTicketService.findAll(pageNo,pageSize);
+    }
 
 }
 

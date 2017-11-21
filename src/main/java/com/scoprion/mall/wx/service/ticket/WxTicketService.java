@@ -29,4 +29,11 @@ public interface WxTicketService {
      */
     BaseResult getTicket(Long ticketId, String wxCode);
 
+    /**
+     * 查询所有优惠券列表
+     * @param pageNo
+     * @param pageSize
+     * @return
+     */
+    PageResult findAll(Integer pageNo,Integer pageSize);
 }

@@ -36,7 +36,6 @@
         <result property="status" column="status"/>
     </resultMap>
 
-
     <!-- 拼团 -->
     <select id="findByGroup" resultMap="activityResult">
         SELECT
@@ -71,6 +70,10 @@
         FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activityId
         INNER JOIN t_good tg ON actg.goodId=tg.id
         AND act.activityType = '1'
+    </select>
+    <!-- 根据类型与时间计算拼团是否开始 activityType = 2 -->
+    <select id="findByActivityTypeTwo" resultType="com.scoprion.mall.domain.Activity">
+        SELECT * FROM t_activity WHERE id = '2'
     </select>
 
     <!-- 秒杀 -->
@@ -108,6 +111,10 @@
         INNER JOIN t_good tg ON actg.goodId=tg.id
         AND act.activityType = '0'
     </select>
+    <!-- 根据类型与时间计算秒杀是否开始 activityType = 1 -->
+    <select id="findByActivityTypeOne" resultType="com.scoprion.mall.domain.Activity">
+        SELECT * FROM t_activity WHERE id = '1'
+    </select>
 
     <!-- 优选 -->
     <select id="preference" resultMap="activityResult">
@@ -144,5 +151,8 @@
         INNER JOIN t_good tg ON actg.goodId=tg.id
         AND act.activityType = '2'
     </select>
-
+    <!-- 根据类型与时间计算优选是否开始 activityType = 3 -->
+    <select id="findByActivityTypeThree" resultType="com.scoprion.mall.domain.Activity">
+        SELECT * FROM t_activity WHERE id = '3'
+    </select>
 </mapper>
