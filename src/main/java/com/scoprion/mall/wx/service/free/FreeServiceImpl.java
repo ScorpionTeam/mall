@@ -1,6 +1,9 @@
 package com.scoprion.mall.wx.service.free;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Activity;
+import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.wx.mapper.FreeMapper;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
@@ -27,7 +30,10 @@ public class FreeServiceImpl implements FreeService {
      */
     @Override
     public PageResult findAll(int pageNo, int pageSize) {
-        return null;
+        PageHelper.startPage(pageNo, pageSize);
+        Page<Goods> page = freeMapper.findAllByFree();
+        
+        return new PageResult(page);
     }
 
     /**
