@@ -37,11 +37,11 @@ public class FreeController {
     /**
      * 参加试用
      *
-     * @param activityId
+     * @param activityGoodId
      * @return
      */
     @RequestMapping(value = "/ally", method = RequestMethod.POST)
-    public BaseResult apply(Long activityId, String wxCode) {
-        return freeService.apply(activityId, wxCode);
+    public BaseResult apply(Long activityGoodId,String wxCode) {
+        return freeService.apply(activityGoodId,wxCode);
     }
 }

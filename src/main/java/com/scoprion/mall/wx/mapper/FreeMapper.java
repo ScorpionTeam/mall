@@ -2,7 +2,7 @@ package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Activity;
-import com.scoprion.mall.domain.GoodExt;
+import com.scoprion.mall.domain.ActivityGoods;
 import com.scoprion.mall.domain.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -46,5 +46,18 @@ public interface FreeMapper {
      */
     Page<Goods> findAllByFree();
 
+    /**
+     * 查询活动商品详情
+     * @param activityGoodId
+     * @return
+     */
+    ActivityGoods findByActivityGoodId(@Param("activityGoodId") Long activityGoodId);
 
+
+    /**
+     * 获取商品详情
+     * @param goodId
+     * @return
+     */
+    Goods findByGoodId(@Param("goodId") Long goodId);
 }
