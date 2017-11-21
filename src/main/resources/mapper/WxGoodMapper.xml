@@ -32,7 +32,7 @@
     </select>
 
     <!--根据商品id查询详情-->
-    <select id="findById" resultType="com.scoprion.mall.domain.Goods">
+    <select id="findById" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
         id,
         categoryId,

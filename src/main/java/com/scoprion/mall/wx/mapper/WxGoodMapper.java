@@ -1,6 +1,7 @@
 package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
+import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -24,7 +25,7 @@ public interface WxGoodMapper {
      * @param goodId
      * @return
      */
-    Goods findById(@Param("goodId") Long goodId);
+    GoodExt findById(@Param("goodId") Long goodId);
 
     /**
      * 访问量
