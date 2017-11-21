@@ -68,7 +68,7 @@
         tg.mainImgUrl,
         tg.status
         FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activityId
-        INNER JOIN t_good tg ON actg.goodId=tg.id
+        INNER JOIN t_good tg ON actg.goodId = tg.id
         AND act.activityType = '1'
     </select>
     <!-- 根据类型与时间计算拼团是否开始 activityType = 2 -->

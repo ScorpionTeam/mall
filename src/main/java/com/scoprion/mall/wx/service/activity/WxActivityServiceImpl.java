@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.service.activity;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.Activity;
 import com.scoprion.mall.domain.ActivityGoods;
 import com.scoprion.mall.domain.Goods;
@@ -36,19 +37,19 @@ public class WxActivityServiceImpl implements WxActivityService {
         PageHelper.startPage(pageNo, pageSize);
         Activity activity = wxActivityMapper.findByActivityTypeTwo();
         Date currentDate = new Date();
+        //查询当前时间是否在活动时间范围内
         if (activity.getStartDate().before(currentDate) && activity.getEndDate().after(currentDate)) {
-            //活动商品
+            //活动商品 (拼团)
             Page<Activity> page = wxActivityMapper.findByGroup();
             return new PageResult(page);
         }
         if (activity.getEndDate().before(currentDate)) {
-            return null;
+            return new PageResult();
         }
         if (activity.getStartDate().after(currentDate)) {
-            return null;
+            return new PageResult();
         }
-        Page<Activity> page = wxActivityMapper.findByGroup();
-        return new PageResult(page);
+        return null;
     }
 
     /**
