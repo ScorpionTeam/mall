@@ -1,6 +1,6 @@
 package com.scoprion.mall.wx.service.free;
 
-import com.scoprion.constant.Constant;
+
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.FreeMapper;
 import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
@@ -55,7 +55,7 @@ public class FreeServiceImpl implements FreeService {
      * @return
      */
     @Override
-    public BaseResult apply(Long activityGoodId, String wxCode, String ipAddress) {
+    public BaseResult apply(Long activityGoodId, String wxCode,Long deliveryId, String ipAddress) {
         //String openId = WxUtil.getOpenId(wxCode);
         ActivityGoods activityGoods = freeMapper.findByActivityGoodId(activityGoodId);
         Long activityId = activityGoods.getActivityId();
@@ -85,14 +85,14 @@ public class FreeServiceImpl implements FreeService {
         order.setOrderNo(orderNo);
         order.setUserId(wxCode);
         order.setPayType("");
-        order.setOrderType("2");
+        order.setOrderType("3");
         order.setOrderStatus("1");
         order.setGoodName(goods.getGoodName());
         order.setGoodSnapShotId(goodSnapshot.getId());
         order.setGoodId(goodId);
         order.setGoodName(goods.getGoodName());
         order.setGoodFee(goods.getPrice());
-        order.setDeliveryId(order.getDeliveryId());
+        order.setDeliveryId(deliveryId);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");

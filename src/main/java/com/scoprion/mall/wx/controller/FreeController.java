@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+
 import com.scoprion.mall.wx.service.free.FreeService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -44,8 +45,8 @@ public class FreeController {
      * @return
      */
     @RequestMapping(value = "/ally", method = RequestMethod.POST)
-    public BaseResult apply(Long activityGoodId, String wxCode, HttpServletRequest request) {
+    public BaseResult apply(Long activityGoodId, String wxCode, Long deliveryId, HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
-        return freeService.apply(activityGoodId, wxCode, ipAddress);
+        return freeService.apply(activityGoodId, wxCode,deliveryId, ipAddress);
     }
 }

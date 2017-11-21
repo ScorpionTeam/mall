@@ -17,7 +17,7 @@
         SELECT * FROM t_good WHERE id=#{goodId}
     </select>
 
-    <select id="validByActivityId" resultType="com.scoprion.mall.domain.Order">
+    <select id="validByActivityId" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_order WHERE orderType='3'
     </select>
 </mapper>
