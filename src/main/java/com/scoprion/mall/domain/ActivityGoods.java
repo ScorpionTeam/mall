@@ -35,6 +35,10 @@ public class ActivityGoods extends Goods {
      */
     private Date createDate;
 
+    /**
+     * 商品ID
+     */
+    private Long goodId;
 
     @Override
     public Long getId() {
@@ -80,6 +84,14 @@ public class ActivityGoods extends Goods {
         this.createDate = createDate;
     }
 
+    public Long getGoodId() {
+        return goodId;
+    }
+
+    public void setGoodId(Long goodId) {
+        this.goodId = goodId;
+    }
+
     @Override
     public String toString() {
         return "ActivityGoods{" +
@@ -88,6 +100,7 @@ public class ActivityGoods extends Goods {
                 ", name='" + name + '\'' +
                 ", activityType='" + activityType + '\'' +
                 ", createDate=" + createDate +
+                ", goodId=" + goodId +
                 '}';
     }
 }
