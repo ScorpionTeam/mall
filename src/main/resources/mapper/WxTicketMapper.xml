@@ -63,4 +63,9 @@
     <update id="updateTicketNum">
         UPDATE t_ticket SET num=num-1 WHERE id=#{id}
     </update>
+
+
+    <select id="findAll" resultType="com.scoprion.mall.domain.Ticket">
+        SELECT * FROM t_ticket WHERE status='0'
+    </select>
 </mapper>

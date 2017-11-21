@@ -79,11 +79,12 @@ public interface GoodsService {
      * @param isNew      新品
      * @param isFreight  包邮
      * @param brandId    品牌
+     * @param activityId
      * @return
      */
     PageResult findByCondition(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
                                String startDate, String endDate, Long categoryId, String isHot, String isNew,
-                               String isFreight, Long brandId);
+                               String isFreight, Long brandId, Long activityId);
 
     /**
      * 商品上下架

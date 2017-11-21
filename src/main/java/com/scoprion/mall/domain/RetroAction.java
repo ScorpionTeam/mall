@@ -1,5 +1,7 @@
 package com.scoprion.mall.domain;
 
+import java.util.Date;
+
 /**
  * 反馈
  *
@@ -14,7 +16,7 @@ public class RetroAction {
     private Long id;
 
     /**
-     * 反馈类型
+     * 反馈类型 1) 我是买家 2) 我是卖家
      */
     private String retroActionType;
 
@@ -22,6 +24,16 @@ public class RetroAction {
      * 反馈内容
      */
     private String content;
+
+    /**
+     * 创建时间
+     */
+    private Date createDate;
+
+    /**
+     * 用户ID
+     */
+    private Long userId;
 
     public Long getId() {
         return id;
@@ -47,12 +59,30 @@ public class RetroAction {
         this.content = content;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
     @Override
     public String toString() {
         return "RetroAction{" +
                 "id=" + id +
                 ", retroActionType='" + retroActionType + '\'' +
                 ", content='" + content + '\'' +
+                ", createDate=" + createDate +
+                ", userId=" + userId +
                 '}';
     }
 }

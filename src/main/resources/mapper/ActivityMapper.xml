@@ -9,9 +9,9 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO t_activity
-        (name,activityType,status,createDate,target)
+        (name,activityType,status,createDate,startDate,endDate,num,target)
         VALUES
-        (#{name},#{activityType},#{status},now(),#{target})
+        (#{name},#{activityType},#{status},now(),#{startDate},#{endDate},#{num},#{target})
     </insert>
     <!--修改活动-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Activity">
@@ -21,6 +21,9 @@
         <if test="status!=null">status=#{status},</if>
         <if test="target!=null">target=#{target},</if>
         <if test="createDate!=null">createDate=#{createDate},</if>
+        <if test="startDate!=null">startDate=#{startDate},</if>
+        <if test="endDate!=null">endDate=#{endDate},</if>
+        <if test="num!=null">num=#{num},</if>
         updateDate=now()
         WHERE id=#{id}
     </update>
@@ -33,6 +36,9 @@
         status,
         activityType,
         target,
+        startDate,
+        endDate,
+        num,
         createDate
         FROM t_activity WHERE 1=1
         <if test="type!=null">AND activityType=#{type}</if>
@@ -95,4 +101,27 @@
             #{item}
         </foreach>
     </update>
+
+    <select id="validByTypeAndTime" resultType="java.lang.Integer">
+         SELECT COUNT(*) FROM  t_activity
+         WHERE  status='0'
+         AND activityType=#{activityType}
+         AND
+         (
+         (#{startDate} BETWEEN startDate AND endDate)
+            OR
+          ( #{endDate} BETWEEN startDate AND endDate)
+          )
+    </select>
+
+    <delete id="unbindActivityWithGood">
+        DELETE FROM t_activity_good
+        WHERE activityId=#{activityId}
+        AND goodId IN
+        <foreach collection="goodIdList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+
 </mapper>

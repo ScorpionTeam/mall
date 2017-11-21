@@ -9,4 +9,11 @@
 
     </select>
 
+    <select id="findByActivityGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
+        SELECT * FROM t_activity_good WHERE activityGoodId=#{id}
+    </select>
+
+    <select id="findByGoodId" resultType="com.scoprion.mall.domain.Goods">
+        SELECT * FROM t_good WHERE goodId=#{id}
+    </select>
 </mapper>

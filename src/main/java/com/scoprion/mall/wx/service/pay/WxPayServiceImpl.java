@@ -148,6 +148,16 @@ public class WxPayServiceImpl implements WxPayService {
         if (order == null) {
             return BaseResult.error("can_not_order", "找不到订单");
         }
+        if (!Constant.STATUS_ONE.equals(order.getOrderStatus())) {
+            return BaseResult.error("order_status_error", "订单状态异常");
+        }
+        long createTime = order.getCreateDate().getTime();
+        long result = System.currentTimeMillis() - createTime;
+        if (result > Constant.TIME_TWO_HOUR) {
+            //关闭订单
+            wxOrderMapper.updateByOrderID(orderId, "6");
+            return BaseResult.error("order_timeout", "订单已超时，请重新下单");
+        }
         //查询商品库存
         Goods goods = wxGoodMapper.findById(order.getGoodId());
         if (null == goods || goods.getStock() <= 0) {

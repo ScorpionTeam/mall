@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.mapper;
 
 import com.scoprion.mall.domain.GoodSnapshot;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author by admin1
@@ -17,4 +18,12 @@ public interface WxGoodSnapShotMapper {
      * @return
      */
     Integer add(GoodSnapshot goodSnapshot);
+
+    /**
+     * 查询详情
+     *
+     * @param id
+     * @return
+     */
+    GoodSnapshot findById(@Param("id") Long id);
 }

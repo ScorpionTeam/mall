@@ -1,5 +1,8 @@
 package com.scoprion.mall.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -13,6 +16,17 @@ public class GoodExt extends Goods {
      */
     private Long activityId;
 
+    /**
+     * 活动开始时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date startDate;
+
+    /**
+     * 活动结束时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date endDate;
 
     /**
      * 活动类型
@@ -47,19 +61,20 @@ public class GoodExt extends Goods {
      */
     private List<MallImage> imgList;
 
-    /**
-     * 商品状态 0正常，1删除
-     */
-    private String status;
-
-    @Override
-    public String getStatus() {
-        return status;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    @Override
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public Long getActivityId() {

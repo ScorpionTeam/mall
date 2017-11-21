@@ -29,15 +29,12 @@ public class ActivityController {
     /**
      * 创建活动
      *
-     * @param jsonObject
+     * @param activity
      * @return
      */
     @ApiOperation(value = "创建活动")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public BaseResult add(@RequestBody JSONObject jsonObject) {
-        Activity activity = jsonObject.getObject("activity", Activity.class);
-//        List<Long> goodIdList = jsonObject.getJSONArray("goodIdList").toJavaList(Long.class);
-//        activity.setGoodIdList(goodIdList);
+    public BaseResult add(@RequestBody Activity activity) {
         return activityService.add(activity);
     }
 
@@ -71,16 +68,12 @@ public class ActivityController {
     /**
      * 修改活动
      *
-     * @param jsonObject
+     * @param activity
      * @return
      */
     @ApiOperation(value = "修改活动")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public BaseResult modify(@RequestBody JSONObject jsonObject) {
-        Activity activity = jsonObject.getObject("activity", Activity.class);
-        //商品id集合
-//        List<Long> goodIdList = jsonObject.getJSONArray("goodIdList").toJavaList(Long.class);
-//        activity.setGoodIdList(goodIdList);
+    public BaseResult modify(@RequestBody Activity activity) {
         return activityService.modify(activity);
     }
 
@@ -120,12 +113,28 @@ public class ActivityController {
      * @return
      */
     @ApiOperation(value = "活动跟商品绑定")
-    @RequestMapping(value = "/bindActivityWithGood", method = RequestMethod.GET)
+    @RequestMapping(value = "/bindActivityWithGood", method = RequestMethod.POST)
     public BaseResult bindActivityWithGood(@RequestBody JSONObject jsonObject) {
         //活动id、主键
         Long activityId = jsonObject.getObject("activityId", Long.class);
         //商品id集合
         List<Long> goodIdList = jsonObject.getJSONArray("goodIdList").toJavaList(Long.class);
         return activityService.bindActivityWithGood(activityId, goodIdList);
+    }
+
+    /**
+     * 活动跟商品解绑
+     *
+     * @param jsonObject
+     * @return
+     */
+    @ApiOperation(value = "活动跟商品解绑")
+    @RequestMapping(value = "/unbindActivityWithGood", method = RequestMethod.POST)
+    public BaseResult unbindActivityWithGood(@RequestBody JSONObject jsonObject) {
+        //活动id、主键
+        Long activityId = jsonObject.getLong("activityId");
+        //商品id集合
+        List<Long> goodIdList = jsonObject.getJSONArray("goodIdList").toJavaList(Long.class);
+        return activityService.unbindActivityWithGood(activityId, goodIdList);
     }
 }
