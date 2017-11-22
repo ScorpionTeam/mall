@@ -166,7 +166,8 @@
         good.createDate,
         tacg.activityId as activityId,
         tac.startDate as startDate,
-        tac.endDate as endDate
+        tac.endDate as endDate,
+        tac.status as activityStatus
         FROM t_good good
         LEFT JOIN t_activity_good tacg ON tacg.goodId=good.id
         LEFT JOIN t_activity tac ON tac.id=tacg.activityId

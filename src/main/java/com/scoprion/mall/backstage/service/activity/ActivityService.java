@@ -1,6 +1,8 @@
 package com.scoprion.mall.backstage.service.activity;
 
 import com.scoprion.mall.domain.Activity;
+import com.scoprion.mall.domain.GoodExt;
+import com.scoprion.mall.domain.Goods;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -61,10 +63,10 @@ public interface ActivityService {
      * 绑定活动跟商品
      *
      * @param activityId
-     * @param goodIdList
+     * @param goodList
      * @return
      */
-    BaseResult bindActivityWithGood(Long activityId, List<Long> goodIdList);
+    BaseResult bindActivityWithGood(Long activityId, List<Goods> goodList);
 
     /**
      * 批量修改活动状态

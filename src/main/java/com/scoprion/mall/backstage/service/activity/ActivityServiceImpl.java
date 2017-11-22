@@ -4,10 +4,13 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.mall.backstage.mapper.ActivityGoodMapper;
 import com.scoprion.mall.backstage.mapper.ActivityMapper;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.mall.domain.Activity;
+import com.scoprion.mall.domain.ActivityGoods;
 import com.scoprion.mall.domain.GoodExt;
+import com.scoprion.mall.domain.Goods;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +33,9 @@ public class ActivityServiceImpl implements ActivityService {
     private ActivityMapper activityMapper;
 
     @Autowired
+    private ActivityGoodMapper activityGoodMapper;
+
+    @Autowired
     private GoodsMapper goodsMapper;
 
     /**
@@ -40,6 +46,9 @@ public class ActivityServiceImpl implements ActivityService {
      */
     @Override
     public BaseResult add(Activity activity) {
+        if (StringUtils.isEmpty(activity.getActivityType())) {
+            return BaseResult.error("param_error", "活动类型不能为空");
+        }
         if (StringUtils.isEmpty(activity.getName())) {
             return BaseResult.error("param_error", "活动名称不能为空");
         }
@@ -116,7 +125,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        if (Constant.STATUS_THREE.equals(type)) {
+        if (Constant.STATUS_FOUR.equals(type)) {
             //全部
             type = null;
         }
@@ -166,31 +175,14 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public BaseResult bindActivityWithGood(Long activityId, List<Long> goodIdList) {
-        if (activityId == null || goodIdList == null || goodIdList.size() == 0) {
+    public BaseResult bindActivityWithGood(Long activityId, List<Goods> goodList) {
+        if (activityId == null || goodList == null || goodList.size() == 0) {
             return BaseResult.parameterError();
         }
         //活动跟商品绑定
-        for (Long goodId : goodIdList) {
-            //查询活动与商品匹配关系
-            GoodExt good = goodsMapper.findById(goodId);
-            if (good.getActivityId() != null) {
-                //商品存在已经绑定的关系
-                Activity activity = activityMapper.findById(good.getActivityId());
-                if (activity.getStartDate().after(new Date())) {
-                    //活动还未开始
-                    continue;
-                } else if (activity.getEndDate().before(new Date())) {
-                    //活动已经结束
-                    //商品存在已经绑定的关系
-                    activityMapper.deleteActivityGood(goodId);
-                } else {
-                    //活动进行中
-                    continue;
-                }
-            }
+        for (Goods good : goodList) {
             //添加活动与商品匹配关系
-            activityMapper.addActivityGood(activityId, goodId);
+            activityGoodMapper.bindActivityGood(activityId, good.getId(), "0", good.getStock());
         }
         return BaseResult.success("活动绑定成功");
     }
@@ -207,10 +199,17 @@ public class ActivityServiceImpl implements ActivityService {
         if (activityId == null || goodIdList == null || goodIdList.size() == 0) {
             return BaseResult.parameterError();
         }
-        int result = activityMapper.unbindActivityWithGood(activityId, goodIdList);
-        if (result == 0) {
-            return BaseResult.error("unbind_error", "解绑失败");
-        }
+        goodIdList.forEach(goodId -> {
+            int result = activityGoodMapper.unbindActivityWithGood(activityId, goodId);
+            if (result > 0) {
+                //解绑成功，查看参加活动的商品是否有剩余，有剩余则返回原商品库存
+                ActivityGoods activityGood = activityGoodMapper.findByGoodId(goodId);
+                if (activityGood != null && activityGood.getStock() > 0) {
+                    //返回原有库存
+                    goodsMapper.modifyGoodsDeduction(goodId, activityGood.getStock());
+                }
+            }
+        });
         return BaseResult.success("解绑成功");
     }
 }
