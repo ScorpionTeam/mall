@@ -6,9 +6,9 @@
     <!--增加广告-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Banner">
      INSERT INTO t_banner
-        (name,imgUrl,actionUrl,visitTotal,status,createDate)
+        (name,imgUrl,actionUrl,visitTotal,status,createDate,sort)
         VALUES
-        (#{name},#{imgUrl},#{actionUrl},#{visitTotal},0,now())
+        (#{name},#{imgUrl},#{actionUrl},#{visitTotal},#{status},now(),#{sort})
      </insert>
     <!--广告名称校验-->
     <select id="validByName" resultType="java.lang.Integer">
@@ -28,6 +28,7 @@
         <if test="imgUrl!=null">imgUrl=#{imgUrl},</if>
         <if test="actionUrl!=null">actionUrl=#{actionUrl},</if>
         <if test="sort!=null">sort=#{sort},</if>
+        <if test="visitTotal!=null">visitTotal=#{visitTotal},</if>
         <if test="createDate!=null">createDate=#{createDate},</if>
         updateDate=now()
         WHERE id=#{id}

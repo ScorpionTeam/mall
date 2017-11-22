@@ -109,6 +109,7 @@
          FROM t_good good
          LEFT  JOIN t_activity_good  tacg ON tacg.goodId=good.id
         WHERE good.id=#{goodId}
+        GROUP BY  good.id
     </select>
 
     <!--库存扣减-->
