@@ -23,9 +23,9 @@ public interface FreeService {
     PageResult findAll(int pageNo, int pageSize);
 
     /**
-     * 参加试用活动
-     * @param orderExt
-     * @param ipAddress
+     * 参加试用
+     *
+     * @param orderExt 订单
      * @return
      */
     BaseResult apply(OrderExt orderExt, String ipAddress);

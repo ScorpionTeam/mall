@@ -45,7 +45,8 @@ public class FreeController {
     /**
      * 参加试用
      *
-     * @param activityGoodId
+     * @param orderExt 订单
+     * @param request
      * @return
      */
     @RequestMapping(value = "/ally", method = RequestMethod.POST)

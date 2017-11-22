@@ -35,12 +35,14 @@ public interface FreeMapper {
 
     /**
      * 查询免费试用商品列表
+     *
      * @return
      */
     Page<Goods> findAllByFree();
 
     /**
      * 查询活动商品详情
+     *
      * @param activityGoodId
      * @return
      */
@@ -49,6 +51,7 @@ public interface FreeMapper {
 
     /**
      * 获取商品详情
+     *
      * @param goodId
      * @return
      */

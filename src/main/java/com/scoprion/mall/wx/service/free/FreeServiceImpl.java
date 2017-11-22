@@ -44,7 +44,8 @@ public class FreeServiceImpl implements FreeService {
 
     /**
      * 参加试用活动
-     * @param orderExt
+     *
+     * @param orderExt  订单
      * @param ipAddress
      * @return
      */
@@ -59,13 +60,13 @@ public class FreeServiceImpl implements FreeService {
         if (result > 0) {
             return BaseResult.error("apply_fail", "您已参加过该活动");
         }
-        Date currentDate=new Date();
+        Date currentDate = new Date();
         //查询活动详情
         Activity activity = freeMapper.findById(activityId);
         if (0 == activity.getNum()) {
             return BaseResult.error("apply_fail", "活动人数已满");
-        }else if(currentDate.after(activity.getEndDate())){
-            return BaseResult.error("apply_fail","活动已过期");
+        } else if (currentDate.after(activity.getEndDate())) {
+            return BaseResult.error("apply_fail", "活动已过期");
         }
 
         //生成商品快照
@@ -95,13 +96,13 @@ public class FreeServiceImpl implements FreeService {
         order.setCity(orderExt.getDelivery().getCity());
         order.setArea(orderExt.getDelivery().getArea());
         order.setPostCode(orderExt.getDelivery().getPostCode());
-        int orderResult =wxOrderMapper.add(order);
+        int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");
         }
 
         //系统内生成订单信息
-        OrderLog orderLog=constructOrderLog(order.getOrderNo(),"生成试用订单",ipAddress);
+        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", ipAddress);
         wxOrderLogMapper.add(orderLog);
         return BaseResult.success("成功");
     }
