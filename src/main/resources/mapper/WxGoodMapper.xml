@@ -68,9 +68,10 @@
         description,
         promotion,
         goodNo,
-        price
+        price,
+        mainImgUrl
         FROM t_good
-        WHERE 1=1
+        WHERE isOnSale='1' AND status='0'
         <if test="searchKey!=null and searchKey!=''">AND CONCAT(goodName,goodNo) LIKE #{searchKey}</if>
     </select>
 
