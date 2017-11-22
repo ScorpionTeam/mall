@@ -1,6 +1,7 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +20,7 @@ public class Activity {
     /**
      * 活动名称
      */
+    @NotBlank(message = "活动名称不为空")
     private String name;
 
 
@@ -28,6 +30,7 @@ public class Activity {
      * 1拼团
      * 2优选
      */
+    @NotBlank(message = "活动类型不为空")
     private String activityType;
 
     /**
@@ -56,13 +59,14 @@ public class Activity {
      * 2 网站
      * 3 全部
      */
+    @NotBlank(message = "目标不为空")
     private String target;
 
 
     /**
      * 参加活动人数
      */
-    private int num;
+    private Integer num;
 
 
     /**
@@ -78,9 +82,32 @@ public class Activity {
     private Date endDate;
 
     /**
-     * 商品列表
+     * 折扣价  80表示80%
      */
-    private List<ActivityGoods> activityGoodsList;
+    private Integer discount;
+
+
+    /**
+     * 活动描述
+     */
+    @NotBlank(message = "活动描述不为空")
+    private String describe;
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe;
+    }
+
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
+    }
 
     public Long getId() {
         return id;
@@ -138,15 +165,7 @@ public class Activity {
         this.target = target;
     }
 
-    public List<ActivityGoods> getActivityGoodsList() {
-        return activityGoodsList;
-    }
-
-    public void setActivityGoodsList(List<ActivityGoods> activityGoodsList) {
-        this.activityGoodsList = activityGoodsList;
-    }
-
-    public int getNum() {
+    public Integer getNum() {
         return num;
     }
 
@@ -182,8 +201,9 @@ public class Activity {
                 ", target='" + target + '\'' +
                 ", num=" + num +
                 ", startDate=" + startDate +
+                ", describe=" + describe +
+                ", discount=" + discount +
                 ", endDate=" + endDate +
-                ", activityGoodsList=" + activityGoodsList +
                 '}';
     }
 }
