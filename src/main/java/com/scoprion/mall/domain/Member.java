@@ -106,12 +106,14 @@ public class Member {
      * 密码
      */
     private String password;
+
     /**
      * 登录token
      */
     private String token;
+
     /**
-     * 类型
+     * 类型 0
      */
     private String userType;
 
