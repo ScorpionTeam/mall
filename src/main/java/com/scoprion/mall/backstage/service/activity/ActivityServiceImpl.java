@@ -125,7 +125,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        if (Constant.STATUS_THREE.equals(type)) {
+        if (Constant.STATUS_FOUR.equals(type)) {
             //全部
             type = null;
         }
@@ -175,34 +175,12 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public BaseResult bindActivityWithGood(Long activityId, List<GoodExt> goodIdList) {
-        if (activityId == null || goodIdList == null || goodIdList.size() == 0) {
+    public BaseResult bindActivityWithGood(Long activityId, List<Goods> goodList) {
+        if (activityId == null || goodList == null || goodList.size() == 0) {
             return BaseResult.parameterError();
         }
         //活动跟商品绑定
-        for (GoodExt good : goodIdList) {
-            ActivityGoods activityGood = activityGoodMapper.findByGoodId(good.getId());
-            //查询活动与商品匹配关系
-            if (activityGood != null) {
-                Activity activity = activityMapper.findById(good.getActivityId());
-
-
-                if (Constant.STATUS_ONE.equals(activity.getStatus())) {
-                    //活动已经关闭
-                    //解绑存在已经绑定的关系
-                    activityGoodMapper.unbindActivityWithGood(activityId, good.getId());
-                } else if (activity.getStartDate().after(new Date())) {
-                    //活动还未开始
-                    continue;
-                } else if (activity.getEndDate().before(new Date())) {
-                    //活动已经结束
-                    //解绑存在已经绑定的关系
-                    activityGoodMapper.unbindActivityWithGood(activityId, good.getId());
-                } else {
-                    //活动进行中
-                    continue;
-                }
-            }
+        for (Goods good : goodList) {
             //添加活动与商品匹配关系
             activityGoodMapper.bindActivityGood(activityId, good.getId(), "0", good.getStock());
         }
@@ -224,9 +202,9 @@ public class ActivityServiceImpl implements ActivityService {
         goodIdList.forEach(goodId -> {
             int result = activityGoodMapper.unbindActivityWithGood(activityId, goodId);
             if (result > 0) {
-                //解绑成功，查看参加活动的商品是否又剩余，有剩余则返回原商品库存
+                //解绑成功，查看参加活动的商品是否有剩余，有剩余则返回原商品库存
                 ActivityGoods activityGood = activityGoodMapper.findByGoodId(goodId);
-                if (activityGood.getStock() > 0) {
+                if (activityGood != null && activityGood.getStock() > 0) {
                     //返回原有库存
                     goodsMapper.modifyGoodsDeduction(goodId, activityGood.getStock());
                 }

@@ -63,10 +63,10 @@ public interface ActivityService {
      * 绑定活动跟商品
      *
      * @param activityId
-     * @param goodIdList
+     * @param goodList
      * @return
      */
-    BaseResult bindActivityWithGood(Long activityId, List<GoodExt> goodIdList);
+    BaseResult bindActivityWithGood(Long activityId, List<Goods> goodList);
 
     /**
      * 批量修改活动状态

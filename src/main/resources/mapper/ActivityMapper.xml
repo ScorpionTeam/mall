@@ -9,9 +9,9 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO t_activity
-        (name,activityType,status,createDate,startDate,endDate,num,target,discount,describe)
+        (name,activityType,status,createDate,startDate,endDate,num,target,discount,describes)
         VALUES
-        (#{name},#{activityType},#{status},now(),#{startDate},#{endDate},#{num},#{target},#{discount},#{describe})
+        (#{name},#{activityType},#{status},now(),#{startDate},#{endDate},#{num},#{target},#{discount},#{describes})
     </insert>
     <!--修改活动-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Activity">
@@ -25,7 +25,7 @@
         <if test="endDate!=null">endDate=#{endDate},</if>
         <if test="num!=null">num=#{num},</if>
         <if test="discount!=null">discount=#{discount},</if>
-        <if test="describe!=null">describe=#{describe},</if>
+        <if test="describes!=null">describes=#{describes},</if>
         updateDate=now()
         WHERE id=#{id}
     </update>
@@ -42,7 +42,7 @@
         ta.endDate,
         ta.num,
         ta.discount,
-        ta.describe,
+        ta.describes,
         ta.createDate
         FROM t_activity ta WHERE 1=1
         <if test="type!=null">AND ta.activityType=#{type}</if>

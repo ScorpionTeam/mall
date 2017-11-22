@@ -87,14 +87,18 @@ public class Activity {
     /**
      * 活动描述
      */
-    private String describe;
+    private String describes;
 
-    public String getDescribe() {
-        return describe;
+    public String getDescribes() {
+        return describes;
     }
 
-    public void setDescribe(String describe) {
-        this.describe = describe;
+    public void setDescribes(String describes) {
+        this.describes = describes;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
     }
 
     public Integer getDiscount() {
@@ -197,7 +201,7 @@ public class Activity {
                 ", target='" + target + '\'' +
                 ", num=" + num +
                 ", startDate=" + startDate +
-                ", describe=" + describe +
+                ", describes=" + describes +
                 ", discount=" + discount +
                 ", endDate=" + endDate +
                 '}';
