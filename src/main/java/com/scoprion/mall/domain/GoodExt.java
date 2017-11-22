@@ -40,6 +40,9 @@ public class GoodExt extends Goods {
      * 活动状态 状态 0正常 1删除
      */
     private String activityStatus;
+
+    private int activityStock;
+
     /**
      * 目标
      * 0 小程序
@@ -64,6 +67,14 @@ public class GoodExt extends Goods {
      * 图片地址暂定最多4-5张
      */
     private List<MallImage> imgList;
+
+    public int getActivityStock() {
+        return activityStock;
+    }
+
+    public void setActivityStock(int activityStock) {
+        this.activityStock = activityStock;
+    }
 
     public String getActivityStatus() {
         return activityStatus;
