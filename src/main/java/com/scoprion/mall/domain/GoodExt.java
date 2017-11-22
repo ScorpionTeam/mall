@@ -37,6 +37,10 @@ public class GoodExt extends Goods {
     private String activityType;
 
     /**
+     * 活动状态 状态 0正常 1删除
+     */
+    private String activityStatus;
+    /**
      * 目标
      * 0 小程序
      * 1 app
@@ -60,6 +64,14 @@ public class GoodExt extends Goods {
      * 图片地址暂定最多4-5张
      */
     private List<MallImage> imgList;
+
+    public String getActivityStatus() {
+        return activityStatus;
+    }
+
+    public void setActivityStatus(String activityStatus) {
+        this.activityStatus = activityStatus;
+    }
 
     public Date getStartDate() {
         return startDate;

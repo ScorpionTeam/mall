@@ -3,13 +3,11 @@ package com.scoprion.mall.backstage.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.scoprion.mall.backstage.service.activity.ActivityService;
 import com.scoprion.mall.domain.Activity;
-import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,7 +35,7 @@ public class ActivityController {
      */
     @ApiOperation(value = "创建活动")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public BaseResult add(@Validated @RequestBody Activity activity) {
+    public BaseResult add(@RequestBody Activity activity) {
         return activityService.add(activity);
     }
 
@@ -98,7 +96,7 @@ public class ActivityController {
      * @param pageNo
      * @param pageSize
      * @param searchKey
-     * @param type      * 0秒杀, 1拼团,2优选
+     * @param type      * 0秒杀, 1拼团,2优选,3试用，4全部
      * @param status    0正常,1删除
      * @return
      */
@@ -121,8 +119,8 @@ public class ActivityController {
         //活动id、主键
         Long activityId = jsonObject.getObject("activityId", Long.class);
         //商品id集合
-        List<GoodExt> goodIdList = jsonObject.getJSONArray("goodIdList").toJavaList(GoodExt.class);
-        return activityService.bindActivityWithGood(activityId, goodIdList);
+        List<Goods> goodList = jsonObject.getJSONArray("goodList").toJavaList(Goods.class);
+        return activityService.bindActivityWithGood(activityId, goodList);
     }
 
     /**

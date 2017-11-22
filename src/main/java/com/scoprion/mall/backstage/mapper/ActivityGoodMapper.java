@@ -33,6 +33,12 @@ public interface ActivityGoodMapper {
                              @Param("stock") Integer stock);
 
 
+    /**
+     * 根据商品id查询关联关系
+     *
+     * @param goodId
+     * @return
+     */
     ActivityGoods findByGoodId(@Param("goodId") Long goodId);
 
 
