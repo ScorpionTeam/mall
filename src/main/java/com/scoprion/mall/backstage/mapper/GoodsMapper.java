@@ -124,4 +124,11 @@ public interface GoodsMapper {
      * @return
      */
     int updateGoodStockById(@Param("goodId") Long goodId, @Param("stock") int stock);
+    /**
+     * 选择绑定活动的商品列表
+     *
+     * @param searchKey 模糊信息
+     * @return
+     */
+    List<GoodExt> findForActivity(String searchKey);
 }

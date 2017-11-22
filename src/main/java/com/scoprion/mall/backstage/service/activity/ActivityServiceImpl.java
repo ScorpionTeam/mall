@@ -183,6 +183,8 @@ public class ActivityServiceImpl implements ActivityService {
         for (Goods good : goodList) {
             //添加活动与商品匹配关系
             activityGoodMapper.bindActivityGood(activityId, good.getId(), "0", good.getStock());
+            //商品库存扣减
+            goodsMapper.modifyGoodsDeduction(good.getId(), -good.getStock());
         }
         return BaseResult.success("活动绑定成功");
     }

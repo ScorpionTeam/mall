@@ -211,4 +211,40 @@
         </foreach>
         AND isOnSale='0'
     </update>
+
+
+    <select id="findForActivity" resultType="com.scoprion.mall.domain.GoodExt">
+        SELECT
+        good.id,
+        good.goodNo,
+        good.categoryId,
+        good.goodName,
+        good.description,
+        good.promotion,
+        good.price,
+        good.saleVolume,
+        good.discount,
+        good.stock,
+        good.isOnSale,
+        good.isHot,
+        good.isNew,
+        good.isFreight,
+        good.brandId,
+        good.sellerId,
+        good.visitTotal,
+        good.mainImgUrl,
+        good.createDate,
+        tacg.activityId as activityId,
+        tac.startDate as startDate,
+        tac.endDate as endDate,
+        tac.status as activityStatus
+        FROM t_good good
+        LEFT JOIN t_activity_good tacg ON tacg.goodId=good.id
+        LEFT JOIN t_activity tac ON tac.id=tacg.activityId
+        WHERE 1=1
+        <if test="searchKey!=null and searchKey!=''">AND CONCAT(good.goodName,good.description,good.goodNo) LIKE
+            #{searchKey}
+        </if>
+        GROUP BY good.id
+    </select>
 </mapper>

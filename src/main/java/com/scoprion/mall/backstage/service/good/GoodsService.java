@@ -129,4 +129,13 @@ public interface GoodsService {
      */
     BaseResult batchModifySaleStatus(String saleStatus, List<Long> goodsIdList);
 
+    /**
+     * 选择绑定活动的商品列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey 模糊信息
+     * @return
+     */
+    PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey);
 }
