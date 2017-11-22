@@ -37,6 +37,16 @@ public class OrderExt extends Order {
      */
     private String expressName;
 
+    /**
+     * 微信code
+     */
+    private String wxCode;
+
+    /**
+     * 活动商品id
+     */
+    private Long activityGoodId;
+
     public OrderExt() {
 
     }
@@ -93,6 +103,22 @@ public class OrderExt extends Order {
         this.openCode = openCode;
     }
 
+    public String getWxCode() {
+        return wxCode;
+    }
+
+    public void setWxCode(String wxCode) {
+        this.wxCode = wxCode;
+    }
+
+    public Long getActivityGoodId() {
+        return activityGoodId;
+    }
+
+    public void setActivityGoodId(Long activityGoodId) {
+        this.activityGoodId = activityGoodId;
+    }
+
     @Override
     public String toString() {
         return "OrderExt{" +
@@ -101,6 +127,9 @@ public class OrderExt extends Order {
                 ", sendGood=" + sendGood +
                 ", delivery=" + delivery +
                 ", goodMainImage='" + goodMainImage + '\'' +
-                "} " + super.toString();
+                ", expressName='" + expressName + '\'' +
+                ", wxCode='" + wxCode + '\'' +
+                ", activityGoodId=" + activityGoodId +
+                '}';
     }
 }

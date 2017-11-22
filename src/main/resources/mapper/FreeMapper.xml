@@ -5,19 +5,23 @@
 
 <mapper namespace="com.scoprion.mall.wx.mapper.FreeMapper">
 
+    <!-- 查询活动详情 -->
     <select id="findById" resultType="com.scoprion.mall.domain.Activity">
         SELECT * FROM t_activity WHERE id=#{activityId}
     </select>
 
+    <!-- 查询活动商品详情 -->
     <select id="findByActivityGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
         SELECT * FROM t_activity_good WHERE id=#{activityGoodId}
     </select>
 
+    <!-- 获取商品详情 -->
     <select id="findByGoodId" resultType="com.scoprion.mall.domain.Goods">
         SELECT * FROM t_good WHERE id=#{goodId}
     </select>
 
+    <!-- 查询是否参加过该活动 -->
     <select id="validByActivityId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_order WHERE orderType='3'
+        SELECT COUNT(*) FROM t_order WHERE orderType='3' AND userId=#{userId}
     </select>
 </mapper>

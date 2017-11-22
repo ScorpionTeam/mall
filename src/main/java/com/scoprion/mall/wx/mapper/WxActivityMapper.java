@@ -54,4 +54,10 @@ public interface WxActivityMapper {
      */
     Activity findByActivityTypeThree();
 
+    /**
+     * 查询试用列表
+     * @return
+     */
+    Page<Activity> findAll();
+
 }
