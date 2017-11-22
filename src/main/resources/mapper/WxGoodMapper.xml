@@ -67,10 +67,11 @@
         goodName,
         description,
         promotion,
+        goodNo,
         price
         FROM t_good
         WHERE 1=1
-        <if test="searchKey!=null and searchKey!=''">AND CONCAT(goodName) LIKE #{searchKey}</if>
+        <if test="searchKey!=null and searchKey!=''">AND CONCAT(goodName,goodNo) LIKE #{searchKey}</if>
     </select>
 
     <!--库存扣减-->
