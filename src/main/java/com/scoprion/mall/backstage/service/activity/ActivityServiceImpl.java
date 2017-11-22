@@ -46,6 +46,12 @@ public class ActivityServiceImpl implements ActivityService {
      */
     @Override
     public BaseResult add(Activity activity) {
+        if (StringUtils.isEmpty(activity.getActivityType())) {
+            return BaseResult.error("param_error", "活动类型不能为空");
+        }
+        if (StringUtils.isEmpty(activity.getName())) {
+            return BaseResult.error("param_error", "活动名称不能为空");
+        }
         int validResult = activityMapper.validByName(activity.getName());
         if (validResult > 0) {
             return BaseResult.error("not_allowed_repeat_name", "活动名称不可重复");

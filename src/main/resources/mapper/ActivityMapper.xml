@@ -33,21 +33,21 @@
     <!--根据活动名称模糊查询-->
     <select id="findByCondition" resultType="com.scoprion.mall.domain.Activity">
         SELECT
-        id,
-        name,
-        status,
-        activityType,
-        target,
-        startDate,
-        endDate,
-        num,
-        discount,
-        describe,
-        createDate
-        FROM t_activity WHERE 1=1
-        <if test="type!=null">AND activityType=#{type}</if>
-        <if test="status!=null">AND status=#{status}</if>
-        <if test="searchKey!=null">AND name LIKE #{searchKey}</if>
+        ta.id,
+        ta.name,
+        ta.status,
+        ta.activityType,
+        ta.target,
+        ta.startDate,
+        ta.endDate,
+        ta.num,
+        ta.discount,
+        ta.describe,
+        ta.createDate
+        FROM t_activity ta WHERE 1=1
+        <if test="type!=null">AND ta.activityType=#{type}</if>
+        <if test="status!=null">AND ta.status=#{status}</if>
+        <if test="searchKey!=null">AND ta.name LIKE #{searchKey}</if>
     </select>
 
     <!--根据ID删除活动,不做物理删除-->

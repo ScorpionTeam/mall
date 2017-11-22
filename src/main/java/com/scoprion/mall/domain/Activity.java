@@ -20,7 +20,6 @@ public class Activity {
     /**
      * 活动名称
      */
-    @NotBlank(message = "活动名称不为空")
     private String name;
 
 
@@ -30,7 +29,6 @@ public class Activity {
      * 1拼团
      * 2优选
      */
-    @NotBlank(message = "活动类型不为空")
     private String activityType;
 
     /**
@@ -59,7 +57,6 @@ public class Activity {
      * 2 网站
      * 3 全部
      */
-    @NotBlank(message = "目标不为空")
     private String target;
 
 
@@ -90,7 +87,6 @@ public class Activity {
     /**
      * 活动描述
      */
-    @NotBlank(message = "活动描述不为空")
     private String describe;
 
     public String getDescribe() {
