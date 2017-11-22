@@ -61,7 +61,8 @@ public interface GoodsMapper {
      * @param count  正数为添加、负数为扣减
      * @return
      */
-    int modifyGoodsDeduction(@Param("goodId") Long goodId, @Param("count") Integer count);
+    int modifyGoodsDeduction(@Param("goodId") Long goodId,
+                             @Param("count") Integer count);
 
     /**
      * 更新商品信息
@@ -106,7 +107,8 @@ public interface GoodsMapper {
      * @param idList     商品id集合
      * @return 更新是否成功 1 成功  0 失败
      */
-    int batchModifySaleStatus(@Param("saleStatus") String saleStatus, @Param("idList") List<Long> idList);
+    int batchModifySaleStatus(@Param("saleStatus") String saleStatus,
+                              @Param("idList") List<Long> idList);
 
     /**
      * 根据商品id删除商品
@@ -123,12 +125,13 @@ public interface GoodsMapper {
      * @param stock
      * @return
      */
-    int updateGoodStockById(@Param("goodId") Long goodId, @Param("stock") int stock);
+    int updateGoodStockById(@Param("goodId") Long goodId,
+                            @Param("stock") int stock);
     /**
      * 选择绑定活动的商品列表
      *
      * @param searchKey 模糊信息
      * @return
      */
-    List<GoodExt> findForActivity(String searchKey);
+    List<GoodExt> findForActivity(@Param("searchKey") String searchKey);
 }

@@ -292,17 +292,17 @@ public class GoodsServiceImpl implements GoodsService {
     public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey) {
         PageHelper.startPage(pageNo, pageSize);
         List<GoodExt> result = goodsMapper.findForActivity(searchKey);
-        List<GoodExt> page = new ArrayList<>();
-        result.forEach(good -> {
-            if (good.getActivityId() == null) {
-                page.add(good);
-            } else if (Constant.STATUS_ONE.equals(good.getActivityStatus())) {
-                page.add(good);
-            } else if (good.getEndDate().before(new Date())) {
-                page.add(good);
-            }
-        });
-        return new PageResult(page);
+//        List<GoodExt> page = new ArrayList<>();
+//        result.forEach(good -> {
+//            if (good.getActivityId() == null) {
+//                page.add(good);
+//            } else if (Constant.STATUS_ONE.equals(good.getActivityStatus())) {
+//                page.add(good);
+//            } else if (good.getEndDate().before(new Date())) {
+//                page.add(good);
+//            }
+//        });
+        return new PageResult(result);
     }
 
 }

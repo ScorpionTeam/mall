@@ -242,6 +242,7 @@
         LEFT JOIN t_activity_good tacg ON tacg.goodId=good.id
         LEFT JOIN t_activity tac ON tac.id=tacg.activityId
         WHERE 1=1
+        AND ( tac.status IS NULL OR  tac.status!='0' OR    tac.endDate BETWEEN '0' AND  NOW())
         <if test="searchKey!=null and searchKey!=''">AND CONCAT(good.goodName,good.description,good.goodNo) LIKE
             #{searchKey}
         </if>
