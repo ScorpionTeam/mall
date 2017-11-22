@@ -51,6 +51,7 @@ public class FreeServiceImpl implements FreeService {
     @Override
     public BaseResult apply(OrderExt orderExt, String ipAddress) {
         //String openId = WxUtil.getOpenId(wxCode);
+        //获得活动商品详情
         ActivityGoods activityGoods = freeMapper.findByActivityGoodId(orderExt.getActivityGoodId());
         Long activityId = activityGoods.getActivityId();
         //查询是否参加过该活动
@@ -76,18 +77,25 @@ public class FreeServiceImpl implements FreeService {
         //生成预付款订单
         Order order = new Order();
         String orderNo = OrderNoUtil.getOrderNo();
-        orderExt.setOrderNo(orderNo);
-        orderExt.setUserId(orderExt.getWxCode());
-        orderExt.setPayType("");
-        orderExt.setOrderType("3");
-        orderExt.setOrderStatus("1");
-        orderExt.setGoodName(goods.getGoodName());
-        orderExt.setGoodSnapShotId(goodSnapshot.getId());
-        orderExt.setGoodId(goodId);
-        orderExt.setGoodName(goods.getGoodName());
-        orderExt.setGoodFee(goods.getPrice());
-        orderExt.setDelivery(orderExt.getDelivery());
-        int orderResult =freeMapper.add(orderExt);
+        order.setOrderNo(orderNo);
+        order.setUserId(orderExt.getWxCode());
+        order.setPayType("");
+        order.setOrderType("3");
+        order.setOrderStatus("1");
+        order.setGoodName(goods.getGoodName());
+        order.setGoodSnapShotId(goodSnapshot.getId());
+        order.setGoodId(goodId);
+        order.setGoodName(goods.getGoodName());
+        order.setGoodFee(goods.getPrice());
+        order.setDeliveryId(orderExt.getDelivery().getId());
+        order.setAddress(orderExt.getDelivery().getAddress());
+        order.setRecipients(orderExt.getDelivery().getRecipients());
+        order.setPhone(orderExt.getDelivery().getPhone());
+        order.setProvince(orderExt.getDelivery().getProvince());
+        order.setCity(orderExt.getDelivery().getCity());
+        order.setArea(orderExt.getDelivery().getArea());
+        order.setPostCode(orderExt.getDelivery().getPostCode());
+        int orderResult =wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");
         }

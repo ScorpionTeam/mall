@@ -54,10 +54,4 @@ public interface FreeMapper {
      */
     Goods findByGoodId(@Param("goodId") Long goodId);
 
-    /**
-     * 生成订单
-     * @param orderExt
-     * @return
-     */
-    int add(OrderExt orderExt);
 }
