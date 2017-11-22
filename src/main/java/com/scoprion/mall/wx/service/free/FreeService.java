@@ -1,6 +1,9 @@
 package com.scoprion.mall.wx.service.free;
 
 
+import com.scoprion.mall.domain.Delivery;
+import com.scoprion.mall.domain.DeliveryExt;
+import com.scoprion.mall.domain.OrderExt;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -21,11 +24,9 @@ public interface FreeService {
 
     /**
      * 参加试用活动
-     * @param activityGoodId
-     * @param wxCode
-     * @param delivery
+     * @param orderExt
      * @param ipAddress
      * @return
      */
-    BaseResult apply(Long activityGoodId, String wxCode, Long deliveryId, String ipAddress);
+    BaseResult apply(OrderExt orderExt, String ipAddress);
 }

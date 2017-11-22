@@ -5,9 +5,6 @@ import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.FreeMapper;
 import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
 import com.scoprion.mall.wx.mapper.WxOrderMapper;
-import com.scoprion.mall.wx.pay.WxPayConfig;
-import com.scoprion.mall.wx.pay.util.WxPayUtil;
-import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.OrderNoUtil;
@@ -16,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author by kunlun
@@ -49,18 +44,17 @@ public class FreeServiceImpl implements FreeService {
 
     /**
      * 参加试用活动
-     *
-     * @param activityGoodId
-     * @param wxCode
+     * @param orderExt
+     * @param ipAddress
      * @return
      */
     @Override
-    public BaseResult apply(Long activityGoodId, String wxCode,Long deliveryId, String ipAddress) {
+    public BaseResult apply(OrderExt orderExt, String ipAddress) {
         //String openId = WxUtil.getOpenId(wxCode);
-        ActivityGoods activityGoods = freeMapper.findByActivityGoodId(activityGoodId);
+        ActivityGoods activityGoods = freeMapper.findByActivityGoodId(orderExt.getActivityGoodId());
         Long activityId = activityGoods.getActivityId();
         //查询是否参加过该活动
-        int result = freeMapper.validByActivityId(activityId, wxCode);
+        int result = freeMapper.validByActivityId(activityId, orderExt.getWxCode());
         if (result > 0) {
             return BaseResult.error("apply_fail", "您已参加过该活动");
         }
@@ -82,18 +76,18 @@ public class FreeServiceImpl implements FreeService {
         //生成预付款订单
         Order order = new Order();
         String orderNo = OrderNoUtil.getOrderNo();
-        order.setOrderNo(orderNo);
-        order.setUserId(wxCode);
-        order.setPayType("");
-        order.setOrderType("3");
-        order.setOrderStatus("1");
-        order.setGoodName(goods.getGoodName());
-        order.setGoodSnapShotId(goodSnapshot.getId());
-        order.setGoodId(goodId);
-        order.setGoodName(goods.getGoodName());
-        order.setGoodFee(goods.getPrice());
-        order.setDeliveryId(deliveryId);
-        int orderResult = wxOrderMapper.add(order);
+        orderExt.setOrderNo(orderNo);
+        orderExt.setUserId(orderExt.getWxCode());
+        orderExt.setPayType("");
+        orderExt.setOrderType("3");
+        orderExt.setOrderStatus("1");
+        orderExt.setGoodName(goods.getGoodName());
+        orderExt.setGoodSnapShotId(goodSnapshot.getId());
+        orderExt.setGoodId(goodId);
+        orderExt.setGoodName(goods.getGoodName());
+        orderExt.setGoodFee(goods.getPrice());
+        orderExt.setDelivery(orderExt.getDelivery());
+        int orderResult =freeMapper.add(orderExt);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");
         }

@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Activity;
 import com.scoprion.mall.domain.ActivityGoods;
 import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -52,4 +53,11 @@ public interface FreeMapper {
      * @return
      */
     Goods findByGoodId(@Param("goodId") Long goodId);
+
+    /**
+     * 生成订单
+     * @param orderExt
+     * @return
+     */
+    int add(OrderExt orderExt);
 }
