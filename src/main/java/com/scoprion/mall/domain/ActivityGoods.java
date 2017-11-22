@@ -47,6 +47,11 @@ public class ActivityGoods extends Goods {
      */
     private String status;
 
+    /**
+     * 活动人数
+     */
+    private Integer num;
+
     @Override
     public String getStatus() {
         return status;
@@ -119,6 +124,14 @@ public class ActivityGoods extends Goods {
         this.goodId = goodId;
     }
 
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
     @Override
     public String toString() {
         return "ActivityGoods{" +
@@ -128,6 +141,9 @@ public class ActivityGoods extends Goods {
                 ", activityType='" + activityType + '\'' +
                 ", createDate=" + createDate +
                 ", goodId=" + goodId +
+                ", stock=" + stock +
+                ", status='" + status + '\'' +
+                ", num=" + num +
                 '}';
     }
 }
