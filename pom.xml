@@ -6,7 +6,7 @@
     <groupId>com.scoprion</groupId>
     <artifactId>mall</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
 
     <name>mall</name>
     <description>在线商城</description>
