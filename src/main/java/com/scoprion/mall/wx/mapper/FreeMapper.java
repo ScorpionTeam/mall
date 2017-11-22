@@ -34,13 +34,6 @@ public interface FreeMapper {
     int validByActivityId(@Param("activityId") Long activityId, @Param("userId") String userId);
 
     /**
-     * 查询免费试用商品列表
-     *
-     * @return
-     */
-    Page<Goods> findAllByFree();
-
-    /**
      * 查询活动商品详情
      *
      * @param activityGoodId

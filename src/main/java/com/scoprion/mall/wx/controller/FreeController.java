@@ -38,8 +38,7 @@ public class FreeController {
      */
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public PageResult findAll(int pageNo, int pageSize) {
-
-        return null;
+        return freeService.findAll(pageNo, pageSize);
     }
 
     /**

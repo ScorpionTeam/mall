@@ -1,8 +1,11 @@
 package com.scoprion.mall.wx.service.free;
 
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.FreeMapper;
+import com.scoprion.mall.wx.mapper.WxActivityMapper;
 import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
 import com.scoprion.mall.wx.mapper.WxOrderMapper;
 import com.scoprion.result.BaseResult;
@@ -30,6 +33,9 @@ public class FreeServiceImpl implements FreeService {
     @Autowired
     private WxOrderLogMapper wxOrderLogMapper;
 
+    @Autowired
+    private WxActivityMapper wxActivityMapper;
+
     /**
      * 查询试用商品列表
      *
@@ -39,7 +45,9 @@ public class FreeServiceImpl implements FreeService {
      */
     @Override
     public PageResult findAll(int pageNo, int pageSize) {
-        return null;
+        PageHelper.startPage(pageNo, pageSize);
+        Page<Activity> page = wxActivityMapper.findAll();
+        return new PageResult(page);
     }
 
     /**
