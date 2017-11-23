@@ -19,8 +19,8 @@
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO t_mall_image(otherId,createDate,url,articleId,activityId,bannerId,brandId,goodId,estimateId)
-        VALUES(#{otherId},now(),#{url},#{articleId},#{activityId},#{bannerId},#{brandId},#{goodId},#{estimateId})
+        INSERT INTO t_mall_image(createDate,url,articleId,activityId,bannerId,brandId,goodId,estimateId)
+        VALUES(now(),#{url},#{articleId},#{activityId},#{bannerId},#{brandId},#{goodId},#{estimateId})
     </insert>
 
     <!--根据targetId查找图片 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6-->
@@ -32,7 +32,6 @@
         brandId,
         goodId,
         estimateId,
-        otherId,
         createDate,
         url
         FROM t_mall_image WHERE 1=1
@@ -42,13 +41,11 @@
         <if test="type==3">AND estimateId=#{targetId}</if>
         <if test="type==4">AND bannerId=#{targetId}</if>
         <if test="type==5">AND activityId=#{targetId}</if>
-        <if test="type==5">AND otherId=#{targetId}</if>
     </select>
 
     <!--根据id修改图片-->
     <update id="modify" parameterType="com.scoprion.mall.domain.MallImage">
         UPDATE t_mall_image SET updateDate=now()
-        <if test="otherId!=null and otherId!=''">,otherId=#{otherId}</if>
         <if test="createDate!=null and createDate!=''">,createDate=#{createDate}</if>
         <if test="url!=null and url!=''">,url=#{url}</if>
         <if test="articleId!=null and articleId!=''">,articleId=#{articleId}</if>
