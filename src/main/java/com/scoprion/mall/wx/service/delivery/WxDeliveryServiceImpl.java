@@ -99,9 +99,10 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
             return BaseResult.parameterError();
         }
         Delivery delivery = wxDeliveryMapper.findById(id);
-        if (StringUtils.isEmpty(delivery.toString())) {
+        if (delivery == null) {
             return BaseResult.notFound();
         }
         return BaseResult.success(delivery);
     }
+
 }
