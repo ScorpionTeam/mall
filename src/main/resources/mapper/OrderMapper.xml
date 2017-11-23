@@ -14,7 +14,7 @@
         FROM
         t_order
         WHERE orderStatus ='1'
-        AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(createDate) BETWEEN 6 AND 60*60*24
+        AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(createDate) BETWEEN 60*60*4 AND 60*60*24
     </select>
 
     <!--订单列表-->

@@ -25,7 +25,7 @@
 
     <!--增加-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Point">
-        INSERT  INTO t_point_log
+        INSERT  INTO t_point
         (userId,point,level,levelName,createDate)
         VALUES
         (#{userId},#{point},#{level},#{levelName},now())

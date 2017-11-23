@@ -43,7 +43,7 @@
         saleVolume,
         discount,
         stock,
-        isOnsale,
+        isOnSale,
         isHot,
         isNew,
         createDate,
