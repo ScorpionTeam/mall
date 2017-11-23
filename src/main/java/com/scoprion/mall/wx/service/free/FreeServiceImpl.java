@@ -2,13 +2,12 @@ package com.scoprion.mall.wx.service.free;
 
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.*;
-import com.scoprion.mall.wx.mapper.FreeMapper;
-import com.scoprion.mall.wx.mapper.WxActivityMapper;
-import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
-import com.scoprion.mall.wx.mapper.WxOrderMapper;
+import com.scoprion.mall.wx.mapper.*;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
@@ -42,6 +41,9 @@ public class FreeServiceImpl implements FreeService {
 
     @Autowired
     private WxActivityMapper wxActivityMapper;
+
+    @Autowired
+    private WxGoodMapper wxGoodMapper;
 
     /**
      * 查询试用商品列表
@@ -156,7 +158,43 @@ public class FreeServiceImpl implements FreeService {
         if(StringUtils.isEmpty(order.toString())){
             return BaseResult.notFound();
         }
-        return null;
+        if(!Constant.STATUS_ONE.equals(order.getOrderStatus())){
+            return BaseResult.error("order_fail","订单错误");
+        }
+        //获取订单创建的时间
+        long createTime=order.getCreateDate().getTime();
+        long timeResult=System.currentTimeMillis() - createTime;
+        if(timeResult>Constant.TIME_TWO_HOUR){
+            return BaseResult.error("order_fail","您的订单已超时,请重新下单");
+        }
+        //查询商品库存
+        Goods goods = wxGoodMapper.findById(order.getGoodId());
+        if (null == goods || goods.getStock() <= 0) {
+            return BaseResult.error("not_enough_stock", "商品库存不足");
+        }
+        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+            //商品处于下架状态，不能下单
+            return BaseResult.error("can_not_order", "商品已下架");
+        }
+
+        //根据openid查询用户订单信息
+        String prepayId = wxOrderMapper.findPrepayIdByOpenid(openId, orderId);
+        if (StringUtils.isEmpty(prepayId)) {
+            return BaseResult.error("query_error", "查询订单出错");
+        }
+        //时间戳
+        Long timeStamp = System.currentTimeMillis() / 1000;
+        //随机字符串
+        String nonceStr = WxUtil.createRandom(false, 10);
+        String paySign = paySign(timeStamp, nonceStr, prepayId);
+        Map<String, String> resultMap = new HashMap<>(16);
+        resultMap.put("appId", WxPayConfig.APP_ID);
+        resultMap.put("timeStamp", timeStamp.toString());
+        resultMap.put("nonceStr", nonceStr);
+        resultMap.put("package", "prepay_id=" + prepayId);
+        resultMap.put("signType", "MD5");
+        resultMap.put("paySign", paySign);
+        return BaseResult.success(JSON.toJSON(resultMap));
     }
 
     /**
