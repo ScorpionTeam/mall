@@ -13,6 +13,7 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -64,6 +65,7 @@ public class GoodsServiceImpl implements GoodsService {
      * @param good
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult add(GoodExt good) {
         int result = goodsMapper.add(good);
