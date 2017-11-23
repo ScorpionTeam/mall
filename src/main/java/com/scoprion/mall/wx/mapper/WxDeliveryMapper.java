@@ -48,4 +48,11 @@ public interface WxDeliveryMapper {
      * @return
      */
     Delivery findById(@Param("id") Long id);
+
+    /**
+     * 设置为默认地址
+     * @param id
+     * @return
+     */
+    int updateDefaultAddress(@Param("id") Long id);
 }

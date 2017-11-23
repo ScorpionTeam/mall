@@ -105,4 +105,18 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
         return BaseResult.success(delivery);
     }
 
+    /**
+     * 设置默认收货地址
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseResult defaultAddress(Long id) {
+        int result = wxDeliveryMapper.updateDefaultAddress(id);
+        if (result<=0){
+            return BaseResult.error("update_fail","设置默认地址失败");
+        }
+        return BaseResult.success("设置成功");
+    }
+
 }

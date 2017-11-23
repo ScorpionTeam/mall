@@ -75,6 +75,11 @@ public class Delivery {
      */
     private String type;
 
+    /**
+     * 默认收货地址
+     */
+    private String defaultAddress;
+
     public String getType() {
         return type;
     }
@@ -179,11 +184,19 @@ public class Delivery {
         this.wechat = wechat;
     }
 
+    public String getDefaultAddress() {
+        return defaultAddress;
+    }
+
+    public void setDefaultAddress(String defaultAddress) {
+        this.defaultAddress = defaultAddress;
+    }
+
     @Override
     public String toString() {
         return "Delivery{" +
                 "id=" + id +
-                ", userId=" + userId +
+                ", userId='" + userId + '\'' +
                 ", recipients='" + recipients + '\'' +
                 ", phone='" + phone + '\'' +
                 ", province='" + province + '\'' +
@@ -193,8 +206,10 @@ public class Delivery {
                 ", postCode='" + postCode + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
-                ", type=" + type +
                 ", wechat='" + wechat + '\'' +
+                ", type='" + type + '\'' +
+                ", defaultAddress='" + defaultAddress + '\'' +
                 '}';
     }
+
 }
