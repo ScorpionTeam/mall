@@ -185,9 +185,9 @@
         <if test="isHot!=null and isHot!=''">AND good.isHot= #{isHot}</if>
         <if test="isNew!=null and isNew!=''">AND good.isNew= #{isNew}</if>
         <if test="isFreight!=null and isFreight!=''">AND good.isFreight= #{isFreight}</if>
-        <if test="categoryId!=null and categoryId!=''">AND good.categoryId= #{categoryId}</if>
-        <if test="brandId!=null and brandId!=''">AND good.brandId= #{brandId}</if>
-        <if test="activityId!=null and activityId!=''">AND tacg.activityId= #{activityId}</if>
+        <if test="categoryId!=null ">AND good.categoryId= #{categoryId}</if>
+        <if test="brandId!=null ">AND good.brandId= #{brandId}</if>
+        <if test="activityId!=null ">AND tacg.activityId= #{activityId}</if>
         GROUP BY good.id
     </select>
 
