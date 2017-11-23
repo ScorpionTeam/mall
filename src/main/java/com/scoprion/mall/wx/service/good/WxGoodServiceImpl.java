@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.service.good;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.domain.GoodExt;
@@ -56,12 +57,15 @@ public class WxGoodServiceImpl implements WxGoodService {
      */
     @Override
     public BaseResult findById(Long goodId) {
-        if(StringUtils.isEmpty(goodId.toString())){
+        if (StringUtils.isEmpty(goodId.toString())) {
             return BaseResult.parameterError();
         }
         GoodExt goods = wxGoodMapper.findById(goodId);
-        if (StringUtils.isEmpty(goods.toString())){
+        if (goods == null) {
             return BaseResult.notFound();
+        }
+        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+            return BaseResult.error("not_enough_stock", "商品已经下架");
         }
         //获取图片列表
         List<MallImage> imgList = fileOperationMapper.findByCondition(goods.getId(), 0);
@@ -91,6 +95,7 @@ public class WxGoodServiceImpl implements WxGoodService {
 
     /**
      * 商品搜索
+     *
      * @param pageNo
      * @param pageSize
      * @param searchKey
@@ -98,14 +103,14 @@ public class WxGoodServiceImpl implements WxGoodService {
      */
     @Override
     public PageResult findBySearchKey(Integer pageNo, Integer pageSize, String searchKey) {
-        PageHelper.startPage(pageNo,pageSize);
-        if(StringUtils.isEmpty(searchKey)){
-            searchKey=null;
+        PageHelper.startPage(pageNo, pageSize);
+        if (StringUtils.isEmpty(searchKey)) {
+            searchKey = null;
         }
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Goods>page=wxGoodMapper.findBySearchKey(searchKey);
+        Page<Goods> page = wxGoodMapper.findBySearchKey(searchKey);
         if (page == null) {
             return new PageResult(new ArrayList<Goods>());
         }
