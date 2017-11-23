@@ -81,6 +81,22 @@ public class GoodsController {
         return goodsService.findByGoodId(id);
     }
 
+
+    /**
+     * 选择绑定活动的商品列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey 模糊信息
+     * @return
+     */
+    @ApiOperation(value = "选择绑定活动的商品列表")
+    @RequestMapping(value = "/findForActivity", method = RequestMethod.GET)
+    public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey) {
+        return goodsService.findForActivity(pageNo, pageSize, searchKey);
+    }
+
+
     /**
      * 条件查询商品列表分页
      *

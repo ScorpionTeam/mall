@@ -31,7 +31,7 @@ public class BannerController {
      */
     @ResponseBody
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public BaseResult add(Banner banner) {
+    public BaseResult add(@RequestBody Banner banner) {
         return bannerService.add(banner);
     }
 
@@ -68,7 +68,7 @@ public class BannerController {
      * @return
      */
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public BaseResult modify(Banner banner) {
+    public BaseResult modify(@RequestBody Banner banner) {
         return bannerService.modify(banner);
     }
 

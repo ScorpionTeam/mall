@@ -109,6 +109,7 @@
          FROM t_good good
          LEFT  JOIN t_activity_good  tacg ON tacg.goodId=good.id
         WHERE good.id=#{goodId}
+        GROUP BY  good.id
     </select>
 
     <!--库存扣减-->
@@ -166,7 +167,9 @@
         good.createDate,
         tacg.activityId as activityId,
         tac.startDate as startDate,
-        tac.endDate as endDate
+        tac.endDate as endDate,
+        tac.status as activityStatus,
+        tacg.stock as activityStock
         FROM t_good good
         LEFT JOIN t_activity_good tacg ON tacg.goodId=good.id
         LEFT JOIN t_activity tac ON tac.id=tacg.activityId
@@ -210,4 +213,54 @@
         </foreach>
         AND isOnSale='0'
     </update>
+
+
+    <select id="findForActivity" resultType="com.scoprion.mall.domain.GoodExt">
+        SELECT
+        good.id,
+        good.goodNo,
+        good.categoryId,
+        good.goodName,
+        good.description,
+        good.promotion,
+        good.price,
+        good.saleVolume,
+        good.discount,
+        good.stock,
+        good.isOnSale,
+        good.isHot,
+        good.isNew,
+        good.isFreight,
+        good.brandId,
+        good.sellerId,
+        good.visitTotal,
+        good.mainImgUrl,
+        good.createDate,
+        tacg.activityId as activityId,
+        tacg.stock as activityStock,
+        tac.startDate as startDate,
+        tac.endDate as endDate,
+        tac.status as activityStatus
+        FROM t_good good
+        LEFT JOIN t_activity_good tacg ON tacg.goodId=good.id
+        LEFT JOIN t_activity tac ON tac.id=tacg.activityId
+        WHERE 1=1
+        AND ( tac.status IS NULL OR tac.status!='0' OR tac.endDate BETWEEN '0' AND NOW())
+        AND good.id NOT IN(
+            SELECT tg.id
+            FROM t_good tg
+            LEFT JOIN t_activity_good tag ON tag.goodId=tg.id
+            LEFT JOIN t_activity ta ON ta.id=tag.activityId
+            WHERE 1=1
+            AND (
+            ta.status='0' OR ( ta.status!='1' AND ta.startDate IS NOT NULL
+            AND ( ((ta.startDate BETWEEN '0' AND NOW()) AND ta.endDate >  NOW()) OR  ta.startDate >NOW() ) )
+            )
+            GROUP BY tg.id
+        )
+        <if test="searchKey!=null and searchKey!=''">AND CONCAT(good.goodName,good.description,good.goodNo) LIKE
+            #{searchKey}
+        </if>
+        GROUP BY good.id
+    </select>
 </mapper>

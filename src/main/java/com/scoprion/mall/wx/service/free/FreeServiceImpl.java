@@ -1,13 +1,13 @@
 package com.scoprion.mall.wx.service.free;
 
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.FreeMapper;
+import com.scoprion.mall.wx.mapper.WxActivityMapper;
 import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
 import com.scoprion.mall.wx.mapper.WxOrderMapper;
-import com.scoprion.mall.wx.pay.WxPayConfig;
-import com.scoprion.mall.wx.pay.util.WxPayUtil;
-import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.OrderNoUtil;
@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author by kunlun
@@ -35,6 +33,9 @@ public class FreeServiceImpl implements FreeService {
     @Autowired
     private WxOrderLogMapper wxOrderLogMapper;
 
+    @Autowired
+    private WxActivityMapper wxActivityMapper;
+
     /**
      * 查询试用商品列表
      *
@@ -44,33 +45,36 @@ public class FreeServiceImpl implements FreeService {
      */
     @Override
     public PageResult findAll(int pageNo, int pageSize) {
-        return null;
+        PageHelper.startPage(pageNo, pageSize);
+        Page<Activity> page = wxActivityMapper.findAll();
+        return new PageResult(page);
     }
 
     /**
      * 参加试用活动
      *
-     * @param activityGoodId
-     * @param wxCode
+     * @param orderExt  订单
+     * @param ipAddress
      * @return
      */
     @Override
-    public BaseResult apply(Long activityGoodId, String wxCode,Long deliveryId, String ipAddress) {
+    public BaseResult apply(OrderExt orderExt, String ipAddress) {
         //String openId = WxUtil.getOpenId(wxCode);
-        ActivityGoods activityGoods = freeMapper.findByActivityGoodId(activityGoodId);
+        //获得活动商品详情
+        ActivityGoods activityGoods = freeMapper.findByActivityGoodId(orderExt.getActivityGoodId());
         Long activityId = activityGoods.getActivityId();
         //查询是否参加过该活动
-        int result = freeMapper.validByActivityId(activityId, wxCode);
+        int result = freeMapper.validByActivityId(activityId, orderExt.getWxCode());
         if (result > 0) {
             return BaseResult.error("apply_fail", "您已参加过该活动");
         }
-        Date currentDate=new Date();
+        Date currentDate = new Date();
         //查询活动详情
         Activity activity = freeMapper.findById(activityId);
         if (0 == activity.getNum()) {
             return BaseResult.error("apply_fail", "活动人数已满");
-        }else if(currentDate.after(activity.getEndDate())){
-            return BaseResult.error("apply_fail","活动已过期");
+        } else if (currentDate.after(activity.getEndDate())) {
+            return BaseResult.error("apply_fail", "活动已过期");
         }
 
         //生成商品快照
@@ -83,7 +87,7 @@ public class FreeServiceImpl implements FreeService {
         Order order = new Order();
         String orderNo = OrderNoUtil.getOrderNo();
         order.setOrderNo(orderNo);
-        order.setUserId(wxCode);
+        order.setUserId(orderExt.getWxCode());
         order.setPayType("");
         order.setOrderType("3");
         order.setOrderStatus("1");
@@ -92,14 +96,21 @@ public class FreeServiceImpl implements FreeService {
         order.setGoodId(goodId);
         order.setGoodName(goods.getGoodName());
         order.setGoodFee(goods.getPrice());
-        order.setDeliveryId(deliveryId);
+        order.setDeliveryId(orderExt.getDelivery().getId());
+        order.setAddress(orderExt.getDelivery().getAddress());
+        order.setRecipients(orderExt.getDelivery().getRecipients());
+        order.setPhone(orderExt.getDelivery().getPhone());
+        order.setProvince(orderExt.getDelivery().getProvince());
+        order.setCity(orderExt.getDelivery().getCity());
+        order.setArea(orderExt.getDelivery().getArea());
+        order.setPostCode(orderExt.getDelivery().getPostCode());
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");
         }
 
         //系统内生成订单信息
-        OrderLog orderLog=constructOrderLog(order.getOrderNo(),"生成试用订单",ipAddress);
+        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", ipAddress);
         wxOrderLogMapper.add(orderLog);
         return BaseResult.success("成功");
     }

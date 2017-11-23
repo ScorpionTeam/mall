@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Activity;
 import com.scoprion.mall.domain.ActivityGoods;
 import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,13 +34,8 @@ public interface FreeMapper {
     int validByActivityId(@Param("activityId") Long activityId, @Param("userId") String userId);
 
     /**
-     * 查询免费试用商品列表
-     * @return
-     */
-    Page<Goods> findAllByFree();
-
-    /**
      * 查询活动商品详情
+     *
      * @param activityGoodId
      * @return
      */
@@ -48,8 +44,10 @@ public interface FreeMapper {
 
     /**
      * 获取商品详情
+     *
      * @param goodId
      * @return
      */
     Goods findByGoodId(@Param("goodId") Long goodId);
+
 }

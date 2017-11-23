@@ -3,6 +3,7 @@ package com.scoprion.mall.backstage.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.scoprion.mall.backstage.service.activity.ActivityService;
 import com.scoprion.mall.domain.Activity;
+import com.scoprion.mall.domain.Goods;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
@@ -95,7 +96,7 @@ public class ActivityController {
      * @param pageNo
      * @param pageSize
      * @param searchKey
-     * @param type      * 0秒杀, 1拼团,2优选
+     * @param type      * 0秒杀, 1拼团,2优选,3试用，4全部
      * @param status    0正常,1删除
      * @return
      */
@@ -118,8 +119,8 @@ public class ActivityController {
         //活动id、主键
         Long activityId = jsonObject.getObject("activityId", Long.class);
         //商品id集合
-        List<Long> goodIdList = jsonObject.getJSONArray("goodIdList").toJavaList(Long.class);
-        return activityService.bindActivityWithGood(activityId, goodIdList);
+        List<Goods> goodList = jsonObject.getJSONArray("goodList").toJavaList(Goods.class);
+        return activityService.bindActivityWithGood(activityId, goodList);
     }
 
     /**

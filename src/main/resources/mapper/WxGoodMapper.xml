@@ -28,7 +28,7 @@
         goodNo,
         mainImgUrl,
         richContent
-        FROM t_good WHERE isOnSale='1'
+        FROM t_good WHERE isOnSale='1' AND status='0'
     </select>
 
     <!--根据商品id查询详情-->

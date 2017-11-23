@@ -1,8 +1,6 @@
 package com.scoprion.mall.domain;
 
 
-import com.alibaba.fastjson.serializer.SerializeFilter;
-
 import java.util.Date;
 
 /**
@@ -39,6 +37,40 @@ public class ActivityGoods extends Goods {
      * 商品ID
      */
     private Long goodId;
+
+    /**
+     * 商品库存
+     */
+    private int stock;
+    /**
+     * 0正常，1删除
+     */
+    private String status;
+
+    /**
+     * 活动人数
+     */
+    private Integer num;
+
+    @Override
+    public String getStatus() {
+        return status;
+    }
+
+    @Override
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    @Override
+    public int getStock() {
+        return stock;
+    }
+
+    @Override
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 
     @Override
     public Long getId() {
@@ -92,6 +124,14 @@ public class ActivityGoods extends Goods {
         this.goodId = goodId;
     }
 
+    public Integer getNum() {
+        return num;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
     @Override
     public String toString() {
         return "ActivityGoods{" +
@@ -101,6 +141,9 @@ public class ActivityGoods extends Goods {
                 ", activityType='" + activityType + '\'' +
                 ", createDate=" + createDate +
                 ", goodId=" + goodId +
+                ", stock=" + stock +
+                ", status='" + status + '\'' +
+                ", num=" + num +
                 '}';
     }
 }

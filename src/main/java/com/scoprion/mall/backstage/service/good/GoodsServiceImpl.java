@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -277,6 +278,31 @@ public class GoodsServiceImpl implements GoodsService {
         }
         goodsMapper.batchModifySaleStatus(saleStatus, goodsIdList);
         return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品批量上架成功" : "商品批量下架成功");
+    }
+
+    /**
+     * 选择绑定活动的商品列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey 模糊信息
+     * @return
+     */
+    @Override
+    public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey) {
+        PageHelper.startPage(pageNo, pageSize);
+        List<GoodExt> result = goodsMapper.findForActivity(searchKey);
+//        List<GoodExt> page = new ArrayList<>();
+//        result.forEach(good -> {
+//            if (good.getActivityId() == null) {
+//                page.add(good);
+//            } else if (Constant.STATUS_ONE.equals(good.getActivityStatus())) {
+//                page.add(good);
+//            } else if (good.getEndDate().before(new Date())) {
+//                page.add(good);
+//            }
+//        });
+        return new PageResult(result);
     }
 
 }

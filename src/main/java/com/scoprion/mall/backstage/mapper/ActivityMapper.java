@@ -2,6 +2,7 @@ package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Activity;
+import com.scoprion.mall.domain.ActivityGoods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,7 +19,7 @@ import java.util.List;
 public interface ActivityMapper {
 
     /**
-     * 创建商品
+     * 创建活动
      *
      * @param activity
      * @return
@@ -26,7 +27,7 @@ public interface ActivityMapper {
     int add(Activity activity);
 
     /**
-     * 删除商品
+     * 删除活动
      *
      * @param id 商品ID、主键
      * @return
@@ -34,7 +35,7 @@ public interface ActivityMapper {
     int deleteById(@Param("id") Long id);
 
     /**
-     * 修改商品
+     * 修改活动
      *
      * @param activity
      * @return
@@ -42,7 +43,7 @@ public interface ActivityMapper {
     int modify(Activity activity);
 
     /**
-     * 条件查询h活动列表
+     * 条件查询活动列表
      *
      * @param type
      * @param status
@@ -72,38 +73,12 @@ public interface ActivityMapper {
 
 
     /**
-     * 添加活动商品匹配关系
-     *
-     * @param activityId
-     * @param goodId
-     */
-    void addActivityGood(@Param("activityId") Long activityId, @Param("goodId") Long goodId);
-
-    /**
-     * 清空商品管理的活动
-     *
-     * @param goodId
-     */
-    void deleteActivityGood(@Param("goodId") Long goodId);
-
-    /**
-     * 根据商品id查询商品参加的活动
-     *
-     * @param goodId
-     * @return
-     */
-    int findActivityByGoodId(@Param("goodId") Long goodId);
-
-    /**
      * 根据ID查询活动详情
      *
      * @param id
      * @return
      */
     Activity findById(@Param("id") Long id);
-
-
-    List<Long> findGoodIdByActivityId(@Param("activityId") Long activityId);
 
     /**
      * 批量修改活动状态
@@ -125,14 +100,4 @@ public interface ActivityMapper {
     int validByTypeAndTime(@Param("startDate") Date startDate,
                            @Param("endDate") Date endDate,
                            @Param("activityType") String activityType);
-
-    /**
-     * 解绑商品跟活动
-     *
-     * @param activityId
-     * @param goodIdList
-     * @return
-     */
-    int unbindActivityWithGood(@Param("activityId") Long activityId,
-                               @Param("goodIdList") List<Long> goodIdList);
 }

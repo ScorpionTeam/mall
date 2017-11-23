@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.backstage.mapper.ActivityGoodMapper">
+
+    <!--添加商品活动关系-->
+    <insert id="bindActivityGood">
+        INSERT INTO t_activity_good
+        (activityId,goodId,status,stock,createDate)
+        VALUES
+        (#{activityId},#{goodId},#{status},#{stock},now())
+    </insert>
+
+    <!--清空活动跟商品的绑定关系-->
+    <update id="unbindActivityWithGood">
+        UPDATE  t_activity_good SET
+        status='1',
+        updateDate=now()
+        WHERE goodId=#{goodId}
+    </update>
+
+    <!--根据商品id查询商品参加的活动-->
+    <select id="findByGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
+        SELECT  id,
+        activityId,
+        createDate,
+        goodId,
+        stock,
+        status
+        FROM  t_activity_good
+        WHERE  goodId=#{goodId} AND status='0'
+    </select>
+
+</mapper>

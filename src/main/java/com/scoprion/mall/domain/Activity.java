@@ -1,6 +1,7 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import org.hibernate.validator.constraints.NotBlank;
 
 import java.util.Date;
 import java.util.List;
@@ -62,7 +63,7 @@ public class Activity {
     /**
      * 参加活动人数
      */
-    private int num;
+    private Integer num;
 
 
     /**
@@ -78,9 +79,35 @@ public class Activity {
     private Date endDate;
 
     /**
-     * 商品列表
+     * 折扣价  80表示80%
      */
-    private List<ActivityGoods> activityGoodsList;
+    private Integer discount;
+
+
+    /**
+     * 活动描述
+     */
+    private String describes;
+
+    public String getDescribes() {
+        return describes;
+    }
+
+    public void setDescribes(String describes) {
+        this.describes = describes;
+    }
+
+    public void setNum(Integer num) {
+        this.num = num;
+    }
+
+    public Integer getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(Integer discount) {
+        this.discount = discount;
+    }
 
     public Long getId() {
         return id;
@@ -138,15 +165,7 @@ public class Activity {
         this.target = target;
     }
 
-    public List<ActivityGoods> getActivityGoodsList() {
-        return activityGoodsList;
-    }
-
-    public void setActivityGoodsList(List<ActivityGoods> activityGoodsList) {
-        this.activityGoodsList = activityGoodsList;
-    }
-
-    public int getNum() {
+    public Integer getNum() {
         return num;
     }
 
@@ -182,8 +201,9 @@ public class Activity {
                 ", target='" + target + '\'' +
                 ", num=" + num +
                 ", startDate=" + startDate +
+                ", describes=" + describes +
+                ", discount=" + discount +
                 ", endDate=" + endDate +
-                ", activityGoodsList=" + activityGoodsList +
                 '}';
     }
 }
