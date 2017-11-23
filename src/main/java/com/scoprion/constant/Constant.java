@@ -29,36 +29,44 @@ public class Constant {
     /**
      * 图片路径
      */
-    public static final String BASE_IMG_DIR = "D:\\Downloads\\";
+//    public static final String BASE_IMG_DIR = "D:\\Downloads\\";
+    public static final String BASE_IMG_DIR = "/home/hcon/downloads";
     /**
      * 商品图片路径 0
      */
-    public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodImage/";
+//    public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodImage/";
+    public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/mall/goodimage/";
 
     /**
      * 品牌图片路径 1
      */
-    public static final String BRAND_IMG_PATH = BASE_IMG_DIR + "/Mall/BrandImage/";
+//    public static final String BRAND_IMG_PATH = BASE_IMG_DIR + "/Mall/BrandImage/";
+    public static final String BRAND_IMG_PATH = BASE_IMG_DIR + "/mall/brandimage/";
     /**
      * 文章图片路径 2
      */
-    public static final String ARTICLE_IMG_PATH = BASE_IMG_DIR + "/Mall/ArticleImage/";
+//    public static final String ARTICLE_IMG_PATH = BASE_IMG_DIR + "/Mall/ArticleImage/";
+    public static final String ARTICLE_IMG_PATH = BASE_IMG_DIR + "/mall/articleimage/";
     /**
      * 商品评价图片路径 3
      */
-    public static final String GOODS_ESTIMATE_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodsEstimateImage/";
+//    public static final String GOODS_ESTIMATE_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodsEstimateImage/";
+    public static final String GOODS_ESTIMATE_IMG_PATH = BASE_IMG_DIR + "/mall/goodsestimateimage/";
     /**
      * 广告图片路径 4
      */
-    public static final String BANNER_IMG_PATH = BASE_IMG_DIR + "/Mall/BannerImage/";
+//    public static final String BANNER_IMG_PATH = BASE_IMG_DIR + "/Mall/BannerImage/";
+    public static final String BANNER_IMG_PATH = BASE_IMG_DIR + "/mall/bannerimage/";
     /**
      * 活动图片路径 5
      */
-    public static final String ACTIVITY_IMG_PATH = BASE_IMG_DIR + "/Mall/ActivityImage/";
+//    public static final String ACTIVITY_IMG_PATH = BASE_IMG_DIR + "/Mall/ActivityImage/";
+    public static final String ACTIVITY_IMG_PATH = BASE_IMG_DIR + "/mall/activityimage/";
     /**
      * 其他模块图片路径6
      */
-    public static final String OTHER_IMG_PATH = BASE_IMG_DIR + "/Mall/OtherImage/";
+//    public static final String OTHER_IMG_PATH = BASE_IMG_DIR + "/Mall/OtherImage/";
+    public static final String OTHER_IMG_PATH = BASE_IMG_DIR + "/mall/otherimage/";
     /**
      * 是否裁剪0否 1是
      */

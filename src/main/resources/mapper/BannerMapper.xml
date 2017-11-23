@@ -60,4 +60,18 @@
             #{item}
         </foreach>
     </update>
+
+    <select id="findById" resultType="com.scoprion.mall.domain.Banner">
+        SELECT  id,
+        name,
+        imgUrl,
+        actionUrl,
+        visitTotal,
+        status,
+        sort,
+        createDate,
+        updateDate
+        FROM t_banner
+        WHERE id=#{id}
+    </select>
 </mapper>
