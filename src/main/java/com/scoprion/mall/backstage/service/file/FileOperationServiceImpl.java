@@ -27,12 +27,12 @@ import java.util.List;
 /**
  * @author ycj
  * @version V1.0 <文件操作>
- *          网站图片尺寸
- *          商品列表小 ：30x30
- *          商品列表大 ：220x220
- *          商品详情大：400x400
- *          商品详情小：60x60
- *          商品详情小：40x40
+ * 网站图片尺寸
+ * 商品列表小 ：30x30
+ * 商品列表大 ：220x220
+ * 商品详情大：400x400
+ * 商品详情小：60x60
+ * 商品详情小：40x40
  * @date 2017-11-09 17:40
  */
 @Service
@@ -178,7 +178,7 @@ public class FileOperationServiceImpl implements FileOperationService {
     private static void deleteFile(String filePath) {
         File file = new File(filePath);
         if (file.isFile() && file.exists()) {
-            boolean delResult = file.delete();
+            boolean delResult = file.getAbsoluteFile().delete();
             LOGGER.info("delResult: " + delResult);
         }
     }
