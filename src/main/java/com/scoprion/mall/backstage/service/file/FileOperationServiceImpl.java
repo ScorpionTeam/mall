@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -104,6 +105,7 @@ public class FileOperationServiceImpl implements FileOperationService {
      *
      * @param imageName 图片名称 /mall/brandimage/1510215075689.jpg
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult deleteImage(String imageName) throws IOException {
         if (StringUtils.isEmpty(imageName)) {
