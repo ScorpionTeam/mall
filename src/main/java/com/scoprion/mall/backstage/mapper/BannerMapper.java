@@ -79,4 +79,12 @@ public interface BannerMapper {
      * @return int
      */
     int batchModifyStatus(@Param("status") String status, @Param("idList") List<Long> idList);
+
+    /**
+     * banner详情
+     *
+     * @param id
+     * @return
+     */
+    Banner findById(@Param("id") Long id);
 }

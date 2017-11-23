@@ -84,6 +84,18 @@ public class BannerController {
     }
 
     /**
+     * banner详情
+     *
+     * @param id
+     * @return
+     */
+    @ApiOperation("banner详情")
+    @RequestMapping(value = "/findById", method = RequestMethod.GET)
+    public BaseResult findById(Long id) {
+        return bannerService.findById(id);
+    }
+
+    /**
      * 批量修改广告状态
      *
      * @param jsonObject

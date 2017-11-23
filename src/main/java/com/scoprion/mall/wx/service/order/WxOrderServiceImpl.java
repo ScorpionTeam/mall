@@ -102,9 +102,10 @@ public class WxOrderServiceImpl implements WxOrderService {
         if (StringUtils.isEmpty(estimate.getUserId())) {
             return BaseResult.notFound();
         }
-        if(StringUtils.isEmpty(estimate.getGoodId().toString())) {
+        if (StringUtils.isEmpty(estimate.getGoodId().toString())) {
             return BaseResult.notFound();
         }
+        estimate.setUserId(WxUtil.getOpenId(estimate.getUserId()));
         int result = wxOrderMapper.estimate(estimate);
         if (result > 0) {
             return BaseResult.success("评价成功");

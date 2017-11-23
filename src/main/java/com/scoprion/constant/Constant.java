@@ -29,36 +29,44 @@ public class Constant {
     /**
      * 图片路径
      */
-    public static final String BASE_IMG_DIR = "D:\\Downloads\\";
+//    public static final String BASE_IMG_DIR = "D:\\Downloads\\";
+    public static final String BASE_IMG_DIR = "/home/hcon/downloads";
     /**
      * 商品图片路径 0
      */
-    public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodImage/";
+//    public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodImage/";
+    public static final String GOODS_IMG_PATH = BASE_IMG_DIR + "/mall/goodimage/";
 
     /**
      * 品牌图片路径 1
      */
-    public static final String BRAND_IMG_PATH = BASE_IMG_DIR + "/Mall/BrandImage/";
+//    public static final String BRAND_IMG_PATH = BASE_IMG_DIR + "/Mall/BrandImage/";
+    public static final String BRAND_IMG_PATH = BASE_IMG_DIR + "/mall/brandimage/";
     /**
      * 文章图片路径 2
      */
-    public static final String ARTICLE_IMG_PATH = BASE_IMG_DIR + "/Mall/ArticleImage/";
+//    public static final String ARTICLE_IMG_PATH = BASE_IMG_DIR + "/Mall/ArticleImage/";
+    public static final String ARTICLE_IMG_PATH = BASE_IMG_DIR + "/mall/articleimage/";
     /**
      * 商品评价图片路径 3
      */
-    public static final String GOODS_ESTIMATE_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodsEstimateImage/";
+//    public static final String GOODS_ESTIMATE_IMG_PATH = BASE_IMG_DIR + "/Mall/GoodsEstimateImage/";
+    public static final String GOODS_ESTIMATE_IMG_PATH = BASE_IMG_DIR + "/mall/goodsestimateimage/";
     /**
      * 广告图片路径 4
      */
-    public static final String BANNER_IMG_PATH = BASE_IMG_DIR + "/Mall/BannerImage/";
+//    public static final String BANNER_IMG_PATH = BASE_IMG_DIR + "/Mall/BannerImage/";
+    public static final String BANNER_IMG_PATH = BASE_IMG_DIR + "/mall/bannerimage/";
     /**
      * 活动图片路径 5
      */
-    public static final String ACTIVITY_IMG_PATH = BASE_IMG_DIR + "/Mall/ActivityImage/";
+//    public static final String ACTIVITY_IMG_PATH = BASE_IMG_DIR + "/Mall/ActivityImage/";
+    public static final String ACTIVITY_IMG_PATH = BASE_IMG_DIR + "/mall/activityimage/";
     /**
      * 其他模块图片路径6
      */
-    public static final String OTHER_IMG_PATH = BASE_IMG_DIR + "/Mall/OtherImage/";
+//    public static final String OTHER_IMG_PATH = BASE_IMG_DIR + "/Mall/OtherImage/";
+    public static final String OTHER_IMG_PATH = BASE_IMG_DIR + "/mall/otherimage/";
     /**
      * 是否裁剪0否 1是
      */
@@ -71,7 +79,7 @@ public class Constant {
     /**
      * 水印图片地址 绝对路径
      */
-    public static final String WATER_REMARK_IMAGE_PATH = "D:\\Downloads\\logo_60x60.png";
+    public static final String WATER_REMARK_IMAGE_PATH = BASE_IMG_DIR + "/mall/mall-waterremark.png";
 
     /**
      * idList参数
@@ -95,30 +103,6 @@ public class Constant {
      * 微信订单查询返回--支付成功
      */
     public static final String WX_PAY_SUCCESS = "SUCCESS";
-    /**
-     * 微信订单查询返回--转入退款
-     */
-    public static final String WX_PAY_REFUND = "REFUND";
-    /**
-     * 微信订单查询返回--未支付
-     */
-    public static final String WX_PAY_NOT_PAY = "NOTPAY";
-    /**
-     * 微信订单查询返回--已关闭
-     */
-    public static final String WX_PAY_CLOSED = "CLOSED";
-    /**
-     * 微信订单查询返回--已撤销（刷卡支付）
-     */
-    public static final String WX_PAY_REVOKED = "REVOKED";
-    /**
-     * 微信订单查询返回--用户支付中
-     */
-    public static final String WX_PAY_USER_PAYING = "USERPAYING";
-    /**
-     * 微信订单查询返回--支付失败(其他原因，如银行返回失败)
-     */
-    public static final String WX_PAY_PAY_ERROR = "PAYERROR";
 
     /**
      * 个人积分等级划分
