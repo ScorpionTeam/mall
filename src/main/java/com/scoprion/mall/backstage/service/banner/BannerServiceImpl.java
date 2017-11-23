@@ -120,4 +120,21 @@ public class BannerServiceImpl implements BannerService {
         }
         return BaseResult.success("修改成功");
     }
+    /**
+     * banner详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public BaseResult findById(Long id) {
+        if (id == null) {
+            return BaseResult.parameterError();
+        }
+        Banner banner = bannerMapper.findById(id);
+        if (banner == null) {
+            return BaseResult.notFound();
+        }
+        return BaseResult.success(banner);
+    }
 }

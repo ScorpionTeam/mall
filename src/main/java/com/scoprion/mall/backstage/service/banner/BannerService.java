@@ -54,9 +54,18 @@ public interface BannerService {
 
     /**
      * 批量修改广告状态
+     *
      * @param status 0 正常 1 删除
      * @param idList id集合
      * @return
      */
     BaseResult batchModifyStatus(String status, List<Long> idList);
+
+    /**
+     * banner详情
+     *
+     * @param id
+     * @return
+     */
+    BaseResult findById(Long id);
 }

@@ -47,7 +47,7 @@
         #{sellerId},
         #{visitTotal},
         #{goodNo},
-        #{status},
+        '0',
         #{richContent},
         #{mainImgUrl})
     </insert>

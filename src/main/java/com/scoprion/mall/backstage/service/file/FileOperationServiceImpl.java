@@ -102,7 +102,7 @@ public class FileOperationServiceImpl implements FileOperationService {
     /**
      * 删除图片
      *
-     * @param imageName 图片名称 /Mall/BrandImage/1510215075689.jpg
+     * @param imageName 图片名称 /mall/brandimage/1510215075689.jpg
      */
     @Override
     public BaseResult deleteImage(String imageName) throws IOException {
@@ -179,7 +179,7 @@ public class FileOperationServiceImpl implements FileOperationService {
         File file = new File(filePath);
         if (file.isFile() && file.exists()) {
             boolean delResult = file.delete();
-            System.out.print("delResult: " + delResult);
+            LOGGER.info("delResult: " + delResult);
         }
     }
 
