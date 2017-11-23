@@ -156,7 +156,7 @@ public class FreeServiceImpl implements FreeService {
         if(StringUtils.isEmpty(openId)){
             return BaseResult.parameterError();
         }
-        if(StringUtils.isEmpty(order.toString())){
+        if(order==null){
             return BaseResult.notFound();
         }
         if(!Constant.STATUS_ONE.equals(order.getOrderStatus())){
