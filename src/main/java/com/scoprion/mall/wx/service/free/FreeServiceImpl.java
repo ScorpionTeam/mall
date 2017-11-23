@@ -9,6 +9,7 @@ import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.*;
 import com.scoprion.mall.wx.pay.WxPayConfig;
+import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
@@ -68,12 +69,12 @@ public class FreeServiceImpl implements FreeService {
      */
     @Override
     public BaseResult apply(OrderExt orderExt, String ipAddress) {
-        //String openId = WxUtil.getOpenId(wxCode);
+        String openId = WxUtil.getOpenId(orderExt.getWxCode());
         //获得活动商品详情
         ActivityGoods activityGoods = freeMapper.findByActivityGoodId(orderExt.getActivityGoodId());
         Long activityId = activityGoods.getActivityId();
         //查询是否参加过该活动
-        int result = freeMapper.validByActivityId(activityId, orderExt.getWxCode());
+        int result = freeMapper.validByActivityId(activityId, openId);
         if (result > 0) {
             return BaseResult.error("apply_fail", "您已参加过该活动");
         }
@@ -97,7 +98,7 @@ public class FreeServiceImpl implements FreeService {
         BeanUtils.copyProperties(orderExt.getDelivery(),order);
         String orderNo = OrderNoUtil.getOrderNo();
         order.setOrderNo(orderNo);
-        order.setUserId(orderExt.getWxCode());
+        order.setUserId(openId);
         order.setPayType("");
         order.setOrderType("3");
         order.setOrderStatus("1");
@@ -106,6 +107,7 @@ public class FreeServiceImpl implements FreeService {
         order.setGoodId(goodId);
         order.setGoodName(goods.getGoodName());
         order.setGoodFee(goods.getPrice());
+        order.setDeliveryId(orderExt.getDelivery().getId());
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");
@@ -114,12 +116,11 @@ public class FreeServiceImpl implements FreeService {
         //系统内生成订单信息
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", ipAddress);
         wxOrderLogMapper.add(orderLog);
-        //创建随机数
+        //创建随机字符串
         String nonce_str= WxUtil.createRandom(false,10);
-        String openid = WxUtil.getOpenId(orderExt.getWxCode());
         String xmlString = preOrderSend(goods.getGoodName(),
                 "妆口袋",
-                openid,
+                openId,
                 order.getOrderNo(),
                 order.getFreightFee(),
                 nonce_str);
@@ -195,6 +196,44 @@ public class FreeServiceImpl implements FreeService {
         resultMap.put("signType", "MD5");
         resultMap.put("paySign", paySign);
         return BaseResult.success(JSON.toJSON(resultMap));
+    }
+
+    @Override
+    public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
+        Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
+//        //判断签名是否被篡改
+//        String sign = unifiedOrderNotifyRequestData.getSign();
+//        System.out.println("回调返回Sign:" + sign);
+//        String nonce_str = unifiedOrderNotifyRequestData.getNonce_str();
+//        BigDecimal fee = order.getTotalFee().multiply(new BigDecimal(100));
+//        int totalFee = fee.intValue() / 100;
+//        String localSign = preOrderSend(order.getGoodName(),
+//                "妆口袋",
+//                unifiedOrderNotifyRequestData.getOpenid(),
+//                order.getOrderNo(),
+//                totalFee,
+//                nonce_str);
+//        System.out.println("本地再签:" + localSign);
+        //判断是否成功接收回调
+        wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
+                unifiedOrderNotifyRequestData.getOut_trade_no(),
+                unifiedOrderNotifyRequestData.getTransaction_id());
+        if (null == order.getPayDate()) {
+            //修改订单状态 以及微信订单号
+            //记录订单日志
+            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款", null);
+            wxOrderLogMapper.add(orderLog);
+            //库存扣减
+            wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
+//            //积分扣减、增加
+//            BaseResult operateResult = operatePoint(order);
+//            if (operateResult != null) {
+//                return operateResult;
+//            }
+//            //销量
+//            wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
+        }
+        return BaseResult.success("支付回调成功");
     }
 
     /**
