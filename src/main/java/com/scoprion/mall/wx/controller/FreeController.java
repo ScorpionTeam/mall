@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
  * @created on 2017/11/20.
  */
 @RestController
-@RequestMapping("free")
+@RequestMapping("wx/free")
 public class FreeController {
 
     @Autowired
@@ -48,9 +48,14 @@ public class FreeController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/ally", method = RequestMethod.POST)
+    @RequestMapping(value = "/try", method = RequestMethod.POST)
     public BaseResult apply(@RequestBody OrderExt orderExt, HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
         return freeService.apply(orderExt, ipAddress);
+    }
+
+    @RequestMapping(value = "/pay",method = RequestMethod.POST)
+    public BaseResult pay(String wxCode,Long orderId){
+        return null;
     }
 }

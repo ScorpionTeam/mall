@@ -1,13 +1,17 @@
 package com.scoprion.mall.wx.service.free;
 
 
+import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.*;
-import com.scoprion.mall.wx.mapper.FreeMapper;
-import com.scoprion.mall.wx.mapper.WxActivityMapper;
-import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
-import com.scoprion.mall.wx.mapper.WxOrderMapper;
+import com.scoprion.mall.wx.mapper.*;
+import com.scoprion.mall.wx.pay.WxPayConfig;
+import com.scoprion.mall.wx.pay.domain.UnifiedOrderResponseData;
+import com.scoprion.mall.wx.pay.util.WxPayUtil;
+import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.OrderNoUtil;
@@ -16,6 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author by kunlun
@@ -35,6 +41,9 @@ public class FreeServiceImpl implements FreeService {
 
     @Autowired
     private WxActivityMapper wxActivityMapper;
+
+    @Autowired
+    private WxGoodMapper wxGoodMapper;
 
     /**
      * 查询试用商品列表
@@ -85,6 +94,7 @@ public class FreeServiceImpl implements FreeService {
 
         //生成预付款订单
         Order order = new Order();
+        BeanUtils.copyProperties(orderExt.getDelivery(),order);
         String orderNo = OrderNoUtil.getOrderNo();
         order.setOrderNo(orderNo);
         order.setUserId(orderExt.getWxCode());
@@ -96,14 +106,6 @@ public class FreeServiceImpl implements FreeService {
         order.setGoodId(goodId);
         order.setGoodName(goods.getGoodName());
         order.setGoodFee(goods.getPrice());
-        order.setDeliveryId(orderExt.getDelivery().getId());
-        order.setAddress(orderExt.getDelivery().getAddress());
-        order.setRecipients(orderExt.getDelivery().getRecipients());
-        order.setPhone(orderExt.getDelivery().getPhone());
-        order.setProvince(orderExt.getDelivery().getProvince());
-        order.setCity(orderExt.getDelivery().getCity());
-        order.setArea(orderExt.getDelivery().getArea());
-        order.setPostCode(orderExt.getDelivery().getPostCode());
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");
@@ -112,7 +114,87 @@ public class FreeServiceImpl implements FreeService {
         //系统内生成订单信息
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", ipAddress);
         wxOrderLogMapper.add(orderLog);
-        return BaseResult.success("成功");
+        //创建随机数
+        String nonce_str= WxUtil.createRandom(false,10);
+        String openid = WxUtil.getOpenId(orderExt.getWxCode());
+        String xmlString = preOrderSend(goods.getGoodName(),
+                "妆口袋",
+                openid,
+                order.getOrderNo(),
+                order.getFreightFee(),
+                nonce_str);
+        //生成预付款订单
+        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", xmlString);
+        //将xml返回信息转换为bean
+        UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
+                wxOrderResponse);
+        //修改订单预付款订单号
+        wxOrderMapper.updateOrderForWxOrderNo(order.getId(), unifiedOrderResponseData.getPrepay_id());
+        //时间戳
+        Long timeStamp = System.currentTimeMillis() / 1000;
+        //随机字符串
+        String nonceStr = WxUtil.createRandom(false, 10);
+        String paySign = paySign(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
+        unifiedOrderResponseData.setPaySign(paySign);
+        unifiedOrderResponseData.setNonce_str(nonceStr);
+        unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
+        return BaseResult.success(unifiedOrderResponseData);
+    }
+
+    /**
+     * 支付
+     * @param wxCode
+     * @param orderId
+     * @return
+     */
+    @Override
+    public BaseResult pay(String wxCode, Long orderId) {
+        String openId=WxUtil.getOpenId(wxCode);
+        //查询订单详情
+        Order order = wxOrderMapper.findByOrderId(orderId);
+        if(StringUtils.isEmpty(openId)){
+            return BaseResult.parameterError();
+        }
+        if(StringUtils.isEmpty(order.toString())){
+            return BaseResult.notFound();
+        }
+        if(!Constant.STATUS_ONE.equals(order.getOrderStatus())){
+            return BaseResult.error("order_fail","订单错误");
+        }
+        //获取订单创建的时间
+        long createTime=order.getCreateDate().getTime();
+        long timeResult=System.currentTimeMillis() - createTime;
+        if(timeResult>Constant.TIME_TWO_HOUR){
+            return BaseResult.error("order_fail","您的订单已超时,请重新下单");
+        }
+        //查询商品库存
+        Goods goods = wxGoodMapper.findById(order.getGoodId());
+        if (null == goods || goods.getStock() <= 0) {
+            return BaseResult.error("not_enough_stock", "商品库存不足");
+        }
+        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+            //商品处于下架状态，不能下单
+            return BaseResult.error("can_not_order", "商品已下架");
+        }
+
+        //根据openid查询用户订单信息
+        String prepayId = wxOrderMapper.findPrepayIdByOpenid(openId, orderId);
+        if (StringUtils.isEmpty(prepayId)) {
+            return BaseResult.error("query_error", "查询订单出错");
+        }
+        //时间戳
+        Long timeStamp = System.currentTimeMillis() / 1000;
+        //随机字符串
+        String nonceStr = WxUtil.createRandom(false, 10);
+        String paySign = paySign(timeStamp, nonceStr, prepayId);
+        Map<String, String> resultMap = new HashMap<>(16);
+        resultMap.put("appId", WxPayConfig.APP_ID);
+        resultMap.put("timeStamp", timeStamp.toString());
+        resultMap.put("nonceStr", nonceStr);
+        resultMap.put("package", "prepay_id=" + prepayId);
+        resultMap.put("signType", "MD5");
+        resultMap.put("paySign", paySign);
+        return BaseResult.success(JSON.toJSON(resultMap));
     }
 
     /**
@@ -131,4 +213,56 @@ public class FreeServiceImpl implements FreeService {
         return orderLog;
     }
 
+    /**
+     * 预付款订单签名
+     *
+     * @param body       商品描述
+     * @param attach
+     * @param openid     用户openid
+     * @param outTradeNo 商户订单号
+     * @return
+     */
+    private String preOrderSend(String body,
+                                String attach,
+                                String openid,
+                                String outTradeNo,
+                                int totalFee,
+                                String nonceStr) {
+
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("appid", WxPayConfig.APP_ID);
+        map.put("openid", openid);
+        map.put("mch_id", WxPayConfig.MCHID);
+        map.put("device_info", "10000");
+        map.put("nonce_str", nonceStr);
+        map.put("body", body);
+        map.put("out_trade_no", outTradeNo);
+        map.put("attach", attach);
+        map.put("total_fee", totalFee);
+        map.put("notify_url", WxPayConfig.NOTIFY_URL);
+        map.put("trade_type", "JSAPI");
+        String signTemp = WxPayUtil.sort(map);
+        String sign = WxUtil.MD5(signTemp).toUpperCase();
+        System.out.println("预付款Sign:" + sign);
+        map.put("sign", sign);
+        return WxPayUtil.mapConvertToXML(map);
+    }
+
+    /**
+     * 调起支付  签名
+     *
+     * @param timeStamp
+     * @param nonceStr
+     * @param prepayId
+     * @return
+     */
+    private String paySign(Long timeStamp, String nonceStr, String prepayId) {
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("appId", WxPayConfig.APP_ID);
+        map.put("package", "prepay_id=" + prepayId);
+        map.put("nonceStr", nonceStr);
+        map.put("signType", "MD5");
+        map.put("timeStamp", timeStamp);
+        return WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
+    }
 }
