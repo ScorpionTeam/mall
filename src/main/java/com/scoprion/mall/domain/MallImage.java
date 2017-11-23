@@ -15,10 +15,7 @@ public class MallImage {
      * 主键
      */
     private Long id;
-    /**
-     * 关联id
-     */
-    private Long otherId;
+
     /**
      * 创建时间
      */
@@ -69,13 +66,6 @@ public class MallImage {
         this.id = id;
     }
 
-    public Long getOtherId() {
-        return otherId;
-    }
-
-    public void setOtherId(Long otherId) {
-        this.otherId = otherId;
-    }
 
     public Date getCreateDate() {
         return createDate;
@@ -145,7 +135,6 @@ public class MallImage {
     public String toString() {
         return "MallImage{" +
                 "id=" + id +
-                ", otherId=" + otherId +
                 ", createDate=" + createDate +
                 ", url='" + url + '\'' +
                 ", articleId=" + articleId +
