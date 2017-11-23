@@ -9,6 +9,7 @@
         </selectKey>
         INSERT INTO t_good_snapshot(goodSnapShotNo,
         goodName,
+        goodNo,
         goodDescription,
         promotion,
         price,
@@ -19,6 +20,7 @@
         goodId)
         VALUES (#{goodSnapShotNo},
         #{goodName},
+        #{goodNo},
         #{goodDescription},
         #{promotion},
         #{price},
@@ -34,6 +36,7 @@
         goodId,
         goodSnapShotNo,
         goodName,
+        goodNo,
         goodDescription,
         promotion,
         price,
