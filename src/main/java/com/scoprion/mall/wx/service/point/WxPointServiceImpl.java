@@ -43,8 +43,12 @@ public class WxPointServiceImpl implements WxPointService {
             return BaseResult.parameterError();
         }
         Point point = wxPointMapper.findByUserId(userId);
-        if(StringUtils.isEmpty(point.toString())){
-            return BaseResult.notFound();
+        if(point==null){
+            point=new Point();
+            point.setPoint(0);
+            point.setLevel(0);
+            point.setLevelName("白银");
+            return BaseResult.success(point);
         }
         return BaseResult.success(point);
     }

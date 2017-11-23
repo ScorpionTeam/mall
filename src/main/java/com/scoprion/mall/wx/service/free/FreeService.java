@@ -4,6 +4,7 @@ package com.scoprion.mall.wx.service.free;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.domain.DeliveryExt;
 import com.scoprion.mall.domain.OrderExt;
+import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -37,4 +38,12 @@ public interface FreeService {
      * @return
      */
     BaseResult pay(String wxCode,Long orderId);
+
+    /**
+     * 支付成功回调
+     *
+     * @param unifiedOrderNotifyRequestData
+     * @return
+     */
+    BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData);
 }
