@@ -24,9 +24,17 @@ public interface FreeService {
 
     /**
      * 参加试用
-     *
-     * @param orderExt 订单
+     * @param orderExt
+     * @param ipAddress
      * @return
      */
     BaseResult apply(OrderExt orderExt, String ipAddress);
+
+    /**
+     * 微信支付
+     * @param wxCode
+     * @param orderId
+     * @return
+     */
+    BaseResult pay(String wxCode,Long orderId);
 }
