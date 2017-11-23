@@ -41,6 +41,10 @@ public class OrderExt extends Order {
      * 微信code
      */
     private String wxCode;
+    /**
+     * 商品编号
+     */
+    private String goodNo;
 
     /**
      * 活动商品id

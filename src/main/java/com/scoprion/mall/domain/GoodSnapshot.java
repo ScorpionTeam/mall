@@ -16,6 +16,9 @@ public class GoodSnapshot {
     //商品id
     private Long goodId;
 
+    //商品编号
+    private String goodNo;
+
     //商品快照编码
     private String goodSnapShotNo;
 
@@ -52,6 +55,15 @@ public class GoodSnapshot {
     //创建时间
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
+
+
+    public String getGoodNo() {
+        return goodNo;
+    }
+
+    public void setGoodNo(String goodNo) {
+        this.goodNo = goodNo;
+    }
 
     public Long getId() {
         return id;

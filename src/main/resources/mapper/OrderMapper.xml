@@ -28,13 +28,16 @@
         torder.orderFee,
         torder.createDate,
         torder.orderStatus,
+        torder.reduceFee,
         torder.payType,
         torder.payDate,
         tgs.mainImgUrl as goodMainImage
-        FROM  t_order torder
+        FROM t_order torder
         LEFT JOIN t_good_snapshot tgs ON tgs.id=torder.goodSnapShotId
         WHERE 1=1
-        <if test="searchKey!=null">AND CONCAT(torder.goodName,torder.postCode,torder.address,torder.phone,torder.recipients) LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND
+            CONCAT(torder.goodName,torder.postCode,torder.address,torder.phone,torder.recipients) LIKE #{searchKey}
+        </if>
         <if test="payType!=null">AND torder.payType =#{payType}</if>
         <if test="orderType!=null">AND torder.orderType =#{orderType}</if>
         <if test="orderStatus!=null and orderStatus!='0'">AND torder.orderStatus =#{orderStatus}</if>
@@ -84,8 +87,10 @@
         tor.operatePoint,
         tor.sendGoodId,
         tor.deliveryNo,
+        tg.goodNo as goodNo,
         tg.mainImgUrl as goodMainImage
-        FROM t_order tor LEFT JOIN t_good_snapshot tg ON tor.goodSnapShotId=tg.id
+        FROM t_order tor
+        LEFT JOIN t_good_snapshot tg ON tor.goodSnapShotId=tg.id
         WHERE tor.id=#{id}
     </select>
 

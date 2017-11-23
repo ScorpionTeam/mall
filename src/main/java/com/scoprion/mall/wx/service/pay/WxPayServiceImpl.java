@@ -13,6 +13,8 @@ import com.scoprion.utils.OrderNoUtil;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderResponseData;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ import java.util.Map;
  */
 @Service
 public class WxPayServiceImpl implements WxPayService {
+    private final static Logger LOGGER = LoggerFactory.getLogger(WxPayServiceImpl.class);
 
     @Autowired
     private WxGoodMapper wxGoodMapper;
@@ -210,8 +213,11 @@ public class WxPayServiceImpl implements WxPayService {
 //                totalFee,
 //                nonce_str);
 //        System.out.println("本地再签:" + localSign);
+        if (order == null) {
+            LOGGER.info("订单为空，查询不到订单信息");
+        }
         //判断是否成功接收回调
-        if (null == order.getPayDate()) {
+        if (order != null && null == order.getPayDate()) {
             //修改订单状态 以及微信订单号
             wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
                     unifiedOrderNotifyRequestData.getOut_trade_no(),
