@@ -14,12 +14,23 @@ import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.net.ssl.SSLContext;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
@@ -322,7 +333,7 @@ public class OrderServiceImpl implements OrderService {
         map.put("appid", WxPayConfig.APP_ID);
         map.put("mch_id", WxPayConfig.MCHID);
         map.put("nonce_str", nonce_str);
-        map.put("transaction_id", orderNo);
+        map.put("out_trade_no", orderNo);
         map.put("out_refund_no", refundNo);
         map.put("total_fee", total_fee);
         map.put("refund_fee", refund_fee);
@@ -335,9 +346,41 @@ public class OrderServiceImpl implements OrderService {
             KeyStore keyStore = KeyStore.getInstance("PKCS12");
             FileInputStream inputStream = new FileInputStream(new File(path));
             try {
-                keyStore.load(inputStream, shh.toCharArray());
+                keyStore.load(inputStream, WxPayConfig.MCHID.toCharArray());
             } finally {
                 inputStream.close();
+            }
+            SSLContext sslContext = SSLContexts
+                    .custom()
+                    .loadKeyMaterial(keyStore, WxPayConfig.MCHID.toCharArray())
+                    .build();
+            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new String[]{"TLSv1"},
+                    null,
+                    SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER
+            );
+            CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+            try {
+                HttpGet httpGet = new HttpGet(WxPayConfig.WECHAT_REFUND);
+                System.out.println("executing request" + httpGet.getRequestLine());
+                CloseableHttpResponse response = httpClient.execute(httpGet);
+                try {
+                    HttpEntity entity = response.getEntity();
+                    System.out.println("------------------------");
+                    System.out.println(response.getStatusLine());
+                    if (entity != null) {
+                        System.out.println("Response content length:" + entity.getContentLength());
+                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent()));
+                        String text;
+                        while ((text = bufferedReader.readLine()) != null) {
+                            System.out.println(text);
+                        }
+                    }
+                    EntityUtils.consume(entity);
+                } finally {
+                    response.close();
+                }
+            } finally {
+                httpClient.close();
             }
             responseXML = WxUtil.httpsRequest(WxPayConfig.WECHAT_REFUND, "POST", xml);
         } catch (Exception e) {
