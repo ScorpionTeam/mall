@@ -72,34 +72,15 @@ public class WxPayServiceImpl implements WxPayService {
     public BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
         //查询用户openid
         String openid = WxUtil.getOpenId(wxCode);
-        //积分 扣减
-        Point point = wxPointMapper.findByUserId(openid);
-        if (point == null) {
-            //没有积分
-            if (wxOrderRequestData.getPoint() > 0) {
-                return BaseResult.error("pay_error", "下单失败，没有可使用的积分");
-            }
-        } else if (wxOrderRequestData.getPoint() > point.getPoint()) {
-            //有积分，使用量超过已有积分
-            return BaseResult.error("pay_error", "下单失败,积分不足");
+        //积分判断
+        BaseResult x = checkPoint(wxOrderRequestData, openid);
+        if (x != null) {
+            return x;
         }
         //使用优惠券
-        if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
-            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(wxOrderRequestData.getTicket());
-            if (ticketSnapshot == null) {
-                return BaseResult.error("error", "请先领取优惠券");
-            }
-            if (Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
-                return BaseResult.error("error", "优惠券已经使用过了");
-            }
-            if (ticketSnapshot.getStartDate().after(new Date())) {
-                return BaseResult.error("error", "优惠券未到使用日期");
-            }
-            if (ticketSnapshot.getEndDate().before(new Date())) {
-                return BaseResult.error("error", "优惠券已过期");
-            }
-            //优惠券状态改为已使用
-            wxTicketSnapshotMapper.modifyStatus(Constant.STATUS_ONE, ticketSnapshot.getId());
+        BaseResult x1 = checkTicket(wxOrderRequestData);
+        if (x1 != null) {
+            return x1;
         }
         //查询商品库存
         Goods goods = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
@@ -114,6 +95,11 @@ public class WxPayServiceImpl implements WxPayService {
         Delivery delivery = wxDeliveryMapper.findById(wxOrderRequestData.getDeliveryId());
         if (null == delivery) {
             return BaseResult.error("not_found_address", "收货地址出错");
+        }
+        //价格判断
+        int unitPrice = wxOrderRequestData.getOrderFee() / wxOrderRequestData.getCount();
+        if (goods.getPrice() != unitPrice) {
+            return BaseResult.error("not_found_address", "商品信息已过期，请重新下单");
         }
         //商品快照
         GoodSnapshot goodSnapshot = constructSnapshot(goods);
@@ -151,6 +137,54 @@ public class WxPayServiceImpl implements WxPayService {
         unifiedOrderResponseData.setNonce_str(nonceStr);
         unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
         return BaseResult.success(unifiedOrderResponseData);
+    }
+
+    /**
+     * 校验优惠券
+     *
+     * @param wxOrderRequestData
+     * @return
+     */
+    private BaseResult checkTicket(WxOrderRequestData wxOrderRequestData) {
+        if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
+            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(wxOrderRequestData.getTicket());
+            if (ticketSnapshot == null) {
+                return BaseResult.error("error", "请先领取优惠券");
+            }
+            if (Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
+                return BaseResult.error("error", "优惠券已经使用过了");
+            }
+            if (ticketSnapshot.getStartDate().after(new Date())) {
+                return BaseResult.error("error", "优惠券未到使用日期");
+            }
+            if (ticketSnapshot.getEndDate().before(new Date())) {
+                return BaseResult.error("error", "优惠券已过期");
+            }
+            //优惠券状态改为已使用
+            wxTicketSnapshotMapper.modifyStatus(Constant.STATUS_ONE, ticketSnapshot.getId());
+        }
+        return null;
+    }
+
+    /**
+     * 校验积分
+     *
+     * @param wxOrderRequestData
+     * @param openid
+     * @return
+     */
+    private BaseResult checkPoint(WxOrderRequestData wxOrderRequestData, String openid) {
+        Point point = wxPointMapper.findByUserId(openid);
+        if (point == null) {
+            //没有积分
+            if (wxOrderRequestData.getPoint() > 0) {
+                return BaseResult.error("pay_error", "下单失败，没有可使用的积分");
+            }
+        } else if (wxOrderRequestData.getPoint() > point.getPoint()) {
+            //有积分，使用量超过已有积分
+            return BaseResult.error("pay_error", "下单失败,积分不足");
+        }
+        return null;
     }
 
     /**
