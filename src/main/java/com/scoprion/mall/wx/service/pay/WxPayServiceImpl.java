@@ -72,9 +72,20 @@ public class WxPayServiceImpl implements WxPayService {
     public BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
         //查询用户openid
         String openid = WxUtil.getOpenId(wxCode);
+        //积分 扣减
+        Point point = wxPointMapper.findByUserId(openid);
+        if (point == null) {
+            //没有积分
+            if (wxOrderRequestData.getPoint() > 0) {
+                return BaseResult.error("pay_error", "下单失败，没有可使用的积分");
+            }
+        } else if (wxOrderRequestData.getPoint() > point.getPoint()) {
+            //有积分，使用量超过已有积分
+            return BaseResult.error("pay_error", "下单失败,积分不足");
+        }
         //使用优惠券
         if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
-            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId( wxOrderRequestData.getTicket());
+            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(wxOrderRequestData.getTicket());
             if (ticketSnapshot == null) {
                 return BaseResult.error("error", "请先领取优惠券");
             }
