@@ -34,6 +34,7 @@
         reduceFee,
         paymentFee,
         goodFee,
+        operatePoint,
         freightFee,
         deliveryNo
         )
@@ -63,6 +64,7 @@
         #{reduceFee},
         #{paymentFee},
         #{goodFee},
+        #{operatePoint},
         #{freightFee},
         #{deliveryNo})
     </insert>
@@ -101,6 +103,7 @@
         tor.paymentFee,
         tor.goodFee,
         tor.deliveryNo,
+        tor.operatePoint,
         tor.freightFee,
         tg.mainImgUrl as goodMainImage,
         tsg.expressName as expressName
