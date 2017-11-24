@@ -90,7 +90,7 @@
         type,
         updateDate
         FROM t_delivery
-        WHERE userId=#{userId}
+        WHERE userId=#{userId} ORDER BY DESC
     </select>
 
     <!-- 删除收货地址 -->
