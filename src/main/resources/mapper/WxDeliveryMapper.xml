@@ -88,9 +88,10 @@
         postCode,
         createDate,
         type,
-        updateDate
+        updateDate,
+        defaultAddress
         FROM t_delivery
-        WHERE userId=#{userId} ORDER BY DESC
+        WHERE userId=#{userId} ORDER BY defaultAddress DESC
     </select>
 
     <!-- 删除收货地址 -->
