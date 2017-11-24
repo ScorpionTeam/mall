@@ -53,7 +53,7 @@ public class WxTicketServiceImpl implements WxTicketService {
         list.forEach(item -> {
             Date startDate = item.getStartDate();
             Date endDate = item.getEndDate();
-            if (startDate.before(currentTime)) {
+            if (startDate.after(currentTime)) {
                 item.setExpire("未到期");
             }
             if (endDate.before(currentTime)) {
