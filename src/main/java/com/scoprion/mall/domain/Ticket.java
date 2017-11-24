@@ -1,6 +1,7 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -55,9 +56,14 @@ public class Ticket {
     private Date updateDate;
 
     /**
-     * 金额
+     * 总金额
      */
     private int money;
+
+    /**
+     * 满减金额
+     */
+    private int reduceMoney;
 
     /**
      * 数量
@@ -85,6 +91,14 @@ public class Ticket {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date useDate;
 
+
+    public int getReduceMoney() {
+        return reduceMoney;
+    }
+
+    public void setReduceMoney(int reduceMoney) {
+        this.reduceMoney = reduceMoney;
+    }
 
     public Long getId() {
         return id;

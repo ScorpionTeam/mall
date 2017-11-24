@@ -253,7 +253,7 @@ public class WxPayServiceImpl implements WxPayService {
         // 积分增加
         //TODO 获得本次交易增加的积分  暂时未除以1000
         int addPoint = order.getPaymentFee();
-        addPoint(order, point, addPoint);
+        addPointLog(order, point, addPoint);
 
         int resultPoint = point.getPoint() - order.getOperatePoint() + addPoint;
         point.setPoint(resultPoint);
@@ -285,7 +285,7 @@ public class WxPayServiceImpl implements WxPayService {
      * @param point
      * @param addPoint
      */
-    private void addPoint(Order order, Point point, int addPoint) {
+    private void addPointLog(Order order, Point point, int addPoint) {
         PointLog pointLog = new PointLog();
         pointLog.setUserId(order.getUserId());
         pointLog.setAction(Constant.STATUS_ONE);
@@ -341,6 +341,8 @@ public class WxPayServiceImpl implements WxPayService {
         order.setOrderStatus("1");
         order.setGoodName(goods.getGoodName());
         order.setDeliveryId(delivery.getId());
+        order.setOperatePoint(wxOrderRequestData.getPoint());
+        order.setUserId(wxOrderRequestData.getUseTicket());
         order.setOrderFee(wxOrderRequestData.getOrderFee());
         order.setGoodFee(wxOrderRequestData.getGoodFee());
         order.setReduceFee(wxOrderRequestData.getReduceFee());

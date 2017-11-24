@@ -31,13 +31,17 @@ public class WxOrderRequestData {
      * 买家留言
      */
     private String message;
-
+    /**
+     * 订单类型 1pc订单  2手机订单
+     */
+    private String orderType;
     /**
      * 优惠券id
      */
     private Long ticket;
 
-    /** 1使用  0 不适用
+    /**
+     * 1使用  0 不适用
      * 是否使用优惠券
      */
     private String useTicket;
@@ -81,6 +85,15 @@ public class WxOrderRequestData {
      * 商品属性值id
      */
     private Long attrValueId;
+
+
+    public String getOrderType() {
+        return orderType;
+    }
+
+    public void setOrderType(String orderType) {
+        this.orderType = orderType;
+    }
 
     public Long getGoodId() {
         return goodId;
