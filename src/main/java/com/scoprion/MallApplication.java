@@ -19,9 +19,9 @@ public class MallApplication {
         SpringApplication.run(MallApplication.class, args);
     }
 
-    @Bean
-    public EmbeddedServletContainerFactory servletContainerFactory() {
-        JettyEmbeddedServletContainerFactory factory = new JettyEmbeddedServletContainerFactory();
-        return factory;
-    }
+//    @Bean
+//    public EmbeddedServletContainerFactory servletContainerFactory() {
+//        JettyEmbeddedServletContainerFactory factory = new JettyEmbeddedServletContainerFactory();
+//        return factory;
+//    }
 }
