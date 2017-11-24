@@ -28,12 +28,12 @@ import java.util.List;
 /**
  * @author ycj
  * @version V1.0 <文件操作>
- * 网站图片尺寸
- * 商品列表小 ：30x30
- * 商品列表大 ：220x220
- * 商品详情大：400x400
- * 商品详情小：60x60
- * 商品详情小：40x40
+ *          网站图片尺寸
+ *          商品列表小 ：30x30
+ *          商品列表大 ：220x220
+ *          商品详情大：400x400
+ *          商品详情小：60x60
+ *          商品详情小：40x40
  * @date 2017-11-09 17:40
  */
 @Service
@@ -77,7 +77,9 @@ public class FileOperationServiceImpl implements FileOperationService {
         String name = file.getOriginalFilename();
         String endName = name.substring(name.lastIndexOf("."));
         File image = new File(path + fileName + endName);
-        image.createNewFile();
+        if (!image.exists()) {
+            image.createNewFile();
+        }
 //        file.transferTo(image);
         List<MallImage> urlList = new ArrayList<>();
         urlList.add(new MallImage(getFileName(path, fileName, endName, null)));
