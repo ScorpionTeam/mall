@@ -6,6 +6,8 @@ import com.scoprion.result.PageResult;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * Created on 2017/10/10.
  *
@@ -70,4 +72,12 @@ public interface TicketMapper {
      * @return
      */
     Ticket findById(@Param("id") Long id);
+
+    /**
+     * 根据主键批量删除优惠券
+     *
+     * @param idList
+     * @return
+     */
+    Integer batchDelete(@Param("idList") List<Long> idList);
 }

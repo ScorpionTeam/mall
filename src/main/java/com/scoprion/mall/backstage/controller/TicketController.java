@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.backstage.service.ticket.TicketService;
 import com.scoprion.result.BaseResult;
@@ -9,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * Created on 2017/10/10.
@@ -68,6 +71,17 @@ public class TicketController {
         return ticketService.deleteById(id);
     }
 
+    /**
+     * 根据主键批量删除优惠券
+     *
+     * @param jsonObject
+     * @return
+     */
+    @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
+    public BaseResult batchDelete(@RequestBody JSONObject jsonObject) {
+        List<Long> idList = jsonObject.getJSONArray("idList").toJavaList(Long.class);
+        return ticketService.batchDelete(idList);
+    }
 
     /**
      * 根据主键查询优惠券

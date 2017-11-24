@@ -90,4 +90,13 @@
         status
         FROM  t_ticket WHERE id=#{id}
     </select>
+
+    <!--批量删除-->
+    <update id="batchDelete">
+        UPDATE t_ticket SET status='1',updateDate=now()
+        WHERE id IN
+        <foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>
