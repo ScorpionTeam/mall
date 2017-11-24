@@ -219,6 +219,7 @@ public class WxPayServiceImpl implements WxPayService {
 //                totalFee,
 //                nonce_str);
 //        System.out.println("本地再签:" + localSign);
+        LOGGER.info("微信支付回调----callback");
         if (order == null) {
             LOGGER.info("订单为空，查询不到订单信息");
         }
