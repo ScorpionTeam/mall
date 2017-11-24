@@ -12,6 +12,8 @@ import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author admin1
  * @date 2017/11/1
@@ -53,6 +55,10 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
         Integer result = wxDeliveryMapper.add(delivery);
         if (result <= 0) {
             return BaseResult.error("error", "新增失败");
+        }
+        Integer defaultResult=wxDeliveryMapper.updateDefaultById(delivery.getId(),delivery.getUserId());
+        if (defaultResult <= 0){
+            return BaseResult.error("error","修改默认地址失败");
         }
         return BaseResult.success("新增成功");
     }
