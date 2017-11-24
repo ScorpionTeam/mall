@@ -87,7 +87,7 @@ public class WxDeliveryController {
      * @return
      */
     @RequestMapping(value = "/defaultAddress", method = RequestMethod.GET)
-    public BaseResult defaultAddress(Long id) {
-        return wxDeliveryService.defaultAddress(id);
+    public BaseResult defaultAddress(Long id,String wxCode) {
+        return wxDeliveryService.defaultAddress(id,wxCode);
     }
 }

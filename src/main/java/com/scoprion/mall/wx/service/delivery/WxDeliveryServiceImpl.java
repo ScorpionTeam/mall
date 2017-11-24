@@ -117,10 +117,15 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult defaultAddress(Long id) {
+    public BaseResult defaultAddress(Long id,String wxCode) {
+        String userId = WxUtil.getOpenId(wxCode);
         int result = wxDeliveryMapper.updateDefaultAddress(id);
         if (result<=0){
             return BaseResult.error("update_fail","设置默认地址失败");
+        }
+        Integer defaultResult=wxDeliveryMapper.updateDefaultById(id,userId);
+        if (defaultResult <= 0){
+            return BaseResult.error("error","修改默认地址失败");
         }
         return BaseResult.success("设置成功");
     }
