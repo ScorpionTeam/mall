@@ -22,7 +22,7 @@ public class TicketExt extends Ticket {
     /**
      * 用户领取优惠券时间
      */
-    @JSONField(format = "yyyy-MM-dd")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     public String getUserId() {
