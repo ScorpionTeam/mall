@@ -368,6 +368,8 @@ public class WxPayServiceImpl implements WxPayService {
     private GoodSnapshot constructSnapshot(Goods goods) {
         GoodSnapshot goodSnapshot = new GoodSnapshot();
         BeanUtils.copyProperties(goods, goodSnapshot);
+        goodSnapshot.setGoodId(goods.getId());
+        goodSnapshot.setGoodDescription(goods.getDescription());
         return goodSnapshot;
     }
 
