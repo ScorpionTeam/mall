@@ -70,9 +70,12 @@ public class WxPayServiceImpl implements WxPayService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
+        //查询用户openid
+        String openid = WxUtil.getOpenId(wxCode);
         //使用优惠券
         if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
-            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findById(wxOrderRequestData.getTicket());
+            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(openid,
+                    wxOrderRequestData.getTicket());
             if (ticketSnapshot == null) {
                 return BaseResult.error("error", "请先领取优惠券");
             }
@@ -105,8 +108,7 @@ public class WxPayServiceImpl implements WxPayService {
         //商品快照
         GoodSnapshot goodSnapshot = constructSnapshot(goods);
         wxGoodSnapShotMapper.add(goodSnapshot);
-        //查询用户openid
-        String openid = WxUtil.getOpenId(wxCode);
+
         Order order = constructOrder(goods, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
