@@ -4,6 +4,8 @@ import com.scoprion.mall.domain.Ticket;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
+import java.util.List;
+
 /**
  * Created on 2017/10/10.
  * @author ycj
@@ -52,4 +54,11 @@ public interface TicketService {
      * @return
      */
     BaseResult findById(Long id);
+    /**
+     * 根据主键批量删除优惠券
+     *
+     * @param idList
+     * @return
+     */
+    BaseResult batchDelete(List<Long> idList);
 }

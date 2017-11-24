@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created on 2017/10/10.
@@ -62,7 +63,7 @@ public class TicketServiceImpl implements TicketService {
         }
         Page<Ticket> page = ticketMapper.listPage(searchKey);
         page.forEach(ticket -> {
-            if (ticket.getEndDate().before(new Date())) {
+            if (ticket.getEndDate() != null && ticket.getEndDate().before(new Date())) {
                 //结束时间在今天之前，状态为取消状态
                 ticket.setStatus(Constant.STATUS_ONE);
             }
@@ -132,5 +133,17 @@ public class TicketServiceImpl implements TicketService {
             ticketMapper.modify(ticket);
         }
         return BaseResult.success(ticket);
+    }
+
+    @Override
+    public BaseResult batchDelete(List<Long> idList) {
+        if (idList == null || idList.size() == 0) {
+            return BaseResult.parameterError();
+        }
+        Integer result = ticketMapper.batchDelete(idList);
+        if (idList.size() > result) {
+            return BaseResult.success("部分批量删除成功");
+        }
+        return BaseResult.success("批量删除成功");
     }
 }
