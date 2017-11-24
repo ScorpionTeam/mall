@@ -46,14 +46,14 @@
     <!--根据id修改图片-->
     <update id="modify" parameterType="com.scoprion.mall.domain.MallImage">
         UPDATE t_mall_image SET updateDate=now()
-        <if test="createDate!=null and createDate!=''">,createDate=#{createDate}</if>
-        <if test="url!=null and url!=''">,url=#{url}</if>
-        <if test="articleId!=null and articleId!=''">,articleId=#{articleId}</if>
-        <if test="activityId!=null and activityId!=''">,activityId=#{activityId}</if>
-        <if test="bannerId!=null and bannerId!=''">,bannerId=#{bannerId}</if>
-        <if test="brandId!=null and brandId!=''">,brandId=#{brandId}</if>
-        <if test="goodId!=null and goodId!=''">,goodId=#{goodId}</if>
-        <if test="estimateId!=null and estimateId!=''">,estimateId=#{estimateId}</if>
+        <if test="createDate!=null ">,createDate=#{createDate}</if>
+        <if test="url!=null ">,url=#{url}</if>
+        <if test="articleId!=null ">,articleId=#{articleId}</if>
+        <if test="activityId!=null ">,activityId=#{activityId}</if>
+        <if test="bannerId!=null ">,bannerId=#{bannerId}</if>
+        <if test="brandId!=null ">,brandId=#{brandId}</if>
+        <if test="goodId!=null ">,goodId=#{goodId}</if>
+        <if test="estimateId!=null ">,estimateId=#{estimateId}</if>
         WHERE id=#{id}
     </update>
 </mapper>
