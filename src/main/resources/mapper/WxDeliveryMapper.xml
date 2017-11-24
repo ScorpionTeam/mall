@@ -34,7 +34,7 @@
         NOW(),
         NOW(),
         #{type},
-        1,
+        0,
         #{wechat})
     </insert>
 
@@ -88,9 +88,10 @@
         postCode,
         createDate,
         type,
-        updateDate
+        updateDate,
+        defaultAddress
         FROM t_delivery
-        WHERE userId=#{userId}
+        WHERE userId=#{userId} ORDER BY defaultAddress DESC
     </select>
 
     <!-- 删除收货地址 -->

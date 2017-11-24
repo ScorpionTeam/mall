@@ -34,6 +34,7 @@
         reduceFee,
         paymentFee,
         goodFee,
+        operatePoint,
         freightFee,
         deliveryNo
         )
@@ -63,6 +64,7 @@
         #{reduceFee},
         #{paymentFee},
         #{goodFee},
+        #{operatePoint},
         #{freightFee},
         #{deliveryNo})
     </insert>
@@ -101,6 +103,7 @@
         tor.paymentFee,
         tor.goodFee,
         tor.deliveryNo,
+        tor.operatePoint,
         tor.freightFee,
         tg.mainImgUrl as goodMainImage,
         tsg.expressName as expressName
@@ -122,7 +125,20 @@
 
     <!--根据微信号查询订单-->
     <select id="findByWxOrderNo" resultType="com.scoprion.mall.domain.Order">
-        SELECT id,userId,orderNo,count,goodId,goodName,orderFee,reduceFee,paymentFee,goodFee,freightFee,payDate FROM t_order WHERE orderNo=#{orderNo}
+        SELECT id,
+        userId,
+        orderNo,
+        count,
+        goodId,
+        goodName,
+        orderFee,
+        reduceFee,
+        paymentFee,
+        goodFee,
+        freightFee,
+        operatePoint,
+        payDate
+        FROM t_order WHERE orderNo=#{orderNo}
     </select>
 
     <!--订单详情-->

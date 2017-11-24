@@ -72,6 +72,11 @@ public class WxPayServiceImpl implements WxPayService {
     public BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
         //查询用户openid
         String openid = WxUtil.getOpenId(wxCode);
+        //积分判断
+        BaseResult x = checkPoint(wxOrderRequestData, openid);
+        if (x != null) {
+            return x;
+        }
         //使用优惠券
         if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
             TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(
@@ -104,6 +109,11 @@ public class WxPayServiceImpl implements WxPayService {
         Delivery delivery = wxDeliveryMapper.findById(wxOrderRequestData.getDeliveryId());
         if (null == delivery) {
             return BaseResult.error("not_found_address", "收货地址出错");
+        }
+        //价格判断
+        int unitPrice = wxOrderRequestData.getOrderFee() / wxOrderRequestData.getCount();
+        if (goods.getPrice() != unitPrice) {
+            return BaseResult.error("not_found_address", "商品信息已过期，请重新下单");
         }
         //商品快照
         GoodSnapshot goodSnapshot = constructSnapshot(goods);
@@ -141,6 +151,54 @@ public class WxPayServiceImpl implements WxPayService {
         unifiedOrderResponseData.setNonce_str(nonceStr);
         unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
         return BaseResult.success(unifiedOrderResponseData);
+    }
+
+    /**
+     * 校验优惠券
+     *
+     * @param wxOrderRequestData
+     * @return
+     */
+    private BaseResult checkTicket(WxOrderRequestData wxOrderRequestData) {
+        if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
+            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(wxOrderRequestData.getTicket());
+            if (ticketSnapshot == null) {
+                return BaseResult.error("error", "请先领取优惠券");
+            }
+            if (Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
+                return BaseResult.error("error", "优惠券已经使用过了");
+            }
+            if (ticketSnapshot.getStartDate().after(new Date())) {
+                return BaseResult.error("error", "优惠券未到使用日期");
+            }
+            if (ticketSnapshot.getEndDate().before(new Date())) {
+                return BaseResult.error("error", "优惠券已过期");
+            }
+            //优惠券状态改为已使用
+            wxTicketSnapshotMapper.modifyStatus(Constant.STATUS_ONE, ticketSnapshot.getId());
+        }
+        return null;
+    }
+
+    /**
+     * 校验积分
+     *
+     * @param wxOrderRequestData
+     * @param openid
+     * @return
+     */
+    private BaseResult checkPoint(WxOrderRequestData wxOrderRequestData, String openid) {
+        Point point = wxPointMapper.findByUserId(openid);
+        if (point == null) {
+            //没有积分
+            if (wxOrderRequestData.getPoint() > 0) {
+                return BaseResult.error("pay_error", "下单失败，没有可使用的积分");
+            }
+        } else if (wxOrderRequestData.getPoint() > point.getPoint()) {
+            //有积分，使用量超过已有积分
+            return BaseResult.error("pay_error", "下单失败,积分不足");
+        }
+        return null;
     }
 
     /**
@@ -206,9 +264,22 @@ public class WxPayServiceImpl implements WxPayService {
     @Override
     public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
         Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
-        LOGGER.info("微信支付回调@*********************");
+//        //判断签名是否被篡改
+//        String sign = unifiedOrderNotifyRequestData.getSign();
+//        System.out.println("回调返回Sign:" + sign);
+//        String nonce_str = unifiedOrderNotifyRequestData.getNonce_str();
+//        BigDecimal fee = order.getTotalFee().multiply(new BigDecimal(100));
+//        int totalFee = fee.intValue() / 100;
+//        String localSign = preOrderSend(order.getGoodName(),
+//                "妆口袋",
+//                unifiedOrderNotifyRequestData.getOpenid(),
+//                order.getOrderNo(),
+//                totalFee,
+//                nonce_str);
+//        System.out.println("本地再签:" + localSign);
+        LOGGER.info("微信支付回调----callback");
         if (order == null) {
-            LOGGER.info("订单为空，查询不到订单信息@********************");
+            LOGGER.info("订单为空，查询不到订单信息");
         }
         //判断是否成功接收回调
         if (order != null && null == order.getPayDate()) {
@@ -243,7 +314,7 @@ public class WxPayServiceImpl implements WxPayService {
             return BaseResult.error("pay_error", "支付失败积分不足");
         }
         //积分扣减
-        subtractPoint(order, point);
+        subtractPointLog(order, point);
         // 积分增加
         //TODO 获得本次交易增加的积分  暂时未除以1000
         int addPoint = order.getPaymentFee();
@@ -295,7 +366,7 @@ public class WxPayServiceImpl implements WxPayService {
      * @param order
      * @param point
      */
-    private void subtractPoint(Order order, Point point) {
+    private void subtractPointLog(Order order, Point point) {
         PointLog pointLog = new PointLog();
         pointLog.setUserId(order.getUserId());
         //扣减
@@ -411,7 +482,7 @@ public class WxPayServiceImpl implements WxPayService {
         map.put("trade_type", "JSAPI");
         String signTemp = WxPayUtil.sort(map);
         String sign = WxUtil.MD5(signTemp).toUpperCase();
-        LOGGER.info("付款签名@*******************", sign);
+        System.out.println("预付款Sign:" + sign);
         map.put("sign", sign);
         return WxPayUtil.mapConvertToXML(map);
     }
