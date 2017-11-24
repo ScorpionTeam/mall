@@ -74,8 +74,7 @@ public class WxPayServiceImpl implements WxPayService {
         String openid = WxUtil.getOpenId(wxCode);
         //使用优惠券
         if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
-            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(openid,
-                    wxOrderRequestData.getTicket());
+            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId( wxOrderRequestData.getTicket());
             if (ticketSnapshot == null) {
                 return BaseResult.error("error", "请先领取优惠券");
             }

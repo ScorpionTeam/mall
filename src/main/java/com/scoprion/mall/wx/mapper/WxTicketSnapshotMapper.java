@@ -46,10 +46,9 @@ public interface WxTicketSnapshotMapper {
     TicketSnapshot findById(@Param("id") Long id);
 
     /**
-     * @param userId   用户id
-     * @param ticketId 优惠券id
+     * 查找快照详情
+     * @param ticket
      * @return
      */
-    TicketSnapshot findByUserIdAndTicketId(@Param("userId") String userId,
-                                           @Param("ticketId") Long ticketId);
+    TicketSnapshot findByUserIdAndTicketId(@Param("ticket") Long ticket);
 }
