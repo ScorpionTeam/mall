@@ -56,7 +56,7 @@ public class WxTicketServiceImpl implements WxTicketService {
             if (startDate.before(currentTime)) {
                 item.setExpire("未到期");
             }
-            if (endDate.after(currentTime)) {
+            if (endDate.before(currentTime)) {
                 item.setExpire("已过期");
             }
             if (startDate.compareTo(currentTime) < 0 && startDate.compareTo(
