@@ -58,10 +58,14 @@ public class TicketSnapshot {
     private Date updateDate;
 
     /**
-     * 金额
+     * 总金额
      */
     private int money;
 
+    /**
+     * 满减金额
+     */
+    private int reduceMoney;
     /**
      * 数量
      */
@@ -88,6 +92,15 @@ public class TicketSnapshot {
      */
     private String status;
 
+
+    public int getReduceMoney() {
+        return reduceMoney;
+    }
+
+    public void setReduceMoney(int reduceMoney) {
+        this.reduceMoney = reduceMoney;
+    }
+
     public Long getId() {
         return id;
     }
@@ -95,7 +108,6 @@ public class TicketSnapshot {
     public void setId(Long id) {
         this.id = id;
     }
-
 
     public String getTicketNo() {
         return ticketNo;

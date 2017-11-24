@@ -27,6 +27,9 @@ public class TicketServiceImpl implements TicketService {
 
     @Override
     public BaseResult add(Ticket ticket) throws Exception {
+        if (ticket.getMoney() < ticket.getReduceMoney()) {
+            return BaseResult.error("add_fail", "满减金额有误");
+        }
         int validResult = ticketMapper.validByName(ticket.getTicketName());
         if (validResult != 0) {
             return BaseResult.error("add_fail", "名称已存在");
