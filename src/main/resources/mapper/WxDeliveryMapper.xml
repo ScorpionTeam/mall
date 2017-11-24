@@ -97,7 +97,7 @@
 
     <!--修改其他的地址为不默认地址-->
     <update id="updateDefaultById">
-        UPDATE t_delivery SET defaultAddress='0' WHERE userId=#{userId} AND id !={id}
+        UPDATE t_delivery SET defaultAddress='0' WHERE userId=#{userId} AND id !=#{id}
     </update>
 
     <!-- 删除收货地址 -->
