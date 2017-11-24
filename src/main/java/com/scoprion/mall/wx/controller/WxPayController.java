@@ -100,7 +100,7 @@ public class WxPayController {
                                    Integer paymentFee, Integer orderFee,
                                    Integer reduceFee, Integer freightFee,
                                    Integer goodFee) {
-        System.out.println(buyNum);
+        
 
         return wxPayService.pressureTest(goodId, deliveryId, buyNum, message, orderType, useTicket, paymentFee,
                 orderFee, reduceFee, freightFee, goodFee);

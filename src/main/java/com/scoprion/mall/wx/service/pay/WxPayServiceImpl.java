@@ -353,7 +353,7 @@ public class WxPayServiceImpl implements WxPayService {
         //系统内部生成订单信息
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", null);
         wxOrderLogMapper.add(orderLog);
-
+        LOGGER.info("压力测试订单@***************订单号-", orderNo);
         return BaseResult.success("order_confirm");
     }
 
