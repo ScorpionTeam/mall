@@ -79,7 +79,7 @@ public class GoodsServiceImpl implements GoodsService {
                     fileOperationMapper.add(mallImage);
                 }
             }
-            return BaseResult.success(good.getId());
+            return BaseResult.success("添加成功");
         }
         return BaseResult.error("mock_fail", "创建商品失败");
     }

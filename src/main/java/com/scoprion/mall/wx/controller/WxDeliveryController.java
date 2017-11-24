@@ -80,4 +80,14 @@ public class WxDeliveryController {
     public BaseResult findById(Long id) {
         return wxDeliveryService.findById(id);
     }
+
+    /**
+     * 默认收货地址
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/defaultAddress", method = RequestMethod.GET)
+    public BaseResult defaultAddress(Long id) {
+        return wxDeliveryService.defaultAddress(id);
+    }
 }

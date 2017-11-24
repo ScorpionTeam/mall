@@ -50,4 +50,11 @@ public interface WxDeliveryService {
      * @return
      */
     BaseResult findById(Long id);
+
+    /**
+     * 默认收货地址
+     * @param id
+     * @return
+     */
+    BaseResult defaultAddress(Long id);
 }
