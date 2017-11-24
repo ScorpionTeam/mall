@@ -242,7 +242,7 @@ public class FileOperationServiceImpl implements FileOperationService {
     /**
      * 获取绝对路径
      *
-     * @param path         示例： D:Downloads/
+     * @param path         示例：  /home/hcon/downloads
      * @param fileName     示例：122334441121212
      * @param endName      后缀名 示例： .png
      * @param imageCutSize
@@ -317,7 +317,6 @@ public class FileOperationServiceImpl implements FileOperationService {
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 LOGGER.error("创建文件夹出错--------------");
-                System.out.print("创建文件夹出错-------------------");
             }
         }
     }

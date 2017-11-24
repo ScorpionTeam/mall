@@ -9,12 +9,12 @@
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-       INSERT INTO t_ticket_snapshot
+        INSERT INTO t_ticket_snapshot
         (ticketName,content,startDate,endDate,money,reduceMoney,num,createDate,
         ticketNo,type,useRange,numLimit,ticketId,status,useDate)
         VALUES
         (#{ticketName},#{content},#{startDate},#{endDate},#{money},#{reduceMoney},#{num},
-         now(),#{ticketNo} ,#{type},#{useRange},#{numLimit},#{ticketId},#{status},#{useDate})
+        now(),#{ticketNo} ,#{type},#{useRange},#{numLimit},#{ticketId},#{status},#{useDate})
     </insert>
 
     <!--查询详情-->
@@ -36,6 +36,30 @@
         useRange,
         numLimit
         FROM  t_ticket_snapshot WHERE id=#{id}
+    </select>
+
+
+    <!--查询详情-->
+    <select id="findByUserIdAndTicketId" resultType="com.scoprion.mall.domain.TicketSnapshot">
+        SELECT
+        tts.id,
+        tts.ticketName,
+        tts.content,
+        tts.startDate,
+        tts.endDate,
+        tts.money,
+        tts.reduceMoney,
+        tts.num,
+        tts.status,
+        tts.createDate,
+        tts.ticketNo,
+        tts.type,
+        tts.useDate,
+        tts.useRange,
+        tts.numLimit
+        FROM  t_ticket_snapshot tts
+        LEFT JOIN t_ticket_user ttu ON ttu.snapshotId=tts.id
+        WHERE tts.ticketId=#{ticketId} AND ttu.userId=#{userId}
     </select>
 
     <!--修改-->
