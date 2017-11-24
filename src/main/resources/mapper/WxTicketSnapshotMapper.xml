@@ -42,24 +42,23 @@
     <!--查询详情-->
     <select id="findByUserIdAndTicketId" resultType="com.scoprion.mall.domain.TicketSnapshot">
         SELECT
-        tts.id,
-        tts.ticketName,
-        tts.content,
-        tts.startDate,
-        tts.endDate,
-        tts.money,
-        tts.reduceMoney,
-        tts.num,
-        tts.status,
-        tts.createDate,
-        tts.ticketNo,
-        tts.type,
-        tts.useDate,
-        tts.useRange,
-        tts.numLimit
-        FROM  t_ticket_snapshot tts
-        LEFT JOIN t_ticket_user ttu ON ttu.snapshotId=tts.id
-        WHERE tts.ticketId=#{ticketId} AND ttu.userId=#{userId}
+        id,
+        ticketName,
+        content,
+        startDate,
+        endDate,
+        money,
+        reduceMoney,
+        num,
+        status,
+        createDate,
+        ticketNo,
+        type,
+        useDate,
+        useRange,
+        numLimit
+        FROM  t_ticket_snapshot
+        WHERE id=#{ticket}
     </select>
 
     <!--修改-->

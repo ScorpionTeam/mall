@@ -24,7 +24,7 @@
         tks.startDate,
         tks.endDate
         FROM t_ticket_snapshot tks  LEFT JOIN t_ticket_user  tku  ON tks.id=tku.snapshotId
-        WHERE   tku.userId=#{userId}
+        WHERE   tku.userId=#{userId} AND tks.status='0'
     </select>
 
     <!-- 根据用户id、优惠券id查询记录 -->
