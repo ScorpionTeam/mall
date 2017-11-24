@@ -55,4 +55,12 @@ public interface WxDeliveryMapper {
      * @return
      */
     int updateDefaultAddress(@Param("id") Long id);
+
+    /**
+     * 更改该用户其他地址不为默认地址
+     * @param id
+     * @param userId
+     * @return
+     */
+    int updateDefaultById (@Param("id") Long id,@Param("userId") String userId);
 }

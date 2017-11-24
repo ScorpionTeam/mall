@@ -56,7 +56,12 @@
 
     <!-- 默认收货地址 -->
     <update id="updateDefaultAddress">
-        UPDATE t_delivery SET defaultAddress='0' WHERE id=#{id}
+        UPDATE t_delivery SET defaultAddress='1' WHERE id=#{id}
+    </update>
+
+    <!--修改其他的地址为不默认地址-->
+    <update id="updateDefaultById">
+        UPDATE t_delivery SET defaultAddress='0' WHERE userId=#{userId} AND id !=#{id}
     </update>
 
     <!--获取收货地址详情-->
@@ -88,10 +93,12 @@
         postCode,
         createDate,
         type,
-        updateDate
+        updateDate,
+        defaultAddress
         FROM t_delivery
-        WHERE userId=#{userId}
+        WHERE userId=#{userId} ORDER BY defaultAddress DESC
     </select>
+
 
     <!-- 删除收货地址 -->
     <delete id="deleteDelivery">

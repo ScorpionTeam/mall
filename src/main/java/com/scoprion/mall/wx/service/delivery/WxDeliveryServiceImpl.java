@@ -12,6 +12,8 @@ import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author admin1
  * @date 2017/11/1
@@ -53,6 +55,10 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
         Integer result = wxDeliveryMapper.add(delivery);
         if (result <= 0) {
             return BaseResult.error("error", "新增失败");
+        }
+        Integer defaultResult=wxDeliveryMapper.updateDefaultById(delivery.getId(),delivery.getUserId());
+        if (defaultResult <= 0){
+            return BaseResult.error("error","修改默认地址失败");
         }
         return BaseResult.success("新增成功");
     }
@@ -111,10 +117,15 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult defaultAddress(Long id) {
+    public BaseResult defaultAddress(Long id,String wxCode) {
+        String userId = WxUtil.getOpenId(wxCode);
         int result = wxDeliveryMapper.updateDefaultAddress(id);
         if (result<=0){
             return BaseResult.error("update_fail","设置默认地址失败");
+        }
+        Integer defaultResult=wxDeliveryMapper.updateDefaultById(id,userId);
+        if (defaultResult <= 0){
+            return BaseResult.error("error","修改默认地址失败");
         }
         return BaseResult.success("设置成功");
     }

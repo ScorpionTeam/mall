@@ -34,29 +34,39 @@
     <!--根据商品id查询详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
-        id,
-        categoryId,
-        goodName,
-        description,
-        promotion,
-        price,
-        saleVolume,
-        discount,
-        stock,
-        isOnSale,
-        isHot,
-        isNew,
-        createDate,
-        lastUpdateDate,
-        isFreight,
-        brandId,
-        sellerId,
-        visitTotal,
-        goodNo,
-        mainImgUrl,
-        richContent
-        FROM t_good
-        WHERE id=#{goodId}
+        good.id,
+        good.categoryId,
+        good.goodName,
+        good.description,
+        good.promotion,
+        good.price,
+        good.saleVolume,
+        good.discount,
+        good.isOnSale,
+        good.isHot,
+        good.isNew,
+        good.createDate,
+        good.lastUpdateDate,
+        good.isFreight,
+        good.brandId,
+        good.sellerId,
+        good.visitTotal,
+        good.goodNo,
+        good.mainImgUrl,
+        good.status,
+        good.stock,
+        good.richContent,
+        tacg.id,
+        tacg.activityId,
+        tacg.goodId,
+        tacg.createDate,
+        tacg.goodName,
+        tacg.stock AS activityStock,
+        tacg.status,
+        tacg.updateDate
+        FROM t_good good
+        LEFT JOIN t_activity_good tacg ON good.id=tacg.goodId
+        WHERE good.id=#{goodId}
     </select>
 
     <!--商品搜素-->
