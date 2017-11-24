@@ -54,15 +54,15 @@
         good.goodNo,
         good.mainImgUrl,
         good.status,
+        good.stock,
         good.richContent,
         tacg.id,
         tacg.activityId,
         tacg.goodId,
         tacg.createDate,
         tacg.goodName,
-        tacg.stock,
+        tacg.stock AS activityStock,
         tacg.status,
-        good.stock,
         tacg.updateDate
         FROM t_good good
         LEFT JOIN t_activity_good tacg ON good.id=tacg.goodId
