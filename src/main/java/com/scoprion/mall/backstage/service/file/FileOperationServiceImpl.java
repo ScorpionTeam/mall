@@ -77,7 +77,8 @@ public class FileOperationServiceImpl implements FileOperationService {
         String name = file.getOriginalFilename();
         String endName = name.substring(name.lastIndexOf("."));
         File image = new File(path + fileName + endName);
-        file.transferTo(image);
+        image.createNewFile();
+//        file.transferTo(image);
         List<MallImage> urlList = new ArrayList<>();
         urlList.add(new MallImage(getFileName(path, fileName, endName, null)));
         //裁剪
