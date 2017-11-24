@@ -187,7 +187,7 @@
         <if test="isFreight!=null and isFreight!=''">AND good.isFreight= #{isFreight}</if>
         <if test="categoryId!=null ">AND good.categoryId= #{categoryId}</if>
         <if test="brandId!=null ">AND good.brandId= #{brandId}</if>
-        <if test="activityId!=null ">AND tacg.activityId= #{activityId}</if>
+        <if test="activityId!=null ">AND tacg.activityId= #{activityId} AND tacg.status!='0'</if>
         GROUP BY good.id
     </select>
 
@@ -247,20 +247,75 @@
         WHERE 1=1
         AND ( tac.status IS NULL OR tac.status!='0' OR tac.endDate BETWEEN '0' AND NOW())
         AND good.id NOT IN(
-            SELECT tg.id
-            FROM t_good tg
-            LEFT JOIN t_activity_good tag ON tag.goodId=tg.id
-            LEFT JOIN t_activity ta ON ta.id=tag.activityId
-            WHERE 1=1
-            AND (
-            ta.status='0' OR ( ta.status!='1' AND ta.startDate IS NOT NULL
-            AND ( ((ta.startDate BETWEEN '0' AND NOW()) AND ta.endDate >  NOW()) OR  ta.startDate >NOW() ) )
-            )
-            GROUP BY tg.id
+        SELECT tg.id
+        FROM t_good tg
+        LEFT JOIN t_activity_good tag ON tag.goodId=tg.id
+        LEFT JOIN t_activity ta ON ta.id=tag.activityId
+        WHERE 1=1
+        AND (
+        ta.status='0' OR ( ta.status!='1' AND ta.startDate IS NOT NULL
+        AND ( ((ta.startDate BETWEEN '0' AND NOW()) AND ta.endDate > NOW()) OR ta.startDate >NOW() ) )
         )
+        AND tag.status='0'
+        GROUP BY tg.id
+        )
+        AND good.isOnSale='1'
         <if test="searchKey!=null and searchKey!=''">AND CONCAT(good.goodName,good.description,good.goodNo) LIKE
             #{searchKey}
         </if>
+
         GROUP BY good.id
     </select>
+
+
+    <select id="findByActivityId" resultType="com.scoprion.mall.domain.GoodExt">
+        SELECT
+        good.id,
+        good.goodNo,
+        good.categoryId,
+        good.goodName,
+        good.description,
+        good.promotion,
+        good.price,
+        good.saleVolume,
+        good.discount,
+        good.stock,
+        good.isOnSale,
+        good.isHot,
+        good.isNew,
+        good.isFreight,
+        good.brandId,
+        good.sellerId,
+        good.visitTotal,
+        good.mainImgUrl,
+        good.richContent,
+        good.createDate,
+        tacg.activityId as activityId,
+        tac.startDate as startDate,
+        tac.endDate as endDate,
+        tac.status as activityStatus,
+        tacg.stock as activityStock
+        FROM t_good good
+        LEFT JOIN t_activity_good tacg ON tacg.goodId=good.id
+        LEFT JOIN t_activity tac ON tac.id=tacg.activityId
+        WHERE 1=1
+        AND tac.id=#{activityId}
+        AND tac.status='0'
+        AND tacg.status='0'
+        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(good.goodName,good.description,good.goodNo) LIKE
+            #{searchKey}
+        </if>
+        <if test="startDate!=null and endDate!=null">AND good.createDate BETWEEN #{startDate} AND #{endDate}</if>
+        <if test="startDate==null and endDate!=null">AND good.createDate BETWEEN '1970-01-01' AND #{endDate}</if>
+        <if test="startDate!=null and endDate==null">AND good.createDate BETWEEN #{startDate} AND now()</if>
+        <if test="goodNo!=null and goodNo!=''">AND good.goodNo= #{goodNo}</if>
+        <if test="saleStatus!=null and saleStatus!=''">AND good.isOnSale= #{saleStatus}</if>
+        <if test="isHot!=null and isHot!=''">AND good.isHot= #{isHot}</if>
+        <if test="isNew!=null and isNew!=''">AND good.isNew= #{isNew}</if>
+        <if test="isFreight!=null and isFreight!=''">AND good.isFreight= #{isFreight}</if>
+        <if test="categoryId!=null ">AND good.categoryId= #{categoryId}</if>
+        <if test="brandId!=null ">AND good.brandId= #{brandId}</if>
+        GROUP BY good.id
+    </select>
+
 </mapper>

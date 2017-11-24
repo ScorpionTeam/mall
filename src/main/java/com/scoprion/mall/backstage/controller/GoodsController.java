@@ -122,6 +122,31 @@ public class GoodsController {
         return goodsService.findByCondition(pageNo, pageSize, searchKey, goodNo, saleStatus, startDate, endDate,
                 categoryId, isHot, isNew, isFreight, brandId, activityId);
     }
+    /**
+     * 条件查询商品列表分页
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey  模糊信息
+     * @param goodNo     商品编号
+     * @param saleStatus 上下架
+     * @param startDate  开始时间
+     * @param endDate    结束时间
+     * @param categoryId 类目
+     * @param isHot      热销
+     * @param isNew      新品
+     * @param isFreight  包邮
+     * @param brandId    品牌
+     * @return
+     */
+    @ApiOperation(value = "查询商品")
+    @RequestMapping(value = "/findByActivityId", method = RequestMethod.GET)
+    public PageResult findByActivityId(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
+                                      String startDate, String endDate, Long categoryId, String isHot, String isNew,
+                                      String isFreight, Long brandId, Long activityId) {
+        return goodsService.findByActivityId(pageNo, pageSize, searchKey, goodNo, saleStatus, startDate, endDate,
+                categoryId, isHot, isNew, isFreight, brandId, activityId);
+    }
 
     /**
      * 修改商品

@@ -138,4 +138,25 @@ public interface GoodsService {
      * @return
      */
     PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey);
+
+    /**
+     * activity
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey
+     * @param goodNo
+     * @param saleStatus
+     * @param startDate
+     * @param endDate
+     * @param categoryId
+     * @param isHot
+     * @param isNew
+     * @param isFreight
+     * @param brandId
+     * @param activityId
+     * @return
+     */
+    PageResult findByActivityId(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
+                                String startDate, String endDate, Long categoryId, String isHot, String isNew,
+                                String isFreight, Long brandId, Long activityId);
 }

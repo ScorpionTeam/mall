@@ -94,7 +94,7 @@ public class WxPayServiceImpl implements WxPayService {
         //查询收货地址
         Delivery delivery = wxDeliveryMapper.findById(wxOrderRequestData.getDeliveryId());
         if (null == delivery) {
-            return BaseResult.error("not_found_address", "收货地址出错");
+            return BaseResult.error("not_found_address", "收货地址有误");
         }
         //价格判断
         int unitPrice = wxOrderRequestData.getOrderFee() / wxOrderRequestData.getCount();

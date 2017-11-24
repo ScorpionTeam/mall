@@ -202,10 +202,10 @@ public class ActivityServiceImpl implements ActivityService {
             return BaseResult.parameterError();
         }
         goodIdList.forEach(goodId -> {
+            ActivityGoods activityGood = activityGoodMapper.findByGoodId(goodId);
             int result = activityGoodMapper.unbindActivityWithGood(activityId, goodId);
             if (result > 0) {
                 //解绑成功，查看参加活动的商品是否有剩余，有剩余则返回原商品库存
-                ActivityGoods activityGood = activityGoodMapper.findByGoodId(goodId);
                 if (activityGood != null && activityGood.getStock() > 0) {
                     //返回原有库存
                     goodsMapper.modifyGoodsDeduction(goodId, activityGood.getStock());

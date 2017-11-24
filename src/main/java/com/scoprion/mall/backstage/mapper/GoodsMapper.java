@@ -85,7 +85,7 @@ public interface GoodsMapper {
      * @param isNew      新品
      * @param isFreight  包邮
      * @param brandId    品牌
-     * @param activityId    活动id
+     * @param activityId 活动id
      * @return
      */
     Page<GoodExt> findByCondition(@Param("searchKey") String searchKey,
@@ -127,6 +127,7 @@ public interface GoodsMapper {
      */
     int updateGoodStockById(@Param("goodId") Long goodId,
                             @Param("stock") int stock);
+
     /**
      * 选择绑定活动的商品列表
      *
@@ -134,4 +135,32 @@ public interface GoodsMapper {
      * @return
      */
     List<GoodExt> findForActivity(@Param("searchKey") String searchKey);
+
+    /**
+     * 根据活动id查询列表
+     *
+     * @param searchKey
+     * @param goodNo
+     * @param saleStatus
+     * @param startDate
+     * @param endDate
+     * @param categoryId
+     * @param isHot
+     * @param isNew
+     * @param isFreight
+     * @param brandId
+     * @param activityId
+     * @return
+     */
+    List<GoodExt> findByActivityId(@Param("searchKey") String searchKey,
+                                   @Param("goodNo") String goodNo,
+                                   @Param("saleStatus") String saleStatus,
+                                   @Param("startDate") String startDate,
+                                   @Param("endDate") String endDate,
+                                   @Param("categoryId") Long categoryId,
+                                   @Param("isHot") String isHot,
+                                   @Param("isNew") String isNew,
+                                   @Param("isFreight") String isFreight,
+                                   @Param("brandId") Long brandId,
+                                   @Param("activityId") Long activityId);
 }

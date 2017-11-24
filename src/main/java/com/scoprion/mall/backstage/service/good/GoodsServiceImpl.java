@@ -296,16 +296,30 @@ public class GoodsServiceImpl implements GoodsService {
 
         PageHelper.startPage(pageNo, pageSize);
         List<GoodExt> result = goodsMapper.findForActivity(searchKey);
-//        List<GoodExt> page = new ArrayList<>();
-//        result.forEach(good -> {
-//            if (good.getActivityId() == null) {
-//                page.add(good);
-//            } else if (Constant.STATUS_ONE.equals(good.getActivityStatus())) {
-//                page.add(good);
-//            } else if (good.getEndDate().before(new Date())) {
-//                page.add(good);
-//            }
-//        });
+        return new PageResult(result);
+    }
+
+    /**
+     * 选择绑定活动的商品列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey 模糊信息
+     * @return
+     */
+    @Override
+    public PageResult findByActivityId(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
+                                       String startDate, String endDate, Long categoryId, String isHot, String isNew,
+                                       String isFreight, Long brandId, Long activityId) {
+        PageHelper.startPage(pageNo, pageSize);
+        if (StringUtils.isEmpty(searchKey)) {
+            searchKey = null;
+        }
+        if (!StringUtils.isEmpty(searchKey)) {
+            searchKey = "%" + searchKey + "%";
+        }
+        List<GoodExt> result = goodsMapper.findByActivityId(searchKey, goodNo, saleStatus, startDate, endDate, categoryId,
+                isHot, isNew, isFreight, brandId, activityId);
         return new PageResult(result);
     }
 
