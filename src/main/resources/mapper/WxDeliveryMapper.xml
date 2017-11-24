@@ -34,7 +34,7 @@
         NOW(),
         NOW(),
         #{type},
-        1,
+        0,
         #{wechat})
     </insert>
 
