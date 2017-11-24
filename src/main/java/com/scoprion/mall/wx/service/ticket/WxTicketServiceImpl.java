@@ -46,14 +46,14 @@ public class WxTicketServiceImpl implements WxTicketService {
     @Override
     public PageResult findByUserId(Integer pageNo, Integer pageSize, String wxCode) {
         PageHelper.startPage(pageNo, pageSize);
-        String userId = WxUtil.getOpenId(wxCode);
-        Page<TicketExt> page = wxTicketMapper.findByUserId(userId);
+        //String userId = WxUtil.getOpenId(wxCode);
+        Page<TicketExt> page = wxTicketMapper.findByUserId(wxCode);
         List<TicketExt> list = page.getResult();
         Date currentTime = new Date();
         list.forEach(item -> {
             Date startDate = item.getStartDate();
             Date endDate = item.getEndDate();
-            if (startDate.before(currentTime)) {
+            if (startDate.after(currentTime)) {
                 item.setExpire("未到期");
             }
             if (endDate.before(currentTime)) {
