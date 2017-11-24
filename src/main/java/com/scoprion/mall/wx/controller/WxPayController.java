@@ -93,5 +93,18 @@ public class WxPayController {
 
     }
 
+    @RequestMapping(value = "/pressureTest", method = RequestMethod.GET)
+    public BaseResult pressureTest(Long goodId, Long deliveryId,
+                                   Integer buyNum, String message,
+                                   String orderType, String useTicket,
+                                   Integer paymentFee, Integer orderFee,
+                                   Integer reduceFee, Integer freightFee,
+                                   Integer goodFee) {
+        
+
+        return wxPayService.pressureTest(goodId, deliveryId, buyNum, message, orderType, useTicket, paymentFee,
+                orderFee, reduceFee, freightFee, goodFee);
+    }
+
 
 }
