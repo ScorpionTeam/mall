@@ -54,7 +54,8 @@ public interface WxDeliveryService {
     /**
      * 默认收货地址
      * @param id
+     * @param wxCode
      * @return
      */
-    BaseResult defaultAddress(Long id);
+    BaseResult defaultAddress(Long id,String wxCode);
 }
