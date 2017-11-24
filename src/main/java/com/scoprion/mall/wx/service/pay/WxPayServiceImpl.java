@@ -56,6 +56,9 @@ public class WxPayServiceImpl implements WxPayService {
     @Autowired
     private WxTicketSnapshotMapper wxTicketSnapshotMapper;
 
+    @Autowired
+    private WxTicketMapper wxTicketMapper;
+
     /**
      * 微信预下单
      *
@@ -82,6 +85,7 @@ public class WxPayServiceImpl implements WxPayService {
             if (ticketSnapshot.getEndDate().before(new Date())) {
                 return BaseResult.error("error", "优惠券已过期");
             }
+            //优惠券状态改为已使用
             wxTicketSnapshotMapper.modifyStatus(Constant.STATUS_ONE, ticketSnapshot.getId());
         }
         //查询商品库存
@@ -370,6 +374,8 @@ public class WxPayServiceImpl implements WxPayService {
     private GoodSnapshot constructSnapshot(Goods goods) {
         GoodSnapshot goodSnapshot = new GoodSnapshot();
         BeanUtils.copyProperties(goods, goodSnapshot);
+        goodSnapshot.setGoodId(goods.getId());
+        goodSnapshot.setGoodDescription(goods.getDescription());
         return goodSnapshot;
     }
 

@@ -11,10 +11,10 @@
         </selectKey>
        INSERT INTO t_ticket_snapshot
         (ticketName,content,startDate,endDate,money,reduceMoney,num,createDate,
-        ticketNo,type,useRange,numLimit,ticketId,status)
+        ticketNo,type,useRange,numLimit,ticketId,status,useDate)
         VALUES
         (#{ticketName},#{content},#{startDate},#{endDate},#{money},#{reduceMoney},#{num},
-         now(),#{ticketNo} ,#{type},#{useRange},#{numLimit},#{ticketId},#{status})
+         now(),#{ticketNo} ,#{type},#{useRange},#{numLimit},#{ticketId},#{status},#{useDate})
     </insert>
 
     <!--查询详情-->
@@ -32,8 +32,8 @@
         createDate,
         ticketNo,
         type,
-        useRange,
         useDate,
+        useRange,
         numLimit
         FROM  t_ticket_snapshot WHERE id=#{id}
     </select>

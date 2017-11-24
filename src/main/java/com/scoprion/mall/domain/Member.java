@@ -82,7 +82,7 @@ public class Member {
     /**
      * 注册时间
      */
-    @JSONField(format = "yyyy-MM-dd")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     /**

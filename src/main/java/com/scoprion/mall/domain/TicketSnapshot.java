@@ -36,19 +36,19 @@ public class TicketSnapshot {
     /**
      * 开始时间
      */
-    @JSONField(format = "yyyy-MM-dd")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date startDate;
 
     /**
      * 结束时间
      */
-    @JSONField(format = "yyyy-MM-dd")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date endDate;
 
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     /**
@@ -56,6 +56,12 @@ public class TicketSnapshot {
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
+
+    /**
+     * 使用时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    private Date useDate;
 
     /**
      * 总金额
@@ -92,6 +98,13 @@ public class TicketSnapshot {
      */
     private String status;
 
+    public Date getUseDate() {
+        return useDate;
+    }
+
+    public void setUseDate(Date useDate) {
+        this.useDate = useDate;
+    }
 
     public int getReduceMoney() {
         return reduceMoney;

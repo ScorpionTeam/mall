@@ -41,11 +41,6 @@ public class TicketUser {
      */
     private String status;
 
-    /**
-     * 使用时间
-     */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
-    private Date useDate;
 
     public Long getId() {
         return id;
@@ -87,14 +82,6 @@ public class TicketUser {
         this.status = status;
     }
 
-    public Date getUseDate() {
-        return useDate;
-    }
-
-    public void setUseDate(Date useDate) {
-        this.useDate = useDate;
-    }
-
     public Long getSnapshotId() {
         return snapshotId;
     }
@@ -113,7 +100,6 @@ public class TicketUser {
                 ", num=" + num +
                 ", createDate=" + createDate +
                 ", status='" + status + '\'' +
-                ", useDate=" + useDate +
                 '}';
     }
 }

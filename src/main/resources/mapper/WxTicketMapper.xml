@@ -35,9 +35,9 @@
 
     <!--新增优惠券-y用户关系记录-->
     <insert id="addTicketUser" parameterType="com.scoprion.mall.domain.TicketUser">
-        INSERT  INTO t_ticket_user(userId,snapshotId,num,createDate,useDate,status)
+        INSERT  INTO t_ticket_user(userId,snapshotId,num,createDate,status)
         VALUES
-        (#{userId},#{snapshotId},#{num},now(),#{useDate},#{status})
+        (#{userId},#{snapshotId},#{num},now(),#{status})
     </insert>
 
     <!--优惠券详情-->
