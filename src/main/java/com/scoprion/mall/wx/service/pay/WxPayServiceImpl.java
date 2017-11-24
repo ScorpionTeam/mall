@@ -96,6 +96,11 @@ public class WxPayServiceImpl implements WxPayService {
         if (null == delivery) {
             return BaseResult.error("not_found_address", "收货地址出错");
         }
+        //价格判断
+        int unitPrice = wxOrderRequestData.getOrderFee() / wxOrderRequestData.getCount();
+        if (goods.getPrice() != unitPrice) {
+            return BaseResult.error("not_found_address", "商品信息已过期，请重新下单");
+        }
         //商品快照
         GoodSnapshot goodSnapshot = constructSnapshot(goods);
         wxGoodSnapShotMapper.add(goodSnapshot);
