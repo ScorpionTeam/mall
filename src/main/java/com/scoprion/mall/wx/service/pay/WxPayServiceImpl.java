@@ -255,7 +255,7 @@ public class WxPayServiceImpl implements WxPayService {
             return BaseResult.error("pay_error", "支付失败积分不足");
         }
         //积分扣减
-        subtractPoint(order, point);
+        subtractPointLog(order, point);
         // 积分增加
         //TODO 获得本次交易增加的积分  暂时未除以1000
         int addPoint = order.getPaymentFee();
@@ -307,7 +307,7 @@ public class WxPayServiceImpl implements WxPayService {
      * @param order
      * @param point
      */
-    private void subtractPoint(Order order, Point point) {
+    private void subtractPointLog(Order order, Point point) {
         PointLog pointLog = new PointLog();
         pointLog.setUserId(order.getUserId());
         //扣减
