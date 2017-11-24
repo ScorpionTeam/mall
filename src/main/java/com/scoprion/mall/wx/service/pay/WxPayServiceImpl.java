@@ -161,7 +161,8 @@ public class WxPayServiceImpl implements WxPayService {
      */
     private BaseResult checkTicket(WxOrderRequestData wxOrderRequestData) {
         if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
-            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(wxOrderRequestData.getTicket());
+            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(
+                    wxOrderRequestData.getTicket());
             if (ticketSnapshot == null) {
                 return BaseResult.error("error", "请先领取优惠券");
             }
@@ -288,6 +289,72 @@ public class WxPayServiceImpl implements WxPayService {
             wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
         }
         return BaseResult.success("支付回调成功");
+    }
+
+    /**
+     * @param goodId     商品id
+     * @param deliveryId 收件人id
+     * @param buyNum     购买数量
+     * @param message    买家留言
+     * @param orderType  订单类型
+     * @param useTicket  是否使用优惠券
+     * @param paymentFee 实付金额
+     * @param orderFee   订单金额
+     * @param reduceFee  优惠金额
+     * @param freightFee 运费
+     * @param goodFee    商品金额
+     * @return
+     */
+    @Override
+    public BaseResult pressureTest(Long goodId, Long deliveryId, int buyNum, String message, String orderType, String useTicket, int paymentFee, int orderFee, int reduceFee, int freightFee, int goodFee) {
+        Goods goods = wxGoodMapper.findById(goodId);
+        if (null == goods || goods.getStock() <= 0) {
+            return BaseResult.error("not_enough_stock", "商品库存不足");
+        }
+        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+            //商品处于下架状态，不能下单
+            return BaseResult.error("can_not_order", "商品已下架");
+        }
+        //查询收货地址
+        Delivery delivery = wxDeliveryMapper.findById(deliveryId);
+        if (null == delivery) {
+            return BaseResult.error("not_found_address", "收货地址出错");
+        }
+        //价格判断
+        int unitPrice = orderFee / buyNum;
+        if (goods.getPrice() != unitPrice) {
+            return BaseResult.error("not_found_address", "商品信息已过期，请重新下单");
+        }
+        //商品快照
+        GoodSnapshot goodSnapshot = constructSnapshot(goods);
+        wxGoodSnapShotMapper.add(goodSnapshot);
+        String orderNo = OrderNoUtil.getOrderNo();
+        Order order = new Order();
+        order.setOrderNo(orderNo);
+        order.setUseTicket("0");
+        order.setPaymentFee(paymentFee);
+        order.setFreightFee(freightFee);
+        order.setReduceFee(reduceFee);
+        order.setGoodFee(goodFee);
+        order.setGoodId(goodId);
+        order.setUserId("test");
+        order.setGoodName(goods.getGoodName());
+        order.setMessage(message);
+        order.setCount(buyNum);
+        order.setWxOrderNo("0000000");
+        order.setPhone(delivery.getPhone());
+        order.setAddress(delivery.getAddress());
+        order.setRecipients(delivery.getRecipients());
+        int orderResult = wxOrderMapper.add(order);
+        if (orderResult <= 0) {
+            return BaseResult.error("pre_order_error", "下单出错");
+        }
+
+        //系统内部生成订单信息
+        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", null);
+        wxOrderLogMapper.add(orderLog);
+
+        return BaseResult.success("order_confirm");
     }
 
     private BaseResult operatePoint(Order order) {
