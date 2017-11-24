@@ -46,8 +46,8 @@ public class WxTicketServiceImpl implements WxTicketService {
     @Override
     public PageResult findByUserId(Integer pageNo, Integer pageSize, String wxCode) {
         PageHelper.startPage(pageNo, pageSize);
-        //String userId = WxUtil.getOpenId(wxCode);
-        Page<TicketExt> page = wxTicketMapper.findByUserId(wxCode);
+        String userId = WxUtil.getOpenId(wxCode);
+        Page<TicketExt> page = wxTicketMapper.findByUserId(userId);
         List<TicketExt> list = page.getResult();
         Date currentTime = new Date();
         list.forEach(item -> {
