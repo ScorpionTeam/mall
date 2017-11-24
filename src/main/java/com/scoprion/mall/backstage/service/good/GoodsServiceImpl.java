@@ -16,8 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created on 2017/9/29.
@@ -292,6 +293,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey) {
+
         PageHelper.startPage(pageNo, pageSize);
         List<GoodExt> result = goodsMapper.findForActivity(searchKey);
 //        List<GoodExt> page = new ArrayList<>();
