@@ -74,7 +74,8 @@ public class WxPayServiceImpl implements WxPayService {
         String openid = WxUtil.getOpenId(wxCode);
         //使用优惠券
         if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
-            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId( wxOrderRequestData.getTicket());
+            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(
+                    wxOrderRequestData.getTicket());
             if (ticketSnapshot == null) {
                 return BaseResult.error("error", "请先领取优惠券");
             }
@@ -205,22 +206,9 @@ public class WxPayServiceImpl implements WxPayService {
     @Override
     public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
         Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
-//        //判断签名是否被篡改
-//        String sign = unifiedOrderNotifyRequestData.getSign();
-//        System.out.println("回调返回Sign:" + sign);
-//        String nonce_str = unifiedOrderNotifyRequestData.getNonce_str();
-//        BigDecimal fee = order.getTotalFee().multiply(new BigDecimal(100));
-//        int totalFee = fee.intValue() / 100;
-//        String localSign = preOrderSend(order.getGoodName(),
-//                "妆口袋",
-//                unifiedOrderNotifyRequestData.getOpenid(),
-//                order.getOrderNo(),
-//                totalFee,
-//                nonce_str);
-//        System.out.println("本地再签:" + localSign);
-        LOGGER.info("微信支付回调----callback");
+        LOGGER.info("微信支付回调@*********************");
         if (order == null) {
-            LOGGER.info("订单为空，查询不到订单信息");
+            LOGGER.info("订单为空，查询不到订单信息@********************");
         }
         //判断是否成功接收回调
         if (order != null && null == order.getPayDate()) {
@@ -423,7 +411,7 @@ public class WxPayServiceImpl implements WxPayService {
         map.put("trade_type", "JSAPI");
         String signTemp = WxPayUtil.sort(map);
         String sign = WxUtil.MD5(signTemp).toUpperCase();
-        System.out.println("预付款Sign:" + sign);
+        LOGGER.info("付款签名@*******************", sign);
         map.put("sign", sign);
         return WxPayUtil.mapConvertToXML(map);
     }
