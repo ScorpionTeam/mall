@@ -55,6 +55,14 @@ public class OrderExt extends Order {
 
     }
 
+    public String getGoodNo() {
+        return goodNo;
+    }
+
+    public void setGoodNo(String goodNo) {
+        this.goodNo = goodNo;
+    }
+
     public String getExpressName() {
         return expressName;
     }
