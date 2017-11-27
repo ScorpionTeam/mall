@@ -112,7 +112,7 @@ public class OrderController {
      * @return
      */
     @RequestMapping(value = "/audit/refund", method = RequestMethod.POST)
-    public BaseResult refund(Long orderId, String flag, String remark, int refundFee) {
+    public BaseResult refund(Long orderId, String flag, String remark, int refundFee) throws Exception {
         return orderService.refund(orderId, flag, remark, refundFee);
     }
 

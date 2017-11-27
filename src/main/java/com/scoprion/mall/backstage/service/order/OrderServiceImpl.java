@@ -1,37 +1,22 @@
 package com.scoprion.mall.backstage.service.order;
 
 import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.*;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
-import com.scoprion.mall.wx.mapper.WxGoodSnapShotMapper;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContexts;
-import org.apache.http.util.EntityUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.net.ssl.SSLContext;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.security.KeyStore;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -229,7 +214,7 @@ public class OrderServiceImpl implements OrderService {
      * @return
      */
     @Override
-    public BaseResult refund(Long orderId, String flag, String remark, int refundFee) {
+    public BaseResult refund(Long orderId, String flag, String remark, int refundFee) throws Exception {
         if ("0".equals(flag)) {
             orderMapper.updateOrderRefundById(orderId, "7", remark);
             return BaseResult.success("审核完成");
@@ -238,14 +223,10 @@ public class OrderServiceImpl implements OrderService {
             Order order = orderMapper.findById(orderId);
             String refundOrderNo = order.getOrderNo() + "T";
             //定义接收退款返回字符串
-            String response = wxRefundCert("hk111111",
-                    order.getOrderNo(),
-                    order.getPaymentFee(),
-                    refundFee,
-                    WxPayConfig.CERT_SECRET,
-                    refundOrderNo,
+            String refundXML = refundSign(order.getOrderNo(), order.getPaymentFee(), refundFee, refundOrderNo,
                     nonce_str);
-            System.out.println("返回数据:" + response);
+            //接收退款返回
+            String response = WxPayUtil.doRefund(WxPayConfig.WECHAT_REFUND, refundXML, WxPayConfig.MCHID);
             WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
                     response);
             Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
@@ -320,22 +301,17 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 退款读取证书
      *
-     * @param shh
      * @param orderNo
      * @param total_fee
      * @param refund_fee
-     * @param path
      * @return
      */
-    private String wxRefundCert(
-            String shh,
+    private String refundSign(
             String orderNo,
             int total_fee,
             int refund_fee,
-            String path,
             String refundNo,
             String nonce_str) {
-
         Map<String, Object> map = new HashMap<>(16);
         map.put("appid", WxPayConfig.APP_ID);
         map.put("mch_id", WxPayConfig.MCHID);
@@ -347,53 +323,7 @@ public class OrderServiceImpl implements OrderService {
         map.put("op_user_id", "100000");
         String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
         map.put("sign", sign);
-        String xml = WxPayUtil.mapConvertToXML(map);
-        String responseXML = "";
-        try {
-            KeyStore keyStore = KeyStore.getInstance("PKCS12");
-            FileInputStream inputStream = new FileInputStream(new File(path));
-            try {
-                keyStore.load(inputStream, WxPayConfig.MCHID.toCharArray());
-            } finally {
-                inputStream.close();
-            }
-            SSLContext sslContext = SSLContexts
-                    .custom()
-                    .loadKeyMaterial(keyStore, WxPayConfig.MCHID.toCharArray())
-                    .build();
-            SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new String[]{"TLSv1"},
-                    null,
-                    SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER
-            );
-            CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
-            try {
-                HttpGet httpGet = new HttpGet(WxPayConfig.WECHAT_REFUND);
-                System.out.println("executing request" + httpGet.getRequestLine());
-                CloseableHttpResponse response = httpClient.execute(httpGet);
-                try {
-                    HttpEntity entity = response.getEntity();
-                    System.out.println("------------------------");
-                    System.out.println(response.getStatusLine());
-                    if (entity != null) {
-                        System.out.println("Response content length:" + entity.getContentLength());
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(entity.getContent()));
-                        String text;
-                        while ((text = bufferedReader.readLine()) != null) {
-                            System.out.println(text);
-                        }
-                    }
-                    EntityUtils.consume(entity);
-                } finally {
-                    response.close();
-                }
-            } finally {
-                httpClient.close();
-            }
-            responseXML = WxUtil.httpsRequest(WxPayConfig.WECHAT_REFUND, "POST", xml);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return responseXML;
+        return WxPayUtil.mapConvertToXML(map);
     }
+
 }

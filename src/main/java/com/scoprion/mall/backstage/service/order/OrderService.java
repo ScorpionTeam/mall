@@ -55,7 +55,7 @@ public interface OrderService {
      * @param refundFee
      * @return
      */
-    BaseResult refund(Long orderId, String flag, String remark, int refundFee);
+    BaseResult refund(Long orderId, String flag, String remark, int refundFee) throws Exception;
 
 
     /**

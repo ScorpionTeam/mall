@@ -72,7 +72,7 @@
         tg.status
         FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activityId
         INNER JOIN t_good tg ON actg.goodId = tg.id
-        AND act.activityType = '1'
+        AND act.activityType = '1' AND actg.status='0' AND act.status='0'
     </select>
     <!-- 根据类型与时间计算拼团是否开始 activityType = 2 -->
     <select id="findByActivityTypeTwo" resultType="com.scoprion.mall.domain.Activity">
@@ -112,7 +112,7 @@
         tg.status
         FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activityId
         INNER JOIN t_good tg ON actg.goodId=tg.id
-        AND act.activityType = '0'
+        AND act.activityType = '0' AND actg.status='0'AND act.status='0'
     </select>
     <!-- 根据类型与时间计算秒杀是否开始 activityType = 1 -->
     <select id="findByActivityTypeOne" resultType="com.scoprion.mall.domain.Activity">
@@ -152,7 +152,7 @@
         tg.status
         FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activityId
         INNER JOIN t_good tg ON actg.goodId=tg.id
-        AND act.activityType = '2'
+        AND act.activityType = '2' AND actg.status='0'AND act.status='0'
     </select>
     <!-- 根据类型与时间计算优选是否开始 activityType = 3 -->
     <select id="findByActivityTypeThree" resultType="com.scoprion.mall.domain.Activity">
@@ -194,6 +194,6 @@
         tg.status
         FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activityId
         INNER JOIN t_good tg ON actg.goodId = tg.id
-        AND act.activityType = '3'
+        AND act.activityType = '3' AND actg.status='0' AND act.status='0'
     </select>
 </mapper>

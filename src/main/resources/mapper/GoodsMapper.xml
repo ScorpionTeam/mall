@@ -319,4 +319,10 @@
         GROUP BY good.id
     </select>
 
+
+    <!--库存回退-->
+    <update id="updateGoodStockById">
+        UPDATE t_good SET stock=stock+#{stock} WHERE id=#{goodId}
+    </update>
+
 </mapper>

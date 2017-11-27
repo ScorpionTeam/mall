@@ -10,7 +10,20 @@ import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.io.xml.XmlFriendlyNameCoder;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.util.EntityUtils;
 
+import javax.net.ssl.SSLContext;
+import java.io.File;
+import java.io.FileInputStream;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -140,6 +153,50 @@ public class WxPayUtil {
         }
         stringBuffer.append("&key=" + WxPayConfig.MCH_SECRET);
         return stringBuffer.toString();
+    }
+
+    /**
+     * 退款操作
+     *
+     * @param url
+     * @param data
+     * @param partner
+     * @return
+     */
+    public static String doRefund(String url, String data, String partner) throws Exception {
+        KeyStore keyStore = KeyStore.getInstance("PKCS12");
+        FileInputStream inputStream = new FileInputStream(new File(WxPayConfig.CERT_SECRET));
+        try {
+            keyStore.load(inputStream, partner.toCharArray());
+        } finally {
+            inputStream.close();
+        }
+        SSLContext sslContext = SSLContexts.custom().loadKeyMaterial(keyStore, partner.toCharArray()).build();
+        SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(sslContext, new String[]{"TLSv1"}, null,
+                SSLConnectionSocketFactory.BROWSER_COMPATIBLE_HOSTNAME_VERIFIER);
+        CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(sslsf).build();
+        try {
+            HttpPost httpPost = new HttpPost(url);
+            httpPost.addHeader("Connection", "keep-alive");
+            httpPost.addHeader("Accept", "*/*");
+            httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
+            httpPost.addHeader("Host", "api.mch.weixin.qq.com");
+            httpPost.addHeader("X-Requested-With", "XMLHttpRequest");
+            httpPost.addHeader("Cache-Control", "max-age=0");
+            httpPost.addHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0) ");
+            httpPost.setEntity(new StringEntity(data, "UTF-8"));
+            CloseableHttpResponse response = httpClient.execute(httpPost);
+            try {
+                HttpEntity entity = response.getEntity();
+                String jsonStr = EntityUtils.toString(response.getEntity(), "UTF-8");
+                EntityUtils.consume(entity);
+                return jsonStr;
+            } finally {
+                response.close();
+            }
+        } finally {
+            httpClient.close();
+        }
     }
 
 

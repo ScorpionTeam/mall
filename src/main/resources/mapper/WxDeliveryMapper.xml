@@ -96,7 +96,7 @@
         updateDate,
         defaultAddress
         FROM t_delivery
-        WHERE userId=#{userId} ORDER BY defaultAddress DESC
+        WHERE userId=#{userId}
     </select>
 
 
