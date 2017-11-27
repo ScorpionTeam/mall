@@ -375,6 +375,7 @@ public class WxPayServiceImpl implements WxPayService {
 
         int resultPoint = point.getPoint() - order.getOperatePoint() + addPoint;
         point.setPoint(resultPoint);
+        point.setUserId(order.getUserId());
         if (resultPoint < Constant.WX_POINT_LEVEL1) {
             point.setLevel(1);
             point.setLevelName("白银");
