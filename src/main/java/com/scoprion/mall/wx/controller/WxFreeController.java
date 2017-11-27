@@ -40,7 +40,7 @@ public class WxFreeController {
      * @param pageSize
      * @return
      */
-    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
+    @RequestMapping(value = "/findFreeList", method = RequestMethod.GET)
     public PageResult findAll(Integer pageNo, Integer pageSize) {
         return wxFreeService.findAll(pageNo, pageSize);
     }
