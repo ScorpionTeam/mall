@@ -44,6 +44,8 @@ public class WxPointController {
     /**
      * 积分记录
      *
+     * @param pageNo
+     * @param pageSize
      * @param wxCode
      * @return
      */

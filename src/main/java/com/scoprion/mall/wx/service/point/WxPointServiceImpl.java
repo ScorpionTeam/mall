@@ -99,6 +99,8 @@ public class WxPointServiceImpl implements WxPointService {
     /**
      * 积分记录
      *
+     * @param pageNo
+     * @param pageSize
      * @param wxCode
      * @return
      */
@@ -106,7 +108,7 @@ public class WxPointServiceImpl implements WxPointService {
     public PageResult pointLog(Integer pageNo, Integer pageSize, String wxCode) {
         String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
-        Page<PointLog> pointLogs = wxPointLogMapper.pointLog(userId);
+        Page<PointLog> pointLogs = wxPointLogMapper.pointLog(pageNo, pageSize, wxCode);
         return new PageResult(pointLogs);
     }
 
