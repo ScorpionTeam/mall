@@ -7,44 +7,44 @@
     <!--根据手机号登录-->
     <select id="login" resultType="com.scoprion.mall.domain.Member">
         SELECT id,name,
-        headPic,
-        nickName,
+        head_picture,
+        nick_name,
         sex,
         age,
-        certificateId,
+        certification_id,
         mobile,
         address,
         city,
         email,
-        bornDate,
+        born_date,
         certification,
         status,
-        createDate,
-        updateDate,
-        lastLoginDate,
-        loginIp
+        create_date,
+        update_date,
+        last_login_date,
+        login_ip
         FROM t_user WHERE status='0' AND mobile=#{mobile} AND password=#{password}
     </select>
 
     <!--根据email登录-->
     <select id="loginByEmail" resultType="com.scoprion.mall.domain.Member">
         SELECT id,name,
-        headPic,
-        nickName,
+        head_picture,
+        nick_name,
         sex,
         age,
-        certificateId,
+        certification_id,
         mobile,
         address,
         city,
         email,
-        bornDate,
+        born_date,
         certification,
         status,
-        createDate,
-        updateDate,
-        lastLoginDate,
-        loginIp
+        create_date,
+        update_date,
+        last_login_date,
+        login_ip
         FROM t_user WHERE status='1' AND email=#{email} AND password=#{password}
     </select>
 
@@ -60,29 +60,29 @@
 
     <!--根据昵称查询用户-->
     <select id="findByNickName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_user WHERE status='1' AND nickName=#{nickName}
+        SELECT COUNT(*) FROM t_user WHERE status='1' AND nick_name=#{nickName}
     </select>
 
     <!--用户注册-->
     <insert id="register" parameterType="com.scoprion.mall.domain.Member">
         INSERT INTO t_user(
         name,
-        headPic,
-        nickName,
+        head_picture,
+        nick_name,
         sex,
         age,
-        certificateId,
+        certificate_id,
         mobile,
         address,
         city,
         email,
-        bornDate,
+        born_date,
         certification,
         status,
-        createDate,
-        updateDate,
-        lastLoginDate,
-        loginIp,
+        create_date,
+        update_date,
+        last_login_date,
+        login_ip,
         password)
         VALUES(
         #{name},
@@ -108,64 +108,64 @@
     <select id="findByPage" resultType="com.scoprion.mall.domain.Member">
         SELECT id,
         name,
-        headPic,
-        nickName,
+        head_picture,
+        nick_name,
         sex,
         age,
-        certificateId,
+        certificate_id,
         mobile,
         address,
         city,
         email,
-        bornDate,
+        born_date,
         certification,
         status,
-        createDate,
-        updateDate,
-        lastLoginDate,
-        loginIp,
-        userType
+        create_date,
+        update_date,
+        last_login_date,
+        login_ip,
+        user_type
         FROM t_user WHERE 1=1
         <if test="searchKey!=null">
-            AND CONCAT(name,nickName,mobile)LIKE #{searchKey}
+            AND CONCAT(name,nick_name,mobile)LIKE #{searchKey}
         </if>
         <if test="startDate!=null and endDate!=null">
-            AND createDate BETWEEN #{startDate} AND #{endDate}
+            AND create_date BETWEEN #{startDate} AND #{endDate}
         </if>
         <if test="startDate!=null and endDate==null">
-            AND createDate BETWEEN #{startDate} AND NOW()
+            AND create_date BETWEEN #{startDate} AND NOW()
         </if>
         <if test="endDate!=null and startDate==null">
-            AND createDate BETWEEN '1970-01-01' AND #{endDate}
+            AND create_date BETWEEN '1970-01-01' AND #{endDate}
         </if>
     </select>
 
     <update id="modifyUserInfo" parameterType="com.scoprion.mall.domain.Member">
         UPDATE t_user SET
         <if test="name!=null">name=#{name},</if>
-        <if test="headPic!=null">headPic=#{headPic},</if>
-        <if test="nickName!=null">nickName=#{nickName},</if>
+        <if test="headPic!=null">head_picture=#{headPic},</if>
+        <if test="nickName!=null">nick_name=#{nickName},</if>
         <if test="sex!=null">sex=#{sex},</if>
         <if test="age!=null">age=#{age},</if>
-        <if test="certificateId!=null">certificateId=#{certificateId},</if>
+        <if test="certificateId!=null">certificate_id=#{certificateId},</if>
         <if test="mobile!=null">mobile=#{mobile},</if>
         <if test="address!=null">address=#{address},</if>
         <if test="city!=null">city=#{city},</if>
         <if test="email!=null">email=#{email},</if>
-        <if test="bornDate!=null">bornDate=#{bornDate},</if>
+        <if test="bornDate!=null">born_date=#{bornDate},</if>
         <if test="certification!=null">certification=#{certification},</if>
         <if test="status!=null">status=#{status},</if>
-        <if test="lastLoginDate!=null">lastLoginDate=#{lastLoginDate},</if>
-        <if test="loginIp!=null">loginIp=#{loginIp},</if>
+        <if test="lastLoginDate!=null">last_login_date=#{lastLoginDate},</if>
+        <if test="loginIp!=null">login_date=#{loginIp},</if>
         <if test="password!=null">password=#{password},</if>
-        <if test="userType!=null">userType=#{userType},</if>
-        updateDate=NOW()
+        <if test="userType!=null">user_type=#{userType},</if>
+        update_date=NOW()
         WHERE id=#{id}
     </update>
 
     <update id="updateLoginIpAddress">
       UPDATE  t_user
-      SET loginIp=#{ip}
+      SET login_ip=#{ip}
       WHERE  id=#{id}
     </update>
 

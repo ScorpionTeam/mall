@@ -17,6 +17,7 @@ public class Point {
     /**
      * 用户ID
      */
+    @JSONField(name = "user_id")
     private String userId;
 
     /**
@@ -32,18 +33,19 @@ public class Point {
     /**
      * 等级名称
      */
+    @JSONField(name = "level_name")
     private String levelName;
 
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
      * 更新时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
     private Date updateDate;
 
     public Long getId() {

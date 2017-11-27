@@ -8,13 +8,13 @@
     <select id="findByScheduler" resultType="com.scoprion.mall.domain.Order">
         SELECT
         id,
-        orderNo,
-        wxOrderNo,
-        orderStatus
+        order_no,
+        wx_order_no,
+        order_status
         FROM
         t_order
-        WHERE orderStatus ='1'
-        AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(createDate) BETWEEN 60*60*4 AND 60*60*24
+        WHERE order_status ='1'
+        AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(create_date) BETWEEN 60*60*4 AND 60*60*24
     </select>
 
     <!--订单列表-->

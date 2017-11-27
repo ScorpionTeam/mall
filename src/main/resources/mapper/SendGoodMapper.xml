@@ -7,12 +7,12 @@
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO t_send_good(orderId,
-        senderId,
-        expressName,
-        expressNo,
-        deliveryNo,
-        createDate)
+        INSERT INTO t_send_good(order_id,
+        sender_id,
+        express_name,
+        express_no,
+        delivery_no,
+        create_date)
         VALUES (#{orderId},
         #{senderId},
         #{expressName},
@@ -23,13 +23,13 @@
 
     <select id="findById" resultType="com.scoprion.mall.domain.SendGood">
         SELECT id,
-        orderId,
-        senderId,
-        expressName,
-        expressNo,
-        deliveryNo,
-        createDate,
-        updateDate
+        order_id,
+        sender_id,
+        express_name,
+        express_no,
+        delivery_no,
+        create_date,
+        update_date
         FROM  t_send_good
         WHERE id=#{id}
     </select>

@@ -10,8 +10,8 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO t_ticket_snapshot
-        (ticketName,content,startDate,endDate,money,reduceMoney,num,createDate,
-        ticketNo,type,useRange,numLimit,ticketId,status,useDate)
+        (ticket_name,content,start_date,end_date,money,reduce_money,num,create_date,
+        ticket_no,type,use_range,num_limit,ticket_id,status,use_date)
         VALUES
         (#{ticketName},#{content},#{startDate},#{endDate},#{money},#{reduceMoney},#{num},
         now(),#{ticketNo} ,#{type},#{useRange},#{numLimit},#{ticketId},#{status},#{useDate})
@@ -21,20 +21,20 @@
     <select id="findById" resultType="com.scoprion.mall.domain.TicketSnapshot">
         SELECT
         id,
-        ticketName,
+        ticket_name,
         content,
-        startDate,
-        endDate,
+        start_date,
+        end_date,
         money,
-        reduceMoney,
+        reduce_money,
         num,
         status,
-        createDate,
-        ticketNo,
+        create_date,
+        ticket_no,
         type,
-        useDate,
-        useRange,
-        numLimit
+        use_date,
+        use_range,
+        num_limit
         FROM  t_ticket_snapshot WHERE id=#{id}
     </select>
 
@@ -43,20 +43,20 @@
     <select id="findByUserIdAndTicketId" resultType="com.scoprion.mall.domain.TicketSnapshot">
         SELECT
         id,
-        ticketName,
+        ticket_name,
         content,
-        startDate,
-        endDate,
+        start_date,
+        end_date,
         money,
-        reduceMoney,
+        reduce_money,
         num,
         status,
-        createDate,
-        ticketNo,
+        create_date,
+        ticket_no,
         type,
-        useDate,
-        useRange,
-        numLimit
+        use_date,
+        use_range,
+        num_limit
         FROM  t_ticket_snapshot
         WHERE id=#{ticket}
     </select>
@@ -64,21 +64,21 @@
     <!--修改-->
     <update id="update" parameterType="com.scoprion.mall.domain.TicketSnapshot">
         UPDATE t_ticket_snapshot SET
-        <if test="ticketNo!=null ">ticketNo=#{ticketNo},</if>
+        <if test="ticketNo!=null ">ticket_no=#{ticketNo},</if>
         <if test="ticketName!=null ">ticketName=#{ticketName},</if>
         <if test="type!=null ">type=#{type},</if>
         <if test="content!=null ">content=#{content},</if>
-        <if test="startDate!=null ">startDate=#{startDate},</if>
-        <if test="endDate!=null ">endDate=#{endDate},</if>
-        <if test="createDate!=null ">createDate=#{createDate},</if>
+        <if test="startDate!=null ">start_date=#{startDate},</if>
+        <if test="endDate!=null ">end_date=#{endDate},</if>
+        <if test="createDate!=null ">create_date=#{createDate},</if>
         <if test="money!=null ">money=#{money},</if>
-        <if test="reduceMoney!=null ">reduceMoney=#{reduceMoney},</if>
+        <if test="reduceMoney!=null ">reduce_money=#{reduceMoney},</if>
         <if test="num!=null ">num=#{num},</if>
         <if test="status!=null ">status=#{status},</if>
-        <if test="useRange!=null ">useRange=#{useRange},</if>
-        <if test="useDate!=null ">useDate=#{useDate},</if>
-        <if test="numLimit!=null ">numLimit=#{numLimit},</if>
-        updateDate=now()
+        <if test="useRange!=null ">use_range=#{useRange},</if>
+        <if test="useDate!=null ">use_date=#{useDate},</if>
+        <if test="numLimit!=null ">num_limit=#{numLimit},</if>
+        update_date=now()
         where id=#{id}
     </update>
 
@@ -86,8 +86,8 @@
     <update id="modifyStatus" parameterType="com.scoprion.mall.domain.TicketSnapshot">
         UPDATE t_ticket_snapshot SET
         <if test="status!=null and status!=''">status=#{status},</if>
-        useDate=now(),
-        updateDate=now()
+        use_date=now(),
+        update_date=now()
         where id=#{id}
     </update>
 

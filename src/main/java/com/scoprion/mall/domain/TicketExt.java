@@ -13,6 +13,7 @@ public class TicketExt extends Ticket {
     /**
      * 用户id
      */
+    @JSONField(name = "user_id")
     private String userId;
 
     /**
@@ -22,7 +23,7 @@ public class TicketExt extends Ticket {
     /**
      * 用户领取优惠券时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     public String getUserId() {

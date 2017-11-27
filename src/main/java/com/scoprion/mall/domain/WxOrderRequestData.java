@@ -1,6 +1,8 @@
 package com.scoprion.mall.domain;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * @author by kunlun
  * @created on 2017/11/6.
@@ -10,16 +12,19 @@ public class WxOrderRequestData {
     /**
      * 商品id
      */
+    @JSONField(name = "good_id")
     private Long goodId;
 
     /**
      * 配送地址id
      */
+    @JSONField(name = "delivery_id")
     private Long deliveryId;
 
     /**
      * 商家名称
      */
+    @JSONField(name = "seller_name")
     private String sellerName;
 
     /**
@@ -34,6 +39,7 @@ public class WxOrderRequestData {
     /**
      * 订单类型 1pc订单  2手机订单
      */
+    @JSONField(name = "order_type")
     private String orderType;
     /**
      * 优惠券id
@@ -44,6 +50,7 @@ public class WxOrderRequestData {
      * 1使用  0 不适用
      * 是否使用优惠券
      */
+    @JSONField(name = "use_ticket")
     private String useTicket;
 
     /**
@@ -54,37 +61,32 @@ public class WxOrderRequestData {
     /**
      * 商品总额
      */
+    @JSONField(name = "good_fee")
     private int goodFee;
 
     /**
      * 实付金额
      */
+    @JSONField(name = "payment_fee")
     private int paymentFee;
 
     /**
      * 订单金额
      */
+    @JSONField(name = "order_fee")
     private int orderFee;
 
     /**
      * 优惠金额
      */
+    @JSONField(name = "reduce_fee")
     private int reduceFee;
 
     /**
      * 运费金额
      */
+    @JSONField(name = "freight_fee")
     private int freightFee;
-
-    /**
-     * 商品属性id
-     */
-    private Long attrId;
-
-    /**
-     * 商品属性值id
-     */
-    private Long attrValueId;
 
 
     public String getOrderType() {
@@ -199,22 +201,6 @@ public class WxOrderRequestData {
         this.useTicket = useTicket;
     }
 
-    public Long getAttrId() {
-        return attrId;
-    }
-
-    public void setAttrId(Long attrId) {
-        this.attrId = attrId;
-    }
-
-    public Long getAttrValueId() {
-        return attrValueId;
-    }
-
-    public void setAttrValueId(Long attrValueId) {
-        this.attrValueId = attrValueId;
-    }
-
     @Override
     public String toString() {
         return "WxOrderRequestData{" +
@@ -223,6 +209,7 @@ public class WxOrderRequestData {
                 ", sellerName='" + sellerName + '\'' +
                 ", count=" + count +
                 ", message='" + message + '\'' +
+                ", orderType='" + orderType + '\'' +
                 ", ticket=" + ticket +
                 ", useTicket='" + useTicket + '\'' +
                 ", point=" + point +
@@ -231,8 +218,6 @@ public class WxOrderRequestData {
                 ", orderFee=" + orderFee +
                 ", reduceFee=" + reduceFee +
                 ", freightFee=" + freightFee +
-                ", attrId=" + attrId +
-                ", attrValueId=" + attrValueId +
                 '}';
     }
 }

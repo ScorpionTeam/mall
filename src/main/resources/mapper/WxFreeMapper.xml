@@ -22,6 +22,6 @@
 
     <!-- 查询是否参加过该活动 -->
     <select id="validByActivityId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_order WHERE orderType='3' AND userId=#{userId}
+        SELECT COUNT(*) FROM t_order WHERE order_type='3' AND userId=#{userId}
     </select>
 </mapper>

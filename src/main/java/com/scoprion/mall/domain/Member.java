@@ -22,11 +22,13 @@ public class Member {
     /**
      * 头像
      */
+    @JSONField(name = "head_picture")
     private String headPic;
 
     /**
      * 昵称
      */
+    @JSONField(name = "nick_name")
     private String nickName;
 
     /**
@@ -42,6 +44,7 @@ public class Member {
     /**
      * 身份证号码
      */
+    @JSONField(name = "certificate_id")
     private String certificateId;
 
     /**
@@ -67,6 +70,7 @@ public class Member {
     /**
      * 生日
      */
+    @JSONField(name = "born_date")
     private String bornDate;
 
     /**
@@ -82,24 +86,25 @@ public class Member {
     /**
      * 注册时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
     private Date updateDate;
 
     /**
      * 最后一次登录时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "last_login_date")
     private Date lastLoginDate;
 
     /**
      * 登录ip
      */
+    @JSONField(name = "login_ip")
     private String loginIp;
 
     /**
@@ -115,6 +120,7 @@ public class Member {
     /**
      * 类型 0
      */
+    @JSONField(name = "user_type")
     private String userType;
 
     public Member() {
