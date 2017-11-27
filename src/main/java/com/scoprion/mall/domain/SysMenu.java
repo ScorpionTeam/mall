@@ -40,7 +40,7 @@ public class SysMenu {
     private String url;
 
     /**
-     * 菜单类型
+     * 菜单类型 0 父级 1 子级
      */
     private String type;
 

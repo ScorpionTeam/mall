@@ -75,6 +75,11 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public BaseResult findRootMenu() {
+        return BaseResult.success(menuMapper.findRootMenu());
+    }
+
+    @Override
     public BaseResult modify(SysMenu sysMenu) {
         if (sysMenu.getId() == null) {
             return BaseResult.parameterError();

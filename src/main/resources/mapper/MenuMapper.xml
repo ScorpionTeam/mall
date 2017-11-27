@@ -109,4 +109,21 @@
         FROM  t_sys_menu
         WHERE  pid='0'
     </select>
+
+    <select id="findRootMenu" resultType="com.scoprion.mall.domain.SysMenu">
+        SELECT id,
+        name,
+        pid,
+        url,
+        type,
+        status,
+        icon,
+        sort,
+        createDate,
+        updateDate,
+        description,
+        operator
+        FROM t_sys_menu WHERE pid='0'
+    </select>
+
 </mapper>

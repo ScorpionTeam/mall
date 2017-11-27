@@ -24,4 +24,6 @@ public interface MenuService {
     BaseResult deleteById(Long id);
 
     BaseResult list(String userId);
+
+    BaseResult findRootMenu();
 }
