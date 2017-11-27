@@ -138,7 +138,7 @@ public class WxActivityServiceImpl implements WxActivityService {
      */
     @Override
     public BaseResult group(OrderExt orderExt, String ipAddress) {
-        //String openId = WxUtil.getOpenId(orderExt.getWxCode());
+        String openId = WxUtil.getOpenId(orderExt.getWxCode());
         //获得活动商品详情
         ActivityGoods activityGoods = wxActivityMapper.findByActivityGoodId(orderExt.getActivityGoodId());
         Long activityId = activityGoods.getActivityId();
@@ -155,6 +155,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         } else if (currentDate.after(activity.getEndDate())) {
             return BaseResult.error("group_fail", "活动已过期");
         }
+
 
         //生成商品快照
         Long goodId = activityGoods.getGoodId();
