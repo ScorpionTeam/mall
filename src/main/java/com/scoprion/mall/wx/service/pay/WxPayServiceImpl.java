@@ -56,8 +56,6 @@ public class WxPayServiceImpl implements WxPayService {
     @Autowired
     private WxTicketSnapshotMapper wxTicketSnapshotMapper;
 
-    @Autowired
-    private WxTicketMapper wxTicketMapper;
 
     /**
      * 微信预下单
@@ -84,11 +82,11 @@ public class WxPayServiceImpl implements WxPayService {
             if (ticketSnapshot == null) {
                 return BaseResult.error("error", "请先领取优惠券");
             }
-            if (Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
-                return BaseResult.error("error", "优惠券已经使用过了");
-            }
             if (ticketSnapshot.getStartDate().after(new Date())) {
                 return BaseResult.error("error", "优惠券未到使用日期");
+            }
+            if (Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
+                return BaseResult.error("error", "优惠券已经使用过了");
             }
             if (ticketSnapshot.getEndDate().before(new Date())) {
                 return BaseResult.error("error", "优惠券已过期");
