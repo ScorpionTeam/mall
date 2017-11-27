@@ -40,6 +40,9 @@ public class OrderServiceImpl implements OrderService {
     private GoodsMapper goodsMapper;
 
     @Autowired
+    private GoodLogMapper goodLogMapper;
+
+    @Autowired
     private PointMapper pointMapper;
 
     @Autowired
@@ -68,6 +71,8 @@ public class OrderServiceImpl implements OrderService {
         //关闭该订单
         order.setOrderStatus("6");
         orderMapper.modify(order);
+        saveOrderLog(orderId, order.getOrderNo(), "退货");
+        saveGoodLog(order.getGoodName(), order.getGoodId(), "订单退货,返回库存");
         return BaseResult.success("操作成功");
     }
 
@@ -98,6 +103,15 @@ public class OrderServiceImpl implements OrderService {
         }
         Order order = orderMapper.findById(orderId);
         //生成发货信息记录，
+        SendGood sendGood = saveSendGoodInfo(orderId, deliveryNo, expressName, expressNo, senderId);
+        //修改订单信息，发货时间、状态3(待收货)，发货信息id，
+        orderMapper.updateSendGood(orderId, 3, deliveryNo, sendGood.getId());
+        //生成订单日志
+        saveOrderLog(orderId, order.getOrderNo(), "订单发货");
+        return BaseResult.success("操作成功");
+    }
+
+    private SendGood saveSendGoodInfo(Long orderId, String deliveryNo, String expressName, String expressNo, Long senderId) {
         SendGood sendGood = new SendGood();
         sendGood.setDeliveryNo(deliveryNo);
         sendGood.setExpressName(expressName);
@@ -105,15 +119,7 @@ public class OrderServiceImpl implements OrderService {
         sendGood.setOrderId(orderId);
         sendGood.setSenderId(senderId);
         sendGoodMapper.add(sendGood);
-        //修改订单信息，发货时间、状态3(待收货)，发货信息id，
-        orderMapper.updateSendGood(orderId, 3, deliveryNo, sendGood.getId());
-        //生成订单日志
-        OrderLog orderLog = new OrderLog();
-        orderLog.setOrderNo(order.getOrderNo());
-        orderLog.setOrderId(orderId);
-        orderLog.setAction("发货");
-        orderLogMapper.add(orderLog);
-        return BaseResult.success("操作成功");
+        return sendGood;
     }
 
     @Override
@@ -213,15 +219,6 @@ public class OrderServiceImpl implements OrderService {
         return BaseResult.success("修改成功");
     }
 
-    private void saveOrderLog(Long id, String orderNo, String action) {
-        OrderLog orderLog = new OrderLog();
-        orderLog.setOrderId(id);
-        orderLog.setIpAddress("");
-        orderLog.setOrderNo(orderNo);
-        orderLog.setAction(action);
-        orderLogMapper.add(orderLog);
-    }
-
     /**
      * 退款
      *
@@ -251,10 +248,9 @@ public class OrderServiceImpl implements OrderService {
             if (result) {
                 orderMapper.updateOrderRefundById(order.getId(), "6", "");
                 saveOrderLog(order.getId(), order.getOrderNo(), "退款");
-                //TODO 商品库存返还
                 goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
                 //记录商品库存反还日志
-
+                saveGoodLog(order.getGoodName(), order.getGoodId(), "退款，商品库存返还");
                 //正式代码：int point = order.getPaymentFee() / 1000;
                 int point = order.getPaymentFee();
                 Point localPoint = pointMapper.findByUserId(order.getUserId());
@@ -269,6 +265,14 @@ public class OrderServiceImpl implements OrderService {
         return BaseResult.success("退款成功");
     }
 
+    private void saveGoodLog(String goodName, Long goodId, String Action) {
+        GoodLog goodLog = new GoodLog();
+        goodLog.setAction(Action);
+        goodLog.setGoodId(goodId);
+        goodLog.setGoodName(goodName);
+        goodLogMapper.add(goodLog);
+    }
+
     private void savePointLog(Order order, int point, Point localPoint) {
         PointLog pointLog = new PointLog();
         pointLog.setAction("1");
@@ -278,6 +282,14 @@ public class OrderServiceImpl implements OrderService {
         wxPointLogMapper.add(pointLog);
     }
 
+    private void saveOrderLog(Long orderId, String orderNo, String action) {
+        OrderLog orderLog = new OrderLog();
+        orderLog.setOrderId(orderId);
+        orderLog.setIpAddress("");
+        orderLog.setOrderNo(orderNo);
+        orderLog.setAction(action);
+        orderLogMapper.add(orderLog);
+    }
 
     private String returnMessage(String code) {
         String result = "";

@@ -5,7 +5,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
+import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.domain.GoodExt;
+import com.scoprion.mall.domain.GoodLog;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.mall.domain.MallImage;
@@ -31,6 +33,9 @@ public class GoodsServiceImpl implements GoodsService {
 
     @Autowired
     private GoodsMapper goodsMapper;
+
+    @Autowired
+    private GoodLogMapper goodLogMapper;
 
     @Autowired
     private FileOperationMapper fileOperationMapper;
@@ -81,7 +86,16 @@ public class GoodsServiceImpl implements GoodsService {
             }
             return BaseResult.success("添加成功");
         }
+        saveGoodLog(good.getGoodName(), "创建商品", good.getId());
         return BaseResult.error("mock_fail", "创建商品失败");
+    }
+
+    private void saveGoodLog(String goodName, String action, Long goodId) {
+        GoodLog goodLog = new GoodLog();
+        goodLog.setGoodName(goodName);
+        goodLog.setGoodId(goodId);
+        goodLog.setAction(action);
+        goodLogMapper.add(goodLog);
     }
 
     /**
@@ -293,7 +307,6 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey) {
-
         PageHelper.startPage(pageNo, pageSize);
         List<GoodExt> result = goodsMapper.findForActivity(searchKey);
         return new PageResult(result);

@@ -1,0 +1,37 @@
+package com.scoprion.mall.backstage.mapper;
+
+import com.github.pagehelper.Page;
+import com.scoprion.mall.domain.GoodExt;
+import com.scoprion.mall.domain.GoodLog;
+import com.scoprion.mall.domain.Goods;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+/**
+ * Created on 2017/9/29.
+ *
+ * @author adming
+ */
+@Mapper
+public interface GoodLogMapper {
+    /**
+     * 添加
+     *
+     * @param goodLog
+     * @return
+     */
+    Integer add(GoodLog goodLog);
+
+    /**
+     * 分页模糊查询
+     *
+     * @param searchKey
+     * @param goodId
+     * @return
+     */
+    Page<GoodLog> findByCondition(@Param("goodId") Long goodId,
+                                  @Param("searchKey") String searchKey);
+
+}

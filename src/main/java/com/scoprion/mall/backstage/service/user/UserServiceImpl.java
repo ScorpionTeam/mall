@@ -201,14 +201,14 @@ public class UserServiceImpl implements UserService {
         return BaseResult.success(member);
     }
 
-    public static void main(String[] args) {
-
-        String password = "e10adc3949ba59abbe56e057f20f883e";
-        try {
-            password = EncryptUtil.aesDecrypt(password, "1123456");
-            password.toUpperCase();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public static void main(String[] args) {
+//
+//        String password = "e10adc3949ba59abbe56e057f20f883e";
+//        try {
+//            password = EncryptUtil.aesDecrypt(password, "1123456");
+//            password.toUpperCase();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
