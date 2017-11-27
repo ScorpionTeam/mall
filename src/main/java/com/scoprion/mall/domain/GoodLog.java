@@ -11,26 +11,31 @@ import java.util.Date;
  */
 
 public class GoodLog {
+
     /**
      * 主键
      */
     @JSONField(name = "id")
     private Long id;
+
     /**
      * 商品ID
      */
-    @JSONField(name = "goodId")
+    @JSONField(name = "good_id")
     private Long goodId;
+
     /**
      * 商品名称
      */
-    @JSONField(name = "goodName")
+    @JSONField(name = "good_name")
     private String goodName;
+
     /**
      * 创建时间
      */
-    @JSONField(name = "createDate")
+    @JSONField(name = "create_date")
     private Date createDate;
+
     /**
      * 操作
      */

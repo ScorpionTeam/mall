@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.*;
 import com.scoprion.mall.wx.pay.WxPayConfig;
@@ -45,6 +46,9 @@ public class WxFreeServiceImpl implements WxFreeService {
 
     @Autowired
     private WxGoodMapper wxGoodMapper;
+
+    @Autowired
+    private GoodLogMapper goodLogMapper;
 
     /**
      * 查询试用商品列表
@@ -230,6 +234,9 @@ public class WxFreeServiceImpl implements WxFreeService {
             wxOrderLogMapper.add(orderLog);
             //库存扣减
             wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
+
+            saveGoodLog(order);
+
 //            //积分扣减、增加
 //            BaseResult operateResult = operatePoint(order);
 //            if (operateResult != null) {
@@ -239,6 +246,14 @@ public class WxFreeServiceImpl implements WxFreeService {
             wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
         }
         return BaseResult.success("支付回调成功");
+    }
+
+    private void saveGoodLog(Order order) {
+        GoodLog goodLog = new GoodLog();
+        goodLog.setAction("库存扣减" + order.getCount());
+        goodLog.setGoodName(order.getGoodName());
+        goodLog.setGoodId(order.getGoodId());
+        goodLogMapper.add(goodLog);
     }
 
     /**
