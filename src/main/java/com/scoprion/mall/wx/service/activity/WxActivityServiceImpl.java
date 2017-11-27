@@ -156,6 +156,7 @@ public class WxActivityServiceImpl implements WxActivityService {
             return BaseResult.error("group_fail", "活动已过期");
         }
 
+
         //生成商品快照
         Long goodId = activityGoods.getGoodId();
         Goods goods = wxActivityMapper.findByGoodId(goodId);

@@ -32,6 +32,7 @@ public interface WxActivityService {
      */
     PageResult secKill(int pageNo, int pageSize);
 
+
     /**
      * 优选
      *

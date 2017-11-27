@@ -208,6 +208,7 @@
         SELECT COUNT(*) FROM t_order WHERE orderType='4' AND userId=#{userId}
     </select>
 
+
     <!-- 查询商品详情 -->
     <select id="findById" resultType="com.scoprion.mall.domain.Activity">
         SELECT * FROM t_activity WHERE id=#{activityId}

@@ -89,6 +89,7 @@ public interface WxActivityMapper {
      */
     Activity findById(@Param("activityId") Long activityId);
 
+
     /**
      * 获取商品详情
      *

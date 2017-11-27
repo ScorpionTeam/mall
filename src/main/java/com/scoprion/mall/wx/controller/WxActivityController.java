@@ -52,6 +52,7 @@ public class WxActivityController {
         return wxActivityService.group(orderExt, ipAddress);
     }
 
+
     /**
      * 秒杀
      *
