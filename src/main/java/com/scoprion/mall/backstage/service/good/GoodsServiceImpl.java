@@ -146,8 +146,8 @@ public class GoodsServiceImpl implements GoodsService {
         if (localGood == null) {
             return BaseResult.error("unable_update", "未找到商品");
         }
-        if (!StringUtils.isEmpty(localGood.getIsOnSale()) &&
-                Constant.STATUS_ONE.equals(localGood.getIsOnSale())) {
+        if (!StringUtils.isEmpty(localGood.getOnSale()) &&
+                Constant.STATUS_ONE.equals(localGood.getOnSale())) {
             //上架状态，不能修改
             return BaseResult.error("unable_update", "商品为上架状态，不能修改");
         }
@@ -239,7 +239,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public BaseResult deleteGoodsById(Long id) {
         Goods goods = goodsMapper.findById(id);
-        if (Constant.ON_SALE.equals(goods.getIsOnSale())) {
+        if (Constant.ON_SALE.equals(goods.getOnSale())) {
             return BaseResult.error("del_error", "删除失败，商品未下架，不能删除");
         }
         List<Long> idList = new ArrayList<>();

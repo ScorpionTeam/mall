@@ -189,10 +189,10 @@ public class WxFreeServiceImpl implements WxFreeService {
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
             return BaseResult.error("not_enough_stock", "商品已经下架");
         }
-        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
             //商品处于下架状态，不能下单
             return BaseResult.error("can_not_order", "商品已下架");
         }

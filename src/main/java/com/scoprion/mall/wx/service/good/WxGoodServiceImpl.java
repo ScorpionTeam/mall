@@ -64,7 +64,7 @@ public class WxGoodServiceImpl implements WxGoodService {
         if (goods == null) {
             return BaseResult.notFound();
         }
-        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
             return BaseResult.error("not_enough_stock", "商品已经下架");
         }
         //获取图片列表
