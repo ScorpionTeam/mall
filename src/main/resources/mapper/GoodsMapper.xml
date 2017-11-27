@@ -177,8 +177,6 @@
         <if test="searchKey!=null and   searchKey!=''">AND CONCAT(good.good_name,good.description,good.good_no) LIKE
             #{searchKey}
         </if>
-
-
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>

@@ -211,9 +211,9 @@ public class GoodsServiceImpl implements GoodsService {
         try {
             Date tmp1 = sdf.parse(startDate);
             Date tmp2 = sdf.parse(endDate);
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-            startDate = sdf2.format(tmp1);
-            endDate = sdf2.format(tmp2);
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
+            startDate = sdf2.format(tmp1) + "23:59:59";
+            endDate = sdf2.format(tmp2) + "23:59:59";
         } catch (Exception e) {
             e.printStackTrace();
         }
