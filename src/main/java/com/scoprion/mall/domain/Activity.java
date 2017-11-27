@@ -29,6 +29,7 @@ public class Activity {
      * 1拼团
      * 2优选
      */
+    @JSONField(name = "activity_type")
     private String activityType;
 
     /**
@@ -41,13 +42,13 @@ public class Activity {
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
     private Date updateDate;
 
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
@@ -69,20 +70,19 @@ public class Activity {
     /**
      * 活动开始时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "start_date")
     private Date startDate;
 
     /**
      * 活动结束时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "end_date")
     private Date endDate;
 
     /**
      * 折扣价  80表示80%
      */
     private Integer discount;
-
 
     /**
      * 活动描述

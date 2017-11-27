@@ -1,12 +1,18 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.mall.domain.OrderExt;
 import com.scoprion.mall.wx.service.activity.WxActivityService;
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.scoprion.utils.IPUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -22,7 +28,7 @@ public class WxActivityController {
     private WxActivityService wxActivityService;
 
     /**
-     * 拼团
+     * 拼团列表
      *
      * @param pageNo
      * @param pageSize
@@ -32,6 +38,20 @@ public class WxActivityController {
     public PageResult findByGroup(int pageNo, int pageSize) {
         return wxActivityService.findByGroup(pageNo, pageSize);
     }
+
+    /**
+     * 参加拼团
+     *
+     * @param orderExt
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/group", method = RequestMethod.POST)
+    public BaseResult group(@RequestBody OrderExt orderExt, HttpServletRequest request) {
+        String ipAddress = IPUtil.getIPAddress(request);
+        return wxActivityService.group(orderExt, ipAddress);
+    }
+
 
     /**
      * 秒杀

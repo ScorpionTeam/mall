@@ -10,19 +10,18 @@
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO t_delivery(userId,
+        INSERT INTO t_delivery(user_id,
         recipients,
         phone,
         province,
         city,
         area,
         address,
-        postCode,
-        createDate,
-        updateDate,
+        post_code,
+        create_date,
+        update_date,
         type,
-        defaultAddress,
-        wechat)
+        default_address)
         VALUES(#{userId},
         #{recipients},
         #{phone},
@@ -34,8 +33,7 @@
         NOW(),
         NOW(),
         #{type},
-        1,
-        #{wechat})
+        1)
     </insert>
 
 
@@ -48,7 +46,7 @@
         <if test="city!=null">city=#{city},</if>
         <if test="area!=null">area=#{area},</if>
         <if test="address!=null">address=#{address},</if>
-        <if test="postCode!=null">postCode=#{postCode},</if>
+        <if test="postCode!=null">post_code=#{postCode},</if>
         <if test="type!=null">type=#{type},</if>
         updateDate=NOW()
         WHERE id=#{id}
@@ -61,13 +59,13 @@
 
     <!--修改其他的地址为不默认地址-->
     <update id="updateDefaultById">
-        UPDATE t_delivery SET defaultAddress='0' WHERE userId=#{userId} AND id !=#{id}
+        UPDATE t_delivery SET defaultAddress='0' WHERE user_id=#{userId} AND id !=#{id}
     </update>
 
     <!--获取收货地址详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.Delivery">
         SELECT id,
-        userId,
+        user_id,
         recipients,
         phone,
         province,
@@ -75,7 +73,9 @@
         area,
         address,
         type,
-        postCode
+        post_code,
+        create_date,
+        update_date
         FROM t_delivery
         WHERE id=#{id}
     </select>
@@ -99,20 +99,20 @@
     <!--分页查询用户收获地址-->
     <select id="listPage" resultType="com.scoprion.mall.domain.Delivery">
         SELECT id,
-        userId,
+        user_id,
         recipients,
         phone,
         province,
         city,
         area,
         address,
-        postCode,
-        createDate,
+        post_code,
+        create_date,
         type,
-        updateDate,
-        defaultAddress
+        update_date,
+        default_address
         FROM t_delivery
-        WHERE userId=#{userId}
+        WHERE user_id=#{userId}
     </select>
 
 

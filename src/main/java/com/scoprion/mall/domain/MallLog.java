@@ -13,9 +13,11 @@ public class MallLog {
     private Long id;
 
     //商品编码
+    @JSONField(name = "good_no")
     private String goodNo;
 
     //店铺编码
+    @JSONField(name = "seller_no")
     private String sellerNo;
 
     //日志类型
@@ -27,13 +29,14 @@ public class MallLog {
     private String type;
 
     //ip地址
+    @JSONField(name = "ip_address")
     private String ipAddress;
 
     //操作mi
     private String description;
 
     //创建时间
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     public Long getId() {

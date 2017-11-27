@@ -15,4 +15,5 @@ public interface PointMapper {
                         @Param("pointVal") Integer pointVal);
 
     Point findByUserId(@Param("userId") String userId);
+    
 }

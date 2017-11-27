@@ -14,18 +14,23 @@ public class GoodSnapshot {
     private Long id;
 
     //商品id
+    @JSONField(name = "good_id")
     private Long goodId;
 
     //商品编号
+    @JSONField(name = "good_no")
     private String goodNo;
 
     //商品快照编码
+    @JSONField(name = "good_snapshot_no")
     private String goodSnapShotNo;
 
     //商品名称
+    @JSONField(name = "good_name")
     private String goodName;
 
     //商品描述
+    @JSONField(name = "good_description")
     private String goodDescription;
 
     //促销价
@@ -38,22 +43,14 @@ public class GoodSnapshot {
     private int discount;
 
     //商品主图
-    private String mainImgUrl;
+    @JSONField(name = "main_image_url")
+    private String mainImageUrl;
 
+    @JSONField(name = "rich_content")
     private String richContent;
 
-    /**
-     * 商品属性id
-     */
-    private Long attrId;
-
-    /**
-     * 商品属性值id
-     */
-    private Long attrValueId;
-
     //创建时间
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
 
@@ -129,14 +126,6 @@ public class GoodSnapshot {
         this.discount = discount;
     }
 
-    public String getMainImgUrl() {
-        return mainImgUrl;
-    }
-
-    public void setMainImgUrl(String mainImgUrl) {
-        this.mainImgUrl = mainImgUrl;
-    }
-
     public Date getCreateDate() {
         return createDate;
     }
@@ -153,19 +142,28 @@ public class GoodSnapshot {
         this.richContent = richContent;
     }
 
+    public String getMainImageUrl() {
+        return mainImageUrl;
+    }
+
+    public void setMainImageUrl(String mainImageUrl) {
+        this.mainImageUrl = mainImageUrl;
+    }
+
     @Override
     public String toString() {
         return "GoodSnapshot{" +
                 "id=" + id +
                 ", goodId=" + goodId +
+                ", goodNo='" + goodNo + '\'' +
                 ", goodSnapShotNo='" + goodSnapShotNo + '\'' +
                 ", goodName='" + goodName + '\'' +
                 ", goodDescription='" + goodDescription + '\'' +
                 ", promotion=" + promotion +
-                ", richContent=" + richContent +
                 ", price=" + price +
                 ", discount=" + discount +
-                ", mainImgUrl='" + mainImgUrl + '\'' +
+                ", mainImageUrl='" + mainImageUrl + '\'' +
+                ", richContent='" + richContent + '\'' +
                 ", createDate=" + createDate +
                 '}';
     }

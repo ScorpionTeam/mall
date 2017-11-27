@@ -9,7 +9,7 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO t_activity
-        (name,activityType,status,createDate,startDate,endDate,num,target,discount,describes)
+        (name,activity_type,status,create_date,start_date,end_date,num,target,discount,describes)
         VALUES
         (#{name},#{activityType},#{status},now(),#{startDate},#{endDate},#{num},#{target},#{discount},#{describes})
     </insert>
@@ -17,16 +17,16 @@
     <update id="modify" parameterType="com.scoprion.mall.domain.Activity">
         UPDATE t_activity SET
         <if test="name!=null">name=#{name},</if>
-        <if test="activityType!=null">activityType=#{activityType},</if>
+        <if test="activityType!=null">activity_type=#{activityType},</if>
         <if test="status!=null">status=#{status},</if>
         <if test="target!=null">target=#{target},</if>
-        <if test="createDate!=null">createDate=#{createDate},</if>
-        <if test="startDate!=null">startDate=#{startDate},</if>
-        <if test="endDate!=null">endDate=#{endDate},</if>
+        <if test="createDate!=null">create_date=#{createDate},</if>
+        <if test="startDate!=null">start_date=#{startDate},</if>
+        <if test="endDate!=null">end_date=#{endDate},</if>
         <if test="num!=null">num=#{num},</if>
         <if test="discount!=null">discount=#{discount},</if>
         <if test="describes!=null">describes=#{describes},</if>
-        updateDate=now()
+        update_date=now()
         WHERE id=#{id}
     </update>
 
@@ -36,16 +36,16 @@
         ta.id,
         ta.name,
         ta.status,
-        ta.activityType,
+        ta.activity_type,
         ta.target,
-        ta.startDate,
-        ta.endDate,
+        ta.start_date,
+        ta.end_date,
         ta.num,
         ta.discount,
         ta.describes,
-        ta.createDate
+        ta.create_date
         FROM t_activity ta WHERE 1=1
-        <if test="type!=null">AND ta.activityType=#{type}</if>
+        <if test="type!=null">AND ta.activity_type=#{type}</if>
         <if test="status!=null">AND ta.status=#{status}</if>
         <if test="searchKey!=null">AND ta.name LIKE #{searchKey}</if>
     </select>
@@ -73,15 +73,15 @@
     <!--根据商品id查询商品参加的活动-->
     <select id="findActivityByGoodId" resultType="java.lang.Integer">
         SELECT  COUNT(*) FROM  t_activity_good tag
-        LEFT JOIN t_activity ta ON tag.activityId=ta.id
-        WHERE tag.goodId=#{goodId} AND ta.status='0'
+        LEFT JOIN t_activity ta ON tag.activity_id=ta.id
+        WHERE tag.good_id=#{goodId} AND ta.status='0'
     </select>
 
     <!--批量修改状态-->
     <update id="batchModifyStatus">
         UPDATE t_activity SET
         status=#{status},
-        updateDate=now()
+        update_date=now()
         WHERE id IN
         <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
             #{item}
@@ -91,9 +91,9 @@
     <select id="validByTypeAndTime" resultType="java.lang.Integer">
          SELECT COUNT(*) FROM  t_activity
          WHERE  status='0'
-         AND activityType=#{activityType}
-         AND ((#{startDate} BETWEEN startDate AND endDate)
-            OR( #{endDate} BETWEEN startDate AND endDate))
+         AND activity_type=#{activityType}
+         AND ((#{startDate} BETWEEN start_date AND end_date)
+            OR( #{endDate} BETWEEN start_date AND end_date))
     </select>
 
 </mapper>

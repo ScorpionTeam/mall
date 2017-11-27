@@ -9,7 +9,7 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO t_sys_menu
-        (name,pid,url,type,status,icon,description,operator,sort,createDate)
+        (name,pid,url,type,status,icon,description,operator,sort,create_date)
         VALUES
         (#{name},#{pid},#{url},#{type},#{status},#{icon},#{description},#{operator},#{sort},now())
     </insert>
@@ -23,10 +23,10 @@
         <if test="status!=null">status=#{status},</if>
         <if test="icon!=null">icon=#{icon},</if>
         <if test="sort!=null">sort=#{sort},</if>
-        <if test="createDate!=null">createDate=#{createDate},</if>
+        <if test="createDate!=null">create_date=#{createDate},</if>
         <if test="description!=null">description=#{description},</if>
         <if test="operator!=null">operator=#{operator},</if>
-        updateDate=now()
+        update_date=now()
         WHERE id=#{id}
     </update>
 
@@ -41,8 +41,8 @@
         status,
         icon,
         sort,
-        createDate,
-        updateDate,
+        create_date,
+        update_date,
         description,
         operator
         FROM t_sys_menu WHERE 1=1
@@ -79,8 +79,8 @@
         status,
         icon,
         sort,
-        createDate,
-        updateDate,
+        create_date,
+        update_date,
         description,
         operator
         FROM  t_sys_menu
@@ -102,8 +102,8 @@
         status,
         icon,
         sort,
-        createDate,
-        updateDate,
+        create_date,
+        update_date,
         description,
         operator
         FROM  t_sys_menu

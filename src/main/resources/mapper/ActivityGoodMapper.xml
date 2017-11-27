@@ -7,7 +7,7 @@
     <!--添加商品活动关系-->
     <insert id="bindActivityGood">
         INSERT INTO t_activity_good
-        (activityId,goodId,status,stock,createDate)
+        (activity_id,good_id,status,stock,create_date)
         VALUES
         (#{activityId},#{goodId},#{status},#{stock},now())
     </insert>
@@ -16,20 +16,20 @@
     <update id="unbindActivityWithGood">
         UPDATE  t_activity_good SET
         status='1',
-        updateDate=now()
-        WHERE goodId=#{goodId}
+        update_date=now()
+        WHERE good_id=#{goodId}
     </update>
 
     <!--根据商品id查询商品参加的活动-->
     <select id="findByGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
         SELECT  id,
-        activityId,
-        createDate,
-        goodId,
+        activity_id,
+        create_date,
+        good_id,
         stock,
         status
         FROM  t_activity_good
-        WHERE  goodId=#{goodId} AND status='0'
+        WHERE  good_id=#{goodId} AND status='0'
     </select>
 
 </mapper>

@@ -103,7 +103,7 @@ public class WxPayServiceImpl implements WxPayService {
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
             //商品处于下架状态，不能下单
             return BaseResult.error("can_not_order", "商品已下架");
         }
@@ -233,7 +233,7 @@ public class WxPayServiceImpl implements WxPayService {
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
             //商品处于下架状态，不能下单
             return BaseResult.error("can_not_order", "商品已下架");
         }
@@ -316,7 +316,7 @@ public class WxPayServiceImpl implements WxPayService {
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        if (Constant.STATUS_ZERO.equals(goods.getIsOnSale())) {
+        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
             //商品处于下架状态，不能下单
             return BaseResult.error("can_not_order", "商品已下架");
         }
@@ -479,7 +479,7 @@ public class WxPayServiceImpl implements WxPayService {
         order.setGoodName(goods.getGoodName());
         order.setDeliveryId(delivery.getId());
         order.setOperatePoint(wxOrderRequestData.getPoint());
-        order.setUserId(wxOrderRequestData.getUseTicket());
+        order.setUserId(userId);
         order.setOrderFee(wxOrderRequestData.getOrderFee());
         order.setGoodFee(wxOrderRequestData.getGoodFee());
         order.setReduceFee(wxOrderRequestData.getReduceFee());

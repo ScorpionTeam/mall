@@ -4,11 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.MallLogMapper">
     <insert id="add" parameterType="com.scoprion.mall.domain.MallLog">
-        INSERT  INTO t_mall_log(goodNo,
-        sellerNo,
+        INSERT  INTO t_mall_log(good_no,
+        seller_no,
         type,
-        ipAddress,
-        createDate,
+        ip_address,
+        create_date,
         description)
         VALUES (#{goodNo},
         #{sellerNo},

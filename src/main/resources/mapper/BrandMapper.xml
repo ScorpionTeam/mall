@@ -10,7 +10,7 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO t_brand
-        (brandName,brandImg,createDate,updateDate,status,shortName,country,contact,contactPhone)
+        (brand_name,brand_image,create_date,update_date,status,short_name,country,contact,contact_phone)
         VALUES
         (#{brandName},#{brandImg},now(),now(),#{status},#{shortName},#{country},#{contact},#{contactPhone})
     </insert>
@@ -18,15 +18,15 @@
     <!--修改品牌-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Brand">
         UPDATE t_brand SET
-        <if test="brandName!=null">brandName=#{brandName},</if>
-        <if test="brandImg!=null">brandImg=#{brandImg},</if>
+        <if test="brandName!=null">brand_name=#{brandName},</if>
+        <if test="brandImg!=null">brand_image=#{brandImg},</if>
         <if test="status!=null">status=#{status},</if>
-        <if test="shortName!=null">shortName=#{shortName},</if>
-        <if test="createDate!=null">createDate=#{createDate},</if>
+        <if test="shortName!=null">short_name=#{shortName},</if>
+        <if test="createDate!=null">create_date=#{createDate},</if>
         <if test="country!=null">country=#{country},</if>
         <if test="contact!=null">contact=#{contact},</if>
-        <if test="contactPhone!=null">contactPhone=#{contactPhone},</if>
-        updateDate=now()
+        <if test="contactPhone!=null">contact_phone=#{contactPhone},</if>
+        update_date=now()
         WHERE id=#{id}
     </update>
 
@@ -34,23 +34,23 @@
     <select id="findByCondition" resultType="com.scoprion.mall.domain.Brand">
         SELECT
         id,
-        brandName,
-        brandImg,
-        createDate,
+        brand_name,
+        brand_image,
+        create_date,
         status,
-        shortName
+        short_name
         FROM t_brand WHERE 1=1
-        <if test="searchKey!=null">AND CONCAT(brandName,shortName) LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND CONCAT(brand_name,short_name) LIKE #{searchKey}</if>
     </select>
 
     <!--查询品牌名称数量-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM  t_brand WHERE  brandName=#{brandName} AND status='1'
+        SELECT COUNT(*) FROM  t_brand WHERE  brand_name=#{brandName} AND status='1'
     </select>
 
     <!--品牌id、名称校验-->
     <select id="validByNameAndId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_brand WHERE brandName =#{brandName} AND id!=#{id} AND status='1'
+        SELECT COUNT(*) FROM t_brand WHERE brand_name =#{brandName} AND id!=#{id} AND status='1'
     </select>
 
     <!--根据ID查询品牌详情-->
@@ -61,7 +61,7 @@
     <update id="batchModifyStatus">
         UPDATE t_brand SET
         status=#{status},
-        updateDate=now()
+        update_date=now()
         WHERE id IN
         <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
             #{item}

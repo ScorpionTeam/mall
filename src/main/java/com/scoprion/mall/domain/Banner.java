@@ -3,6 +3,7 @@ package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import javax.print.attribute.standard.MediaSize;
 import java.util.Date;
 
 /**
@@ -25,16 +26,19 @@ public class Banner {
     /**
      * 轮播图图片地址
      */
-    private String imgUrl;
+    @JSONField(name = "image_url")
+    private String imageUrl;
 
     /**
      * 跳转链接
      */
+    @JSONField(name = "action_url")
     private String actionUrl;
 
     /**
      * 访问量
      */
+    @JSONField(name = "visit_total")
     private int visitTotal;
 
     /**
@@ -49,13 +53,13 @@ public class Banner {
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
      * 更新时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
     private Date updateDate;
 
     public int getSort() {
@@ -80,14 +84,6 @@ public class Banner {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
     }
 
     public String getActionUrl() {
@@ -130,15 +126,24 @@ public class Banner {
         this.updateDate = updateDate;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public String toString() {
         return "Banner{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", imgUrl='" + imgUrl + '\'' +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", actionUrl='" + actionUrl + '\'' +
                 ", visitTotal=" + visitTotal +
                 ", status='" + status + '\'' +
+                ", sort=" + sort +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 '}';

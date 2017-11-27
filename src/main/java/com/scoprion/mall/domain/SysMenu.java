@@ -1,7 +1,6 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Transient;
 import java.util.Date;
@@ -52,11 +51,13 @@ public class SysMenu {
     /**
      * 创建时间
      */
+    @JSONField(name = "create_time",format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /**
      * 修改时间
      */
+    @JSONField(name = "update_date",format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /**

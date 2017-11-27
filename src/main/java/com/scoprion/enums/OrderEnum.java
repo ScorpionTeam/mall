@@ -18,7 +18,7 @@ public enum OrderEnum {
     MOBILE_ORDER("MOBILE_ORDER", "手机订单"),
     FREE_ORDER("FREE_ORDER", "免费试用订单"),
     ALI_PAY("ALI_PAY", "支付宝"),
-    WE_CHAT_PAY("WECHAT_PAY", "微信"),
+    WE_CHAT_PAY("WE_CHAT_PAY", "微信"),
     CREDIT_PAY("CREDIT_PAY", "信用卡"),
     DEPOSIT_PAY("DEPOSIT_PAY", "储蓄卡"),
     USE_TICKET("USE_TICKET", "使用优惠券"),
