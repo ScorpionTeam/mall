@@ -51,9 +51,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public BaseResult list(String userId) {
         Integer validCount = menuMapper.validAdmin(userId);
+        List<SysMenu> list;
         if (validCount > 0) {
             //管理员用户菜单
-            List<SysMenu> list = menuMapper.findRootMenuList();
+            list = menuMapper.findRootMenuList();
             if (list != null && list.size() > 0) {
                 list.forEach(menu -> {
                     List<SysMenu> childMenuList = menuMapper.findRootMenuList();
@@ -62,7 +63,7 @@ public class MenuServiceImpl implements MenuService {
             }
             return BaseResult.success(list);
         } else {
-            List<SysMenu> list = menuMapper.findByUrlAndUserId("0", userId);
+            list = menuMapper.findByUrlAndUserId("0", userId);
             if (list != null && list.size() > 0) {
                 list.forEach(menu -> {
                     List<SysMenu> childMenuList = menuMapper.findByUrlAndUserId(menu.getUrl(), userId);
@@ -70,7 +71,7 @@ public class MenuServiceImpl implements MenuService {
                 });
             }
         }
-        return null;
+        return BaseResult.success(list);
     }
 
     @Override
@@ -87,11 +88,6 @@ public class MenuServiceImpl implements MenuService {
             return BaseResult.success("修改成功");
         }
         return BaseResult.error("add_error", "修改失败");
-    }
-
-    @Override
-    public PageResult init(String userId) {
-        return null;
     }
 
     @Override

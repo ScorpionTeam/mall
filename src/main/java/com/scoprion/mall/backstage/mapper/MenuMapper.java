@@ -38,5 +38,5 @@ public interface MenuMapper {
 
     List<SysMenu> findRootMenuList();
 
-    List<SysMenu> findByUrlAndUserId(String s, String userId);
+    List<SysMenu> findByUrlAndUserId(@Param("url") String url, @Param("userId") String userId);
 }

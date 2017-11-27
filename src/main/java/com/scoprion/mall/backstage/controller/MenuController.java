@@ -24,12 +24,6 @@ public class MenuController {
     @Autowired
     MenuService menuService;
 
-    @ApiOperation("初始化菜单")
-    @RequestMapping(value = "/init", method = RequestMethod.GET)
-    public PageResult init(String userId) {
-        return menuService.init(userId);
-    }
-
     @ApiOperation("菜单列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public BaseResult list(String userId) {

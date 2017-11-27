@@ -19,8 +19,6 @@ public interface MenuService {
 
     BaseResult modify(SysMenu sysMenu);
 
-    PageResult init(String userId);
-
     BaseResult findById(Long id);
 
     BaseResult deleteById(Long id);
