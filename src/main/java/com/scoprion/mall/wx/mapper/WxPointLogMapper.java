@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.mapper;
 
+import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Point;
 import com.scoprion.mall.domain.PointLog;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,5 +30,10 @@ public interface WxPointLogMapper {
      */
     PointLog grade(@Param("userId") String userId);
 
-
+    /**
+     * 用户积分日志
+     * @param userId
+     * @return
+     */
+    Page<PointLog> pointLog(@Param("userId") String userId);
 }

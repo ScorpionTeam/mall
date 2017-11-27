@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.controller;
 
 import com.scoprion.mall.wx.service.point.WxPointService;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +21,7 @@ public class WxPointController {
 
     /**
      * 个人信息
+     *
      * @param wxCode
      * @return
      */
@@ -28,16 +30,25 @@ public class WxPointController {
         return wxPointService.findByUserId(wxCode);
     }
 
-
-
     /**
      * 等级划分
+     *
      * @param userId
      * @return
      */
-    @RequestMapping(value = "/updateByGrade",method = RequestMethod.GET)
-    public BaseResult updateByGrade(String userId){
+    @RequestMapping(value = "/updateByGrade", method = RequestMethod.GET)
+    public BaseResult updateByGrade(String userId) {
         return wxPointService.updateByGrade(userId);
     }
 
+    /**
+     * 积分记录
+     *
+     * @param wxCode
+     * @return
+     */
+    @RequestMapping(value = "/pointLog", method = RequestMethod.GET)
+    public PageResult pointLog(Integer pageNo, Integer pageSize, String wxCode) {
+        return wxPointService.pointLog(pageNo, pageSize, wxCode);
+    }
 }
