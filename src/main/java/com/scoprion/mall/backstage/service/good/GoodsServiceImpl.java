@@ -17,10 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * Created on 2017/9/29.
@@ -195,6 +194,23 @@ public class GoodsServiceImpl implements GoodsService {
         }
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
+        }
+        if (startDate != null && startDate.contains(" 0800 (中国标准时间)")) {
+            startDate = startDate.replace(" 0800 (中国标准时间)", "+08:00");
+        }
+        if (endDate != null && endDate.contains(" 0800 (中国标准时间)")) {
+            endDate = endDate.replace(" 0800 (中国标准时间)", "+08:00");
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
+        try {
+            Date tmp1 = sdf.parse(startDate);
+            Date tmp2 = sdf.parse(endDate);
+            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+            startDate = sdf2.format(tmp1);
+            endDate = sdf2.format(tmp2);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         Page<GoodExt> page = goodsMapper.findByCondition(searchKey, goodNo, saleStatus, startDate, endDate, categoryId,
                 isHot, isNew, isFreight, brandId, activityId);
