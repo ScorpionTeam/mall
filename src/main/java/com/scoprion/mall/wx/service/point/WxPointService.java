@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.service.point;
 
 
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 
 
 /**
@@ -21,9 +22,17 @@ public interface WxPointService {
 
     /**
      * 等级划分
+     *
      * @param userId
      * @return
      */
     BaseResult updateByGrade(String userId);
 
+    /**
+     * 积分记录
+     *
+     * @param wxCode
+     * @return
+     */
+    PageResult pointLog(Integer pageNo, Integer pageSize, String wxCode);
 }
