@@ -58,4 +58,11 @@ public interface WxDeliveryService {
      * @return
      */
     BaseResult defaultAddress(Long id,String wxCode);
+
+    /**
+     * 获取默认地址
+     * @param wxCode
+     * @return
+     */
+    BaseResult getDefault(String wxCode);
 }

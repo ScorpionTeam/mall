@@ -80,6 +80,22 @@
         WHERE id=#{id}
     </select>
 
+    <!--获取默认地址-->
+    <select id="getDefault" resultType="com.scoprion.mall.domain.Delivery">
+        SELECT id,
+        userId,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        postCode,
+        defaultAddress
+        FROM t_delivery
+        WHERE userId=#{userId} AND defaultAddress='1'
+    </select>
+
     <!--分页查询用户收获地址-->
     <select id="listPage" resultType="com.scoprion.mall.domain.Delivery">
         SELECT id,

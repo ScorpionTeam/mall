@@ -90,4 +90,14 @@ public class WxDeliveryController {
     public BaseResult defaultAddress(Long id,String wxCode) {
         return wxDeliveryService.defaultAddress(id,wxCode);
     }
+
+    /**
+     * 获取默认地址
+     * @param wxCode
+     * @return
+     */
+    @RequestMapping(value = "/getDefault",method = RequestMethod.GET)
+    public BaseResult getDefault(String wxCode){
+        return wxDeliveryService.getDefault(wxCode);
+    }
 }
