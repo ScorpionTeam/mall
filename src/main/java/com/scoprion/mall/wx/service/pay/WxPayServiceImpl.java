@@ -369,26 +369,28 @@ public class WxPayServiceImpl implements WxPayService {
             //第一次购买，
             point = new Point();
         }
-        if (order.getOperatePoint() > point.getPoint()) {
+
+        if (Constant.STATUS_ONE.equals(order.getUsePoint()) && order.getOperatePoint() > point.getPoint()) {
             return BaseResult.error("pay_error", "支付失败积分不足");
         }
-        //积分扣减
-        subtractPointLog(order, point);
-        // 积分增加
+        //积分扣减日志
+        subtractPointLog(order, point.getPoint());
         //TODO 获得本次交易增加的积分  暂时未除以1000
+//        int addPoint = order.getPaymentFee()/1000;
         int addPoint = order.getPaymentFee();
-        addPointLog(order, point, addPoint);
+        int currentPoint = point.getPoint() - order.getOperatePoint() + addPoint;
+        // 积分增加日志
+        addPointLog(order, currentPoint, addPoint);
 
-        int resultPoint = point.getPoint() - order.getOperatePoint() + addPoint;
-        point.setPoint(resultPoint);
+        point.setPoint(currentPoint);
         point.setUserId(order.getUserId());
-        if (resultPoint < Constant.WX_POINT_LEVEL1) {
+        if (currentPoint < Constant.WX_POINT_LEVEL1) {
             point.setLevel(1);
             point.setLevelName("白银");
-        } else if (resultPoint < Constant.WX_POINT_LEVEL2) {
+        } else if (currentPoint < Constant.WX_POINT_LEVEL2) {
             point.setLevel(2);
             point.setLevelName("黄金");
-        } else if (resultPoint < Constant.WX_POINT_LEVEL3) {
+        } else if (currentPoint < Constant.WX_POINT_LEVEL3) {
             point.setLevel(3);
             point.setLevelName("铂金");
         } else {
@@ -416,16 +418,15 @@ public class WxPayServiceImpl implements WxPayService {
      * 增加积分
      *
      * @param order
-     * @param point
+     * @param currPoint
      * @param addPoint
      */
-    private void addPointLog(Order order, Point point, int addPoint) {
+    private void addPointLog(Order order, int currPoint, int addPoint) {
         PointLog pointLog = new PointLog();
         pointLog.setUserId(order.getUserId());
         pointLog.setAction(Constant.STATUS_ONE);
         pointLog.setOperatePoint(addPoint);
-        int currentPoint = point.getPoint() - order.getOperatePoint() + addPoint;
-        pointLog.setCurrentPoint(currentPoint);
+        pointLog.setCurrentPoint(currPoint);
         wxPointLogMapper.add(pointLog);
     }
 
@@ -433,21 +434,23 @@ public class WxPayServiceImpl implements WxPayService {
      * 扣减积分
      *
      * @param order
-     * @param point
+     * @param currPoint
      */
-    private void subtractPointLog(Order order, Point point) {
-        PointLog pointLog = new PointLog();
-        pointLog.setUserId(order.getUserId());
-        //扣减
-        pointLog.setAction(Constant.STATUS_ZERO);
-        //得到订单消耗的积分
-        int operatePoint = order.getOperatePoint();
-        int currentPoint = point.getPoint() - operatePoint;
-        pointLog.setCurrentPoint(currentPoint);
-        pointLog.setOperatePoint(-operatePoint);
-        if (operatePoint != 0) {
-            //不消耗积分，没有日志
-            wxPointLogMapper.add(pointLog);
+    private void subtractPointLog(Order order, Integer currPoint) {
+        if (Constant.STATUS_ONE.equals(order.getUsePoint())) {
+            PointLog pointLog = new PointLog();
+            pointLog.setUserId(order.getUserId());
+            //扣减
+            pointLog.setAction(Constant.STATUS_ZERO);
+            //得到订单消耗的积分
+            int operatePoint = order.getOperatePoint();
+            int currentPoint = currPoint - operatePoint;
+            pointLog.setCurrentPoint(currentPoint);
+            pointLog.setOperatePoint(-operatePoint);
+            if (operatePoint != 0) {
+                //不消耗积分，没有日志
+                wxPointLogMapper.add(pointLog);
+            }
         }
     }
 
@@ -489,6 +492,9 @@ public class WxPayServiceImpl implements WxPayService {
             if (wxOrderRequestData.getTicket() != null) {
                 order.setTicketId(wxOrderRequestData.getTicket());
             }
+        }
+        if (wxOrderRequestData.getPoint() > 0) {
+            order.setUsePoint("1");
         }
         BeanUtils.copyProperties(delivery, order);
         order.setUserId(userId);
