@@ -51,7 +51,7 @@
         actg.activityId,
         actg.goodId,
         actg.createDate,
-        actg.stock,
+        actg.stock AS actgstock,
         tg.id,
         tg.categoryId,
         tg.goodName,
@@ -180,7 +180,8 @@
         tg.price,
         tg.saleVolume,
         tg.discount,
-        tg.stock,
+        actg.stock,
+        tg.stock AS tgStock,
         tg.isOnSale,
         tg.isHot,
         tg.isNew,
@@ -195,5 +196,25 @@
         FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activityId
         INNER JOIN t_good tg ON actg.goodId = tg.id
         AND act.activityType = '3' AND actg.status='0' AND act.status='0'
+    </select>
+
+    <!-- 查询活动商品详情 -->
+    <select id="findByActivityGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
+        SELECT * FROM t_activity_good WHERE id=#{activityGoodId}
+    </select>
+
+    <!-- 查询是否参加过该活动 -->
+    <select id="validByActivityId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_order WHERE orderType='4' AND userId=#{userId}
+    </select>
+
+    <!-- 查询商品详情 -->
+    <select id="findById" resultType="com.scoprion.mall.domain.Activity">
+        SELECT * FROM t_activity WHERE id=#{activityId}
+    </select>
+
+    <!-- 获取商品详情 -->
+    <select id="findByGoodId" resultType="com.scoprion.mall.domain.Goods">
+        SELECT * FROM t_good WHERE id=#{goodId}
     </select>
 </mapper>

@@ -1,6 +1,7 @@
 package com.scoprion.mall.wx.service.activity;
 
 import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.OrderExt;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -40,4 +41,12 @@ public interface WxActivityService {
      */
     PageResult preference(int pageNo, int pageSize);
 
+    /**
+     * 参加拼团
+     *
+     * @param orderExt
+     * @param ipAddress
+     * @return
+     */
+    BaseResult group(OrderExt orderExt, String ipAddress);
 }
