@@ -126,7 +126,7 @@ public class WxPayServiceImpl implements WxPayService {
         }
 
         //系统内部生成订单信息
-        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress);
+        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress, order.getId());
         wxOrderLogMapper.add(orderLog);
         String nonce_str = WxUtil.createRandom(false, 10);
         String xmlString = preOrderSend(goods.getGoodName(),
@@ -276,7 +276,8 @@ public class WxPayServiceImpl implements WxPayService {
                     unifiedOrderNotifyRequestData.getOut_trade_no(),
                     unifiedOrderNotifyRequestData.getTransaction_id());
             //记录订单日志
-            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款", null);
+            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款",
+                    null, order.getId());
             wxOrderLogMapper.add(orderLog);
             //库存扣减
             wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
@@ -351,7 +352,7 @@ public class WxPayServiceImpl implements WxPayService {
         }
 
         //系统内部生成订单信息
-        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", null);
+        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", null, order.getId());
         wxOrderLogMapper.add(orderLog);
         LOGGER.info("压力测试订单@***************订单号-", orderNo);
         return BaseResult.success("order_confirm");
@@ -565,13 +566,15 @@ public class WxPayServiceImpl implements WxPayService {
      * @param orderNo   订单no
      * @param action    动作
      * @param ipAddress IP地址
+     * @param orderId   订单id
      * @return
      */
-    private OrderLog constructOrderLog(String orderNo, String action, String ipAddress) {
+    private OrderLog constructOrderLog(String orderNo, String action, String ipAddress, Long orderId) {
         OrderLog orderLog = new OrderLog();
         orderLog.setAction(action);
         orderLog.setOrderNo(orderNo);
         orderLog.setIpAddress(ipAddress);
+        orderLog.setOrderId(orderId);
         return orderLog;
     }
 

@@ -91,6 +91,18 @@ public class OrderController {
     }
 
     /**
+     * 根据订单id查订单日志
+     *
+     * @param orderId
+     * @return
+     */
+    @ApiOperation(value = "根据订单id查订单日志")
+    @RequestMapping(value = "/findOrderLogByOrderId", method = RequestMethod.GET)
+    public PageResult findOrderLogByOrderId(Integer pageNo, Integer pageSize, Long orderId) {
+        return orderService.findOrderLogByOrderId(pageNo, pageSize, orderId);
+    }
+
+    /**
      * 退款处理
      *
      * @param orderId   订单id

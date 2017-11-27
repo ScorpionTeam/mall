@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.backstage.mapper.RoleMapper">
+
+    <!-- 添加角色信息 -->
+    <insert id="add" parameterType="com.scoprion.mall.domain.SysRole">
+        INSERT INTO t_sys_role(
+          name,
+          remark,
+          status ,
+          operator,
+          createTime
+        ) VALUES (
+         #{name},
+         #{remark},
+         #{status},
+         #{operator},
+         now()
+        )
+    </insert>
+
+    <!--根据id查询详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.SysRole">
+        SELECT
+        id,
+        name,
+        remark,
+        createTime,
+        operator,
+        updateTime,
+        status
+        FROM t_sys_role
+        WHERE id=#{id}
+    </select>
+
+    <select id="validByNameAndId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_sys_role
+        WHERE id!=#{id} AND name=#{name}
+    </select>
+
+</mapper>

@@ -123,6 +123,13 @@ public class OrderServiceImpl implements OrderService {
         return BaseResult.success("操作成功");
     }
 
+    @Override
+    public PageResult findOrderLogByOrderId(Integer pageNo, Integer pageSize, Long orderId) {
+        PageHelper.startPage(pageNo, pageSize);
+        Page<OrderLog> pages = orderLogMapper.findByOrderId(orderId);
+        return new PageResult(pages);
+    }
+
     /**
      * 订单列表
      *
