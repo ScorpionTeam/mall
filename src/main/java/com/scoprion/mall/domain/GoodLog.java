@@ -32,7 +32,7 @@ public class GoodLog {
     /**
      * 创建时间
      */
-    @JSONField(name = "create_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "create_date")
     private Date createDate;
 
     /**

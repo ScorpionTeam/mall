@@ -6,9 +6,9 @@
     <!--增加广告-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Banner">
      INSERT INTO t_banner
-        (name,imgUrl,actionUrl,visitTotal,status,createDate,sort)
+        (name,image_url,action_url,visit_total,status,create_date,sort)
         VALUES
-        (#{name},#{imgUrl},#{actionUrl},#{visitTotal},#{status},now(),#{sort})
+        (#{name},#{imageUrl},#{actionUrl},#{visitTotal},#{status},now(),#{sort})
      </insert>
     <!--广告名称校验-->
     <select id="validByName" resultType="java.lang.Integer">
@@ -25,11 +25,11 @@
         UPDATE t_banner SET
         <if test="name!=null">name=#{name},</if>
         <if test="status!=null">status=#{status},</if>
-        <if test="imgUrl!=null">imgUrl=#{imgUrl},</if>
-        <if test="actionUrl!=null">actionUrl=#{actionUrl},</if>
+        <if test="imgUrl!=null">image_url=#{imageUrl},</if>
+        <if test="actionUrl!=null">action_url=#{actionUrl},</if>
         <if test="sort!=null">sort=#{sort},</if>
-        <if test="visitTotal!=null">visitTotal=#{visitTotal},</if>
-        <if test="createDate!=null">createDate=#{createDate},</if>
+        <if test="visitTotal!=null">visit_total=#{visitTotal},</if>
+        <if test="createDate!=null">create_date=#{createDate},</if>
         updateDate=now()
         WHERE id=#{id}
     </update>
@@ -54,7 +54,7 @@
     <update id="batchModifyStatus">
         UPDATE t_banner SET
         status=#{status},
-        updateDate=now()
+        update_date=now()
         WHERE id IN
         <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
             #{item}
@@ -64,13 +64,13 @@
     <select id="findById" resultType="com.scoprion.mall.domain.Banner">
         SELECT  id,
         name,
-        imgUrl,
-        actionUrl,
-        visitTotal,
+        image_url,
+        action_url,
+        visit_total,
         status,
         sort,
-        createDate,
-        updateDate
+        create_date,
+        update_date
         FROM t_banner
         WHERE id=#{id}
     </select>

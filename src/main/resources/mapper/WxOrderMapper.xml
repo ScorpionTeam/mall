@@ -8,12 +8,12 @@
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO t_order(userId,
-        orderNo,
-        goodSnapShotId,
-        deliveryId,
-        orderStatus,
-        orderType,
+        INSERT INTO t_order(user_id,
+        order_no,
+        good_snapshot_id,
+        delivery_id,
+        order_status,
+        order_type,
         message,
         recipients,
         phone,
@@ -21,23 +21,23 @@
         city,
         area,
         address,
-        postCode,
-        goodName,
+        post_code,
+        good_name,
         count,
-        wxOrderNo,
-        createDate,
-        goodId,
-        useTicket,
-        ticketId,
+        wx_order_no,
+        create_date,
+        good_id,
+        use_ticket,
+        ticket_id,
         remark,
-        orderFee,
-        reduceFee,
-        paymentFee,
-        goodFee,
-        operatePoint,
-        freightFee,
-        deliveryNo,
-        usePoint
+        order_fee,
+        reduce_fee,
+        payment_fee,
+        good_fee,
+        operate_point,
+        freight_fee,
+        delivery_no,
+        use_oint
         )
         VALUES (#{userId},
         #{orderNo},
@@ -67,55 +67,55 @@
         #{goodFee},
         #{operatePoint},
         #{freightFee},
-        #{deliveryNo},
-        #{usePoint})
+        #{deliveryNo}),
+        #{usePoint}
     </insert>
 
     <!--修改订单微信预付款订单号-->
     <update id="updateOrderForWxOrderNo">
-        UPDATE t_order SET prepayId=#{prepayId} WHERE id=#{orderId}
+        UPDATE t_order SET prepay_id=#{prepayId} WHERE id=#{orderId}
     </update>
 
     <!--根据用户openid查询预付款订单-->
     <select id="findPrepayIdByOpenid" resultType="java.lang.String">
-        SELECT prepayId FROM t_order WHERE userId=#{openId} AND id=#{orderId}
+        SELECT prepayId FROM t_order WHERE user_id=#{openId} AND id=#{orderId}
     </select>
 
     <!--我的订单-->
     <select id="findByUserId" resultType="com.scoprion.mall.domain.OrderExt">
         SELECT tor.id,
-        tor.userId,
-        tor.orderNo,
-        tor.goodId,
-        tor.goodSnapShotId,
-        tor.deliveryId,
-        tor.orderStatus,
-        tor.orderType,
-        tor.payType,
+        tor.user_id,
+        tor.order_no,
+        tor.good_id,
+        tor.good_snapshot_id,
+        tor.delivery_id,
+        tor.order_status,
+        tor.order_type,
+        tor.pay_type,
         tor.message,
-        tor.goodName,
+        tor.good_name,
         tor.count,
-        tor.payDate,
-        tor.sendGoodId,
-        tor.useTicket,
-        tor.ticketId,
+        tor.pay_date,
+        tor.send_good_id,
+        tor.use_ticket,
+        tor.ticket_id,
         tor.remark,
-        tor.orderFee,
-        tor.reduceFee,
-        tor.paymentFee,
-        tor.goodFee,
-        tor.usePoint,
-        tor.deliveryNo,
-        tor.operatePoint,
-        tor.freightFee,
-        tg.mainImgUrl as goodMainImage,
-        tsg.expressName as expressName
+        tor.order_fee,
+        tor.reduce_fee,
+        tor.payment_fee,
+        tor.good_fee,
+        tor.use_point
+        tor.delivery_no,
+        tor.operate_point,
+        tor.freight_fee,
+        tg.main_image_url as goodMainImage,
+        tsg.express_name as expressName
         FROM t_order tor
-        LEFT JOIN t_good_snapshot tg ON tor.goodSnapShotId=tg.id
-        LEFT JOIN t_send_good tsg ON tor.id=tsg.orderId
-        WHERE tor.userId=#{userId}
+        LEFT JOIN t_good_snapshot tg ON tor.good_snapshot_id=tg.id
+        LEFT JOIN t_send_good tsg ON tor.id=tsg.order_id
+        WHERE tor.user_id=#{userId}
         <if test="orderStatus!=null">
-            AND tor.orderStatus=#{orderStatus}
+            AND tor.order_status=#{orderStatus}
         </if>
         GROUP BY tor.id
     </select>
@@ -123,26 +123,26 @@
 
     <!--付款回调-->
     <update id="updateOrderStatusAndPayStatus">
-        UPDATE t_order SET payDate=#{payDate},payType='1',orderStatus='2',wxOrderNo=#{wxOrderNo} WHERE orderNo=#{orderNo}
+        UPDATE t_order SET pay_date=#{payDate},pay_type='1',order_satus='2',wx_order_no=#{wxOrderNo} WHERE order_no=#{orderNo}
     </update>
 
     <!--根据微信号查询订单-->
     <select id="findByWxOrderNo" resultType="com.scoprion.mall.domain.Order">
         SELECT id,
-        userId,
-        orderNo,
-        usePoint,
+        user_id,
+        order_no,
+        use_point
         count,
-        goodId,
-        goodName,
-        orderFee,
-        reduceFee,
-        paymentFee,
-        goodFee,
-        freightFee,
-        operatePoint,
-        payDate
-        FROM t_order WHERE orderNo=#{orderNo}
+        good_id,
+        good_name,
+        order_fee,
+        reduce_fee,
+        pay_ment_fee,
+        good_fee,
+        freight_fee,
+        operate_point,
+        pay_date
+        FROM t_order WHERE order_no=#{orderNo}
     </select>
 
     <!--订单详情-->
@@ -152,17 +152,17 @@
 
     <!--根据订单号修改订单状态-->
     <update id="updateByOrderID">
-        UPDATE t_order SET  orderStatus=#{orderStatus} WHERE id=#{orderId}
+        UPDATE t_order SET  order_status=#{orderStatus} WHERE id=#{orderId}
     </update>
 
     <!-- 签收后评价 -->
     <insert id="estimate" parameterType="com.scoprion.mall.domain.Estimate">
         INSERT INTO t_estimate(
-        goodId,
+        good_id,
         message,
-        userId,
-        createDate,
-        updateDate)
+        user_id,
+        create_date,
+        update_date)
         VALUES (#{goodId},
         #{message},
         #{userId},
@@ -174,7 +174,7 @@
     <update id="complain">
         UPDATE t_estimate SET
         <if test="complain!=null">complain=#{complain},</if>
-        updateDate=now()
+        update_date=now()
         WHERE id=#{id}
     </update>
 

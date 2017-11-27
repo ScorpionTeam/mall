@@ -7,13 +7,13 @@
     <select id="findPage" resultType="com.scoprion.mall.domain.Estimate">
        SELECT
        id,
-       userId,
-       goodId,
+       user_id,
+       good_id,
        message,
-       createDate,
-       updateDate
+       create_date,
+       update_date
        FROM t_estimate
-       WHERE goodId=#{goodId}
+       WHERE good_id=#{goodId}
     </select>
 
 </mapper>

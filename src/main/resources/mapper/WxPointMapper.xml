@@ -7,7 +7,7 @@
 
     <!-- 根据用户id查询用户信息 -->
     <select id="findByUserId" resultType="com.scoprion.mall.domain.Point">
-        SELECT * FROM t_point WHERE userId=#{userId}
+        SELECT * FROM t_point WHERE user_id=#{userId}
     </select>
 
 
@@ -17,16 +17,16 @@
         <if test="id!=null">id=#{id},</if>
         <if test="point!=null">point=#{point},</if>
         <if test="level!=null">level=#{level},</if>
-        <if test="levelName!=null">levelName=#{levelName},</if>
-        updateDate=now()
-        WHERE userId=#{userId}
+        <if test="levelName!=null">level_ame=#{levelName},</if>
+        update_date=now()
+        WHERE use_id=#{userId}
     </update>
 
 
     <!--增加-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Point">
         INSERT  INTO t_point
-        (userId,point,level,levelName,createDate)
+        (user_id,point,level,level_name,create_date)
         VALUES
         (#{userId},#{point},#{level},#{levelName},now())
     </insert>

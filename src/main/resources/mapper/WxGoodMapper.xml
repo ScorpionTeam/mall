@@ -8,81 +8,83 @@
     <select id="findOnline" resultType="com.scoprion.mall.domain.Goods">
         SELECT
         id,
-        categoryId,
-        goodName,
+        category_id,
+        good_name,
         description,
         promotion,
         price,
-        saleVolume,
+        sale_volume,
         discount,
         stock,
-        isOnSale,
-        isHot,
-        isNew,
-        createDate,
-        lastUpdateDate,
-        isFreight,
-        brandId,
-        sellerId,
-        visitTotal,
-        goodNo,
-        mainImgUrl,
-        richContent
-        FROM t_good WHERE isOnSale='1' AND status='0'
+        on_sale,
+        hot,
+        is_new,
+        create_date,
+        last_update_date,
+        freight,
+        brand_id,
+        seller_id,
+        visit_total,
+        good_no,
+        main_image_url,
+        rich_content
+        FROM t_good WHERE on_sale='1' AND status='0'
     </select>
 
     <!--根据商品id查询详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
         good.id,
-        good.categoryId,
-        good.goodName,
+        good.category_id,
+        good.good_name,
         good.description,
         good.promotion,
         good.price,
-        good.saleVolume,
+        good.sale_volume,
         good.discount,
-        good.isOnSale,
-        good.isHot,
-        good.isNew,
-        good.createDate,
-        good.lastUpdateDate,
-        good.isFreight,
-        good.brandId,
-        good.sellerId,
-        good.visitTotal,
-        good.goodNo,
-        good.mainImgUrl,
+        good.on_sale,
+        good.hot,
+        good.is_new,
+        good.create_date,
+        good.last_update_date,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.good_no,
+        good.main_image_url,
         good.status,
         good.stock,
-        good.richContent,
+        good.rich_content,
         tacg.id,
-        tacg.activityId,
-        tacg.goodId,
-        tacg.createDate,
-        tacg.goodName,
+        tacg.activity_id,
+        tacg.good_id,
+        tacg.create_date,
+        tacg.good_name,
         tacg.stock AS activityStock,
         tacg.status,
-        tacg.updateDate
+        tacg.update_date
         FROM t_good good
         LEFT JOIN t_activity_good tacg ON good.id=tacg.goodId
         WHERE good.id=#{goodId} GROUP BY good.id
+        LEFT JOIN t_activity_good tacg ON good.id=tacg.good_id
+        WHERE good.id=#{goodId}  GROUP BY good.id
     </select>
 
     <!--商品搜素-->
     <select id="findBySearchKey" resultType="com.scoprion.mall.domain.Goods">
         SELECT
         id,
-        categoryId,
-        goodName,
+        category_id,
+        good_name,
         description,
         promotion,
-        goodNo,
+        good_no,
         price,
-        mainImgUrl
+        main_image_url
         FROM t_good
         WHERE isOnSale='1' AND status='0'
-        <if test="searchKey!=null and searchKey!=''">AND CONCAT(goodName,goodNo) LIKE #{searchKey}</if>
+        <if test="searchKey!=null and searchKey!=''">AND CONCAT(good_name,good_no) LIKE #{searchKey}</if>
     </select>
 
     <!--库存扣减-->
@@ -92,12 +94,12 @@
 
     <!--修改销量-->
     <update id="updateSaleVolume">
-        UPDATE t_good SET saleVolume=(saleVolume+#{saleVolume}) WHERE id=#{goodId}
+        UPDATE t_good SET sale_volume=(sale_volume+#{saleVolume}) WHERE id=#{goodId}
     </update>
 
     <!-- 访问量 -->
     <update id="updateVisitTotal">
-        UPDATE t_good SET visitTotal=visitTotal+1 WHERE id=#{goodId}
+        UPDATE t_good SET visit_total=visit_total+1 WHERE id=#{goodId}
     </update>
 
 </mapper>

@@ -9,7 +9,7 @@
         type,
         content,
         userId,
-        createDate)
+        create_date)
         VALUES(
         #{type},
         #{content},

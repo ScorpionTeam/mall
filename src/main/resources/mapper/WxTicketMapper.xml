@@ -9,33 +9,33 @@
     <select id="findByUserId" resultType="com.scoprion.mall.domain.TicketExt">
         SELECT
         tks.id,
-        tku.userId ,
-        tks.createDate,
+        tku.user_id ,
+        tks.create_date,
         tku.num,
-        tks.ticketName,
+        tks.ticket_name,
         tks.content,
         tks.money,
-        tks.reduceMoney,
-        tks.ticketNo,
+        tks.reduce_money,
+        tks.ticket_no,
         tks.status,
-        tks.useRange,
-        tks.numLimit,
+        tks.use_range,
+        tks.num_limit,
         tks.type,
-        tks.startDate,
-        tks.endDate
-        FROM t_ticket_snapshot tks  LEFT JOIN t_ticket_user  tku  ON tks.id=tku.snapshotId
-        WHERE   tku.userId=#{userId} AND tks.status='0'
+        tks.start_date,
+        tks.end_date
+        FROM t_ticket_snapshot tks  LEFT JOIN t_ticket_user  tku  ON tks.id=tku.snapshot_id
+        WHERE   tku.user_id=#{userId} AND tks.status='0'
     </select>
 
     <!-- 根据用户id、优惠券id查询记录 -->
     <select id="findByTicketIdAndUserId" resultType="java.lang.Integer">
-        SELECT count(*) FROM t_ticket_snapshot ts LEFT JOIN t_ticket_user tu ON tu.snapshotId=ts.id
-        WHERE ts.ticketId=#{ticketId} AND tu.userId=#{userId}
+        SELECT count(*) FROM t_ticket_snapshot ts LEFT JOIN t_ticket_user tu ON tu.snapshot_id=ts.id
+        WHERE ts.ticket_id=#{ticketId} AND tu.user_id=#{userId}
     </select>
 
     <!--新增优惠券-y用户关系记录-->
     <insert id="addTicketUser" parameterType="com.scoprion.mall.domain.TicketUser">
-        INSERT  INTO t_ticket_user(userId,snapshotId,num,createDate,status)
+        INSERT  INTO t_ticket_user(user_id,snapshot_id,num,create_date,status)
         VALUES
         (#{userId},#{snapshotId},#{num},now(),#{status})
     </insert>
@@ -44,20 +44,20 @@
     <select id="findById" resultType="com.scoprion.mall.domain.Ticket">
         SELECT
         id,
-        ticketNo,
-        ticketName,
+        ticket_no,
+        ticket_name,
         type,
         content,
-        startDate,
-        endDate,
-        createDate,
-        updateDate,
+        start_date,
+        end_date,
+        create_date,
+        update_date,
         money,
-        reduceMoney,
+        reduce_money,
         num,
         status,
-        useRange,
-        numLimit
+        use_range,
+        num_limit
         FROM  t_ticket WHERE  id=#{id}
     </select>
 

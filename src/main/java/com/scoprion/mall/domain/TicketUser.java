@@ -19,11 +19,13 @@ public class TicketUser {
     /**
      * 用户id
      */
+    @JSONField(name = "user_id")
     private String userId;
 
     /**
      * 优惠券快照id
      */
+    @JSONField(name = "snapshot_id")
     private Long snapshotId;
     /**
      * 优惠券数量
@@ -32,9 +34,8 @@ public class TicketUser {
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
-
 
     /**
      * 使用状态 0未使用 1已使用

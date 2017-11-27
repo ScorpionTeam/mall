@@ -7,93 +7,115 @@
     <!--增加-->
     <insert id="add" parameterType="com.scoprion.mall.domain.Ticket">
         INSERT INTO t_ticket
-        (ticketName,content,startDate,endDate,money,reduceMoney,num,
-        status,createDate,ticketNo,type,numLimit,useRange)
+        (ticket_name,
+        content,
+        start_date,
+        end_date,
+        money,
+        reduce_money,
+        num,
+        status,
+        create_date,
+        ticket_no,
+        type,
+        num_limit,
+        use_range)
         VALUES
-        (#{ticketName},#{content},#{startDate},#{endDate},#{money},#{reduceMoney},#{num},
-        #{status},now(), #{ticketNo},#{type},#{numLimit},#{useRange})
+        (#{ticketName},
+        #{content},
+        #{startDate},
+        #{endDate},
+        #{money},
+        #{reduceMoney},
+        #{num},
+        #{status},
+        now(),
+        #{ticketNo},
+        #{type},
+        #{numLimit},
+        #{useRange})
     </insert>
 
     <!--修改-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Ticket">
         UPDATE t_ticket SET
-        <if test="ticketName!=null ">ticketName=#{ticketName},</if>
+        <if test="ticketName!=null ">ticket_name=#{ticketName},</if>
         <if test="content!=null ">content =#{content},</if>
-        <if test="startDate!=null">startDate=#{startDate},</if>
-        <if test="endDate!=null">endDate=#{endDate},</if>
+        <if test="startDate!=null">start_date=#{startDate},</if>
+        <if test="endDate!=null">end_date=#{endDate},</if>
         <if test="money!=null ">money=#{money},</if>
-        <if test="reduceMoney!=null">reduceMoney=#{reduceMoney},</if>
+        <if test="reduceMoney!=null">reduce_money=#{reduceMoney},</if>
         <if test="num!=null ">num=#{num},</if>
         <if test="status!=null ">status=#{status},</if>
-        <if test="ticketNo!=null ">ticketNo=#{ticketNo},</if>
+        <if test="ticketNo!=null ">ticket_no=#{ticketNo},</if>
         <if test="type!=null ">type=#{type},</if>
-        <if test="useRange!=null ">useRange=#{useRange},</if>
-        <if test="numLimit!=null ">numLimit=#{numLimit},</if>
-        <if test="useDate!=null">useDate=#{useDate},</if>
-        updateDate=now()
+        <if test="useRange!=null ">use_range=#{useRange},</if>
+        <if test="numLimit!=null ">num_limit=#{numLimit},</if>
+        <if test="useDate!=null">use_date=#{useDate},</if>
+        update_date=now()
         WHERE id=#{id}
     </update>
 
     <!--删除-->
     <update id="deleteById">
-        UPDATE t_ticket SET status='1',updateDate=now()
+        UPDATE t_ticket SET status='1',update_date=now()
         WHERE id=#{id}
     </update>
 
     <!--查询活动名称数量-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM  t_ticket WHERE  ticketName=#{ticketName} AND status='0'
+        SELECT COUNT(*) FROM  t_ticket WHERE  ticket_name=#{ticketName} AND status='0'
     </select>
 
     <!--活动id、名称校验-->
     <select id="validByNameAndId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_ticket WHERE ticketName =#{ticketName} AND id!=#{id} AND status='0'
+        SELECT COUNT(*) FROM t_ticket WHERE ticket_name =#{ticketName} AND id!=#{id} AND status='0'
     </select>
 
     <!--列表-->
     <select id="listPage" resultType="com.scoprion.mall.domain.Ticket">
         SELECT id,
-        ticketName,
+        ticket_name,
         content,
-        startDate,
-        endDate,
+        start_date,
+        end_date,
         money,
-        reduceMoney,
+        reduce_money,
         num,
         status,
-        createDate,
-        ticketNo,
+        create_date,
+        ticket_no,
         type,
-        useRange,
-        numLimit,
-        updateDate
+        use_range,
+        num_limit,
+        update_date
         FROM t_ticket where 1=1
-        <if test="searchKey!=null">AND CONCAT(ticketName,content) LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND CONCAT(ticket_name,content) LIKE #{searchKey}</if>
     </select>
 
     <!--查询详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.Ticket">
         SELECT  id,
-        ticketName,
-        ticketNo,
+        ticket_name,
+        ticket_no,
         type,
         content,
-        startDate,
-        endDate,
-        createDate,
-        updateDate,
+        start_date,
+        end_date,
+        create_date,
+        update_date,
         money,
-        reduceMoney,
+        reduce_Money,
         num,
-        useRange,
-        numLimit,
+        use_range,
+        num_limit,
         status
         FROM  t_ticket WHERE id=#{id}
     </select>
 
     <!--批量删除-->
     <update id="batchDelete">
-        UPDATE t_ticket SET status='1',updateDate=now()
+        UPDATE t_ticket SET status='1',update_date=now()
         WHERE id IN
         <foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
             #{item}

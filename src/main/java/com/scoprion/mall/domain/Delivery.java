@@ -17,6 +17,7 @@ public class Delivery {
     /**
      * 用户id
      */
+    @JSONField(name = "user_id")
     private String userId;
 
     /**
@@ -52,32 +53,30 @@ public class Delivery {
     /**
      * 邮政编码
      */
+    @JSONField(name = "post_code")
     private String postCode;
 
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
     private Date updateDate;
 
     /**
-     * 微信账号
-     */
-    private String wechat;
-    /**
-     * 客户0,商家1 默认0
+     * 客户  CUSTOM ,商家  SELLER 默认客户
      */
     private String type;
 
     /**
      * 默认收货地址
      */
+    @JSONField(name = "default_address")
     private String defaultAddress;
 
     public String getType() {
@@ -176,40 +175,12 @@ public class Delivery {
         this.updateDate = updateDate;
     }
 
-    public String getWechat() {
-        return wechat;
-    }
-
-    public void setWechat(String wechat) {
-        this.wechat = wechat;
-    }
-
     public String getDefaultAddress() {
         return defaultAddress;
     }
 
     public void setDefaultAddress(String defaultAddress) {
         this.defaultAddress = defaultAddress;
-    }
-
-    @Override
-    public String toString() {
-        return "Delivery{" +
-                "id=" + id +
-                ", userId='" + userId + '\'' +
-                ", recipients='" + recipients + '\'' +
-                ", phone='" + phone + '\'' +
-                ", province='" + province + '\'' +
-                ", city='" + city + '\'' +
-                ", area='" + area + '\'' +
-                ", address='" + address + '\'' +
-                ", postCode='" + postCode + '\'' +
-                ", createDate=" + createDate +
-                ", updateDate=" + updateDate +
-                ", wechat='" + wechat + '\'' +
-                ", type='" + type + '\'' +
-                ", defaultAddress='" + defaultAddress + '\'' +
-                '}';
     }
 
 }

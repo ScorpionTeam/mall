@@ -6,21 +6,21 @@
 
     <!--订单日志-->
     <insert id="add" parameterType="com.scoprion.mall.domain.OrderLog">
-        INSERT INTO t_order_log(orderNo,action,ipAddress,createDate,orderId)
+        INSERT INTO t_order_log(order_no,action,ip_address,create_date,order_id)
         VALUES (#{orderNo},#{action},#{ipAddress},NOW(),#{orderId})
     </insert>
 
     <select id="findOrderLog" resultType="com.scoprion.mall.domain.OrderLog">
         SELECT
         id,
-        goodNo,
-        sellerNo,
+        good_no,
+        seller_no,
         type,
-        ipAddress,
-        createDate,
+        ip_address,
+        create_date,
         description,
-        orderId
-        FROM t_wx_mall_order_log WHERE orderId=#{orderId}
+        order_id
+        FROM t_wx_mall_order_log WHERE order_id=#{orderId}
     </select>
 
 </mapper>

@@ -29,17 +29,19 @@ public class Suggest {
      * 创建时间
      */
 
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
      * 用户id
      */
+    @JSONField(name = "user_id")
     private String userId;
 
     /**
      * 微信id
      */
+    @JSONField(name = "wx_code")
     private String wxCode;
 
     public String getWxCode() {

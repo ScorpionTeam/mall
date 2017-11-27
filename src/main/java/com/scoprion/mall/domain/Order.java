@@ -18,26 +18,31 @@ public class Order {
     /**
      * 用户Id
      */
+    @JSONField(name = "user_id")
     private String userId;
 
     /**
      * 订单编号
      */
+    @JSONField(name = "order_no")
     private String orderNo;
 
     /**
      * 商品快照id
      */
+    @JSONField(name = "good_snapshot_id")
     private Long goodSnapShotId;
 
     /**
      * 配送地址id
      */
+    @JSONField(name = "delivery_id")
     private Long deliveryId;
 
     /**
      * 运单号
      */
+    @JSONField(name = "delivery_no")
     private String deliveryNo;
 
     /**
@@ -51,11 +56,13 @@ public class Order {
      * 7 待评价
      * 8 已评价
      */
+    @JSONField(name = "order_status")
     private String orderStatus;
 
     /**
      * 订单类型 1pc订单  2手机订单
      */
+    @JSONField(name="order_type")
     private String orderType;
 
     /**
@@ -65,6 +72,7 @@ public class Order {
      * 2 信用卡
      * 3 储蓄卡
      */
+    @JSONField(name = "pay_type")
     private String payType;
 
     /**
@@ -75,48 +83,54 @@ public class Order {
     /**
      * 订单金额
      */
+    @JSONField(name = "order_fee")
     private int orderFee;
 
     /**
      * 优惠金额
      */
+    @JSONField(name = "reduce_fee")
     private int reduceFee;
 
     /**
      * 实付金额
      */
+    @JSONField(name = "payment_fee")
     private int paymentFee;
 
     /**
      * 商品金额
      */
+    @JSONField(name = "good_fee")
     private int goodFee;
 
     /**
      * 运费金额
      */
+    @JSONField(name = "freight_fee")
     private int freightFee;
 
     /**
      * 下单时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
      * 支付时间
      */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "pay_date")
     private String payDate;
 
     /**
      * 发货时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "delivery_date")
     private Date deliveryDate;
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
     private Date updateDate;
     /**
      * 收件人
@@ -151,11 +165,13 @@ public class Order {
     /**
      * 邮政编码
      */
+    @JSONField(name = "post_code")
     private String postCode;
 
     /**
      * 商品名称
      */
+    @JSONField(name = "good_name")
     private String goodName;
 
     /**
@@ -166,16 +182,19 @@ public class Order {
     /**
      * 预付款id
      */
+    @JSONField(name = "prepay_id")
     private String prepayId;
 
     /**
      * 微信订单号
      */
+    @JSONField(name = "wx_order_no")
     private String wxOrderNo;
 
     /**
      * 商品id
      */
+    @JSONField(name = "good_id")
     private Long goodId;
 
     /**
@@ -186,6 +205,7 @@ public class Order {
     /**
      * 是否使用优惠券  1是  0 否
      */
+    @JSONField(name = "use_ticket")
     private String useTicket;
 
     /**
@@ -201,11 +221,13 @@ public class Order {
     /**
      * 此订单消耗的积分，不消耗为0或者null
      */
+    @JSONField(name = "operate_point")
     private Integer operatePoint;
 
     /**
      * 发货信息id
      */
+    @JSONField(name = "send_good_id")
     private Long sendGoodId;
 
     public String getUsePoint() {

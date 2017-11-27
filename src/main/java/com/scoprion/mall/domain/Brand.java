@@ -19,11 +19,13 @@ public class Brand {
     /**
      * 品牌名称
      */
+    @JSONField(name = "brand_name")
     private String brandName;
 
     /**
      * 品牌简称
      */
+    @JSONField(name = "short_name")
     private String shortName;
 
     /**
@@ -44,23 +46,25 @@ public class Brand {
     /**
      * 负责人电话
      */
+    @JSONField(name = "contact_phone")
     private String contactPhone;
 
     /**
      * 品牌图片
      */
-    private String brandImg;
+    @JSONField(name = "brand_image")
+    private String brandImage;
 
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
     private Date updateDate;
 
     public Long getId() {
@@ -119,14 +123,6 @@ public class Brand {
         this.contactPhone = contactPhone;
     }
 
-    public String getBrandImg() {
-        return brandImg;
-    }
-
-    public void setBrandImg(String brandImg) {
-        this.brandImg = brandImg;
-    }
-
     public Date getCreateDate() {
         return createDate;
     }
@@ -143,6 +139,14 @@ public class Brand {
         this.updateDate = updateDate;
     }
 
+    public String getBrandImage() {
+        return brandImage;
+    }
+
+    public void setBrandImage(String brandImage) {
+        this.brandImage = brandImage;
+    }
+
     @Override
     public String toString() {
         return "Brand{" +
@@ -153,7 +157,7 @@ public class Brand {
                 ", status='" + status + '\'' +
                 ", contact='" + contact + '\'' +
                 ", contactPhone='" + contactPhone + '\'' +
-                ", brandImg='" + brandImg + '\'' +
+                ", brandImage='" + brandImage + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 '}';

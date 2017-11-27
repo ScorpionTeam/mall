@@ -1,5 +1,7 @@
 package com.scoprion.mall.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -16,30 +18,37 @@ public class SendGood {
     /**
      * 订单id
      */
+    @JSONField(name = "order_id")
     private Long orderId;
     /**
      * 寄件人信息id
      */
+    @JSONField(name = "sender_id")
     private Long senderId;
     /**
      * 快递名称
      */
+    @JSONField(name = "express_name")
     private String expressName;
     /**
      * 快递公司编号
      */
+    @JSONField(name = "express_no")
     private String expressNo;
     /**
      * 运单号
      */
+    @JSONField(name = "delivery_no")
     private String deliveryNo;
     /**
      * 创建时间
      */
+    @JSONField(name = "create_date",format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
     /**
      * 修改时间
      */
+    @JSONField(name = "create_date",format = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
 
     public Long getId() {
