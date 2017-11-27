@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
+import com.scoprion.mall.backstage.service.file.FileOperationServiceImpl;
 import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.GoodLog;
 import com.scoprion.mall.domain.Goods;
@@ -13,6 +14,8 @@ import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.mall.domain.MallImage;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +32,7 @@ import java.util.*;
  */
 @Service
 public class GoodsServiceImpl implements GoodsService {
+    private final static Logger LOGGER = LoggerFactory.getLogger(FileOperationServiceImpl.class);
 
     @Autowired
     private GoodsMapper goodsMapper;
@@ -188,6 +192,7 @@ public class GoodsServiceImpl implements GoodsService {
     public PageResult findByCondition(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
                                       String startDate, String endDate, Long categoryId, String isHot, String isNew,
                                       String isFreight, Long brandId, Long activityId) {
+        LOGGER.info(startDate + "                    " + endDate);
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(searchKey)) {
             searchKey = null;
