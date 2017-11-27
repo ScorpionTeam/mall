@@ -137,7 +137,7 @@
         good_name,
         order_fee,
         reduce_fee,
-        pay_ment_fee,
+        payment_fee,
         good_fee,
         freight_fee,
         operate_point,
