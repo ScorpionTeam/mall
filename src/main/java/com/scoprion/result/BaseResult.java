@@ -24,7 +24,7 @@ public class BaseResult {
     }
 
     public static BaseResult success(Object object) {
-        return new SuccessResult(object.toString());
+        return new SuccessResult(object);
     }
 
     public static BaseResult error(String code, String message) {
