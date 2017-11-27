@@ -111,4 +111,5 @@ public class WxPointServiceImpl implements WxPointService {
         Page<PointLog> pointLogs = wxPointLogMapper.pointLog(pageNo, pageSize, userId);
         return new PageResult(pointLogs);
     }
+
 }
