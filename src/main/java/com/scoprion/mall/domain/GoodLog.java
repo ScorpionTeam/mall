@@ -15,7 +15,6 @@ public class GoodLog {
     /**
      * 主键
      */
-    @JSONField(name = "id")
     private Long id;
 
     /**
@@ -39,7 +38,6 @@ public class GoodLog {
     /**
      * 操作
      */
-    @JSONField(name = "action")
     private String action;
 
     public Long getId() {

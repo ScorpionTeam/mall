@@ -265,20 +265,23 @@ public class OrderServiceImpl implements OrderService {
         return BaseResult.success("退款成功");
     }
 
-    private void saveGoodLog(String goodName, Long goodId, String Action) {
+    private void saveGoodLog(String goodName, Long goodId, String action) {
         GoodLog goodLog = new GoodLog();
-        goodLog.setAction(Action);
+        goodLog.setAction(action);
         goodLog.setGoodId(goodId);
         goodLog.setGoodName(goodName);
         goodLogMapper.add(goodLog);
     }
 
     private void savePointLog(Order order, int point, Point localPoint) {
+
         PointLog pointLog = new PointLog();
         pointLog.setAction("1");
         pointLog.setUserId(order.getUserId());
         pointLog.setOperatePoint(point);
-        pointLog.setCurrentPoint(localPoint.getPoint());
+        if (localPoint != null) {
+            pointLog.setCurrentPoint(localPoint.getPoint());
+        }
         wxPointLogMapper.add(pointLog);
     }
 

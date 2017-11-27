@@ -400,6 +400,7 @@ public class WxPayServiceImpl implements WxPayService {
         } else {
             wxPointMapper.level(point);
         }
+        LOGGER.info("积分操作：" + point.toString());
         return null;
     }
 
