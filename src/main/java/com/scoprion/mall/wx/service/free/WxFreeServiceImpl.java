@@ -111,6 +111,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         order.setGoodId(goodId);
         order.setGoodName(goods.getGoodName());
         order.setGoodFee(goods.getPrice());
+        order.setUsePoint("0");
         order.setDeliveryId(orderExt.getDelivery().getId());
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {

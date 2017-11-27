@@ -251,12 +251,23 @@ public class OrderServiceImpl implements OrderService {
                 goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
                 //记录商品库存反还日志
                 saveGoodLog(order.getGoodName(), order.getGoodId(), "退款，商品库存返还");
-                //正式代码：int point = order.getPaymentFee() / 1000;
-                int point = order.getPaymentFee();
+                //使用积分返还
+                //支付时扣减的积分，需要返还
+                int operatePoint = order.getOperatePoint();
                 Point localPoint = pointMapper.findByUserId(order.getUserId());
-                pointMapper.updatePoint(order.getUserId(), point);
-                //记录积分反还日志
-                savePointLog(order, point, localPoint);
+                if (Constant.STATUS_ONE.equals(order.getUsePoint())) {
+                    //积分返还
+                    pointMapper.updatePoint(order.getUserId(), operatePoint);
+                    //记录积分返还日志
+                    savePointLog(order, "1", +operatePoint, localPoint.getPoint() + operatePoint);
+                }
+                //支付产生的积分，需要扣减
+                int point2 = order.getPaymentFee();
+                int currPoint = localPoint.getPoint() - point2;
+                //积分扣减日志
+                savePointLog(order, "0", -point2, currPoint);
+                //积分返还
+                pointMapper.updatePoint(order.getUserId(), -point2);
             } else {
                 return BaseResult.error(wxRefundNotifyResponseData.getReturn_code(),
                         wxRefundNotifyResponseData.getReturn_msg());
@@ -273,15 +284,12 @@ public class OrderServiceImpl implements OrderService {
         goodLogMapper.add(goodLog);
     }
 
-    private void savePointLog(Order order, int point, Point localPoint) {
-
+    private void savePointLog(Order order, String action, Integer operatePoint, Integer currentPoint) {
         PointLog pointLog = new PointLog();
-        pointLog.setAction("1");
+        pointLog.setAction(action);
         pointLog.setUserId(order.getUserId());
-        pointLog.setOperatePoint(point);
-        if (localPoint != null) {
-            pointLog.setCurrentPoint(localPoint.getPoint());
-        }
+        pointLog.setOperatePoint(operatePoint);
+        pointLog.setCurrentPoint(currentPoint);
         wxPointLogMapper.add(pointLog);
     }
 
