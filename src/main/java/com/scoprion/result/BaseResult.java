@@ -55,4 +55,10 @@ public class BaseResult {
         return new ErrorResult("0007", "访问过于频繁,请一分钟后再试");
     }
 
+    @Override
+    public String toString() {
+        return "BaseResult{" +
+                "result=" + result +
+                '}';
+    }
 }

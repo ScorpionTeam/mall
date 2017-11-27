@@ -18,7 +18,7 @@
 
     <!-- 获取用户积分日志详情 -->
     <select id="pointLog" resultType="com.scoprion.mall.domain.PointLog">
-        SELECT * FROM t_point_log WHERE userId=#{userId}
+        SELECT * FROM t_point_log WHERE user_id=#{userId}
     </select>
 
     <!--增加-->
