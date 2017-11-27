@@ -33,10 +33,8 @@ public interface WxPointLogMapper {
     /**
      * 用户积分日志
      *
-     * @param pageNo
-     * @param pageSize
      * @param userId
      * @return
      */
-    Page<PointLog> pointLog(@Param("pageNo") Integer pageNo, @Param("pageSize") Integer pageSize, @Param("userId") String userId);
+    Page<PointLog> pointLog(@Param("userId") String userId);
 }
