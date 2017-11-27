@@ -260,6 +260,7 @@ public class OrderServiceImpl implements OrderService {
                     pointMapper.updatePoint(order.getUserId(), operatePoint);
                     //记录积分返还日志
                     savePointLog(order, "1", +operatePoint, localPoint.getPoint() + operatePoint);
+                    localPoint.setPoint(localPoint.getPoint() + operatePoint);
                 }
                 //支付产生的积分，需要扣减
                 int point2 = order.getPaymentFee();
