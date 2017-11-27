@@ -6,11 +6,9 @@ import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.ActivityGoodMapper;
 import com.scoprion.mall.backstage.mapper.ActivityMapper;
+import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
-import com.scoprion.mall.domain.Activity;
-import com.scoprion.mall.domain.ActivityGoods;
-import com.scoprion.mall.domain.GoodExt;
-import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.*;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +35,9 @@ public class ActivityServiceImpl implements ActivityService {
 
     @Autowired
     private GoodsMapper goodsMapper;
+
+    @Autowired
+    private GoodLogMapper goodLogMapper;
 
     /**
      * 创建活动
@@ -185,6 +186,7 @@ public class ActivityServiceImpl implements ActivityService {
             activityGoodMapper.bindActivityGood(activityId, good.getId(), "0", good.getStock());
             //商品库存扣减
             goodsMapper.modifyGoodsDeduction(good.getId(), -good.getStock());
+            saveGoodLog(good.getId(), "商品绑定活动，商品库存扣减" + good.getStock());
         }
         return BaseResult.success("活动绑定成功");
     }
@@ -209,9 +211,17 @@ public class ActivityServiceImpl implements ActivityService {
                 if (activityGood != null && activityGood.getStock() > 0) {
                     //返回原有库存
                     goodsMapper.modifyGoodsDeduction(goodId, activityGood.getStock());
+                    saveGoodLog(goodId, "解绑活动跟商品关系，商品库存返还" + activityGood.getStock());
                 }
             }
         });
         return BaseResult.success("解绑成功");
+    }
+
+    private void saveGoodLog(Long goodId, String action) {
+        GoodLog goodLog = new GoodLog();
+        goodLog.setGoodId(goodId);
+        goodLog.setAction(action);
+        goodLogMapper.add(goodLog);
     }
 }

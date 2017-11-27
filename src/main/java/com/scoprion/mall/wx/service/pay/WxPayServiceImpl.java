@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.service.pay;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.scoprion.constant.Constant;
+import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.wx.mapper.*;
@@ -34,6 +35,9 @@ public class WxPayServiceImpl implements WxPayService {
 
     @Autowired
     private WxGoodMapper wxGoodMapper;
+
+    @Autowired
+    private GoodLogMapper goodLogMapper;
 
     @Autowired
     private WxDeliveryMapper wxDeliveryMapper;
@@ -279,6 +283,8 @@ public class WxPayServiceImpl implements WxPayService {
             wxOrderLogMapper.add(orderLog);
             //库存扣减
             wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
+            //库存扣减日志
+            saveGoodLog(order.getGoodId(), "库存扣减" + order.getCount(), order.getGoodName());
             //积分扣减、增加
             BaseResult operateResult = operatePoint(order);
             if (operateResult != null) {
@@ -394,7 +400,16 @@ public class WxPayServiceImpl implements WxPayService {
         } else {
             wxPointMapper.level(point);
         }
+        LOGGER.info("积分操作：" + point.toString());
         return null;
+    }
+
+    private void saveGoodLog(Long goodId, String action, String goodName) {
+        GoodLog goodLog = new GoodLog();
+        goodLog.setAction(action);
+        goodLog.setGoodName(goodName);
+        goodLog.setGoodId(goodId);
+        goodLogMapper.add(goodLog);
     }
 
     /**

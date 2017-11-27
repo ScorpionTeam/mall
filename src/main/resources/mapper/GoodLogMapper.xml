@@ -10,7 +10,7 @@
           good_id,
           good_name,
           action,
-          createDate
+          create_date
         ) VALUES (
          #{goodId},
          #{goodName},
@@ -25,7 +25,7 @@
         good_id,
         action,
         good_name,
-        createDate
+        create_date
         FROM t_good_log
         WHERE 1=1
         <if test="searchkey!=null">>AND CONCAT(good_name,action) LIKE #{searchkey}</if>
