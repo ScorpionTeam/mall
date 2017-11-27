@@ -29,10 +29,10 @@ import java.util.Map;
  * @created on 2017/11/20.
  */
 @Service
-public class FreeServiceImpl implements FreeService {
+public class WxFreeServiceImpl implements WxFreeService {
 
     @Autowired
-    private FreeMapper freeMapper;
+    private WxFreeMapper wxFreeMapper;
 
     @Autowired
     private WxOrderMapper wxOrderMapper;
@@ -54,7 +54,7 @@ public class FreeServiceImpl implements FreeService {
      * @return
      */
     @Override
-    public PageResult findAll(int pageNo, int pageSize) {
+    public PageResult findAll(Integer pageNo, Integer pageSize) {
         PageHelper.startPage(pageNo, pageSize);
         Page<Activity> page = wxActivityMapper.findAll();
         return new PageResult(page);
@@ -71,16 +71,16 @@ public class FreeServiceImpl implements FreeService {
     public BaseResult apply(OrderExt orderExt, String ipAddress) {
         String openId = WxUtil.getOpenId(orderExt.getWxCode());
         //获得活动商品详情
-        ActivityGoods activityGoods = freeMapper.findByActivityGoodId(orderExt.getActivityGoodId());
+        ActivityGoods activityGoods = wxFreeMapper.findByActivityGoodId(orderExt.getActivityGoodId());
         Long activityId = activityGoods.getActivityId();
         //查询是否参加过该活动
-        int result = freeMapper.validByActivityId(activityId, openId);
+        int result = wxFreeMapper.validByActivityId(activityId, openId);
         if (result > 0) {
             return BaseResult.error("apply_fail", "您已参加过该活动");
         }
         Date currentDate = new Date();
         //查询活动详情
-        Activity activity = freeMapper.findById(activityId);
+        Activity activity = wxFreeMapper.findById(activityId);
         if (0 == activity.getNum()) {
             return BaseResult.error("apply_fail", "活动人数已满");
         } else if (currentDate.after(activity.getEndDate())) {
@@ -89,7 +89,7 @@ public class FreeServiceImpl implements FreeService {
 
         //生成商品快照
         Long goodId = activityGoods.getGoodId();
-        Goods goods = freeMapper.findByGoodId(goodId);
+        Goods goods = wxFreeMapper.findByGoodId(goodId);
         GoodSnapshot goodSnapshot = new GoodSnapshot();
         BeanUtils.copyProperties(goods, goodSnapshot);
 
@@ -234,8 +234,8 @@ public class FreeServiceImpl implements FreeService {
 //            if (operateResult != null) {
 //                return operateResult;
 //            }
-//            //销量
-//            wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
+            //销量
+            wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
         }
         return BaseResult.success("支付回调成功");
     }

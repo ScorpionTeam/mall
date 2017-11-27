@@ -12,7 +12,7 @@ import com.scoprion.result.PageResult;
  * @author by kunlun
  * @created on 2017/11/20.
  */
-public interface FreeService {
+public interface WxFreeService {
 
     /**
      * 查询试用商品列表
@@ -21,7 +21,7 @@ public interface FreeService {
      * @param pageSize
      * @return
      */
-    PageResult findAll(int pageNo, int pageSize);
+    PageResult findAll(Integer pageNo, Integer pageSize);
 
     /**
      * 参加试用

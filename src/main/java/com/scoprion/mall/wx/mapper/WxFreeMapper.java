@@ -1,10 +1,8 @@
 package com.scoprion.mall.wx.mapper;
 
-import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Activity;
 import com.scoprion.mall.domain.ActivityGoods;
 import com.scoprion.mall.domain.Goods;
-import com.scoprion.mall.domain.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -13,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
  * @created on 2017/11/20.
  */
 @Mapper
-public interface FreeMapper {
+public interface WxFreeMapper {
 
 
     /**
@@ -31,7 +29,8 @@ public interface FreeMapper {
      * @param userId
      * @return
      */
-    int validByActivityId(@Param("activityId") Long activityId, @Param("userId") String userId);
+    int validByActivityId(@Param("activityId") Long activityId,
+                          @Param("userId") String userId);
 
     /**
      * 查询活动商品详情

@@ -1,15 +1,13 @@
 package com.scoprion.mall.wx.controller;
 
 
-import com.scoprion.mall.domain.Delivery;
-import com.scoprion.mall.domain.DeliveryExt;
 import com.scoprion.mall.domain.OrderExt;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
-import com.scoprion.mall.wx.service.free.FreeService;
+import com.scoprion.mall.wx.service.free.WxFreeService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.IPUtil;
@@ -30,10 +28,10 @@ import java.io.IOException;
  */
 @RestController
 @RequestMapping("wx/free")
-public class FreeController {
+public class WxFreeController {
 
     @Autowired
-    private FreeService freeService;
+    private WxFreeService wxFreeService;
 
     /**
      * 试用商品列表
@@ -43,8 +41,8 @@ public class FreeController {
      * @return
      */
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
-    public PageResult findAll(int pageNo, int pageSize) {
-        return freeService.findAll(pageNo, pageSize);
+    public PageResult findAll(Integer pageNo, Integer pageSize) {
+        return wxFreeService.findAll(pageNo, pageSize);
     }
 
     /**
@@ -54,10 +52,10 @@ public class FreeController {
      * @param request
      * @return
      */
-    @RequestMapping(value = "/try", method = RequestMethod.POST)
+    @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public BaseResult apply(@RequestBody OrderExt orderExt, HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
-        return freeService.apply(orderExt, ipAddress);
+        return wxFreeService.apply(orderExt, ipAddress);
     }
 
     /**
@@ -68,7 +66,7 @@ public class FreeController {
      */
     @RequestMapping(value = "/pay",method = RequestMethod.POST)
     public BaseResult pay(String wxCode,Long orderId){
-        return freeService.pay(wxCode,orderId);
+        return wxFreeService.pay(wxCode,orderId);
     }
 
     /**
@@ -91,7 +89,7 @@ public class FreeController {
         }
         UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData = WxPayUtil.castXMLStringToUnifiedOrderNotifyRequestData(
                 notifyXml);
-        BaseResult baseResult = freeService.callback(unifiedOrderNotifyRequestData);
+        BaseResult baseResult = wxFreeService.callback(unifiedOrderNotifyRequestData);
         if (baseResult.getResult() == 1) {
             UnifiedOrderNotifyResponseData unifiedOrderNotifyResponseData = new UnifiedOrderNotifyResponseData();
             unifiedOrderNotifyResponseData.setReturn_msg("OK");
