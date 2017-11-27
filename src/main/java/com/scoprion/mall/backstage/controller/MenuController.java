@@ -24,11 +24,12 @@ public class MenuController {
     @Autowired
     MenuService menuService;
 
-    @ApiOperation("初始化菜单")
-    @RequestMapping(value = "/init", method = RequestMethod.GET)
-    public PageResult init(String userId) {
-        return menuService.init(userId);
+    @ApiOperation("查询菜单根节点列表")
+    @RequestMapping(value = "/findRootMenu", method = RequestMethod.GET)
+    public BaseResult findRootMenu() {
+        return menuService.findRootMenu( );
     }
+
 
     @ApiOperation("菜单列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)

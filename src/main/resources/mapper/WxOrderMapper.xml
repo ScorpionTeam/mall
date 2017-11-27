@@ -104,7 +104,7 @@
         tor.reduce_fee,
         tor.payment_fee,
         tor.good_fee,
-        tor.use_point
+        tor.use_point,
         tor.delivery_no,
         tor.operate_point,
         tor.freight_fee,
@@ -147,7 +147,44 @@
 
     <!--订单详情-->
     <select id="findByOrderId" resultType="com.scoprion.mall.domain.Order">
-      SELECT * FROM t_order WHERE id=#{orderId}
+      SELECT id,
+      user_id,
+      order_no,
+      good_snapshot_id,
+      delivery_id,
+      delivery_no,
+      order_status,
+      order_type,
+      pay_type,
+      message,
+      order_fee,
+      reduce_fee,
+      payment_fee,
+      good_fee,
+      freight_fee,
+      create_date,
+      pay_date,
+      delivery_date,
+      update_date,
+      recipients,
+      phone,
+      province,
+      city,
+      area,
+      address,
+      post_code,
+      good_name,
+      count,
+      prepay_id,
+      wxOrder_no,
+      good_id,
+      remark,
+      use_ticket,
+      use_point,
+      ticket_id,
+      operate_point,
+      send_good_id
+      FROM t_order WHERE id=#{orderId}
     </select>
 
     <!--根据订单号修改订单状态-->
