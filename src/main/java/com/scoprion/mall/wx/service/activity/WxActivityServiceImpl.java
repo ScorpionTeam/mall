@@ -44,10 +44,12 @@ public class WxActivityServiceImpl implements WxActivityService {
             return new PageResult(page);
         }
         if (activity.getEndDate().before(currentDate)) {
-            return new PageResult();
+            Page<Activity> page = wxActivityMapper.findByGroup();
+            return new PageResult(page);
         }
         if (activity.getStartDate().after(currentDate)) {
-            return new PageResult();
+            Page<Activity> page = wxActivityMapper.findByGroup();
+            return new PageResult(page);
         }
         Page<Activity> page = wxActivityMapper.findByGroup();
         return new PageResult(page);
