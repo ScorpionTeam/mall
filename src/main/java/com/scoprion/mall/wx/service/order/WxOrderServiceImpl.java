@@ -120,7 +120,7 @@ public class WxOrderServiceImpl implements WxOrderService {
      * @return
      */
     @Override
-    public BaseResult confirmReceipt(Long id) {
+    public BaseResult confirmReceipt(Long id, String ipAddress) {
         if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
@@ -130,7 +130,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         }
         int result = wxOrderMapper.updateByOrderID(id, "4");
         if (result > 0) {
-            saveOrderLog("确认收货", order);
+            saveOrderLog("确认收货", order, ipAddress);
             return BaseResult.success("确认收货成功");
         }
         return BaseResult.error("confirm_fail", "确认收货失败");
@@ -144,7 +144,7 @@ public class WxOrderServiceImpl implements WxOrderService {
      * @return
      */
     @Override
-    public BaseResult cancelOrder(Long id) {
+    public BaseResult cancelOrder(Long id, String ipAddress) {
         if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
@@ -154,17 +154,18 @@ public class WxOrderServiceImpl implements WxOrderService {
         }
         int result = wxOrderMapper.updateByOrderID(id, "6");
         if (result > 0) {
-            saveOrderLog("取消订单", order);
+            saveOrderLog("取消订单", order, ipAddress);
             return BaseResult.success("取消订单成功");
         }
         return BaseResult.error("cancel_fail", "取消订单失败");
     }
 
-    private void saveOrderLog(String action, Order order) {
+    private void saveOrderLog(String action, Order order, String ipAddress) {
         OrderLog orderLog = new OrderLog();
         orderLog.setAction(action);
         orderLog.setOrderId(order.getId());
         orderLog.setOrderNo(order.getOrderNo());
+        orderLog.setIpAddress(ipAddress);
         wxOrderLogMapper.add(orderLog);
     }
 }

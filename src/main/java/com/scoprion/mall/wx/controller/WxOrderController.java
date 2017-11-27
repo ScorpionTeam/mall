@@ -4,11 +4,14 @@ import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.wx.service.order.WxOrderService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.scoprion.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author by Administrator
@@ -77,8 +80,9 @@ public class WxOrderController {
      * @return
      */
     @RequestMapping(value = "/confirmReceipt", method = RequestMethod.GET)
-    public BaseResult confirmReceipt(Long id) {
-        return wxOrderService.confirmReceipt(id);
+    public BaseResult confirmReceipt(Long id, HttpServletRequest request) {
+        String ipAddress = IPUtil.getIPAddress(request);
+        return wxOrderService.confirmReceipt(id, ipAddress);
     }
 
     /**
@@ -88,8 +92,9 @@ public class WxOrderController {
      * @return
      */
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.GET)
-    public BaseResult cancelOrder(Long id) {
-        return wxOrderService.cancelOrder(id);
+    public BaseResult cancelOrder(Long id, HttpServletRequest request) {
+        String ipAddress = IPUtil.getIPAddress(request);
+        return wxOrderService.cancelOrder(id, ipAddress);
     }
 
 }

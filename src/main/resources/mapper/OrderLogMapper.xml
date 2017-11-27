@@ -19,4 +19,16 @@
          now()
         )
     </insert>
+    <!--根据订单id查询订单日志-->
+    <select id="findByOrderId" resultType="com.scoprion.mall.domain.OrderLog">
+        SELECT
+        id,
+        orderNo,
+        action,
+        ipAddress,
+        createDate,
+        orderId
+        FROM t_order_log
+        WHERE orderId=#{orderId}
+    </select>
 </mapper>

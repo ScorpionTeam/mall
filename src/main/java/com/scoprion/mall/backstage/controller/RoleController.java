@@ -5,6 +5,7 @@ import com.scoprion.mall.backstage.service.role.RoleService;
 import com.scoprion.mall.domain.SysMenu;
 import com.scoprion.mall.domain.SysRole;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -37,7 +38,7 @@ public class RoleController {
      */
     @ApiOperation("角色列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public BaseResult findByCondition(Integer pageNo, Integer pageSize, String searchKey) {
+    public PageResult findByCondition(Integer pageNo, Integer pageSize, String searchKey) {
         return roleService.findByCondition(pageNo, pageSize, searchKey);
     }
 
