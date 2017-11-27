@@ -100,7 +100,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         }
         //生成商品快照
         Long goodId = activityGoods.getGoodId();
-        Goods goods = wxFreeMapper.findByGoodId(goodId);
+        Goods goods = wxGoodMapper.findById(goodId);
         GoodSnapshot goodSnapshot = new GoodSnapshot();
         BeanUtils.copyProperties(goods, goodSnapshot);
         goodSnapshot.setGoodId(goodId);
