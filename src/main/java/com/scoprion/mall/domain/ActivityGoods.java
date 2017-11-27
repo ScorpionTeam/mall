@@ -16,6 +16,7 @@ public class ActivityGoods extends Goods {
      */
     private Long id;
 
+    private Long activityGoodId;
     /**
      * 活动ID
      */
@@ -48,6 +49,8 @@ public class ActivityGoods extends Goods {
      * 商品库存
      */
     private int stock;
+
+    private int actgStock;
     /**
      * 0正常，1删除
      */
@@ -138,16 +141,34 @@ public class ActivityGoods extends Goods {
         this.num = num;
     }
 
+    public int getActgStock() {
+        return actgStock;
+    }
+
+    public void setActgStock(int actgStock) {
+        this.actgStock = actgStock;
+    }
+
+    public Long getActivityGoodId() {
+        return activityGoodId;
+    }
+
+    public void setActivityGoodId(Long activityGoodId) {
+        this.activityGoodId = activityGoodId;
+    }
+
     @Override
     public String toString() {
         return "ActivityGoods{" +
                 "id=" + id +
+                ", activityGoodId=" + activityGoodId +
                 ", activityId=" + activityId +
                 ", name='" + name + '\'' +
                 ", activityType='" + activityType + '\'' +
                 ", createDate=" + createDate +
                 ", goodId=" + goodId +
                 ", stock=" + stock +
+                ", actgStock=" + actgStock +
                 ", status='" + status + '\'' +
                 ", num=" + num +
                 '}';

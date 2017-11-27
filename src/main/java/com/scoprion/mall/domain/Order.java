@@ -209,6 +209,11 @@ public class Order {
     private String useTicket;
 
     /**
+     * 是否使用积分  1是  0 否
+     */
+    private String usePoint;
+
+    /**
      * 优惠券id
      */
     private Long ticketId;
@@ -224,6 +229,14 @@ public class Order {
      */
     @JSONField(name = "send_good_id")
     private Long sendGoodId;
+
+    public String getUsePoint() {
+        return usePoint;
+    }
+
+    public void setUsePoint(String usePoint) {
+        this.usePoint = usePoint;
+    }
 
     public Integer getOperatePoint() {
         return operatePoint == null ? 0 : operatePoint;

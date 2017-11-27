@@ -6,34 +6,36 @@
 
     <resultMap type="com.scoprion.mall.domain.ActivityGoods" id="activityResult" extends="goods">
         <result property="id" column="id"/>
-        <result property="activityType" column="activity_type"/>
+        <result property="activityType" column="activityType"/>
         <result property="name" column="name"/>
         <result property="num" column="num"/>
-        <result property="activityId" column="activity_id"/>
+        <result property="activityId" column="activityId"/>
         <result property="status" column="status"/>
-        <result property="createDate" column="create_date"/>
+        <result property="actgId" column="actgId"/>
+        <result property="actgStock" column="actgStock"/>
+        <result property="createDate" column="createDate"/>
     </resultMap>
 
     <resultMap type="com.scoprion.mall.domain.Goods" id="goods">
         <result property="id" column="id"/>
-        <result property="categoryId" column="category_id"/>
-        <result property="goodName" column="good_name"/>
+        <result property="categoryId" column="categoryId"/>
+        <result property="goodName" column="goodName"/>
         <result property="description" column="description"/>
         <result property="promotion" column="promotion"/>
         <result property="price" column="price"/>
-        <result property="saleVolume" column="sale_volume"/>
+        <result property="saleVolume" column="saleVolume"/>
         <result property="discount" column="discount"/>
         <result property="stock" column="stock"/>
-        <result property="onSale" column="on_sale"/>
-        <result property="hot" column="hot"/>
-        <result property="isNew" column="is_new"/>
-        <result property="lastUpdateDate" column="last_update_date"/>
-        <result property="freight" column="freight"/>
-        <result property="brandId" column="brand_id"/>
-        <result property="sellerId" column="seller_id"/>
-        <result property="visitTotal" column="visit_total"/>
-        <result property="goodNo" column="good_no"/>
-        <result property="mainImgUrl" column="main_image_url"/>
+        <result property="isOnSale" column="isOnSale"/>
+        <result property="isHot" column="isHot"/>
+        <result property="isNew" column="isNew"/>
+        <result property="lastUpdateDate" column="lastUpdateDate"/>
+        <result property="isFreight" column="isFreight"/>
+        <result property="brandId" column="brandId"/>
+        <result property="sellerId" column="sellerId"/>
+        <result property="visitTotal" column="visitTotal"/>
+        <result property="goodNo" column="goodNo"/>
+        <result property="mainImgUrl" column="mainImgUrl"/>
         <result property="status" column="status"/>
     </resultMap>
 
@@ -41,38 +43,38 @@
     <select id="findByGroup" resultMap="activityResult">
         SELECT
         act.name,
-        act.activity_type,
+        act.activityType,
         act.status,
         act.num,
         act.discount,
         actg.id,
-        actg.activity_id,
-        actg.good_id,
-        actg.create_date,
-        actg.stock,
+        actg.activityId,
+        actg.goodId,
+        actg.createDate,
+        actg.stock AS actgstock,
         tg.id,
-        tg.category_id,
-        tg.good_name,
+        tg.categoryId,
+        tg.goodName,
         tg.description,
         tg.promotion,
         tg.price,
-        tg.sale_volume,
+        tg.saleVolume,
         tg.discount,
         tg.stock,
-        tg.on_sale,
-        tg.hot,
-        tg.is_new,
-        tg.last_update_date,
-        tg.freight,
-        tg.brand_id,
-        tg.seller_id,
-        tg.visit_total,
-        tg.good_no,
-        tg.main_image_url,
+        tg.isOnSale,
+        tg.isHot,
+        tg.isNew,
+        tg.lastUpdateDate,
+        tg.isFreight,
+        tg.brandId,
+        tg.sellerId,
+        tg.visitTotal,
+        tg.goodNo,
+        tg.mainImgUrl,
         tg.status
-        FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activity_id
-        INNER JOIN t_good tg ON actg.good_id = tg.id
-        AND act.activity_type = '1' AND actg.status='0' AND act.status='0'
+        FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activityId
+        INNER JOIN t_good tg ON actg.goodId = tg.id
+        AND act.activityType = '1' AND actg.status='0' AND act.status='0'
     </select>
     <!-- 根据类型与时间计算拼团是否开始 activityType = 2 -->
     <select id="findByActivityTypeTwo" resultType="com.scoprion.mall.domain.Activity">
@@ -83,36 +85,36 @@
     <select id="secKill" resultMap="activityResult">
         SELECT
         act.name,
-        act.activity_type,
+        act.activityType,
         act.status,
         act.target,
         actg.id,
-        actg.activity_id,
-        actg.good_id,
-        actg.create_date,
+        actg.activityId,
+        actg.goodId,
+        actg.createDate,
         tg.id,
-        tg.category_id,
-        tg.good_name,
+        tg.categoryId,
+        tg.goodName,
         tg.description,
         tg.promotion,
         tg.price,
-        tg.sale_volume,
+        tg.saleVolume,
         tg.discount,
         tg.stock,
-        tg.on_sale,
-        tg.hot,
-        tg.is_new,
-        tg.last_update_date,
-        tg.freight,
-        tg.brand_id,
-        tg.seller_id,
-        tg.visit_total,
-        tg.good_no,
-        tg.main_image_url,
+        tg.isOnSale,
+        tg.isHot,
+        tg.isNew,
+        tg.lastUpdateDate,
+        tg.isFreight,
+        tg.brandId,
+        tg.sellerId,
+        tg.visitTotal,
+        tg.goodNo,
+        tg.mainImgUrl,
         tg.status
-        FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activity_id
-        INNER JOIN t_good tg ON actg.good_id=tg.id
-        AND act.activity_type = '0' AND actg.status='0'AND act.status='0'
+        FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activityId
+        INNER JOIN t_good tg ON actg.goodId=tg.id
+        AND act.activityType = '0' AND actg.status='0'AND act.status='0'
     </select>
     <!-- 根据类型与时间计算秒杀是否开始 activityType = 1 -->
     <select id="findByActivityTypeOne" resultType="com.scoprion.mall.domain.Activity">
@@ -123,36 +125,36 @@
     <select id="preference" resultMap="activityResult">
         SELECT
         act.name,
-        act.activity_type,
+        act.activityType,
         act.status,
         act.target,
         actg.id,
         actg.activityId,
-        actg.good_id,
-        actg.create_date,
+        actg.goodId,
+        actg.createDate,
         tg.id,
-        tg.category_id,
-        tg.good_name,
+        tg.categoryId,
+        tg.goodName,
         tg.description,
         tg.promotion,
         tg.price,
-        tg.sale_volume,
+        tg.saleVolume,
         tg.discount,
         tg.stock,
-        tg.on_ale,
-        tg.hot,
-        tg.is_new,
-        tg.last_update_date,
-        tg.freight,
-        tg.brand_id,
-        tg.seller_id,
-        tg.visit_total,
-        tg.good_no,
-        tg.main_image_url,
+        tg.isOnSale,
+        tg.isHot,
+        tg.isNew,
+        tg.lastUpdateDate,
+        tg.isFreight,
+        tg.brandId,
+        tg.sellerId,
+        tg.visitTotal,
+        tg.goodNo,
+        tg.mainImgUrl,
         tg.status
-        FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activity_id
+        FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activityId
         INNER JOIN t_good tg ON actg.goodId=tg.id
-        AND act.activity_type = '2' AND actg.status='0'AND act.status='0'
+        AND act.activityType = '2' AND actg.status='0'AND act.status='0'
     </select>
     <!-- 根据类型与时间计算优选是否开始 activityType = 3 -->
     <select id="findByActivityTypeThree" resultType="com.scoprion.mall.domain.Activity">
@@ -163,37 +165,57 @@
     <select id="findAll" resultMap="activityResult">
         SELECT
         act.name,
-        act.activity_type,
+        act.activityType,
         act.status,
         act.num,
         act.discount,
-        actg.id,
-        actg.activity_id,
-        actg.good_id,
-        actg.create_date,
-        actg.stock,
-        tg.id,
-        tg.category_id,
-        tg.good_name,
+        actg.id AS activityGoodId,
+        actg.activityId,
+        actg.goodId,
+        actg.createDate,
+        actg.stock AS actgStock,
+        tg.goodName,
         tg.description,
         tg.promotion,
         tg.price,
-        tg.sale_volume,
+        tg.saleVolume,
         tg.discount,
-        tg.stock,
-        tg.on_sale,
-        tg.hot,
-        tg.is_new,
-        tg.last_update_date,
-        tg.freight,
-        tg.brand_id,
-        tg.seller_id,
-        tg.visit_total,
-        tg.good_no,
-        tg.main_image_url,
+        actg.stock,
+        tg.stock AS tgStock,
+        tg.isOnSale,
+        tg.isHot,
+        tg.isNew,
+        tg.lastUpdateDate,
+        tg.isFreight,
+        tg.brandId,
+        tg.sellerId,
+        tg.visitTotal,
+        tg.goodNo,
+        tg.mainImgUrl,
         tg.status
-        FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activity_id
+        FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activityId
         INNER JOIN t_good tg ON actg.goodId = tg.id
-        AND act.activity_type = '3' AND actg.status='0' AND act.status='0'
+        AND act.activityType = '3' AND actg.status='0' AND act.status='0'
+    </select>
+
+    <!-- 查询活动商品详情 -->
+    <select id="findByActivityGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
+        SELECT * FROM t_activity_good WHERE id=#{activityGoodId}
+    </select>
+
+    <!-- 查询是否参加过该活动 -->
+    <select id="validByActivityId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_order WHERE orderType='4' AND userId=#{userId}
+    </select>
+
+
+    <!-- 查询商品详情 -->
+    <select id="findById" resultType="com.scoprion.mall.domain.Activity">
+        SELECT * FROM t_activity WHERE id=#{activityId}
+    </select>
+
+    <!-- 获取商品详情 -->
+    <select id="findByGoodId" resultType="com.scoprion.mall.domain.Goods">
+        SELECT * FROM t_good WHERE id=#{goodId}
     </select>
 </mapper>

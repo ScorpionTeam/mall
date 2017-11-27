@@ -21,6 +21,7 @@
     <select id="findByCondition" resultType="com.scoprion.mall.domain.OrderExt">
         SELECT
         torder.id,
+        torder.usePoint,
         torder.orderNo,
         torder.goodSnapShotId,
         torder.deliveryId,
@@ -53,6 +54,7 @@
     <select id="findById" resultType="com.scoprion.mall.domain.OrderExt">
         SELECT tor.id,
         tor.userId,
+        tor.usePoint,
         tor.orderNo,
         tor.goodSnapShotId,
         tor.deliveryId,
@@ -130,6 +132,7 @@
         <if test="useTicket!=null">useTicket=#{useTicket},</if>
         <if test="ticketId!=null">ticketId=#{ticketId},</if>
         <if test="deliveryNo!=null">deliveryNo=#{deliveryNo},</if>
+        <if test="usePoint!=null">usePoint=#{usePoint},</if>
         updateDate=now()
         WHERE id=#{id}
     </update>

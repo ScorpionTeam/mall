@@ -36,7 +36,8 @@
         good_fee,
         operate_point,
         freight_fee,
-        delivery_no
+        delivery_no,
+        use_oint
         )
         VALUES (#{userId},
         #{orderNo},
@@ -66,7 +67,8 @@
         #{goodFee},
         #{operatePoint},
         #{freightFee},
-        #{deliveryNo})
+        #{deliveryNo}),
+        #{usePoint}
     </insert>
 
     <!--修改订单微信预付款订单号-->
@@ -102,6 +104,7 @@
         tor.reduce_fee,
         tor.payment_fee,
         tor.good_fee,
+        tor.use_point
         tor.delivery_no,
         tor.operate_point,
         tor.freight_fee,
@@ -128,6 +131,7 @@
         SELECT id,
         user_id,
         order_no,
+        use_point
         count,
         good_id,
         good_name,

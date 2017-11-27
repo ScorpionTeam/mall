@@ -65,6 +65,8 @@
         tacg.status,
         tacg.update_date
         FROM t_good good
+        LEFT JOIN t_activity_good tacg ON good.id=tacg.goodId
+        WHERE good.id=#{goodId} GROUP BY good.id
         LEFT JOIN t_activity_good tacg ON good.id=tacg.good_id
         WHERE good.id=#{goodId}  GROUP BY good.id
     </select>
