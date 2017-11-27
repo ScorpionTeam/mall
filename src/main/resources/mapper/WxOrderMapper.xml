@@ -37,7 +37,7 @@
         operate_point,
         freight_fee,
         delivery_no,
-        use_oint
+        use_point
         )
         VALUES (#{userId},
         #{orderNo},
@@ -104,7 +104,7 @@
         tor.reduce_fee,
         tor.payment_fee,
         tor.good_fee,
-        tor.use_point
+        tor.use_point,
         tor.delivery_no,
         tor.operate_point,
         tor.freight_fee,
@@ -137,7 +137,7 @@
         good_name,
         order_fee,
         reduce_fee,
-        pay_ment_fee,
+        payment_fee,
         good_fee,
         freight_fee,
         operate_point,

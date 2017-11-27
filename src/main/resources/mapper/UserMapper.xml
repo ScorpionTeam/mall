@@ -11,7 +11,7 @@
         nick_name,
         sex,
         age,
-        certification_id,
+        certificated_id,
         mobile,
         address,
         city,
@@ -25,6 +25,7 @@
         login_ip
         FROM t_user WHERE status='0' AND mobile=#{mobile} AND password=#{password}
     </select>
+
 
     <!--根据email登录-->
     <select id="loginByEmail" resultType="com.scoprion.mall.domain.Member">
