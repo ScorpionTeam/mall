@@ -81,7 +81,7 @@
         tor.good_name,
         tor.count,
         tor.prepay_id,
-        tor.wxOrder_no,
+        tor.wx_order_no,
         tor.good_id,
         tor.remark,
         tor.use_ticket,
@@ -89,7 +89,7 @@
         tor.operate_point,
         tor.send_good_id,
         tor.delivery_no,
-        tg.goodN_no as goodNo,
+        tg.good_no as goodNo,
         tg.main_image_url as goodMainImage
         FROM t_order tor
         LEFT JOIN t_good_snapshot tg ON tor.good_snapshot_id=tg.id
