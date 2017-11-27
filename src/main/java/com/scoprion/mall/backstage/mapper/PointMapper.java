@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.mapper;
 
+import com.scoprion.mall.domain.Point;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
