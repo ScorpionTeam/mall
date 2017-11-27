@@ -79,4 +79,14 @@ public interface OrderService {
      */
     BaseResult sendGood(Long orderId, String deliveryNo, String expressName,
                         String expressNo, Long senderId);
+
+    /**
+     * 根据订单id查订单日志
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param orderId
+     * @return
+     */
+    PageResult findOrderLogByOrderId(Integer pageNo, Integer pageSize, Long orderId);
 }

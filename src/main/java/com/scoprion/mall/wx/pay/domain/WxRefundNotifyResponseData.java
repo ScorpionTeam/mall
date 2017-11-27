@@ -88,25 +88,29 @@ public class WxRefundNotifyResponseData {
      */
     private int refund_fee;
 
-    /**
-     * 退款金额
-     */
-    private int settlement_refund_fee;
+    private int coupon_refund_fee;
+
+
+
+//    /**
+//     * 退款金额
+//     */
+//    private int settlement_refund_fee;
 
     /**
      * 订单金额
      */
     private int total_fee;
 
-    /**
-     * 应结订单金额
-     */
-    private int settlement_total_fee;
-
-    /**
-     * 订单金额货币总类
-     */
-    private String fee_type;
+//    /**
+//     * 应结订单金额
+//     */
+//    private int settlement_total_fee;
+//
+//    /**
+//     * 订单金额货币总类
+//     */
+//    private String fee_type;
 
     /**
      * 现金支付金额
@@ -118,35 +122,36 @@ public class WxRefundNotifyResponseData {
      */
     private int cash_refund_fee;
 
-    /**
-     * 代金券类型
-     */
-    private String coupon_type_$n;
+//    /**
+//     * 代金券类型
+//     */
+//    private String coupon_type_$n;
 
-    /**
-     * 代金券退款金额
-     */
-    private int counpon_refund_fee_$n;
+//    /**
+//     * 代金券退款金额
+//     */
+//    private int coupon_refund_fee_$n;
 
     /**
      * 退款代金券使用数量
      */
-    private int coupon_refund_count_$n;
+    private int coupon_refund_count;
 
-    /**
-     * 退款代金券批次ID
-     */
-    private String coupon_refund_batch_id_$n_$m;
+//    /**
+//     * 退款代金券批次ID
+//     */
+//    private String coupon_refund_batch_id_$n_$m;
 
-    /**
-     * 退款代金券ID
-     */
-    private String coupon_refund_id_$n_$m;
+//    /**
+//     * 退款代金券ID
+//     */
+//    private String coupon_refund_id_$n_$m;
+//
+//    /**
+//     * 单个退款代金券支付金额
+//     */
+//    private int coupon_refund_fee_$n_$m;
 
-    /**
-     * 单个退款代金券支付金额
-     */
-    private int coupon_refund_fee_$n_$m;
 
     public String getReturn_code() {
         return return_code;
@@ -260,28 +265,12 @@ public class WxRefundNotifyResponseData {
         this.refund_id = refund_id;
     }
 
-    public String getRefund_channel() {
-        return refund_channel;
-    }
-
-    public void setRefund_channel(String refund_channel) {
-        this.refund_channel = refund_channel;
-    }
-
     public int getRefund_fee() {
         return refund_fee;
     }
 
     public void setRefund_fee(int refund_fee) {
         this.refund_fee = refund_fee;
-    }
-
-    public int getSettlement_refund_fee() {
-        return settlement_refund_fee;
-    }
-
-    public void setSettlement_refund_fee(int settlement_refund_fee) {
-        this.settlement_refund_fee = settlement_refund_fee;
     }
 
     public int getTotal_fee() {
@@ -292,28 +281,28 @@ public class WxRefundNotifyResponseData {
         this.total_fee = total_fee;
     }
 
-    public int getSettlement_total_fee() {
-        return settlement_total_fee;
-    }
-
-    public void setSettlement_total_fee(int settlement_total_fee) {
-        this.settlement_total_fee = settlement_total_fee;
-    }
-
-    public String getFee_type() {
-        return fee_type;
-    }
-
-    public void setFee_type(String fee_type) {
-        this.fee_type = fee_type;
-    }
-
     public int getCash_fee() {
         return cash_fee;
     }
 
     public void setCash_fee(int cash_fee) {
         this.cash_fee = cash_fee;
+    }
+
+    public String getRefund_channel() {
+        return refund_channel;
+    }
+
+    public void setRefund_channel(String refund_channel) {
+        this.refund_channel = refund_channel;
+    }
+
+    public int getCoupon_refund_fee() {
+        return coupon_refund_fee;
+    }
+
+    public void setCoupon_refund_fee(int coupon_refund_fee) {
+        this.coupon_refund_fee = coupon_refund_fee;
     }
 
     public int getCash_refund_fee() {
@@ -324,52 +313,12 @@ public class WxRefundNotifyResponseData {
         this.cash_refund_fee = cash_refund_fee;
     }
 
-    public String getCoupon_type_$n() {
-        return coupon_type_$n;
+    public int getCoupon_refund_count() {
+        return coupon_refund_count;
     }
 
-    public void setCoupon_type_$n(String coupon_type_$n) {
-        this.coupon_type_$n = coupon_type_$n;
-    }
-
-    public int getCounpon_refund_fee_$n() {
-        return counpon_refund_fee_$n;
-    }
-
-    public void setCounpon_refund_fee_$n(int counpon_refund_fee_$n) {
-        this.counpon_refund_fee_$n = counpon_refund_fee_$n;
-    }
-
-    public int getCoupon_refund_count_$n() {
-        return coupon_refund_count_$n;
-    }
-
-    public void setCoupon_refund_count_$n(int coupon_refund_count_$n) {
-        this.coupon_refund_count_$n = coupon_refund_count_$n;
-    }
-
-    public String getCoupon_refund_batch_id_$n_$m() {
-        return coupon_refund_batch_id_$n_$m;
-    }
-
-    public void setCoupon_refund_batch_id_$n_$m(String coupon_refund_batch_id_$n_$m) {
-        this.coupon_refund_batch_id_$n_$m = coupon_refund_batch_id_$n_$m;
-    }
-
-    public String getCoupon_refund_id_$n_$m() {
-        return coupon_refund_id_$n_$m;
-    }
-
-    public void setCoupon_refund_id_$n_$m(String coupon_refund_id_$n_$m) {
-        this.coupon_refund_id_$n_$m = coupon_refund_id_$n_$m;
-    }
-
-    public int getCoupon_refund_fee_$n_$m() {
-        return coupon_refund_fee_$n_$m;
-    }
-
-    public void setCoupon_refund_fee_$n_$m(int coupon_refund_fee_$n_$m) {
-        this.coupon_refund_fee_$n_$m = coupon_refund_fee_$n_$m;
+    public void setCoupon_refund_count(int coupon_refund_count) {
+        this.coupon_refund_count = coupon_refund_count;
     }
 
     @Override
@@ -391,18 +340,11 @@ public class WxRefundNotifyResponseData {
                 ", refund_id='" + refund_id + '\'' +
                 ", refund_channel='" + refund_channel + '\'' +
                 ", refund_fee=" + refund_fee +
-                ", settlement_refund_fee=" + settlement_refund_fee +
+                ", coupon_refund_fee=" + coupon_refund_fee +
                 ", total_fee=" + total_fee +
-                ", settlement_total_fee=" + settlement_total_fee +
-                ", fee_type='" + fee_type + '\'' +
                 ", cash_fee=" + cash_fee +
                 ", cash_refund_fee=" + cash_refund_fee +
-                ", coupon_type_$n='" + coupon_type_$n + '\'' +
-                ", counpon_refund_fee_$n=" + counpon_refund_fee_$n +
-                ", coupon_refund_count_$n=" + coupon_refund_count_$n +
-                ", coupon_refund_batch_id_$n_$m='" + coupon_refund_batch_id_$n_$m + '\'' +
-                ", coupon_refund_id_$n_$m='" + coupon_refund_id_$n_$m + '\'' +
-                ", coupon_refund_fee_$n_$m=" + coupon_refund_fee_$n_$m +
+                ", coupon_refund_count=" + coupon_refund_count +
                 '}';
     }
 }

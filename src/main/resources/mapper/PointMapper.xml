@@ -6,7 +6,17 @@
 
     <!--更新积分-->
     <update id="updatePoint">
-        UPDATE t_point SET point=point-#{pointVal} WHERE userId=#{userId}
+        UPDATE t_point SET point=point+#{pointVal} WHERE userId=#{userId}
     </update>
-    
+
+    <select id="findByUserId" resultType="com.scoprion.mall.domain.Point">
+        SELECT id,
+        userId,
+        point,
+        level,
+        levelName,
+        createDate,
+        updateDate
+        FROM t_point WHERE userId=#{userId} limit 1
+    </select>
 </mapper>

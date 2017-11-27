@@ -114,7 +114,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         }
 
         //系统内生成订单信息
-        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", ipAddress);
+        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", ipAddress, order.getId());
         wxOrderLogMapper.add(orderLog);
         //创建随机字符串
         String nonce_str = WxUtil.createRandom(false, 10);
@@ -225,7 +225,8 @@ public class WxFreeServiceImpl implements WxFreeService {
         if (null == order.getPayDate()) {
             //修改订单状态 以及微信订单号
             //记录订单日志
-            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款", null);
+            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款",
+                    null, order.getId());
             wxOrderLogMapper.add(orderLog);
             //库存扣减
             wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
@@ -246,12 +247,14 @@ public class WxFreeServiceImpl implements WxFreeService {
      * @param orderNo   订单no
      * @param action    动作
      * @param ipAddress IP地址
+     * @param orderId   订单id
      * @return
      */
-    private OrderLog constructOrderLog(String orderNo, String action, String ipAddress) {
+    private OrderLog constructOrderLog(String orderNo, String action, String ipAddress, Long orderId) {
         OrderLog orderLog = new OrderLog();
         orderLog.setOrderNo(orderNo);
         orderLog.setAction(action);
+        orderLog.setOrderId(orderId);
         orderLog.setIpAddress(ipAddress);
         return orderLog;
     }

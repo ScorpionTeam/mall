@@ -2,6 +2,7 @@ package com.scoprion.mall.backstage.service.role;
 
 import com.scoprion.mall.domain.SysRole;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface RoleService {
 
     BaseResult modify(SysRole sysRole);
 
-    BaseResult findByCondition(Integer pageNo, Integer pageSize, String searchKey);
+    PageResult findByCondition(Integer pageNo, Integer pageSize, String searchKey);
 
     BaseResult findById(Long id);
 

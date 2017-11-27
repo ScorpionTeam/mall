@@ -49,15 +49,17 @@ public interface WxOrderService {
      * 确认收货
      *
      * @param id
+     * @param ipAddress
      * @return
      */
-    BaseResult confirmReceipt(Long id);
+    BaseResult confirmReceipt(Long id, String ipAddress);
 
     /**
      * 取消订单
      *
      * @param id
+     * @param ipAddress
      * @return
      */
-    BaseResult cancelOrder(Long id);
+    BaseResult cancelOrder(Long id, String ipAddress);
 }

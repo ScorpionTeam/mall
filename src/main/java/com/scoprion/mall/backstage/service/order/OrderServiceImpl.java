@@ -1,13 +1,15 @@
 package com.scoprion.mall.backstage.service.order;
 
 import com.alibaba.druid.util.StringUtils;
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.constant.WxEnum;
 import com.scoprion.mall.backstage.mapper.*;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
+import com.scoprion.mall.wx.mapper.WxPointLogMapper;
+import com.scoprion.mall.wx.mapper.WxPointMapper;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
@@ -39,6 +41,12 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private PointMapper pointMapper;
+
+    @Autowired
+    private WxPointMapper wxPointMapper;
+
+    @Autowired
+    private WxPointLogMapper wxPointLogMapper;
 
     @Autowired
     private SendGoodMapper sendGoodMapper;
@@ -106,6 +114,13 @@ public class OrderServiceImpl implements OrderService {
         orderLog.setAction("发货");
         orderLogMapper.add(orderLog);
         return BaseResult.success("操作成功");
+    }
+
+    @Override
+    public PageResult findOrderLogByOrderId(Integer pageNo, Integer pageSize, Long orderId) {
+        PageHelper.startPage(pageNo, pageSize);
+        Page<OrderLog> pages = orderLogMapper.findByOrderId(orderId);
+        return new PageResult(pages);
     }
 
     /**
@@ -194,7 +209,17 @@ public class OrderServiceImpl implements OrderService {
             return BaseResult.error("modify_error", "未付款的订单不能修改");
         }
         orderMapper.modify(order);
+        saveOrderLog(order.getId(), order.getOrderNo(), "修改订单");
         return BaseResult.success("修改成功");
+    }
+
+    private void saveOrderLog(Long id, String orderNo, String action) {
+        OrderLog orderLog = new OrderLog();
+        orderLog.setOrderId(id);
+        orderLog.setIpAddress("");
+        orderLog.setOrderNo(orderNo);
+        orderLog.setAction(action);
+        orderLogMapper.add(orderLog);
     }
 
     /**
@@ -212,12 +237,12 @@ public class OrderServiceImpl implements OrderService {
             orderMapper.updateOrderRefundById(orderId, "7", remark);
             return BaseResult.success("审核完成");
         } else {
-            String nonce_str = WxUtil.createRandom(false, 10);
+            String nonceStr = WxUtil.createRandom(false, 10);
             Order order = orderMapper.findById(orderId);
             String refundOrderNo = order.getOrderNo() + "T";
             //定义接收退款返回字符串
             String refundXML = refundSign(order.getOrderNo(), order.getPaymentFee(), refundFee, refundOrderNo,
-                    nonce_str);
+                    nonceStr);
             //接收退款返回
             String response = WxPayUtil.doRefund(WxPayConfig.WECHAT_REFUND, refundXML, WxPayConfig.MCHID);
             WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
@@ -225,29 +250,32 @@ public class OrderServiceImpl implements OrderService {
             Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
             if (result) {
                 orderMapper.updateOrderRefundById(order.getId(), "6", "");
-                OrderLog orderLog = new OrderLog();
-                orderLog.setOrderId(order.getId());
-                orderLog.setIpAddress("");
-                orderLog.setOrderNo(order.getOrderNo());
-                orderLog.setAction("退款");
-                orderLogMapper.add(orderLog);
+                saveOrderLog(order.getId(), order.getOrderNo(), "退款");
                 //TODO 商品库存返还
                 goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
                 //记录商品库存反还日志
 
-                //TODO 积分返还  10块钱  = 1积分
-                int point = order.getPaymentFee() / 1000;
+                //正式代码：int point = order.getPaymentFee() / 1000;
+                int point = order.getPaymentFee();
+                Point localPoint = pointMapper.findByUserId(order.getUserId());
                 pointMapper.updatePoint(order.getUserId(), point);
                 //记录积分反还日志
-
-
+                savePointLog(order, point, localPoint);
             } else {
                 return BaseResult.error(wxRefundNotifyResponseData.getReturn_code(),
                         wxRefundNotifyResponseData.getReturn_msg());
             }
         }
+        return BaseResult.success("退款成功");
+    }
 
-        return null;
+    private void savePointLog(Order order, int point, Point localPoint) {
+        PointLog pointLog = new PointLog();
+        pointLog.setAction("1");
+        pointLog.setUserId(order.getUserId());
+        pointLog.setOperatePoint(point);
+        pointLog.setCurrentPoint(localPoint.getPoint());
+        wxPointLogMapper.add(pointLog);
     }
 
 
