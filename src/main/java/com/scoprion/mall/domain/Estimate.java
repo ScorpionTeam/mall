@@ -18,6 +18,7 @@ public class Estimate {
     /**
      * 商品ID
      */
+    @JSONField(name = "good_id")
     private Long goodId;
 
     /**
@@ -28,18 +29,19 @@ public class Estimate {
     /**
      * 用户ID
      */
+    @JSONField(name = "user_id")
     private String userId;
 
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
     private Date updateDate;
 
     /**

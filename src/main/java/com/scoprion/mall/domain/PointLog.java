@@ -1,5 +1,7 @@
 package com.scoprion.mall.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -16,6 +18,7 @@ public class PointLog {
     /**
      * 用户id
      */
+    @JSONField(name = "user_id")
     private String userId;
 
     /**
@@ -28,16 +31,19 @@ public class PointLog {
     /**
      * 当前积分
      */
+    @JSONField(name = "currentPoint")
     private int currentPoint;
 
     /**
      * 操作积分
      */
+    @JSONField(name = "operate_point")
     private int operatePoint;
 
     /**
      * 创建时间
      */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     public Long getId() {

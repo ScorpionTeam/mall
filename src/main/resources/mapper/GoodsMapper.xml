@@ -8,27 +8,27 @@
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO t_good(categoryId,
-        goodName,
+        INSERT INTO t_good(category_id,
+        good_name,
         description,
         promotion,
         price,
-        saleVolume,
+        sale_volume,
         discount,
         stock,
-        isOnSale,
-        isHot,
-        isNew,
-        createDate,
-        lastUpdateDate,
-        isFreight,
-        brandId,
-        sellerId,
-        visitTotal,
-        goodNo,
+        on_sale,
+        hot,
+        is_new,
+        create_date,
+        last_update_date,
+        freight,
+        brand_id,
+        seller_id,
+        visit_total,
+        good_no,
         status,
-        richContent,
-        mainImgUrl)
+        rich_content,
+        main_image_url)
         VALUES (#{categoryId},
         #{goodName},
         #{description},
@@ -37,46 +37,46 @@
         #{saleVolume},
         #{discount},
         #{stock},
-        #{isOnSale},
-        #{isHot},
+        #{onSale},
+        #{hot},
         #{isNew},
         NOW(),
         NOW(),
-        #{isFreight},
+        #{freight},
         #{brandId},
         #{sellerId},
         #{visitTotal},
         #{goodNo},
         '0',
         #{richContent},
-        #{mainImgUrl})
+        #{mainImageUrl})
     </insert>
 
     <!--优选商品分页查询-->
     <select id="preferenceGivenByPage" resultType="com.scoprion.mall.domain.Goods">
         SELECT
          id,
-         categoryId,
-         goodName,
+         category_id,
+         good_name,
          description,
          promotion,
          price,
-         saleVolume,
+         sale_volume,
          discount,
          stock,
-         isOnSale,
-         isHot,
-         isNew,
-         createDate,
-         lastUpdateDate,
-         isFreight,
-         brandId,
-         sellerId,
-         visitTotal,
-         goodNo,
+         on_sale,
+         hot,
+         is_new,
+         create_date,
+         last_update_date,
+         freight,
+         brand_id,
+         seller_id,
+         visit_total,
+         good_no,
          status,
-         richContent,
-         mainImgUrl
+         rich_content,
+         main_image_url
         FROM t_good
     </select>
 
@@ -84,30 +84,30 @@
     <select id="findById" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
          good.id,
-         good.categoryId,
-         good.goodName,
+         good.category_id,
+         good.good_name,
          good.description,
          good.promotion,
          good.price,
-         good.saleVolume,
+         good.sale_volume,
          good.discount,
          good.stock,
-         good.isOnSale,
-         good.isHot,
-         good.isNew,
-         good.createDate,
-         good.lastUpdateDate,
-         good.isFreight,
-         good.brandId,
-         good.sellerId,
-         good.visitTotal,
-         good.goodNo,
+         good.on_sale,
+         good.hot,
+         good.is_new,
+         good.create_date,
+         good.last_update_date,
+         good.freight,
+         good.brand_id,
+         good.seller_id,
+         good.visit_total,
+         good.good_no,
          good.status,
-         good.richContent,
-         good.mainImgUrl,
-         tacg.activityId as activityId
+         good.rich_content,
+         good.main_image_url,
+         tacg.activity_id as activityId
          FROM t_good good
-         LEFT  JOIN t_activity_good  tacg ON tacg.goodId=good.id
+         LEFT  JOIN t_activity_good  tacg ON tacg.good_id=good.id
         WHERE good.id=#{goodId}
         GROUP BY  good.id
     </select>
@@ -120,82 +120,82 @@
     <!--更新商品信息-->
     <update id="updateGoods" parameterType="com.scoprion.mall.domain.Goods">
         UPDATE t_good SET
-        <if test="categoryId!=null">categoryId=#{categoryId},</if>
-        <if test="goodName!=null">goodName=#{goodName},</if>
+        <if test="categoryId!=null">category_id=#{categoryId},</if>
+        <if test="goodName!=null">good_name=#{goodName},</if>
         <if test="description!=null">description=#{description},</if>
         <if test="promotion!=null">promotion=#{promotion},</if>
         <if test="price!=null">price=#{price},</if>
-        <if test="saleVolume!=null">saleVolume=#{saleVolume},</if>
+        <if test="saleVolume!=null">sale_volume=#{saleVolume},</if>
         <if test="discount!=null">discount=#{discount},</if>
         <if test="stock!=null">stock=#{stock},</if>
-        <if test="isOnSale!=null">isOnSale=#{isOnSale},</if>
-        <if test="isHot!=null">isHot=#{isHot},</if>
-        <if test="isNew!=null">isNew=#{isNew},</if>
-        <if test="isFreight!=null">isFreight=#{isFreight},</if>
-        <if test="brandId!=null">brandId=#{brandId},</if>
-        <if test="sellerId!=null">sellerId=#{sellerId},</if>
-        <if test="visitTotal!=null">visitTotal=#{visitTotal},</if>
-        <if test="goodNo!=null">goodNo=#{goodNo},</if>
-        <if test="mainImgUrl!=null">mainImgUrl=#{mainImgUrl},</if>
+        <if test="isOnSale!=null">on_sale=#{onSale},</if>
+        <if test="isHot!=null">hot=#{hot},</if>
+        <if test="isNew!=null">is_new=#{isNew},</if>
+        <if test="isFreight!=null">freight=#{freight},</if>
+        <if test="brandId!=null">brand_id=#{brandId},</if>
+        <if test="sellerId!=null">seller_id=#{sellerId},</if>
+        <if test="visitTotal!=null">visit_total=#{visitTotal},</if>
+        <if test="goodNo!=null">good_no=#{goodNo},</if>
+        <if test="mainImgUrl!=null">main_image_url=#{mainImgUrl},</if>
         <if test="status!=null">status=#{status},</if>
-        <if test="richContent!=null">richContent=#{richContent},</if>
-        lastUpdateDate=NOW()
+        <if test="richContent!=null">rich_content=#{richContent},</if>
+        last_update_date=NOW()
         WHERE id=#{id}
     </update>
 
     <select id="findByCondition" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
         good.id,
-        good.goodNo,
-        good.categoryId,
-        good.goodName,
+        good.good_no,
+        good.category_id,
+        good.good_name,
         good.description,
         good.promotion,
         good.price,
-        good.saleVolume,
+        good.sale_volume,
         good.discount,
         good.stock,
-        good.isOnSale,
-        good.isHot,
-        good.isNew,
-        good.isFreight,
-        good.brandId,
-        good.sellerId,
-        good.visitTotal,
-        good.mainImgUrl,
-        good.richContent,
-        good.createDate,
-        tacg.activityId as activityId,
-        tac.startDate as startDate,
-        tac.endDate as endDate,
+        good.on_sale,
+        good.hot,
+        good.is_new,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.main_image_url,
+        good.rich_content,
+        good.create_date,
+        tacg.activity_id,
+        tac.start_date as startDate,
+        tac.end_date as endDate,
         tac.status as activityStatus,
         tacg.stock as activityStock
         FROM t_good good
-        LEFT JOIN t_activity_good tacg ON tacg.goodId=good.id
-        LEFT JOIN t_activity tac ON tac.id=tacg.activityId
+        LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
+        LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         WHERE 1=1
-        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(good.goodName,good.description,good.goodNo) LIKE
+        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(good.good_name,good.description,good.good_no) LIKE
             #{searchKey}
         </if>
-        <if test="startDate!=null and endDate!=null">AND good.createDate BETWEEN #{startDate} AND #{endDate}</if>
-        <if test="startDate==null and endDate!=null">AND good.createDate BETWEEN '1970-01-01' AND #{endDate}</if>
-        <if test="startDate!=null and endDate==null">AND good.createDate BETWEEN #{startDate} AND now()</if>
-        <if test="goodNo!=null and goodNo!=''">AND good.goodNo= #{goodNo}</if>
-        <if test="saleStatus!=null and saleStatus!=''">AND good.isOnSale= #{saleStatus}</if>
-        <if test="isHot!=null and isHot!=''">AND good.isHot= #{isHot}</if>
-        <if test="isNew!=null and isNew!=''">AND good.isNew= #{isNew}</if>
-        <if test="isFreight!=null and isFreight!=''">AND good.isFreight= #{isFreight}</if>
-        <if test="categoryId!=null ">AND good.categoryId= #{categoryId}</if>
-        <if test="brandId!=null ">AND good.brandId= #{brandId}</if>
-        <if test="activityId!=null ">AND tacg.activityId= #{activityId} AND tacg.status!='0'</if>
+        <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
+        <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
+        <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
+        <if test="goodNo!=null and goodNo!=''">AND good.good_no= #{goodNo}</if>
+        <if test="saleStatus!=null and saleStatus!=''">AND good.on_sale= #{saleStatus}</if>
+        <if test="isHot!=null and isHot!=''">AND good.hot= #{hot}</if>
+        <if test="isNew!=null and isNew!=''">AND good.is_new= #{isNew}</if>
+        <if test="isFreight!=null and isFreight!=''">AND good.freight= #{freight}</if>
+        <if test="categoryId!=null ">AND good.category_id= #{categoryId}</if>
+        <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
+        <if test="activityId!=null ">AND tacg.activity_id= #{activityId} AND tacg.status!='0'</if>
         GROUP BY good.id
     </select>
 
     <!--商品上下架-->
     <update id="batchModifySaleStatus">
         UPDATE t_good SET
-        isOnSale=#{saleStatus},
-        lastUpdateDate=NOW()
+        on_sale=#{saleStatus},
+        last_update_date=NOW()
         WHERE id IN
         <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
             #{item}
@@ -206,62 +206,62 @@
     <update id="batchDeleteGood">
         UPDATE t_good
         SET status='1',
-        lastUpdateDate=now()
+        last_update_date=now()
         WHERE id IN
         <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
-        AND isOnSale='0'
+        AND on_sale='0'
     </update>
 
 
     <select id="findForActivity" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
         good.id,
-        good.goodNo,
-        good.categoryId,
-        good.goodName,
+        good.good_no,
+        good.category_id,
+        good.good_name,
         good.description,
         good.promotion,
         good.price,
-        good.saleVolume,
+        good.sale_volume,
         good.discount,
         good.stock,
-        good.isOnSale,
-        good.isHot,
-        good.isNew,
-        good.isFreight,
-        good.brandId,
-        good.sellerId,
-        good.visitTotal,
-        good.mainImgUrl,
-        good.createDate,
-        tacg.activityId as activityId,
+        good.on_sale,
+        good.hot,
+        good.is_new,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.main_image_url,
+        good.create_date,
+        tacg.activity_id as activityId,
         tacg.stock as activityStock,
-        tac.startDate as startDate,
-        tac.endDate as endDate,
+        tac.start_date as startDate,
+        tac.end_date as endDate,
         tac.status as activityStatus
         FROM t_good good
-        LEFT JOIN t_activity_good tacg ON tacg.goodId=good.id
-        LEFT JOIN t_activity tac ON tac.id=tacg.activityId
+        LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
+        LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         WHERE 1=1
-        AND ( tac.status IS NULL OR tac.status!='0' OR tac.endDate BETWEEN '0' AND NOW())
+        AND ( tac.status IS NULL OR tac.status!='0' OR tac.end_date BETWEEN '0' AND NOW())
         OR tacg.status='1'
         AND good.id NOT IN(
         SELECT tg.id
         FROM t_good tg
-        LEFT JOIN t_activity_good tag ON tag.goodId=tg.id
-        LEFT JOIN t_activity ta ON ta.id=tag.activityId
+        LEFT JOIN t_activity_good tag ON tag.good_id=tg.id
+        LEFT JOIN t_activity ta ON ta.id=tag.activity_id
         WHERE 1=1
         AND (
         ta.status='0' OR ( ta.status!='1' AND ta.startDate IS NOT NULL
-        AND ( ((ta.startDate BETWEEN '0' AND NOW()) AND ta.endDate > NOW()) OR ta.startDate >NOW() ) )
+        AND ( ((ta.start_date BETWEEN '0' AND NOW()) AND ta.end_date > NOW()) OR ta.start_date >NOW() ) )
         )
         AND tag.status='0'
         GROUP BY tg.id
         )
-        AND good.isOnSale='1'
-        <if test="searchKey!=null and searchKey!=''">AND CONCAT(good.goodName,good.description,good.goodNo) LIKE
+        AND good.on_sale='1'
+        <if test="searchKey!=null and searchKey!=''">AND CONCAT(good.good_name,good.description,good.good_no) LIKE
             #{searchKey}
         </if>
 
@@ -272,50 +272,50 @@
     <select id="findByActivityId" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
         good.id,
-        good.goodNo,
-        good.categoryId,
-        good.goodName,
+        good.good_no,
+        good.category_id,
+        good.good_name,
         good.description,
         good.promotion,
         good.price,
-        good.saleVolume,
+        good.sale_volume,
         good.discount,
         good.stock,
-        good.isOnSale,
-        good.isHot,
-        good.isNew,
-        good.isFreight,
-        good.brandId,
-        good.sellerId,
-        good.visitTotal,
-        good.mainImgUrl,
-        good.richContent,
-        good.createDate,
-        tacg.activityId as activityId,
-        tac.startDate as startDate,
-        tac.endDate as endDate,
+        good.on_sale,
+        good.hot,
+        good.is_new,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.main_image_url,
+        good.rich_content,
+        good.create_date,
+        tacg.activity_id as activityId,
+        tac.start_date as startDate,
+        tac.end_date as endDate,
         tac.status as activityStatus,
         tacg.stock as activityStock
         FROM t_good good
-        LEFT JOIN t_activity_good tacg ON tacg.goodId=good.id
-        LEFT JOIN t_activity tac ON tac.id=tacg.activityId
+        LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
+        LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         WHERE 1=1
         AND tac.id=#{activityId}
         AND tac.status='0'
         AND tacg.status='0'
-        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(good.goodName,good.description,good.goodNo) LIKE
+        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(good.good_name,good.description,good.good_no) LIKE
             #{searchKey}
         </if>
-        <if test="startDate!=null and endDate!=null">AND good.createDate BETWEEN #{startDate} AND #{endDate}</if>
-        <if test="startDate==null and endDate!=null">AND good.createDate BETWEEN '1970-01-01' AND #{endDate}</if>
-        <if test="startDate!=null and endDate==null">AND good.createDate BETWEEN #{startDate} AND now()</if>
-        <if test="goodNo!=null and goodNo!=''">AND good.goodNo= #{goodNo}</if>
-        <if test="saleStatus!=null and saleStatus!=''">AND good.isOnSale= #{saleStatus}</if>
-        <if test="isHot!=null and isHot!=''">AND good.isHot= #{isHot}</if>
-        <if test="isNew!=null and isNew!=''">AND good.isNew= #{isNew}</if>
-        <if test="isFreight!=null and isFreight!=''">AND good.isFreight= #{isFreight}</if>
-        <if test="categoryId!=null ">AND good.categoryId= #{categoryId}</if>
-        <if test="brandId!=null ">AND good.brandId= #{brandId}</if>
+        <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
+        <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
+        <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
+        <if test="goodNo!=null and goodNo!=''">AND good.good_no= #{goodNo}</if>
+        <if test="saleStatus!=null and saleStatus!=''">AND good.on_sale= #{saleStatus}</if>
+        <if test="isHot!=null and isHot!=''">AND good.hot= #{hot}</if>
+        <if test="isNew!=null and isNew!=''">AND good.is_new= #{isNew}</if>
+        <if test="isFreight!=null and isFreight!=''">AND good.freight= #{freight}</if>
+        <if test="categoryId!=null ">AND good.category_id= #{categoryId}</if>
+        <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
         GROUP BY good.id
     </select>
 

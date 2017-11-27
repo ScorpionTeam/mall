@@ -16,11 +16,13 @@ public class Ticket {
     /**
      * 优惠券编码
      */
+    @JSONField(name = "ticket_no")
     private String ticketNo;
 
     /**
      * 券名称
      */
+    @JSONField(name = "ticket_name")
     private String ticketName;
 
     /**
@@ -34,25 +36,25 @@ public class Ticket {
     /**
      * 开始时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "start_date")
     private Date startDate;
 
     /**
      * 结束时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "end_date")
     private Date endDate;
 
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
     private Date updateDate;
 
     /**
@@ -63,6 +65,7 @@ public class Ticket {
     /**
      * 满减金额
      */
+    @JSONField(name = "reduce_money")
     private int reduceMoney;
 
     /**
@@ -78,17 +81,19 @@ public class Ticket {
     /**
      * 使用范围 使用范围 平台0通用，1其他类型 默认0
      */
+    @JSONField(name = "use_range")
     private String useRange;
 
     /**
      * 是否限量 0是 1否
      */
+    @JSONField(name = "num_limit")
     private String numLimit;
 
     /**
      * 优惠卷使用时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "use_date")
     private Date useDate;
 
 

@@ -11,12 +11,12 @@
 
     <select id="findByUserId" resultType="com.scoprion.mall.domain.Point">
         SELECT id,
-        userId,
+        user_id,
         point,
         level,
-        levelName,
-        createDate,
-        updateDate
-        FROM t_point WHERE userId=#{userId} limit 1
+        level_name,
+        create_date,
+        update_date
+        FROM t_point WHERE user_id=#{userId} limit 1
     </select>
 </mapper>

@@ -1,6 +1,8 @@
 package com.scoprion.mall.domain;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -17,6 +19,7 @@ public class ActivityGoods extends Goods {
     /**
      * 活动ID
      */
+    @JSONField(name = "activity_id")
     private Long activityId;
 
     /**
@@ -27,15 +30,18 @@ public class ActivityGoods extends Goods {
     /**
      * 活动类型
      */
+    @JSONField(name = "activity_type")
     private String activityType;
     /**
      * 创建时间
      */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
     /**
      * 商品ID
      */
+    @JSONField(name = "good_id")
     private Long goodId;
 
     /**

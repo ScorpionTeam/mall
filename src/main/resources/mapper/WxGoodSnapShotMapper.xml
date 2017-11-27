@@ -7,17 +7,17 @@
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO t_good_snapshot(goodSnapShotNo,
-        goodName,
-        goodNo,
-        goodDescription,
+        INSERT INTO t_good_snapshot(good_snapshot_no,
+        good_name,
+        good_no,
+        good_description,
         promotion,
         price,
         discount,
-        mainImgUrl,
-        createDate,
-        richContent,
-        goodId)
+        main_image_url,
+        create_date,
+        rich_content,
+        good_id)
         VALUES (#{goodSnapShotNo},
         #{goodName},
         #{goodNo},
@@ -25,7 +25,7 @@
         #{promotion},
         #{price},
         #{discount},
-        #{mainImgUrl},
+        #{mainImageUrl},
         NOW(),
         #{richContent},
         #{goodId})
@@ -33,17 +33,17 @@
 
     <select id="findById" resultType="com.scoprion.mall.domain.GoodSnapshot">
         SELECT  id,
-        goodId,
-        goodSnapShotNo,
-        goodName,
-        goodNo,
-        goodDescription,
+        good_id,
+        good_snapshot_no,
+        good_name,
+        good_no,
+        good_description,
         promotion,
         price,
         discount,
-        mainImgUrl,
-        richContent,
-        createDate
+        main_image_url,
+        rich_content,
+        create_date
         FROM  t_good_snapshot WHERE  id=#{id}
     </select>
 </mapper>

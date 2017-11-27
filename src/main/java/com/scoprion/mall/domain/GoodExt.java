@@ -14,18 +14,19 @@ public class GoodExt extends Goods {
     /**
      * 活动Id
      */
+    @JSONField(name = "activity_id")
     private Long activityId;
 
     /**
      * 活动开始时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "start_date")
     private Date startDate;
 
     /**
      * 活动结束时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "end_date")
     private Date endDate;
 
     /**
@@ -34,13 +35,16 @@ public class GoodExt extends Goods {
      * 1拼团
      * 2优选
      */
+    @JSONField(name = "activity_type")
     private String activityType;
 
     /**
      * 活动状态 状态 0正常 1删除
      */
+    @JSONField(name = "activity_status")
     private String activityStatus;
 
+    @JSONField(name = "activity_stock")
     private int activityStock;
 
     /**
@@ -54,12 +58,14 @@ public class GoodExt extends Goods {
     /**
      * 商品Id
      */
+    @JSONField(name = "good_id")
     private Long goodId;
 
 
     /**
      * 商户名称
      */
+    @JSONField(name = "seller_name")
     private Long sellerName;
 
 

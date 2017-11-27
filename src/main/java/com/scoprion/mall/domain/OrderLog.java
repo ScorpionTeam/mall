@@ -1,5 +1,7 @@
 package com.scoprion.mall.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -16,6 +18,7 @@ public class OrderLog {
     /**
      * 订单号码
      */
+    @JSONField(name = "order_no")
     private String orderNo;
 
     /**
@@ -26,16 +29,19 @@ public class OrderLog {
     /**
      * IP地址
      */
+    @JSONField(name = "ip_address")
     private String ipAddress;
 
     /**
      * 创建时间
      */
+    @JSONField(name = "create_date",format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
     /**
      * 订单id
      */
+    @JSONField(name = "order_id")
     private Long orderId;
 
     public Long getId() {

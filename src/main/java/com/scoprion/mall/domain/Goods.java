@@ -25,16 +25,19 @@ public class Goods {
     /**
      * 商品编码
      */
+    @JSONField(name = "good_no")
     private String goodNo;
 
     /**
      * 类目id
      */
+    @JSONField(name = "category_id")
     private Long categoryId;
 
     /**
      * 商品名称
      */
+    @JSONField(name = "good_name")
     private String goodName;
 
     /**
@@ -55,6 +58,7 @@ public class Goods {
     /**
      * 销量
      */
+    @JSONField(name = "sale_volume")
     private int saleVolume;
 
     /**
@@ -70,58 +74,65 @@ public class Goods {
     /**
      * 上下架  1上架  0下架    默认上架
      */
-    private String isOnSale;
+    @JSONField(name = "on_sale")
+    private String onSale;
 
     /**
      * 热销   1是   0否
      */
-    private String isHot;
+    private String hot;
 
     /**
      * 新品  1是  0否
      */
+    @JSONField(name = "is_new")
     private String isNew;
 
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "create_date")
     private Date createDate;
 
     /**
      * 最后更新时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "last_update_date")
     private Date lastUpdateDate;
 
     /**
      * 是否包邮  1是  0否
      */
-    private String isFreight;
+    private String freight;
 
     /**
      * 所属品牌
      */
+    @JSONField(name = "brand_id")
     private Long brandId;
 
     /**
      * 商户ID
      */
+    @JSONField(name = "seller_id")
     private Long sellerId;
 
     /**
      * 浏览量
      */
+    @JSONField(name = "visit_total")
     private int visitTotal;
 
     /**
      * 主图地址
      */
-    private String mainImgUrl;
+    @JSONField(name = "main_image_url")
+    private String mainImageUrl;
 
     /**
      * 商品描述富文本
      */
+    @JSONField(name = "rich_content")
     private String richContent;
     /**
      * 商品状态 0正常，1删除
@@ -216,22 +227,6 @@ public class Goods {
         this.stock = stock;
     }
 
-    public String getIsOnSale() {
-        return isOnSale;
-    }
-
-    public void setIsOnSale(String isOnSale) {
-        this.isOnSale = isOnSale;
-    }
-
-    public String getIsHot() {
-        return isHot;
-    }
-
-    public void setIsHot(String isHot) {
-        this.isHot = isHot;
-    }
-
     public String getIsNew() {
         return isNew;
     }
@@ -254,14 +249,6 @@ public class Goods {
 
     public void setLastUpdateDate(Date lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
-    }
-
-    public String getIsFreight() {
-        return isFreight;
-    }
-
-    public void setIsFreight(String isFreight) {
-        this.isFreight = isFreight;
     }
 
     public Long getBrandId() {
@@ -288,20 +275,44 @@ public class Goods {
         this.visitTotal = visitTotal;
     }
 
-    public String getMainImgUrl() {
-        return mainImgUrl;
-    }
-
-    public void setMainImgUrl(String mainImgUrl) {
-        this.mainImgUrl = mainImgUrl;
-    }
-
     public String getRichContent() {
         return richContent;
     }
 
     public void setRichContent(String richContent) {
         this.richContent = richContent;
+    }
+
+    public String getOnSale() {
+        return onSale;
+    }
+
+    public void setOnSale(String onSale) {
+        this.onSale = onSale;
+    }
+
+    public String getHot() {
+        return hot;
+    }
+
+    public void setHot(String hot) {
+        this.hot = hot;
+    }
+
+    public String getFreight() {
+        return freight;
+    }
+
+    public void setFreight(String freight) {
+        this.freight = freight;
+    }
+
+    public String getMainImageUrl() {
+        return mainImageUrl;
+    }
+
+    public void setMainImageUrl(String mainImageUrl) {
+        this.mainImageUrl = mainImageUrl;
     }
 
     @Override
@@ -317,16 +328,16 @@ public class Goods {
                 ", saleVolume=" + saleVolume +
                 ", discount=" + discount +
                 ", stock=" + stock +
-                ", isOnSale='" + isOnSale + '\'' +
-                ", isHot='" + isHot + '\'' +
+                ", onSale='" + onSale + '\'' +
+                ", hot='" + hot + '\'' +
                 ", isNew='" + isNew + '\'' +
                 ", createDate=" + createDate +
                 ", lastUpdateDate=" + lastUpdateDate +
-                ", isFreight='" + isFreight + '\'' +
+                ", freight='" + freight + '\'' +
                 ", brandId=" + brandId +
                 ", sellerId=" + sellerId +
                 ", visitTotal=" + visitTotal +
-                ", mainImgUrl='" + mainImgUrl + '\'' +
+                ", mainImageUrl='" + mainImageUrl + '\'' +
                 ", richContent='" + richContent + '\'' +
                 ", status='" + status + '\'' +
                 '}';

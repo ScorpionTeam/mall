@@ -19,7 +19,7 @@ public class MallImage {
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
     /**
      * 图片地址
@@ -28,27 +28,33 @@ public class MallImage {
     /**
      * 文章id
      */
+    @JSONField(name = "article_id")
     private Long articleId;
     /**
      * 活动id
      */
+    @JSONField(name = "activity_id")
     private Long activityId;
     /**
      * 广告id
      */
+    @JSONField(name = "banner_id")
     private Long bannerId;
     /**
      * 品牌id
      */
+    @JSONField(name = "brand_id")
     private Long brandId;
     /**
      * 商品id
      */
+    @JSONField(name = "good_id")
     private Long goodId;
 
     /**
      * 商品评价id
      */
+    @JSONField(name = "estimate_id")
     private Long estimateId;
 
     public MallImage() {

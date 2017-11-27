@@ -1,5 +1,7 @@
 package com.scoprion.mall.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * @author by Administrator
  * @created on 2017/11/2/002.
@@ -10,16 +12,19 @@ public class OrderExt extends Order {
     /**
      * IP地址
      */
+    @JSONField(name = "ip_address")
     private String ipAddress;
 
     /**
      * 微信用户标识code
      */
+    @JSONField(name = "open_code")
     private String openCode;
 
     /**
      * 发货信息
      */
+    @JSONField(name = "send_good")
     private SendGood sendGood;
 
     /**
@@ -31,24 +36,29 @@ public class OrderExt extends Order {
     /**
      * 商品图片
      */
+    @JSONField(name = "good_main_image")
     private String goodMainImage;
     /**
      * 快递公司名称
      */
+    @JSONField(name = "express_name")
     private String expressName;
 
     /**
      * 微信code
      */
+    @JSONField(name = "wx_code")
     private String wxCode;
     /**
      * 商品编号
      */
+    @JSONField(name = "good_no")
     private String goodNo;
 
     /**
      * 活动商品id
      */
+    @JSONField(name = "activity_good_id")
     private Long activityGoodId;
 
     public OrderExt() {

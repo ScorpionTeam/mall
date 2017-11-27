@@ -19,41 +19,41 @@
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO t_mall_image(createDate,url,articleId,activityId,bannerId,brandId,goodId,estimateId)
+        INSERT INTO t_mall_image(create_date,url,article_id,activity_id,banner_id,brand_id,good_id,estimate_id)
         VALUES(now(),#{url},#{articleId},#{activityId},#{bannerId},#{brandId},#{goodId},#{estimateId})
     </insert>
 
     <!--根据targetId查找图片 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6-->
     <select id="findByCondition" resultType="com.scoprion.mall.domain.MallImage">
         SELECT id,
-        articleId,
-        activityId,
-        bannerId,
-        brandId,
-        goodId,
-        estimateId,
-        createDate,
+        article_id,
+        activity_id,
+        banner_id,
+        brand_id,
+        good_id,
+        estimate_id,
+        create_date,
         url
         FROM t_mall_image WHERE 1=1
-        <if test="type==0">AND goodId=#{targetId}</if>
-        <if test="type==1">AND brandId=#{targetId}</if>
-        <if test="type==2">AND articleId=#{targetId}</if>
-        <if test="type==3">AND estimateId=#{targetId}</if>
-        <if test="type==4">AND bannerId=#{targetId}</if>
-        <if test="type==5">AND activityId=#{targetId}</if>
+        <if test="type==0">AND good_id=#{targetId}</if>
+        <if test="type==1">AND brand_id=#{targetId}</if>
+        <if test="type==2">AND article_id=#{targetId}</if>
+        <if test="type==3">AND estimate_id=#{targetId}</if>
+        <if test="type==4">AND banner_id=#{targetId}</if>
+        <if test="type==5">AND activity_id=#{targetId}</if>
     </select>
 
     <!--根据id修改图片-->
     <update id="modify" parameterType="com.scoprion.mall.domain.MallImage">
-        UPDATE t_mall_image SET updateDate=now()
-        <if test="createDate!=null ">,createDate=#{createDate}</if>
+        UPDATE t_mall_image SET update_date=now()
+        <if test="createDate!=null ">,create_date=#{createDate}</if>
         <if test="url!=null ">,url=#{url}</if>
-        <if test="articleId!=null ">,articleId=#{articleId}</if>
-        <if test="activityId!=null ">,activityId=#{activityId}</if>
-        <if test="bannerId!=null ">,bannerId=#{bannerId}</if>
-        <if test="brandId!=null ">,brandId=#{brandId}</if>
-        <if test="goodId!=null ">,goodId=#{goodId}</if>
-        <if test="estimateId!=null ">,estimateId=#{estimateId}</if>
+        <if test="articleId!=null ">,article_id=#{articleId}</if>
+        <if test="activityId!=null ">,activity_id=#{activityId}</if>
+        <if test="bannerId!=null ">,banner_id=#{bannerId}</if>
+        <if test="brandId!=null ">,brand_id=#{brandId}</if>
+        <if test="goodId!=null ">,good_id=#{goodId}</if>
+        <if test="estimateId!=null ">,estimate_id=#{estimateId}</if>
         WHERE id=#{id}
     </update>
 </mapper>
