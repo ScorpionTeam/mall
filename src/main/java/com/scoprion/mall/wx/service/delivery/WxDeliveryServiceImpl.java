@@ -130,4 +130,22 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
         return BaseResult.success("设置成功");
     }
 
+    /**
+     * 获取默认地址
+     * @param wxCode
+     * @return
+     */
+    @Override
+    public BaseResult getDefault(String wxCode) {
+        String userId=WxUtil.getOpenId(wxCode);
+        if(StringUtils.isEmpty(wxCode)){
+            return BaseResult.parameterError();
+        }
+        Delivery delivery=wxDeliveryMapper.getDefault(userId);
+        if(delivery == null){
+            return BaseResult.notFound();
+        }
+        return BaseResult.success(delivery);
+    }
+
 }
