@@ -24,4 +24,11 @@ public class SuccessResult extends BaseResult {
     public SuccessResult() {
         super(SUCCESS);
     }
+
+    @Override
+    public String toString() {
+        return "SuccessResult{" +
+                "data=" + data +
+                '}';
+    }
 }

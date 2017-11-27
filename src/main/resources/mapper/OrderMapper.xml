@@ -21,147 +21,147 @@
     <select id="findByCondition" resultType="com.scoprion.mall.domain.OrderExt">
         SELECT
         torder.id,
-        torder.usePoint,
-        torder.orderNo,
-        torder.goodSnapShotId,
-        torder.deliveryId,
-        torder.orderType,
-        torder.orderFee,
-        torder.createDate,
-        torder.orderStatus,
-        torder.reduceFee,
-        torder.payType,
-        torder.payDate,
-        tgs.mainImgUrl as goodMainImage
+        torder.use_point,
+        torder.order_no,
+        torder.good_snapshot_id,
+        torder.delivery_id,
+        torder.order_type,
+        torder.order_fee,
+        torder.create_date,
+        torder.order_status,
+        torder.reduce_fee,
+        torder.pay_type,
+        torder.pay_date,
+        tgs.main_image_url as goodMainImage
         FROM t_order torder
-        LEFT JOIN t_good_snapshot tgs ON tgs.id=torder.goodSnapShotId
+        LEFT JOIN t_good_snapshot tgs ON tgs.id=torder.good_snapshot_id
         WHERE 1=1
         <if test="searchKey!=null">AND
-            CONCAT(torder.goodName,torder.postCode,torder.address,torder.phone,torder.recipients) LIKE #{searchKey}
+            CONCAT(torder.good_name,torder.post_code,torder.address,torder.phone,torder.recipients) LIKE #{searchKey}
         </if>
-        <if test="payType!=null">AND torder.payType =#{payType}</if>
-        <if test="orderType!=null">AND torder.orderType =#{orderType}</if>
-        <if test="orderStatus!=null and orderStatus!='0'">AND torder.orderStatus =#{orderStatus}</if>
+        <if test="payType!=null">AND torder.pay_type =#{payType}</if>
+        <if test="orderType!=null">AND torder.order_type =#{orderType}</if>
+        <if test="orderStatus!=null and orderStatus!='0'">AND torder.order_status =#{orderStatus}</if>
         <if test="phone!=null">AND torder.phone =#{phone}</if>
-        <if test="orderNo!=null">AND torder.orderNo =#{orderNo}</if>
+        <if test="orderNo!=null">AND torder.order_no =#{orderNo}</if>
 
-        <if test="startDate!=null and endDate!=null">AND torder.createDate BETWEEN #{startDate} AND #{endDate}</if>
-        <if test="startDate==null and endDate!=null">AND torder.createDate BETWEEN '1970-01-01' AND #{endDate}</if>
-        <if test="startDate!=null and endDate==null">AND torder.createDate BETWEEN #{startDate} AND now()</if>
+        <if test="startDate!=null and endDate!=null">AND torder.create_date BETWEEN #{startDate} AND #{endDate}</if>
+        <if test="startDate==null and endDate!=null">AND torder.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
+        <if test="startDate!=null and endDate==null">AND torder.create_date BETWEEN #{startDate} AND now()</if>
     </select>
 
     <!--详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.OrderExt">
         SELECT tor.id,
-        tor.userId,
-        tor.usePoint,
-        tor.orderNo,
-        tor.goodSnapShotId,
-        tor.deliveryId,
-        tor.orderStatus,
-        tor.orderType,
-        tor.payType,
+        tor.user_id,
+        tor.use_point,
+        tor.order_no,
+        tor.good_snapshot_id,
+        tor.delivery_id,
+        tor.order_status,
+        tor.order_type,
+        tor.pay_type,
         tor.message,
-        tor.orderFee,
-        tor.reduceFee,
-        tor.paymentFee,
-        tor.goodFee,
-        tor.freightFee,
-        tor.createDate,
-        tor.payDate,
-        tor.deliveryDate,
-        tor.updateDate,
+        tor.order_fee,
+        tor.reduce_fee,
+        tor.payment_fee,
+        tor.good_fee,
+        tor.freight_fee,
+        tor.create_date,
+        tor.pay_date,
+        tor.delivery_date,
+        tor.update_date,
         tor.recipients,
         tor.phone,
         tor.province,
         tor.city,
         tor.area,
         tor.address,
-        tor.postCode,
-        tor.goodName,
+        tor.post_code,
+        tor.good_name,
         tor.count,
-        tor.prepayId,
-        tor.wxOrderNo,
-        tor.goodId,
+        tor.prepay_id,
+        tor.wx_order_no,
+        tor.good_id,
         tor.remark,
-        tor.useTicket,
-        tor.ticketId,
-        tor.operatePoint,
-        tor.sendGoodId,
-        tor.deliveryNo,
-        tg.goodNo as goodNo,
-        tg.mainImgUrl as goodMainImage
+        tor.use_ticket,
+        tor.ticket_id,
+        tor.operate_point,
+        tor.send_good_id,
+        tor.delivery_no,
+        tg.good_no as goodNo,
+        tg.main_image_url as goodMainImage
         FROM t_order tor
-        LEFT JOIN t_good_snapshot tg ON tor.goodSnapShotId=tg.id
+        LEFT JOIN t_good_snapshot tg ON tor.good_snapshot_id=tg.id
         WHERE tor.id=#{id}
     </select>
 
     <!--修改订单-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Order">
         UPDATE t_order SET
-        <if test="userId!=null">userId=#{userId},</if>
-        <if test="orderNo!=null">orderNo=#{orderNo},</if>
-        <if test="goodSnapShotId!=null">goodSnapShotId=#{goodSnapShotId},</if>
-        <if test="deliveryId!=null">deliveryId=#{deliveryId},</if>
-        <if test="orderStatus!=null">orderStatus=#{orderStatus},</if>
-        <if test="orderType!=null">orderType=#{orderType},</if>
-        <if test="payType!=null">payType=#{payType},</if>
+        <if test="userId!=null">user_id=#{userId},</if>
+        <if test="orderNo!=null">order_no=#{orderNo},</if>
+        <if test="goodSnapShotId!=null">good_snapshot_id=#{goodSnapShotId},</if>
+        <if test="deliveryId!=null">delivery_id=#{deliveryId},</if>
+        <if test="orderStatus!=null">order_status=#{orderStatus},</if>
+        <if test="orderType!=null">order_type=#{orderType},</if>
+        <if test="payType!=null">pay_type=#{payType},</if>
         <if test="message!=null">message=#{message},</if>
-        <if test="orderFee!=null">orderFee=#{orderFee},</if>
-        <if test="reduceFee!=null">reduceFee=#{reduceFee},</if>
-        <if test="paymentFee!=null">paymentFee=#{paymentFee},</if>
-        <if test="goodFee!=null">goodFee=#{goodFee},</if>
-        <if test="freightFee!=null">freightFee=#{freightFee},</if>
-        <if test="createDate!=null">createDate=#{createDate},</if>
-        <if test="payDate!=null">payDate=#{payDate},</if>
-        <if test="deliveryDate!=null">deliveryDate=#{deliveryDate},</if>
+        <if test="orderFee!=null">order_fee=#{orderFee},</if>
+        <if test="reduceFee!=null">reduce_fee=#{reduceFee},</if>
+        <if test="paymentFee!=null">payment_fee=#{paymentFee},</if>
+        <if test="goodFee!=null">good_fee=#{goodFee},</if>
+        <if test="freightFee!=null">freight_fee=#{freightFee},</if>
+        <if test="createDate!=null">create_date=#{createDate},</if>
+        <if test="payDate!=null">pay_date=#{payDate},</if>
+        <if test="deliveryDate!=null">delivery_date=#{deliveryDate},</if>
         <if test="recipients!=null">recipients=#{recipients},</if>
         <if test="phone!=null">phone=#{phone},</if>
         <if test="province!=null">province=#{province},</if>
         <if test="city!=null">city=#{city},</if>
         <if test="area!=null">area=#{area},</if>
         <if test="address!=null">address=#{address},</if>
-        <if test="postCode!=null">postCode=#{postCode},</if>
-        <if test="goodName!=null">goodName=#{goodName},</if>
+        <if test="postCode!=null">post_code=#{postCode},</if>
+        <if test="goodName!=null">good_name=#{goodName},</if>
         <if test="count!=null">count=#{count},</if>
-        <if test="prepayId!=null">prepayId=#{prepayId},</if>
-        <if test="wxOrderNo!=null">wxOrderNo=#{wxOrderNo},</if>
-        <if test="goodId!=null">goodId=#{goodId},</if>
+        <if test="prepayId!=null">prepay_id=#{prepayId},</if>
+        <if test="wxOrderNo!=null">wx_order_no=#{wxOrderNo},</if>
+        <if test="goodId!=null">good_id=#{goodId},</if>
         <if test="remark!=null">remark=#{remark},</if>
-        <if test="sendGoodId!=null">sendGoodId=#{sendGoodId},</if>
-        <if test="useTicket!=null">useTicket=#{useTicket},</if>
-        <if test="ticketId!=null">ticketId=#{ticketId},</if>
-        <if test="deliveryNo!=null">deliveryNo=#{deliveryNo},</if>
-        <if test="usePoint!=null">usePoint=#{usePoint},</if>
-        updateDate=now()
+        <if test="sendGoodId!=null">send_good_id=#{sendGoodId},</if>
+        <if test="useTicket!=null">use_ticket=#{useTicket},</if>
+        <if test="ticketId!=null">ticket_id=#{ticketId},</if>
+        <if test="deliveryNo!=null">delivery_no=#{deliveryNo},</if>
+        <if test="usePoint!=null">use_point=#{usePoint},</if>
+        update_date=now()
         WHERE id=#{id}
     </update>
 
 
     <!--修改订单状态为拒绝-->
     <update id="updateOrderRefundById">
-        UPDATE t_order SET orderStatus=#{status},remark=#{remark} WHERE id=#{orderId}
+        UPDATE t_order SET order_status=#{status},remark=#{remark} WHERE id=#{orderId}
     </update>
 
     <!--修改订单支付状态-->
     <update id="updateOrderPayStatus">
         UPDATE t_order SET
-        updateDate=now()
-        <if test="orderStatus!=null">, orderStatus=#{orderStatus}</if>
-        <if test="wxOrderNo!=null">,wxOrderNo=#{wxOrderNo}</if>
-        <if test="orderNo!=null">,orderNo=#{orderNo}</if>
-        <if test="payDate!=null">,payDate=#{payDate}</if>
+        update_date=now()
+        <if test="orderStatus!=null">, order_status=#{orderStatus}</if>
+        <if test="wxOrderNo!=null">,wx_order_no=#{wxOrderNo}</if>
+        <if test="orderNo!=null">,order_no=#{orderNo}</if>
+        <if test="payDate!=null">,pay_date=#{payDate}</if>
         WHERE id=#{orderId}
     </update>
 
     <!--修改订单发货信息-->
     <update id="updateSendGood">
         UPDATE t_order SET
-        updateDate=now(),
-        deliveryDate=now()
-        <if test="orderStatus!=null">, orderStatus=#{orderStatus}</if>
-        <if test="sendGoodId!=null">,sendGoodId=#{sendGoodId}</if>
-        <if test="deliveryNo!=null">,deliveryNo=#{deliveryNo}</if>
+        update_date=now(),
+        delivery_date=now()
+        <if test="orderStatus!=null">, order_status=#{orderStatus}</if>
+        <if test="sendGoodId!=null">,send_good_id=#{sendGoodId}</if>
+        <if test="deliveryNo!=null">,delivery_no=#{deliveryNo}</if>
         WHERE id=#{id}
     </update>
 
