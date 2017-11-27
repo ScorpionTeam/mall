@@ -11,6 +11,8 @@
         <result property="num" column="num"/>
         <result property="activityId" column="activityId"/>
         <result property="status" column="status"/>
+        <result property="actgId" column="actgId"/>
+        <result property="actgStock" column="actgStock"/>
         <result property="createDate" column="createDate"/>
     </resultMap>
 
@@ -167,13 +169,11 @@
         act.status,
         act.num,
         act.discount,
-        actg.id,
+        actg.id AS activityGoodId,
         actg.activityId,
         actg.goodId,
         actg.createDate,
-        actg.stock,
-        tg.id,
-        tg.categoryId,
+        actg.stock AS actgStock,
         tg.goodName,
         tg.description,
         tg.promotion,
