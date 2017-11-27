@@ -106,7 +106,8 @@ public class WxPointServiceImpl implements WxPointService {
      */
     @Override
     public PageResult pointLog(Integer pageNo, Integer pageSize, String wxCode) {
-        String userId = WxUtil.getOpenId(wxCode);
+//        String userId = WxUtil.getOpenId(wxCode);
+        String userId = "oHuH00PDGYHGTHBZabgq4upmt1V4";
         PageHelper.startPage(pageNo, pageSize);
         Page<PointLog> pointLogs = wxPointLogMapper.pointLog(userId);
         return new PageResult(pointLogs);
