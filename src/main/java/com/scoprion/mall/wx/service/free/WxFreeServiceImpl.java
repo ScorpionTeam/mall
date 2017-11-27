@@ -51,6 +51,9 @@ public class WxFreeServiceImpl implements WxFreeService {
     @Autowired
     private GoodLogMapper goodLogMapper;
 
+    @Autowired
+    private WxGoodSnapShotMapper wxGoodSnapShotMapper;
+
     /**
      * 查询试用商品列表
      *
@@ -88,15 +91,21 @@ public class WxFreeServiceImpl implements WxFreeService {
         Activity activity = wxFreeMapper.findById(activityId);
         if (0 == activity.getNum()) {
             return BaseResult.error("apply_fail", "活动人数已满");
-        } else if (currentDate.after(activity.getEndDate())) {
+        }
+        if (currentDate.after(activity.getEndDate())) {
             return BaseResult.error("apply_fail", "活动已过期");
         }
-
+        if (currentDate.before(activity.getStartDate())){
+            return BaseResult.error("apply_fail", "活动未开始");
+        }
         //生成商品快照
         Long goodId = activityGoods.getGoodId();
         Goods goods = wxFreeMapper.findByGoodId(goodId);
         GoodSnapshot goodSnapshot = new GoodSnapshot();
         BeanUtils.copyProperties(goods, goodSnapshot);
+        goodSnapshot.setGoodId(goodId);
+        goodSnapshot.setGoodDescription(goods.getDescription());
+        wxGoodSnapShotMapper.add(goodSnapshot);
 
         //生成预付款订单
         Order order = new Order();
