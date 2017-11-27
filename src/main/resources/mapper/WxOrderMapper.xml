@@ -176,7 +176,7 @@
       good_name,
       count,
       prepay_id,
-      wxOrder_no,
+      wx_order_no,
       good_id,
       remark,
       use_ticket,
