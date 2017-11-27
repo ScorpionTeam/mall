@@ -26,6 +26,7 @@
         FROM t_user WHERE status='0' AND mobile=#{mobile} AND password=#{password}
     </select>
 
+
     <!--根据email登录-->
     <select id="loginByEmail" resultType="com.scoprion.mall.domain.Member">
         SELECT id,name,
