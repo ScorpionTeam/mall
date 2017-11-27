@@ -93,6 +93,22 @@ public class WxPayController {
 
     }
 
+    /**
+     * 下单接口  压力测试
+     *
+     * @param goodId
+     * @param deliveryId
+     * @param buyNum
+     * @param message
+     * @param orderType
+     * @param useTicket
+     * @param paymentFee
+     * @param orderFee
+     * @param reduceFee
+     * @param freightFee
+     * @param goodFee
+     * @return
+     */
     @RequestMapping(value = "/pressureTest", method = RequestMethod.GET)
     public BaseResult pressureTest(Long goodId, Long deliveryId,
                                    Integer buyNum, String message,
@@ -100,7 +116,7 @@ public class WxPayController {
                                    Integer paymentFee, Integer orderFee,
                                    Integer reduceFee, Integer freightFee,
                                    Integer goodFee) {
-        
+
 
         return wxPayService.pressureTest(goodId, deliveryId, buyNum, message, orderType, useTicket, paymentFee,
                 orderFee, reduceFee, freightFee, goodFee);
