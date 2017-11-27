@@ -104,7 +104,7 @@
         tor.reduce_fee,
         tor.payment_fee,
         tor.good_fee,
-        tor.use_point
+        tor.use_point,
         tor.delivery_no,
         tor.operate_point,
         tor.freight_fee,
