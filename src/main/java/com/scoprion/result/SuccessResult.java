@@ -4,26 +4,20 @@ package com.scoprion.result;
 /**
  * Created on 2017/9/16.
  */
-public class SuccessResult<T> extends BaseResult {
+public class SuccessResult extends BaseResult {
 
-    private T data;
+    private Object data;
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
-//    public SuccessResult(Object data) {
-//        this();
-//        this.data = data;
-//    }
-
-
-    public SuccessResult(int result, T data) {
-        super(result);
+    public SuccessResult(Object data) {
+        this();
         this.data = data;
     }
 
