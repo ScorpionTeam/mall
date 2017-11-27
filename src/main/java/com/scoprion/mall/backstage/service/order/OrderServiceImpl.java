@@ -220,7 +220,6 @@ public class OrderServiceImpl implements OrderService {
                     nonce_str);
             //接收退款返回
             String response = WxPayUtil.doRefund(WxPayConfig.WECHAT_REFUND, refundXML, WxPayConfig.MCHID);
-            System.out.println("退款信息:" + response);
             WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
                     response);
             Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
