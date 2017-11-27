@@ -29,6 +29,7 @@ import java.util.Map;
  * @author by kunlun
  * @created on 2017/11/20.
  */
+@SuppressWarnings("ALL")
 @Service
 public class WxFreeServiceImpl implements WxFreeService {
 
@@ -76,12 +77,12 @@ public class WxFreeServiceImpl implements WxFreeService {
      */
     @Override
     public BaseResult apply(OrderExt orderExt, String ipAddress) {
-        String openId = WxUtil.getOpenId(orderExt.getWxCode());
+        //String openId = WxUtil.getOpenId(orderExt.getWxCode());
         //获得活动商品详情
         ActivityGoods activityGoods = wxFreeMapper.findByActivityGoodId(orderExt.getActivityGoodId());
         Long activityId = activityGoods.getActivityId();
         //查询是否参加过该活动
-        int result = wxFreeMapper.validByActivityId(activityId, openId);
+        int result = wxFreeMapper.validByActivityId(activityId, orderExt.getWxCode());
         if (result > 0) {
             return BaseResult.error("apply_fail", "您已参加过该活动");
         }
@@ -111,7 +112,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         BeanUtils.copyProperties(orderExt.getDelivery(), order);
         String orderNo = OrderNoUtil.getOrderNo();
         order.setOrderNo(orderNo);
-        order.setUserId(openId);
+        order.setUserId(orderExt.getWxCode());
         order.setPayType("");
         order.setOrderType("3");
         order.setOrderStatus("1");
@@ -134,7 +135,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         String nonce_str = WxUtil.createRandom(false, 10);
         String xmlString = preOrderSend(goods.getGoodName(),
                 "妆口袋",
-                openId,
+                orderExt.getWxCode(),
                 order.getOrderNo(),
                 order.getFreightFee(),
                 nonce_str);
