@@ -36,10 +36,15 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public BaseResult modify(SysRole sysRole) {
+        if (sysRole.getId() == null) {
+            return BaseResult.parameterError();
+        }
+
         Integer validCount = roleMapper.validByNameAndId(sysRole.getName(), sysRole.getId());
         if (validCount > 0) {
             return BaseResult.error("name_exist", "角色名称已经存在");
         }
+
         Integer result = roleMapper.modify(sysRole);
         if (result <= 0) {
             return BaseResult.error("modify_error", "修改失败");

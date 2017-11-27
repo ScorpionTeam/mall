@@ -10,7 +10,8 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface PointMapper {
+    Integer updatePoint(@Param("userId") String userId,
+                        @Param("pointVal") Integer pointVal);
 
-    void updatePoint(@Param("userId") String userId, @Param("point") int pointVal);
-    
+    Point findByUserId(@Param("userId") String userId);
 }

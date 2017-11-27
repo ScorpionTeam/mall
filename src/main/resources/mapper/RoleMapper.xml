@@ -40,4 +40,77 @@
         WHERE id!=#{id} AND name=#{name}
     </select>
 
+    <!--修改-->
+    <update id="modify">
+        UPDATE t_sys_role SET
+        <if test="name!=null">name=#{name},</if>
+        <if test="remark!=null">remark=#{remark},</if>
+        <if test="operator!=null">operator=#{operator},</if>
+        <if test="status!=null">status=#{status},</if>
+        updateTime=now()
+        WHERE id=#{id}
+    </update>
+
+
+    <update id="deleteById">
+        UPDATE t_sys_role
+        SET
+        status='1',
+        updateTime=now()
+        WHERE id=#{id}
+    </update>
+
+    <!--查询可用列表-->
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.SysRole">
+        SELECT
+        id,
+        name,
+        remark,
+        createTime,
+        operator,
+        updateTime,
+        status
+        FROM t_sys_role
+        WHERE status='0'
+        <if test="searchKey!=null">CONCAT(name,remark) like #{searchKey}</if>
+    </select>
+
+    <!--清空角色菜单关系表-->
+    <delete id="clearRelation">
+        delete from t_sys_menu_role_relation where roleId=#{roleId}
+    </delete>
+
+    <select id="queryPidByMenuId" resultType="java.lang.Long">
+        SELECT id FROM t_sys_menu
+        WHERE pid='0' AND url=(select pid from t_sys_menu where id=#{menuId})
+    </select>
+
+    <select id="queryExistByPid" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_sys_menu_role_relation
+         WHERE roleId=#{roleId} AND menuId=#{menuId}
+    </select>
+
+    <insert id="updateRoleMenuRelation">
+        INSERT INTO t_sys_menu_role_relation(roleId,menuId)
+        VALUES (#{roleId},#{menuId})
+    </insert>
+
+    <insert id="insertPid" parameterType="java.lang.Long">
+        INSERT INTO
+        t_sys_menu_role_relation(roleId,menuId)
+        VALUES (#{roleId},#{menuId})
+    </insert>
+
+    <select id="validRoleRelation" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_sys_user_role WHERE userId=#{userId}
+    </select>
+
+    <update id="updateRoleRelation" parameterType="java.lang.Long">
+        UPDATE t_sys_user_role SET roleId=#{roleId} WHERE userId=#{userId}
+    </update>
+
+
+    <insert id="insertRoleRelation" parameterType="java.lang.Long">
+        INSERT INTO t_sys_user_role(userId,roleId) VALUE (#{userId},#{roleId})
+    </insert>
 </mapper>
