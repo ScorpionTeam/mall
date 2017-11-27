@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.controller;
 
 
 import com.scoprion.mall.domain.OrderExt;
+import com.scoprion.mall.domain.WxFreeOrder;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
@@ -48,14 +49,14 @@ public class WxFreeController {
     /**
      * 参加试用
      *
-     * @param orderExt 订单
+     * @param wxFreeOrder 订单
      * @param request
      * @return
      */
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
-    public BaseResult apply(@RequestBody OrderExt orderExt, HttpServletRequest request) {
+    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder, HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
-        return wxFreeService.apply(orderExt, ipAddress);
+        return wxFreeService.apply(wxFreeOrder, ipAddress);
     }
 
     /**

@@ -54,6 +54,9 @@ public class WxFreeServiceImpl implements WxFreeService {
     @Autowired
     private WxGoodSnapShotMapper wxGoodSnapShotMapper;
 
+    @Autowired
+    private WxDeliveryMapper wxDeliveryMapper;
+
     /**
      * 查询试用商品列表
      *
@@ -76,13 +79,13 @@ public class WxFreeServiceImpl implements WxFreeService {
      * @return
      */
     @Override
-    public BaseResult apply(OrderExt orderExt, String ipAddress) {
-        //String openId = WxUtil.getOpenId(orderExt.getWxCode());
+    public BaseResult apply(WxFreeOrder wxFreeOrder, String ipAddress) {
+//        String userId = WxUtil.getOpenId(wxFreeOrder.getWxCode());
         //获得活动商品详情
-        ActivityGoods activityGoods = wxFreeMapper.findByActivityGoodId(orderExt.getActivityGoodId());
+        ActivityGoods activityGoods = wxFreeMapper.findByActivityGoodId(wxFreeOrder.getActivityGoodId());
         Long activityId = activityGoods.getActivityId();
         //查询是否参加过该活动
-        int result = wxFreeMapper.validByActivityId(activityId, orderExt.getWxCode());
+        int result = wxFreeMapper.validByActivityId(activityId, wxFreeOrder.getWxCode());
         if (result > 0) {
             return BaseResult.error("apply_fail", "您已参加过该活动");
         }
@@ -98,6 +101,11 @@ public class WxFreeServiceImpl implements WxFreeService {
         if (currentDate.before(activity.getStartDate())){
             return BaseResult.error("apply_fail", "活动未开始");
         }
+        //获取收货地址
+        Delivery delivery=wxDeliveryMapper.findById(wxFreeOrder.getDeliveryId());
+        if (null == delivery) {
+            return BaseResult.error("not_found_address", "收货地址有误");
+        }
         //生成商品快照
         Long goodId = activityGoods.getGoodId();
         Goods goods = wxGoodMapper.findById(goodId);
@@ -109,10 +117,10 @@ public class WxFreeServiceImpl implements WxFreeService {
 
         //生成预付款订单
         Order order = new Order();
-        BeanUtils.copyProperties(orderExt.getDelivery(), order);
+        BeanUtils.copyProperties(delivery, order);
         String orderNo = OrderNoUtil.getOrderNo();
         order.setOrderNo(orderNo);
-        order.setUserId(orderExt.getWxCode());
+        order.setUserId(wxFreeOrder.getWxCode());
         order.setPayType("");
         order.setOrderType("3");
         order.setOrderStatus("1");
@@ -122,7 +130,10 @@ public class WxFreeServiceImpl implements WxFreeService {
         order.setGoodName(goods.getGoodName());
         order.setGoodFee(goods.getPrice());
         order.setUsePoint("0");
-        order.setDeliveryId(orderExt.getDelivery().getId());
+        order.setUseTicket("0");
+        order.setFreightFee(wxFreeOrder.getFreightFee());
+        order.setDeliveryId(wxFreeOrder.getDeliveryId());
+        order.setUserId(wxFreeOrder.getWxCode());
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");
@@ -135,7 +146,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         String nonce_str = WxUtil.createRandom(false, 10);
         String xmlString = preOrderSend(goods.getGoodName(),
                 "妆口袋",
-                orderExt.getWxCode(),
+                wxFreeOrder.getWxCode(),
                 order.getOrderNo(),
                 order.getFreightFee(),
                 nonce_str);
