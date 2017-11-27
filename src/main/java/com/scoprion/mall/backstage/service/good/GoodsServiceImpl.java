@@ -164,6 +164,7 @@ public class GoodsServiceImpl implements GoodsService {
                 fileOperationMapper.add(mallImage);
             }
         }
+        saveGoodLog(good.getGoodName(), "修改商品信息", good.getId());
         return BaseResult.success("修改成功");
     }
 
@@ -224,6 +225,8 @@ public class GoodsServiceImpl implements GoodsService {
         if (result > 0) {
             return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品上架成功" : "商品下架成功");
         }
+        GoodExt good = goodsMapper.findById(goodsId);
+        saveGoodLog(good.getGoodName(), Constant.ON_SALE.equals(saleStatus) ? "商品上架" : "商品下架", goodsId);
         return BaseResult.error("006", Constant.ON_SALE.equals(saleStatus) ? "商品上架失败" : "商品下架失败");
     }
 
@@ -245,6 +248,7 @@ public class GoodsServiceImpl implements GoodsService {
         if (result > 0) {
             return BaseResult.success("删除商品成功");
         }
+        saveGoodLog(goods.getGoodName(), "删除商品", goods.getId());
         return BaseResult.error("sysError", "删除商品失败");
     }
 
@@ -266,6 +270,9 @@ public class GoodsServiceImpl implements GoodsService {
         if (idList.size() > result) {
             return BaseResult.success("部分商品未下架，不能删除，其余的已经删除成功");
         }
+        idList.forEach(goodId -> {
+            saveGoodLog("", "批量删除商品", goodId);
+        });
         return BaseResult.success("删除成功");
     }
 
@@ -273,6 +280,8 @@ public class GoodsServiceImpl implements GoodsService {
     public BaseResult modifyGoodsDeduction(Long id, Integer count) {
         int result = goodsMapper.modifyGoodsDeduction(id, count);
         if (result > 0) {
+            GoodExt good = goodsMapper.findById(id);
+            saveGoodLog(good.getGoodName(), "修改商品库存", good.getId());
             return BaseResult.success("修改成功");
         }
         return BaseResult.error("modify-error", "修改失败");
@@ -294,7 +303,9 @@ public class GoodsServiceImpl implements GoodsService {
             return BaseResult.parameterError();
         }
         goodsMapper.batchModifySaleStatus(saleStatus, goodsIdList);
-        return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品批量上架成功" : "商品批量下架成功");
+        String action = Constant.ON_SALE.equals(saleStatus) ? "商品批量上架" : "商品批量下架";
+        goodsIdList.forEach(goodId -> saveGoodLog("", action, goodId));
+        return BaseResult.success(action + "成功");
     }
 
     /**
