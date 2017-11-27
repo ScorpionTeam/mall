@@ -37,7 +37,7 @@
         operate_point,
         freight_fee,
         delivery_no,
-        use_oint
+        use_point
         )
         VALUES (#{userId},
         #{orderNo},
