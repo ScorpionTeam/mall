@@ -49,7 +49,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public BaseResult list(String userId) {
+    public BaseResult findByUserId(String userId) {
         Integer validCount = menuMapper.validAdmin(userId);
         List<SysMenu> list;
         if (validCount > 0) {
@@ -116,10 +116,29 @@ public class MenuServiceImpl implements MenuService {
         if (CommonEnum.NORMAL.getCode().equals(menu.getStatus())) {
             return BaseResult.error("del_error", "菜单正在使用中不能删除");
         }
+        //子菜单
         Integer result = menuMapper.deleteById(id);
-        if (result < 0) {
-            return BaseResult.error("del_error", "删除失败");
+        if (result <= 0) {
+            return BaseResult.error("delete_error", "删除失败");
         }
-        return BaseResult.success("删除失败");
+        return BaseResult.success("删除成功");
+    }
+
+    /**
+     * 菜单停用启用
+     *
+     * @param id
+     * @param status
+     * @return
+     */
+    @Override
+    public BaseResult modifyStatus(Long id, String status) {
+        if (CommonEnum.NORMAL.getCode().equals(status)) {
+
+
+        } else {
+            return deleteById(id);
+        }
+        return BaseResult.success("修改成功");
     }
 }

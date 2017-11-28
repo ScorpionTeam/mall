@@ -59,6 +59,11 @@
         SELECT COUNT(*) FROM  t_sys_menu WHERE  name=#{name} AND status='NORMAL'
     </select>
 
+    <!--查询名称数量-->
+    <select id="validByNameAndUrl" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM  t_sys_menu WHERE  name=#{name} AND status='NORMAL' AND url=#{url}
+    </select>
+
     <!--活动id、名称校验-->
     <select id="validByIdAndNameAndUrl" resultType="java.lang.Integer">
         SELECT COUNT(*)
@@ -119,8 +124,8 @@
         status,
         icon,
         sort,
-        createDate,
-        updateDate,
+        create_date,
+        update_date,
         description,
         operator
         FROM t_sys_menu WHERE pid='0'
