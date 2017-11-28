@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.RoleMapper;
 import com.scoprion.mall.domain.SysRole;
 import com.scoprion.result.BaseResult;
@@ -77,7 +78,7 @@ public class RoleServiceImpl implements RoleService {
     @Override
     public BaseResult deleteById(Long id) {
         SysRole sysRole = roleMapper.findById(id);
-        if (Constant.STATUS_ZERO.equals(sysRole.getStatus())) {
+        if (CommonEnum.NORMAL.getCode().equals(sysRole.getStatus())) {
             roleMapper.deleteById(id);
         } else {
             return BaseResult.error("unable_delete", "菜单使用中，不可删除");

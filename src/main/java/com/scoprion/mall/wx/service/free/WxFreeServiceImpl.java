@@ -6,6 +6,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.*;
@@ -186,7 +187,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         if (order == null) {
             return BaseResult.notFound();
         }
-        if (!Constant.STATUS_ONE.equals(order.getOrderStatus())) {
+        if (!CommonEnum.UN_PAY.getCode().equals(order.getOrderStatus())) {
             return BaseResult.error("order_fail", "订单错误");
         }
         //获取订单创建的时间
@@ -200,12 +201,8 @@ public class WxFreeServiceImpl implements WxFreeService {
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
-            return BaseResult.error("not_enough_stock", "商品已经下架");
-        }
-        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
-            //商品处于下架状态，不能下单
-            return BaseResult.error("can_not_order", "商品已下架");
+        if (CommonEnum.OFF_SALE.getCode().equals(goods.getOnSale())) {
+            return BaseResult.error("good_off_line", "商品已经下架");
         }
 
         //根据openid查询用户订单信息
