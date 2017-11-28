@@ -243,10 +243,9 @@
         tac.status as activityStatus
         FROM t_good good
         LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
-        LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
-        WHERE 1=1
-        AND ( tac.status IS NULL OR tac.status!='0' OR tac.end_date BETWEEN '0' AND NOW())
-        OR tacg.status='1'
+        LEFT JOIN t_activity tac ON (tac.id=tacg.activity_id AND ( tac.status IS NULL OR tac.status!='0' OR tac.end_date BETWEEN '0' AND NOW())
+        OR tacg.status='1')
+        WHERE good.on_sale='1'
         AND good.id NOT IN(
         SELECT tg.id
         FROM t_good tg
