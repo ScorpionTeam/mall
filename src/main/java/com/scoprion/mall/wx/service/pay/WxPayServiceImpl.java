@@ -80,24 +80,10 @@ public class WxPayServiceImpl implements WxPayService {
         if (x != null) {
             return x;
         }
-        //使用优惠券
-        if (CommonEnum.USE_TICKET.getCode().equals(wxOrderRequestData.getUseTicket())) {
-            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(
-                    wxOrderRequestData.getTicket());
-            if (ticketSnapshot == null) {
-                return BaseResult.error("error", "请先领取优惠券");
-            }
-            if (ticketSnapshot.getStartDate().after(new Date())) {
-                return BaseResult.error("error", "优惠券未到使用日期");
-            }
-            if (CommonEnum.UN_NORMAL.getCode().equals(ticketSnapshot.getStatus())) {
-                return BaseResult.error("error", "优惠券已经使用过了");
-            }
-            if (ticketSnapshot.getEndDate().before(new Date())) {
-                return BaseResult.error("error", "优惠券已过期");
-            }
-            //优惠券状态改为已使用
-            wxTicketSnapshotMapper.modifyStatus(CommonEnum.UN_NORMAL.getCode(), ticketSnapshot.getId());
+        //校验优惠券
+        String message = checkAndUseTicket(wxOrderRequestData.getUseTicket(), wxOrderRequestData.getTicket());
+        if (!StringUtils.isEmpty(message)) {
+            return BaseResult.error("error",message);
         }
         //查询商品库存
         Goods goods = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
@@ -154,6 +140,38 @@ public class WxPayServiceImpl implements WxPayService {
         unifiedOrderResponseData.setNonce_str(nonceStr);
         unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
         return BaseResult.success(unifiedOrderResponseData);
+    }
+
+
+    /**
+     * 检查优惠券&使用优惠券
+     *
+     * @param useTicket
+     * @param ticketId
+     * @return
+     */
+    private String checkAndUseTicket(String useTicket, Long ticketId) {
+        //使用优惠券
+        if (CommonEnum.USE_TICKET.getCode().equals(useTicket)) {
+            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(
+                    ticketId);
+            if (ticketSnapshot == null) {
+                return "请先领取优惠券";
+            }
+            if (ticketSnapshot.getStartDate().after(new Date())) {
+                return "优惠券未到使用日期";
+            }
+            if (CommonEnum.UN_NORMAL.getCode().equals(ticketSnapshot.getStatus())) {
+                return "优惠券已经使用过了";
+            }
+            if (ticketSnapshot.getEndDate().before(new Date())) {
+                return "优惠券已过期";
+            }
+            //优惠券状态改为已使用
+            wxTicketSnapshotMapper.modifyStatus(CommonEnum.UN_NORMAL.getCode(), ticketSnapshot.getId());
+            return "success";
+        }
+        return null;
     }
 
     /**
