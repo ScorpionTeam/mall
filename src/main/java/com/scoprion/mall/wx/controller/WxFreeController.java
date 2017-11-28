@@ -24,7 +24,7 @@ import java.io.IOException;
 /**
  * 试用接口
  *
- * @author by kunlun
+ * @author by hmy
  * @created on 2017/11/20.
  */
 @RestController
@@ -54,9 +54,9 @@ public class WxFreeController {
      * @return
      */
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
-    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder, HttpServletRequest request) {
-        String ipAddress = IPUtil.getIPAddress(request);
-        return wxFreeService.apply(wxFreeOrder, ipAddress);
+    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder) {
+//        String ipAddress = IPUtil.getIPAddress(request);
+        return wxFreeService.apply(wxFreeOrder, null);
     }
 
     /**

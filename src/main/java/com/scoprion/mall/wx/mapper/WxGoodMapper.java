@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * @author by kunlun
+ * @author by hmy
  * @created on 2017/11/7.
  */
 @Mapper

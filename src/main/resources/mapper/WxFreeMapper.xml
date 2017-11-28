@@ -11,13 +11,13 @@
         id,
         name,
         status,
-        activityType,
-        createDate,
-        updateDate,
+        activity_type,
+        create_date,
+        update_date,
         target,
         num,
-        startDate,
-        endDate,
+        start_date,
+        end_date,
         discount,
         describes
         FROM t_activity WHERE id=#{activityId}
@@ -27,17 +27,17 @@
     <select id="findByActivityGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
         SELECT
         id,
-        activityId,
-        goodId,
-        createDate,
-        goodName,
+        activity_id,
+        good_id,
+        create_date,
+        good_name,
         stock,
-        updateDate
+        update_date
         FROM t_activity_good WHERE id=#{activityGoodId}
     </select>
 
     <!-- 查询是否参加过该活动 -->
     <select id="validByActivityId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_order WHERE order_type='3' AND userId=#{userId}
+        SELECT COUNT(*) FROM t_order WHERE order_type='3' AND user_id=#{userId}
     </select>
 </mapper>

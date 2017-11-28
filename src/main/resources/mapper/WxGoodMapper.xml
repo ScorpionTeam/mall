@@ -82,7 +82,7 @@
         main_image_url
         FROM t_good
         WHERE isOnSale='1' AND status='0'
-        <if test="searchKey!=null and searchKey!=''">AND CONCAT(good_name,good_no) LIKE #{searchKey}</if>
+        <if test="searchKey!=null and searchKey!=''">AND seo LIKE #{searchKey}</if>
     </select>
 
     <!--库存扣减-->

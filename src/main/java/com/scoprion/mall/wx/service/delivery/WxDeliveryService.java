@@ -5,7 +5,9 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
 /**
- * Created by admin1 on 2017/11/1.
+ *
+ * @author hmy
+ * @date 2017/11/1
  */
 public interface WxDeliveryService {
 

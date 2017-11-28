@@ -10,7 +10,7 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
 /**
- * @author by kunlun
+ * @author by hmy
  * @created on 2017/11/20.
  */
 public interface WxFreeService {

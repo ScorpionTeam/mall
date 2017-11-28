@@ -128,10 +128,10 @@
         <if test="saleVolume!=null">sale_volume=#{saleVolume},</if>
         <if test="discount!=null">discount=#{discount},</if>
         <if test="stock!=null">stock=#{stock},</if>
-        <if test="isOnSale!=null">on_sale=#{onSale},</if>
-        <if test="isHot!=null">hot=#{hot},</if>
+        <if test="onSale!=null">on_sale=#{onSale},</if>
+        <if test="hot!=null">hot=#{hot},</if>
         <if test="isNew!=null">is_new=#{isNew},</if>
-        <if test="isFreight!=null">freight=#{freight},</if>
+        <if test="freight!=null">freight=#{freight},</if>
         <if test="brandId!=null">brand_id=#{brandId},</if>
         <if test="sellerId!=null">seller_id=#{sellerId},</if>
         <if test="visitTotal!=null">visit_total=#{visitTotal},</if>
@@ -243,10 +243,9 @@
         tac.status as activityStatus
         FROM t_good good
         LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
-        LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
-        WHERE 1=1
-        AND ( tac.status IS NULL OR tac.status!='0' OR tac.end_date BETWEEN '0' AND NOW())
-        OR tacg.status='1'
+        LEFT JOIN t_activity tac ON (tac.id=tacg.activity_id AND ( tac.status IS NULL OR tac.status!='0' OR tac.end_date BETWEEN '0' AND NOW())
+        OR tacg.status='1')
+        WHERE good.on_sale='1'
         AND good.id NOT IN(
         SELECT tg.id
         FROM t_good tg
