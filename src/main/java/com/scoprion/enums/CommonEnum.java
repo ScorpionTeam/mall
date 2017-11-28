@@ -18,6 +18,7 @@ public enum CommonEnum {
     UN_PAY("UN_PAY", "待付款"),
     UN_DELIVERY("UN_DELIVERY", "待发货"),
     UN_RECEIVE("UN_RECEIVE", "待收货"),
+    ALL_ORDER("ALL_ORDER", "所有订单"),
     DONE("ALL_DONE", "已完成"),
     REFUND("REFUND", "退款"),
     CLOSING("CLOSING", "关闭"),
@@ -41,7 +42,14 @@ public enum CommonEnum {
     FREIGHT("FREIGHT", "包邮"),
     UN_FREIGHT("UN_FREIGHT", "不包邮"),
     MALE("MALE", "男"),
-    FEMALE("FEMALE", "女");
+    FEMALE("FEMALE", "女"),
+    EXPIRE("EXPIRE", "已过期"),
+    UN_START("UN_START", "未开始"),
+    ON_THE_WAY("ON_THE_WAY", "进行中"),
+    USE_POINT("USE_POINT", "使用积分"),
+    NOT_USE_POINT("UN_USE_POINT", "不使用积分"),
+    PRODUCE_POINT("PRODUCE_POINT", "产生积分"),
+    CONSUME_POINT("CONSUME_POINT", "消费积分");
 
     /**
      * 编码

@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.SendGoodMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
@@ -47,10 +48,10 @@ public class WxOrderServiceImpl implements WxOrderService {
      */
     @Override
     public PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus) {
-        //暂时使用直接传userId的方式 查询订单列表
         String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
-        if ("0".equals(orderStatus)) {
+        //所有订单
+        if (CommonEnum.ALL_ORDER.getCode().equals(orderStatus)) {
             orderStatus = null;
         }
         Page<OrderExt> page = wxOrderMapper.findByUserId(userId, orderStatus);
@@ -86,7 +87,7 @@ public class WxOrderServiceImpl implements WxOrderService {
      */
     @Override
     public BaseResult refund(Long orderId) {
-        wxOrderMapper.updateByOrderID(orderId, "5");
+        wxOrderMapper.updateByOrderID(orderId, CommonEnum.REFUND.getCode());
         return BaseResult.success("申请成功");
     }
 
@@ -126,10 +127,12 @@ public class WxOrderServiceImpl implements WxOrderService {
             return BaseResult.parameterError();
         }
         Order order = wxOrderMapper.findByOrderId(id);
-        if (!Constant.STATUS_THREE.equals(order.getOrderStatus())) {
+        //待收货状态
+        if (!CommonEnum.UN_RECEIVE.getCode().equals(order.getOrderStatus())) {
             return BaseResult.error("confirm_fail", "订单状态异常，不能确认收货");
         }
-        int result = wxOrderMapper.updateByOrderID(id, "4");
+        //签收成功后订单状态修改为  待评价
+        int result = wxOrderMapper.updateByOrderID(id, CommonEnum.UN_ESTIMATE.getCode());
         if (result > 0) {
             saveOrderLog("确认收货", order, ipAddress);
             return BaseResult.success("确认收货成功");
@@ -150,10 +153,12 @@ public class WxOrderServiceImpl implements WxOrderService {
             return BaseResult.parameterError();
         }
         Order order = wxOrderMapper.findByOrderId(id);
-        if (!Constant.STATUS_ONE.equals(order.getOrderStatus())) {
+        //待付款状态
+        if (!CommonEnum.UN_PAY.getCode().equals(order.getOrderStatus())) {
             return BaseResult.error("cancel_fail", "订单状态异常，不能取消订单");
         }
-        int result = wxOrderMapper.updateByOrderID(id, "6");
+        //将订单修改为关闭状态
+        int result = wxOrderMapper.updateByOrderID(id, CommonEnum.CLOSING.getCode());
         if (result > 0) {
             saveOrderLog("取消订单", order, ipAddress);
             return BaseResult.success("取消订单成功");
