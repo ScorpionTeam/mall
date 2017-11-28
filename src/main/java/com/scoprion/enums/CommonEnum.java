@@ -78,8 +78,8 @@ public enum CommonEnum {
     USER_ADMIN("USER_ADMIN", "管理员用户"),
     USER_ORDINARY("USER_ORDINARY", "普通用户"),
     REFUSE("REFUSE", "拒绝"),
-    AGREE("AGREE", "同意");
-
+    AGREE("AGREE", "同意"),
+    ALL_DONE("ALL_DONE", "已完成");
 
     /**
      * 编码
