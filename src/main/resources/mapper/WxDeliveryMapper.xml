@@ -115,7 +115,6 @@
         WHERE user_id=#{userId}
     </select>
 
-
     <!-- 删除收货地址 -->
     <delete id="deleteDelivery">
         DELETE FROM t_delivery WHERE id=#{id}
