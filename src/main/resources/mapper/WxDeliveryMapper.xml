@@ -48,7 +48,7 @@
         <if test="address!=null">address=#{address},</if>
         <if test="postCode!=null">post_code=#{postCode},</if>
         <if test="type!=null">type=#{type},</if>
-        updateDate=NOW()
+        update_date=NOW()
         WHERE id=#{id}
     </update>
 
@@ -59,7 +59,7 @@
 
     <!--修改其他的地址为不默认地址-->
     <update id="updateDefaultById">
-        UPDATE t_delivery SET defaultAddress='0' WHERE user_id=#{userId} AND id !=#{id}
+        UPDATE t_delivery SET defaultAddress='DEFAULT' WHERE user_id=#{userId} AND id !=#{id}
     </update>
 
     <!--获取收货地址详情-->
