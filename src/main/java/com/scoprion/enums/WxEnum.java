@@ -1,4 +1,4 @@
-package com.scoprion.constant;
+package com.scoprion.enums;
 
 /**
  * @author by kunlun
@@ -17,34 +17,34 @@ public enum WxEnum {
     SIGNERROR("SIGNERROR", "签名错误"),
     XML_FORMAT_ERROR("XML_FORMAT_ERROR", "XML格式错误");
 
-    private String K;
-    private String V;
+    private String optK;
+    private String optV;
 
-    WxEnum(String k, String v) {
-        K = k;
-        V = v;
+    WxEnum(String optK, String optV) {
+        this.optK = optK;
+        this.optV = optV;
     }
 
-    public String getK() {
-        return K;
+    public String getOptK() {
+        return optK;
     }
 
-    public void setK(String k) {
-        K = k;
+    public void setOptK(String optK) {
+        this.optK = optK;
     }
 
-    public String getV() {
-        return V;
+    public String getOptV() {
+        return optV;
     }
 
-    public void setV(String v) {
-        V = v;
+    public void setOptV(String optV) {
+        this.optV = optV;
     }
 
     public static String getValue(String key) {
         for (WxEnum wxEnum : WxEnum.values()) {
-            if (wxEnum.K.equalsIgnoreCase(key)) {
-                return wxEnum.V;
+            if (wxEnum.optK.equalsIgnoreCase(key)) {
+                return wxEnum.optV;
             }
         }
         return null;
