@@ -129,9 +129,9 @@
         <if test="discount!=null">discount=#{discount},</if>
         <if test="stock!=null">stock=#{stock},</if>
         <if test="onSale!=null">on_sale=#{onSale},</if>
-        <if test="isHot!=null">hot=#{hot},</if>
+        <if test="hot!=null">hot=#{hot},</if>
         <if test="isNew!=null">is_new=#{isNew},</if>
-        <if test="isFreight!=null">freight=#{freight},</if>
+        <if test="freight!=null">freight=#{freight},</if>
         <if test="brandId!=null">brand_id=#{brandId},</if>
         <if test="sellerId!=null">seller_id=#{sellerId},</if>
         <if test="visitTotal!=null">visit_total=#{visitTotal},</if>
