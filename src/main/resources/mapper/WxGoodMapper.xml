@@ -29,7 +29,7 @@
         seo,
         main_image_url,
         rich_content
-        FROM t_good WHERE on_sale='1' AND status='0'
+        FROM t_good WHERE on_sale='ON_SALE' AND status='NORMAL'
     </select>
 
     <!--根据商品id查询详情-->
@@ -68,7 +68,8 @@
         tacg.update_date
         FROM t_good good
         LEFT JOIN t_activity_good tacg ON good.id=tacg.good_id
-        WHERE good.id=#{goodId} GROUP BY good.id
+        WHERE good.id=#{goodId}
+        GROUP BY good.id
     </select>
 
     <!--商品搜素-->
@@ -84,7 +85,7 @@
         seo,
         main_image_url
         FROM t_good
-        WHERE isOnSale='1' AND status='0'
+        WHERE isOnSale='ON_SALE' AND status='NORMAL'
         <if test="searchKey!=null and searchKey!=''">AND seo LIKE #{searchKey}</if>
     </select>
 
