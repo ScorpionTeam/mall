@@ -33,7 +33,7 @@
         NOW(),
         NOW(),
         #{type},
-        #{defaultAddress})
+        'DEFAULT_ADDRESS')
     </insert>
 
 
@@ -60,6 +60,11 @@
     <!--修改其他的地址为不默认地址-->
     <update id="updateDefaultById">
         UPDATE t_delivery SET default_address='UN_DEFAULT_ADDRESS' WHERE user_id=#{userId} AND id !=#{id}
+    </update>
+
+    <!--修改其他的地址为默认地址-->
+    <update id="updateAddressById">
+        UPDATE t_delivery SET default_address='DEFAULT_ADDRESS' WHERE user_id=#{userId}
     </update>
 
     <!--获取收货地址详情-->
