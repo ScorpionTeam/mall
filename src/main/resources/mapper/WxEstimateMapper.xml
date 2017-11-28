@@ -6,6 +6,7 @@
 
     <select id="findPage" resultType="com.scoprion.mall.domain.Estimate">
        SELECT
+       id,
        user_id,
        good_id,
        message,
