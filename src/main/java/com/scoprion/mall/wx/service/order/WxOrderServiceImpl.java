@@ -53,6 +53,22 @@ public class WxOrderServiceImpl implements WxOrderService {
         if (CommonEnum.ALL.getCode().equals(orderStatus)) {
             orderStatus = null;
         }
+        //待付款订单
+        if (CommonEnum.UN_PAY.getCode().equals(orderStatus)) {
+            orderStatus = null;
+        }
+        //待发货订单
+        if (CommonEnum.UN_DELIVERY.getCode().equals(orderStatus)) {
+            orderStatus = null;
+        }
+        //待收货订单
+        if (CommonEnum.UN_RECEIVE.getCode().equals(orderStatus)) {
+            orderStatus = null;
+        }
+        //已完成订单
+        if (CommonEnum.ALL_DONE.getCode().equals(orderStatus)) {
+            orderStatus = null;
+        }
         Page<OrderExt> page = wxOrderMapper.findByUserId(userId, orderStatus);
         return new PageResult(page);
     }
