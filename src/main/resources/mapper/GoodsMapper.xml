@@ -132,15 +132,15 @@
         <if test="saleVolume!=null">sale_volume=#{saleVolume},</if>
         <if test="discount!=null">discount=#{discount},</if>
         <if test="stock!=null">stock=#{stock},</if>
-        <if test="OnSale!=null">on_sale=#{onSale},</if>
-        <if test="isHot!=null">hot=#{hot},</if>
+        <if test="onSale!=null">on_sale=#{onSale},</if>
+        <if test="hot!=null">hot=#{hot},</if>
         <if test="isNew!=null">is_new=#{isNew},</if>
-        <if test="isFreight!=null">freight=#{freight},</if>
+        <if test="freight!=null">freight=#{freight},</if>
         <if test="brandId!=null">brand_id=#{brandId},</if>
         <if test="sellerId!=null">seller_id=#{sellerId},</if>
         <if test="visitTotal!=null">visit_total=#{visitTotal},</if>
         <if test="goodNo!=null">good_no=#{goodNo},</if>
-        <if test="mainImgUrl!=null">main_image_url=#{mainImgUrl},</if>
+        <if test="mainImageUrl!=null">main_image_url=#{mainImageUrl},</if>
         <if test="status!=null">status=#{status},</if>
         <if test="richContent!=null">rich_content=#{richContent},</if>
         <if test="seo!=null">seo=#{seo},</if>

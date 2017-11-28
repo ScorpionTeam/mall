@@ -63,7 +63,7 @@
         tacg.good_id,
         tacg.create_date,
         tacg.good_name,
-        tacg.stock AS activityStock,
+        tacg.stock AS actgStock,
         tacg.status,
         tacg.update_date
         FROM t_good good

@@ -111,11 +111,5 @@ public class Constant {
     public static final int WX_POINT_LEVEL2 = 750;
     public static final int WX_POINT_LEVEL3 = 1500;
 
-    public static final String STATUS_ZERO = "0";
-    public static final String STATUS_ONE = "1";
-    public static final String STATUS_TWO = "2";
-    public static final String STATUS_THREE = "3";
-    public static final String STATUS_FOUR = "4";
-
     public static final long TIME_TWO_HOUR = 1000 * 60 * 60 * 2;
 }
