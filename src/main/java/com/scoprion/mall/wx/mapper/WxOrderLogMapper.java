@@ -4,7 +4,7 @@ import com.scoprion.mall.domain.OrderLog;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
- * @author by Administrator
+ * @author by hmy
  * @created on 2017/11/6/006.
  */
 

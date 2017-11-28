@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * @author by admin1
+ * @author by hmy
  * @created on 2017/11/1.
  */
 @RestController

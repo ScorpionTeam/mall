@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * @author by Administrator
+ * @author by hmy
  * @created on 2017/11/6/006.
  */
 

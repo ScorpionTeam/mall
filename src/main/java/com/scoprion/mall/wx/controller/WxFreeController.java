@@ -24,7 +24,7 @@ import java.io.IOException;
 /**
  * 试用接口
  *
- * @author by kunlun
+ * @author by hmy
  * @created on 2017/11/20.
  */
 @RestController

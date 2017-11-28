@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 /**
- * @author by Administrator
+ * @author by hmy
  * @created on 2017/11/2/002.
  */
 
