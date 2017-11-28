@@ -84,7 +84,6 @@ public enum CommonEnum {
     REFUSE("REFUSE", "拒绝"),
     AGREE("AGREE", "同意"),
     ALL_DONE("ALL_DONE", "已完成");
-
     /**
      * 编码
      */

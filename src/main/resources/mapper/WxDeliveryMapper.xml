@@ -33,7 +33,7 @@
         NOW(),
         NOW(),
         #{type},
-        #{defaultAddress})
+        'DEFAULT_ADDRESS')
     </insert>
 
 
