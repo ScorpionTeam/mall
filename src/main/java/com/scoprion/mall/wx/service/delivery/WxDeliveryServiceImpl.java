@@ -10,6 +10,7 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author hmy
@@ -47,6 +48,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @param delivery
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult add(Delivery delivery) {
         Integer result = wxDeliveryMapper.add(delivery);
@@ -68,9 +70,6 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public BaseResult updateDelivery(Delivery delivery) {
-        if (StringUtils.isEmpty(delivery.getId().toString())) {
-            return BaseResult.parameterError();
-        }
         wxDeliveryMapper.updateDelivery(delivery);
         return BaseResult.success("修改成功");
     }
@@ -98,9 +97,6 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public BaseResult findById(Long id) {
-        if (StringUtils.isEmpty(id.toString())) {
-            return BaseResult.parameterError();
-        }
         Delivery delivery = wxDeliveryMapper.findById(id);
         if (delivery == null) {
             return BaseResult.notFound();

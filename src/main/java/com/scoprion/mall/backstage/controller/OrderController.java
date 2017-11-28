@@ -74,7 +74,8 @@ public class OrderController {
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String payType, String orderType,
                                       String orderStatus, String searchKey, String startDate, String endDate,
                                       String phone, String orderNo) {
-        return orderService.findByCondition(pageNo, pageSize, payType, orderType, orderStatus, searchKey, startDate, endDate,
+        return orderService.findByCondition(pageNo, pageSize, payType, orderType, orderStatus, searchKey, startDate,
+                endDate,
                 phone, orderNo);
     }
 
@@ -102,14 +103,14 @@ public class OrderController {
         return orderService.findOrderLogByOrderId(pageNo, pageSize, orderId);
     }
 
+
     /**
-     * 退款处理
-     *
      * @param orderId   订单id
-     * @param flag      0 拒绝  1 通过
-     * @param remark    退款备注
+     * @param flag      AGREE 同意    REFUSE 拒绝
+     * @param remark    备注
      * @param refundFee 退款金额
      * @return
+     * @throws Exception
      */
     @RequestMapping(value = "/audit/refund", method = RequestMethod.POST)
     public BaseResult refund(Long orderId, String flag, String remark, int refundFee) throws Exception {

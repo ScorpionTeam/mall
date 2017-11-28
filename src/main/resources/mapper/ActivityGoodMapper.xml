@@ -15,7 +15,7 @@
     <!--清空活动跟商品的绑定关系-->
     <update id="unbindActivityWithGood">
         UPDATE  t_activity_good SET
-        status='1',
+        status='UN_NORMAL',
         update_date=now()
         WHERE good_id=#{goodId}
     </update>
@@ -29,7 +29,7 @@
         stock,
         status
         FROM  t_activity_good
-        WHERE  good_id=#{goodId} AND status='0'
+        WHERE  good_id=#{goodId} AND status='NORMAL'
     </select>
 
 </mapper>

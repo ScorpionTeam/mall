@@ -33,7 +33,7 @@
         NOW(),
         NOW(),
         #{type},
-        1)
+        'DEFAULT')
     </insert>
 
 
@@ -48,18 +48,18 @@
         <if test="address!=null">address=#{address},</if>
         <if test="postCode!=null">post_code=#{postCode},</if>
         <if test="type!=null">type=#{type},</if>
-        updateDate=NOW()
+        update_date=NOW()
         WHERE id=#{id}
     </update>
 
     <!-- 默认收货地址 -->
     <update id="updateDefaultAddress">
-        UPDATE t_delivery SET defaultAddress='1' WHERE id=#{id}
+        UPDATE t_delivery SET defaultAddress='DEFAULT' WHERE id=#{id}
     </update>
 
     <!--修改其他的地址为不默认地址-->
     <update id="updateDefaultById">
-        UPDATE t_delivery SET defaultAddress='0' WHERE user_id=#{userId} AND id !=#{id}
+        UPDATE t_delivery SET defaultAddress='UB_DEFAULT' WHERE user_id=#{userId} AND id !=#{id}
     </update>
 
     <!--获取收货地址详情-->
@@ -93,7 +93,7 @@
         post_code,
         default_address
         FROM t_delivery
-        WHERE user_id=#{userId} AND default_address='1'
+        WHERE user_id=#{userId} AND default_address='DEFAULT'
     </select>
 
     <!--分页查询用户收获地址-->

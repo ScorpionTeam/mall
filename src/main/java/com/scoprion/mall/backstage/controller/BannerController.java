@@ -97,6 +97,7 @@ public class BannerController {
 
     /**
      * 批量修改广告状态
+     * 状态  NORMAL, 正常,UN_NORMAL, 非正常
      *
      * @param jsonObject
      * @return

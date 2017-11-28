@@ -234,7 +234,7 @@
         tg.status
         FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activity_id
         INNER JOIN t_good tg ON actg.good_id = tg.id
-        AND act.activity_type = '3' AND actg.status='0' AND act.status='0'
+        AND act.activity_type ='FREE' AND actg.status='NORMAL' AND act.status='NORMAL'
     </select>
 
     <!-- 查询活动商品详情 -->

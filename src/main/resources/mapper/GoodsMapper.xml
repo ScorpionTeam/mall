@@ -48,7 +48,7 @@
         #{sellerId},
         #{visitTotal},
         #{goodNo},
-        '0',
+        #{status},
         #{richContent},
         #{seo},
         #{mainImageUrl})
@@ -144,7 +144,6 @@
         <if test="status!=null">status=#{status},</if>
         <if test="richContent!=null">rich_content=#{richContent},</if>
         <if test="seo!=null">seo=#{seo},</if>
-
         last_update_date=NOW()
         WHERE id=#{id}
     </update>
@@ -181,9 +180,7 @@
         LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
         LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         WHERE 1=1
-        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(good.good_name,good.description,good.good_no) LIKE
-            #{searchKey}
-        </if>
+        <if test="searchKey!=null and searchKey!=''">AND good.seo LIKE #{searchKey}</if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
@@ -194,7 +191,7 @@
         <if test="isFreight!=null and isFreight!=''">AND good.freight= #{freight}</if>
         <if test="categoryId!=null ">AND good.category_id= #{categoryId}</if>
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
-        <if test="activityId!=null ">AND tacg.activity_id= #{activityId} AND tacg.status!='0'</if>
+        <if test="activityId!=null ">AND tacg.activity_id= #{activityId} AND tacg.status!='NORMAL'</if>
         GROUP BY good.id
     </select>
 
@@ -212,13 +209,13 @@
     <!--批量删除商品-->
     <update id="batchDeleteGood">
         UPDATE t_good
-        SET status='1',
+        SET status='UN_NORMAL',
         last_update_date=now()
         WHERE id IN
         <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
-        AND on_sale='0'
+        AND on_sale='OFF_SALE'
     </update>
 
 
@@ -251,9 +248,9 @@
         tac.status as activityStatus
         FROM t_good good
         LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
-        LEFT JOIN t_activity tac ON (tac.id=tacg.activity_id AND ( tac.status IS NULL OR tac.status!='0' OR tac.end_date BETWEEN '0' AND NOW())
-        OR tacg.status='1')
-        WHERE good.on_sale='1'
+        LEFT JOIN t_activity tac ON (tac.id=tacg.activity_id AND (tac.status IS NULL OR tac.status!='NORMAL' OR
+        tac.end_date BETWEEN '0' AND NOW()) OR tacg.status='UN_NORMAL')
+        WHERE good.on_sale='ON_SALE'
         AND good.id NOT IN(
         SELECT tg.id
         FROM t_good tg
@@ -261,17 +258,14 @@
         LEFT JOIN t_activity ta ON ta.id=tag.activity_id
         WHERE 1=1
         AND (
-        ta.status='0' OR ( ta.status!='1' AND ta.start_date IS NOT NULL
+        ta.status='NORMAL' OR ( ta.status!='UN_NORMAL' AND ta.start_date IS NOT NULL
         AND ( ((ta.start_date BETWEEN '0' AND NOW()) AND ta.end_date > NOW()) OR ta.start_date >NOW() ) )
         )
-        AND tag.status='0'
+        AND tag.status='NORMAL'
         GROUP BY tg.id
         )
-        AND good.on_sale='1'
-        <if test="searchKey!=null and searchKey!=''">AND CONCAT(good.good_name,good.description,good.good_no) LIKE
-            #{searchKey}
-        </if>
-
+        AND good.on_sale='ON_SALE'
+        <if test="searchKey!=null and searchKey!=''">AND seo LIKE #{searchKey}</if>
         GROUP BY good.id
     </select>
 
@@ -309,11 +303,9 @@
         LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         WHERE 1=1
         AND tac.id=#{activityId}
-        AND tac.status='0'
-        AND tacg.status='0'
-        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(good.good_name,good.description,good.good_no) LIKE
-            #{searchKey}
-        </if>
+        AND tac.status='NORMAL'
+        AND tacg.status='NORMAL'
+        <if test="searchKey!=null and   searchKey!=''">AND seo LIKE #{searchKey} </if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>

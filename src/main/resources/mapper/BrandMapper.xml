@@ -45,12 +45,12 @@
 
     <!--查询品牌名称数量-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM  t_brand WHERE  brand_name=#{brandName} AND status='1'
+        SELECT COUNT(*) FROM  t_brand WHERE  brand_name=#{brandName} AND status='ENTER'
     </select>
 
     <!--品牌id、名称校验-->
     <select id="validByNameAndId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_brand WHERE brand_name =#{brandName} AND id!=#{id} AND status='1'
+        SELECT COUNT(*) FROM t_brand WHERE brand_name =#{brandName} AND id!=#{id} AND status='ENTER'
     </select>
 
     <!--根据ID查询品牌详情-->
@@ -66,7 +66,8 @@
         contact,
         contact_phone,
         update_date
-        FROM  t_brand   WHERE  id=#{id}
+        FROM  t_brand
+        WHERE  id=#{id}
     </select>
 
     <update id="batchModifyStatus">
@@ -81,7 +82,7 @@
 
     <!--批量删除-->
     <update id="batchDelete">
-        UPDATE t_brand SET status='2' WHERE id IN
+        UPDATE t_brand SET status='UN_NORMAL' WHERE id IN
         <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>

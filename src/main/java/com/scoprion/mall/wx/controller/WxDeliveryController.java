@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.alibaba.druid.util.StringUtils;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.domain.DeliveryExt;
 import com.scoprion.mall.wx.pay.util.WxUtil;
@@ -40,6 +41,9 @@ public class WxDeliveryController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody DeliveryExt delivery) {
+        if (StringUtils.isEmpty(delivery.getId().toString())) {
+            return BaseResult.parameterError();
+        }
         String openId = WxUtil.getOpenId(delivery.getWxCode());
         delivery.setUserId(openId);
         return wxDeliveryService.add(delivery);
@@ -78,6 +82,9 @@ public class WxDeliveryController {
      */
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
+        if (StringUtils.isEmpty(id.toString())) {
+            return BaseResult.parameterError();
+        }
         return wxDeliveryService.findById(id);
     }
 

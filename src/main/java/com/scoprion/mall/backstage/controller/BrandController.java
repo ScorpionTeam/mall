@@ -82,7 +82,7 @@ public class BrandController {
 
     /**
      * 批量修改品牌状态
-     *
+     *状态 ENTER入驻 QUITE退出
      * @return
      */
     @ApiOperation("批量修改品牌状态")
