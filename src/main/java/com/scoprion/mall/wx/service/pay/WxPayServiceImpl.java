@@ -120,15 +120,20 @@ public class WxPayServiceImpl implements WxPayService {
                 nonce_str);
         //生成预付款订单
         String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", xmlString);
+
         //将xml返回信息转换为bean
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
+
         //修改订单预付款订单号
         wxOrderMapper.updateOrderForWxOrderNo(order.getId(), unifiedOrderResponseData.getPrepay_id());
+
         //时间戳
         Long timeStamp = System.currentTimeMillis() / 1000;
+
         //随机字符串
         String nonceStr = WxUtil.createRandom(false, 10);
+
         String paySign = paySign(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
         unifiedOrderResponseData.setPaySign(paySign);
         unifiedOrderResponseData.setNonce_str(nonceStr);
@@ -365,6 +370,7 @@ public class WxPayServiceImpl implements WxPayService {
 
     /**
      * 保存商品日志
+     *
      * @param goodId
      * @param action
      * @param goodName
