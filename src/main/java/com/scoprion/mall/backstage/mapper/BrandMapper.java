@@ -36,7 +36,7 @@ public interface BrandMapper {
      * 根据id 名称校验名称是否存在
      *
      * @param id
-     * @param name
+     * @param brandName
      * @return
      */
     int validByNameAndId(@Param("id") Long id, @Param("brandName") String brandName);
@@ -77,7 +77,7 @@ public interface BrandMapper {
     /**
      * 批量修改品牌状态
      *
-     * @param status 状态 1入驻 0 退出
+     * @param status 状态 1入驻 0 退出 状态 ENTER入驻 QUITE退出
      * @param idList id集合
      * @return
      */
