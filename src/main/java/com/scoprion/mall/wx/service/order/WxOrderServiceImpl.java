@@ -99,7 +99,8 @@ public class WxOrderServiceImpl implements WxOrderService {
      */
     @Override
     public BaseResult estimate(Estimate estimate) {
-        if (StringUtils.isEmpty(estimate.getUserId())) {
+        String userId = WxUtil.getOpenId(estimate.getWxCode());
+        if (StringUtils.isEmpty(userId)) {
             return BaseResult.notFound();
         }
         if (StringUtils.isEmpty(estimate.getGoodId().toString())) {

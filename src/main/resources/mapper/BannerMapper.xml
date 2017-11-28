@@ -25,12 +25,12 @@
         UPDATE t_banner SET
         <if test="name!=null">name=#{name},</if>
         <if test="status!=null">status=#{status},</if>
-        <if test="imgUrl!=null">image_url=#{imageUrl},</if>
+        <if test="imageUrl!=null">image_url=#{imageUrl},</if>
         <if test="actionUrl!=null">action_url=#{actionUrl},</if>
         <if test="sort!=null">sort=#{sort},</if>
         <if test="visitTotal!=null">visit_total=#{visitTotal},</if>
         <if test="createDate!=null">create_date=#{createDate},</if>
-        updateDate=now()
+        update_date=now()
         WHERE id=#{id}
     </update>
 

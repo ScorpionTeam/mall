@@ -31,7 +31,7 @@ public class PointLog {
     /**
      * 当前积分
      */
-    @JSONField(name = "currentPoint")
+    @JSONField(name = "current_point")
     private int currentPoint;
 
     /**
