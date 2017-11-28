@@ -4,7 +4,6 @@ import com.github.pagehelper.Page;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.OrderMapper;
 import com.scoprion.mall.domain.Order;
-import com.scoprion.mall.domain.OrderLog;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.OrderQueryResponseData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
@@ -73,7 +72,6 @@ public class WxOrderScheduler {
         data.put("sign", sign);
         String param = WxPayUtil.mapConvertToXML(data);
         String result = WxUtil.httpsRequest(WxPayConfig.WECHAT_ORDER_QUERY_URL, "POST", param);
-        logger.info(result);
         OrderQueryResponseData response = WxPayUtil.castXMLStringToOrderQueryResponseData(result);
         updateLocalStatus(orderId, response);
     }
