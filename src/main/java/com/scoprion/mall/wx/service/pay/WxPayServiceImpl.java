@@ -449,8 +449,8 @@ public class WxPayServiceImpl implements WxPayService {
         order.setOrderNo(orderNo);
         order.setGoodSnapShotId(goodSnapShotId);
         order.setPayType("");
-        order.setOrderType("2");
-        order.setOrderStatus("1");
+        order.setOrderType(CommonEnum.MOBILE_ORDER.getCode());
+        order.setOrderStatus(CommonEnum.UN_PAY.getCode());
         order.setGoodName(goods.getGoodName());
         order.setDeliveryId(delivery.getId());
         order.setOperatePoint(wxOrderRequestData.getPoint());
@@ -469,7 +469,7 @@ public class WxPayServiceImpl implements WxPayService {
             }
         }
         if (wxOrderRequestData.getPoint() > 0) {
-            order.setUsePoint("1");
+            order.setUsePoint(CommonEnum.USE_TICKET.getCode());
         }
         BeanUtils.copyProperties(delivery, order);
         order.setUserId(userId);
