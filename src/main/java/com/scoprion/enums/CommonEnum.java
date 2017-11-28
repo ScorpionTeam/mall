@@ -19,7 +19,7 @@ public enum CommonEnum {
     UN_DELIVERY("UN_DELIVERY", "待发货"),
     UN_RECEIVE("UN_RECEIVE", "待收货"),
     ALL("ALL", "所有"),
-    DONE("ALL_DONE", "已完成"),
+    DONE("DONE", "已完成"),
     REFUND("REFUND", "退款"),
     CLOSING("CLOSING", "关闭"),
     UN_ESTIMATE("UN_ESTIMATE", "待评价"),
