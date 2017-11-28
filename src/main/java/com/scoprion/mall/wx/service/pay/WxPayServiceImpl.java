@@ -449,8 +449,8 @@ public class WxPayServiceImpl implements WxPayService {
         order.setOrderNo(orderNo);
         order.setGoodSnapShotId(goodSnapShotId);
         order.setPayType("");
-        order.setOrderType("2");
-        order.setOrderStatus("1");
+        order.setOrderType(CommonEnum.MOBILE_ORDER.getCode());
+        order.setOrderStatus(CommonEnum.UN_PAY.getCode());
         order.setGoodName(goods.getGoodName());
         order.setDeliveryId(delivery.getId());
         order.setOperatePoint(wxOrderRequestData.getPoint());
@@ -463,13 +463,20 @@ public class WxPayServiceImpl implements WxPayService {
         order.setCount(wxOrderRequestData.getCount());
         order.setMessage(wxOrderRequestData.getMessage());
         order.setGoodId(goods.getId());
+        //是否使用优惠券
         if (CommonEnum.USE_TICKET.getCode().equals(wxOrderRequestData.getUseTicket())) {
+            order.setUseTicket(CommonEnum.USE_TICKET.getCode());
             if (wxOrderRequestData.getTicket() != null) {
                 order.setTicketId(wxOrderRequestData.getTicket());
             }
+        } else {
+            order.setUseTicket(CommonEnum.UN_USE_TICKET.getCode());
         }
+        //是否使用积分
         if (wxOrderRequestData.getPoint() > 0) {
-            order.setUsePoint("1");
+            order.setUsePoint(CommonEnum.USE_TICKET.getCode());
+        } else {
+            order.setUsePoint(CommonEnum.NOT_USE_POINT.getCode());
         }
         BeanUtils.copyProperties(delivery, order);
         order.setUserId(userId);
