@@ -13,7 +13,7 @@
         order_status
         FROM
         t_order
-        WHERE order_status ='1'
+        WHERE order_status ='UN_PAY'
         AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(create_date) BETWEEN 60*60*4 AND 60*60*24
     </select>
 

@@ -23,6 +23,8 @@ public enum CommonEnum {
     ALL("ALL", "所有"),
     DONE("DONE", "已完成"),
     REFUND("REFUND", "退款"),
+    REFUND_SUCCESS("REFUND_SUCCESS", "退款成功"),
+    REFUND_FAIL("REFUND_FAIL", "退款失败"),
     CLOSING("CLOSING", "关闭"),
     UN_ESTIMATE("UN_ESTIMATE", "待评价"),
     ESTIMATE("ESTIMATE", "已评价"),
@@ -74,7 +76,9 @@ public enum CommonEnum {
     IS_AUTH("IS_AUTH", "认证通过"),
     NOT_PASS_AUTH("NOT_PASS_AUTH", "认证未通过"),
     USER_ADMIN("USER_ADMIN", "管理员用户"),
-    USER_ORDINARY("USER_ORDINARY", "普通用户");
+    USER_ORDINARY("USER_ORDINARY", "普通用户"),
+    REFUSE("REFUSE", "拒绝"),
+    AGREE("AGREE", "同意");
 
 
     /**
