@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.service.delivery;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
 import com.scoprion.mall.wx.pay.util.WxUtil;
@@ -51,6 +52,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult add(Delivery delivery) {
+        delivery.setAddress(CommonEnum.DEFAULT_ADDRESS.getCode());
         Integer result = wxDeliveryMapper.add(delivery);
         if (result <= 0) {
             return BaseResult.error("error", "新增失败");
