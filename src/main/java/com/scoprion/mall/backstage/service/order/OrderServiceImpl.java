@@ -215,15 +215,15 @@ public class OrderServiceImpl implements OrderService {
      * 退款
      *
      * @param orderId   订单id
-     * @param flag      标识 0 拒绝  1 通过
+     * @param flag      AGREE 同意  REFUSE  拒绝
      * @param remark    退款备注
      * @param refundFee 退款金额
      * @return
      */
     @Override
     public BaseResult refund(Long orderId, String flag, String remark, int refundFee) throws Exception {
-        if ("0".equals(flag)) {
-            orderMapper.updateOrderRefundById(orderId, "7", remark);
+        if (CommonEnum.REFUSE.getCode().equals(flag)) {
+            orderMapper.updateOrderRefundById(orderId, CommonEnum.REFUND_FAIL.getCode(), remark);
             return BaseResult.success("审核完成");
         } else {
             String nonceStr = WxUtil.createRandom(false, 10);
@@ -238,7 +238,7 @@ public class OrderServiceImpl implements OrderService {
                     response);
             Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
             if (result) {
-                orderMapper.updateOrderRefundById(order.getId(), "6", "");
+                orderMapper.updateOrderRefundById(order.getId(),CommonEnum.REFUND_SUCCESS.getCode(), remark);
                 saveOrderLog(order.getId(), order.getOrderNo(), "退款");
                 goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
                 //记录商品库存反还日志
@@ -251,14 +251,14 @@ public class OrderServiceImpl implements OrderService {
                     //积分返还
                     pointMapper.updatePoint(order.getUserId(), operatePoint);
                     //记录积分返还日志
-                    savePointLog(order, "1", +operatePoint, localPoint.getPoint() + operatePoint);
+                    savePointLog(order, CommonEnum.PRODUCE_POINT.getCode(), +operatePoint, localPoint.getPoint() + operatePoint);
                     localPoint.setPoint(localPoint.getPoint() + operatePoint);
                 }
                 //支付产生的积分，需要扣减
                 int point2 = order.getPaymentFee();
                 int currPoint = localPoint.getPoint() - point2;
                 //积分扣减日志
-                savePointLog(order, "0", -point2, currPoint);
+                savePointLog(order, CommonEnum.CONSUME_POINT.getCode(), -point2, currPoint);
                 //积分返还
                 pointMapper.updatePoint(order.getUserId(), -point2);
             } else {
@@ -286,6 +286,13 @@ public class OrderServiceImpl implements OrderService {
         wxPointLogMapper.add(pointLog);
     }
 
+    /**
+     * 保存订单日志
+     *
+     * @param orderId
+     * @param orderNo
+     * @param action
+     */
     private void saveOrderLog(Long orderId, String orderNo, String action) {
         OrderLog orderLog = new OrderLog();
         orderLog.setOrderId(orderId);
@@ -293,46 +300,6 @@ public class OrderServiceImpl implements OrderService {
         orderLog.setOrderNo(orderNo);
         orderLog.setAction(action);
         orderLogMapper.add(orderLog);
-    }
-
-    private String returnMessage(String code) {
-        String result = "";
-        switch (code) {
-            case "SYSTEMERROR":
-                result = "接口返回错误";
-                break;
-            case "USER_ACCOUNT_ABNORMAL":
-                result = "请求退款失败";
-                break;
-            case "NOTENOUGH":
-                result = "余额不足";
-                break;
-            case "INVALID_TRANSACTIONID":
-                result = "无效的订单号";
-                break;
-            case "PARAM_ERROR":
-                result = "参数错误";
-                break;
-            case "APPID_NOT_EXIST":
-                result = "APPID不存在";
-                break;
-            case "MCHID_NOT_EXIST":
-                result = "MCHID不存在";
-                break;
-            case "APPID_MCHID_NOT_MATCH":
-                result = "appid和mch_id不匹配";
-                break;
-            case "REQUIRE_POST_METHOD":
-                result = "请使用post方法";
-                break;
-            case "SIGNERROR":
-                result = "签名错误";
-                break;
-            case "XML_FORMAT_ERROR":
-                result = "XML格式错误";
-                break;
-        }
-        return result;
     }
 
     /**

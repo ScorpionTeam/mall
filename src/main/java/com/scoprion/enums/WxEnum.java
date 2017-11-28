@@ -17,6 +17,7 @@ public enum WxEnum {
     SIGNERROR("SIGNERROR", "签名错误"),
     XML_FORMAT_ERROR("XML_FORMAT_ERROR", "XML格式错误");
 
+
     private String code;
     private String desc;
 
