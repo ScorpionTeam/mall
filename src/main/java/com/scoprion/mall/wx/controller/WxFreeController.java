@@ -1,7 +1,7 @@
 package com.scoprion.mall.wx.controller;
 
 
-import com.scoprion.mall.domain.OrderExt;
+
 import com.scoprion.mall.domain.WxFreeOrder;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
@@ -11,7 +11,6 @@ import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.mall.wx.service.free.WxFreeService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-import com.scoprion.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
