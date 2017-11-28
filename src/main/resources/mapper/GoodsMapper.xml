@@ -128,7 +128,7 @@
         <if test="saleVolume!=null">sale_volume=#{saleVolume},</if>
         <if test="discount!=null">discount=#{discount},</if>
         <if test="stock!=null">stock=#{stock},</if>
-        <if test="isOnSale!=null">on_sale=#{onSale},</if>
+        <if test="OnSale!=null">on_sale=#{onSale},</if>
         <if test="isHot!=null">hot=#{hot},</if>
         <if test="isNew!=null">is_new=#{isNew},</if>
         <if test="isFreight!=null">freight=#{freight},</if>
