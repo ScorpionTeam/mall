@@ -19,7 +19,7 @@
         <if test="level!=null">level=#{level},</if>
         <if test="levelName!=null">level_ame=#{levelName},</if>
         update_date=now()
-        WHERE use_id=#{userId}
+        WHERE user_id=#{userId}
     </update>
 
 
