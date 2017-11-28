@@ -67,8 +67,8 @@
         #{goodFee},
         #{operatePoint},
         #{freightFee},
-        #{deliveryNo}),
-        #{usePoint}
+        #{deliveryNo},
+        #{usePoint})
     </insert>
 
     <!--修改订单微信预付款订单号-->
