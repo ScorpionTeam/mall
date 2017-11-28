@@ -62,7 +62,6 @@
         tacg.activity_id,
         tacg.good_id,
         tacg.create_date,
-        tacg.good_name,
         tacg.stock AS actgStock,
         tacg.status,
         tacg.update_date
