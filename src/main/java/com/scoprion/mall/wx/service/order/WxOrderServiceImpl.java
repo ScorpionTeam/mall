@@ -3,7 +3,6 @@ package com.scoprion.mall.wx.service.order;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.SendGoodMapper;
 import com.scoprion.mall.domain.*;
