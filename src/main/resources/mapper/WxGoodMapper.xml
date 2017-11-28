@@ -84,7 +84,7 @@
         seo,
         main_image_url
         FROM t_good
-        WHERE isOnSale='ON_SALE' AND status='NORMAL'
+        WHERE on_sale='ON_SALE' AND status='NORMAL'
         <if test="searchKey!=null and searchKey!=''">AND seo LIKE #{searchKey}</if>
     </select>
 
