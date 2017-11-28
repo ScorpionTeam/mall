@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.service.pay;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.domain.Goods;
@@ -80,7 +81,7 @@ public class WxPayServiceImpl implements WxPayService {
             return x;
         }
         //使用优惠券
-        if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
+        if (CommonEnum.USE_TICKET.getCode().equals(wxOrderRequestData.getUseTicket())) {
             TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(
                     wxOrderRequestData.getTicket());
             if (ticketSnapshot == null) {
@@ -89,21 +90,21 @@ public class WxPayServiceImpl implements WxPayService {
             if (ticketSnapshot.getStartDate().after(new Date())) {
                 return BaseResult.error("error", "优惠券未到使用日期");
             }
-            if (Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
+            if (CommonEnum.UN_NORMAL.getCode().equals(ticketSnapshot.getStatus())) {
                 return BaseResult.error("error", "优惠券已经使用过了");
             }
             if (ticketSnapshot.getEndDate().before(new Date())) {
                 return BaseResult.error("error", "优惠券已过期");
             }
             //优惠券状态改为已使用
-            wxTicketSnapshotMapper.modifyStatus(Constant.STATUS_ONE, ticketSnapshot.getId());
+            wxTicketSnapshotMapper.modifyStatus(CommonEnum.UN_NORMAL.getCode(), ticketSnapshot.getId());
         }
         //查询商品库存
         Goods goods = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
+        if (CommonEnum.OFF_SALE.getCode().equals(goods.getOnSale())) {
             //商品处于下架状态，不能下单
             return BaseResult.error("can_not_order", "商品已下架");
         }
@@ -156,34 +157,6 @@ public class WxPayServiceImpl implements WxPayService {
     }
 
     /**
-     * 校验优惠券
-     *
-     * @param wxOrderRequestData
-     * @return
-     */
-    private BaseResult checkTicket(WxOrderRequestData wxOrderRequestData) {
-        if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
-            TicketSnapshot ticketSnapshot = wxTicketSnapshotMapper.findByUserIdAndTicketId(
-                    wxOrderRequestData.getTicket());
-            if (ticketSnapshot == null) {
-                return BaseResult.error("error", "请先领取优惠券");
-            }
-            if (Constant.STATUS_ONE.equals(ticketSnapshot.getStatus())) {
-                return BaseResult.error("error", "优惠券已经使用过了");
-            }
-            if (ticketSnapshot.getStartDate().after(new Date())) {
-                return BaseResult.error("error", "优惠券未到使用日期");
-            }
-            if (ticketSnapshot.getEndDate().before(new Date())) {
-                return BaseResult.error("error", "优惠券已过期");
-            }
-            //优惠券状态改为已使用
-            wxTicketSnapshotMapper.modifyStatus(Constant.STATUS_ONE, ticketSnapshot.getId());
-        }
-        return null;
-    }
-
-    /**
      * 校验积分
      *
      * @param wxOrderRequestData
@@ -218,14 +191,16 @@ public class WxPayServiceImpl implements WxPayService {
         if (order == null) {
             return BaseResult.error("can_not_order", "找不到订单");
         }
-        if (!Constant.STATUS_ONE.equals(order.getOrderStatus())) {
+        //待付款
+        if (!CommonEnum.UN_PAY.getCode().equals(order.getOrderStatus())) {
             return BaseResult.error("order_status_error", "订单状态异常");
         }
         long createTime = order.getCreateDate().getTime();
         long result = System.currentTimeMillis() - createTime;
+        //超过两小时未支付订单  自动 关闭掉该订单
         if (result > Constant.TIME_TWO_HOUR) {
             //关闭订单
-            wxOrderMapper.updateByOrderID(orderId, "6");
+            wxOrderMapper.updateByOrderID(orderId, CommonEnum.CLOSING.getCode());
             return BaseResult.error("order_timeout", "订单已超时，请重新下单");
         }
         //查询商品库存
@@ -233,7 +208,7 @@ public class WxPayServiceImpl implements WxPayService {
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
+        if (CommonEnum.OFF_SALE.getCode().equals(goods.getOnSale())) {
             //商品处于下架状态，不能下单
             return BaseResult.error("can_not_order", "商品已下架");
         }
@@ -316,7 +291,7 @@ public class WxPayServiceImpl implements WxPayService {
         if (null == goods || goods.getStock() <= 0) {
             return BaseResult.error("not_enough_stock", "商品库存不足");
         }
-        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
+        if (CommonEnum.OFF_SALE.getCode().equals(goods.getOnSale())) {
             //商品处于下架状态，不能下单
             return BaseResult.error("can_not_order", "商品已下架");
         }
@@ -370,7 +345,7 @@ public class WxPayServiceImpl implements WxPayService {
             point = new Point();
         }
 
-        if (Constant.STATUS_ONE.equals(order.getUsePoint()) && order.getOperatePoint() > point.getPoint()) {
+        if (CommonEnum.USE_POINT.getCode().equals(order.getUsePoint()) && order.getOperatePoint() > point.getPoint()) {
             return BaseResult.error("pay_error", "支付失败积分不足");
         }
         //积分扣减日志
@@ -424,7 +399,7 @@ public class WxPayServiceImpl implements WxPayService {
     private void addPointLog(Order order, int currPoint, int addPoint) {
         PointLog pointLog = new PointLog();
         pointLog.setUserId(order.getUserId());
-        pointLog.setAction(Constant.STATUS_ONE);
+        pointLog.setAction(CommonEnum.PRODUCE_POINT.getCode());
         pointLog.setOperatePoint(addPoint);
         pointLog.setCurrentPoint(currPoint);
         wxPointLogMapper.add(pointLog);
@@ -437,11 +412,11 @@ public class WxPayServiceImpl implements WxPayService {
      * @param currPoint
      */
     private void subtractPointLog(Order order, Integer currPoint) {
-        if (Constant.STATUS_ONE.equals(order.getUsePoint())) {
+        if (CommonEnum.USE_POINT.getCode().equals(order.getUsePoint())) {
             PointLog pointLog = new PointLog();
             pointLog.setUserId(order.getUserId());
             //扣减
-            pointLog.setAction(Constant.STATUS_ZERO);
+            pointLog.setAction(CommonEnum.CONSUME_POINT.getCode());
             //得到订单消耗的积分
             int operatePoint = order.getOperatePoint();
             int currentPoint = currPoint - operatePoint;
@@ -488,7 +463,7 @@ public class WxPayServiceImpl implements WxPayService {
         order.setCount(wxOrderRequestData.getCount());
         order.setMessage(wxOrderRequestData.getMessage());
         order.setGoodId(goods.getId());
-        if (Constant.STATUS_ONE.equals(wxOrderRequestData.getUseTicket())) {
+        if (CommonEnum.USE_TICKET.getCode().equals(wxOrderRequestData.getUseTicket())) {
             if (wxOrderRequestData.getTicket() != null) {
                 order.setTicketId(wxOrderRequestData.getTicket());
             }

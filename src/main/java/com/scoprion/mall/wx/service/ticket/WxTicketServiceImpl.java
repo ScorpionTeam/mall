@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.service.ticket;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.domain.TicketExt;
 import com.scoprion.mall.domain.TicketSnapshot;
@@ -54,14 +55,14 @@ public class WxTicketServiceImpl implements WxTicketService {
             Date startDate = item.getStartDate();
             Date endDate = item.getEndDate();
             if (startDate.after(currentTime)) {
-                item.setExpire("未到期");
+                item.setExpire(CommonEnum.UN_START.getCode());
             }
             if (endDate.before(currentTime)) {
-                item.setExpire("已过期");
+                item.setExpire(CommonEnum.EXPIRE.getCode());
             }
             if (startDate.compareTo(currentTime) < 0 && startDate.compareTo(
                     currentTime) == 0 && currentTime.compareTo(endDate) < 0 && currentTime.compareTo(endDate) == 0) {
-                item.setExpire("正常");
+                item.setExpire(CommonEnum.ON_THE_WAY.getCode());
             }
         });
         return new PageResult(page);
@@ -129,14 +130,15 @@ public class WxTicketServiceImpl implements WxTicketService {
 
     /**
      * 查询优惠券所有列表
+     *
      * @param pageNo
      * @param pageSize
      * @return
      */
     @Override
     public PageResult findAll(Integer pageNo, Integer pageSize) {
-        PageHelper.startPage(pageNo,pageSize);
-        Page<Ticket>page=wxTicketMapper.findAll();
+        PageHelper.startPage(pageNo, pageSize);
+        Page<Ticket> page = wxTicketMapper.findAll();
         return new PageResult(page);
     }
 
