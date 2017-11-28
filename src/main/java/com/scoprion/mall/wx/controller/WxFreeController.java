@@ -54,9 +54,9 @@ public class WxFreeController {
      * @return
      */
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
-    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder, HttpServletRequest request) {
-        String ipAddress = IPUtil.getIPAddress(request);
-        return wxFreeService.apply(wxFreeOrder, ipAddress);
+    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder) {
+//        String ipAddress = IPUtil.getIPAddress(request);
+        return wxFreeService.apply(wxFreeOrder, null);
     }
 
     /**
