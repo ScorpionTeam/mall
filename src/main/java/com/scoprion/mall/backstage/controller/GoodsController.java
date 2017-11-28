@@ -8,6 +8,7 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -117,11 +118,14 @@ public class GoodsController {
     @ApiOperation(value = "查询商品")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
-                                      String startDate, String endDate, Long categoryId, String isHot, String isNew,
+                                      String startDate,
+                                      String endDate,
+                                      Long categoryId, String isHot, String isNew,
                                       String isFreight, Long brandId, Long activityId) {
         return goodsService.findByCondition(pageNo, pageSize, searchKey, goodNo, saleStatus, startDate, endDate,
                 categoryId, isHot, isNew, isFreight, brandId, activityId);
     }
+
     /**
      * 条件查询商品列表分页
      *
@@ -142,8 +146,8 @@ public class GoodsController {
     @ApiOperation(value = "查询商品")
     @RequestMapping(value = "/findByActivityId", method = RequestMethod.GET)
     public PageResult findByActivityId(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
-                                      String startDate, String endDate, Long categoryId, String isHot, String isNew,
-                                      String isFreight, Long brandId, Long activityId) {
+                                       String startDate, String endDate, Long categoryId, String isHot, String isNew,
+                                       String isFreight, Long brandId, Long activityId) {
         return goodsService.findByActivityId(pageNo, pageSize, searchKey, goodNo, saleStatus, startDate, endDate,
                 categoryId, isHot, isNew, isFreight, brandId, activityId);
     }
