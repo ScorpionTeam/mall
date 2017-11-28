@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
- * @author by Administrator
+ * @author by hmy
  * @created on 2017/11/6/006.
  */
 
@@ -99,7 +99,8 @@ public class WxOrderServiceImpl implements WxOrderService {
      */
     @Override
     public BaseResult estimate(Estimate estimate) {
-        if (StringUtils.isEmpty(estimate.getUserId())) {
+        String userId = WxUtil.getOpenId(estimate.getWxCode());
+        if (StringUtils.isEmpty(userId)) {
             return BaseResult.notFound();
         }
         if (StringUtils.isEmpty(estimate.getGoodId().toString())) {

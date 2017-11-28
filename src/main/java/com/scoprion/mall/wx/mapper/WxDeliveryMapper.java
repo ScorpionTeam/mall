@@ -7,7 +7,9 @@ import org.apache.ibatis.annotations.Param;
 
 
 /**
- * Created by admin1 on 2017/11/1.
+ *
+ * @author hmy
+ * @date 2017/11/1
  */
 @Mapper
 public interface WxDeliveryMapper {

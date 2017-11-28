@@ -5,7 +5,7 @@ import com.scoprion.result.PageResult;
 
 
 /**
- * @author by Administrator
+ * @author by hmy
  * @created on 2017/11/2/002.
  */
 public interface WxTicketService {

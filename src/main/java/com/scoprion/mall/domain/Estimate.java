@@ -22,6 +22,11 @@ public class Estimate {
     private Long goodId;
 
     /**
+     * 微信Code
+     */
+    @JSONField(name = "wx_code")
+    private String wxCode;
+    /**
      * 签收后用户评价
      */
     private String message;
@@ -106,11 +111,20 @@ public class Estimate {
         this.complain = complain;
     }
 
+    public String getWxCode() {
+        return wxCode;
+    }
+
+    public void setWxCode(String wxCode) {
+        this.wxCode = wxCode;
+    }
+
     @Override
     public String toString() {
         return "Estimate{" +
                 "id=" + id +
-                ", goodId='" + goodId + '\'' +
+                ", goodId=" + goodId +
+                ", wxCode='" + wxCode + '\'' +
                 ", message='" + message + '\'' +
                 ", userId='" + userId + '\'' +
                 ", createDate=" + createDate +

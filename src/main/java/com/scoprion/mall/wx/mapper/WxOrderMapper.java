@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * @author by Administrator
+ * @author by hmy
  * @created on 2017/11/6/006.
  */
 
