@@ -52,7 +52,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult add(Delivery delivery) {
-        delivery.setAddress(CommonEnum.DEFAULT_ADDRESS.getCode());
+        delivery.setDefaultAddress(CommonEnum.DEFAULT_ADDRESS.getCode());
         Integer result = wxDeliveryMapper.add(delivery);
         if (result <= 0) {
             return BaseResult.error("error", "新增失败");
