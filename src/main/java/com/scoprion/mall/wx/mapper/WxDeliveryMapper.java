@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 
 /**
- *
  * @author hmy
  * @date 2017/11/1
  */
@@ -24,6 +23,7 @@ public interface WxDeliveryMapper {
 
     /**
      * 新增收货地址
+     *
      * @param delivery
      * @return
      */
@@ -39,6 +39,7 @@ public interface WxDeliveryMapper {
 
     /**
      * 删除收货地址
+     *
      * @param id
      * @return
      */
@@ -46,6 +47,7 @@ public interface WxDeliveryMapper {
 
     /**
      * 获取收货地址详情
+     *
      * @param id
      * @return
      */
@@ -53,6 +55,7 @@ public interface WxDeliveryMapper {
 
     /**
      * 设置为默认地址
+     *
      * @param id
      * @return
      */
@@ -60,14 +63,16 @@ public interface WxDeliveryMapper {
 
     /**
      * 更改该用户其他地址不为默认地址
+     *
      * @param id
      * @param userId
      * @return
      */
-    int updateDefaultById (@Param("id") Long id,@Param("userId") String userId);
+    int updateDefaultById(@Param("id") Long id, @Param("userId") String userId);
 
     /**
      * 获取默认地址
+     *
      * @param userId
      * @return
      */
