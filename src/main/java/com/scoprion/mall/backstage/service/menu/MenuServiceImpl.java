@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.MenuMapper;
 import com.scoprion.mall.domain.SysMenu;
 import com.scoprion.result.BaseResult;
@@ -113,7 +114,7 @@ public class MenuServiceImpl implements MenuService {
             return BaseResult.parameterError();
         }
         SysMenu menu = menuMapper.findById(id);
-        if (Constant.STATUS_ZERO.equals(menu.getStatus())) {
+        if (CommonEnum.NORMAL.getCode().equals(menu.getStatus())) {
             return BaseResult.error("del_error", "菜单正在使用中不能删除");
         }
         Integer result = menuMapper.deleteById(id);

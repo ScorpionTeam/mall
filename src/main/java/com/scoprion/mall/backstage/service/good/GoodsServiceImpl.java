@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.backstage.service.file.FileOperationServiceImpl;
@@ -150,7 +151,7 @@ public class GoodsServiceImpl implements GoodsService {
             return BaseResult.error("unable_update", "未找到商品");
         }
         if (!StringUtils.isEmpty(localGood.getOnSale()) &&
-                Constant.STATUS_ONE.equals(localGood.getOnSale())) {
+                CommonEnum.ON_SALE.getCode().equals(localGood.getOnSale())) {
             //上架状态，不能修改
             return BaseResult.error("unable_update", "商品为上架状态，不能修改");
         }

@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.backstage.mapper.TicketMapper;
 import com.scoprion.result.BaseResult;
@@ -64,8 +65,8 @@ public class TicketServiceImpl implements TicketService {
         Page<Ticket> page = ticketMapper.listPage(searchKey);
         page.forEach(ticket -> {
             if (ticket.getEndDate() != null && ticket.getEndDate().before(new Date())) {
-                //结束时间在今天之前，状态为取消状态
-                ticket.setStatus(Constant.STATUS_ONE);
+                //结束时间在今天之前，状态为过期状态
+                ticket.setStatus(CommonEnum.EXPIRE.getCode());
             }
         });
         return new PageResult(page);
@@ -127,8 +128,8 @@ public class TicketServiceImpl implements TicketService {
             return BaseResult.notFound();
         }
         if (ticket.getEndDate().before(new Date())) {
-            //结束时间在今天之前，状态为取消状态
-            ticket.setStatus(Constant.STATUS_ONE);
+            //结束时间在今天之前，状态为过期状态
+            ticket.setStatus(CommonEnum.EXPIRE.getCode());
             //更新
             ticketMapper.modify(ticket);
         }

@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.ActivityGoodMapper;
 import com.scoprion.mall.backstage.mapper.ActivityMapper;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.smartcardio.CommandAPDU;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -126,7 +128,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        if (Constant.STATUS_FOUR.equals(type)) {
+        if (CommonEnum.ALL.getCode().equals(type)) {
             //全部
             type = null;
         }
