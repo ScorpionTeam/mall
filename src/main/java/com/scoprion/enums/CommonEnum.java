@@ -11,7 +11,7 @@ public enum CommonEnum {
     SECONDS_KILL("SECONDS_KILL", "秒杀"),
     SPELL_GROUP("SPELL_GROUP", "拼团"),
     FREE("FREE", "试用"),
-    PERFERRED("PERFERRED", "优选"),
+    PREFERRED("PREFERRED", "优选"),
     DEFAULT_ADDRESS("DEFAULT", "默认地址"),
     UN_DEFAULT_ADDRESS("UN_DEFAULT", "非默认地址"),
     PLATFORM("PLATFORM", "平台"),
