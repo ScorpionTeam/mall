@@ -18,6 +18,8 @@ public class DateParamFormatUtil {
         }
         if (targetDateString.contains(" 0800 (中国标准时间)")) {
             targetDateString = targetDateString.replace(" 0800 (中国标准时间)", "+08:00");
+        } else {
+            return targetDateString;
         }
         SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
         try {

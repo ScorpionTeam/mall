@@ -51,14 +51,14 @@ public class SysMenu {
     /**
      * 创建时间
      */
-    @JSONField(name = "create_time",format = "yyyy-MM-dd HH:mm:ss")
-    private Date createTime;
+    @JSONField(name = "create_date", format = "yyyy-MM-dd HH:mm:ss")
+    private Date createDate;
 
     /**
      * 修改时间
      */
-    @JSONField(name = "update_date",format = "yyyy-MM-dd HH:mm:ss")
-    private Date updateTime;
+    @JSONField(name = "update_date", format = "yyyy-MM-dd HH:mm:ss")
+    private Date updateDate;
 
     /**
      * 操作人
@@ -134,21 +134,6 @@ public class SysMenu {
         this.status = status;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
 
     public String getOperator() {
         return operator;
@@ -182,6 +167,22 @@ public class SysMenu {
         this.leaf = leaf;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public Date getUpdateDate() {
+        return updateDate;
+    }
+
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
+    }
+
     @Override
     public String toString() {
         return "SysMenu{" +
@@ -192,8 +193,8 @@ public class SysMenu {
                 ", url='" + url + '\'' +
                 ", type='" + type + '\'' +
                 ", status='" + status + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
                 ", operator='" + operator + '\'' +
                 ", icon='" + icon + '\'' +
                 ", sort=" + sort +

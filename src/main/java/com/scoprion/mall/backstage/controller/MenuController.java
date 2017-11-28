@@ -27,14 +27,14 @@ public class MenuController {
     @ApiOperation("查询菜单根节点列表")
     @RequestMapping(value = "/findRootMenu", method = RequestMethod.GET)
     public BaseResult findRootMenu() {
-        return menuService.findRootMenu( );
+        return menuService.findRootMenu();
     }
 
 
     @ApiOperation("菜单列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public BaseResult list(String userId) {
-        return menuService.list(userId);
+    @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
+    public BaseResult findByUserId(String userId) {
+        return menuService.findByUserId(userId);
     }
 
     @ApiOperation("菜单列表")
@@ -65,5 +65,11 @@ public class MenuController {
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     public BaseResult deleteById(Long id) {
         return menuService.deleteById(id);
+    }
+
+    @ApiOperation("菜单停用启用")
+    @RequestMapping(value = "/modifyStatus", method = RequestMethod.GET)
+    public BaseResult modifyStatus(Long id, String status) {
+        return menuService.modifyStatus(id, status);
     }
 }
