@@ -217,6 +217,44 @@
 
     <!-- 订单详情 -->
     <select id="personalScore" resultType="com.scoprion.mall.domain.Order">
-        SELECT * FROM t_order WHERE id=#{id}
+        SELECT tor.id,
+        tor.user_id,
+        tor.use_point,
+        tor.order_no,
+        tor.good_snapshot_id,
+        tor.delivery_id,
+        tor.order_status,
+        tor.order_type,
+        tor.pay_type,
+        tor.message,
+        tor.order_fee,
+        tor.reduce_fee,
+        tor.payment_fee,
+        tor.good_fee,
+        tor.freight_fee,
+        tor.create_date,
+        tor.pay_date,
+        tor.delivery_date,
+        tor.update_date,
+        tor.recipients,
+        tor.phone,
+        tor.province,
+        tor.city,
+        tor.area,
+        tor.address,
+        tor.post_code,
+        tor.good_name,
+        tor.count,
+        tor.prepay_id,
+        tor.wx_order_no,
+        tor.good_id,
+        tor.remark,
+        tor.use_ticket,
+        tor.ticket_id,
+        tor.operate_point,
+        tor.send_good_id,
+        tor.delivery_no,
+        FROM t_order tor
+        WHERE tor.id=#{id}
     </select>
 </mapper>
