@@ -38,25 +38,4 @@ public interface WxPayService {
      */
     BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData);
 
-    /**
-     * @param goodId     商品id
-     * @param deliveryId 收件人id
-     * @param buyNum     购买数量
-     * @param message    买家留言
-     * @param orderType  订单类型
-     * @param useTicket  是否使用优惠券
-     * @param paymentFee 实付金额
-     * @param orderFee   订单金额
-     * @param reduceFee  优惠金额
-     * @param freightFee 运费
-     * @param goodFee    商品金额
-     * @return
-     */
-    BaseResult pressureTest(Long goodId, Long deliveryId,
-                            int buyNum, String message,
-                            String orderType, String useTicket,
-                            int paymentFee, int orderFee,
-                            int reduceFee, int freightFee,
-                            int goodFee);
-
 }
