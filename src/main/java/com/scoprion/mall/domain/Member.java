@@ -74,7 +74,7 @@ public class Member {
     private String bornDate;
 
     /**
-     * 状态 1正常 0已注销
+     * 状态 NORMAL正常 UN_NORMAL已注销
      */
     private String status;
 

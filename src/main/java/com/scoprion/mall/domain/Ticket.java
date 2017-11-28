@@ -26,7 +26,7 @@ public class Ticket {
     private String ticketName;
 
     /**
-     * 类型  1平台  2商家
+     * 类型  1平台  2商家 PLATFORM平台 SELLER商家
      */
     private String type;
     /**
@@ -74,7 +74,7 @@ public class Ticket {
     private int num;
 
     /**
-     * 状态 1 删除 0 正常
+     * 状态 1 删除 0 正常 NORMAL, 正常,UN_NORMAL, 非正常
      */
     private String status;
 

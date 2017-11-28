@@ -28,7 +28,7 @@ public interface WxPointLogMapper {
      * @param userId
      * @return
      */
-    PointLog grade(@Param("userId") String userId);
+    PointLog findByUserId(@Param("userId") String userId);
 
     /**
      * 用户积分日志
@@ -36,5 +36,5 @@ public interface WxPointLogMapper {
      * @param userId
      * @return
      */
-    Page<PointLog> pointLog(@Param("userId") String userId);
+    Page<PointLog> findLogPage(@Param("userId") String userId);
 }

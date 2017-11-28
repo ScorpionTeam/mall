@@ -7,7 +7,14 @@
 
     <!-- 根据用户id查询用户信息 -->
     <select id="findByUserId" resultType="com.scoprion.mall.domain.Point">
-        SELECT * FROM t_point WHERE user_id=#{userId}
+        SELECT id,
+        user_id,
+        point,
+        level,
+        level_name,
+        create_date,
+        update_date
+        FROM t_point WHERE user_id=#{userId}
     </select>
 
 

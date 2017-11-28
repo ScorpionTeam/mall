@@ -12,14 +12,14 @@
         INSERT INTO t_brand
         (brand_name,brand_image,create_date,update_date,status,short_name,country,contact,contact_phone)
         VALUES
-        (#{brandName},#{brandImg},now(),now(),#{status},#{shortName},#{country},#{contact},#{contactPhone})
+        (#{brandName},#{brandImage},now(),now(),#{status},#{shortName},#{country},#{contact},#{contactPhone})
     </insert>
 
     <!--修改品牌-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Brand">
         UPDATE t_brand SET
         <if test="brandName!=null">brand_name=#{brandName},</if>
-        <if test="brandImg!=null">brand_image=#{brandImg},</if>
+        <if test="brandImage!=null">brand_image=#{brandImage},</if>
         <if test="status!=null">status=#{status},</if>
         <if test="shortName!=null">short_name=#{shortName},</if>
         <if test="createDate!=null">create_date=#{createDate},</if>

@@ -24,12 +24,14 @@
         tks.start_date,
         tks.end_date
         FROM t_ticket_snapshot tks  LEFT JOIN t_ticket_user  tku  ON tks.id=tku.snapshot_id
-        WHERE   tku.user_id=#{userId} AND tks.status='0'
+        WHERE   tku.user_id=#{userId} AND tks.status='NORMAL'
     </select>
 
     <!-- 根据用户id、优惠券id查询记录 -->
     <select id="findByTicketIdAndUserId" resultType="java.lang.Integer">
-        SELECT count(*) FROM t_ticket_snapshot ts LEFT JOIN t_ticket_user tu ON tu.snapshot_id=ts.id
+        SELECT COUNT(*)
+        FROM t_ticket_snapshot ts
+        LEFT JOIN t_ticket_user tu ON tu.snapshot_id=ts.id
         WHERE ts.ticket_id=#{ticketId} AND tu.user_id=#{userId}
     </select>
 
@@ -68,6 +70,22 @@
 
 
     <select id="findAll" resultType="com.scoprion.mall.domain.Ticket">
-        SELECT * FROM t_ticket WHERE status='0'
+        SELECT id,
+        ticket_no,
+        ticket_name,
+        type,
+        content,
+        start_date,
+        end_date,
+        create_date,
+        update_date,
+        money,
+        reduce_money,
+        num,
+        status,
+        use_range,
+        num_limit,
+        use_date
+         FROM t_ticket WHERE status='NORMAL'
     </select>
 </mapper>

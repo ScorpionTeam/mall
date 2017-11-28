@@ -179,7 +179,7 @@ public class ActivityServiceImpl implements ActivityService {
         //活动跟商品绑定
         for (Goods good : goodList) {
             //添加活动与商品匹配关系
-            activityGoodMapper.bindActivityGood(activityId, good.getId(), "0", good.getStock());
+            activityGoodMapper.bindActivityGood(activityId, good.getId(), CommonEnum.NORMAL.getCode(), good.getStock());
             //商品库存扣减
             goodsMapper.modifyGoodsDeduction(good.getId(), -good.getStock());
             saveGoodLog(good.getId(), "商品绑定活动，商品库存扣减" + good.getStock());

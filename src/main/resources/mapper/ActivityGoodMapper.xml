@@ -5,7 +5,7 @@
 <mapper namespace="com.scoprion.mall.backstage.mapper.ActivityGoodMapper">
 
     <!--添加商品活动关系-->
-    <insert id="bindActivityGood">
+    <insert id="bindActivityGood" >
         INSERT INTO t_activity_good
         (activity_id,good_id,status,stock,create_date)
         VALUES
