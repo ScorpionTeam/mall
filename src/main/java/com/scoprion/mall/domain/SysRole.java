@@ -1,7 +1,6 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Transient;
 import java.util.Date;

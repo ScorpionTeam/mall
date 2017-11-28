@@ -1,8 +1,6 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
-
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**

@@ -17,34 +17,34 @@ public enum WxEnum {
     SIGNERROR("SIGNERROR", "签名错误"),
     XML_FORMAT_ERROR("XML_FORMAT_ERROR", "XML格式错误");
 
-    private String optK;
-    private String optV;
+    private String code;
+    private String desc;
 
-    WxEnum(String optK, String optV) {
-        this.optK = optK;
-        this.optV = optV;
+    WxEnum(String code, String desc) {
+        this.code = code;
+        this.desc = desc;
     }
 
-    public String getOptK() {
-        return optK;
+    public String getCode() {
+        return code;
     }
 
-    public void setOptK(String optK) {
-        this.optK = optK;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getOptV() {
-        return optV;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setOptV(String optV) {
-        this.optV = optV;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public static String getValue(String key) {
         for (WxEnum wxEnum : WxEnum.values()) {
-            if (wxEnum.optK.equalsIgnoreCase(key)) {
-                return wxEnum.optV;
+            if (wxEnum.code.equalsIgnoreCase(key)) {
+                return wxEnum.desc;
             }
         }
         return null;
