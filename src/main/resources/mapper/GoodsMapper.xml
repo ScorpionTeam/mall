@@ -136,7 +136,7 @@
         <if test="sellerId!=null">seller_id=#{sellerId},</if>
         <if test="visitTotal!=null">visit_total=#{visitTotal},</if>
         <if test="goodNo!=null">good_no=#{goodNo},</if>
-        <if test="mainImgUrl!=null">main_image_url=#{mainImgUrl},</if>
+        <if test="mainImageUrl!=null">main_image_url=#{mainImageUrl},</if>
         <if test="status!=null">status=#{status},</if>
         <if test="richContent!=null">rich_content=#{richContent},</if>
         last_update_date=NOW()
