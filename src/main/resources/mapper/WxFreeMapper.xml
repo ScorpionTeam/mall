@@ -30,7 +30,6 @@
         activity_id,
         good_id,
         create_date,
-        good_name,
         stock,
         update_date
         FROM t_activity_good WHERE id=#{activityGoodId}
