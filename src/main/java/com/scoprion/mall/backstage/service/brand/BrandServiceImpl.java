@@ -22,9 +22,9 @@ import java.util.List;
  * @version V1.0 <品牌>
  * @date 2017-11-08 15:48
  */
-@Transactional(rollbackFor = Exception.class)
 @Service
 public class BrandServiceImpl implements BrandService {
+
     @Autowired
     BrandMapper brandMapper;
 
@@ -75,6 +75,7 @@ public class BrandServiceImpl implements BrandService {
      * @param idList List<Long>
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult batchDelete(List<Long> idList) {
         if (idList == null || idList.size() == 0) {

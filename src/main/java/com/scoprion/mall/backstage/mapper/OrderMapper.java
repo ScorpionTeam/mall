@@ -97,7 +97,7 @@ public interface OrderMapper {
      * @return
      */
     int updateSendGood(@Param("id") Long id,
-                       @Param("orderStatus") Integer orderStatus,
+                       @Param("orderStatus") String orderStatus,
                        @Param("deliveryNo") String deliveryNo,
                        @Param("sendGoodId") Long sendGoodId);
 }

@@ -41,7 +41,7 @@
         </if>
         <if test="payType!=null">AND torder.pay_type =#{payType}</if>
         <if test="orderType!=null">AND torder.order_type =#{orderType}</if>
-        <if test="orderStatus!=null and orderStatus!='0'">AND torder.order_status =#{orderStatus}</if>
+        <if test="orderStatus!=null">AND torder.order_status =#{orderStatus}</if>
         <if test="phone!=null">AND torder.phone =#{phone}</if>
         <if test="orderNo!=null">AND torder.order_no =#{orderNo}</if>
 
@@ -147,7 +147,7 @@
     <update id="updateOrderPayStatus">
         UPDATE t_order SET
         update_date=now()
-        <if test="orderStatus!=null">, order_status=#{orderStatus}</if>
+        <if test="orderStatus!=null">,order_status=#{orderStatus}</if>
         <if test="wxOrderNo!=null">,wx_order_no=#{wxOrderNo}</if>
         <if test="orderNo!=null">,order_no=#{orderNo}</if>
         <if test="payDate!=null">,pay_date=#{payDate}</if>
@@ -159,7 +159,7 @@
         UPDATE t_order SET
         update_date=now(),
         delivery_date=now()
-        <if test="orderStatus!=null">, order_status=#{orderStatus}</if>
+        <if test="orderStatus!=null">,order_status=#{orderStatus}</if>
         <if test="sendGoodId!=null">,send_good_id=#{sendGoodId}</if>
         <if test="deliveryNo!=null">,delivery_no=#{deliveryNo}</if>
         WHERE id=#{id}
