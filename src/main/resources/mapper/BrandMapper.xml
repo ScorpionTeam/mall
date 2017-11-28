@@ -55,7 +55,18 @@
 
     <!--根据ID查询品牌详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.Brand">
-        SELECT  * FROM  t_brand   WHERE  id=#{id}
+        SELECT
+        id,
+        brand_name,
+        brand_image,
+        create_date,
+        status,
+        short_name,
+        country,
+        contact,
+        contact_phone,
+        update_date
+        FROM  t_brand   WHERE  id=#{id}
     </select>
 
     <update id="batchModifyStatus">
