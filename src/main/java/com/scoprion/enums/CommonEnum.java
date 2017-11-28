@@ -11,9 +11,9 @@ public enum CommonEnum {
     SECONDS_KILL("SECONDS_KILL", "秒杀"),
     SPELL_GROUP("SPELL_GROUP", "拼团"),
     FREE("FREE", "试用"),
-    PREFERRED("PREFERRED", "优选"),
-    DEFAULT("DEFAULT", "默认地址"),
-    UN_DEFAULT("UN_DEFAULT", "非默认地址"),
+    PERFERRED("PERFERRED", "优选"),
+    DEFAULT_ADDRESS("DEFAULT", "默认地址"),
+    UN_DEFAULT_ADDRESS("UN_DEFAULT", "非默认地址"),
     PLATFORM("PLATFORM", "平台"),
     SELLER("SELLER", "商家"),
     CUSTOMER("CUSTOMER", "客户"),
@@ -82,8 +82,8 @@ public enum CommonEnum {
     WATER_REMARK("WATER_REMARK", "加水印"),
     NOT_WATER_REMARK("NOT_WATER_REMARK", "不加水印"),
     REFUSE("REFUSE", "拒绝"),
-    AGREE("AGREE", "同意");
-
+    AGREE("AGREE", "同意"),
+    ALL_DONE("ALL_DONE", "已完成");
 
     /**
      * 编码

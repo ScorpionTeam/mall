@@ -123,7 +123,7 @@
 
     <!--付款回调-->
     <update id="updateOrderStatusAndPayStatus">
-        UPDATE t_order SET pay_date=#{payDate},pay_type='1',order_satus='2',wx_order_no=#{wxOrderNo} WHERE order_no=#{orderNo}
+        UPDATE t_order SET pay_date=#{payDate},pay_type='WE_CHAT_PAY',order_satus='UN_DELIVERY',wx_order_no=#{wxOrderNo} WHERE order_no=#{orderNo}
     </update>
 
     <!--根据微信号查询订单-->
