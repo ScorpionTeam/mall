@@ -23,7 +23,7 @@
         update_date,
         last_login_date,
         login_ip
-        FROM t_user WHERE status='0' AND mobile=#{mobile} AND password=#{password}
+        FROM t_user WHERE status='NORMAL' AND mobile=#{mobile} AND password=#{password}
     </select>
 
 
@@ -46,22 +46,22 @@
         update_date,
         last_login_date,
         login_ip
-        FROM t_user WHERE status='1' AND email=#{email} AND password=#{password}
+        FROM t_user WHERE status='NORMAL' AND email=#{email} AND password=#{password}
     </select>
 
     <!--根据手机号查询用户-->
     <select id="findByMobile" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_user WHERE status='1' AND mobile=#{mobile}
+        SELECT COUNT(*) FROM t_user WHERE status='NORMAL' AND mobile=#{mobile}
     </select>
 
     <!--根据email查询用户-->
     <select id="findByEmail" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_user WHERE status='1' AND email=#{email}
+        SELECT COUNT(*) FROM t_user WHERE status='NORMAL' AND email=#{email}
     </select>
 
     <!--根据昵称查询用户-->
     <select id="findByNickName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_user WHERE status='1' AND nick_name=#{nickName}
+        SELECT COUNT(*) FROM t_user WHERE status='NORMAL' AND nick_name=#{nickName}
     </select>
 
     <!--用户注册-->
@@ -97,8 +97,8 @@
         #{city},
         #{email},
         #{bornDate},
-        '0',
-        '0',
+        #{certification},
+        #{status},
         NOW(),
         NOW(),
         NOW(),
@@ -157,7 +157,7 @@
         <if test="certification!=null">certification=#{certification},</if>
         <if test="status!=null">status=#{status},</if>
         <if test="lastLoginDate!=null">last_login_date=#{lastLoginDate},</if>
-        <if test="loginIp!=null">login_date=#{loginIp},</if>
+        <if test="loginIp!=null">login_ip=#{loginIp},</if>
         <if test="password!=null">password=#{password},</if>
         <if test="userType!=null">user_type=#{userType},</if>
         update_date=NOW()
@@ -171,6 +171,26 @@
     </update>
 
     <select id="findById" resultType="com.scoprion.mall.domain.Member">
-        SELECT * FROM t_user WHERE id=#{id}
+        SELECT id,
+        name,
+        head_picture,
+        nick_name,
+        sex,
+        age,
+        certificate_id,
+        mobile,
+        address,
+        email,
+        certification,
+        born_date,
+        status,
+        city,
+        create_date,
+        update_date,
+        last_login_date,
+        login_ip,
+        password,
+        user_type
+        FROM t_user WHERE id=#{id}
     </select>
 </mapper>

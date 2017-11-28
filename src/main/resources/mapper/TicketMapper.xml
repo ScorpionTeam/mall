@@ -58,18 +58,20 @@
 
     <!--删除-->
     <update id="deleteById">
-        UPDATE t_ticket SET status='1',update_date=now()
+        UPDATE t_ticket SET status='UN_NORMAL',update_date=now()
         WHERE id=#{id}
     </update>
 
     <!--查询活动名称数量-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM  t_ticket WHERE  ticket_name=#{ticketName} AND status='0'
+        SELECT COUNT(*) FROM  t_ticket WHERE  ticket_name=#{ticketName} AND status='NORMAL'
     </select>
 
     <!--活动id、名称校验-->
     <select id="validByNameAndId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_ticket WHERE ticket_name =#{ticketName} AND id!=#{id} AND status='0'
+        SELECT COUNT(*)
+        FROM t_ticket
+        WHERE ticket_name =#{ticketName} AND id!=#{id} AND status='NORMAL'
     </select>
 
     <!--列表-->
@@ -115,7 +117,7 @@
 
     <!--批量删除-->
     <update id="batchDelete">
-        UPDATE t_ticket SET status='1',update_date=now()
+        UPDATE t_ticket SET status='UN_NORMAL',update_date=now()
         WHERE id IN
         <foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
             #{item}

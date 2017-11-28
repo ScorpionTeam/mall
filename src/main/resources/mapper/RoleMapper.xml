@@ -55,7 +55,7 @@
     <update id="deleteById">
         UPDATE t_sys_role
         SET
-        status='1',
+        status='UN_NORMAL',
         update_date=now()
         WHERE id=#{id}
     </update>
@@ -71,7 +71,7 @@
         update_date,
         status
         FROM t_sys_role
-        WHERE status='0'
+        WHERE status='NORMAL'
         <if test="searchKey!=null">CONCAT(name,remark) like #{searchKey}</if>
     </select>
 

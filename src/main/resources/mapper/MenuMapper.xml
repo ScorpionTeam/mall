@@ -51,12 +51,12 @@
 
     <!--根据ID删除活动,不做物理删除-->
     <update id="deleteById">
-          UPDATE  t_sys_menu  SET  status='1' WHERE  id=#{id}
+          UPDATE  t_sys_menu  SET  status='UN_NORMAL' WHERE  id=#{id}
     </update>
 
     <!--查询名称数量-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM  t_sys_menu WHERE  name=#{name} AND status='0'
+        SELECT COUNT(*) FROM  t_sys_menu WHERE  name=#{name} AND status='NORMAL'
     </select>
 
     <!--活动id、名称校验-->
@@ -65,7 +65,7 @@
         FROM t_sys_menu
         WHERE url =#{url}
         AND name =#{name}
-        AND id!=#{id} AND status='0'
+        AND id!=#{id} AND status='NORMAL'
     </select>
 
     <!--根据ID查询详情-->
@@ -88,7 +88,7 @@
     </select>
 
     <select id="validAdmin" resultType="java.lang.Integer">
-        SELECT  COUNT(*) FROM  t_user  WHERE mobile=#{userId} AND userType='0'
+        SELECT  COUNT(*) FROM  t_user  WHERE mobile=#{userId} AND userType='NORMAL'
     </select>
 
     <!--查询所有-->

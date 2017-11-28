@@ -41,7 +41,16 @@
 
     <!--分页列表查询-->
     <select id="listByPage" resultType="com.scoprion.mall.domain.Banner">
-        SELECT * FROM t_banner WHERE 1=1
+        SELECT id,
+        name,
+        image_url,
+        action_url,
+        visit_total,
+        status,
+        sort,
+        create_date,
+        update_date
+        FROM t_banner WHERE 1=1
         <if test="searchKey!=null">AND name like #{searchKey}</if>
     </select>
 

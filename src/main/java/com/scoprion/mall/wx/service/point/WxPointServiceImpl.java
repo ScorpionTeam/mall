@@ -66,7 +66,7 @@ public class WxPointServiceImpl implements WxPointService {
     @Override
     public BaseResult updateByGrade(String userId) {
         Point point = wxPointMapper.findByUserId(userId);
-        PointLog pointLog = wxPointLogMapper.grade(userId);
+        PointLog pointLog = wxPointLogMapper.findByUserId(userId);
         int score = point.getPoint();
         int operatePoint = pointLog.getOperatePoint();
         int integral = score + operatePoint;
@@ -109,7 +109,7 @@ public class WxPointServiceImpl implements WxPointService {
 //        String userId = WxUtil.getOpenId(wxCode);
         String userId = "oHuH00PDGYHGTHBZabgq4upmt1V4";
         PageHelper.startPage(pageNo, pageSize);
-        Page<PointLog> pointLogs = wxPointLogMapper.pointLog(userId);
+        Page<PointLog> pointLogs = wxPointLogMapper.findLogPage(userId);
         return new PageResult(pointLogs);
     }
 

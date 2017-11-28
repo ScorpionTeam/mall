@@ -6,19 +6,25 @@
 <mapper namespace="com.scoprion.mall.wx.mapper.WxPointLogMapper">
 
     <!--获取积分日志详情-->
-    <select id="personalScore" resultType="com.scoprion.mall.domain.PointLog">
-        SELECT * FROM t_point_log WHERE user_id=#{userId}
-    </select>
-
-
-    <!-- 获取积分日志详情 -->
-    <select id="grade" resultType="com.scoprion.mall.domain.PointLog">
-        SELECT * FROM t_point_log WHERE user_id=#{userId}
+    <select id="findLogPage" resultType="com.scoprion.mall.domain.PointLog">
+        SELECT id,
+        user_id,
+        action,
+        current_point,
+        operate_point,
+        create_date
+        FROM t_point_log WHERE user_id=#{userId}
     </select>
 
     <!-- 获取用户积分日志详情 -->
-    <select id="pointLog" resultType="com.scoprion.mall.domain.PointLog">
-        SELECT * FROM t_point_log WHERE user_id=#{userId}
+    <select id="findByUserId" resultType="com.scoprion.mall.domain.PointLog">
+        SELECT  id,
+        user_id,
+        action,
+        current_point,
+        operate_point,
+        create_date
+        FROM t_point_log WHERE user_id=#{userId}
     </select>
 
     <!--增加-->
