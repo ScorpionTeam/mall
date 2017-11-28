@@ -178,13 +178,13 @@ public class GoodsServiceImpl implements GoodsService {
      * @param pageSize
      * @param searchKey  模糊信息
      * @param goodNo     商品编号
-     * @param saleStatus 上下架
+     * @param saleStatus 上下架 上下ON_SALE", "上架 OFF_SALE", "下架"),
      * @param startDate  开始时间
      * @param endDate    结束时间
      * @param categoryId 类目
-     * @param isHot      热销
-     * @param isNew      新品
-     * @param isFreight  包邮
+     * @param isHot      热销 是否热销 HOT", "热销 NOT_HOT", "非热销
+     * @param isNew      新品 是否新品 IS_NEW", "新品 NOT_NEW", "非新品
+     * @param isFreight  包邮 是否包邮 FREIGHT包邮 UN_FREIGHT 不包邮
      * @param brandId    品牌
      * @return
      */
@@ -213,7 +213,7 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * 商品上下架
      *
-     * @param saleStatus saleStatus 1上架 0下架 默认上架
+     * @param saleStatus saleStatus 1上架 0下架 默认上架  上下ON_SALE", "上架 OFF_SALE", "下架"),
      * @param goodsId    商品id
      * @return
      */
@@ -296,7 +296,7 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * 批量商品上下架
      *
-     * @param saleStatus  1上架 0下架 默认上架
+     * @param saleStatus  1上架 0下架 默认上架 上下ON_SALE", "上架 OFF_SALE", "下架"),
      * @param goodsIdList 商品id集合
      * @return
      */

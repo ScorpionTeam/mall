@@ -52,17 +52,17 @@
 
     <!--根据ID删除活动,不做物理删除-->
     <update id="deleteById">
-          UPDATE  t_activity  SET  status='1' WHERE  id=#{id}
+          UPDATE  t_activity  SET  status='UN_NORMAL' WHERE  id=#{id}
     </update>
 
     <!--查询活动名称数量-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM  t_activity WHERE  name=#{name} AND status='0'
+        SELECT COUNT(*) FROM  t_activity WHERE  name=#{name} AND status='NORMAL'
     </select>
 
     <!--活动id、名称校验-->
     <select id="validByNameAndId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_activity WHERE name =#{name} AND id!=#{id} AND status='0'
+        SELECT COUNT(*) FROM t_activity WHERE name =#{name} AND id!=#{id} AND status='NORMAL'
     </select>
 
     <!--根据ID查询活动详情-->
@@ -74,7 +74,7 @@
     <select id="findActivityByGoodId" resultType="java.lang.Integer">
         SELECT  COUNT(*) FROM  t_activity_good tag
         LEFT JOIN t_activity ta ON tag.activity_id=ta.id
-        WHERE tag.good_id=#{goodId} AND ta.status='0'
+        WHERE tag.good_id=#{goodId} AND ta.status='NORMAL'
     </select>
 
     <!--批量修改状态-->
@@ -90,7 +90,7 @@
 
     <select id="validByTypeAndTime" resultType="java.lang.Integer">
          SELECT COUNT(*) FROM  t_activity
-         WHERE  status='0'
+         WHERE  status='NORMAL'
          AND activity_type=#{activityType}
          AND ((#{startDate} BETWEEN start_date AND end_date)
             OR( #{endDate} BETWEEN start_date AND end_date))

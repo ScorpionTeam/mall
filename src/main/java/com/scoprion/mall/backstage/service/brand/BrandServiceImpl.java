@@ -132,7 +132,7 @@ public class BrandServiceImpl implements BrandService {
     /**
      * 批量修改品牌状态
      *
-     * @param status 状态 1入驻 0 退出 2删除
+     * @param status 状态 1入驻 0 退出 2删除 状态 ENTER入驻 QUITE退出
      * @param idList id集合
      * @return
      */

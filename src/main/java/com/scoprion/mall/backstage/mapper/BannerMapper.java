@@ -74,7 +74,7 @@ public interface BannerMapper {
     /**
      * 批量修改广告状态
      *
-     * @param status 0 正常 1 删除
+     * @param status 0 正常 1 删除 状态  NORMAL, 正常,UN_NORMAL, 非正常
      * @param idList id集合
      * @return int
      */

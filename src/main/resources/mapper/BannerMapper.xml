@@ -12,12 +12,12 @@
      </insert>
     <!--广告名称校验-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_banner WHERE name =#{bannerName} AND status='0'
+        SELECT COUNT(*) FROM t_banner WHERE name =#{bannerName} AND status='NORMAL'
     </select>
 
     <!--广告id、名称校验-->
     <select id="validByNameAndId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_banner WHERE name =#{bannerName} AND id!=#{id} AND status='0'
+        SELECT COUNT(*) FROM t_banner WHERE name =#{bannerName} AND id!=#{id} AND status='NORMAL'
     </select>
 
     <!--修改广告信息-->
@@ -36,7 +36,7 @@
 
     <!--根据ID删除广告-->
     <update id="deleteById">
-        UPDATE   t_banner  SET status='1' WHERE id=#{id}
+        UPDATE   t_banner  SET status='UN_NORMAL' WHERE id=#{id}
     </update>
 
     <!--分页列表查询-->
@@ -47,7 +47,16 @@
 
     <!--首页轮播查询-->
     <select id="homeShow" resultType="com.scoprion.mall.domain.Banner">
-            SELECT * FROM t_banner WHERE 1=1 ORDER BY  sort  DESC LIMIT 4
+            SELECT id,
+             name,
+             image_url,
+             action_url,
+             visit_total,
+             status,
+             sort,
+             create_date,
+             update_date
+             FROM t_banner WHERE 1=1 ORDER BY  sort  DESC LIMIT 4
     </select>
 
     <!--批量修改状态-->
