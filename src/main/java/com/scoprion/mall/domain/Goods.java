@@ -1,13 +1,9 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.annotation.JSONType;
-import com.alibaba.fastjson.serializer.SerializeFilter;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.List;
 
 /**
  * <商品实体/>
@@ -138,6 +134,19 @@ public class Goods {
      * 商品状态 0正常，1删除
      */
     private String status;
+
+    /**
+     * 模糊搜索字段
+     */
+    private String seo;
+
+    public String getSeo() {
+        return seo;
+    }
+
+    public void setSeo(String seo) {
+        this.seo = seo;
+    }
 
     public String getStatus() {
         return status;

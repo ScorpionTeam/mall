@@ -2,8 +2,6 @@ package com.scoprion.mall.domain;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
-
-import javax.print.attribute.standard.MediaSize;
 import java.util.Date;
 
 /**

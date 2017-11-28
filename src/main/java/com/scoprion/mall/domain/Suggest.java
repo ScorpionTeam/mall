@@ -1,8 +1,6 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
-
-import java.beans.Transient;
 import java.util.Date;
 
 /**

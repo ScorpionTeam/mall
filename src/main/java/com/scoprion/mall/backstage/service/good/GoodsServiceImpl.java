@@ -15,6 +15,7 @@ import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.mall.domain.MallImage;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.scoprion.utils.DateParamFormatUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -199,23 +200,8 @@ public class GoodsServiceImpl implements GoodsService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        if (startDate != null && startDate.contains(" 0800 (中国标准时间)")) {
-            startDate = startDate.replace(" 0800 (中国标准时间)", "+08:00");
-        }
-        if (endDate != null && endDate.contains(" 0800 (中国标准时间)")) {
-            endDate = endDate.replace(" 0800 (中国标准时间)", "+08:00");
-        }
-
-        SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd yyyy hh:mm:ss", Locale.ENGLISH);
-        try {
-            Date tmp1 = sdf.parse(startDate);
-            Date tmp2 = sdf.parse(endDate);
-            SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-            startDate = sdf2.format(tmp1) + " 23:59:59";
-            endDate = sdf2.format(tmp2) + " 23:59:59";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        startDate= DateParamFormatUtil.formatDate(startDate);
+        endDate= DateParamFormatUtil.formatDate(endDate);
         Page<GoodExt> page = goodsMapper.findByCondition(searchKey, goodNo, saleStatus, startDate, endDate, categoryId,
                 isHot, isNew, isFreight, brandId, activityId);
         if (page == null) {
