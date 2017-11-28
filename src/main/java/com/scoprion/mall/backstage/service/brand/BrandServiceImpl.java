@@ -139,10 +139,7 @@ public class BrandServiceImpl implements BrandService {
      */
     @Override
     public BaseResult batchModifyStatus(String status, List<Long> idList) {
-        if (idList == null ||
-                idList.size() == 0 ||
-                StringUtils.isEmpty(status) ||
-                !Constant.STATUS_01.contains(status)) {
+        if (idList == null || idList.size() == 0 || StringUtils.isEmpty(status)) {
             return BaseResult.parameterError();
         }
         brandMapper.batchModifyStatus(status, idList);

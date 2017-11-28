@@ -13,6 +13,7 @@ import com.scoprion.mall.domain.GoodLog;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.mall.domain.MallImage;
+import com.scoprion.mall.domain.request.GoodRequestParams;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.DateParamFormatUtil;
@@ -21,6 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -171,44 +173,6 @@ public class GoodsServiceImpl implements GoodsService {
         return BaseResult.success("修改成功");
     }
 
-    /**
-     * 条件查询商品列表分页
-     *
-     * @param pageNo
-     * @param pageSize
-     * @param searchKey  模糊信息
-     * @param goodNo     商品编号
-     * @param saleStatus 上下架 上下ON_SALE", "上架 OFF_SALE", "下架"),
-     * @param startDate  开始时间
-     * @param endDate    结束时间
-     * @param categoryId 类目
-     * @param isHot      热销 是否热销 HOT", "热销 NOT_HOT", "非热销
-     * @param isNew      新品 是否新品 IS_NEW", "新品 NOT_NEW", "非新品
-     * @param isFreight  包邮 是否包邮 FREIGHT包邮 UN_FREIGHT 不包邮
-     * @param brandId    品牌
-     * @return
-     */
-    @Override
-    public PageResult findByCondition(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
-                                      String startDate, String endDate, Long categoryId, String isHot, String isNew,
-                                      String isFreight, Long brandId, Long activityId) {
-        LOGGER.info(startDate + "                    " + endDate);
-        PageHelper.startPage(pageNo, pageSize);
-        if (StringUtils.isEmpty(searchKey)) {
-            searchKey = null;
-        }
-        if (!StringUtils.isEmpty(searchKey)) {
-            searchKey = "%" + searchKey + "%";
-        }
-        startDate= DateParamFormatUtil.formatDate(startDate);
-        endDate= DateParamFormatUtil.formatDate(endDate);
-        Page<GoodExt> page = goodsMapper.findByCondition(searchKey, goodNo, saleStatus, startDate, endDate, categoryId,
-                isHot, isNew, isFreight, brandId, activityId);
-        if (page == null) {
-            return new PageResult();
-        }
-        return new PageResult(page);
-    }
 
     /**
      * 商品上下架
@@ -222,18 +186,16 @@ public class GoodsServiceImpl implements GoodsService {
         if (StringUtils.isEmpty(saleStatus) || null == goodsId) {
             return BaseResult.parameterError();
         }
-        if (!Constant.STATUS_01.contains(saleStatus)) {
-            return BaseResult.error("parameterError", "上下架状态不正确");
-        }
         List<Long> idList = new ArrayList<>();
         idList.add(goodsId);
         int result = goodsMapper.batchModifySaleStatus(saleStatus, idList);
         if (result > 0) {
-            return BaseResult.success(Constant.ON_SALE.equals(saleStatus) ? "商品上架成功" : "商品下架成功");
+            String resultString = CommonEnum.ON_SALE.getCode().equals(saleStatus) ? "商品上架成功" : "商品下架成功";
+            return BaseResult.success(resultString);
         }
         GoodExt good = goodsMapper.findById(goodsId);
-        saveGoodLog(good.getGoodName(), Constant.ON_SALE.equals(saleStatus) ? "商品上架" : "商品下架", goodsId);
-        return BaseResult.error("006", Constant.ON_SALE.equals(saleStatus) ? "商品上架失败" : "商品下架失败");
+        saveGoodLog(good.getGoodName(), CommonEnum.ON_SALE.getCode().equals(saleStatus) ? "商品上架" : "商品下架", goodsId);
+        return BaseResult.error("006", CommonEnum.ON_SALE.getCode().equals(saleStatus) ? "商品上架失败" : "商品下架失败");
     }
 
     /**
@@ -245,7 +207,7 @@ public class GoodsServiceImpl implements GoodsService {
     @Override
     public BaseResult deleteGoodsById(Long id) {
         Goods goods = goodsMapper.findById(id);
-        if (Constant.ON_SALE.equals(goods.getOnSale())) {
+        if (CommonEnum.ON_SALE.getCode().equals(goods.getOnSale())) {
             return BaseResult.error("del_error", "删除失败，商品未下架，不能删除");
         }
         List<Long> idList = new ArrayList<>();
@@ -305,11 +267,11 @@ public class GoodsServiceImpl implements GoodsService {
         if (goodsIdList == null || goodsIdList.size() == 0) {
             return BaseResult.parameterError();
         }
-        if (!Constant.STATUS_01.contains(saleStatus)) {
+        if (!CommonEnum.ON_SALE.getCode().equals(saleStatus) && !CommonEnum.OFF_SALE.getCode().equals(saleStatus)) {
             return BaseResult.parameterError();
         }
         goodsMapper.batchModifySaleStatus(saleStatus, goodsIdList);
-        String action = Constant.ON_SALE.equals(saleStatus) ? "商品批量上架" : "商品批量下架";
+        String action = CommonEnum.ON_SALE.getCode().equals(saleStatus) ? "商品批量上架" : "商品批量下架";
         goodsIdList.forEach(goodId -> saveGoodLog("", action, goodId));
         return BaseResult.success(action + "成功");
     }
@@ -329,27 +291,39 @@ public class GoodsServiceImpl implements GoodsService {
         return new PageResult(result);
     }
 
+    @Override
+    public PageResult findByCondition(GoodRequestParams goodRequestParams) {
+        PageHelper.startPage(goodRequestParams.getPageNo(), goodRequestParams.getPageSize());
+        if (StringUtils.isEmpty(goodRequestParams.getSearchKey())) {
+            goodRequestParams.setSearchKey(null);
+        }
+        if (!StringUtils.isEmpty(goodRequestParams.getSearchKey())) {
+            goodRequestParams.setSearchKey("%" + goodRequestParams.getSearchKey() + "%");
+        }
+        goodRequestParams.setStartDate(DateParamFormatUtil.formatDate(goodRequestParams.getStartDate()));
+        goodRequestParams.setEndDate(DateParamFormatUtil.formatDate(goodRequestParams.getEndDate()));
+        Page<GoodExt> page = goodsMapper.findByCondition(goodRequestParams);
+        if (page == null) {
+            return new PageResult();
+        }
+        return new PageResult(page);
+    }
+
     /**
      * 选择绑定活动的商品列表
-     *
-     * @param pageNo
-     * @param pageSize
-     * @param searchKey 模糊信息
-     * @return
      */
     @Override
-    public PageResult findByActivityId(int pageNo, int pageSize, String searchKey, String goodNo, String saleStatus,
-                                       String startDate, String endDate, Long categoryId, String isHot, String isNew,
-                                       String isFreight, Long brandId, Long activityId) {
-        PageHelper.startPage(pageNo, pageSize);
-        if (StringUtils.isEmpty(searchKey)) {
-            searchKey = null;
+    public PageResult findByActivityId(GoodRequestParams requestParams) {
+        PageHelper.startPage(requestParams.getPageNo(), requestParams.getPageSize());
+        if (StringUtils.isEmpty(requestParams.getSearchKey())) {
+            requestParams.setSearchKey(null);
         }
-        if (!StringUtils.isEmpty(searchKey)) {
-            searchKey = "%" + searchKey + "%";
+        if (!StringUtils.isEmpty(requestParams.getSearchKey())) {
+            requestParams.setSearchKey("%" + requestParams.getSearchKey() + "%");
         }
-        List<GoodExt> result = goodsMapper.findByActivityId(searchKey, goodNo, saleStatus, startDate, endDate, categoryId,
-                isHot, isNew, isFreight, brandId, activityId);
+        requestParams.setStartDate(DateParamFormatUtil.formatDate(requestParams.getStartDate()));
+        requestParams.setEndDate(DateParamFormatUtil.formatDate(requestParams.getEndDate()));
+        List<GoodExt> result = goodsMapper.findByActivityId(requestParams);
         return new PageResult(result);
     }
 

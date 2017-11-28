@@ -148,7 +148,8 @@
         WHERE id=#{id}
     </update>
 
-    <select id="findByCondition" resultType="com.scoprion.mall.domain.GoodExt">
+    <select id="findByCondition" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+            resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
         good.id,
         good.seo,
@@ -269,8 +270,8 @@
         GROUP BY good.id
     </select>
 
-
-    <select id="findByActivityId" resultType="com.scoprion.mall.domain.GoodExt">
+    <select id="findByActivityId" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+            resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
         good.id,
         good.seo,
@@ -305,7 +306,7 @@
         AND tac.id=#{activityId}
         AND tac.status='NORMAL'
         AND tacg.status='NORMAL'
-        <if test="searchKey!=null and   searchKey!=''">AND seo LIKE #{searchKey} </if>
+        <if test="searchKey!=null and   searchKey!=''">AND seo LIKE #{searchKey}</if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
@@ -318,7 +319,6 @@
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
         GROUP BY good.id
     </select>
-
 
     <!--库存回退-->
     <update id="updateGoodStockById">

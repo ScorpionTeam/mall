@@ -59,7 +59,7 @@ public enum CommonEnum {
     NOT_USE_POINT("UN_USE_POINT", "不使用积分"),
     PRODUCE_POINT("PRODUCE_POINT", "产生积分"),
     CONSUME_POINT("CONSUME_POINT", "消费积分"),
-    UI("UI", "UI"),
+    UI("UI", "UI界面建议"),
     SALE_SERVICE("SALE_SERVICE", "售后服务"),
     EXPERIENCE("EXPERIENCE", "体验"),
     COMPLAIN("COMPLAIN", "投诉"),
@@ -77,6 +77,10 @@ public enum CommonEnum {
     NOT_PASS_AUTH("NOT_PASS_AUTH", "认证未通过"),
     USER_ADMIN("USER_ADMIN", "管理员用户"),
     USER_ORDINARY("USER_ORDINARY", "普通用户"),
+    CUT("CUT", "裁剪"),
+    NOT_CUT("NOT_CUT", "不裁剪"),
+    WATER_REMARK("WATER_REMARK", "加水印"),
+    NOT_WATER_REMARK("NOT_WATER_REMARK", "不加水印"),
     REFUSE("REFUSE", "拒绝"),
     AGREE("AGREE", "同意");
 

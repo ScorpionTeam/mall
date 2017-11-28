@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.domain.ImageCutSize;
 import com.scoprion.mall.domain.MallImage;
@@ -81,17 +82,17 @@ public class FileOperationServiceImpl implements FileOperationService {
         List<MallImage> urlList = new ArrayList<>();
         urlList.add(new MallImage(getFileName(path, fileName, endName, null)));
         //裁剪
-        if (Constant.CUT_TRUE.equals(cut)) {
+        if (CommonEnum.CUT.getCode().equals(cut)) {
             for (ImageCutSize imageCutSize : cutSizeList) {
                 String absolutePath = getAbsolutePath(path, fileName, endName, imageCutSize);
                 cutImage(image, imageCutSize, absolutePath);
-                if (Constant.WATER_REMARK_TRUE.equals(watermark)) {
+                if (CommonEnum.WATER_REMARK.getCode().equals(watermark)) {
                     waterRemark(imageCutSize, absolutePath);
                 }
                 urlList.add(new MallImage(getFileName(path, fileName, endName, imageCutSize)));
             }
         } else {
-            if (Constant.WATER_REMARK_TRUE.equals(watermark)) {
+            if (CommonEnum.WATER_REMARK.getCode().equals(watermark)) {
                 String absolutePath = getAbsolutePath(path, fileName, endName, null);
                 waterRemark(null, absolutePath);
                 urlList.add(new MallImage(getFileName(path, fileName, endName, null)));
@@ -317,7 +318,6 @@ public class FileOperationServiceImpl implements FileOperationService {
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 LOGGER.error("创建文件夹出错--------------");
-                System.out.print("创建文件夹出错-------------------");
             }
         }
     }
