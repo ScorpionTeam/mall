@@ -1,5 +1,7 @@
 package com.scoprion.utils;
 
+import com.alibaba.druid.util.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -11,7 +13,7 @@ import java.util.Locale;
  */
 public class DateParamFormatUtil {
     public static String formatDate(String targetDateString) {
-        if (targetDateString == null) {
+        if (StringUtils.isEmpty(targetDateString)) {
             return null;
         }
         if (targetDateString.contains(" 0800 (中国标准时间)")) {
