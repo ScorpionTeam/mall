@@ -43,7 +43,7 @@
         #{orderNo},
         #{goodSnapShotId},
         #{deliveryId},
-        '1',
+        'UN_PAY',
         #{orderType},
         #{message},
         #{recipients},
@@ -123,7 +123,7 @@
 
     <!--付款回调-->
     <update id="updateOrderStatusAndPayStatus">
-        UPDATE t_order SET pay_date=#{payDate},pay_type='WE_CHAT_PAY',order_satus='UN_DELIVERY',wx_order_no=#{wxOrderNo} WHERE order_no=#{orderNo}
+        UPDATE t_order SET pay_date=#{payDate},pay_type='WE_CHAT_PAY',order_status='UN_DELIVERY',wx_order_no=#{wxOrderNo} WHERE order_no=#{orderNo}
     </update>
 
     <!--根据微信号查询订单-->
@@ -131,7 +131,7 @@
         SELECT id,
         user_id,
         order_no,
-        use_point
+        use_point,
         count,
         good_id,
         good_name,

@@ -56,7 +56,7 @@ public enum CommonEnum {
     UN_START("UN_START", "未开始"),
     ON_THE_WAY("ON_THE_WAY", "进行中"),
     USE_POINT("USE_POINT", "使用积分"),
-    NOT_USE_POINT("UN_USE_POINT", "不使用积分"),
+    NOT_USE_POINT("NOT_USE_POINT", "不使用积分"),
     PRODUCE_POINT("PRODUCE_POINT", "产生积分"),
     CONSUME_POINT("CONSUME_POINT", "消费积分"),
     UI("UI", "UI界面建议"),
