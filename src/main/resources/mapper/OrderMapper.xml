@@ -18,7 +18,8 @@
     </select>
 
     <!--订单列表-->
-    <select id="findByCondition" resultType="com.scoprion.mall.domain.OrderExt">
+    <select id="findByCondition" parameterType="com.scoprion.mall.domain.request.OrderRequestParams"
+            resultType="com.scoprion.mall.domain.OrderExt">
         SELECT
         torder.id,
         torder.use_point,

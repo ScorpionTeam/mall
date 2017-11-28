@@ -7,6 +7,7 @@ import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.*;
 import com.scoprion.mall.domain.*;
+import com.scoprion.mall.domain.request.OrderRequestParams;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
 import com.scoprion.mall.wx.mapper.WxPointLogMapper;
 import com.scoprion.mall.wx.mapper.WxPointMapper;
@@ -16,6 +17,7 @@ import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.scoprion.utils.DateParamFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -132,37 +134,23 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 订单列表
      *
-     * @param pageNo
-     * @param pageSize
-     * @param payType     支付类型0 支付宝1 微信2 信用卡3 储蓄卡
-     * @param orderType   订单类型 1pc订单  2手机订单
-     * @param orderStatus 状态  0 全部  1 待付款   2 待发货  3 待收货 4 已完成
-     * @param searchKey   模糊查询信息
-     * @param startDate   开始时间
-     * @param endDate     结束时间
-     * @param phone       收件人手机号
-     * @param orderNo     订单号
+     * @param requestParams
      * @return
      */
     @Override
-    public PageResult findByCondition(Integer pageNo, Integer pageSize, String payType, String orderType,
-                                      String orderStatus, String searchKey, String startDate, String endDate,
-                                      String phone, String orderNo) {
-        PageHelper.startPage(pageNo, pageSize);
-        if (StringUtils.isEmpty(startDate)) {
-            startDate = null;
+    public PageResult findByCondition(OrderRequestParams requestParams) {
+        PageHelper.startPage(requestParams.getPageNo(), requestParams.getPageSize());
+
+        requestParams.setStartDate(DateParamFormatUtil.formatDate(requestParams.getStartDate()));
+        requestParams.setEndDate(DateParamFormatUtil.formatDate(requestParams.getEndDate()));
+
+        if (StringUtils.isEmpty(requestParams.getSearchKey())) {
+            requestParams.setSearchKey(null);
         }
-        if (StringUtils.isEmpty(endDate)) {
-            endDate = null;
+        if (!StringUtils.isEmpty(requestParams.getSearchKey())) {
+            requestParams.setSearchKey("%" + requestParams.getSearchKey() + "%");
         }
-        if (StringUtils.isEmpty(searchKey)) {
-            searchKey = null;
-        }
-        if (!StringUtils.isEmpty(searchKey)) {
-            searchKey = "%" + searchKey + "%";
-        }
-        Page<OrderExt> orderPage = orderMapper.findByCondition(payType, orderType, orderStatus, searchKey, startDate,
-                endDate, phone, orderNo);
+        Page<OrderExt> orderPage = orderMapper.findByCondition(requestParams);
         if (orderPage == null) {
             return new PageResult();
         }
