@@ -41,7 +41,7 @@ public class WxDeliveryController {
      */
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody DeliveryExt delivery) {
-        if (StringUtils.isEmpty(delivery.getId().toString())) {
+        if (StringUtils.isEmpty(delivery.getWxCode())) {
             return BaseResult.parameterError();
         }
         String openId = WxUtil.getOpenId(delivery.getWxCode());
