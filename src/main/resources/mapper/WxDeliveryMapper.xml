@@ -83,17 +83,17 @@
     <!--获取默认地址-->
     <select id="getDefault" resultType="com.scoprion.mall.domain.Delivery">
         SELECT id,
-        userId,
+        user_id,
         recipients,
         phone,
         province,
         city,
         area,
         address,
-        postCode,
-        defaultAddress
+        post_code,
+        default_address
         FROM t_delivery
-        WHERE userId=#{userId} AND defaultAddress='1'
+        WHERE user_id=#{userId} AND default_address='1'
     </select>
 
     <!--分页查询用户收获地址-->

@@ -1,9 +1,7 @@
 package com.scoprion.mall.wx.service.free;
 
 
-import com.scoprion.mall.domain.Delivery;
-import com.scoprion.mall.domain.DeliveryExt;
-import com.scoprion.mall.domain.OrderExt;
+
 import com.scoprion.mall.domain.WxFreeOrder;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.result.BaseResult;
