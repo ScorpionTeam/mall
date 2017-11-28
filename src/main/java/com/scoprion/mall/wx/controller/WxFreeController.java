@@ -11,6 +11,7 @@ import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.mall.wx.service.free.WxFreeService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import com.scoprion.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,8 +54,8 @@ public class WxFreeController {
      * @return
      */
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
-    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder) {
-//        String ipAddress = IPUtil.getIPAddress(request);
+    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder,HttpServletRequest request) {
+        String ipAddress = IPUtil.getIPAddress(request);
         return wxFreeService.apply(wxFreeOrder, null);
     }
 
