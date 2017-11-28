@@ -26,6 +26,7 @@
         seller_id,
         visit_total,
         good_no,
+        seo,
         main_image_url,
         rich_content
         FROM t_good WHERE on_sale='1' AND status='0'
@@ -55,6 +56,7 @@
         good.main_image_url,
         good.status,
         good.stock,
+        good.seo,
         good.rich_content,
         tacg.id,
         tacg.activity_id,
@@ -79,6 +81,7 @@
         promotion,
         good_no,
         price,
+        seo,
         main_image_url
         FROM t_good
         WHERE isOnSale='1' AND status='0'

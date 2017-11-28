@@ -139,6 +139,19 @@ public class Goods {
      */
     private String status;
 
+    /**
+     * 模糊搜索字段
+     */
+    private String seo;
+
+    public String getSeo() {
+        return seo;
+    }
+
+    public void setSeo(String seo) {
+        this.seo = seo;
+    }
+
     public String getStatus() {
         return status;
     }
