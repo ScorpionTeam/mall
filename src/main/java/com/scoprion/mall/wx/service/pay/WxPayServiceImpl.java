@@ -468,7 +468,7 @@ public class WxPayServiceImpl implements WxPayService {
         }
         //是否使用积分
         if (wxOrderRequestData.getPoint() > 0) {
-            order.setUsePoint(CommonEnum.USE_TICKET.getCode());
+            order.setUsePoint(CommonEnum.USE_POINT.getCode());
         } else {
             order.setUsePoint(CommonEnum.NOT_USE_POINT.getCode());
         }

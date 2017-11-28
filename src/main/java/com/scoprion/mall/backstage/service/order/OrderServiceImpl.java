@@ -69,7 +69,7 @@ public class OrderServiceImpl implements OrderService {
         //返回库存--商品规则返库
         goodsMapper.modifyGoodsDeduction(order.getGoodId(), count);
         //关闭该订单
-        order.setOrderStatus("6");
+        order.setOrderStatus(CommonEnum.CLOSING.getCode());
         orderMapper.modify(order);
         saveOrderLog(orderId, order.getOrderNo(), "退货");
         saveGoodLog(order.getGoodName(), order.getGoodId(), "订单退货,返回库存");
@@ -105,7 +105,7 @@ public class OrderServiceImpl implements OrderService {
         //生成发货信息记录，
         SendGood sendGood = saveSendGoodInfo(orderId, deliveryNo, expressName, expressNo, senderId);
         //修改订单信息，发货时间、状态3(待收货)，发货信息id，
-        orderMapper.updateSendGood(orderId, 3, deliveryNo, sendGood.getId());
+        orderMapper.updateSendGood(orderId, CommonEnum.UN_RECEIVE.getCode(), deliveryNo, sendGood.getId());
         //生成订单日志
         saveOrderLog(orderId, order.getOrderNo(), "订单发货");
         return BaseResult.success("操作成功");
@@ -238,7 +238,7 @@ public class OrderServiceImpl implements OrderService {
                     response);
             Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
             if (result) {
-                orderMapper.updateOrderRefundById(order.getId(),CommonEnum.REFUND_SUCCESS.getCode(), remark);
+                orderMapper.updateOrderRefundById(order.getId(), CommonEnum.REFUND_SUCCESS.getCode(), remark);
                 saveOrderLog(order.getId(), order.getOrderNo(), "退款");
                 goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
                 //记录商品库存反还日志

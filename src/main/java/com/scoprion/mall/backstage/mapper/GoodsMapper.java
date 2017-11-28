@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.domain.MallImage;
+import com.scoprion.mall.domain.request.GoodRequestParams;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -73,32 +74,12 @@ public interface GoodsMapper {
     int updateGoods(Goods goods);
 
     /**
-     * 条件查询商品列表分页
+     * d
      *
-     * @param searchKey  模糊信息
-     * @param goodNo     商品编号
-     * @param saleStatus 上下架
-     * @param startDate  开始时间
-     * @param endDate    结束时间
-     * @param categoryId 类目
-     * @param isHot      热销
-     * @param isNew      新品
-     * @param isFreight  包邮
-     * @param brandId    品牌
-     * @param activityId 活动id
+     * @param goodRequestParams
      * @return
      */
-    Page<GoodExt> findByCondition(@Param("searchKey") String searchKey,
-                                  @Param("goodNo") String goodNo,
-                                  @Param("saleStatus") String saleStatus,
-                                  @Param("startDate") String startDate,
-                                  @Param("endDate") String endDate,
-                                  @Param("categoryId") Long categoryId,
-                                  @Param("isHot") String isHot,
-                                  @Param("isNew") String isNew,
-                                  @Param("isFreight") String isFreight,
-                                  @Param("brandId") Long brandId,
-                                  @Param("activityId") Long activityId);
+    Page<GoodExt> findByCondition(GoodRequestParams goodRequestParams);
 
     /**
      * 商品上下架
@@ -137,30 +118,9 @@ public interface GoodsMapper {
     List<GoodExt> findForActivity(@Param("searchKey") String searchKey);
 
     /**
-     * 根据活动id查询列表
-     *
-     * @param searchKey
-     * @param goodNo
-     * @param saleStatus
-     * @param startDate
-     * @param endDate
-     * @param categoryId
-     * @param isHot
-     * @param isNew
-     * @param isFreight
-     * @param brandId
-     * @param activityId
+     * ss
+     * @param requestParams
      * @return
      */
-    List<GoodExt> findByActivityId(@Param("searchKey") String searchKey,
-                                   @Param("goodNo") String goodNo,
-                                   @Param("saleStatus") String saleStatus,
-                                   @Param("startDate") String startDate,
-                                   @Param("endDate") String endDate,
-                                   @Param("categoryId") Long categoryId,
-                                   @Param("isHot") String isHot,
-                                   @Param("isNew") String isNew,
-                                   @Param("isFreight") String isFreight,
-                                   @Param("brandId") Long brandId,
-                                   @Param("activityId") Long activityId);
+    List<GoodExt> findByActivityId(GoodRequestParams requestParams);
 }

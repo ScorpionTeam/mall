@@ -112,8 +112,8 @@ public class ActivityServiceImpl implements ActivityService {
      * @param pageNo
      * @param pageSize
      * @param searchKey
-     * @param type      * 0秒杀, 1拼团,2优选，3全部
-     * @param status    0正常,1删除
+     * @param type      * 0秒杀, 1拼团,2优选，3全部 SECONDS_KILL 秒杀 SPELL_GROUP 拼团 PERFERRED 优选 FREE试用
+     * @param status    0正常,1删除 NORMAL, 正常,UN_NORMAL, 非正常
      * @return
      */
     @Override
@@ -130,9 +130,6 @@ public class ActivityServiceImpl implements ActivityService {
             type = null;
         }
         Page<Activity> page = activityMapper.findByCondition(type, status, searchKey);
-        if (page.getTotal() <= 0L) {
-            return new PageResult(new ArrayList());
-        }
         return new PageResult(page);
     }
 
