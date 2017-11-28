@@ -30,7 +30,7 @@
         <if test="sort!=null">sort=#{sort},</if>
         <if test="visitTotal!=null">visit_total=#{visitTotal},</if>
         <if test="createDate!=null">create_date=#{createDate},</if>
-        updateDate=now()
+        update_date=now()
         WHERE id=#{id}
     </update>
 
