@@ -3,7 +3,6 @@ package com.scoprion.mall.wx.service.order;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.SendGoodMapper;
 import com.scoprion.mall.domain.*;
@@ -51,7 +50,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         //所有订单
-        if (CommonEnum.ALL_ORDER.getCode().equals(orderStatus)) {
+        if (CommonEnum.ALL.getCode().equals(orderStatus)) {
             orderStatus = null;
         }
         Page<OrderExt> page = wxOrderMapper.findByUserId(userId, orderStatus);

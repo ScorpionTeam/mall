@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.*;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
@@ -201,16 +202,8 @@ public class OrderServiceImpl implements OrderService {
         if (order.getId() == null) {
             return BaseResult.parameterError();
         }
-        //1 待付款
-        // 2 待发货
-        // 3 待收货
-        // 4 已完成
-        // 5 退款
-        // 6 关闭
-        // 7 待评价
-        // 8 已评价
         Order localOrder = orderMapper.findById(order.getId());
-        if (Constant.STATUS_ONE.equals(localOrder.getOrderStatus())) {
+        if (CommonEnum.UN_PAY.getCode().equals(localOrder.getOrderStatus())) {
             return BaseResult.error("modify_error", "未付款的订单不能修改");
         }
         orderMapper.modify(order);
@@ -254,7 +247,7 @@ public class OrderServiceImpl implements OrderService {
                 //支付时扣减的积分，需要返还
                 int operatePoint = order.getOperatePoint();
                 Point localPoint = pointMapper.findByUserId(order.getUserId());
-                if (Constant.STATUS_ONE.equals(order.getUsePoint())) {
+                if (CommonEnum.USE_POINT.getCode().equals(order.getUsePoint())) {
                     //积分返还
                     pointMapper.updatePoint(order.getUserId(), operatePoint);
                     //记录积分返还日志

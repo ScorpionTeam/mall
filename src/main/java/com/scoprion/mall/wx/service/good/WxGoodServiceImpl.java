@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.domain.GoodExt;
@@ -64,7 +65,7 @@ public class WxGoodServiceImpl implements WxGoodService {
         if (goods == null) {
             return BaseResult.notFound();
         }
-        if (Constant.STATUS_ZERO.equals(goods.getOnSale())) {
+        if (CommonEnum.OFF_SALE.getCode().equals(goods.getOnSale())) {
             return BaseResult.error("not_enough_stock", "商品已经下架");
         }
         //获取图片列表

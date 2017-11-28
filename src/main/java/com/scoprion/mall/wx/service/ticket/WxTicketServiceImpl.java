@@ -84,11 +84,11 @@ public class WxTicketServiceImpl implements WxTicketService {
         }
         //查询优惠券详情
         Ticket ticket = wxTicketMapper.findById(ticketId);
-        if (ticket.getEndDate().before(new Date()) || Constant.STATUS_ONE.equals(ticket.getStatus())) {
+        if (ticket.getEndDate().before(new Date()) || CommonEnum.NORMAL.getCode().equals(ticket.getStatus())) {
             return BaseResult.error("add_error", "优惠券已过期");
         }
         //判断优惠券是否限量
-        if (Constant.STATUS_ZERO.equals(ticket.getNumLimit())) {
+        if (CommonEnum.NORMAL.getCode().equals(ticket.getNumLimit())) {
             if (ticket.getNum() == 0) {
                 return BaseResult.error("add_error", "领取失败,优惠券已经领完了");
             }
@@ -101,7 +101,7 @@ public class WxTicketServiceImpl implements WxTicketService {
                 ticketUser.setNum(1);
                 ticketUser.setUserId(userId);
                 ticketUser.setSnapshotId(snapshot.getId());
-                ticketUser.setStatus(Constant.STATUS_ZERO);
+                ticketUser.setStatus(CommonEnum.UN_NORMAL.getCode());
                 int ticketNum = wxTicketMapper.updateTicketNum(ticketId);
                 int addResult = wxTicketMapper.addTicketUser(ticketUser);
                 if (addResult > 0 && ticketNum > 0) {
@@ -118,7 +118,7 @@ public class WxTicketServiceImpl implements WxTicketService {
             ticketUser.setNum(1);
             ticketUser.setSnapshotId(snapshot.getId());
             ticketUser.setUserId(userId);
-            ticketUser.setStatus(Constant.STATUS_ZERO);
+            ticketUser.setStatus(CommonEnum.UN_NORMAL.getCode());
             int addResult = wxTicketMapper.addTicketUser(ticketUser);
             if (addResult > 0) {
                 return BaseResult.success("领取成功");

@@ -54,6 +54,10 @@ public class Estimate {
      */
     private String complain;
 
+    /**
+     * 昵称
+     */
+    private String nick_name;
 
     public Long getId() {
         return id;
@@ -119,6 +123,14 @@ public class Estimate {
         this.wxCode = wxCode;
     }
 
+    public String getNick_name() {
+        return nick_name;
+    }
+
+    public void setNick_name(String nick_name) {
+        this.nick_name = nick_name;
+    }
+
     @Override
     public String toString() {
         return "Estimate{" +
@@ -130,6 +142,7 @@ public class Estimate {
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 ", complain='" + complain + '\'' +
+                ", nick_name='" + nick_name + '\'' +
                 '}';
     }
 }
