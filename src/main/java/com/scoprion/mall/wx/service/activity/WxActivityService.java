@@ -15,13 +15,13 @@ import java.util.List;
 public interface WxActivityService {
 
     /**
-     * 拼团
+     * 拼团列表
      *
      * @param pageNo
      * @param pageSize
      * @return
      */
-    PageResult findByGroup(int pageNo, int pageSize);
+    PageResult groupList(int pageNo, int pageSize, String activity_type);
 
     /**
      * 秒杀
