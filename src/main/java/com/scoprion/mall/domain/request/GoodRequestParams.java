@@ -51,6 +51,22 @@ public class GoodRequestParams extends PageRequestParams {
      */
     private Long activityId;
 
+    /**
+     * UNBIND_CATEGORY, 未绑定类目列表
+     * UNBIND_ACTIVITY, 未绑定活动列表
+     * BIND_ACTIVITY, "已经绑定活动列表
+     * 不传（null）无限制条件
+     */
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getSearchKey() {
         return searchKey;
     }
@@ -154,6 +170,7 @@ public class GoodRequestParams extends PageRequestParams {
                 ", isFreight='" + isFreight + '\'' +
                 ", brandId=" + brandId +
                 ", activityId=" + activityId +
+                ", type='" + type + '\'' +
                 "} " + super.toString();
     }
 }
