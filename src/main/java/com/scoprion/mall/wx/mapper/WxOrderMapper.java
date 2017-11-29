@@ -42,7 +42,7 @@ public interface WxOrderMapper {
      * @param wxOrderNo
      * @return
      */
-    int updateOrderStatusAndPayStatus(@Param("payDate") String payDate,
+    int updateOrderStatusAndPayStatusAndWxOrderNo(@Param("payDate") String payDate,
                                       @Param("orderNo") String orderNo,
                                       @Param("wxOrderNo") String wxOrderNo);
 

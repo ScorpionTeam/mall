@@ -203,20 +203,21 @@ public class WxPayServiceImpl implements WxPayService {
     @Transactional(rollbackFor = Exception.class)
     public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
         Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
-        LOGGER.info("微信支付回调----callback");
         if (order == null) {
             LOGGER.info("订单为空，查询不到订单信息");
+            return BaseResult.success("订单信息查询出错");
         }
         //判断是否成功接收回调
         if (order != null && null == order.getPayDate()) {
             //修改订单状态 以及微信订单号
-            wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
+            wxOrderMapper.updateOrderStatusAndPayStatusAndWxOrderNo(unifiedOrderNotifyRequestData.getTime_end(),
                     unifiedOrderNotifyRequestData.getOut_trade_no(),
                     unifiedOrderNotifyRequestData.getTransaction_id());
             //记录订单日志
             OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款",
                     null, order.getId());
             wxOrderLogMapper.add(orderLog);
+
             //库存扣减
             wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
             //库存扣减日志
