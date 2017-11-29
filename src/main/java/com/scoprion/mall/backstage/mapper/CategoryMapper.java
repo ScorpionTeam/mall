@@ -5,6 +5,8 @@ import com.scoprion.mall.domain.Category;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 
 /**
  * @author ycj
@@ -62,6 +64,13 @@ public interface CategoryMapper {
      */
     Category findById(@Param("id") Long id);
 
+    /**
+     * 根据parentId查询详情
+     *
+     * @param parentId
+     * @return
+     */
+    List<Category> findByParentId(@Param("parentId") Long parentId);
 
     /**
      * 列表查询
