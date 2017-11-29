@@ -77,49 +77,42 @@ public class WxTicketServiceImpl implements WxTicketService {
      */
     @Override
     public BaseResult getTicket(Long ticketId, String wxCode) {
-        //String userId = WxUtil.getOpenId(wxCode);
-        int count = wxTicketMapper.findByTicketIdAndUserId(ticketId, wxCode);
+        String userId = WxUtil.getOpenId(wxCode);
+        int count = wxTicketMapper.findByTicketIdAndUserId(ticketId, userId);
         if (count > 0) {
             return BaseResult.error("add_error", "已经领取过了");
         }
+
         //查询优惠券详情
         Ticket ticket = wxTicketMapper.findById(ticketId);
         if (ticket.getEndDate().before(new Date()) || CommonEnum.NORMAL.getCode().equals(ticket.getStatus())) {
             return BaseResult.error("add_error", "优惠券已过期");
         }
+
         //判断优惠券是否限量
-        if (CommonEnum.NORMAL.getCode().equals(ticket.getNumLimit())) {
+        if (CommonEnum.LIMITED.getCode().equals(ticket.getNumLimit())) {
             if (ticket.getNum() == 0) {
                 return BaseResult.error("add_error", "领取失败,优惠券已经领完了");
             }
-            TicketSnapshot snapshot = new TicketSnapshot();
-            BeanUtils.copyProperties(ticket, snapshot);
-            snapshot.setTicketId(ticket.getId());
+
+            //优惠券快照
+            TicketSnapshot snapshot = snapshotConstructor(ticket);
             int result = wxTicketSnapshotMapper.add(snapshot);
+
             if (result > 0) {
-                TicketUser ticketUser = new TicketUser();
-                ticketUser.setNum(1);
-                ticketUser.setUserId(wxCode);
-                ticketUser.setSnapshotId(snapshot.getId());
-                ticketUser.setStatus(CommonEnum.UN_NORMAL.getCode());
+                //修改优惠券数量  创建领取记录
                 int ticketNum = wxTicketMapper.updateTicketNum(ticketId);
-                int addResult = wxTicketMapper.addTicketUser(ticketUser);
+                int addResult = addTicketUser(snapshot.getId(), userId);
                 if (addResult > 0 && ticketNum > 0) {
                     return BaseResult.success("领取成功");
                 }
             }
         }
-        TicketSnapshot snapshot = new TicketSnapshot();
-        BeanUtils.copyProperties(ticket, snapshot);
-        snapshot.setTicketId(ticket.getId());
+        //优惠券快照
+        TicketSnapshot snapshot = snapshotConstructor(ticket);
         int result = wxTicketSnapshotMapper.add(snapshot);
         if (result > 0) {
-            TicketUser ticketUser = new TicketUser();
-            ticketUser.setNum(1);
-            ticketUser.setSnapshotId(snapshot.getId());
-            ticketUser.setUserId(wxCode);
-            ticketUser.setStatus(CommonEnum.UN_NORMAL.getCode());
-            int addResult = wxTicketMapper.addTicketUser(ticketUser);
+            int addResult = addTicketUser(snapshot.getId(), userId);
             if (addResult > 0) {
                 return BaseResult.success("领取成功");
             }
@@ -140,6 +133,35 @@ public class WxTicketServiceImpl implements WxTicketService {
         PageHelper.startPage(pageNo, pageSize);
         Page<Ticket> page = wxTicketMapper.findAll();
         return new PageResult(page);
+    }
+
+    /**
+     * 创建优惠券领取记录
+     *
+     * @param snapshotId
+     * @param userId
+     * @return
+     */
+    private int addTicketUser(Long snapshotId, String userId) {
+        TicketUser ticketUser = new TicketUser();
+        ticketUser.setNum(1);
+        ticketUser.setSnapshotId(snapshotId);
+        ticketUser.setUserId(userId);
+        ticketUser.setStatus(CommonEnum.UN_NORMAL.getCode());
+        return wxTicketMapper.addTicketUser(ticketUser);
+    }
+
+    /**
+     * 优惠券快照构造
+     *
+     * @param ticket
+     * @return
+     */
+    private TicketSnapshot snapshotConstructor(Ticket ticket) {
+        TicketSnapshot snapshot = new TicketSnapshot();
+        BeanUtils.copyProperties(ticket, snapshot);
+        snapshot.setTicketId(ticket.getId());
+        return snapshot;
     }
 
 
