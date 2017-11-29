@@ -2,6 +2,8 @@ package com.scoprion.mall.common;
 
 import com.scoprion.mall.domain.GoodSnapshot;
 import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.UserActivity;
+import com.scoprion.mall.domain.WxFreeOrder;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -28,6 +30,19 @@ public class ServiceCommon {
     }
 
 
+    /**
+     * 组装参加活动记录
+     * @param wxFreeOrder
+     * @param userId
+     * @return
+     */
+    public static UserActivity userActivityConstructor(WxFreeOrder wxFreeOrder, String userId){
+        UserActivity userActivity = new UserActivity();
+        userActivity.setActivityId(wxFreeOrder.getActivityId());
+        userActivity.setGoodId(wxFreeOrder.getActivityId());
+        userActivity.setUserId(userId);
+        return userActivity;
+    }
 
 
 }
