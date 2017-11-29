@@ -11,7 +11,7 @@
         nick_name,
         sex,
         age,
-        certificated_id,
+        certificate_id,
         mobile,
         address,
         city,
