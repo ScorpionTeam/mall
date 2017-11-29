@@ -5,6 +5,7 @@ import com.scoprion.mall.domain.ActivityGoods;
 import com.scoprion.mall.domain.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * @author by hmy
@@ -27,10 +28,12 @@ public interface WxFreeMapper {
      *
      * @param activityId
      * @param userId
+     * @param goodId
      * @return
      */
-    int validByActivityId(@Param("activityId") Long activityId,
-                          @Param("userId") String userId);
+    int validByActivityIdAndGoodIdAndUserId(@Param("activityId") Long activityId,
+                          @Param("userId") String userId,
+                          @Param("goodId") Long goodId);
 
     /**
      * 查询活动商品详情

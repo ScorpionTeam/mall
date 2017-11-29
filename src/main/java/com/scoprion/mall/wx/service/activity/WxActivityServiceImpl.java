@@ -231,7 +231,7 @@ public class WxActivityServiceImpl implements WxActivityService {
 //                nonce_str);
 //        System.out.println("本地再签:" + localSign);
         //判断是否成功接收回调
-        wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
+        wxOrderMapper.updateOrderStatusAndPayStatusAndWxOrderNo(unifiedOrderNotifyRequestData.getTime_end(),
                 unifiedOrderNotifyRequestData.getOut_trade_no(),
                 unifiedOrderNotifyRequestData.getTransaction_id());
         if (null == order.getPayDate()) {
