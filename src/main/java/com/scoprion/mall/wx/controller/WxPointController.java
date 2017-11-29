@@ -30,16 +30,6 @@ public class WxPointController {
         return wxPointService.findByUserId(wxCode);
     }
 
-    /**
-     * 等级划分
-     *
-     * @param userId
-     * @return
-     */
-    @RequestMapping(value = "/updateByGrade", method = RequestMethod.GET)
-    public BaseResult updateByGrade(String userId) {
-        return wxPointService.updateByGrade(userId);
-    }
 
     /**
      * 积分记录

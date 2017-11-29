@@ -91,12 +91,12 @@ public class WxPayServiceImpl implements WxPayService {
         String goodMessage = checkGood(goods, wxOrderRequestData.getOrderFee(),
                 wxOrderRequestData.getCount());
         if (!StringUtils.isEmpty(goodMessage)) {
-            return BaseResult.error("error", goodMessage);
+            return BaseResult.error("ERROR", goodMessage);
         }
         //查询收货地址
         Delivery delivery = wxDeliveryMapper.findById(wxOrderRequestData.getDeliveryId());
         if (null == delivery) {
-            return BaseResult.error("not_found_address", "收货地址有误");
+            return BaseResult.error("ERROR", "收货地址有误");
         }
 
         //创建商品快照
@@ -107,7 +107,7 @@ public class WxPayServiceImpl implements WxPayService {
         Order order = constructOrder(goods, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
-            return BaseResult.error("pre_order_error", "下单出错");
+            return BaseResult.error("ERROR", "下单出错");
         }
 
         //系统内部生成订单信息
@@ -148,16 +148,13 @@ public class WxPayServiceImpl implements WxPayService {
 
 
     /**
-     * 去支付
+     * 重新发起支付
      *
-     * @param wxCode
      * @param orderId
      * @return
      */
     @Override
-    public BaseResult pay(String wxCode, Long orderId) {
-        //查询openid
-        String openid = WxUtil.getOpenId(wxCode);
+    public BaseResult pay(Long orderId) {
         Order order = wxOrderMapper.findByOrderId(orderId);
 
         //校验订单信息
@@ -173,17 +170,11 @@ public class WxPayServiceImpl implements WxPayService {
             return BaseResult.error("ERROR", goodMessage);
         }
 
-        //查询prepay_id
-        String prepayId = wxOrderMapper.findPrepayIdByOrderId(orderId);
-        if (StringUtils.isEmpty(prepayId)) {
-            return BaseResult.error("ERROR", "查询订单出错");
-        }
-
         //时间戳
         Long timeStamp = System.currentTimeMillis() / 1000;
         //随机字符串
         String nonceStr = WxUtil.createRandom(false, 10);
-        Map<String, Object> map = WxPayUtil.payParam(timeStamp, nonceStr, prepayId);
+        Map<String, Object> map = WxPayUtil.payParam(timeStamp, nonceStr, order.getPrepayId());
         String paySign = WxPayUtil.paySign(map);
         map.put("paySign", paySign);
         return BaseResult.success(JSON.toJSON(map));
@@ -302,11 +293,11 @@ public class WxPayServiceImpl implements WxPayService {
         if (point == null) {
             //没有积分
             if (wxOrderRequestData.getPoint() > 0) {
-                return BaseResult.error("pay_error", "下单失败，没有可使用的积分");
+                return BaseResult.error("ERROR", "下单失败，没有可使用的积分");
             }
         } else if (wxOrderRequestData.getPoint() > point.getPoint()) {
             //有积分，使用量超过已有积分
-            return BaseResult.error("pay_error", "下单失败,积分不足");
+            return BaseResult.error("ERROR", "下单失败,积分不足");
         }
         return null;
     }
@@ -352,7 +343,7 @@ public class WxPayServiceImpl implements WxPayService {
             //非第一次购买
             if (CommonEnum.USE_POINT.getCode()
                     .equals(order.getUsePoint()) && order.getOperatePoint() > point.getPoint()) {
-                return BaseResult.error("pay_error", "支付失败积分不足");
+                return BaseResult.error("ERROR", "支付失败积分不足");
             }
 
         }

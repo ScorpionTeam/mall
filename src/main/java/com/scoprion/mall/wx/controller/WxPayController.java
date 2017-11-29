@@ -53,15 +53,14 @@ public class WxPayController {
 
 
     /**
-     * 支付
+     * 重新发起支付
      *
-     * @param wxCode
      * @param orderId
      * @return
      */
     @RequestMapping(value = "/jsapi/order/pay", method = RequestMethod.GET)
-    public BaseResult pay(String wxCode, Long orderId) {
-        return wxPayService.pay(wxCode, orderId);
+    public BaseResult pay(Long orderId) {
+        return wxPayService.pay(orderId);
     }
 
     /**
