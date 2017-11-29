@@ -53,6 +53,9 @@ public class CategoryServiceImpl implements CategoryService {
         if (count > 0) {
             return BaseResult.error("add_error", "已经存在相同名字的类目");
         }
+        if (category.getParentId().intValue() == category.getId().intValue()) {
+            return BaseResult.error("modify_error", "修改失败,父id不能为当前记录id");
+        }
         categoryMapper.modify(category);
         return BaseResult.success("修改成功");
     }
