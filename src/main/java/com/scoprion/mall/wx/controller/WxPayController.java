@@ -31,23 +31,24 @@ public class WxPayController {
     private WxPayService wxPayService;
 
     /**
-     * 生成预付款订单并付款
+     * 预付款订单信息
+     * 付款签名信息
      *
      * @param order
      * @param wxCode
      * @param request
      * @return
      */
-    @RequestMapping(value = "/jsapi/order/preOrder", method = RequestMethod.GET)
+    @RequestMapping(value = "/jsapi/order/unifiedOrder", method = RequestMethod.GET)
     public BaseResult preOrder(String order, String wxCode, HttpServletRequest request) {
         WxOrderRequestData wxOrderRequestData = JSON.parseObject(order, WxOrderRequestData.class);
         String ipAddress = IPUtil.getIPAddress(request);
-        return wxPayService.preOrder(wxOrderRequestData, wxCode, ipAddress);
+        return wxPayService.unifiedOrder(wxOrderRequestData, wxCode, ipAddress);
     }
 
 
     /**
-     * 去支付
+     * 支付
      *
      * @param wxCode
      * @param orderId

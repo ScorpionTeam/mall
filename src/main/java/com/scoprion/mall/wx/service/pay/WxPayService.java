@@ -12,14 +12,14 @@ public interface WxPayService {
 
 
     /**
-     * 微信预下单
+     * 统一下单
      *
      * @param wxOrderRequestData
      * @param wxCode
      * @param ipAddress
      * @return
      */
-    BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress);
+    BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress);
 
     /**
      * 调起支付

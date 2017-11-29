@@ -72,13 +72,14 @@
     </insert>
 
     <!--修改订单微信预付款订单号-->
-    <update id="updateOrderForWxOrderNo">
+    <update id="updateOrderForPrepayId">
         UPDATE t_order SET prepay_id=#{prepayId} WHERE id=#{orderId}
     </update>
 
-    <!--根据用户openid查询预付款订单-->
-    <select id="findPrepayIdByOpenid" resultType="java.lang.String">
-        SELECT prepayId FROM t_order WHERE user_id=#{openId} AND id=#{orderId}
+
+    <!--根据订单id查询预付款信息-->
+    <select id="findPrepayIdByOrderId" resultType="java.lang.String">
+        SELECT prepay_id FROM t_order WHERE  id=#{orderId}
     </select>
 
     <!--我的订单-->

@@ -6,6 +6,7 @@ import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.domain.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * @author by hmy
@@ -30,18 +31,8 @@ public interface WxOrderMapper {
      * @param prepayId
      * @return
      */
-    int updateOrderForWxOrderNo(@Param("orderId") Long orderId,
-                                @Param("prepayId") String prepayId);
-
-    /**
-     * 根据openid查询微信预付款订单号
-     *
-     * @param openId
-     * @param orderId
-     * @return
-     */
-    String findPrepayIdByOpenid(@Param("openId") String openId,
-                                @Param("orderId") Long orderId);
+    int updateOrderForPrepayId(@Param("orderId") Long orderId,
+                               @Param("prepayId") String prepayId);
 
     /**
      * 根据订单号修改订单状态 以及付款状态 & 微信订单号
@@ -92,9 +83,18 @@ public interface WxOrderMapper {
 
     /**
      * 签收后评价
+     *
      * @param estimate
      * @return
      */
     int estimate(Estimate estimate);
 
+    /**
+     * 根据orderId查询 预付款信息
+     *
+     * @param orderId
+     * @return
+     */
+
+    String findPrepayIdByOrderId(@Param("orderId") Long orderId);
 }
