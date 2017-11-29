@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
+import com.scoprion.exception.PayException;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.domain.Goods;
@@ -21,9 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -63,7 +62,7 @@ public class WxPayServiceImpl implements WxPayService {
 
 
     /**
-     * 微信预下单
+     * 统一下单
      *
      * @param wxOrderRequestData
      * @param wxCode
@@ -72,7 +71,7 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public BaseResult preOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
+    public BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
         //查询用户openid
         String openid = WxUtil.getOpenId(wxCode);
         //积分判断
@@ -88,6 +87,7 @@ public class WxPayServiceImpl implements WxPayService {
 
         //查询商品库存
         Goods goods = wxGoodMapper.findById(wxOrderRequestData.getGoodId());
+        //商品信息校验
         String goodMessage = checkGood(goods, wxOrderRequestData.getOrderFee(),
                 wxOrderRequestData.getCount());
         if (!StringUtils.isEmpty(goodMessage)) {
@@ -98,10 +98,12 @@ public class WxPayServiceImpl implements WxPayService {
         if (null == delivery) {
             return BaseResult.error("not_found_address", "收货地址有误");
         }
-        //商品快照
+
+        //创建商品快照
         GoodSnapshot goodSnapshot = constructSnapshot(goods);
         wxGoodSnapShotMapper.add(goodSnapshot);
 
+        //组装订单信息
         Order order = constructOrder(goods, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
@@ -111,22 +113,25 @@ public class WxPayServiceImpl implements WxPayService {
         //系统内部生成订单信息
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress, order.getId());
         wxOrderLogMapper.add(orderLog);
+
         String nonce_str = WxUtil.createRandom(false, 10);
-        String xmlString = preOrderSend(goods.getGoodName(),
-                "妆口袋",
+        //统一下单参数调用
+        String unifiedOrderXML = WxPayUtil.unifiedOrder(goods.getGoodName(),
                 openid,
                 order.getOrderNo(),
                 wxOrderRequestData.getPaymentFee(),
                 nonce_str);
         //生成预付款订单
-        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", xmlString);
-
+        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", unifiedOrderXML);
         //将xml返回信息转换为bean
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
 
+        if (unifiedOrderResponseData.getReturn_code().equalsIgnoreCase("FAIL")) {
+            throw new PayException(unifiedOrderResponseData.getReturn_msg());
+        }
         //修改订单预付款订单号
-        wxOrderMapper.updateOrderForWxOrderNo(order.getId(), unifiedOrderResponseData.getPrepay_id());
+        wxOrderMapper.updateOrderForPrepayId(order.getId(), unifiedOrderResponseData.getPrepay_id());
 
         //时间戳
         Long timeStamp = System.currentTimeMillis() / 1000;
@@ -134,11 +139,95 @@ public class WxPayServiceImpl implements WxPayService {
         //随机字符串
         String nonceStr = WxUtil.createRandom(false, 10);
 
-        String paySign = paySign(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
-        unifiedOrderResponseData.setPaySign(paySign);
-        unifiedOrderResponseData.setNonce_str(nonceStr);
-        unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
-        return BaseResult.success(unifiedOrderResponseData);
+        //生成支付签名
+        Map<String, Object> map = WxPayUtil.payParam(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
+        String paySign = WxPayUtil.paySign(map);
+        map.put("paySign", paySign);
+        return BaseResult.success(JSON.toJSON(map));
+    }
+
+
+    /**
+     * 去支付
+     *
+     * @param wxCode
+     * @param orderId
+     * @return
+     */
+    @Override
+    public BaseResult pay(String wxCode, Long orderId) {
+        //查询openid
+        String openid = WxUtil.getOpenId(wxCode);
+        Order order = wxOrderMapper.findByOrderId(orderId);
+
+        //校验订单信息
+        String orderMessage = checkOrder(order);
+        if (!StringUtils.isEmpty(orderMessage)) {
+            return BaseResult.error("ERROR", orderMessage);
+        }
+        Goods goods = wxGoodMapper.findById(order.getGoodId());
+
+        //校验商品信息
+        String goodMessage = checkGood(goods, 0, 0);
+        if (!StringUtils.isEmpty(goodMessage)) {
+            return BaseResult.error("ERROR", goodMessage);
+        }
+
+        //查询prepay_id
+        String prepayId = wxOrderMapper.findPrepayIdByOrderId(orderId);
+        if (StringUtils.isEmpty(prepayId)) {
+            return BaseResult.error("ERROR", "查询订单出错");
+        }
+
+        //时间戳
+        Long timeStamp = System.currentTimeMillis() / 1000;
+        //随机字符串
+        String nonceStr = WxUtil.createRandom(false, 10);
+        Map<String, Object> map = WxPayUtil.payParam(timeStamp, nonceStr, prepayId);
+        String paySign = WxPayUtil.paySign(map);
+        map.put("paySign", paySign);
+        return BaseResult.success(JSON.toJSON(map));
+    }
+
+
+    /**
+     * 支付成功回调
+     *
+     * @param unifiedOrderNotifyRequestData
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
+        Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
+        if (order == null) {
+            LOGGER.info("订单为空，查询不到订单信息");
+            return BaseResult.success("订单信息查询出错");
+        }
+        //判断是否成功接收回调
+        if (order != null && null == order.getPayDate()) {
+            //修改订单状态 以及微信订单号
+            wxOrderMapper.updateOrderStatusAndPayStatusAndWxOrderNo(unifiedOrderNotifyRequestData.getTime_end(),
+                    unifiedOrderNotifyRequestData.getOut_trade_no(),
+                    unifiedOrderNotifyRequestData.getTransaction_id());
+            //记录订单日志
+            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款",
+                    null, order.getId());
+            wxOrderLogMapper.add(orderLog);
+
+            //库存扣减
+            wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
+            //库存扣减日志
+            saveGoodLog(order.getGoodId(), "库存扣减" + order.getCount(), order.getGoodName());
+            //积分扣减、增加
+            BaseResult operateResult = operatePoint(order);
+            if (operateResult != null) {
+                return operateResult;
+            }
+            //销量
+            wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
+        }
+        return BaseResult.success("支付回调成功");
     }
 
 
@@ -191,9 +280,11 @@ public class WxPayServiceImpl implements WxPayService {
             return "商品已下架";
         }
         //价格判断
-        int unitPrice = orderFee / count;
-        if (goods.getPrice() != unitPrice) {
-            return "商品信息已过期，请重新下单";
+        if (orderFee != 0 && count != 0) {
+            int unitPrice = orderFee / count;
+            if (goods.getPrice() != unitPrice) {
+                return "商品信息已过期，请重新下单";
+            }
         }
         return null;
     }
@@ -220,100 +311,31 @@ public class WxPayServiceImpl implements WxPayService {
         return null;
     }
 
+
     /**
-     * 去支付
+     * 校验订单信息
      *
-     * @param wxCode
-     * @param orderId
+     * @param order
      * @return
      */
-    @Override
-    public BaseResult pay(String wxCode, Long orderId) {
-        String openid = WxUtil.getOpenId(wxCode);
-        Order order = wxOrderMapper.findByOrderId(orderId);
+    private String checkOrder(Order order) {
         if (order == null) {
-            return BaseResult.error("can_not_order", "找不到订单");
+            return "找不到订单";
         }
-        //待付款
         if (!CommonEnum.UN_PAY.getCode().equals(order.getOrderStatus())) {
-            return BaseResult.error("order_status_error", "订单状态异常");
+            return "订单状态异常";
         }
         long createTime = order.getCreateDate().getTime();
         long result = System.currentTimeMillis() - createTime;
         //超过两小时未支付订单  自动 关闭掉该订单
         if (result > Constant.TIME_TWO_HOUR) {
             //关闭订单
-            wxOrderMapper.updateByOrderID(orderId, CommonEnum.CLOSING.getCode());
-            return BaseResult.error("order_timeout", "订单已超时，请重新下单");
+            wxOrderMapper.updateByOrderID(order.getId(), CommonEnum.CLOSING.getCode());
+            return "订单已超时，请重新下单";
         }
-        //查询商品库存
-        Goods goods = wxGoodMapper.findById(order.getGoodId());
-        if (null == goods || goods.getStock() <= 0) {
-            return BaseResult.error("not_enough_stock", "商品库存不足");
-        }
-        if (CommonEnum.OFF_SALE.getCode().equals(goods.getOnSale())) {
-            //商品处于下架状态，不能下单
-            return BaseResult.error("can_not_order", "商品已下架");
-        }
-
-        //根据openid查询用户订单信息
-        String prepayId = wxOrderMapper.findPrepayIdByOpenid(openid, orderId);
-        if (StringUtils.isEmpty(prepayId)) {
-            return BaseResult.error("query_error", "查询订单出错");
-        }
-        //时间戳
-        Long timeStamp = System.currentTimeMillis() / 1000;
-        //随机字符串
-        String nonceStr = WxUtil.createRandom(false, 10);
-        String paySign = paySign(timeStamp, nonceStr, prepayId);
-        Map<String, String> resultMap = new HashMap<>(16);
-        resultMap.put("appId", WxPayConfig.APP_ID);
-        resultMap.put("timeStamp", timeStamp.toString());
-        resultMap.put("nonceStr", nonceStr);
-        resultMap.put("package", "prepay_id=" + prepayId);
-        resultMap.put("signType", "MD5");
-        resultMap.put("paySign", paySign);
-        return BaseResult.success(JSON.toJSON(resultMap));
+        return null;
     }
 
-    /**
-     * 支付成功回调
-     *
-     * @param unifiedOrderNotifyRequestData
-     * @return
-     */
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
-        Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
-        LOGGER.info("微信支付回调----callback");
-        if (order == null) {
-            LOGGER.info("订单为空，查询不到订单信息");
-        }
-        //判断是否成功接收回调
-        if (order != null && null == order.getPayDate()) {
-            //修改订单状态 以及微信订单号
-            wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
-                    unifiedOrderNotifyRequestData.getOut_trade_no(),
-                    unifiedOrderNotifyRequestData.getTransaction_id());
-            //记录订单日志
-            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款",
-                    null, order.getId());
-            wxOrderLogMapper.add(orderLog);
-            //库存扣减
-            wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
-            //库存扣减日志
-            saveGoodLog(order.getGoodId(), "库存扣减" + order.getCount(), order.getGoodName());
-            //积分扣减、增加
-            BaseResult operateResult = operatePoint(order);
-            if (operateResult != null) {
-                return operateResult;
-            }
-            //销量
-            wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
-        }
-        return BaseResult.success("支付回调成功");
-    }
 
     /**
      * 积分操作
@@ -491,58 +513,6 @@ public class WxPayServiceImpl implements WxPayService {
         return goodSnapshot;
     }
 
-    /**
-     * 预付款订单签名
-     *
-     * @param body       商品描述
-     * @param attach
-     * @param openid     用户openid
-     * @param outTradeNo 商户订单号
-     * @return
-     */
-    private String preOrderSend(String body,
-                                String attach,
-                                String openid,
-                                String outTradeNo,
-                                int totalFee,
-                                String nonceStr) {
-
-        Map<String, Object> map = new HashMap<>(16);
-        map.put("appid", WxPayConfig.APP_ID);
-        map.put("openid", openid);
-        map.put("mch_id", WxPayConfig.MCHID);
-        map.put("device_info", "10000");
-        map.put("nonce_str", nonceStr);
-        map.put("body", body);
-        map.put("attach", attach);
-        map.put("out_trade_no", outTradeNo);
-        map.put("total_fee", totalFee);
-        map.put("notify_url", WxPayConfig.NOTIFY_URL);
-        map.put("trade_type", "JSAPI");
-        String signTemp = WxPayUtil.sort(map);
-        String sign = WxUtil.MD5(signTemp).toUpperCase();
-        System.out.println("预付款Sign:" + sign);
-        map.put("sign", sign);
-        return WxPayUtil.mapConvertToXML(map);
-    }
-
-    /**
-     * 调起支付  签名
-     *
-     * @param timeStamp
-     * @param nonceStr
-     * @param prepayId
-     * @return
-     */
-    private String paySign(Long timeStamp, String nonceStr, String prepayId) {
-        Map<String, Object> map = new HashMap<>(16);
-        map.put("appId", WxPayConfig.APP_ID);
-        map.put("nonceStr", nonceStr);
-        map.put("package", "prepay_id=" + prepayId);
-        map.put("signType", "MD5");
-        map.put("timeStamp", timeStamp);
-        return WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
-    }
 
     /**
      * 订单日志构造

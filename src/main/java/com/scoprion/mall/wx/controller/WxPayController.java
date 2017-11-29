@@ -3,6 +3,8 @@ package com.scoprion.mall.wx.controller;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson.JSON;
 import com.scoprion.mall.domain.WxOrderRequestData;
@@ -27,27 +29,31 @@ import java.io.IOException;
 @RequestMapping("wx")
 public class WxPayController {
 
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(WxPayController.class);
+
     @Autowired
     private WxPayService wxPayService;
 
     /**
-     * 生成预付款订单并付款
+     * 预付款订单信息
+     * 付款签名信息
      *
      * @param order
      * @param wxCode
      * @param request
      * @return
      */
-    @RequestMapping(value = "/jsapi/order/preOrder", method = RequestMethod.GET)
+    @RequestMapping(value = "/jsapi/order/unifiedOrder", method = RequestMethod.GET)
     public BaseResult preOrder(String order, String wxCode, HttpServletRequest request) {
         WxOrderRequestData wxOrderRequestData = JSON.parseObject(order, WxOrderRequestData.class);
         String ipAddress = IPUtil.getIPAddress(request);
-        return wxPayService.preOrder(wxOrderRequestData, wxCode, ipAddress);
+        return wxPayService.unifiedOrder(wxOrderRequestData, wxCode, ipAddress);
     }
 
 
     /**
-     * 去支付
+     * 支付
      *
      * @param wxCode
      * @param orderId
@@ -65,20 +71,29 @@ public class WxPayController {
      * @return
      */
     @RequestMapping(value = "/jsapi/callback/pay", method = RequestMethod.POST)
-    public BaseResult pay(HttpServletRequest request) {
+    public void pay(HttpServletRequest request) {
         String inputLine;
-        String notifyXml = "";
+        StringBuffer notifyXml = new StringBuffer();
         try {
             while ((inputLine = request.getReader().readLine()) != null) {
-                notifyXml += inputLine;
+                notifyXml.append(inputLine);
             }
             request.getReader().close();
         } catch (IOException e) {
             e.printStackTrace();
         }
         UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData = WxPayUtil.castXMLStringToUnifiedOrderNotifyRequestData(
-                notifyXml);
+                notifyXml.toString());
+
+        //回调出现错误 返回
+        if (unifiedOrderNotifyRequestData.getReturn_code().equalsIgnoreCase("FAIL")) {
+            LOGGER.error("微信回调出错@------" + unifiedOrderNotifyRequestData.getReturn_msg());
+            return ;
+        }
+
         BaseResult baseResult = wxPayService.callback(unifiedOrderNotifyRequestData);
+
+        //回调成功   通知微信已经接收完成
         if (baseResult.getResult() == 1) {
             UnifiedOrderNotifyResponseData unifiedOrderNotifyResponseData = new UnifiedOrderNotifyResponseData();
             unifiedOrderNotifyResponseData.setReturn_code("SUCCESS");
@@ -86,9 +101,6 @@ public class WxPayController {
             String responseXML = WxPayUtil.castDataToXMLString(unifiedOrderNotifyResponseData);
             //通知微信回调接收成功
             WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", responseXML);
-            return BaseResult.success("付款成功");
-        } else {
-            return baseResult;
         }
 
     }

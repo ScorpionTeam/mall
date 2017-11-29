@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.pay.util;
 
+import com.alibaba.fastjson.JSON;
 import com.scoprion.mall.wx.pay.domain.OrderQueryRequestData;
 import com.scoprion.mall.wx.pay.domain.OrderQueryResponseData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
@@ -19,6 +20,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
+import org.apache.poi.ss.formula.functions.T;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;
@@ -27,6 +29,7 @@ import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -197,6 +200,65 @@ public class WxPayUtil {
         } finally {
             httpClient.close();
         }
+    }
+
+
+    /**
+     * 支付签名
+     *
+     * @param map
+     * @return
+     */
+    public static String paySign(Map<String, Object> map) {
+        return WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
+    }
+
+    /**
+     * 生成支付参数
+     *
+     * @param timeStamp
+     * @param nonceStr
+     * @param prepayId
+     * @return
+     */
+    public static Map<String, Object> payParam(Long timeStamp, String nonceStr, String prepayId) {
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("appId", WxPayConfig.APP_ID);
+        map.put("nonceStr", nonceStr);
+        map.put("package", "prepay_id=" + prepayId);
+        map.put("signType", "MD5");
+        map.put("timeStamp", timeStamp);
+        return map;
+    }
+
+
+    /**
+     * 统一下单参数
+     *
+     * @param body       商品描述
+     * @param openid     用户openid
+     * @param outTradeNo 商户订单号
+     * @return
+     */
+    public static String unifiedOrder(String body,
+                                      String openid,
+                                      String outTradeNo,
+                                      int paymentFee,
+                                      String nonceStr) {
+
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("appid", WxPayConfig.APP_ID);
+        map.put("openid", openid);
+        map.put("mch_id", WxPayConfig.MCHID);
+        map.put("nonce_str", nonceStr);
+        map.put("body", body);
+        map.put("out_trade_no", outTradeNo);
+        map.put("total_fee", paymentFee);
+        map.put("notify_url", WxPayConfig.NOTIFY_URL);
+        map.put("trade_type", "JSAPI");
+        String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
+        map.put("sign", sign);
+        return WxPayUtil.mapConvertToXML(map);
     }
 
 

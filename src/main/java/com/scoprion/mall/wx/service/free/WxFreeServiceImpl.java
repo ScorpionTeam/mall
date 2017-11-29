@@ -7,6 +7,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
+import com.scoprion.exception.PayException;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.*;
@@ -116,7 +117,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         goodSnapshot.setGoodDescription(goods.getDescription());
         wxGoodSnapShotMapper.add(goodSnapshot);
 
-        //生成预付款订单
+        //组装订单信息
         Order order = new Order();
         BeanUtils.copyProperties(delivery, order);
         String orderNo = OrderNoUtil.getOrderNo();
@@ -145,32 +146,39 @@ public class WxFreeServiceImpl implements WxFreeService {
         wxOrderLogMapper.add(orderLog);
         //创建随机字符串
         String nonce_str = WxUtil.createRandom(false, 10);
-        String xmlString = preOrderSend(goods.getGoodName(),
-                "妆口袋",
+        //统一下单调用参数
+        String unifiedOrderXML = WxPayUtil.unifiedOrder(goods.getGoodName(),
                 wxFreeOrder.getWxCode(),
                 order.getOrderNo(),
                 order.getFreightFee(),
                 nonce_str);
         //生成预付款订单
-        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", xmlString);
+        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", unifiedOrderXML);
         //将xml返回信息转换为bean
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
+
+        if (unifiedOrderResponseData.getReturn_code().equalsIgnoreCase("FAIL")) {
+            throw new PayException(unifiedOrderResponseData.getReturn_msg());
+        }
         //修改订单预付款订单号
-        wxOrderMapper.updateOrderForWxOrderNo(order.getId(), unifiedOrderResponseData.getPrepay_id());
+        wxOrderMapper.updateOrderForPrepayId(order.getId(), unifiedOrderResponseData.getPrepay_id());
+
         //时间戳
         Long timeStamp = System.currentTimeMillis() / 1000;
-        //随机字符串
-        String nonceStr = WxUtil.createRandom(false, 10);
-        String paySign = paySign(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
-        unifiedOrderResponseData.setPaySign(paySign);
-        unifiedOrderResponseData.setNonce_str(nonceStr);
-        unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
-        return BaseResult.success(unifiedOrderResponseData);
+
+        //生成随机字符串
+        String nonceStr=WxUtil.createRandom(false,10);
+
+        //生成支付签名
+        Map<String, Object> map = WxPayUtil.payParam(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
+        String paySign = WxPayUtil.paySign(map);
+        map.put("paySign", paySign);
+        return BaseResult.success(JSON.toJSON(map));
     }
 
     /**
-     * 支付
+     * 去支付
      *
      * @param wxCode
      * @param orderId
@@ -206,7 +214,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         }
 
         //根据openid查询用户订单信息
-        String prepayId = wxOrderMapper.findPrepayIdByOpenid(openId, orderId);
+        String prepayId = wxOrderMapper.findPrepayIdByOrderId(orderId);
         if (StringUtils.isEmpty(prepayId)) {
             return BaseResult.error("query_error", "查询订单出错");
         }
@@ -214,15 +222,10 @@ public class WxFreeServiceImpl implements WxFreeService {
         Long timeStamp = System.currentTimeMillis() / 1000;
         //随机字符串
         String nonceStr = WxUtil.createRandom(false, 10);
-        String paySign = paySign(timeStamp, nonceStr, prepayId);
-        Map<String, String> resultMap = new HashMap<>(16);
-        resultMap.put("appId", WxPayConfig.APP_ID);
-        resultMap.put("timeStamp", timeStamp.toString());
-        resultMap.put("nonceStr", nonceStr);
-        resultMap.put("package", "prepay_id=" + prepayId);
-        resultMap.put("signType", "MD5");
-        resultMap.put("paySign", paySign);
-        return BaseResult.success(JSON.toJSON(resultMap));
+        Map<String, Object> map = WxPayUtil.payParam(timeStamp, nonceStr, prepayId);
+        String paySign = WxPayUtil.paySign(map);
+        map.put("paySign", paySign);
+        return BaseResult.success(JSON.toJSON(map));
     }
 
     @Override
@@ -242,7 +245,7 @@ public class WxFreeServiceImpl implements WxFreeService {
 //                nonce_str);
 //        System.out.println("本地再签:" + localSign);
         //判断是否成功接收回调
-        wxOrderMapper.updateOrderStatusAndPayStatus(unifiedOrderNotifyRequestData.getTime_end(),
+        wxOrderMapper.updateOrderStatusAndPayStatusAndWxOrderNo(unifiedOrderNotifyRequestData.getTime_end(),
                 unifiedOrderNotifyRequestData.getOut_trade_no(),
                 unifiedOrderNotifyRequestData.getTransaction_id());
         if (null == order.getPayDate()) {
@@ -256,11 +259,6 @@ public class WxFreeServiceImpl implements WxFreeService {
 
             saveGoodLog(order);
 
-//            //积分扣减、增加
-//            BaseResult operateResult = operatePoint(order);
-//            if (operateResult != null) {
-//                return operateResult;
-//            }
             //销量
             wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
         }
@@ -293,56 +291,6 @@ public class WxFreeServiceImpl implements WxFreeService {
         return orderLog;
     }
 
-    /**
-     * 预付款订单签名
-     *
-     * @param body       商品描述
-     * @param attach
-     * @param openid     用户openid
-     * @param outTradeNo 商户订单号
-     * @return
-     */
-    private String preOrderSend(String body,
-                                String attach,
-                                String openid,
-                                String outTradeNo,
-                                int totalFee,
-                                String nonceStr) {
 
-        Map<String, Object> map = new HashMap<>(16);
-        map.put("appid", WxPayConfig.APP_ID);
-        map.put("openid", openid);
-        map.put("mch_id", WxPayConfig.MCHID);
-        map.put("device_info", "10000");
-        map.put("nonce_str", nonceStr);
-        map.put("body", body);
-        map.put("out_trade_no", outTradeNo);
-        map.put("attach", attach);
-        map.put("total_fee", totalFee);
-        map.put("notify_url", WxPayConfig.NOTIFY_URL);
-        map.put("trade_type", "JSAPI");
-        String signTemp = WxPayUtil.sort(map);
-        String sign = WxUtil.MD5(signTemp).toUpperCase();
-        System.out.println("预付款Sign:" + sign);
-        map.put("sign", sign);
-        return WxPayUtil.mapConvertToXML(map);
-    }
 
-    /**
-     * 调起支付  签名
-     *
-     * @param timeStamp
-     * @param nonceStr
-     * @param prepayId
-     * @return
-     */
-    private String paySign(Long timeStamp, String nonceStr, String prepayId) {
-        Map<String, Object> map = new HashMap<>(16);
-        map.put("appId", WxPayConfig.APP_ID);
-        map.put("package", "prepay_id=" + prepayId);
-        map.put("nonceStr", nonceStr);
-        map.put("signType", "MD5");
-        map.put("timeStamp", timeStamp);
-        return WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
-    }
 }
