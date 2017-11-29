@@ -1,6 +1,5 @@
 package com.scoprion.mall.wx.controller;
 
-import com.scoprion.exception.PayException;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;

@@ -254,7 +254,7 @@ public class WxPayUtil {
         map.put("openid", openid);
         map.put("mch_id", WxPayConfig.MCHID);
         map.put("nonce_str", nonceStr);
-//        map.put("body", body);
+        map.put("body", body);
         map.put("out_trade_no", outTradeNo);
         map.put("total_fee", paymentFee);
         map.put("notify_url", WxPayConfig.NOTIFY_URL);
