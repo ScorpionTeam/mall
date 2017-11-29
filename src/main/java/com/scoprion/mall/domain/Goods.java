@@ -19,6 +19,10 @@ public class Goods {
     private Long id;
 
     /**
+     * 主键别名
+     */
+    private Long tgId;
+    /**
      * 商品编码
      */
     @JSONField(name = "good_no")
@@ -324,10 +328,19 @@ public class Goods {
         this.mainImageUrl = mainImageUrl;
     }
 
+    public Long getTgId() {
+        return tgId;
+    }
+
+    public void setTgId(Long tgId) {
+        this.tgId = tgId;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
                 "id=" + id +
+                ", tgId=" + tgId +
                 ", goodNo='" + goodNo + '\'' +
                 ", categoryId=" + categoryId +
                 ", goodName='" + goodName + '\'' +
@@ -349,6 +362,7 @@ public class Goods {
                 ", mainImageUrl='" + mainImageUrl + '\'' +
                 ", richContent='" + richContent + '\'' +
                 ", status='" + status + '\'' +
+                ", seo='" + seo + '\'' +
                 '}';
     }
 }

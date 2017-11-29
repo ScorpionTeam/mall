@@ -35,6 +35,10 @@ public class Activity {
      * NORMAL正常  UN_NORMAL 非正常 EXPIRE已过期
      */
     private String status;
+    /**
+     * 库存别名
+     */
+    private String actStatus;
 
     /**
      * 修改时间
@@ -186,6 +190,14 @@ public class Activity {
         this.endDate = endDate;
     }
 
+    public String getActStatus() {
+        return actStatus;
+    }
+
+    public void setActStatus(String actStatus) {
+        this.actStatus = actStatus;
+    }
+
     @Override
     public String toString() {
         return "Activity{" +
@@ -193,14 +205,15 @@ public class Activity {
                 ", name='" + name + '\'' +
                 ", activityType='" + activityType + '\'' +
                 ", status='" + status + '\'' +
+                ", actStatus='" + actStatus + '\'' +
                 ", updateDate=" + updateDate +
                 ", createDate=" + createDate +
                 ", target='" + target + '\'' +
                 ", num=" + num +
                 ", startDate=" + startDate +
-                ", describes=" + describes +
-                ", discount=" + discount +
                 ", endDate=" + endDate +
+                ", discount=" + discount +
+                ", describes='" + describes + '\'' +
                 '}';
     }
 }
