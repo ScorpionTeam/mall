@@ -36,6 +36,7 @@ public interface WxActivityMapper {
      */
     Page<Activity> preference();
 
+
     /**
      * 根据活动类型查找商品(拼团 activityType = 2)
      *
