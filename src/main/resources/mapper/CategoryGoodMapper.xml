@@ -28,7 +28,7 @@
     </delete>
 
     <!--清空跟商品id关联的关系-->
-    <delete id="unbindWithCategoryId">
+    <delete id="unbindWithGoodId">
         DELETE FROM t_category_good
         WHERE good_id=#{goodId}
     </delete>
