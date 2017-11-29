@@ -20,13 +20,6 @@ public interface WxPointService {
     BaseResult findByUserId(String wxCode);
 
 
-    /**
-     * 等级划分
-     *
-     * @param userId
-     * @return
-     */
-    BaseResult updateByGrade(String userId);
 
     /**
      * 积分记录
