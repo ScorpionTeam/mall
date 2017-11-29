@@ -170,17 +170,11 @@ public class WxPayServiceImpl implements WxPayService {
             return BaseResult.error("ERROR", goodMessage);
         }
 
-        //查询prepay_id
-        String prepayId = wxOrderMapper.findPrepayIdByOrderId(orderId);
-        if (StringUtils.isEmpty(prepayId)) {
-            return BaseResult.error("ERROR", "查询订单出错");
-        }
-
         //时间戳
         Long timeStamp = System.currentTimeMillis() / 1000;
         //随机字符串
         String nonceStr = WxUtil.createRandom(false, 10);
-        Map<String, Object> map = WxPayUtil.payParam(timeStamp, nonceStr, prepayId);
+        Map<String, Object> map = WxPayUtil.payParam(timeStamp, nonceStr, order.getPrepayId());
         String paySign = WxPayUtil.paySign(map);
         map.put("paySign", paySign);
         return BaseResult.success(JSON.toJSON(map));
