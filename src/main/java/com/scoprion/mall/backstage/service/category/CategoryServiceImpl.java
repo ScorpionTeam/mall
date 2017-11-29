@@ -6,11 +6,13 @@ import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.backstage.mapper.CategoryGoodMapper;
 import com.scoprion.mall.backstage.mapper.CategoryMapper;
 import com.scoprion.mall.domain.Category;
+import com.scoprion.mall.domain.CategoryGood;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -53,6 +55,9 @@ public class CategoryServiceImpl implements CategoryService {
         if (count > 0) {
             return BaseResult.error("add_error", "已经存在相同名字的类目");
         }
+        if (category.getParentId().intValue() == category.getId().intValue()) {
+            return BaseResult.error("modify_error", "修改失败,父id不能为当前记录id");
+        }
         categoryMapper.modify(category);
         return BaseResult.success("修改成功");
     }
@@ -63,10 +68,24 @@ public class CategoryServiceImpl implements CategoryService {
             return BaseResult.parameterError();
         }
         Category category = categoryMapper.findById(id);
+        if (category.getParentId().longValue() > 0) {
+            //是一级类目,查询子类目列表
+            List<Category> categoryList = categoryMapper.findByParentId(category.getParentId());
+            List<Long> idList = new ArrayList<>();
+            categoryList.forEach(item -> idList.add(item.getId()));
+            Integer bindCount = categoryGoodMapper.findCountByCategoryIdList(idList);
+            if (bindCount.intValue() > 0) {
+                return BaseResult.error("delete_error", "当前类目子类目正在使用中，请先解绑子类目");
+            }
+        } else {
+            //子类目
+            CategoryGood categoryGood = categoryGoodMapper.findByCategoryId(id);
+            if (categoryGood != null) {
+                return BaseResult.error("delete_error", "当前类目子类目正在使用中，请先解绑");
+            }
+        }
         int count = categoryMapper.deleteById(id);
-        if (count > 0 && category.getId() != 0) {
-            //子类目，清空绑定关系
-            categoryGoodMapper.unbindWithCategoryId(id);
+        if (count > 0) {
             return BaseResult.success("删除成功");
         }
         return BaseResult.systemError();

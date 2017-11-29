@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.Banner;
 import com.scoprion.mall.wx.mapper.WxBannerMapper;
 import com.scoprion.result.PageResult;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,4 +38,8 @@ public class WxBannerServiceImpl implements WxBannerService {
         Page<Banner> page = wxBannerMapper.list(bannerName);
         return new PageResult(page);
     }
+
+//    public static void main(String[] args) {
+//        String str=""
+//    }
 }
