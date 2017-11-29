@@ -227,7 +227,7 @@ public class WxPayUtil {
         map.put("nonceStr", nonceStr);
         map.put("package", "prepay_id=" + prepayId);
         map.put("signType", "MD5");
-        map.put("timeStamp", timeStamp);
+        map.put("timeStamp", timeStamp.toString());
         return map;
     }
 
