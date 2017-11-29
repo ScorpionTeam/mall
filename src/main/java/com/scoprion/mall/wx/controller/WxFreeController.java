@@ -61,47 +61,15 @@ public class WxFreeController {
 
     /**
      * 支付
-     * @param wxCode
+     *
      * @param orderId
+     * @param activityId
+     * @param goodId
      * @return
      */
     @RequestMapping(value = "/pay",method = RequestMethod.POST)
-    public BaseResult pay(String wxCode,Long orderId){
-        return wxFreeService.pay(wxCode,orderId);
+    public BaseResult pay(Long orderId,Long activityId,Long goodId){
+        return wxFreeService.pay(orderId,activityId,goodId);
     }
 
-    /**
-     * 接收微信回调
-     *
-     * @param request
-     * @return
-     */
-    @RequestMapping(value = "/callback", method = RequestMethod.POST)
-    public BaseResult pay(HttpServletRequest request) {
-        String notifyXml = "";
-        String inputLine;
-        try {
-            while ((inputLine = request.getReader().readLine()) != null) {
-                notifyXml += inputLine;
-            }
-            request.getReader().close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData = WxPayUtil.castXMLStringToUnifiedOrderNotifyRequestData(
-                notifyXml);
-        BaseResult baseResult = wxFreeService.callback(unifiedOrderNotifyRequestData);
-        if (baseResult.getResult() == 1) {
-            UnifiedOrderNotifyResponseData unifiedOrderNotifyResponseData = new UnifiedOrderNotifyResponseData();
-            unifiedOrderNotifyResponseData.setReturn_msg("OK");
-            unifiedOrderNotifyResponseData.setReturn_code("SUCCESS");
-            String responseXML = WxPayUtil.castDataToXMLString(unifiedOrderNotifyResponseData);
-            //通知微信回调接收成功
-            WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", responseXML);
-            return BaseResult.success("付款成功");
-        } else {
-            return baseResult;
-        }
-
-    }
 }

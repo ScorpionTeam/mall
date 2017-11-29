@@ -3,9 +3,10 @@ package com.scoprion.mall.wx.mapper;
 import com.scoprion.mall.domain.Activity;
 import com.scoprion.mall.domain.ActivityGoods;
 import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.UserActivity;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.aspectj.lang.annotation.Pointcut;
+
 
 /**
  * @author by hmy
@@ -38,10 +39,11 @@ public interface WxFreeMapper {
     /**
      * 查询活动商品详情
      *
-     * @param activityGoodId
+     * @param activityId
+     * @param goodId
      * @return
      */
-    ActivityGoods findByActivityGoodId(@Param("activityGoodId") Long activityGoodId);
+    ActivityGoods findByActivityIdAndGoodId(@Param("activityId") Long activityId,@Param("goodId") Long goodId);
 
 
     /**
@@ -51,5 +53,13 @@ public interface WxFreeMapper {
      * @return
      */
     Goods findByGoodId(@Param("goodId") Long goodId);
+
+
+    /**
+     * 新增参加过的活动记录
+     * @param userActivity
+     * @return
+     */
+    int add(UserActivity userActivity);
 
 }

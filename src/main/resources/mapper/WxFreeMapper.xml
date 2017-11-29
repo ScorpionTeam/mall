@@ -24,7 +24,7 @@
     </select>
 
     <!-- 查询活动商品详情 -->
-    <select id="findByActivityGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
+    <select id="findByActivityIdAndGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
         SELECT
         id,
         activity_id,
@@ -32,7 +32,7 @@
         create_date,
         stock,
         update_date
-        FROM t_activity_good WHERE id=#{activityGoodId}
+        FROM t_activity_good WHERE activity_id=#{activityId} AND good_id=#{goodId}
     </select>
 
     <!-- 查询是否参加过该活动 -->

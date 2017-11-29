@@ -32,17 +32,12 @@ public interface WxFreeService {
 
     /**
      * 微信支付
-     * @param wxCode
-     * @param orderId
-     * @return
-     */
-    BaseResult pay(String wxCode,Long orderId);
-
-    /**
-     * 支付成功回调
      *
-     * @param unifiedOrderNotifyRequestData
+     * @param orderId
+     * @param activityId
+     * @param goodId
      * @return
      */
-    BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData);
+    BaseResult pay(Long orderId,Long activityId,Long goodId);
+
 }
