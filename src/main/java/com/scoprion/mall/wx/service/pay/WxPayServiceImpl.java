@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
+import com.scoprion.exception.PayException;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.domain.Goods;
@@ -123,14 +124,15 @@ public class WxPayServiceImpl implements WxPayService {
                 order.getOrderNo(),
                 wxOrderRequestData.getPaymentFee(),
                 nonce_str);
-
         //生成预付款订单
         String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", unifiedOrderXML);
-
         //将xml返回信息转换为bean
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
 
+        if (unifiedOrderResponseData.getReturn_code().equalsIgnoreCase("FAIL")) {
+            throw new PayException(unifiedOrderResponseData.getReturn_msg());
+        }
         //修改订单预付款订单号
         wxOrderMapper.updateOrderForPrepayId(order.getId(), unifiedOrderResponseData.getPrepay_id());
 
@@ -312,7 +314,6 @@ public class WxPayServiceImpl implements WxPayService {
     }
 
 
-
     /**
      * 校验订单信息
      *
@@ -336,7 +337,6 @@ public class WxPayServiceImpl implements WxPayService {
         }
         return null;
     }
-
 
 
     /**

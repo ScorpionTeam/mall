@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.pay.util;
 
+import com.alibaba.fastjson.JSON;
 import com.scoprion.mall.wx.pay.domain.OrderQueryRequestData;
 import com.scoprion.mall.wx.pay.domain.OrderQueryResponseData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
@@ -139,7 +140,7 @@ public class WxPayUtil {
      * @param map
      * @return
      */
-    public static String sort(Map<String,Object> map) {
+    public static String sort(Map<String, Object> map) {
         StringBuffer stringBuffer = new StringBuffer();
         Collection collection = map.keySet();
         List list = new ArrayList<String>(collection);
@@ -154,6 +155,7 @@ public class WxPayUtil {
             j++;
         }
         stringBuffer.append("&key=" + WxPayConfig.MCH_SECRET);
+        System.out.println("排序:" + stringBuffer.toString());
         return stringBuffer.toString();
     }
 
@@ -221,12 +223,14 @@ public class WxPayUtil {
      * @return
      */
     public static Map<String, Object> payParam(Long timeStamp, String nonceStr, String prepayId) {
-        Map<String,Object> map = new HashMap<>(16);
+        Map<String, Object> map = new HashMap<>(16);
         map.put("appId", WxPayConfig.APP_ID);
         map.put("nonceStr", nonceStr);
         map.put("package", "prepay_id=" + prepayId);
         map.put("signType", "MD5");
-        map.put("timeStamp", timeStamp.toString());
+        map.put("timeStamp", timeStamp);
+        System.out.println("生成支付参数");
+        System.out.println(JSON.toJSON(map));
         return map;
     }
 
@@ -245,18 +249,20 @@ public class WxPayUtil {
                                       int paymentFee,
                                       String nonceStr) {
 
-        Map<String,Object> map = new HashMap<>(16);
+        Map<String, Object> map = new HashMap<>(16);
         map.put("appid", WxPayConfig.APP_ID);
         map.put("openid", openid);
         map.put("mch_id", WxPayConfig.MCHID);
         map.put("nonce_str", nonceStr);
-        map.put("body", body);
+//        map.put("body", body);
         map.put("out_trade_no", outTradeNo);
         map.put("total_fee", paymentFee);
         map.put("notify_url", WxPayConfig.NOTIFY_URL);
         map.put("trade_type", "JSAPI");
         String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
         map.put("sign", sign);
+        System.out.println("统一下单参数");
+        System.out.println(JSON.toJSON(map));
         return WxPayUtil.mapConvertToXML(map);
     }
 

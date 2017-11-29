@@ -157,7 +157,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
         //修改订单预付款订单号
-        wxOrderMapper.updateOrderForWxOrderNo(order.getId(), unifiedOrderResponseData.getPrepay_id());
+        wxOrderMapper.updateOrderForPrepayId(order.getId(), unifiedOrderResponseData.getPrepay_id());
         //时间戳
         Long timeStamp = System.currentTimeMillis() / 1000;
         //随机字符串
@@ -206,7 +206,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         }
 
         //根据openid查询用户订单信息
-        String prepayId = wxOrderMapper.findPrepayIdByOpenid(openId, orderId);
+        String prepayId = wxOrderMapper.findPrepayIdByOrderId(orderId);
         if (StringUtils.isEmpty(prepayId)) {
             return BaseResult.error("query_error", "查询订单出错");
         }

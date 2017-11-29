@@ -203,7 +203,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
         //修改订单预付款订单号
-        wxOrderMapper.updateOrderForWxOrderNo(order.getId(), unifiedOrderResponseData.getPrepay_id());
+        wxOrderMapper.updateOrderForPrepayId(order.getId(), unifiedOrderResponseData.getPrepay_id());
         //时间戳
         Long timeStamp = System.currentTimeMillis() / 1000;
         //随机字符串
