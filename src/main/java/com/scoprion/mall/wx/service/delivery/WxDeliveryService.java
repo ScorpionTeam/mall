@@ -43,7 +43,7 @@ public interface WxDeliveryService {
      * @param id
      * @return
      */
-    BaseResult deleteDelivery(Long id);
+    BaseResult deleteDelivery(Long id, String userId);
 
     /**
      * 获取收货地址详情

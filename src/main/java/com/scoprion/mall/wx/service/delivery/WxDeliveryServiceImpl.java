@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.service.delivery;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
 import com.scoprion.mall.wx.pay.util.WxUtil;
@@ -51,13 +52,14 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult add(Delivery delivery) {
+        //delivery.setDefaultAddress(CommonEnum.DEFAULT_ADDRESS.getCode());
         Integer result = wxDeliveryMapper.add(delivery);
         if (result <= 0) {
             return BaseResult.error("error", "新增失败");
         }
-        Integer defaultResult=wxDeliveryMapper.updateDefaultById(delivery.getId(),delivery.getUserId());
-        if (defaultResult <= 0){
-            return BaseResult.error("error","修改默认地址失败");
+        Integer defaultResult = wxDeliveryMapper.updateDefaultById(delivery.getId(), delivery.getUserId());
+        if (defaultResult <= 0) {
+            return BaseResult.error("error", "修改默认地址失败");
         }
         return BaseResult.success("新增成功");
     }
@@ -81,10 +83,18 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult deleteDelivery(Long id) {
+    public BaseResult deleteDelivery(Long id, String userId) {
+        String wxCode = WxUtil.getOpenId(userId);
         Integer result = wxDeliveryMapper.deleteDelivery(id);
         if (result <= 0) {
             return BaseResult.error("error", "删除失败");
+        }
+        Page<Delivery> pages = wxDeliveryMapper.listPage(wxCode);
+        if (pages.size() > 0) {
+            result = wxDeliveryMapper.updateDefaultAddress(pages.get(0).getId());
+        }
+        if(result > 0) {
+            return BaseResult.success("设置成功");
         }
         return BaseResult.success("删除成功");
     }
@@ -106,36 +116,38 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
 
     /**
      * 设置默认收货地址
+     *
      * @param id
      * @return
      */
     @Override
-    public BaseResult defaultAddress(Long id,String wxCode) {
+    public BaseResult defaultAddress(Long id, String wxCode) {
         String userId = WxUtil.getOpenId(wxCode);
         int result = wxDeliveryMapper.updateDefaultAddress(id);
-        if (result<=0){
-            return BaseResult.error("update_fail","设置默认地址失败");
+        if (result <= 0) {
+            return BaseResult.error("update_fail", "设置默认地址失败");
         }
-        Integer defaultResult=wxDeliveryMapper.updateDefaultById(id,userId);
-        if (defaultResult <= 0){
-            return BaseResult.error("error","修改默认地址失败");
+        Integer defaultResult = wxDeliveryMapper.updateDefaultById(id, userId);
+        if (defaultResult <= 0) {
+            return BaseResult.error("error", "修改默认地址失败");
         }
         return BaseResult.success("设置成功");
     }
 
     /**
      * 获取默认地址
+     *
      * @param wxCode
      * @return
      */
     @Override
     public BaseResult getDefault(String wxCode) {
-        String userId=WxUtil.getOpenId(wxCode);
-        if(StringUtils.isEmpty(wxCode)){
+        String userId = WxUtil.getOpenId(wxCode);
+        if (StringUtils.isEmpty(wxCode)) {
             return BaseResult.parameterError();
         }
-        Delivery delivery=wxDeliveryMapper.getDefault(userId);
-        if(delivery == null){
+        Delivery delivery = wxDeliveryMapper.getDefault(userId);
+        if (delivery == null) {
             return BaseResult.notFound();
         }
         return BaseResult.success(delivery);

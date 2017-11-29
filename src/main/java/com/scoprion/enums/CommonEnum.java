@@ -66,7 +66,7 @@ public enum CommonEnum {
     OTHER_SUGGEST("OTHER_SUGGEST", "其他建议"),
     PLATFORM_USER("PLATFORM_USER", "平台使用"),
     OTHER_USER("OTHER_USER", "其他地方使用"),
-    FATHER_MENU("FATHER_MENU", "父菜单"),
+    PARENT_MENU("PARENT_MENU", "父菜单"),
     SUBMENU("SUBMENU", "子菜单"),
     LIMITED("LIMITED", "限量"),
     UN_LIMITED("UN_LIMITED", "不限量"),
@@ -84,7 +84,6 @@ public enum CommonEnum {
     REFUSE("REFUSE", "拒绝"),
     AGREE("AGREE", "同意"),
     ALL_DONE("ALL_DONE", "已完成");
-
     /**
      * 编码
      */

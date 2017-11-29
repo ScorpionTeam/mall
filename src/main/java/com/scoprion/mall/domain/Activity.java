@@ -1,6 +1,7 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+
 import java.util.Date;
 
 /**
@@ -31,21 +32,20 @@ public class Activity {
 
     /**
      * 状态
-     * 0正常
-     * 1删除
+     * NORMAL正常  UN_NORMAL 非正常 EXPIRE已过期
      */
     private String status;
 
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "update_date")
     private Date updateDate;
 
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "create_date")
     private Date createDate;
 
     /**
@@ -67,13 +67,13 @@ public class Activity {
     /**
      * 活动开始时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "start_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "start_date")
     private Date startDate;
 
     /**
      * 活动结束时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "end_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "end_date")
     private Date endDate;
 
     /**

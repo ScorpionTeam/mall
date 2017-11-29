@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -112,8 +113,8 @@ public class ActivityServiceImpl implements ActivityService {
      * @param pageNo
      * @param pageSize
      * @param searchKey
-     * @param type      * 0秒杀, 1拼团,2优选，3全部 SECONDS_KILL 秒杀 SPELL_GROUP 拼团 PERFERRED 优选 FREE试用
-     * @param status    0正常,1删除 NORMAL, 正常,UN_NORMAL, 非正常
+     * @param type      ECONDS_KILL 秒杀 SPELL_GROUP 拼团 PERFERRED 优选 FREE试用
+     * @param status    删除 NORMAL, 正常,UN_NORMAL, 非正常
      * @return
      */
     @Override
@@ -152,7 +153,7 @@ public class ActivityServiceImpl implements ActivityService {
     /**
      * 批量修改活动状态
      *
-     * @param status 状态 0正常 1删除
+     * @param status 状态
      * @param idList id集合
      * @return BaseResult
      */
@@ -175,6 +176,16 @@ public class ActivityServiceImpl implements ActivityService {
     public BaseResult bindActivityWithGood(Long activityId, List<Goods> goodList) {
         if (activityId == null || goodList == null || goodList.size() == 0) {
             return BaseResult.parameterError();
+        }
+        Activity activity = activityMapper.findById(activityId);
+        if (CommonEnum.EXPIRE.getCode().equals(activity.getStatus())) {
+            //已过期
+            return BaseResult.error("unable_bind", "活动已过期，不能绑定");
+        }
+        if (activity.getEndDate().before(new Date())) {
+            activity.setStatus(CommonEnum.EXPIRE.getCode());
+            activityMapper.modify(activity);
+            return BaseResult.error("unable_bind", "活动已过期，不能绑定");
         }
         //活动跟商品绑定
         for (Goods good : goodList) {
