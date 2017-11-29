@@ -84,32 +84,10 @@ public class GoodsController {
     }
 
 
-    /**
-     * 选择绑定活动的商品列表
-     *
-     * @param pageNo
-     * @param pageSize
-     * @param searchKey 模糊信息
-     * @return
-     */
-    @ApiOperation(value = "选择绑定活动的商品列表")
-    @RequestMapping(value = "/findForActivity", method = RequestMethod.GET)
-    public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey,
-                                      String goodNo, Long brandId, Long categoryId) {
-        return goodsService.findForActivity(pageNo, pageSize, searchKey, goodNo, brandId, categoryId);
-    }
-
-
     @ApiOperation(value = "查询商品")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.POST)
     public PageResult findByCondition(@RequestBody GoodRequestParams goodRequestParams) {
         return goodsService.findByCondition(goodRequestParams);
-    }
-
-    @ApiOperation(value = "根据活动查询商品列表")
-    @RequestMapping(value = "/findByActivityId", method = RequestMethod.POST)
-    public PageResult findByActivityId(@RequestBody GoodRequestParams goodRequestParams) {
-        return goodsService.findByActivityId(goodRequestParams);
     }
 
     /**

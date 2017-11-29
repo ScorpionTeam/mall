@@ -31,7 +31,13 @@ public class Category {
      * 父id
      */
     @JSONField(name = "parent_id")
-    private String parentId;
+    private Long parentId;
+
+    /**
+     * 跳转链接
+     */
+    @JSONField(name = "action_url")
+    private String actionUrl;
     /**
      * 排序
      */
@@ -45,6 +51,14 @@ public class Category {
      * 状态 NORMAL UN_NORMAL
      */
     private String status;
+
+    public String getActionUrl() {
+        return actionUrl;
+    }
+
+    public void setActionUrl(String actionUrl) {
+        this.actionUrl = actionUrl;
+    }
 
     public Long getId() {
         return id;
@@ -78,11 +92,11 @@ public class Category {
         this.updateDate = updateDate;
     }
 
-    public String getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
@@ -117,7 +131,8 @@ public class Category {
                 ", categoryName='" + categoryName + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
-                ", parentId='" + parentId + '\'' +
+                ", parentId=" + parentId +
+                ", actionUrl='" + actionUrl + '\'' +
                 ", sort='" + sort + '\'' +
                 ", icon='" + icon + '\'' +
                 ", status='" + status + '\'' +
