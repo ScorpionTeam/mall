@@ -24,7 +24,7 @@ public interface ActivityMapper {
      * @param activity
      * @return
      */
-    int add(Activity activity);
+    Integer add(Activity activity);
 
     /**
      * 删除活动
@@ -32,7 +32,7 @@ public interface ActivityMapper {
      * @param id 商品ID、主键
      * @return
      */
-    int deleteById(@Param("id") Long id);
+    Integer deleteById(@Param("id") Long id);
 
     /**
      * 修改活动
@@ -40,7 +40,7 @@ public interface ActivityMapper {
      * @param activity
      * @return
      */
-    int modify(Activity activity);
+    Integer modify(Activity activity);
 
     /**
      * 条件查询活动列表
@@ -60,7 +60,7 @@ public interface ActivityMapper {
      * @param name
      * @return
      */
-    int validByName(@Param("name") String name);
+    Integer validByName(@Param("name") String name);
 
     /**
      * 根据id 名称校验banner名称是否存在
@@ -69,7 +69,8 @@ public interface ActivityMapper {
      * @param name
      * @return
      */
-    int validByNameAndId(@Param("id") Long id, @Param("name") String name);
+    Integer validByNameAndId(@Param("id") Long id,
+                             @Param("name") String name);
 
 
     /**
@@ -87,7 +88,8 @@ public interface ActivityMapper {
      * @param idList id集合
      * @return int
      */
-    int batchModifyStatus(@Param("status") String status, @Param("idList") List<Long> idList);
+    Integer batchModifyStatus(@Param("status") String status,
+                              @Param("idList") List<Long> idList);
 
     /**
      * 校验相同时间内是否存在相同类型的活动
@@ -97,7 +99,7 @@ public interface ActivityMapper {
      * @param activityType
      * @return
      */
-    int validByTypeAndTime(@Param("startDate") Date startDate,
+    Integer validByTypeAndTime(@Param("startDate") Date startDate,
                            @Param("endDate") Date endDate,
                            @Param("activityType") String activityType);
 }

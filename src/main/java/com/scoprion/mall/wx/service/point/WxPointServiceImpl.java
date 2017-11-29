@@ -4,7 +4,6 @@ package com.scoprion.mall.wx.service.point;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.Point;
 import com.scoprion.mall.domain.PointLog;
 import com.scoprion.mall.wx.mapper.WxPointLogMapper;
@@ -15,7 +14,7 @@ import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 
 
 /**
@@ -41,8 +40,7 @@ public class WxPointServiceImpl implements WxPointService {
      */
     @Override
     public BaseResult findByUserId(String wxCode) {
-        String openId = WxUtil.getOpenId(wxCode);
-        String userId = openId;
+        String userId = WxUtil.getOpenId(wxCode);
         if (StringUtils.isEmpty(userId)) {
             return BaseResult.parameterError();
         }
@@ -57,44 +55,6 @@ public class WxPointServiceImpl implements WxPointService {
         return BaseResult.success(point);
     }
 
-    /**
-     * 等级划分
-     *
-     * @param userId
-     * @return
-     */
-    @Override
-    public BaseResult updateByGrade(String userId) {
-        Point point = wxPointMapper.findByUserId(userId);
-        PointLog pointLog = wxPointLogMapper.findByUserId(userId);
-        int score = point.getPoint();
-        int operatePoint = pointLog.getOperatePoint();
-        int integral = score + operatePoint;
-        point.setPoint(integral);
-        if (integral < Constant.WX_POINT_LEVEL1) {
-            int level = 1;
-            String levelName = "白银";
-            point.setLevel(level);
-            point.setLevelName(levelName);
-        } else if (integral < Constant.WX_POINT_LEVEL2) {
-            int level = 2;
-            String levelName = "黄金";
-            point.setLevel(level);
-            point.setLevelName(levelName);
-        } else if (integral < Constant.WX_POINT_LEVEL3) {
-            int level = 3;
-            String levelName = "铂金";
-            point.setLevel(level);
-            point.setLevelName(levelName);
-        } else {
-            int level = 3;
-            String levelName = "钻石";
-            point.setLevel(level);
-            point.setLevelName(levelName);
-        }
-        wxPointMapper.level(point);
-        return BaseResult.success(point);
-    }
 
     /**
      * 积分记录
@@ -106,8 +66,7 @@ public class WxPointServiceImpl implements WxPointService {
      */
     @Override
     public PageResult pointLog(Integer pageNo, Integer pageSize, String wxCode) {
-//        String userId = WxUtil.getOpenId(wxCode);
-        String userId = "oHuH00PDGYHGTHBZabgq4upmt1V4";
+        String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         Page<PointLog> pointLogs = wxPointLogMapper.findLogPage(userId);
         return new PageResult(pointLogs);

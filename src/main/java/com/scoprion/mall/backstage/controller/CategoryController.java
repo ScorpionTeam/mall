@@ -133,10 +133,8 @@ public class CategoryController {
     @ApiOperation("商品批量解绑定类目")
     @RequestMapping(value = "/unbindCategoryGood", method = RequestMethod.POST)
     public BaseResult unbindCategoryGood(@RequestBody JSONObject object) {
-        //类目 id
-        Long categoryId = object.getObject("categoryId", Long.class);
         //商品id集合
         List<Long> goodIdList = object.getJSONArray("idList").toJavaList(Long.class);
-        return categoryService.unbindCategoryGood(categoryId, goodIdList);
+        return categoryService.unbindCategoryGood(  goodIdList);
     }
 }
