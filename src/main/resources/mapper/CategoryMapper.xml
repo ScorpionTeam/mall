@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.backstage.mapper.CategoryMapper">
+
+    <!--新增类目-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.Category">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_category
+        (category_name, create_date, status,parent_id,sort,icon )
+        VALUES
+        (#{categoryName}, now(), #{status},#{parentId},#{sort},#{icon})
+    </insert>
+
+    <!--修改类目-->
+    <update id="modify" parameterType="com.scoprion.mall.domain.Category">
+        UPDATE t_category SET
+        <if test="categoryName!=null">category_name=#{categoryName},</if>
+        <if test="status!=null">status=#{status},</if>
+        <if test="parentId!=null">parent_id=#{parentId},</if>
+        <if test="sort!=null">sort=#{sort},</if>
+        <if test="createDate!=null">create_date=#{createDate},</if>
+        <if test="icon!=null">icon=#{icon}</if>
+        update_date=now()
+        WHERE id=#{id}
+    </update>
+
+    <!--模糊查询-->
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.Category">
+        SELECT
+        id,
+        category_name,
+        create_date,
+        update_date,
+        parent_id,
+        sort,
+        icon,
+        status
+        FROM t_category WHERE 1=1
+        <if test="searchKey!=null">AND category_name LIKE #{searchKey}</if>
+        <if test="type!=null and type=='PARENT'">AND parent_id=0</if>
+        <if test="type!=null and type=='CHILD'">AND parent_id!=0</if>
+    </select>
+
+    <!--查询类目名称数量-->
+    <select id="validByName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM  t_category WHERE  category_name=#{categoryName} AND status='NORMAL'
+    </select>
+
+    <!--类目id、名称校验-->
+    <select id="validByNameAndId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_category WHERE category_name =#{categoryName} AND id!=#{id} AND status='NORMAL'
+    </select>
+
+    <!--根据ID查询类目详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.Category">
+        SELECT
+        id,
+        category_name,
+        create_date,
+        update_date,
+        parent_id,
+        sort,
+        icon,
+        status
+        FROM t_category
+        WHERE  id=#{id}
+    </select>
+
+    <update id="modifyStatus">
+        UPDATE t_category SET
+        status=#{status},
+        update_date=now()
+        WHERE id =#{id}
+    </update>
+
+    <!--批量删除-->
+    <update id="deleteById">
+        UPDATE t_category SET status='UN_NORMAL' WHERE id =#{id}
+    </update>
+
+</mapper>

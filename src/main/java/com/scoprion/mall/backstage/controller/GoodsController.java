@@ -94,8 +94,9 @@ public class GoodsController {
      */
     @ApiOperation(value = "选择绑定活动的商品列表")
     @RequestMapping(value = "/findForActivity", method = RequestMethod.GET)
-    public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey) {
-        return goodsService.findForActivity(pageNo, pageSize, searchKey);
+    public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey,
+                                      String goodNo, Long brandId, Long categoryId) {
+        return goodsService.findForActivity(pageNo, pageSize, searchKey, goodNo, brandId, categoryId);
     }
 
 

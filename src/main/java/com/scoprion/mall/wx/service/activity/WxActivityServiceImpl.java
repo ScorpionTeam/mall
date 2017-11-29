@@ -149,7 +149,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         Activity activity = wxActivityMapper.findById(activityId);
         if (activity.getNum() < 10) {
             return BaseResult.error("group_fail", "拼团人数不足");
-        }  else if (currentDate.after(activity.getEndDate())) {
+        } else if (currentDate.after(activity.getEndDate())) {
             return BaseResult.error("group_fail", "拼团已过期");
         }
 

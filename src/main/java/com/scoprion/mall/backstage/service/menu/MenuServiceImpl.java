@@ -40,7 +40,7 @@ public class MenuServiceImpl implements MenuService {
         if (StringUtils.isEmpty(searchKey)) {
             searchKey = null;
         }
-        if (searchKey != null) {
+        if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
         PageHelper.startPage(pageNo, pageSize);
@@ -112,10 +112,10 @@ public class MenuServiceImpl implements MenuService {
         if (id == null) {
             return BaseResult.parameterError();
         }
-        SysMenu menu = menuMapper.findById(id);
-        if (CommonEnum.NORMAL.getCode().equals(menu.getStatus())) {
-            return BaseResult.error("del_error", "菜单正在使用中不能删除");
-        }
+//        SysMenu menu = menuMapper.findById(id);
+//        if (CommonEnum.NORMAL.getCode().equals(menu.getStatus())) {
+//            return BaseResult.error("del_error", "菜单正在使用中不能删除");
+//        }
         //子菜单
         Integer result = menuMapper.deleteById(id);
         if (result <= 0) {

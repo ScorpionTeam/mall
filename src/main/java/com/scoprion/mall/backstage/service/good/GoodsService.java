@@ -121,10 +121,14 @@ public interface GoodsService {
      *
      * @param pageNo
      * @param pageSize
-     * @param searchKey 模糊信息
+     * @param searchKey
+     * @param goodNo
+     * @param brandId
+     * @param categoryId
      * @return
      */
-    PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey);
+    PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey,
+                               String goodNo, Long brandId, Long categoryId);
 
     /**
      * ss
