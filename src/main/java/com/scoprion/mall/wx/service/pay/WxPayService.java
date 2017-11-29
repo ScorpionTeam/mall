@@ -22,13 +22,12 @@ public interface WxPayService {
     BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress);
 
     /**
-     * 调起支付
+     * 重新发起支付
      *
-     * @param wxCode
      * @param orderId
      * @return
      */
-    BaseResult pay(String wxCode, Long orderId);
+    BaseResult pay(Long orderId);
 
     /**
      * 支付成功回调

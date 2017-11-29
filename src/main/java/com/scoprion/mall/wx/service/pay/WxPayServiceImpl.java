@@ -148,16 +148,13 @@ public class WxPayServiceImpl implements WxPayService {
 
 
     /**
-     * 去支付
+     * 重新发起支付
      *
-     * @param wxCode
      * @param orderId
      * @return
      */
     @Override
-    public BaseResult pay(String wxCode, Long orderId) {
-        //查询openid
-        String openid = WxUtil.getOpenId(wxCode);
+    public BaseResult pay(Long orderId) {
         Order order = wxOrderMapper.findByOrderId(orderId);
 
         //校验订单信息
