@@ -17,22 +17,6 @@ import java.util.List;
 public interface GoodsService {
 
     /**
-     * 首页展示  限时购商品列表
-     *
-     * @return
-     */
-    List<Goods> findLimit4ByTimeGoods();
-
-    /**
-     * 查询限时购买商品   分页展示
-     *
-     * @param pageNo   当前页
-     * @param pageSize 每页条数
-     * @return
-     */
-    PageResult findByPageAndLimit(int pageNo, int pageSize);
-
-    /**
      * 创建商品
      *
      * @param goods
@@ -40,14 +24,6 @@ public interface GoodsService {
      */
     BaseResult add(GoodExt goods);
 
-    /**
-     * 优选
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    PageResult preferenceGiven(int pageNo, int pageSize);
 
     /**
      * 根据id查询商品详情
@@ -116,25 +92,5 @@ public interface GoodsService {
      */
     BaseResult batchModifySaleStatus(String saleStatus, List<Long> goodsIdList);
 
-    /**
-     * 选择绑定活动的商品列表
-     *
-     * @param pageNo
-     * @param pageSize
-     * @param searchKey
-     * @param goodNo
-     * @param brandId
-     * @param categoryId
-     * @return
-     */
-    PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey,
-                               String goodNo, Long brandId, Long categoryId);
 
-    /**
-     * ss
-     *
-     * @param goodRequestParams
-     * @return
-     */
-    PageResult findByActivityId(GoodRequestParams goodRequestParams);
 }

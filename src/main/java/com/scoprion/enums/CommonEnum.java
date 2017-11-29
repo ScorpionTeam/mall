@@ -81,6 +81,9 @@ public enum CommonEnum {
     NOT_CUT("NOT_CUT", "不裁剪"),
     WATER_REMARK("WATER_REMARK", "加水印"),
     NOT_WATER_REMARK("NOT_WATER_REMARK", "不加水印"),
+    UNBIND_CATEGORY("UNBIND_CATEGORY", "未绑定类目"),
+    UNBIND_ACTIVITY("UNBIND_ACTIVITY", "未绑定活动"),
+    BIND_ACTIVITY("BIND_ACTIVITY", "已经绑定活动"),
     REFUSE("REFUSE", "拒绝"),
     AGREE("AGREE", "同意"),
     ALL_DONE("ALL_DONE", "已完成");

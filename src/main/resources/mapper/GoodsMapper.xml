@@ -219,7 +219,12 @@
         AND on_sale='OFF_SALE'
     </update>
 
+    <!--库存回退-->
+    <update id="updateGoodStockById">
+        UPDATE t_good SET stock=stock+#{stock} WHERE id=#{goodId}
+    </update>
 
+    <!--查询未绑定活动的商品-->
     <select id="findForActivity" resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
         good.id,
@@ -265,7 +270,6 @@
         )
         AND tag.status='NORMAL'
         GROUP BY tg.id
-
         )
         AND good.on_sale='ON_SALE'
         <if test="searchKey!=null">AND CONCAT(good.good_name,good.good_no) LIKE #{searchKey}</if>
@@ -275,6 +279,7 @@
         GROUP BY good.id
     </select>
 
+    <!--查询绑定活动的商品列表-->
     <select id="findByActivityId" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
             resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
@@ -325,9 +330,39 @@
         GROUP BY good.id
     </select>
 
-    <!--库存回退-->
-    <update id="updateGoodStockById">
-        UPDATE t_good SET stock=stock+#{stock} WHERE id=#{goodId}
-    </update>
+    <!--查询未绑定类目的商品-->
+    <select id="findForCategory" parameterType="com.scoprion.mall.domain.request.GoodRequestParams">
+        SELECT
+        good.id,
+        good.seo,
+        good.good_no,
+        good.category_id,
+        good.good_name,
+        good.description,
+        good.promotion,
+        good.price,
+        good.sale_volume,
+        good.discount,
+        good.stock,
+        good.on_sale,
+        good.hot,
+        good.is_new,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.main_image_url,
+        good.create_date
+        FROM t_good good
+        WHERE 1=1
+        AND NOT EXISTS (
+        SELECT tcg.good_id FROM t_category_good tcg
+        WHERE tcg.good_id =good.id
+        )
+        <if test="searchKey!=null">AND CONCAT(good.good_name,good.good_no,seo) LIKE #{searchKey}</if>
+        <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
+        <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
+    </select>
+
 
 </mapper>

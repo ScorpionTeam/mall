@@ -3,7 +3,6 @@ package com.scoprion.mall.backstage.service.good;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
@@ -23,7 +22,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -45,30 +43,6 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private FileOperationMapper fileOperationMapper;
 
-
-    /**
-     * 首页展示4件 限时购买商品
-     *
-     * @return
-     */
-    @Override
-    public List<Goods> findLimit4ByTimeGoods() {
-        return goodsMapper.findLimit4ByTimeGoods();
-    }
-
-    /**
-     * 查询限时购买商品  分页展示
-     *
-     * @param pageNo   当前页
-     * @param pageSize 每页条数
-     * @return
-     */
-    @Override
-    public PageResult findByPageAndLimit(int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        Page<Goods> page = goodsMapper.findByPageAndLimit();
-        return new PageResult(page);
-    }
 
     /**
      * 创建商品
@@ -104,20 +78,6 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     /**
-     * 优选商品
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    @Override
-    public PageResult preferenceGiven(int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        Page<Goods> page = goodsMapper.preferenceGivenByPage();
-        return new PageResult(page);
-    }
-
-    /**
      * 根据id查询商品详情
      *
      * @param goodsId
@@ -129,7 +89,6 @@ public class GoodsServiceImpl implements GoodsService {
         if (null == goods) {
             return BaseResult.notFound();
         }
-
         //获取图片列表
         List<MallImage> imgList = fileOperationMapper.findByCondition(goods.getId(), 0);
         goods.setImgList(imgList);
@@ -276,51 +235,9 @@ public class GoodsServiceImpl implements GoodsService {
         return BaseResult.success(action + "成功");
     }
 
-    /**
-     * 选择绑定活动的商品列表
-     *
-     * @param pageNo
-     * @param pageSize
-     * @param searchKey 模糊信息
-     * @return
-     */
-    @Override
-    public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey,
-                                      String goodNo, Long brandId, Long categoryId) {
-        PageHelper.startPage(pageNo, pageSize);
-        if (StringUtils.isEmpty(searchKey)) {
-            searchKey = null;
-        }
-        if (!StringUtils.isEmpty(searchKey)) {
-            searchKey = "%" + searchKey + "%";
-        }
-        List<GoodExt> result = goodsMapper.findForActivity(searchKey, goodNo, brandId, categoryId);
-        return new PageResult(result);
-    }
 
     @Override
-    public PageResult findByCondition(GoodRequestParams goodRequestParams) {
-        PageHelper.startPage(goodRequestParams.getPageNo(), goodRequestParams.getPageSize());
-        if (StringUtils.isEmpty(goodRequestParams.getSearchKey())) {
-            goodRequestParams.setSearchKey(null);
-        }
-        if (!StringUtils.isEmpty(goodRequestParams.getSearchKey())) {
-            goodRequestParams.setSearchKey("%" + goodRequestParams.getSearchKey() + "%");
-        }
-        goodRequestParams.setStartDate(DateParamFormatUtil.formatDate(goodRequestParams.getStartDate()));
-        goodRequestParams.setEndDate(DateParamFormatUtil.formatDate(goodRequestParams.getEndDate()));
-        Page<GoodExt> page = goodsMapper.findByCondition(goodRequestParams);
-        if (page == null) {
-            return new PageResult();
-        }
-        return new PageResult(page);
-    }
-
-    /**
-     * 选择绑定活动的商品列表
-     */
-    @Override
-    public PageResult findByActivityId(GoodRequestParams requestParams) {
+    public PageResult findByCondition(GoodRequestParams requestParams) {
         PageHelper.startPage(requestParams.getPageNo(), requestParams.getPageSize());
         if (StringUtils.isEmpty(requestParams.getSearchKey())) {
             requestParams.setSearchKey(null);
@@ -330,8 +247,42 @@ public class GoodsServiceImpl implements GoodsService {
         }
         requestParams.setStartDate(DateParamFormatUtil.formatDate(requestParams.getStartDate()));
         requestParams.setEndDate(DateParamFormatUtil.formatDate(requestParams.getEndDate()));
-        List<GoodExt> result = goodsMapper.findByActivityId(requestParams);
+        Page<GoodExt> page;
+        if (CommonEnum.UNBIND_CATEGORY.getCode().equals(requestParams.getType())) {
+            //未绑定类目的商品列表
+            page = goodsMapper.findForCategory(requestParams);
+        } else if (CommonEnum.UNBIND_ACTIVITY.getCode().equals(requestParams.getType())) {
+            //未绑定活动的商品列表
+            page = goodsMapper.findForActivity(requestParams);
+        } else if (CommonEnum.BIND_ACTIVITY.getCode().equals(requestParams.getType())) {
+            //已经绑定活动的商品列表搜索
+            page = goodsMapper.findByActivityId(requestParams);
+        } else {
+            //基础条件查询
+            page = goodsMapper.findByCondition(requestParams);
+        }
+        return new PageResult(page);
+    }
+
+
+    /**
+     * 选择绑定活动的商品列表
+     *
+     * @return
+     */
+    private PageResult findForActivity(GoodRequestParams requestParams) {
+        Page<GoodExt> result = goodsMapper.findForActivity(requestParams);
         return new PageResult(result);
     }
 
+    /**
+     * 未绑定类目的商品列表
+     *
+     * @param goodRequestParams
+     * @return
+     */
+    private PageResult findForCategory(GoodRequestParams goodRequestParams) {
+        List<GoodExt> result = goodsMapper.findForCategory(goodRequestParams);
+        return new PageResult(result);
+    }
 }
