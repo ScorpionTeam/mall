@@ -214,19 +214,6 @@ public class WxActivityServiceImpl implements WxActivityService {
 
     public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
         Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
-//        //判断签名是否被篡改
-//        String sign = unifiedOrderNotifyRequestData.getSign();
-//        System.out.println("回调返回Sign:" + sign);
-//        String nonce_str = unifiedOrderNotifyRequestData.getNonce_str();
-//        BigDecimal fee = order.getTotalFee().multiply(new BigDecimal(100));
-//        int totalFee = fee.intValue() / 100;
-//        String localSign = preOrderSend(order.getGoodName(),
-//                "妆口袋",
-//                unifiedOrderNotifyRequestData.getOpenid(),
-//                order.getOrderNo(),
-//                totalFee,
-//                nonce_str);
-//        System.out.println("本地再签:" + localSign);
         //判断是否成功接收回调
         wxOrderMapper.updateOrderStatusAndPayStatusAndWxOrderNo(unifiedOrderNotifyRequestData.getTime_end(),
                 unifiedOrderNotifyRequestData.getOut_trade_no(),
