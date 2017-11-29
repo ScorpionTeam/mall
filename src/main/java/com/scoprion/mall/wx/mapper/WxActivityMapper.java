@@ -29,6 +29,7 @@ public interface WxActivityMapper {
      */
     Page<Activity> secKill();
 
+
     /**
      * 优选
      *
