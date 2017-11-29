@@ -23,9 +23,7 @@ public class Activity {
 
     /**
      * 活动类型
-     * 0秒杀
-     * 1拼团
-     * 2优选
+     * 活动类型 SECONDS_KILL 秒杀 SPELL_GROUP 拼团 PREFERRED 优选 FREE试用
      */
     @JSONField(name = "activity_type")
     private String activityType;

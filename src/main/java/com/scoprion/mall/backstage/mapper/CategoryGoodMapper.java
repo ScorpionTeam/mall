@@ -47,18 +47,16 @@ public interface CategoryGoodMapper {
     /**
      * 解绑商品跟类目
      *
-     * @param categoryId
      * @param goodIdList
      * @return
      */
-    Integer unbindCategoryGood(@Param("categoryId") Long categoryId,
-                               @Param("goodIdList") List<Long> goodIdList);
+    Integer unbindCategoryGood(@Param("goodIdList") List<Long> goodIdList);
 
     /**
-     * 查询商品已经绑定的类目数量
+     * 根据商品id解绑商品跟类目
      *
      * @param goodId
      * @return
      */
-    Integer findCountByGoodId(@Param("goodId") Long goodId);
+    Integer unbindWithGoodId(@Param("goodId") Long goodId);
 }
