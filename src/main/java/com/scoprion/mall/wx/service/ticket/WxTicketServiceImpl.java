@@ -2,7 +2,6 @@ package com.scoprion.mall.wx.service.ticket;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.domain.TicketExt;
@@ -55,10 +54,10 @@ public class WxTicketServiceImpl implements WxTicketService {
             Date startDate = item.getStartDate();
             Date endDate = item.getEndDate();
             if (startDate.after(currentTime)) {
-                item.setExpire(CommonEnum.UN_START.getCode());
+                item.setExpire(CommonEnum.UN_START.getDesc());
             }
             if (endDate.before(currentTime)) {
-                item.setExpire(CommonEnum.EXPIRE.getCode());
+                item.setExpire(CommonEnum.EXPIRE.getDesc());
             }
             if (startDate.compareTo(currentTime) < 0 && startDate.compareTo(
                     currentTime) == 0 && currentTime.compareTo(endDate) < 0 && currentTime.compareTo(endDate) == 0) {
