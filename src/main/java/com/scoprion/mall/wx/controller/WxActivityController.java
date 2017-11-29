@@ -33,9 +33,9 @@ public class WxActivityController {
      * @param pageSize
      * @return
      */
-    @RequestMapping(value = "/findByGroup", method = RequestMethod.GET)
-    public PageResult findByGroup(int pageNo, int pageSize) {
-        return wxActivityService.findByGroup(pageNo, pageSize);
+    @RequestMapping(value = "/groupList", method = RequestMethod.GET)
+    public PageResult groupList(int pageNo, int pageSize, String activity_type) {
+        return wxActivityService.groupList(pageNo, pageSize, activity_type);
     }
 
     /**

@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.service.activity;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.*;
 import com.scoprion.mall.wx.pay.WxPayConfig;
@@ -17,10 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -46,32 +44,31 @@ public class WxActivityServiceImpl implements WxActivityService {
     private WxGoodSnapShotMapper wxGoodSnapShotMapper;
 
     /**
-     * 拼团
+     * 拼团列表
      *
      * @param pageNo
      * @param pageSize
      * @return
      */
     @Override
-    public PageResult findByGroup(int pageNo, int pageSize) {
+    public PageResult groupList(int pageNo, int pageSize, String activity_type) {
         PageHelper.startPage(pageNo, pageSize);
-        Activity activity = wxActivityMapper.findByActivityTypeTwo();
+        Activity activity = wxActivityMapper.findByActivityType(activity_type);
         Date currentDate = new Date();
-        //查询当前时间是否在活动时间范围内
+        //List<Page> pageList = new ArrayList<>();
+        //活动进行中
         if (activity.getStartDate().before(currentDate) && activity.getEndDate().after(currentDate)) {
-            //活动商品 (拼团)
-            Page<Activity> page = wxActivityMapper.findByGroup();
-            return new PageResult(page);
+            Page<Activity> page = wxActivityMapper.groupList(activity_type);
         }
+        //活动已结束
         if (activity.getEndDate().before(currentDate)) {
-            Page<Activity> page = wxActivityMapper.findByGroup();
-            return new PageResult(page);
+            Page<Activity> page = wxActivityMapper.groupList(activity_type);
         }
+        //活动未开始
         if (activity.getStartDate().after(currentDate)) {
-            Page<Activity> page = wxActivityMapper.findByGroup();
-            return new PageResult(page);
+            Page<Activity> page = wxActivityMapper.groupList(activity_type);
         }
-        Page<Activity> page = wxActivityMapper.findByGroup();
+        Page<Activity> page = wxActivityMapper.groupList(activity_type);
         return new PageResult(page);
     }
 
@@ -217,19 +214,6 @@ public class WxActivityServiceImpl implements WxActivityService {
 
     public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
         Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
-//        //判断签名是否被篡改
-//        String sign = unifiedOrderNotifyRequestData.getSign();
-//        System.out.println("回调返回Sign:" + sign);
-//        String nonce_str = unifiedOrderNotifyRequestData.getNonce_str();
-//        BigDecimal fee = order.getTotalFee().multiply(new BigDecimal(100));
-//        int totalFee = fee.intValue() / 100;
-//        String localSign = preOrderSend(order.getGoodName(),
-//                "妆口袋",
-//                unifiedOrderNotifyRequestData.getOpenid(),
-//                order.getOrderNo(),
-//                totalFee,
-//                nonce_str);
-//        System.out.println("本地再签:" + localSign);
         //判断是否成功接收回调
         wxOrderMapper.updateOrderStatusAndPayStatusAndWxOrderNo(unifiedOrderNotifyRequestData.getTime_end(),
                 unifiedOrderNotifyRequestData.getOut_trade_no(),

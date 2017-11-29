@@ -14,11 +14,8 @@ public class WxFreeOrder extends WxOrderRequestData {
     @JSONField(name = "wx_code")
     private String wxCode;
 
-    /**
-     * 活动商品id
-     */
-    @JSONField(name = "activity_good_id")
-    private Long activityGoodId;
+    @JSONField(name = "activity_id")
+    private Long activityId;
 
     public String getWxCode() {
         return wxCode;
@@ -28,19 +25,19 @@ public class WxFreeOrder extends WxOrderRequestData {
         this.wxCode = wxCode;
     }
 
-    public Long getActivityGoodId() {
-        return activityGoodId;
+    public Long getActivityId() {
+        return activityId;
     }
 
-    public void setActivityGoodId(Long activityGoodId) {
-        this.activityGoodId = activityGoodId;
+    public void setActivityId(Long activityId) {
+        this.activityId = activityId;
     }
 
     @Override
     public String toString() {
         return "WxFreeOrder{" +
                 "wxCode='" + wxCode + '\'' +
-                ", activityGoodId=" + activityGoodId +
+                ", activityId=" + activityId +
                 '}';
     }
 }
