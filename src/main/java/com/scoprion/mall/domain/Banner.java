@@ -40,7 +40,7 @@ public class Banner {
     private int visitTotal;
 
     /**
-     * 状态 0 正常 1 删除
+     * 状态 0 NORMAL 正常 1UN_NORMAL 删除
      */
     private String status;
     /**

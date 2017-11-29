@@ -121,13 +121,12 @@ public class CategoryServiceImpl implements CategoryService {
     /**
      * 商品解绑类目
      *
-     * @param categoryId 类目 id
      * @param goodIdList 商品 id
      * @return
      */
     @Override
-    public BaseResult unbindCategoryGood(Long categoryId, List<Long> goodIdList) {
-        Integer result = categoryGoodMapper.unbindCategoryGood(categoryId, goodIdList);
+    public BaseResult unbindCategoryGood(List<Long> goodIdList) {
+        Integer result = categoryGoodMapper.unbindCategoryGood(goodIdList);
         if (result > 0) {
             return BaseResult.success("解绑成功");
         }
@@ -144,6 +143,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public BaseResult bindCategoryGood(Long categoryId, List<Long> goodIdList) {
         goodIdList.forEach(goodId -> {
+            categoryGoodMapper.unbindWithGoodId(goodId);
             categoryGoodMapper.bindCategoryGood(categoryId, goodId);
         });
         return BaseResult.success("绑定成功");

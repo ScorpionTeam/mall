@@ -15,8 +15,7 @@
     <!--清空商品跟类目的绑定关系-->
     <delete id="unbindCategoryGood">
         DELETE FROM t_category_good
-        WHERE category_id=#{categoryId}
-        AND good_id IN
+        WHERE good_id IN
         <foreach collection="goodIdList" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -26,6 +25,12 @@
     <delete id="unbindWithCategoryId">
         DELETE FROM t_category_good
         WHERE category_id=#{categoryId}
+    </delete>
+
+    <!--清空跟商品id关联的关系-->
+    <delete id="unbindWithGoodId">
+        DELETE FROM t_category_good
+        WHERE good_id=#{goodId}
     </delete>
 
     <!--根据类目id查询类目参加的活动-->

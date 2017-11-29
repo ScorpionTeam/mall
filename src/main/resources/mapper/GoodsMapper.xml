@@ -148,6 +148,35 @@
         WHERE id=#{id}
     </update>
 
+    <!--商品上下架-->
+    <update id="batchModifySaleStatus">
+        UPDATE t_good SET
+        on_sale=#{saleStatus},
+        last_update_date=NOW()
+        WHERE id IN
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--批量删除商品-->
+    <update id="batchDeleteGood">
+        UPDATE t_good
+        SET status='UN_NORMAL',
+        last_update_date=now()
+        WHERE id IN
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND on_sale='OFF_SALE'
+    </update>
+
+    <!--库存回退-->
+    <update id="updateGoodStockById">
+        UPDATE t_good SET stock=stock+#{stock} WHERE id=#{goodId}
+    </update>
+
+    <!--列表查询-->
     <select id="findByCondition" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
             resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
@@ -196,36 +225,9 @@
         GROUP BY good.id
     </select>
 
-    <!--商品上下架-->
-    <update id="batchModifySaleStatus">
-        UPDATE t_good SET
-        on_sale=#{saleStatus},
-        last_update_date=NOW()
-        WHERE id IN
-        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </update>
-
-    <!--批量删除商品-->
-    <update id="batchDeleteGood">
-        UPDATE t_good
-        SET status='UN_NORMAL',
-        last_update_date=now()
-        WHERE id IN
-        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-        AND on_sale='OFF_SALE'
-    </update>
-
-    <!--库存回退-->
-    <update id="updateGoodStockById">
-        UPDATE t_good SET stock=stock+#{stock} WHERE id=#{goodId}
-    </update>
-
     <!--查询未绑定活动的商品-->
-    <select id="findForActivity" resultType="com.scoprion.mall.domain.GoodExt">
+    <select id="findForActivity" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+            resultType="com.scoprion.mall.domain.GoodExt">
         SELECT
         good.id,
         good.seo,
@@ -258,18 +260,17 @@
         tac.end_date BETWEEN '0' AND NOW()) OR tacg.status='UN_NORMAL')
         WHERE good.on_sale='ON_SALE'
         AND good.id NOT IN(
-
-        SELECT tg.id
-        FROM t_good tg
-        LEFT JOIN t_activity_good tag ON tag.good_id=tg.id
-        LEFT JOIN t_activity ta ON ta.id=tag.activity_id
-        WHERE 1=1
-        AND (
-        ta.status='NORMAL' OR ( ta.status!='UN_NORMAL' AND ta.start_date IS NOT NULL
-        AND ( ((ta.start_date BETWEEN '0' AND NOW()) AND ta.end_date > NOW()) OR ta.start_date >NOW() ) )
-        )
-        AND tag.status='NORMAL'
-        GROUP BY tg.id
+            SELECT tg.id
+            FROM t_good tg
+            LEFT JOIN t_activity_good tag ON tag.good_id=tg.id
+            LEFT JOIN t_activity ta ON ta.id=tag.activity_id
+            WHERE 1=1
+            AND (
+            ta.status='NORMAL' OR ( ta.status!='UN_NORMAL' AND ta.start_date IS NOT NULL
+            AND ( ((ta.start_date BETWEEN '0' AND NOW()) AND ta.end_date > NOW()) OR ta.start_date >NOW() ) )
+            )
+            AND tag.status='NORMAL'
+            GROUP BY tg.id
         )
         AND good.on_sale='ON_SALE'
         <if test="searchKey!=null">AND CONCAT(good.good_name,good.good_no) LIKE #{searchKey}</if>
