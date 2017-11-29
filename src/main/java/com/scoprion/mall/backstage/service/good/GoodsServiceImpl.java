@@ -285,9 +285,16 @@ public class GoodsServiceImpl implements GoodsService {
      * @return
      */
     @Override
-    public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey) {
+    public PageResult findForActivity(Integer pageNo, Integer pageSize, String searchKey,
+                                      String goodNo, Long brandId, Long categoryId) {
         PageHelper.startPage(pageNo, pageSize);
-        List<GoodExt> result = goodsMapper.findForActivity(searchKey);
+        if (StringUtils.isEmpty(searchKey)) {
+            searchKey = null;
+        }
+        if (!StringUtils.isEmpty(searchKey)) {
+            searchKey = "%" + searchKey + "%";
+        }
+        List<GoodExt> result = goodsMapper.findForActivity(searchKey, goodNo, brandId, categoryId);
         return new PageResult(result);
     }
 

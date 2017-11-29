@@ -112,13 +112,20 @@ public interface GoodsMapper {
     /**
      * 选择绑定活动的商品列表
      *
-     * @param searchKey 模糊信息
+     * @param searchKey
+     * @param goodNo
+     * @param brandId
+     * @param categoryId
      * @return
      */
-    List<GoodExt> findForActivity(@Param("searchKey") String searchKey);
+    List<GoodExt> findForActivity(@Param("searchKey") String searchKey,
+                                  @Param("goodNo") String goodNo,
+                                  @Param("brandId") Long brandId,
+                                  @Param("categoryId") Long categoryId);
 
     /**
      * ss
+     *
      * @param requestParams
      * @return
      */

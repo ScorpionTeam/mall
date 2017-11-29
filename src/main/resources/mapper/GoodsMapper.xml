@@ -181,7 +181,7 @@
         LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
         LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         WHERE 1=1
-        <if test="searchKey!=null and searchKey!=''">AND good.seo LIKE #{searchKey}</if>
+        <if test="searchKey!=null and searchKey!=''">AND CONCAT(good.good_name,good.good_no) LIKE #{searchKey}</if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
@@ -253,6 +253,7 @@
         tac.end_date BETWEEN '0' AND NOW()) OR tacg.status='UN_NORMAL')
         WHERE good.on_sale='ON_SALE'
         AND good.id NOT IN(
+
         SELECT tg.id
         FROM t_good tg
         LEFT JOIN t_activity_good tag ON tag.good_id=tg.id
@@ -264,9 +265,13 @@
         )
         AND tag.status='NORMAL'
         GROUP BY tg.id
+
         )
         AND good.on_sale='ON_SALE'
-        <if test="searchKey!=null and searchKey!=''">AND seo LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND CONCAT(good.good_name,good.good_no) LIKE #{searchKey}</if>
+        <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
+        <if test="categoryId!=null ">AND good.category_id= #{categoryId}</if>
+        <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
         GROUP BY good.id
     </select>
 
@@ -306,15 +311,15 @@
         AND tac.id=#{activityId}
         AND tac.status='NORMAL'
         AND tacg.status='NORMAL'
-        <if test="searchKey!=null and   searchKey!=''">AND seo LIKE #{searchKey}</if>
+        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(good.good_name,good.good_no) LIKE #{searchKey}</if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
-        <if test="goodNo!=null and goodNo!=''">AND good.good_no= #{goodNo}</if>
         <if test="saleStatus!=null and saleStatus!=''">AND good.on_sale= #{saleStatus}</if>
         <if test="isHot!=null and isHot!=''">AND good.hot= #{hot}</if>
         <if test="isNew!=null and isNew!=''">AND good.is_new= #{isNew}</if>
         <if test="isFreight!=null and isFreight!=''">AND good.freight= #{freight}</if>
+        <if test="goodNo!=null and goodNo!=''">AND good.good_no= #{goodNo}</if>
         <if test="categoryId!=null ">AND good.category_id= #{categoryId}</if>
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
         GROUP BY good.id

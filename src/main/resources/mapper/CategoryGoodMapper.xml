@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.backstage.mapper.CategoryGoodMapper">
+
+    <!--添加类目活动关系-->
+    <insert id="bindActivityGood">
+        INSERT INTO t_category_good
+        (category_id,good_id, create_date)
+        VALUES
+        (#{activityId},#{goodId},now())
+    </insert>
+
+    <!--清空商品跟类目的绑定关系-->
+    <delete id="unbindCategoryGood">
+        DELETE FROM t_category_good
+        WHERE category_id=#{categoryId}
+        AND good_id IN
+        <foreach collection="goodIdList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--清空跟类目id的绑定的所有商品关系-->
+    <delete id="unbindWithCategoryId">
+        DELETE FROM t_category_good
+        WHERE category_id=#{categoryId}
+    </delete>
+
+    <!--根据类目id查询类目参加的活动-->
+    <select id="findByCategoryId" resultType="com.scoprion.mall.domain.CategoryGood">
+        SELECT  id,
+        category_id,
+        create_date,
+        good_id
+        FROM  t_category_good
+        WHERE  category_id=#{categoryId}
+    </select>
+
+
+</mapper>

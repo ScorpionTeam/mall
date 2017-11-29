@@ -1,6 +1,7 @@
 package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.domain.Activity;
 import com.scoprion.mall.domain.ActivityGoods;
 import com.scoprion.mall.domain.Goods;
@@ -15,11 +16,11 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 public interface WxActivityMapper {
     /**
-     * 拼团
+     * 拼团列表
      *
      * @return
      */
-    Page<Activity> findByGroup();
+    Page<Activity> groupList(@Param("activity_type") String activity_type);
 
     /**
      * 秒杀
@@ -55,6 +56,8 @@ public interface WxActivityMapper {
      * @return
      */
     Activity findByActivityTypeThree();
+
+    Activity findByActivityType(@Param("activity_type") String activity_type);
 
     /**
      * 查询试用列表

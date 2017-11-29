@@ -39,8 +39,8 @@
         <result property="status" column="status"/>
     </resultMap>
 
-    <!-- 拼团 -->
-    <select id="findByGroup" resultMap="activityResult">
+    <!-- 拼团列表 -->
+    <select id="groupList" resultMap="activityResult">
         SELECT
         act.name,
         act.activity_type,
@@ -74,10 +74,10 @@
         tg.status
         FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activity_id
         INNER JOIN t_good tg ON actg.good_id = tg.id
-        AND act.activity_type = '1' AND actg.status='0' AND act.status='0'
+        AND act.activity_type = #{activity_type} AND actg.status='NORMAL' AND act.status='NORMAL'
     </select>
     <!-- 根据类型与时间计算拼团是否开始 activityType = 2 -->
-    <select id="findByActivityTypeTwo" resultType="com.scoprion.mall.domain.Activity">
+    <select id="findByActivityType" resultType="com.scoprion.mall.domain.Activity">
         SELECT
         id,
         name,
@@ -91,7 +91,7 @@
         end_date,
         discount,
         describes
-        FROM t_activity WHERE id = '2'
+        FROM t_activity WHERE activity_type=#{activity_type} GROUP BY activity_type
     </select>
 
     <!-- 秒杀 -->
