@@ -51,7 +51,7 @@ public interface CategoryGoodMapper {
      * @param goodIdList
      * @return
      */
-    Integer unbindCategoryGood(@Param("goodIdList") List<Long> goodIdList);
+    int unbindCategoryGood(@Param("goodIdList") List<Long> goodIdList);
 
     /**
      * 根据商品id解绑商品跟类目

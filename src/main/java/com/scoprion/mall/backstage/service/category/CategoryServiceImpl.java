@@ -167,7 +167,7 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public BaseResult unbindCategoryGood(List<Long> goodIdList) {
-        Integer result = categoryGoodMapper.unbindCategoryGood(goodIdList);
+        int result = categoryGoodMapper.unbindCategoryGood(goodIdList);
         if (result > 0) {
             return BaseResult.success("解绑成功");
         }

@@ -70,6 +70,21 @@
         WHERE  id=#{id}
     </select>
 
+    <!--根据ID查询类目详情-->
+    <select id="findByParentId" resultType="com.scoprion.mall.domain.Category">
+        SELECT
+        id,
+        category_name,
+        create_date,
+        update_date,
+        parent_id,
+        sort,
+        icon,
+        status
+        FROM t_category
+        WHERE  parent_id=#{parentId}
+    </select>
+
     <update id="modifyStatus">
         UPDATE t_category SET
         status=#{status},
