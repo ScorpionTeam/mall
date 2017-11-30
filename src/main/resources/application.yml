@@ -1,0 +1,32 @@
+spring:
+  profiles:
+    active: prod
+  aop:
+    proxy-target-class: true
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    password:
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+    timeout: 0
+
+
+logging:
+  level: debug
+  file: logs/spring-boot-logging.log
+mybatis:
+  type-aliases-package: com.scorpion.mall.domain
+  mapper-locations: classpath*:/mapper/*.xml
+  configuration:
+     cache-enabled: true
+     mapUnderscoreToCamelCase: true
+pagehelper:
+  helper-dialect: mysql
+  reasonable: false         #默认开启  true:页码小于1或者页码大于最大时返回 第一条或者最后一条
+  support-methods-arguments: true
+  params: count=countSql
