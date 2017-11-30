@@ -40,13 +40,13 @@ public class WxGoodServiceImpl implements WxGoodService {
      * 首页商品列表
      *
      * @param pageNo
-     * @param PageSize
+     * @param pageSize
      * @return
      */
     @Override
-    public PageResult findOnline(int pageNo, int PageSize) {
-        PageHelper.startPage(pageNo, PageSize);
-        Page<Goods> page = wxGoodMapper.findOnline();
+    public PageResult findHomePage(Integer pageNo, Integer pageSize, Long categoryId) {
+        PageHelper.startPage(pageNo, pageSize);
+        Page<Goods> page = wxGoodMapper.findHomePage(categoryId);
         return new PageResult(page);
     }
 

@@ -29,9 +29,9 @@ public class WxGoodController {
      * @return
      */
     @Access
-    @RequestMapping(value = "/findAll", method = RequestMethod.GET)
-    public PageResult findAll(int pageNo, int pageSize) {
-        return wxGoodService.findOnline(pageNo, pageSize);
+    @RequestMapping(value = "/findHomePage", method = RequestMethod.GET)
+    public PageResult findHomePage(Integer pageNo, Integer pageSize, Long categoryId) {
+        return wxGoodService.findHomePage(pageNo, pageSize, categoryId);
     }
 
     /**
@@ -73,7 +73,7 @@ public class WxGoodController {
     @Access
     @RequestMapping(value = "/findBySearchKey", method = RequestMethod.GET)
     public PageResult findBySearchKey(Integer pageNo, Integer pageSize, Long categoryId, String searchKey) {
-        return wxGoodService.findBySearchKey(pageNo, pageSize, categoryId,searchKey);
+        return wxGoodService.findBySearchKey(pageNo, pageSize, categoryId, searchKey);
     }
 
 }

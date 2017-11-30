@@ -15,10 +15,10 @@ public interface WxGoodMapper {
 
     /**
      * 首页商品列表
-     *
+     *@param categoryId
      * @return
      */
-    Page<Goods> findOnline();
+    Page<Goods> findHomePage(@Param("categoryId") Long categoryId);
 
     /**
      * 查询商品详情

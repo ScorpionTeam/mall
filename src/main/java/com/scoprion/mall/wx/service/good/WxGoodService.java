@@ -14,10 +14,11 @@ public interface WxGoodService {
      * 商品列表
      *
      * @param pageNo
-     * @param PageSize
+     * @param pageSize
+     * @param categoryId
      * @return
      */
-    PageResult findOnline(int pageNo, int PageSize);
+    PageResult findHomePage(Integer pageNo, Integer pageSize, Long categoryId);
 
     /**
      * 商品详情
