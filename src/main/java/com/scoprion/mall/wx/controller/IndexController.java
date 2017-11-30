@@ -42,10 +42,4 @@ public class IndexController {
         return BaseResult.success(world);
     }
 
-
-    public static void main(String[] args) {
-        byte[] bytes = CommonEnum.AUTH.getDesc().getBytes(Charset.forName("UTF-8"));
-        byte[] md5 = DigestUtils.sha1(bytes);
-        System.out.println(DigestUtils.md5(md5));
-    }
 }
