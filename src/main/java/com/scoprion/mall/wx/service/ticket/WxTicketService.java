@@ -15,19 +15,19 @@ public interface WxTicketService {
      *
      * @param pageNo
      * @param pageSize
-     * @param wxCode
+     * @param wx_code
      * @return
      */
-    PageResult findByUserId(Integer pageNo, Integer pageSize, String  wxCode);
+    PageResult findByUserId(Integer pageNo, Integer pageSize, String  wx_code);
 
     /**
      * 领取优惠券
      *
      * @param ticketId
-     * @param wxCode
+     * @param wx_code
      * @return
      */
-    BaseResult getTicket(Long ticketId, String wxCode);
+    BaseResult getTicket(Long ticketId, String wx_code);
 
     /**
      * 查询所有优惠券列表

@@ -40,13 +40,13 @@ public class WxTicketServiceImpl implements WxTicketService {
      *
      * @param pageNo
      * @param pageSize
-     * @param wxCode
+     * @param wx_code
      * @return
      */
     @Override
-    public PageResult findByUserId(Integer pageNo, Integer pageSize, String wxCode) {
+    public PageResult findByUserId(Integer pageNo, Integer pageSize, String wx_code) {
         PageHelper.startPage(pageNo, pageSize);
-        String userId = WxUtil.getOpenId(wxCode);
+        String userId = WxUtil.getOpenId(wx_code);
         Page<TicketExt> page = wxTicketMapper.findByUserId(userId);
         List<TicketExt> list = page.getResult();
         Date currentTime = new Date();
@@ -70,13 +70,13 @@ public class WxTicketServiceImpl implements WxTicketService {
     /**
      * 领取优惠券
      *
-     * @param wxCode
+     * @param wx_code
      * @param ticketId
      * @return
      */
     @Override
-    public BaseResult getTicket(Long ticketId, String wxCode) {
-        String userId = WxUtil.getOpenId(wxCode);
+    public BaseResult getTicket(Long ticketId, String wx_code) {
+        String userId = WxUtil.getOpenId(wx_code);
         int count = wxTicketMapper.findByTicketIdAndUserId(ticketId, userId);
         if (count > 0) {
             return BaseResult.error("ERROR", "已经领取过了");

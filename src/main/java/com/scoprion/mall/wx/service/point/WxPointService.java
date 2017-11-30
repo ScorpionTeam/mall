@@ -14,10 +14,10 @@ public interface WxPointService {
     /**
      * 根据用户id查询用户信息
      *
-     * @param wxCode
+     * @param wx_code
      * @return
      */
-    BaseResult findByUserId(String wxCode);
+    BaseResult findByUserId(String wx_code);
 
 
 
@@ -26,8 +26,8 @@ public interface WxPointService {
      *
      * @param pageNo
      * @param pageSize
-     * @param wxCode
+     * @param wx_code
      * @return
      */
-    PageResult pointLog(Integer pageNo, Integer pageSize, String wxCode);
+    PageResult pointLog(Integer pageNo, Integer pageSize, String wx_code);
 }

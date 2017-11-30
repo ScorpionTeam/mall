@@ -35,12 +35,12 @@ public class WxPointServiceImpl implements WxPointService {
     /**
      * 根据用户id查询用户信息
      *
-     * @param wxCode
+     * @param wx_code
      * @return
      */
     @Override
-    public BaseResult findByUserId(String wxCode) {
-        String userId = WxUtil.getOpenId(wxCode);
+    public BaseResult findByUserId(String wx_code) {
+        String userId = WxUtil.getOpenId(wx_code);
         if (StringUtils.isEmpty(userId)) {
             return BaseResult.parameterError();
         }
@@ -61,12 +61,12 @@ public class WxPointServiceImpl implements WxPointService {
      *
      * @param pageNo
      * @param pageSize
-     * @param wxCode
+     * @param wx_code
      * @return
      */
     @Override
-    public PageResult pointLog(Integer pageNo, Integer pageSize, String wxCode) {
-        String userId = WxUtil.getOpenId(wxCode);
+    public PageResult pointLog(Integer pageNo, Integer pageSize, String wx_code) {
+        String userId = WxUtil.getOpenId(wx_code);
         PageHelper.startPage(pageNo, pageSize);
         Page<PointLog> pointLogs = wxPointLogMapper.findLogPage(userId);
         return new PageResult(pointLogs);

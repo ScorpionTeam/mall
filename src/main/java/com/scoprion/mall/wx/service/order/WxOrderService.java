@@ -15,11 +15,11 @@ public interface WxOrderService {
      *
      * @param pageNo      当前页
      * @param pageSize    每页条数
-     * @param wxCode      微信code
+     * @param wx_code      微信code
      * @param orderStatus 订单状态
      * @return
      */
-    PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus);
+    PageResult findByUserId(int pageNo, int pageSize, String wx_code, String orderStatus);
 
     /**
      * 查询订单详情

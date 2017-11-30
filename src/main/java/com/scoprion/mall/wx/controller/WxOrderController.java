@@ -31,14 +31,14 @@ public class WxOrderController {
      *
      * @param pageNo
      * @param pageSize
-     * @param wxCode
+     * @param wx_code
      * @param orderStatus
      * @return
      */
     @Access
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
-    public PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus) {
-        return wxOrderService.findByUserId(pageNo, pageSize, wxCode, orderStatus);
+    public PageResult findByUserId(int pageNo, int pageSize, String wx_code, String orderStatus) {
+        return wxOrderService.findByUserId(pageNo, pageSize, wx_code, orderStatus);
     }
 
 

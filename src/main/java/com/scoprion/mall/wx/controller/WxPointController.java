@@ -23,13 +23,13 @@ public class WxPointController {
     /**
      * 个人信息
      *
-     * @param wxCode
+     * @param wx_code
      * @return
      */
     @Access
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
-    public BaseResult findByUserId(String wxCode) {
-        return wxPointService.findByUserId(wxCode);
+    public BaseResult findByUserId(String wx_code) {
+        return wxPointService.findByUserId(wx_code);
     }
 
 
@@ -38,12 +38,12 @@ public class WxPointController {
      *
      * @param pageNo
      * @param pageSize
-     * @param wxCode
+     * @param wx_code
      * @return
      */
     @Access
     @RequestMapping(value = "/pointLog", method = RequestMethod.GET)
-    public PageResult pointLog(Integer pageNo, Integer pageSize, String wxCode) {
-        return wxPointService.pointLog(pageNo, pageSize, wxCode);
+    public PageResult pointLog(Integer pageNo, Integer pageSize, String wx_code) {
+        return wxPointService.pointLog(pageNo, pageSize, wx_code);
     }
 }
