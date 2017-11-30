@@ -52,14 +52,13 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult add(Delivery delivery) {
-        //delivery.setDefaultAddress(CommonEnum.DEFAULT_ADDRESS.getCode());
         Integer result = wxDeliveryMapper.add(delivery);
         if (result <= 0) {
-            return BaseResult.error("error", "新增失败");
+            return BaseResult.error("ERROR", "新增失败");
         }
         Integer defaultResult = wxDeliveryMapper.updateDefaultById(delivery.getId(), delivery.getUserId());
         if (defaultResult <= 0) {
-            return BaseResult.error("error", "修改默认地址失败");
+            return BaseResult.error("ERROR", "修改默认地址失败");
         }
         return BaseResult.success("新增成功");
     }
@@ -83,18 +82,26 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult deleteDelivery(Long id, String userId) {
-        String wxCode = WxUtil.getOpenId(userId);
+    public BaseResult deleteDelivery(Long id, String wxCode) {
+//        String userId = WxUtil.getOpenId(wxCode);
+        //获取收货地址是否是默认地址
+        Delivery delivery=wxDeliveryMapper.findById(id);
+        if(CommonEnum.DEFAULT_ADDRESS.getCode().equals(delivery.getDefaultAddress())){
+            Integer result = wxDeliveryMapper.deleteDelivery(id);
+            if (result <= 0) {
+                return BaseResult.error("ERROR", "删除失败");
+            }
+            Page<Delivery> pages = wxDeliveryMapper.listPage(wxCode);
+            if (pages.size() > 0) {
+              int  updateResult = wxDeliveryMapper.updateDefaultAddress(pages.get(0).getId());
+                if(updateResult > 0) {
+                    return BaseResult.success("设置成功");
+                }
+            }
+        }
         Integer result = wxDeliveryMapper.deleteDelivery(id);
         if (result <= 0) {
-            return BaseResult.error("error", "删除失败");
-        }
-        Page<Delivery> pages = wxDeliveryMapper.listPage(wxCode);
-        if (pages.size() > 0) {
-            result = wxDeliveryMapper.updateDefaultAddress(pages.get(0).getId());
-        }
-        if(result > 0) {
-            return BaseResult.success("设置成功");
+            return BaseResult.error("ERROR", "删除失败");
         }
         return BaseResult.success("删除成功");
     }
@@ -125,11 +132,11 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
         String userId = WxUtil.getOpenId(wxCode);
         int result = wxDeliveryMapper.updateDefaultAddress(id);
         if (result <= 0) {
-            return BaseResult.error("update_fail", "设置默认地址失败");
+            return BaseResult.error("ERROR", "设置默认地址失败");
         }
         Integer defaultResult = wxDeliveryMapper.updateDefaultById(id, userId);
         if (defaultResult <= 0) {
-            return BaseResult.error("error", "修改默认地址失败");
+            return BaseResult.error("ERROR", "修改默认地址失败");
         }
         return BaseResult.success("设置成功");
     }
