@@ -88,7 +88,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         //获取收货地址
         Delivery delivery = wxDeliveryMapper.findById(wxGroupOrder.getDeliveryId());
         if (null == delivery) {
-            return BaseResult.error("not_found_address", "收货地址有误");
+            return BaseResult.error("ERROR", "收货地址有误");
         }
 
         //生成商品快照
@@ -101,7 +101,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         Order order = orderConstructor(delivery, goodSnapshot.getId(), wxGroupOrder.getWxCode(), goods, wxGroupOrder);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
-            return BaseResult.error("order_fail", "下单失败");
+            return BaseResult.error("ERROR", "下单失败");
         }
 
         //系统内生成订单信息
