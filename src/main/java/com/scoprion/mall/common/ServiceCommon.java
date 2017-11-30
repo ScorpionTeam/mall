@@ -26,7 +26,7 @@ public class ServiceCommon {
         BeanUtils.copyProperties(goods, goodSnapshot);
         goodSnapshot.setGoodId(goodId);
         goodSnapshot.setGoodDescription(goods.getDescription());
-        return null;
+        return goodSnapshot;
     }
 
 

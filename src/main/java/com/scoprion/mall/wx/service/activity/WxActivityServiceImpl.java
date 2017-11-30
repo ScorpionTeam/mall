@@ -1,13 +1,16 @@
 package com.scoprion.mall.wx.service.activity;
 
+import com.alibaba.druid.util.StringUtils;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
+import com.scoprion.exception.PayException;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.*;
 import com.scoprion.mall.wx.pay.WxPayConfig;
-import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
@@ -17,6 +20,7 @@ import com.scoprion.utils.OrderNoUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -43,6 +47,12 @@ public class WxActivityServiceImpl implements WxActivityService {
     @Autowired
     private WxGoodSnapShotMapper wxGoodSnapShotMapper;
 
+    @Autowired
+    private WxFreeMapper wxFreeMapper;
+
+    @Autowired
+    private WxDeliveryMapper wxDeliveryMapper;
+
     /**
      * 拼团列表
      *
@@ -51,78 +61,9 @@ public class WxActivityServiceImpl implements WxActivityService {
      * @return
      */
     @Override
-    public PageResult groupList(int pageNo, int pageSize, String activity_type) {
+    public PageResult groupList(int pageNo, int pageSize, String activityType) {
         PageHelper.startPage(pageNo, pageSize);
-        Activity activity = wxActivityMapper.findByActivityType(activity_type);
-        Date currentDate = new Date();
-        //List<Page> pageList = new ArrayList<>();
-        //活动进行中
-        if (activity.getStartDate().before(currentDate) && activity.getEndDate().after(currentDate)) {
-            Page<Activity> page = wxActivityMapper.groupList(activity_type);
-        }
-        //活动已结束
-        if (activity.getEndDate().before(currentDate)) {
-            Page<Activity> page = wxActivityMapper.groupList(activity_type);
-        }
-        //活动未开始
-        if (activity.getStartDate().after(currentDate)) {
-            Page<Activity> page = wxActivityMapper.groupList(activity_type);
-        }
-        Page<Activity> page = wxActivityMapper.groupList(activity_type);
-        return new PageResult(page);
-    }
-
-    /**
-     * 秒杀
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    @Override
-    public PageResult secKill(int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        Activity activity = wxActivityMapper.findByActivityTypeOne();
-        Date currentDate = new Date();
-        if (activity.getStartDate().before(currentDate) && activity.getEndDate().after(currentDate)) {
-            //活动商品
-            Page<Activity> page = wxActivityMapper.secKill();
-            return new PageResult(page);
-        }
-        if (activity.getEndDate().before(currentDate)) {
-            return null;
-        }
-        if (activity.getStartDate().after(currentDate)) {
-            return null;
-        }
-        Page<Activity> page = wxActivityMapper.secKill();
-        return new PageResult(page);
-    }
-
-    /**
-     * 优选
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    @Override
-    public PageResult preference(int pageNo, int pageSize) {
-        PageHelper.startPage(pageNo, pageSize);
-        Activity activity = wxActivityMapper.findByActivityTypeThree();
-        Date currentDate = new Date();
-        if (activity.getStartDate().before(currentDate) && activity.getEndDate().after(currentDate)) {
-            //活动商品
-            Page<Activity> page = wxActivityMapper.preference();
-            return new PageResult(page);
-        }
-        if (activity.getEndDate().before(currentDate)) {
-            return null;
-        }
-        if (activity.getStartDate().after(currentDate)) {
-            return null;
-        }
-        Page<Activity> page = wxActivityMapper.preference();
+        Page<Activity> page = wxActivityMapper.groupList(activityType);
         return new PageResult(page);
     }
 
@@ -133,51 +74,31 @@ public class WxActivityServiceImpl implements WxActivityService {
      * @param ipAddress
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public BaseResult group(OrderExt orderExt, String ipAddress) {
-        String openId = WxUtil.getOpenId(orderExt.getWxCode());
-        //获得活动商品详情
-        ActivityGoods activityGoods = wxActivityMapper.findByActivityGoodId(orderExt.getActivityGoodId());
-        Long activityId = activityGoods.getActivityId();
+    public BaseResult joinGroup(WxGroupOrder wxGroupOrder, String ipAddress) {
+        String openId = WxUtil.getOpenId(wxGroupOrder.getWxCode());
+
         //查询是否参加过该活动
-        int result = wxActivityMapper.validByActivityId(activityId, orderExt.getWxCode());
-        if (result > 0) {
-            return BaseResult.error("group_fail", "您已参加过该活动");
-        }
-        Date currentDate = new Date();
-        //查询拼团详情
-        Activity activity = wxActivityMapper.findById(activityId);
-        if (activity.getNum() < 10) {
-            return BaseResult.error("group_fail", "拼团人数不足");
-        } else if (currentDate.after(activity.getEndDate())) {
-            return BaseResult.error("group_fail", "拼团已过期");
+        String activityMessage = checkActivity(wxGroupOrder.getGoodId(), wxGroupOrder.getActivityId(), openId);
+        if (!StringUtils.isEmpty(activityMessage)) {
+            return BaseResult.error("ERROR", activityMessage);
         }
 
+        //获取收货地址
+        Delivery delivery = wxDeliveryMapper.findById(wxGroupOrder.getDeliveryId());
+        if (null == delivery) {
+            return BaseResult.error("not_found_address", "收货地址有误");
+        }
 
         //生成商品快照
-        Long goodId = activityGoods.getGoodId();
+        Long goodId = wxGroupOrder.getGoodId();
         Goods goods = wxActivityMapper.findByGoodId(goodId);
-        GoodSnapshot goodSnapshot = new GoodSnapshot();
-        BeanUtils.copyProperties(goods, goodSnapshot);
-        goodSnapshot.setGoodId(goodId);
-        goodSnapshot.setGoodDescription(goods.getDescription());
+        GoodSnapshot goodSnapshot = ServiceCommon.snapshotConstructor(goods, goodId);
         wxGoodSnapShotMapper.add(goodSnapshot);
 
-        //生成预付款订单
-        Order order = new Order();
-        BeanUtils.copyProperties(orderExt.getDelivery(), order);
-        String orderNo = OrderNoUtil.getOrderNo();
-        order.setOrderNo(orderNo);
-        order.setUserId(orderExt.getWxCode());
-        order.setPayType("");
-        order.setOrderType("3");
-        order.setOrderStatus("1");
-        order.setGoodName(goods.getGoodName());
-        order.setGoodSnapShotId(goodSnapshot.getId());
-        order.setGoodId(goodId);
-        order.setGoodName(goods.getGoodName());
-        order.setGoodFee(goods.getPrice() * activity.getDiscount());
-        order.setDeliveryId(orderExt.getDelivery().getId());
+        //组装订单信息
+        Order order = orderConstructor(delivery, goodSnapshot.getId(), openId, goods, wxGroupOrder);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");
@@ -186,55 +107,78 @@ public class WxActivityServiceImpl implements WxActivityService {
         //系统内生成订单信息
         OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", ipAddress, order.getId());
         wxOrderLogMapper.add(orderLog);
-        //创建随机字符串
+
+        //统一下单参数
         String nonce_str = WxUtil.createRandom(false, 10);
-        String xmlString = preOrderSend(goods.getGoodName(),
-                "妆口袋",
-                orderExt.getWxCode(),
+        String unifiedOrderXML = WxPayUtil.unifiedOrder(goods.getGoodName(),
+                openId,
                 order.getOrderNo(),
                 order.getFreightFee(),
                 nonce_str);
+
         //生成预付款订单
-        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", xmlString);
+        String wxOrderResponse = WxUtil.httpsRequest(WxPayConfig.WECHAT_UNIFIED_ORDER_URL, "POST", unifiedOrderXML);
         //将xml返回信息转换为bean
         UnifiedOrderResponseData unifiedOrderResponseData = WxPayUtil.castXMLStringToUnifiedOrderResponseData(
                 wxOrderResponse);
+
+        if (unifiedOrderResponseData.getReturn_code().equalsIgnoreCase("FAIL")) {
+            throw new PayException(unifiedOrderResponseData.getReturn_msg());
+        }
         //修改订单预付款订单号
         wxOrderMapper.updateOrderForPrepayId(order.getId(), unifiedOrderResponseData.getPrepay_id());
+
+        //写入参加活动记录
+        UserActivity userActivity = new UserActivity();
+        userActivity = userActivityConstructor(wxGroupOrder, wxGroupOrder.getWxCode());
+        int userActivityResult = wxFreeMapper.add(userActivity);
+        if (userActivityResult <= 0) {
+            return BaseResult.error("ERROR", "添加活动记录失败");
+        }
+
+        //时间戳
+        Long timeStamp = System.currentTimeMillis() / 1000;
+
+        //生成随机字符串
+        String nonceStr = WxUtil.createRandom(false, 10);
+
+        //生成支付签名
+        Map<String, Object> map = WxPayUtil.payParam(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
+        String paySign = WxPayUtil.paySign(map);
+        map.put("paySign", paySign);
+        return BaseResult.success(JSON.toJSON(map));
+    }
+
+    /**
+     * 去支付
+     *
+     * @param wxCode
+     * @param orderId
+     * @return
+     */
+    @Override
+    public BaseResult pay(Long orderId, Long activityId, Long goodId) {
+        //查询订单详情
+        Order order = wxOrderMapper.findByOrderId(orderId);
+
+        String orderMessage = checkOrder(order);
+        if (!StringUtils.isEmpty(orderMessage)) {
+            return BaseResult.error("ERROR", "message");
+        }
+        //查询活动商品是否还有库存
+        String activityGoodMessage = checkActivityGood(activityId, goodId);
+        if (!StringUtils.isEmpty(activityGoodMessage)) {
+            return BaseResult.error("ERROR", activityGoodMessage);
+        }
+
         //时间戳
         Long timeStamp = System.currentTimeMillis() / 1000;
         //随机字符串
         String nonceStr = WxUtil.createRandom(false, 10);
-        String paySign = paySign(timeStamp, nonceStr, unifiedOrderResponseData.getPrepay_id());
-        unifiedOrderResponseData.setNonce_str(nonceStr);
-        unifiedOrderResponseData.setPaySign(paySign);
-        unifiedOrderResponseData.setTimeStamp(String.valueOf(timeStamp));
-        return BaseResult.success(unifiedOrderResponseData);
-    }
-
-    public BaseResult callback(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
-        Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
-        //判断是否成功接收回调
-        wxOrderMapper.updateOrderStatusAndPayStatusAndWxOrderNo(unifiedOrderNotifyRequestData.getTime_end(),
-                unifiedOrderNotifyRequestData.getOut_trade_no(),
-                unifiedOrderNotifyRequestData.getTransaction_id());
-        if (null == order.getPayDate()) {
-            //修改订单状态 以及微信订单号
-            //记录订单日志
-            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款",
-                    null, order.getId());
-            wxOrderLogMapper.add(orderLog);
-            //库存扣减
-            wxGoodMapper.updateGoodStockById(order.getGoodId(), order.getCount());
-//            //积分扣减、增加
-//            BaseResult operateResult = operatePoint(order);
-//            if (operateResult != null) {
-//                return operateResult;
-//            }
-            //销量
-            wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
-        }
-        return BaseResult.success("支付回调成功");
+        Map<String, Object> map = WxPayUtil.payParam(timeStamp, nonceStr, order.getPrepayId());
+        String paySign = WxPayUtil.paySign(map);
+        map.put("paySign", paySign);
+        return BaseResult.success(JSON.toJSON(map));
     }
 
     /**
@@ -306,5 +250,128 @@ public class WxActivityServiceImpl implements WxActivityService {
         map.put("signType", "MD5");
         map.put("timeStamp", timeStamp);
         return WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
+    }
+
+    /**
+     * 校验活动
+     *
+     * @param goodId
+     * @param activityId
+     * @param userId
+     * @return
+     */
+    private String checkActivity(Long goodId, Long activityId, String userId) {
+
+        //是否参加过活动
+        int result = wxFreeMapper.validByActivityIdAndGoodIdAndUserId(activityId, userId, goodId);
+        if (result > 0) {
+            return "不能重复参加";
+        }
+        Date currentDate = new Date();
+        //查询活动详情
+        Activity activity = wxActivityMapper.findById(activityId);
+        if (currentDate.after(activity.getEndDate())) {
+            return "活动已过期";
+        }
+        if (currentDate.before(activity.getStartDate())) {
+            return "活动未开始";
+        }
+        //判断活动商品库存
+        ActivityGoods activityGoods = wxActivityMapper.findByActivityGoodStock(goodId);
+        if (activityGoods.getStock() < 0) {
+            return "商品库存不足";
+        }
+        return null;
+    }
+
+    /**
+     * 订单组装
+     *
+     * @param delivery
+     * @param snapshotId
+     * @param userId
+     * @param goods
+     * @param wxFreeOrder
+     * @return
+     */
+
+    private Order orderConstructor(Delivery delivery, Long snapshotId, String userId, Goods goods, WxGroupOrder wxGroupOrder) {
+        Order order = new Order();
+        BeanUtils.copyProperties(delivery, order);
+        String orderNo = OrderNoUtil.getOrderNo();
+        order.setOrderNo(orderNo);
+        order.setUserId(userId);
+        order.setPayType(CommonEnum.WE_CHAT_PAY.getCode());
+        order.setOrderType(CommonEnum.FREE_ORDER.getCode());
+        order.setOrderStatus(CommonEnum.UN_PAY.getCode());
+        order.setGoodName(goods.getGoodName());
+        order.setGoodSnapShotId(snapshotId);
+        order.setGoodId(goods.getId());
+        order.setGoodName(goods.getGoodName());
+        order.setGoodFee(goods.getPrice());
+        order.setUsePoint(CommonEnum.NOT_USE_POINT.getCode());
+        order.setUseTicket(CommonEnum.UN_USE_TICKET.getCode());
+        order.setFreightFee(wxGroupOrder.getFreightFee());
+        order.setDeliveryId(wxGroupOrder.getDeliveryId());
+        order.setUserId(wxGroupOrder.getWxCode());
+        return order;
+    }
+
+    /**
+     * 校验订单信息
+     *
+     * @param order
+     * @return
+     */
+    private String checkOrder(Order order) {
+        if (order == null) {
+            return "找不到订单";
+        }
+        if (!CommonEnum.UN_PAY.getCode().equals(order.getOrderStatus())) {
+            return "订单状态异常";
+        }
+        long createTime = order.getCreateDate().getTime();
+        long result = System.currentTimeMillis() - createTime;
+        //超过两小时未支付订单  自动 关闭掉该订单
+        if (result > Constant.TIME_TWO_HOUR) {
+            //关闭订单
+            wxOrderMapper.updateByOrderID(order.getId(), CommonEnum.CLOSING.getCode());
+            return "订单已超时，请重新下单";
+        }
+        return null;
+    }
+
+    /**
+     * 校验活动库存
+     *
+     * @param activityId
+     * @param goodId
+     * @return
+     */
+    private String checkActivityGood(Long activityId, Long goodId) {
+        //判断活动商品库存
+        ActivityGoods activityGoods = wxActivityMapper.findByActivityIdAndGoodId(activityId, goodId);
+        if (activityGoods.getStock() <= 0 || null == activityGoods) {
+            return "库存不足";
+        }
+        if (CommonEnum.UN_NORMAL.getCode().equals(activityGoods.getStatus())) {
+            return "活动商品信息已过期,请重新下单";
+        }
+        return activityGoods.toString();
+    }
+
+    /**
+     * 组装参加活动记录
+     *
+     * @param WxGroupOrder
+     * @param openId
+     * @return
+     */
+    public static UserActivity userActivityConstructor(WxGroupOrder wxGroupOrder, String openId) {
+        UserActivity userActivity = new UserActivity();
+        userActivity.setActivityId(wxGroupOrder.getActivityId());
+        userActivity.setUserId(openId);
+        userActivity.setGoodId(wxGroupOrder.getActivityId());
+        return userActivity;
     }
 }

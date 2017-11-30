@@ -1,11 +1,8 @@
 package com.scoprion.mall.wx.service.activity;
 
-import com.scoprion.mall.domain.Goods;
-import com.scoprion.mall.domain.OrderExt;
+import com.scoprion.mall.domain.WxGroupOrder;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-
-import java.util.List;
 
 /**
  * Created by fk
@@ -24,30 +21,22 @@ public interface WxActivityService {
     PageResult groupList(int pageNo, int pageSize, String activity_type);
 
     /**
-     * 秒杀
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    PageResult secKill(int pageNo, int pageSize);
-
-
-    /**
-     * 优选
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    PageResult preference(int pageNo, int pageSize);
-
-    /**
      * 参加拼团
      *
-     * @param orderExt
+     * @param wxGroupOrder
      * @param ipAddress
      * @return
      */
-    BaseResult group(OrderExt orderExt, String ipAddress);
+    BaseResult joinGroup(WxGroupOrder wxGroupOrder, String ipAddress);
+
+    /**
+     * 微信支付
+     *
+     * @param orderId
+     * @param activityId
+     * @param goodId
+     * @return
+     */
+    BaseResult pay(Long orderId, Long activityId, Long goodId);
+
 }
