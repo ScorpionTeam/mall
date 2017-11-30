@@ -5,11 +5,11 @@
 <mapper namespace="com.scoprion.mall.backstage.mapper.CategoryGoodMapper">
 
     <!--添加类目活动关系-->
-    <insert id="bindActivityGood">
+    <insert id="bindCategoryGood">
         INSERT INTO t_category_good
         (category_id,good_id, create_date)
         VALUES
-        (#{activityId},#{goodId},now())
+        (#{categoryId},#{goodId},now())
     </insert>
 
     <!--清空商品跟类目的绑定关系-->
@@ -43,5 +43,14 @@
         WHERE  category_id=#{categoryId}
     </select>
 
+    <!--根据类目id查询类目参加的活动-->
+    <select id="findCountByCategoryIdList" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM t_category_good
+        WHERE category_id IN
+        <foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>
