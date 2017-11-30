@@ -1,6 +1,7 @@
 package com.scoprion.mall.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scoprion.annotation.Access;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.service.brand.BrandService;
 import com.scoprion.mall.backstage.service.category.CategoryService;
@@ -101,6 +102,7 @@ public class CategoryController {
      * @param type      PARENT CHILD
      * @return
      */
+    @Access
     @ApiOperation("列表查询")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String type, String searchKey) {
