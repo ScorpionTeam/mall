@@ -5,31 +5,36 @@
 <mapper namespace="com.scoprion.mall.wx.mapper.WxGoodMapper">
 
     <!--首页商品列表-->
-    <select id="findOnline" resultType="com.scoprion.mall.domain.Goods">
+    <select id="findHomePage" resultType="com.scoprion.mall.domain.Goods">
         SELECT
-        id,
-        category_id,
-        good_name,
-        description,
-        promotion,
-        price,
-        sale_volume,
-        discount,
-        stock,
-        on_sale,
-        hot,
-        is_new,
-        create_date,
-        last_update_date,
-        freight,
-        brand_id,
-        seller_id,
-        visit_total,
-        good_no,
-        seo,
-        main_image_url,
-        rich_content
-        FROM t_good WHERE on_sale='ON_SALE' AND status='NORMAL'
+        good.id,
+        good.good_name,
+        good.description,
+        good.promotion,
+        good.price,
+        good.sale_volume,
+        good.discount,
+        good.stock,
+        good.on_sale,
+        good.hot,
+        good.is_new,
+        good.create_date,
+        good.last_update_date,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.good_no,
+        good.seo,
+        good.main_image_url,
+        good.rich_content,
+        tcateg.category_id as category_id
+        FROM t_good good
+        LEFT JOIN t_category_good tcateg ON tcateg.good_id=good.id
+        LEFT JOIN t_category tcat ON tcateg.category_id=tcat.id
+        WHERE good.on_sale='ON_SALE' AND good.status='NORMAL'
+        <if test="categoryId!=null ">AND(tcat.id=#{categoryId} OR tcat.parent_id=#{categoryId})</if>
+        GROUP BY good.id
     </select>
 
     <!--根据商品id查询详情-->
