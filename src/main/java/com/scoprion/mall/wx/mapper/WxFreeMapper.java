@@ -33,8 +33,8 @@ public interface WxFreeMapper {
      * @return
      */
     int validByActivityIdAndGoodIdAndUserId(@Param("activityId") Long activityId,
-                          @Param("userId") String userId,
-                          @Param("goodId") Long goodId);
+                                            @Param("userId") String userId,
+                                            @Param("goodId") Long goodId);
 
     /**
      * 查询活动商品详情
@@ -43,7 +43,7 @@ public interface WxFreeMapper {
      * @param goodId
      * @return
      */
-    ActivityGoods findByActivityIdAndGoodId(@Param("activityId") Long activityId,@Param("goodId") Long goodId);
+    ActivityGoods findByActivityIdAndGoodId(@Param("activityId") Long activityId, @Param("goodId") Long goodId);
 
 
     /**
@@ -57,6 +57,7 @@ public interface WxFreeMapper {
 
     /**
      * 新增参加过的活动记录
+     *
      * @param userActivity
      * @return
      */
