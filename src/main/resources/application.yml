@@ -17,8 +17,15 @@ spring:
 
 
 logging:
-  level: debug
   file: logs/spring-boot-logging.log
+  level:
+    com:
+      scoprion:
+        mall:
+          wx:
+            mapper: debug
+          backstage:
+            mapper: debug
 mybatis:
   type-aliases-package: com.scorpion.mall.domain
   mapper-locations: classpath*:/mapper/*.xml
