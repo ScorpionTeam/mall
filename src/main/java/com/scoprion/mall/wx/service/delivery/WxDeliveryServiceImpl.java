@@ -83,7 +83,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public BaseResult deleteDelivery(Long id, String wxCode) {
-//        String userId = WxUtil.getOpenId(wxCode);
+        String userId = WxUtil.getOpenId(wxCode);
         //获取收货地址是否是默认地址
         Delivery delivery=wxDeliveryMapper.findById(id);
         if(CommonEnum.DEFAULT_ADDRESS.getCode().equals(delivery.getDefaultAddress())){
@@ -91,7 +91,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
             if (result <= 0) {
                 return BaseResult.error("ERROR", "删除失败");
             }
-            Page<Delivery> pages = wxDeliveryMapper.listPage(wxCode);
+            Page<Delivery> pages = wxDeliveryMapper.listPage(userId);
             if (pages.size() > 0) {
               int  updateResult = wxDeliveryMapper.updateDefaultAddress(pages.get(0).getId());
                 if(updateResult > 0) {
