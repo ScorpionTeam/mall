@@ -13,12 +13,12 @@ public interface WxDeliveryService {
     /**
      * 查询用户收货地址列表
      *
-     * @param wxCode
+     * @param wx_code
      * @param pageNo
      * @param pageSize
      * @return
      */
-    PageResult findByWxCode(String wxCode, Integer pageNo, Integer pageSize);
+    PageResult findByWxCode(String wx_code, Integer pageNo, Integer pageSize);
 
     /**
      * 新增收货地址
@@ -40,10 +40,10 @@ public interface WxDeliveryService {
      * 删除收货地址
      *
      * @param id
-     * @param wxCode
+     * @param wx_code
      * @return
      */
-    BaseResult deleteDelivery(Long id, String wxCode);
+    BaseResult deleteDelivery(Long id, String wx_code);
 
     /**
      * 获取收货地址详情
@@ -57,16 +57,16 @@ public interface WxDeliveryService {
      * 默认收货地址
      *
      * @param id
-     * @param wxCode
+     * @param wx_code
      * @return
      */
-    BaseResult defaultAddress(Long id, String wxCode);
+    BaseResult defaultAddress(Long id, String wx_code);
 
     /**
      * 获取默认地址
      *
-     * @param wxCode
+     * @param wx_code
      * @return
      */
-    BaseResult getDefault(String wxCode);
+    BaseResult getDefault(String wx_code);
 }

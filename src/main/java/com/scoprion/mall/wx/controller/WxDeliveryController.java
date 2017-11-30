@@ -24,15 +24,15 @@ public class WxDeliveryController {
     /**
      * 查询用户收货地址列表
      *
-     * @param wxCode
+     * @param wx_code
      * @param pageNo
      * @param pageSize
      * @return
      */
     @Access
     @RequestMapping(value = "/findByWxCode", method = RequestMethod.GET)
-    public PageResult findByWxCode(String wxCode, Integer pageNo, Integer pageSize) {
-        return wxDeliveryService.findByWxCode(wxCode, pageNo, pageSize);
+    public PageResult findByWxCode(String wx_code, Integer pageNo, Integer pageSize) {
+        return wxDeliveryService.findByWxCode(wx_code, pageNo, pageSize);
     }
 
     /**
@@ -74,8 +74,8 @@ public class WxDeliveryController {
      */
     @Access
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public BaseResult deleteDelivery(Long id, String wxCode) {
-        return wxDeliveryService.deleteDelivery(id, wxCode);
+    public BaseResult deleteDelivery(Long id, String wx_code) {
+        return wxDeliveryService.deleteDelivery(id, wx_code);
     }
 
 
@@ -102,19 +102,19 @@ public class WxDeliveryController {
      */
     @Access
     @RequestMapping(value = "/defaultAddress", method = RequestMethod.GET)
-    public BaseResult defaultAddress(Long id, String wxCode) {
-        return wxDeliveryService.defaultAddress(id, wxCode);
+    public BaseResult defaultAddress(Long id, String wx_code) {
+        return wxDeliveryService.defaultAddress(id, wx_code);
     }
 
     /**
      * 获取默认地址
      *
-     * @param wxCode
+     * @param wx_code
      * @return
      */
     @Access
     @RequestMapping(value = "/getDefault", method = RequestMethod.GET)
-    public BaseResult getDefault(String wxCode) {
-        return wxDeliveryService.getDefault(wxCode);
+    public BaseResult getDefault(String wx_code) {
+        return wxDeliveryService.getDefault(wx_code);
     }
 }
