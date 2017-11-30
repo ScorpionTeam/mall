@@ -76,24 +76,6 @@
         INNER JOIN t_good tg ON actg.good_id = tg.id
         AND act.activity_type = #{activity_type} AND actg.status='NORMAL' AND act.status='NORMAL'
     </select>
-    <!-- 根据类型与时间计算拼团是否开始 activityType = 2 -->
-    <select id="findByActivityType" resultType="com.scoprion.mall.domain.Activity">
-        SELECT
-        id,
-        name,
-        activity_type,
-        status,
-        update_date,
-        create_date,
-        target,
-        num,
-        start_date,
-        end_date,
-        discount,
-        describes
-        FROM t_activity WHERE activity_type=#{activity_type} GROUP BY activity_type
-    </select>
-
 
     <!-- 查询试用商品列表 -->
     <select id="findAll" resultMap="activityResult">
@@ -156,7 +138,7 @@
     </select>
 
 
-    <!-- 查询活动详情 -->
+    <!-- 查询拼团详情 -->
     <select id="findById" resultType="com.scoprion.mall.domain.Activity">
         SELECT
         id,
@@ -202,6 +184,7 @@
         FROM t_good WHERE id=#{goodId}
     </select>
 
+    <!--判断活动商品库存-->
     <select id="findByActivityGoodStock" resultType="com.scoprion.mall.domain.ActivityGoods">
         SELECT
         id,
@@ -214,7 +197,7 @@
         FROM t_activity_good WHERE good_id=#{goodId}
     </select>
 
-    <!-- 查询活动商品详情 -->
+    <!-- 查询活动商品库存详情 -->
     <select id="findByActivityIdAndGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
         SELECT
         id,
