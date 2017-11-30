@@ -88,7 +88,6 @@ public enum CommonEnum {
     AGREE("AGREE", "同意"),
     PARENT_CATEGORY("PARENT_CATEGORY", "一级类目"),
     CHILD_CATEGORY("CHILD_CATEGORY", "子类目"),
-    ALL_DONE("ALL_DONE", "已完成");
     ALL_DONE("ALL_DONE", "已完成"),
     AUTH("AUTH", "JSONID:94268"),
     SALT("SALT", "&&salt");
