@@ -24,15 +24,15 @@ public class WxDeliveryController {
     /**
      * 查询用户收货地址列表
      *
-     * @param wx_code
+     * @param wxCode
      * @param pageNo
      * @param pageSize
      * @return
      */
     @Access
     @RequestMapping(value = "/findByWxCode", method = RequestMethod.GET)
-    public PageResult findByWxCode(String wx_code, Integer pageNo, Integer pageSize) {
-        return wxDeliveryService.findByWxCode(wx_code, pageNo, pageSize);
+    public PageResult findByWxCode(String wxCode, Integer pageNo, Integer pageSize) {
+        return wxDeliveryService.findByWxCode(wxCode, pageNo, pageSize);
     }
 
     /**
@@ -69,13 +69,13 @@ public class WxDeliveryController {
     /**
      * 删除收货地址
      *
-     * @param id
+     * @param deliveryExt
      * @return
      */
     @Access
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public BaseResult deleteDelivery(Long id, String wx_code) {
-        return wxDeliveryService.deleteDelivery(id, wx_code);
+    public BaseResult deleteDelivery(@RequestBody DeliveryExt deliveryExt) {
+        return wxDeliveryService.deleteDelivery(deliveryExt);
     }
 
 

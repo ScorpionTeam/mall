@@ -1,6 +1,7 @@
 package com.scoprion.mall.wx.service.delivery;
 
 import com.scoprion.mall.domain.Delivery;
+import com.scoprion.mall.domain.DeliveryExt;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -13,12 +14,12 @@ public interface WxDeliveryService {
     /**
      * 查询用户收货地址列表
      *
-     * @param wx_code
+     * @param wxCode
      * @param pageNo
      * @param pageSize
      * @return
      */
-    PageResult findByWxCode(String wx_code, Integer pageNo, Integer pageSize);
+    PageResult findByWxCode(String wxCode, Integer pageNo, Integer pageSize);
 
     /**
      * 新增收货地址
@@ -38,12 +39,10 @@ public interface WxDeliveryService {
 
     /**
      * 删除收货地址
-     *
-     * @param id
-     * @param wx_code
+     * @param deliveryExt
      * @return
      */
-    BaseResult deleteDelivery(Long id, String wx_code);
+    BaseResult deleteDelivery(DeliveryExt deliveryExt);
 
     /**
      * 获取收货地址详情
