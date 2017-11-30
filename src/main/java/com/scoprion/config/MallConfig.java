@@ -28,7 +28,7 @@ public class MallConfig extends WebMvcConfigurerAdapter {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(getMallInterceptor());
+        registry.addInterceptor(getMallInterceptor());
         super.addInterceptors(registry);
     }
     

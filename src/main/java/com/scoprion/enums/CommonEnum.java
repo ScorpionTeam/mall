@@ -86,7 +86,9 @@ public enum CommonEnum {
     BIND_ACTIVITY("BIND_ACTIVITY", "已经绑定活动"),
     REFUSE("REFUSE", "拒绝"),
     AGREE("AGREE", "同意"),
-    ALL_DONE("ALL_DONE", "已完成");
+    ALL_DONE("ALL_DONE", "已完成"),
+    AUTH("AUTH", "JSONID:94268"),
+    SALT("SALT", "&&salt");
     /**
      * 编码
      */
