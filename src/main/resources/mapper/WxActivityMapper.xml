@@ -44,22 +44,21 @@
         SELECT
         act.name,
         act.activity_type,
-        act.status,
+        act.status AS actStatus,
         act.num,
-        act.discount,
+        act.discount AS actDiscount,
         actg.id,
         actg.activity_id,
         actg.good_id,
         actg.create_date,
-        actg.stock AS actgstock,
-        tg.id,
+        actg.stock AS actgtock,
+        tg.id AS tgId,
         tg.category_id,
         tg.good_name,
         tg.description,
         tg.promotion,
         tg.price,
         tg.sale_volume,
-        tg.discount,
         tg.stock,
         tg.on_sale,
         tg.hot,
@@ -71,7 +70,8 @@
         tg.visit_total,
         tg.good_no,
         tg.main_image_url,
-        tg.status
+        tg.status,
+        if(start_date>now(),"已结束","已开始")
         FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activity_id
         INNER JOIN t_good tg ON actg.good_id = tg.id
         AND act.activity_type = #{activity_type} AND actg.status='NORMAL' AND act.status='NORMAL'
@@ -94,111 +94,6 @@
         FROM t_activity WHERE activity_type=#{activity_type} GROUP BY activity_type
     </select>
 
-    <!-- 秒杀 -->
-    <select id="secKill" resultMap="activityResult">
-        SELECT
-        act.name,
-        act.activity_type,
-        act.status,
-        act.target,
-        actg.id,
-        actg.activity_id,
-        actg.good_id,
-        actg.create_date,
-        tg.id,
-        tg.category_id,
-        tg.good_name,
-        tg.description,
-        tg.promotion,
-        tg.price,
-        tg.sale_volume,
-        tg.discount,
-        tg.stock,
-        tg.on_sale,
-        tg.hot,
-        tg.is_new,
-        tg.last_update_date,
-        tg.freight,
-        tg.brand_id,
-        tg.seller_id,
-        tg.visit_total,
-        tg.good_no,
-        tg.main_image_url,
-        tg.status
-        FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activity_id
-        INNER JOIN t_good tg ON actg.good_id=tg.id
-        AND act.activity_type = '0' AND actg.status='0'AND act.status='0'
-    </select>
-    <!-- 根据类型与时间计算秒杀是否开始 activityType = 1 -->
-    <select id="findByActivityTypeOne" resultType="com.scoprion.mall.domain.Activity">
-        SELECT
-        id,
-        name,
-        activity_type,
-        status,
-        update_date,
-        create_date,
-        target,
-        num,
-        start_date,
-        end_date,
-        discount,
-        describes
-        FROM t_activity WHERE id = '1'
-    </select>
-
-    <!-- 优选 -->
-    <select id="preference" resultMap="activityResult">
-        SELECT
-        act.name,
-        act.activity_type,
-        act.status,
-        act.target,
-        actg.id,
-        actg.activity_id,
-        actg.good_id,
-        actg.create_date,
-        tg.id,
-        tg.category_id,
-        tg.good_name,
-        tg.description,
-        tg.promotion,
-        tg.price,
-        tg.sale_volume,
-        tg.discount,
-        tg.stock,
-        tg.on_sale,
-        tg.hot,
-        tg.is_new,
-        tg.last_update_date,
-        tg.freight,
-        tg.brand_id,
-        tg.seller_id,
-        tg.visit_total,
-        tg.good_no,
-        tg.main_image_url,
-        tg.status
-        FROM t_activity act INNER JOIN t_activity_good actg ON act.id = actg.activity_id
-        INNER JOIN t_good tg ON actg.good_id=tg.id
-        AND act.activity_type = '2' AND actg.status='0'AND act.status='0'
-    </select>
-    <!-- 根据类型与时间计算优选是否开始 activityType = 3 -->
-    <select id="findByActivityTypeThree" resultType="com.scoprion.mall.domain.Activity">
-        SELECT
-        id,
-        name,
-        activity_type,
-        status,
-        update_date,
-        create_date,
-        target,
-        num,
-        start_date,
-        end_date,
-        discount,
-        describes
-        FROM t_activity WHERE id = '3'
-    </select>
 
     <!-- 查询试用商品列表 -->
     <select id="findAll" resultMap="activityResult">
@@ -261,7 +156,7 @@
     </select>
 
 
-    <!-- 查询商品详情 -->
+    <!-- 查询活动详情 -->
     <select id="findById" resultType="com.scoprion.mall.domain.Activity">
         SELECT
         id,
@@ -306,4 +201,29 @@
         status
         FROM t_good WHERE id=#{goodId}
     </select>
+
+    <select id="findByActivityGoodStock" resultType="com.scoprion.mall.domain.ActivityGoods">
+        SELECT
+        id,
+        activity_id,
+        good_id,
+        create_date,
+        stock,
+        STATUS,
+        update_date
+        FROM t_activity_good WHERE good_id=#{goodId}
+    </select>
+
+    <!-- 查询活动商品详情 -->
+    <select id="findByActivityIdAndGoodId" resultType="com.scoprion.mall.domain.ActivityGoods">
+        SELECT
+        id,
+        activity_id,
+        good_id,
+        create_date,
+        stock,
+        update_date
+        FROM t_activity_good WHERE activity_id=#{activityId} AND good_id=#{goodId}
+    </select>
+
 </mapper>

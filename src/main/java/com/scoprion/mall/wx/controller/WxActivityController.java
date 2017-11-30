@@ -1,6 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
-import com.scoprion.mall.domain.OrderExt;
+import com.scoprion.mall.domain.WxGroupOrder;
 import com.scoprion.mall.wx.service.activity.WxActivityService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -41,39 +41,14 @@ public class WxActivityController {
     /**
      * 参加拼团
      *
-     * @param orderExt
+     * @param wxGroupOrder
      * @param request
      * @return
      */
-    @RequestMapping(value = "/group", method = RequestMethod.POST)
-    public BaseResult group(@RequestBody OrderExt orderExt, HttpServletRequest request) {
+    @RequestMapping(value = "/joinGroup", method = RequestMethod.POST)
+    public BaseResult joinGroup(@RequestBody WxGroupOrder wxGroupOrder, HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
-        return wxActivityService.group(orderExt, ipAddress);
-    }
-
-
-    /**
-     * 秒杀
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    @RequestMapping(value = "/secKill", method = RequestMethod.GET)
-    public PageResult secKill(int pageNo, int pageSize) {
-        return wxActivityService.secKill(pageNo, pageSize);
-    }
-
-    /**
-     * 优选
-     *
-     * @param pageNo
-     * @param pageSize
-     * @return
-     */
-    @RequestMapping(value = "/preference", method = RequestMethod.GET)
-    public PageResult preference(int pageNo, int pageSize) {
-        return wxActivityService.preference(pageNo, pageSize);
+        return wxActivityService.joinGroup(wxGroupOrder, ipAddress);
     }
 
 }
