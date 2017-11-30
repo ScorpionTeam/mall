@@ -281,6 +281,10 @@ public class WxActivityServiceImpl implements WxActivityService {
         if (activityGoods.getStock() < 0) {
             return "商品库存不足";
         }
+        //判断活动人数
+        if(activity.getNum() > Constant.ACTIVITY_NUMBER) {
+            return "活动人数已满";
+        }
         return null;
     }
 
@@ -333,7 +337,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         long createTime = order.getCreateDate().getTime();
         long result = System.currentTimeMillis() - createTime;
         //超过两小时未支付订单  自动 关闭掉该订单
-        if (result > Constant.TIME_TWO_HOUR) {
+        if (result > Constant.TIME_HALF_HOUR) {
             //关闭订单
             wxOrderMapper.updateByOrderID(order.getId(), CommonEnum.CLOSING.getCode());
             return "订单已超时，请重新下单";
