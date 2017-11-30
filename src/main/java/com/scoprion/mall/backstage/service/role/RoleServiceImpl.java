@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
     public BaseResult add(SysRole sysRole) {
         Integer validCount = roleMapper.validByName(sysRole.getName());
         if (validCount > 0) {
-            return BaseResult.error("name_exist", "角色名称已经存在");
+            return BaseResult.error("ERROR", "角色名称已经存在");
         }
         roleMapper.add(sysRole);
         return BaseResult.success("添加成功");
@@ -43,12 +43,12 @@ public class RoleServiceImpl implements RoleService {
 
         Integer validCount = roleMapper.validByNameAndId(sysRole.getName(), sysRole.getId());
         if (validCount > 0) {
-            return BaseResult.error("name_exist", "角色名称已经存在");
+            return BaseResult.error("ERROR", "角色名称已经存在");
         }
 
         Integer result = roleMapper.modify(sysRole);
         if (result <= 0) {
-            return BaseResult.error("modify_error", "修改失败");
+            return BaseResult.error("ERROR", "修改失败");
         }
         return BaseResult.success("修改成功");
     }
@@ -81,7 +81,7 @@ public class RoleServiceImpl implements RoleService {
         if (CommonEnum.NORMAL.getCode().equals(sysRole.getStatus())) {
             roleMapper.deleteById(id);
         } else {
-            return BaseResult.error("unable_delete", "菜单使用中，不可删除");
+            return BaseResult.error("ERROR", "菜单使用中，不可删除");
         }
         return BaseResult.success("delete_success");
     }
@@ -90,7 +90,7 @@ public class RoleServiceImpl implements RoleService {
     public BaseResult allocationMenu(Long roleId, List<Long> menuIdList) {
         Integer result = roleMapper.clearRelation(roleId);
         if (result <= 0) {
-            return BaseResult.error("bind_error", "绑定失败");
+            return BaseResult.error("ERROR", "绑定失败");
         }
         menuIdList.forEach(menuId -> {
             //查询父节点

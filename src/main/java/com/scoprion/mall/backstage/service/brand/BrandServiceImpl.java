@@ -37,17 +37,17 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public BaseResult add(Brand brand) {
         if (brand.getBrandName() == null) {
-            return BaseResult.error("add_error", "品牌名称不能为空");
+            return BaseResult.error("ERROR", "品牌名称不能为空");
         }
         int count = brandMapper.validByName(brand.getBrandName());
         if (count > 0) {
-            return BaseResult.error("add_error", "已经存在相同名字的品牌");
+            return BaseResult.error("ERROR", "已经存在相同名字的品牌");
         }
         int result = brandMapper.add(brand);
         if (result > 0) {
             return BaseResult.success("增加成功");
         }
-        return BaseResult.error("add_error", "增加失败");
+        return BaseResult.error("ERROR", "增加失败");
     }
 
     /**
@@ -59,11 +59,11 @@ public class BrandServiceImpl implements BrandService {
     @Override
     public BaseResult modify(Brand brand) {
         if (brand.getId() == null) {
-            return BaseResult.error("modify_error", "id不能为空");
+            return BaseResult.error("ERROR", "id不能为空");
         }
         int count = brandMapper.validByNameAndId(brand.getId(), brand.getBrandName());
         if (count > 0) {
-            return BaseResult.error("add_error", "已经存在相同名字的品牌");
+            return BaseResult.error("ERROR", "已经存在相同名字的品牌");
         }
         brandMapper.modify(brand);
         return BaseResult.success("修改成功");

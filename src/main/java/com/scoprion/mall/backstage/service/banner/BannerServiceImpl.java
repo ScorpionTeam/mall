@@ -33,7 +33,7 @@ public class BannerServiceImpl implements BannerService {
     public BaseResult add(Banner banner) {
         int validName = bannerMapper.validByName(banner.getName());
         if (validName != 0) {
-            return BaseResult.error("add_fail", "广告名称不能重复");
+            return BaseResult.error("ERROR", "广告名称不能重复");
         }
         bannerMapper.add(banner);
         return BaseResult.success("创建成功");
@@ -49,7 +49,7 @@ public class BannerServiceImpl implements BannerService {
     public BaseResult modify(Banner banner) {
         int validResult = bannerMapper.validByNameAndId(banner.getId(), banner.getName());
         if (validResult != 0) {
-            return BaseResult.error("edit_fail", "广告名称已存在");
+            return BaseResult.error("ERROR", "广告名称已存在");
         }
         bannerMapper.modify(banner);
         return BaseResult.success("修改成功");
@@ -116,7 +116,7 @@ public class BannerServiceImpl implements BannerService {
         }
         int result = bannerMapper.batchModifyStatus(status, idList);
         if (result == 0) {
-            return BaseResult.error("del_error", "修改失败");
+            return BaseResult.error("ERROR", "修改失败");
         }
         return BaseResult.success("修改成功");
     }

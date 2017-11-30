@@ -72,7 +72,7 @@ public class GoodsServiceImpl implements GoodsService {
             bindCategoryGood(good.getCategoryId(), good.getId());
         }
         saveGoodLog(good.getGoodName(), "创建商品", good.getId());
-        return BaseResult.error("mock_fail", "创建商品失败");
+        return BaseResult.error("ERROR", "创建商品失败");
     }
 
     /**
@@ -143,12 +143,12 @@ public class GoodsServiceImpl implements GoodsService {
         }
         GoodExt localGood = goodsMapper.findById(good.getId());
         if (localGood == null) {
-            return BaseResult.error("unable_update", "未找到商品");
+            return BaseResult.error("ERROR", "未找到商品");
         }
         if (!StringUtils.isEmpty(localGood.getOnSale()) &&
                 CommonEnum.ON_SALE.getCode().equals(localGood.getOnSale())) {
             //上架状态，不能修改
-            return BaseResult.error("unable_update", "商品为上架状态，不能修改");
+            return BaseResult.error("ERROR", "商品为上架状态，不能修改");
         }
         if (good.getCategoryId() == null && localGood.getCategoryId() != null) {
             //类目解绑
@@ -212,7 +212,7 @@ public class GoodsServiceImpl implements GoodsService {
     public BaseResult deleteGoodsById(Long id) {
         Goods goods = goodsMapper.findById(id);
         if (CommonEnum.ON_SALE.getCode().equals(goods.getOnSale())) {
-            return BaseResult.error("del_error", "删除失败，商品未下架，不能删除");
+            return BaseResult.error("ERROR", "删除失败，商品未下架，不能删除");
         }
         List<Long> idList = new ArrayList<>();
         idList.add(id);
@@ -221,7 +221,7 @@ public class GoodsServiceImpl implements GoodsService {
             return BaseResult.success("删除商品成功");
         }
         saveGoodLog(goods.getGoodName(), "删除商品", goods.getId());
-        return BaseResult.error("sysError", "删除商品失败");
+        return BaseResult.error("ERROR", "删除商品失败");
     }
 
     /**
@@ -237,7 +237,7 @@ public class GoodsServiceImpl implements GoodsService {
         }
         int result = goodsMapper.batchDeleteGood(idList);
         if (result == 0) {
-            return BaseResult.error("delete_error", "商品未下架，不能删除");
+            return BaseResult.error("ERROR", "商品未下架，不能删除");
         }
         if (idList.size() > result) {
             return BaseResult.success("部分商品未下架，不能删除，其余的已经删除成功");
@@ -256,7 +256,7 @@ public class GoodsServiceImpl implements GoodsService {
             saveGoodLog(good.getGoodName(), "修改商品库存", good.getId());
             return BaseResult.success("修改成功");
         }
-        return BaseResult.error("modify-error", "修改失败");
+        return BaseResult.error("ERROR", "修改失败");
     }
 
     /**

@@ -29,7 +29,7 @@ public class MenuServiceImpl implements MenuService {
     public BaseResult add(SysMenu sysMenu) {
         Integer validCount = menuMapper.validByNameAndUrl(sysMenu.getName(), sysMenu.getUrl());
         if (validCount > 0) {
-            return BaseResult.error("add_error", "菜单名称或地址已存在");
+            return BaseResult.error("ERROR", "菜单名称或地址已存在");
         }
         menuMapper.add(sysMenu);
         return BaseResult.success("添加成功");
@@ -86,13 +86,13 @@ public class MenuServiceImpl implements MenuService {
         }
         Integer validCount = menuMapper.validByIdAndNameAndUrl(sysMenu.getId(), sysMenu.getName(), sysMenu.getUrl());
         if (validCount > 0) {
-            return BaseResult.error("add_error", "菜单名称或地址已存在");
+            return BaseResult.error("ERROR", "菜单名称或地址已存在");
         }
         Integer result = menuMapper.modify(sysMenu);
         if (result > 0) {
             return BaseResult.success("修改成功");
         }
-        return BaseResult.error("add_error", "修改失败");
+        return BaseResult.error("ERROR", "修改失败");
     }
 
     @Override
@@ -119,7 +119,7 @@ public class MenuServiceImpl implements MenuService {
         //子菜单
         Integer result = menuMapper.deleteById(id);
         if (result <= 0) {
-            return BaseResult.error("delete_error", "删除失败");
+            return BaseResult.error("ERROR", "删除失败");
         }
         return BaseResult.success("删除成功");
     }

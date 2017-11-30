@@ -7,7 +7,6 @@ import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.CategoryGoodMapper;
 import com.scoprion.mall.backstage.mapper.CategoryMapper;
 import com.scoprion.mall.domain.Category;
-import com.scoprion.mall.domain.CategoryGood;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,30 +33,30 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public BaseResult add(Category category) {
         if (category.getCategoryName() == null) {
-            return BaseResult.error("add_error", "类目名称不能为空");
+            return BaseResult.error("ERROR", "类目名称不能为空");
         }
         int count = categoryMapper.validByName(category.getCategoryName());
         if (count > 0) {
-            return BaseResult.error("add_error", "已经存在相同名字的类目");
+            return BaseResult.error("ERROR", "已经存在相同名字的类目");
         }
         int result = categoryMapper.add(category);
         if (result > 0) {
             return BaseResult.success("添加成功");
         }
-        return BaseResult.error("add_error", "添加失败");
+        return BaseResult.error("ERROR", "添加失败");
     }
 
     @Override
     public BaseResult modify(Category category) {
         if (category.getId() == null) {
-            return BaseResult.error("modify_error", "id不能为空");
+            return BaseResult.error("ERROR", "id不能为空");
         }
         int count = categoryMapper.validByNameAndId(category.getId(), category.getCategoryName());
         if (count > 0) {
-            return BaseResult.error("add_error", "已经存在相同名字的类目");
+            return BaseResult.error("ERROR", "已经存在相同名字的类目");
         }
         if (category.getParentId().intValue() == category.getId().intValue()) {
-            return BaseResult.error("modify_error", "修改失败,父id不能为当前记录id");
+            return BaseResult.error("ERROR", "修改失败,父id不能为当前记录id");
         }
         //删除操作
         if (CommonEnum.UN_NORMAL.getCode().equals(category.getStatus())) {
@@ -100,7 +99,7 @@ public class CategoryServiceImpl implements CategoryService {
             idList.add(category.getId());
             Integer bindCount = categoryGoodMapper.findCountByCategoryIdList(idList);
             if (bindCount > 0) {
-                return BaseResult.error("delete_error", "当前类目正在使用中，请先解绑");
+                return BaseResult.error("ERROR", "当前类目正在使用中，请先解绑");
             }
         } else {
             //一级类目
@@ -109,7 +108,7 @@ public class CategoryServiceImpl implements CategoryService {
             childList.forEach(item -> idList.add(item.getId()));
             Integer bindCount = categoryGoodMapper.findCountByCategoryIdList(idList);
             if (bindCount > 0) {
-                return BaseResult.error("delete_error", "当前类目子类目正在使用中，请先解绑");
+                return BaseResult.error("ERROR", "当前类目子类目正在使用中，请先解绑");
             }
         }
         return null;
