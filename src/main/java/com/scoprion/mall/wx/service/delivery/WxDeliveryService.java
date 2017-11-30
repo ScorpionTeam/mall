@@ -1,18 +1,18 @@
 package com.scoprion.mall.wx.service.delivery;
 
 import com.scoprion.mall.domain.Delivery;
+import com.scoprion.mall.domain.DeliveryExt;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
 /**
- *
  * @author hmy
  * @date 2017/11/1
  */
 public interface WxDeliveryService {
 
     /**
-     * 查询用户收获地址列表
+     * 查询用户收货地址列表
      *
      * @param wxCode
      * @param pageNo
@@ -39,12 +39,10 @@ public interface WxDeliveryService {
 
     /**
      * 删除收货地址
-     *
-     * @param id
-     * @param wxCode
+     * @param deliveryExt
      * @return
      */
-    BaseResult deleteDelivery(Long id, String wxCode);
+    BaseResult deleteDelivery(DeliveryExt deliveryExt);
 
     /**
      * 获取收货地址详情
@@ -56,14 +54,16 @@ public interface WxDeliveryService {
 
     /**
      * 默认收货地址
+     *
      * @param id
      * @param wxCode
      * @return
      */
-    BaseResult defaultAddress(Long id,String wxCode);
+    BaseResult defaultAddress(Long id, String wxCode);
 
     /**
      * 获取默认地址
+     *
      * @param wxCode
      * @return
      */

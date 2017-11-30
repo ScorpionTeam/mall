@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
+
 import java.util.Date;
 import java.util.List;
 
@@ -48,23 +48,23 @@ public class ActivityServiceImpl implements ActivityService {
     @Override
     public BaseResult add(Activity activity) {
         if (StringUtils.isEmpty(activity.getActivityType())) {
-            return BaseResult.error("param_error", "活动类型不能为空");
+            return BaseResult.error("ERROR", "活动类型不能为空");
         }
         if (StringUtils.isEmpty(activity.getName())) {
-            return BaseResult.error("param_error", "活动名称不能为空");
+            return BaseResult.error("ERROR", "活动名称不能为空");
         }
         int validResult = activityMapper.validByName(activity.getName());
         if (validResult > 0) {
-            return BaseResult.error("not_allowed_repeat_name", "活动名称不可重复");
+            return BaseResult.error("ERROR", "活动名称不可重复");
         }
         int typeResult = activityMapper.validByTypeAndTime(activity.getStartDate(),
                 activity.getEndDate(), activity.getActivityType());
         if (typeResult > 0) {
-            return BaseResult.error("not_allowed_repeat_type", "相同时间段内，不允许创建相同类型的活动");
+            return BaseResult.error("ERROR", "相同时间段内，不允许创建相同类型的活动");
         }
         int result = activityMapper.add(activity);
         if (result == 0) {
-            return BaseResult.error("add_fail", "创建活动失败");
+            return BaseResult.error("ERROR", "创建活动失败");
         }
         return BaseResult.success("创建活动成功");
     }
@@ -83,11 +83,11 @@ public class ActivityServiceImpl implements ActivityService {
         }
         int validResult = activityMapper.validByNameAndId(activity.getId(), activity.getName());
         if (validResult > 0) {
-            return BaseResult.error("not_allowed_repeat_name", "活动名称不可重复");
+            return BaseResult.error("ERROR", "活动名称不可重复");
         }
         int result = activityMapper.modify(activity);
         if (result == 0) {
-            return BaseResult.error("update_fail", "修改活动失败");
+            return BaseResult.error("ERROR", "修改活动失败");
         }
         return BaseResult.success("修改活动成功");
     }
@@ -104,7 +104,7 @@ public class ActivityServiceImpl implements ActivityService {
         if (result > 0) {
             return BaseResult.success("删除活动成功");
         }
-        return BaseResult.error("del_error", "删除活动失败");
+        return BaseResult.error("ERROR", "删除活动失败");
     }
 
     /**
@@ -164,7 +164,7 @@ public class ActivityServiceImpl implements ActivityService {
         }
         int result = activityMapper.batchModifyStatus(status, idList);
         if (result == 0) {
-            BaseResult.error("error", "修改失败");
+            BaseResult.error("ERROR", "修改失败");
         }
         if (idList.size() > result) {
             BaseResult.success("部分修改成功，其余数据请刷新后重试");
@@ -180,12 +180,12 @@ public class ActivityServiceImpl implements ActivityService {
         Activity activity = activityMapper.findById(activityId);
         if (CommonEnum.EXPIRE.getCode().equals(activity.getStatus())) {
             //已过期
-            return BaseResult.error("unable_bind", "活动已过期，不能绑定");
+            return BaseResult.error("ERROR", "活动已过期，不能绑定");
         }
         if (activity.getEndDate().before(new Date())) {
             activity.setStatus(CommonEnum.EXPIRE.getCode());
             activityMapper.modify(activity);
-            return BaseResult.error("unable_bind", "活动已过期，不能绑定");
+            return BaseResult.error("ERROR", "活动已过期，不能绑定");
         }
         //活动跟商品绑定
         for (Goods good : goodList) {

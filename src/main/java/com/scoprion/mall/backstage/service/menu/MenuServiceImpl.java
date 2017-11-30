@@ -33,7 +33,7 @@ public class MenuServiceImpl implements MenuService {
     public BaseResult add(SysMenu sysMenu) {
         Integer validCount = menuMapper.validByNameAndUrl(sysMenu.getName(), sysMenu.getUrl());
         if (validCount > 0) {
-            return BaseResult.error("add_error", "菜单名称或地址已存在");
+            return BaseResult.error("ERROR", "菜单名称或地址已存在");
         }
         menuMapper.add(sysMenu);
         return BaseResult.success("添加成功");

@@ -111,7 +111,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         if (result > 0) {
             return BaseResult.success("评价成功");
         }
-        return BaseResult.error("estimate_fail", "评价失败");
+        return BaseResult.error("ERROR", "评价失败");
     }
 
     /**
@@ -128,7 +128,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         Order order = wxOrderMapper.findByOrderId(id);
         //待收货状态
         if (!CommonEnum.UN_RECEIVE.getCode().equals(order.getOrderStatus())) {
-            return BaseResult.error("confirm_fail", "订单状态异常，不能确认收货");
+            return BaseResult.error("ERROR", "订单状态异常，不能确认收货");
         }
         //签收成功后订单状态修改为  待评价
         int result = wxOrderMapper.updateByOrderID(id, CommonEnum.UN_ESTIMATE.getCode());
@@ -136,7 +136,7 @@ public class WxOrderServiceImpl implements WxOrderService {
             saveOrderLog("确认收货", order, ipAddress);
             return BaseResult.success("确认收货成功");
         }
-        return BaseResult.error("confirm_fail", "确认收货失败");
+        return BaseResult.error("ERROR", "确认收货失败");
     }
 
 
@@ -154,7 +154,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         Order order = wxOrderMapper.findByOrderId(id);
         //待付款状态
         if (!CommonEnum.UN_PAY.getCode().equals(order.getOrderStatus())) {
-            return BaseResult.error("cancel_fail", "订单状态异常，不能取消订单");
+            return BaseResult.error("ERROR", "订单状态异常，不能取消订单");
         }
         //将订单修改为关闭状态
         int result = wxOrderMapper.updateByOrderID(id, CommonEnum.CLOSING.getCode());
@@ -162,7 +162,7 @@ public class WxOrderServiceImpl implements WxOrderService {
             saveOrderLog("取消订单", order, ipAddress);
             return BaseResult.success("取消订单成功");
         }
-        return BaseResult.error("cancel_fail", "取消订单失败");
+        return BaseResult.error("ERROR", "取消订单失败");
     }
 
     private void saveOrderLog(String action, Order order, String ipAddress) {

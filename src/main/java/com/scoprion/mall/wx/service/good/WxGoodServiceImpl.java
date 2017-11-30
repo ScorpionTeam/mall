@@ -66,7 +66,7 @@ public class WxGoodServiceImpl implements WxGoodService {
             return BaseResult.notFound();
         }
         if (CommonEnum.OFF_SALE.getCode().equals(goods.getOnSale())) {
-            return BaseResult.error("not_enough_stock", "商品已经下架");
+            return BaseResult.error("ERROR", "商品已经下架");
         }
         //获取图片列表
         List<MallImage> imgList = fileOperationMapper.findByCondition(goods.getId(), 0);

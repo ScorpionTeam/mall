@@ -29,6 +29,7 @@ import java.util.Map;
  * @author by kunlun
  * @created on 2017/11/6.
  */
+@SuppressWarnings("ALL")
 @Service
 public class WxPayServiceImpl implements WxPayService {
     private final static Logger LOGGER = LoggerFactory.getLogger(WxPayServiceImpl.class);

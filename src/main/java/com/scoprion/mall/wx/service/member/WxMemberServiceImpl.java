@@ -28,7 +28,7 @@ public class WxMemberServiceImpl implements WxMemberService {
     @Override
     public BaseResult suggest(Suggest suggest) {
         if (StringUtils.isEmpty(suggest.getContent())) {
-            return BaseResult.error("add_error", "内容不能为空");
+            return BaseResult.error("ERROR", "内容不能为空");
         }
         if (StringUtils.isEmpty(suggest.getWxCode())) {
             return BaseResult.parameterError();
@@ -38,7 +38,7 @@ public class WxMemberServiceImpl implements WxMemberService {
         if (result > 0) {
             return BaseResult.success("提交成功");
         }
-        return BaseResult.error("add_error", "提交失败");
+        return BaseResult.error("ERROR", "提交失败");
 
     }
 }

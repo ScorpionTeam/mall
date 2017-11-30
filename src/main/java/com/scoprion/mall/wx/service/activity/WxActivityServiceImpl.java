@@ -88,7 +88,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         //获取收货地址
         Delivery delivery = wxDeliveryMapper.findById(wxGroupOrder.getDeliveryId());
         if (null == delivery) {
-            return BaseResult.error("not_found_address", "收货地址有误");
+            return BaseResult.error("ERROR", "收货地址有误");
         }
 
         //生成商品快照
@@ -101,7 +101,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         Order order = orderConstructor(delivery, goodSnapshot.getId(), wxGroupOrder.getWxCode(), goods, wxGroupOrder);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
-            return BaseResult.error("order_fail", "下单失败");
+            return BaseResult.error("ERROR", "下单失败");
         }
 
         //系统内生成订单信息
@@ -281,6 +281,10 @@ public class WxActivityServiceImpl implements WxActivityService {
         if (activityGoods.getStock() < 0) {
             return "商品库存不足";
         }
+        //判断活动人数
+        if(activity.getNum() > Constant.ACTIVITY_NUMBER) {
+            return "活动人数已满";
+        }
         return null;
     }
 
@@ -333,7 +337,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         long createTime = order.getCreateDate().getTime();
         long result = System.currentTimeMillis() - createTime;
         //超过两小时未支付订单  自动 关闭掉该订单
-        if (result > Constant.TIME_TWO_HOUR) {
+        if (result > Constant.TIME_HALF_HOUR) {
             //关闭订单
             wxOrderMapper.updateByOrderID(order.getId(), CommonEnum.CLOSING.getCode());
             return "订单已超时，请重新下单";

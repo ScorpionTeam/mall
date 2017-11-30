@@ -29,11 +29,11 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public BaseResult add(Ticket ticket) throws Exception {
         if (ticket.getMoney() < ticket.getReduceMoney()) {
-            return BaseResult.error("add_fail", "满减金额有误");
+            return BaseResult.error("ERROR", "满减金额有误");
         }
         int validResult = ticketMapper.validByName(ticket.getTicketName());
         if (validResult != 0) {
-            return BaseResult.error("add_fail", "名称已存在");
+            return BaseResult.error("ERROR", "名称已存在");
         }
         Long ticketNo = IDWorker.getFlowIdWorkerInstance().nextId();
         ticket.setTicketNo(ticketNo.toString());
@@ -41,7 +41,7 @@ public class TicketServiceImpl implements TicketService {
         if (result != 0) {
             return BaseResult.success("创建优惠券成功");
         }
-        return BaseResult.error("add_fail", "创建优惠券失败");
+        return BaseResult.error("ERROR", "创建优惠券失败");
     }
 
     /**
@@ -84,13 +84,13 @@ public class TicketServiceImpl implements TicketService {
         }
         int validResult = ticketMapper.validByNameAndId(ticket.getId(), ticket.getTicketName());
         if (validResult != 0) {
-            return BaseResult.error("modify_fail", "优惠券名称已存在");
+            return BaseResult.error("ERROR", "优惠券名称已存在");
         }
         int result = ticketMapper.modify(ticket);
         if (result != 0) {
             return BaseResult.success("修改成功");
         }
-        return BaseResult.error("modify_error", "修改失败");
+        return BaseResult.error("ERROR", "修改失败");
     }
 
     /**
@@ -108,7 +108,7 @@ public class TicketServiceImpl implements TicketService {
         if (result != 0) {
             return BaseResult.success("删除成功");
         }
-        return BaseResult.error("delete_error", "删除失败");
+        return BaseResult.error("ERROR", "删除失败");
     }
 
     /**

@@ -87,4 +87,11 @@ public class Constant {
     public static final int WX_POINT_LEVEL3 = 1500;
 
     public static final long TIME_TWO_HOUR = 1000 * 60 * 60 * 2;
+
+    /**
+     * 拼团支付时间30分钟
+     */
+    public static final long TIME_HALF_HOUR = 1000 * 60 * 30;
+
+    public static final int ACTIVITY_NUMBER = 5;
 }

@@ -30,7 +30,7 @@ public class SellerServiceImpl implements SellerService {
     public BaseResult add(Seller seller) throws Exception {
         int validName = sellerMapper.validByName(seller.getSellerName());
         if (validName != 0) {
-            return BaseResult.error("add_fail", "店铺名称已经存在");
+            return BaseResult.error("ERROR", "店铺名称已经存在");
         }
         Long sellerNo = IDWorker.getFlowIdWorkerInstance().nextId();
         seller.setSellerNo(sellerNo.toString());

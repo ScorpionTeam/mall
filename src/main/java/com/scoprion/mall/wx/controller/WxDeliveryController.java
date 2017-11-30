@@ -22,7 +22,7 @@ public class WxDeliveryController {
     private WxDeliveryService wxDeliveryService;
 
     /**
-     * 查询用户收获地址列表
+     * 查询用户收货地址列表
      *
      * @param wxCode
      * @param pageNo
@@ -67,15 +67,15 @@ public class WxDeliveryController {
 
 
     /**
-     * 删除收获地址
+     * 删除收货地址
      *
-     * @param id
+     * @param deliveryExt
      * @return
      */
     @Access
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public BaseResult deleteDelivery(Long id, String wxCode) {
-        return wxDeliveryService.deleteDelivery(id, wxCode);
+    public BaseResult deleteDelivery(@RequestBody DeliveryExt deliveryExt) {
+        return wxDeliveryService.deleteDelivery(deliveryExt);
     }
 
 
@@ -96,23 +96,25 @@ public class WxDeliveryController {
 
     /**
      * 默认收货地址
+     *
      * @param id
      * @return
      */
     @Access
     @RequestMapping(value = "/defaultAddress", method = RequestMethod.GET)
-    public BaseResult defaultAddress(Long id,String wxCode) {
-        return wxDeliveryService.defaultAddress(id,wxCode);
+    public BaseResult defaultAddress(Long id, String wxCode) {
+        return wxDeliveryService.defaultAddress(id, wxCode);
     }
 
     /**
      * 获取默认地址
+     *
      * @param wxCode
      * @return
      */
     @Access
-    @RequestMapping(value = "/getDefault",method = RequestMethod.GET)
-    public BaseResult getDefault(String wxCode){
+    @RequestMapping(value = "/getDefault", method = RequestMethod.GET)
+    public BaseResult getDefault(String wxCode) {
         return wxDeliveryService.getDefault(wxCode);
     }
 }

@@ -92,14 +92,14 @@ public class OrderServiceImpl implements OrderService {
             return BaseResult.parameterError();
         }
         if (StringUtils.isEmpty(deliveryNo)) {
-            return BaseResult.error("delivery_error", "运单号不能为空");
+            return BaseResult.error("ERROR", "运单号不能为空");
         }
         if (StringUtils.isEmpty(expressName)) {
-            return BaseResult.error("express_error", "快递公司不能为空");
+            return BaseResult.error("ERROR", "快递公司不能为空");
         }
         senderId = 12L;
         if (senderId == null) {
-            return BaseResult.error("sender_error", "发件人id不能为空");
+            return BaseResult.error("ERROR", "发件人id不能为空");
         }
         Order order = orderMapper.findById(orderId);
         //生成发货信息记录，
@@ -190,7 +190,7 @@ public class OrderServiceImpl implements OrderService {
         }
         Order localOrder = orderMapper.findById(order.getId());
         if (CommonEnum.UN_PAY.getCode().equals(localOrder.getOrderStatus())) {
-            return BaseResult.error("modify_error", "未付款的订单不能修改");
+            return BaseResult.error("ERROR", "未付款的订单不能修改");
         }
         orderMapper.modify(order);
         saveOrderLog(order.getId(), order.getOrderNo(), "修改订单");
