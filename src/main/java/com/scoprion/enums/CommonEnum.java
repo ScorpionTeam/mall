@@ -89,6 +89,9 @@ public enum CommonEnum {
     PARENT_CATEGORY("PARENT_CATEGORY", "一级类目"),
     CHILD_CATEGORY("CHILD_CATEGORY", "子类目"),
     ALL_DONE("ALL_DONE", "已完成"),
+    LEVEL_SU_ADMIN("LEVEL_SU_ADMIN", "超级管理员等级"),
+    LEVEL_ADMIN("LEVEL_ADMIN", "管理员角色等级"),
+    LEVEL_ORDINARY("LEVEL_ORDINARY", "普通角色等级"),
     AUTH("AUTH", "JSONID:94268"),
     SALT("SALT", "&&salt");
     /**

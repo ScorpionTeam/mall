@@ -3,7 +3,6 @@ package com.scoprion.mall.backstage.service.role;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.RoleMapper;
 import com.scoprion.mall.domain.SysRole;
@@ -25,6 +24,12 @@ public class RoleServiceImpl implements RoleService {
     @Autowired
     RoleMapper roleMapper;
 
+    /**
+     * 新增角色
+     *
+     * @param sysRole
+     * @return
+     */
     @Override
     public BaseResult add(SysRole sysRole) {
         Integer validCount = roleMapper.validByName(sysRole.getName());
@@ -35,15 +40,28 @@ public class RoleServiceImpl implements RoleService {
         return BaseResult.success("添加成功");
     }
 
+    /**
+     * 修改角色
+     *
+     * @param sysRole
+     * @return
+     */
     @Override
     public BaseResult modify(SysRole sysRole) {
         if (sysRole.getId() == null) {
             return BaseResult.parameterError();
         }
-
         Integer validCount = roleMapper.validByNameAndId(sysRole.getName(), sysRole.getId());
         if (validCount > 0) {
             return BaseResult.error("name_exist", "角色名称已经存在");
+        }
+
+        if (CommonEnum.UN_NORMAL.getCode().equals(sysRole.getStatus())) {
+            //删除角色,校验角色绑定用户数量
+            Integer count = roleMapper.validUserByRoleId(sysRole.getId());
+            if (count > 0) {
+                return BaseResult.error("unable_delete", "角色正在使用中，不可删除");
+            }
         }
 
         Integer result = roleMapper.modify(sysRole);
@@ -53,6 +71,14 @@ public class RoleServiceImpl implements RoleService {
         return BaseResult.success("修改成功");
     }
 
+    /**
+     * 列表查询
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param searchKey
+     * @return
+     */
     @Override
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String searchKey) {
         if (StringUtils.isEmpty(searchKey)) {
@@ -66,6 +92,12 @@ public class RoleServiceImpl implements RoleService {
         return new PageResult(pages);
     }
 
+    /**
+     * 根据id查询角色详情
+     *
+     * @param id
+     * @return
+     */
     @Override
     public BaseResult findById(Long id) {
         if (id == null) {
@@ -75,39 +107,53 @@ public class RoleServiceImpl implements RoleService {
         return BaseResult.success(sysRole);
     }
 
+    /**
+     * 根据id删除角色
+     *
+     * @param id
+     * @return
+     */
     @Override
     public BaseResult deleteById(Long id) {
-        SysRole sysRole = roleMapper.findById(id);
-        if (CommonEnum.NORMAL.getCode().equals(sysRole.getStatus())) {
-            roleMapper.deleteById(id);
-        } else {
-            return BaseResult.error("unable_delete", "菜单使用中，不可删除");
+        Integer count = roleMapper.validUserByRoleId(id);
+        if (count > 0) {
+            return BaseResult.error("unable_delete", "角色正在使用中，不可删除");
         }
+        roleMapper.deleteById(id);
         return BaseResult.success("delete_success");
     }
 
+    /**
+     * @param roleId
+     * @param menuIdList
+     * @return
+     */
     @Override
-    public BaseResult allocationMenu(Long roleId, List<Long> menuIdList) {
-        Integer result = roleMapper.clearRelation(roleId);
-        if (result <= 0) {
-            return BaseResult.error("bind_error", "绑定失败");
-        }
+    public BaseResult bindMenu(Long roleId, List<Long> menuIdList) {
+        roleMapper.clearRelation(roleId);
         menuIdList.forEach(menuId -> {
-            //查询父节点
-            Long parentId = roleMapper.queryPidByMenuId(menuId);
-            Integer count = roleMapper.queryExistByPid(roleId, parentId);
-            if (count > 0) {
-                roleMapper.updateRoleMenuRelation(roleId, menuId);
-            } else {
-                roleMapper.insertPid(roleId, parentId);
-                roleMapper.updateRoleMenuRelation(roleId, menuId);
-            }
+//            //查询父节点
+//            Long parentId = roleMapper.findPidByMenuId(menuId);
+//            Integer count = roleMapper.queryExistByPid(roleId, menuId);
+//            if (count > 0) {
+//                roleMapper.addRoleMenuRelation(roleId, menuId);
+//            } else {
+//                roleMapper.insertPid(roleId, parentId);
+                roleMapper.addRoleMenuRelation(roleId, menuId);
+//            }
         });
         return BaseResult.success("绑定菜单成功");
     }
 
+    /**
+     * 角色绑定用户
+     *
+     * @param userId
+     * @param roleId
+     * @return
+     */
     @Override
-    public BaseResult bindRole(Long userId, Long roleId) {
+    public BaseResult bindUser(Long userId, Long roleId) {
         Integer count = roleMapper.validRoleRelation(userId);
         if (count > 0) {
             roleMapper.updateRoleRelation(userId, roleId);

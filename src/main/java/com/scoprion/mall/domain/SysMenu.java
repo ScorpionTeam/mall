@@ -26,7 +26,7 @@ public class SysMenu {
     /**
      * 父节点ID
      */
-    private String pid;
+    private Long pid;
 
     /**
      * 菜单描述
@@ -94,11 +94,11 @@ public class SysMenu {
         this.name = name;
     }
 
-    public String getPid() {
+    public Long getPid() {
         return pid;
     }
 
-    public void setPid(String pid) {
+    public void setPid(Long pid) {
         this.pid = pid;
     }
 

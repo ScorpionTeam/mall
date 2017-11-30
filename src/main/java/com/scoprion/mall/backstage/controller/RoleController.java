@@ -78,7 +78,7 @@ public class RoleController {
      */
     @Access
     @ApiOperation("角色详情")
-    @RequestMapping(value = "/findById", method = RequestMethod.POST)
+    @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
         return roleService.findById(id);
     }
@@ -104,11 +104,11 @@ public class RoleController {
      */
     @Access
     @ApiOperation("角色分配菜单")
-    @RequestMapping(value = "/allocatedMenus", method = RequestMethod.POST)
-    public BaseResult allocatedMenus(@RequestBody JSONObject jsonObject) {
+    @RequestMapping(value = "/bindMenu", method = RequestMethod.POST)
+    public BaseResult bindMenu(@RequestBody JSONObject jsonObject) {
         Long roleId = jsonObject.getLong("roleId");
         List<Long> menusId = jsonObject.getJSONArray("menusId").toJavaList(Long.class);
-        return roleService.allocationMenu(roleId, menusId);
+        return roleService.bindMenu(roleId, menusId);
     }
 
     /**
@@ -120,9 +120,9 @@ public class RoleController {
      */
     @Access
     @ApiOperation("用户分配角色")
-    @RequestMapping(value = "/bindRole", method = RequestMethod.POST)
-    public BaseResult bindRole(Long userId, Long roleId) {
-        return roleService.bindRole(userId, roleId);
+    @RequestMapping(value = "/bindUser", method = RequestMethod.POST)
+    public BaseResult bindUser(Long userId, Long roleId) {
+        return roleService.bindUser(userId, roleId);
     }
 
 }

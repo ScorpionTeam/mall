@@ -39,7 +39,7 @@ public class Category {
     @JSONField(name = "action_url")
     private String actionUrl;
     /**
-     * 排序
+     * 排序 由小到大 越小越往前
      */
     private Integer sort;
     /**

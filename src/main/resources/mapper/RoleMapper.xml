@@ -11,12 +11,14 @@
           remark,
           status ,
           operator,
-          createTime
+          role_level ,
+          create_date
         ) VALUES (
          #{name},
          #{remark},
          #{status},
          #{operator},
+         #{role_level},
          now()
         )
     </insert>
@@ -29,10 +31,16 @@
         remark,
         create_date,
         operator,
+        role_level,
         update_date,
         status
         FROM t_sys_role
         WHERE id=#{id}
+    </select>
+
+    <select id="validByName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_sys_role
+        WHERE name=#{name}
     </select>
 
     <select id="validByNameAndId" resultType="java.lang.Integer">
@@ -68,11 +76,12 @@
         remark,
         create_date,
         operator,
+        role_level,
         update_date,
         status
         FROM t_sys_role
-        WHERE status='NORMAL'
-        <if test="searchKey!=null">CONCAT(name,remark) like #{searchKey}</if>
+        WHERE 1=1
+        <if test="searchKey!=null">AND CONCAT_WS('',name,remark) like #{searchKey}</if>
     </select>
 
     <!--清空角色菜单关系表-->
@@ -80,17 +89,17 @@
         delete from t_sys_menu_role_relation where role_id=#{roleId}
     </delete>
 
-    <select id="queryPidByMenuId" resultType="java.lang.Long">
+    <select id="findPidByMenuId" resultType="java.lang.Long">
         SELECT id FROM t_sys_menu
         WHERE pid='0' AND url=(select pid from t_sys_menu where id=#{menuId})
     </select>
 
     <select id="queryExistByPid" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_sys_menu_role_relation
-         WHERE role_id=#{roleId} AND menuId=#{menuId}
+         WHERE role_id=#{roleId} AND menu_id=#{menuId}
     </select>
 
-    <insert id="updateRoleMenuRelation">
+    <insert id="addRoleMenuRelation">
         INSERT INTO t_sys_menu_role_relation(role_id,menu_id)
         VALUES (#{roleId},#{menuId})
     </insert>
@@ -101,6 +110,11 @@
         VALUES (#{roleId},#{menuId})
     </insert>
 
+    <!--校验角色绑定用户数量-->
+    <select id="validUserByRoleId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_sys_user_role WHERE role_id=#{roleId}
+    </select>
+
     <select id="validRoleRelation" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_sys_user_role WHERE user_id=#{userId}
     </select>
@@ -108,7 +122,6 @@
     <update id="updateRoleRelation" parameterType="java.lang.Long">
         UPDATE t_sys_user_role SET role_id=#{roleId} WHERE user_id=#{userId}
     </update>
-
 
     <insert id="insertRoleRelation" parameterType="java.lang.Long">
         INSERT INTO t_sys_user_role(user_id,role_id) VALUE (#{userId},#{roleId})

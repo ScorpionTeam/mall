@@ -210,7 +210,7 @@
         LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
         WHERE 1=1
-        <if test="searchKey!=null and searchKey!=''">AND CONCAT(good.good_name,good.good_no) LIKE #{searchKey}</if>
+        <if test="searchKey!=null and searchKey!=''">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}</if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
@@ -274,7 +274,7 @@
         GROUP BY tg.id
         )
         AND good.on_sale='ON_SALE'
-        <if test="searchKey!=null">AND CONCAT(good.good_name,good.good_no) LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}</if>
         <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
         <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
@@ -319,7 +319,7 @@
         AND tac.id=#{activityId}
         AND tac.status='NORMAL'
         AND tacg.status='NORMAL'
-        <if test="searchKey!=null and   searchKey!=''">AND CONCAT(good.good_name,good.good_no) LIKE #{searchKey}</if>
+        <if test="searchKey!=null and   searchKey!=''">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}</if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
@@ -362,7 +362,7 @@
         SELECT tcg.good_id FROM t_category_good tcg
         WHERE tcg.good_id =good.id
         )
-        <if test="searchKey!=null">AND CONCAT(good.good_name,good.good_no,seo) LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND CONCAT_WS('',good.good_name,good.good_no,seo) LIKE #{searchKey}</if>
         <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
     </select>

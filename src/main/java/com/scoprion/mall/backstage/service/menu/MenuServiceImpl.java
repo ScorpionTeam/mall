@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.MenuMapper;
+import com.scoprion.mall.backstage.mapper.RoleMapper;
 import com.scoprion.mall.domain.SysMenu;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -25,6 +26,9 @@ public class MenuServiceImpl implements MenuService {
     @Autowired
     MenuMapper menuMapper;
 
+    @Autowired
+    RoleMapper roleMapper;
+
     @Override
     public BaseResult add(SysMenu sysMenu) {
         Integer validCount = menuMapper.validByNameAndUrl(sysMenu.getName(), sysMenu.getUrl());
@@ -33,6 +37,47 @@ public class MenuServiceImpl implements MenuService {
         }
         menuMapper.add(sysMenu);
         return BaseResult.success("添加成功");
+    }
+
+    @Override
+    public BaseResult modify(SysMenu sysMenu) {
+        if (sysMenu.getId() == null) {
+            return BaseResult.parameterError();
+        }
+        Integer validCount = menuMapper.validByIdAndNameAndUrl(sysMenu.getId(), sysMenu.getName(), sysMenu.getUrl());
+        if (validCount > 0) {
+            return BaseResult.error("add_error", "菜单名称或地址已存在");
+        }
+        Integer result = menuMapper.modify(sysMenu);
+        if (result > 0) {
+            return BaseResult.success("修改成功");
+        }
+        return BaseResult.error("add_error", "修改失败");
+    }
+
+    @Override
+    public BaseResult findById(Long id) {
+        if (id == null) {
+            return BaseResult.parameterError();
+        }
+        SysMenu menu = menuMapper.findById(id);
+        if (menu == null) {
+            return BaseResult.notFound();
+        }
+        return BaseResult.success(menu);
+    }
+
+    @Override
+    public BaseResult deleteById(Long id) {
+        if (id == null) {
+            return BaseResult.parameterError();
+        }
+        //子菜单
+        Integer result = menuMapper.deleteById(id);
+        if (result <= 0) {
+            return BaseResult.error("delete_error", "删除失败");
+        }
+        return BaseResult.success("删除成功");
     }
 
     @Override
@@ -74,71 +119,32 @@ public class MenuServiceImpl implements MenuService {
         return BaseResult.success(list);
     }
 
-    @Override
-    public BaseResult findRootMenu() {
-        return BaseResult.success(menuMapper.findRootMenu());
-    }
-
-    @Override
-    public BaseResult modify(SysMenu sysMenu) {
-        if (sysMenu.getId() == null) {
-            return BaseResult.parameterError();
-        }
-        Integer validCount = menuMapper.validByIdAndNameAndUrl(sysMenu.getId(), sysMenu.getName(), sysMenu.getUrl());
-        if (validCount > 0) {
-            return BaseResult.error("add_error", "菜单名称或地址已存在");
-        }
-        Integer result = menuMapper.modify(sysMenu);
-        if (result > 0) {
-            return BaseResult.success("修改成功");
-        }
-        return BaseResult.error("add_error", "修改失败");
-    }
-
-    @Override
-    public BaseResult findById(Long id) {
-        if (id == null) {
-            return BaseResult.parameterError();
-        }
-        SysMenu menu = menuMapper.findById(id);
-        if (menu == null) {
-            return BaseResult.notFound();
-        }
-        return BaseResult.success(menu);
-    }
-
-    @Override
-    public BaseResult deleteById(Long id) {
-        if (id == null) {
-            return BaseResult.parameterError();
-        }
-//        SysMenu menu = menuMapper.findById(id);
-//        if (CommonEnum.NORMAL.getCode().equals(menu.getStatus())) {
-//            return BaseResult.error("del_error", "菜单正在使用中不能删除");
-//        }
-        //子菜单
-        Integer result = menuMapper.deleteById(id);
-        if (result <= 0) {
-            return BaseResult.error("delete_error", "删除失败");
-        }
-        return BaseResult.success("删除成功");
-    }
-
     /**
-     * 菜单停用启用
+     * 查询所有根菜单列表
      *
-     * @param id
-     * @param status
      * @return
      */
     @Override
-    public BaseResult modifyStatus(Long id, String status) {
-        if (CommonEnum.NORMAL.getCode().equals(status)) {
+    public BaseResult findRootMenu() {
+        return BaseResult.success(menuMapper.findRootMenuList());
+    }
 
 
-        } else {
-            return deleteById(id);
-        }
-        return BaseResult.success("修改成功");
+
+    /**
+     * 根据角色id查询菜单列表
+     *
+     * @param roleId
+     * @return
+     */
+    @Override
+    public BaseResult findByRoleId(Long roleId) {
+        List<SysMenu> list = menuMapper.findMenuListByRoleId(roleId, null, 0);
+        list.forEach(item -> {
+            //二级菜单
+            List<SysMenu> childMenus = menuMapper.findMenuListByRoleId(roleId, item.getId(), 1);
+            item.setLeaf(childMenus);
+        });
+        return BaseResult.success(list);
     }
 }

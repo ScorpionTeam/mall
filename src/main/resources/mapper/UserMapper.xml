@@ -128,7 +128,7 @@
         user_type
         FROM t_user WHERE 1=1
         <if test="searchKey!=null">
-            AND CONCAT(name,nick_name,mobile)LIKE #{searchKey}
+            AND CONCAT_WS('',name,nick_name,mobile)LIKE #{searchKey}
         </if>
         <if test="startDate!=null and endDate!=null">
             AND create_date BETWEEN #{startDate} AND #{endDate}

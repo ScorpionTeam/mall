@@ -40,7 +40,7 @@
         status,
         short_name
         FROM t_brand WHERE 1=1
-        <if test="searchKey!=null">AND CONCAT(brand_name,short_name) LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND CONCAT_WS('',brand_name,short_name) LIKE #{searchKey}</if>
     </select>
 
     <!--查询品牌名称数量-->

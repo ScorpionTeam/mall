@@ -38,7 +38,7 @@
         LEFT JOIN t_good_snapshot tgs ON tgs.id=torder.good_snapshot_id
         WHERE 1=1
         <if test="searchKey!=null">AND
-            CONCAT(torder.good_name,torder.post_code,torder.address,torder.phone,torder.recipients) LIKE #{searchKey}
+            CONCAT_WS('',torder.good_name,torder.post_code,torder.address,torder.phone,torder.recipients) LIKE #{searchKey}
         </if>
         <if test="payType!=null">AND torder.pay_type =#{payType}</if>
         <if test="orderType!=null">AND torder.order_type =#{orderType}</if>

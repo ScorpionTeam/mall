@@ -40,6 +40,13 @@ public class MenuController {
     }
 
     @Access
+    @ApiOperation("根据角色id查询菜单列表")
+    @RequestMapping(value = "/findByRoleId", method = RequestMethod.GET)
+    public BaseResult findByRoleId(Long roleId) {
+        return menuService.findByRoleId(roleId);
+    }
+
+    @Access
     @ApiOperation("菜单列表")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String searchKey) {
@@ -74,10 +81,4 @@ public class MenuController {
         return menuService.deleteById(id);
     }
 
-    @Access
-    @ApiOperation("菜单停用启用")
-    @RequestMapping(value = "/modifyStatus", method = RequestMethod.GET)
-    public BaseResult modifyStatus(Long id, String status) {
-        return menuService.modifyStatus(id, status);
-    }
 }
