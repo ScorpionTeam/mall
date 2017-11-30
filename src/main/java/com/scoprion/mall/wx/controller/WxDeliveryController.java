@@ -1,6 +1,7 @@
 package com.scoprion.mall.wx.controller;
 
 import com.alibaba.druid.util.StringUtils;
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.domain.DeliveryExt;
 import com.scoprion.mall.wx.pay.util.WxUtil;
@@ -28,6 +29,7 @@ public class WxDeliveryController {
      * @param pageSize
      * @return
      */
+    @Access
     @RequestMapping(value = "/findByWxCode", method = RequestMethod.GET)
     public PageResult findByWxCode(String wxCode, Integer pageNo, Integer pageSize) {
         return wxDeliveryService.findByWxCode(wxCode, pageNo, pageSize);
@@ -39,6 +41,7 @@ public class WxDeliveryController {
      * @param delivery
      * @return
      */
+    @Access
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody DeliveryExt delivery) {
         if (StringUtils.isEmpty(delivery.getWxCode())) {
@@ -56,6 +59,7 @@ public class WxDeliveryController {
      * @param delivery
      * @return
      */
+    @Access
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public BaseResult updateDelivery(@RequestBody Delivery delivery) {
         return wxDeliveryService.updateDelivery(delivery);
@@ -68,6 +72,7 @@ public class WxDeliveryController {
      * @param id
      * @return
      */
+    @Access
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public BaseResult deleteDelivery(Long id, String wxCode) {
         return wxDeliveryService.deleteDelivery(id, wxCode);
@@ -80,6 +85,7 @@ public class WxDeliveryController {
      * @param id
      * @return
      */
+    @Access
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
         if (StringUtils.isEmpty(id.toString())) {
@@ -93,6 +99,7 @@ public class WxDeliveryController {
      * @param id
      * @return
      */
+    @Access
     @RequestMapping(value = "/defaultAddress", method = RequestMethod.GET)
     public BaseResult defaultAddress(Long id,String wxCode) {
         return wxDeliveryService.defaultAddress(id,wxCode);
@@ -103,6 +110,7 @@ public class WxDeliveryController {
      * @param wxCode
      * @return
      */
+    @Access
     @RequestMapping(value = "/getDefault",method = RequestMethod.GET)
     public BaseResult getDefault(String wxCode){
         return wxDeliveryService.getDefault(wxCode);

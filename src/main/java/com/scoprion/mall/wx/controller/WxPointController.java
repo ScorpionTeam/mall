@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.wx.service.point.WxPointService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -25,6 +26,7 @@ public class WxPointController {
      * @param wxCode
      * @return
      */
+    @Access
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
     public BaseResult findByUserId(String wxCode) {
         return wxPointService.findByUserId(wxCode);
@@ -39,6 +41,7 @@ public class WxPointController {
      * @param wxCode
      * @return
      */
+    @Access
     @RequestMapping(value = "/pointLog", method = RequestMethod.GET)
     public PageResult pointLog(Integer pageNo, Integer pageSize, String wxCode) {
         return wxPointService.pointLog(pageNo, pageSize, wxCode);

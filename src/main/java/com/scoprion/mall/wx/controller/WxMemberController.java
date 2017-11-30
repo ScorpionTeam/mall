@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.Suggest;
 import com.scoprion.mall.wx.service.member.WxMemberService;
 import com.scoprion.result.BaseResult;
@@ -22,6 +23,7 @@ public class WxMemberController {
     @Autowired
     WxMemberService wxMemberService;
 
+    @Access
     @ApiOperation("意见、建议")
     @RequestMapping(value = "/suggest", method = RequestMethod.POST)
     public BaseResult suggest(@RequestBody Suggest suggest) {

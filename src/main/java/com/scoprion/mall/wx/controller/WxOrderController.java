@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.wx.service.order.WxOrderService;
 import com.scoprion.result.BaseResult;
@@ -34,6 +35,7 @@ public class WxOrderController {
      * @param orderStatus
      * @return
      */
+    @Access
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
     public PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus) {
         return wxOrderService.findByUserId(pageNo, pageSize, wxCode, orderStatus);
@@ -46,6 +48,7 @@ public class WxOrderController {
      * @param orderId
      * @return
      */
+    @Access
     @RequestMapping(value = "/findByOrderId", method = RequestMethod.GET)
     public BaseResult findByOrderId(Long orderId) {
         return wxOrderService.findByOrderId(orderId);
@@ -57,6 +60,7 @@ public class WxOrderController {
      *
      * @return
      */
+    @Access
     @RequestMapping(value = "/refund", method = RequestMethod.POST)
     public BaseResult refund(Long orderId) {
         return wxOrderService.refund(orderId);
@@ -68,6 +72,7 @@ public class WxOrderController {
      * @param estimate
      * @return
      */
+    @Access
     @RequestMapping(value = "/estimate", method = RequestMethod.POST)
     public BaseResult estimate(@RequestBody Estimate estimate) {
         return wxOrderService.estimate(estimate);
@@ -79,6 +84,7 @@ public class WxOrderController {
      * @param id
      * @return
      */
+    @Access
     @RequestMapping(value = "/confirmReceipt", method = RequestMethod.GET)
     public BaseResult confirmReceipt(Long id, HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
@@ -91,6 +97,7 @@ public class WxOrderController {
      * @param id
      * @return
      */
+    @Access
     @RequestMapping(value = "/cancelOrder", method = RequestMethod.GET)
     public BaseResult cancelOrder(Long id, HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);

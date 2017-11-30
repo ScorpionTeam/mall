@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.controller;
 
 
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.WxFreeOrder;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
@@ -41,6 +42,7 @@ public class WxFreeController {
      * @param pageSize
      * @return
      */
+    @Access
     @RequestMapping(value = "/findFreeList", method = RequestMethod.GET)
     public PageResult findAll(Integer pageNo, Integer pageSize) {
         return wxFreeService.findAll(pageNo, pageSize);
@@ -53,6 +55,7 @@ public class WxFreeController {
      * @param request
      * @return
      */
+    @Access
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder,HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
@@ -67,6 +70,7 @@ public class WxFreeController {
      * @param goodId
      * @return
      */
+    @Access
     @RequestMapping(value = "/pay",method = RequestMethod.GET)
     public BaseResult pay(Long orderId,Long activityId,Long goodId){
         return wxFreeService.pay(orderId,activityId,goodId);

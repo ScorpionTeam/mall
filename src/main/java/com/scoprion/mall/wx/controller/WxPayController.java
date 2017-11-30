@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
@@ -44,6 +45,7 @@ public class WxPayController {
      * @param request
      * @return
      */
+    @Access
     @RequestMapping(value = "/jsapi/order/unifiedOrder", method = RequestMethod.GET)
     public BaseResult preOrder(String order, String wxCode, HttpServletRequest request) {
         WxOrderRequestData wxOrderRequestData = JSON.parseObject(order, WxOrderRequestData.class);
@@ -58,6 +60,7 @@ public class WxPayController {
      * @param orderId
      * @return
      */
+    @Access
     @RequestMapping(value = "/jsapi/order/pay", method = RequestMethod.GET)
     public BaseResult pay(Long orderId) {
         return wxPayService.pay(orderId);
@@ -69,6 +72,7 @@ public class WxPayController {
      * @param request
      * @return
      */
+    @Access
     @RequestMapping(value = "/jsapi/callback/pay", method = RequestMethod.POST)
     public void pay(HttpServletRequest request) {
         String inputLine;

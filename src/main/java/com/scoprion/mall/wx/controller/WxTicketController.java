@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.wx.service.ticket.WxTicketService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -29,6 +30,7 @@ public class WxTicketController {
      * @param wxCode
      * @return
      */
+    @Access
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
     public PageResult findByUserId(Integer pageNo, Integer pageSize, String  wxCode) {
         return wxTicketService.findByUserId(pageNo, pageSize, wxCode);
@@ -41,6 +43,7 @@ public class WxTicketController {
      * @param wxCode
      * @return
      */
+    @Access
     @RequestMapping(value = "/getTicket", method = RequestMethod.GET)
     public BaseResult getTicket(Long ticketId,  String wxCode  ) {
         return wxTicketService.getTicket(ticketId, wxCode);
@@ -53,6 +56,7 @@ public class WxTicketController {
      * @param pageSize
      * @return
      */
+    @Access
     @RequestMapping(value = "/findAll",method = RequestMethod.GET)
     public PageResult findAll(Integer pageNo,Integer pageSize){
         return wxTicketService.findAll(pageNo,pageSize);

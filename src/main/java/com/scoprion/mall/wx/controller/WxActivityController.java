@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.WxGroupOrder;
 import com.scoprion.mall.wx.service.activity.WxActivityService;
 import com.scoprion.result.BaseResult;
@@ -33,6 +34,7 @@ public class WxActivityController {
      * @param pageSize
      * @return
      */
+    @Access
     @RequestMapping(value = "/groupList", method = RequestMethod.GET)
     public PageResult groupList(int pageNo, int pageSize, String activityType) {
         return wxActivityService.groupList(pageNo, pageSize, activityType);
@@ -45,6 +47,7 @@ public class WxActivityController {
      * @param request
      * @return
      */
+    @Access
     @RequestMapping(value = "/joinGroup", method = RequestMethod.POST)
     public BaseResult joinGroup(@RequestBody WxGroupOrder wxGroupOrder, HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
