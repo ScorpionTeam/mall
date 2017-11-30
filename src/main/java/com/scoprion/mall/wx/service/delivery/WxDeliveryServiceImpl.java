@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  * @author hmy
  * @date 2017/11/1
  */
+@SuppressWarnings("ALL")
 @Service
 public class WxDeliveryServiceImpl implements WxDeliveryService {
 
@@ -84,20 +85,20 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     @Override
     public BaseResult deleteDelivery(Long id, String wxCode) {
         String userId = WxUtil.getOpenId(wxCode);
-        if(StringUtils.isEmpty(userId)){
+        if (StringUtils.isEmpty(userId)) {
             return BaseResult.parameterError();
         }
         //获取收货地址是否是默认地址
-        Delivery delivery=wxDeliveryMapper.findById(id);
-        if(CommonEnum.DEFAULT_ADDRESS.getCode().equals(delivery.getDefaultAddress())){
+        Delivery delivery = wxDeliveryMapper.findById(id);
+        if (CommonEnum.DEFAULT_ADDRESS.getCode().equals(delivery.getDefaultAddress())) {
             Integer result = wxDeliveryMapper.deleteDelivery(id);
             if (result <= 0) {
                 return BaseResult.error("ERROR", "删除失败");
             }
             Page<Delivery> pages = wxDeliveryMapper.listPage(userId);
             if (pages.size() > 0) {
-              int  updateResult = wxDeliveryMapper.updateDefaultAddress(pages.get(0).getId());
-                if(updateResult > 0) {
+                int updateResult = wxDeliveryMapper.updateDefaultAddress(pages.get(0).getId());
+                if (updateResult > 0) {
                     return BaseResult.success("设置成功");
                 }
             }

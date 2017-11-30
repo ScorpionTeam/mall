@@ -97,7 +97,7 @@
         WHERE user_id=#{userId} AND default_address='DEFAULT_ADDRESS'
     </select>
 
-    <!--分页查询用户收获地址-->
+    <!--分页查询用户收货地址-->
     <select id="listPage" resultType="com.scoprion.mall.domain.Delivery">
         SELECT id,
         user_id,
@@ -109,8 +109,8 @@
         address,
         post_code,
         create_date,
-        type,
         update_date,
+        type,
         default_address
         FROM t_delivery
         WHERE user_id=#{userId}
