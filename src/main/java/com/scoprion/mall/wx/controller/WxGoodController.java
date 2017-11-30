@@ -60,14 +60,15 @@ public class WxGoodController {
 
     /**
      * 商品搜索
+     *
      * @param pageNo
      * @param pageSize
      * @param searchKey
      * @return
      */
-    @RequestMapping(value = "/findBySearchKey",method = RequestMethod.GET)
-    public PageResult findBySearchKey(Integer pageNo,Integer pageSize,String searchKey){
-        return wxGoodService.findBySearchKey(pageNo,pageSize,searchKey);
+    @RequestMapping(value = "/findBySearchKey", method = RequestMethod.GET)
+    public PageResult findBySearchKey(Integer pageNo, Integer pageSize, Long categoryId, String searchKey) {
+        return wxGoodService.findBySearchKey(pageNo, pageSize, categoryId,searchKey);
     }
 
 }

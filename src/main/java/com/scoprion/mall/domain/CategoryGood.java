@@ -8,17 +8,42 @@ import com.alibaba.fastjson.annotation.JSONField;
  * @date 2017-11-29 10:49
  */
 public class CategoryGood {
+    /**
+     * 主键
+     */
     private Long id;
 
+    /**
+     * 一级类目id
+     */
+    @JSONField(name = "parent_id")
+    private Long parentId;
 
+    /**
+     * 类目id
+     */
     @JSONField(name = "category_id")
     private Long categoryId;
 
+    /**
+     * 商品id
+     */
     @JSONField(name = "good_id")
     private Long goodId;
 
+    /**
+     * 创建时间
+     */
     @JSONField(name = "create_date")
     private Long createDate;
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
+    }
 
     public Long getId() {
         return id;

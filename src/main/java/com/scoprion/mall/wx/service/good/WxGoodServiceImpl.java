@@ -103,7 +103,7 @@ public class WxGoodServiceImpl implements WxGoodService {
      * @return
      */
     @Override
-    public PageResult findBySearchKey(Integer pageNo, Integer pageSize, String searchKey) {
+    public PageResult findBySearchKey(Integer pageNo, Integer pageSize, Long categoryId, String searchKey) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(searchKey)) {
             searchKey = null;
@@ -111,10 +111,7 @@ public class WxGoodServiceImpl implements WxGoodService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Goods> page = wxGoodMapper.findBySearchKey(searchKey);
-        if (page == null) {
-            return new PageResult(new ArrayList<Goods>());
-        }
+        Page<Goods> page = wxGoodMapper.findBySearchKey(categoryId, searchKey);
         return new PageResult(page);
     }
 }

@@ -40,10 +40,12 @@ public interface WxGoodService {
 
     /**
      * 商品搜索
+     *
      * @param pageNo
      * @param pageSize
      * @param searchKey
+     * @param categoryId
      * @return
      */
-    PageResult findBySearchKey(Integer pageNo,Integer pageSize,String searchKey);
+    PageResult findBySearchKey(Integer pageNo, Integer pageSize, Long categoryId, String searchKey);
 }

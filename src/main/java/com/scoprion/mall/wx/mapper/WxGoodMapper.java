@@ -15,6 +15,7 @@ public interface WxGoodMapper {
 
     /**
      * 首页商品列表
+     *
      * @return
      */
     Page<Goods> findOnline();
@@ -29,6 +30,7 @@ public interface WxGoodMapper {
 
     /**
      * 访问量
+     *
      * @param goodId
      */
     void updateVisitTotal(@Param("goodId") Long goodId);
@@ -40,7 +42,8 @@ public interface WxGoodMapper {
      * @param stock
      * @return
      */
-    int updateGoodStockById(@Param("goodId") Long goodId, @Param("stock") int stock);
+    int updateGoodStockById(@Param("goodId") Long goodId,
+                            @Param("stock") int stock);
 
     /**
      * 修改销量
@@ -49,12 +52,16 @@ public interface WxGoodMapper {
      * @param goodId
      * @return
      */
-    int updateSaleVolume(@Param("saleVolume") int saleVolume, @Param("goodId") Long goodId);
+    int updateSaleVolume(@Param("saleVolume") int saleVolume,
+                         @Param("goodId") Long goodId);
 
     /**
      * 商品搜索
+     *
      * @param searchKey
+     * @param categoryId
      * @return
      */
-    Page<Goods> findBySearchKey(@Param("searchKey") String searchKey);
+    Page<Goods> findBySearchKey(@Param("categoryId") Long categoryId,
+                                @Param("searchKey") String searchKey);
 }
