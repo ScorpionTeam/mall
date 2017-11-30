@@ -69,8 +69,8 @@ public class WxDeliveryController {
      * @return
      */
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
-    public BaseResult deleteDelivery(Long id, String userId) {
-        return wxDeliveryService.deleteDelivery(id, userId);
+    public BaseResult deleteDelivery(Long id, String wxCode) {
+        return wxDeliveryService.deleteDelivery(id, wxCode);
     }
 
 

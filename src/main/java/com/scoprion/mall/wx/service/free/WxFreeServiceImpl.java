@@ -99,7 +99,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         //获取收货地址
         Delivery delivery = wxDeliveryMapper.findById(wxFreeOrder.getDeliveryId());
         if (null == delivery) {
-            return BaseResult.error("not_found_address", "收货地址有误");
+            return BaseResult.error("ERROR", "收货地址有误");
         }
         //生成商品快照
         Long goodId = wxFreeOrder.getGoodId();
@@ -111,7 +111,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         Order order = orderConstructor(delivery, goodSnapshot.getId(), userId, goods, wxFreeOrder);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
-            return BaseResult.error("order_fail", "下单失败");
+            return BaseResult.error("ERROR", "下单失败");
         }
 
         //系统内生成订单信息
@@ -174,6 +174,14 @@ public class WxFreeServiceImpl implements WxFreeService {
         String orderMessage = checkOrder(order);
         if (!StringUtils.isEmpty(orderMessage)) {
             return BaseResult.error("ERROR", orderMessage);
+        }
+        long createTime = order.getCreateDate().getTime();
+        long result = System.currentTimeMillis() - createTime;
+        //超过两小时未支付订单  自动 关闭掉该订单
+        if (result > Constant.TIME_TWO_HOUR) {
+            //关闭订单
+            wxOrderMapper.updateByOrderID(order.getId(), CommonEnum.CLOSING.getCode());
+            return BaseResult.error("ERROR","订单已超时，请重新下单");
         }
         //查询活动商品是否还有库存
         String activityGoodMessage = checkActivityGood(activityId,goodId);
@@ -310,14 +318,6 @@ public class WxFreeServiceImpl implements WxFreeService {
         }
         if (!CommonEnum.UN_PAY.getCode().equals(order.getOrderStatus())) {
             return "订单状态异常";
-        }
-        long createTime = order.getCreateDate().getTime();
-        long result = System.currentTimeMillis() - createTime;
-        //超过两小时未支付订单  自动 关闭掉该订单
-        if (result > Constant.TIME_TWO_HOUR) {
-            //关闭订单
-            wxOrderMapper.updateByOrderID(order.getId(), CommonEnum.CLOSING.getCode());
-            return "订单已超时，请重新下单";
         }
         return null;
     }

@@ -16,6 +16,7 @@ import java.util.List;
 @Mapper
 public interface CategoryGoodMapper {
 
+
     /**
      * 根据类目id查询关联关系
      *
@@ -47,18 +48,25 @@ public interface CategoryGoodMapper {
     /**
      * 解绑商品跟类目
      *
-     * @param categoryId
      * @param goodIdList
      * @return
      */
-    Integer unbindCategoryGood(@Param("categoryId") Long categoryId,
-                               @Param("goodIdList") List<Long> goodIdList);
+    int unbindCategoryGood(@Param("goodIdList") List<Long> goodIdList);
 
     /**
-     * 查询商品已经绑定的类目数量
+     * 根据商品id解绑商品跟类目
      *
      * @param goodId
      * @return
      */
-    Integer findCountByGoodId(@Param("goodId") Long goodId);
+    Integer unbindWithGoodId(@Param("goodId") Long goodId);
+
+    /**
+     * 查询集合中id是否已经绑定
+     *
+     * @param idList
+     * @return
+     */
+    Integer findCountByCategoryIdList(@Param("idList") List<Long> idList);
+
 }

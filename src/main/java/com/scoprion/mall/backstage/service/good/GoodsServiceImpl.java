@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.enums.CommonEnum;
+import com.scoprion.mall.backstage.mapper.CategoryGoodMapper;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.backstage.service.file.FileOperationServiceImpl;
@@ -43,6 +44,8 @@ public class GoodsServiceImpl implements GoodsService {
     @Autowired
     private FileOperationMapper fileOperationMapper;
 
+    @Autowired
+    CategoryGoodMapper categoryGoodMapper;
 
     /**
      * 创建商品
@@ -65,10 +68,42 @@ public class GoodsServiceImpl implements GoodsService {
             }
             return BaseResult.success("添加成功");
         }
+        if (good.getCategoryId() != null) {
+            bindCategoryGood(good.getCategoryId(), good.getId());
+        }
         saveGoodLog(good.getGoodName(), "创建商品", good.getId());
         return BaseResult.error("mock_fail", "创建商品失败");
     }
 
+    /**
+     * 商品绑定类目
+     *
+     * @param categoryId
+     * @param goodId
+     */
+    private void bindCategoryGood(Long categoryId, Long goodId) {
+        categoryGoodMapper.bindCategoryGood(categoryId, goodId);
+    }
+
+    /**
+     * 商品解绑类目
+     *
+     * @param goodId
+     */
+    private void unbindCategoryGood(Long goodId) {
+        if (goodId == null) {
+            return;
+        }
+        categoryGoodMapper.unbindWithGoodId(goodId);
+    }
+
+    /**
+     * 保持商品操作日志
+     *
+     * @param goodName
+     * @param action
+     * @param goodId
+     */
     private void saveGoodLog(String goodName, String action, Long goodId) {
         GoodLog goodLog = new GoodLog();
         goodLog.setGoodName(goodName);
@@ -115,6 +150,16 @@ public class GoodsServiceImpl implements GoodsService {
             //上架状态，不能修改
             return BaseResult.error("unable_update", "商品为上架状态，不能修改");
         }
+        if (good.getCategoryId() == null && localGood.getCategoryId() != null) {
+            //类目解绑
+            unbindCategoryGood(localGood.getId());
+        } else if (!good.getCategoryId().equals(localGood.getCategoryId())) {
+            //类目解绑
+            unbindCategoryGood(localGood.getId());
+            //绑定类目
+            bindCategoryGood(good.getCategoryId(), good.getId());
+        }
+
         goodsMapper.updateGoods(good);
         List<MallImage> imgList = good.getImgList();
         if (imgList != null && imgList.size() > 0) {
@@ -262,27 +307,5 @@ public class GoodsServiceImpl implements GoodsService {
             page = goodsMapper.findByCondition(requestParams);
         }
         return new PageResult(page);
-    }
-
-
-    /**
-     * 选择绑定活动的商品列表
-     *
-     * @return
-     */
-    private PageResult findForActivity(GoodRequestParams requestParams) {
-        Page<GoodExt> result = goodsMapper.findForActivity(requestParams);
-        return new PageResult(result);
-    }
-
-    /**
-     * 未绑定类目的商品列表
-     *
-     * @param goodRequestParams
-     * @return
-     */
-    private PageResult findForCategory(GoodRequestParams goodRequestParams) {
-        List<GoodExt> result = goodsMapper.findForCategory(goodRequestParams);
-        return new PageResult(result);
     }
 }

@@ -2,7 +2,6 @@ package com.scoprion.mall.wx.service.ticket;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.domain.TicketExt;
@@ -55,10 +54,10 @@ public class WxTicketServiceImpl implements WxTicketService {
             Date startDate = item.getStartDate();
             Date endDate = item.getEndDate();
             if (startDate.after(currentTime)) {
-                item.setExpire(CommonEnum.UN_START.getCode());
+                item.setExpire(CommonEnum.UN_START.getDesc());
             }
             if (endDate.before(currentTime)) {
-                item.setExpire(CommonEnum.EXPIRE.getCode());
+                item.setExpire(CommonEnum.EXPIRE.getDesc());
             }
             if (startDate.compareTo(currentTime) < 0 && startDate.compareTo(
                     currentTime) == 0 && currentTime.compareTo(endDate) < 0 && currentTime.compareTo(endDate) == 0) {
@@ -80,19 +79,19 @@ public class WxTicketServiceImpl implements WxTicketService {
         String userId = WxUtil.getOpenId(wxCode);
         int count = wxTicketMapper.findByTicketIdAndUserId(ticketId, userId);
         if (count > 0) {
-            return BaseResult.error("add_error", "已经领取过了");
+            return BaseResult.error("ERROR", "已经领取过了");
         }
 
         //查询优惠券详情
         Ticket ticket = wxTicketMapper.findById(ticketId);
         if (ticket.getEndDate().before(new Date()) || CommonEnum.NORMAL.getCode().equals(ticket.getStatus())) {
-            return BaseResult.error("add_error", "优惠券已过期");
+            return BaseResult.error("ERROR", "优惠券已过期");
         }
 
         //判断优惠券是否限量
         if (CommonEnum.LIMITED.getCode().equals(ticket.getNumLimit())) {
             if (ticket.getNum() == 0) {
-                return BaseResult.error("add_error", "领取失败,优惠券已经领完了");
+                return BaseResult.error("ERROR", "领取失败,优惠券已经领完了");
             }
 
             //优惠券快照
@@ -117,7 +116,7 @@ public class WxTicketServiceImpl implements WxTicketService {
                 return BaseResult.success("领取成功");
             }
         }
-        return BaseResult.error("add_error", "领取失败");
+        return BaseResult.error("ERROR", "领取失败");
     }
 
 

@@ -58,7 +58,7 @@ public interface CategoryService {
      * @param type      PARENT CHILD
      * @return
      */
-    PageResult findByCondition(Integer pageNo, Integer pageSize, String type,String searchKey);
+    PageResult findByCondition(Integer pageNo, Integer pageSize, String type, String searchKey);
 
     /**
      * 批量修改类目状态
@@ -72,17 +72,16 @@ public interface CategoryService {
     /**
      * 商品解绑定类目
      *
-     * @param categoryId 类目 id
-     * @param goodIdList     商品 id
+     * @param goodIdList 商品 id
      * @return
      */
-    BaseResult unbindCategoryGood(Long categoryId, List<Long> goodIdList);
+    BaseResult unbindCategoryGood(List<Long> goodIdList);
 
     /**
      * 商品绑定类目
      *
      * @param categoryId 类目 id
-     * @param goodIdList     商品 id
+     * @param goodIdList 商品 id
      * @return
      */
     BaseResult bindCategoryGood(Long categoryId, List<Long> goodIdList);

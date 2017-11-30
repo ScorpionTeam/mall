@@ -67,7 +67,7 @@ public class WxFreeController {
      * @param goodId
      * @return
      */
-    @RequestMapping(value = "/pay",method = RequestMethod.POST)
+    @RequestMapping(value = "/pay",method = RequestMethod.GET)
     public BaseResult pay(Long orderId,Long activityId,Long goodId){
         return wxFreeService.pay(orderId,activityId,goodId);
     }

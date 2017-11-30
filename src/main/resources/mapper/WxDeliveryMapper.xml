@@ -75,7 +75,8 @@
         type,
         post_code,
         create_date,
-        update_date
+        update_date,
+        default_address
         FROM t_delivery
         WHERE id=#{id}
     </select>
