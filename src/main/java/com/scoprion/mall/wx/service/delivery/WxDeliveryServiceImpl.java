@@ -69,7 +69,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public BaseResult deleteDelivery(DeliveryExt deliveryExt) {
-        //String userId = WxUtil.getOpenId(deliveryExt.getWxCode());
+        String userId = WxUtil.getOpenId(deliveryExt.getWxCode());
         if (StringUtils.isEmpty(deliveryExt.getWxCode())) {
             return BaseResult.parameterError();
         }
@@ -80,7 +80,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
             if (result <= 0) {
                 return BaseResult.error("ERROR", "删除失败");
             }
-            Page<Delivery> pages = wxDeliveryMapper.listPage(delivery.getUserId());
+            Page<Delivery> pages = wxDeliveryMapper.listPage(userId);
             if (pages.size() > 0) {
                 int updateResult = wxDeliveryMapper.updateDefaultAddress(pages.get(0).getId());
                 if (updateResult > 0) {
@@ -98,13 +98,13 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     /**
      * 分页查询用户收货地址列表
      *
-     * @param wx_code
+     * @param wxCode
      * @param pageNo
      * @param pageSize
      * @return
      */
     @Override
-    public PageResult findByWxCode(@RequestParam("wx_code") String wxCode, Integer pageNo, Integer pageSize) {
+    public PageResult findByWxCode(@RequestParam("wxCode") String wxCode, Integer pageNo, Integer pageSize) {
         //String openId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
@@ -137,8 +137,8 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult defaultAddress(Long id, String wx_code) {
-        String userId = WxUtil.getOpenId(wx_code);
+    public BaseResult defaultAddress(Long id, String wxCode) {
+        String userId = WxUtil.getOpenId(wxCode);
         int result = wxDeliveryMapper.updateDefaultAddress(id);
         if (result <= 0) {
             return BaseResult.error("ERROR", "设置默认地址失败");
@@ -157,9 +157,9 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult getDefault(String wx_code) {
-        String userId = WxUtil.getOpenId(wx_code);
-        if (StringUtils.isEmpty(wx_code)) {
+    public BaseResult getDefault(String wxCode) {
+        String userId = WxUtil.getOpenId(wxCode);
+        if (StringUtils.isEmpty(wxCode)) {
             return BaseResult.parameterError();
         }
         Delivery delivery = wxDeliveryMapper.getDefault(userId);

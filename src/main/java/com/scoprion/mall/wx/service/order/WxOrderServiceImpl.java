@@ -41,13 +41,13 @@ public class WxOrderServiceImpl implements WxOrderService {
      *
      * @param pageNo      当前页
      * @param pageSize    每页条数
-     * @param wx_code      微信code
+     * @param wxCode      微信code
      * @param orderStatus 订单状态
      * @return
      */
     @Override
-    public PageResult findByUserId(int pageNo, int pageSize, String wx_code, String orderStatus) {
-        String userId = WxUtil.getOpenId(wx_code);
+    public PageResult findByUserId(int pageNo, int pageSize, String wxCode, String orderStatus) {
+        String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         //所有订单
         if (CommonEnum.ALL.getCode().equals(orderStatus)) {
@@ -111,7 +111,7 @@ public class WxOrderServiceImpl implements WxOrderService {
         if (result > 0) {
             return BaseResult.success("评价成功");
         }
-        return BaseResult.error("estimate_fail", "评价失败");
+        return BaseResult.error("ERROR", "评价失败");
     }
 
     /**

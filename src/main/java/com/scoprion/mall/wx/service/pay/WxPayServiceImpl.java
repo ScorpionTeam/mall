@@ -66,15 +66,15 @@ public class WxPayServiceImpl implements WxPayService {
      * 统一下单
      *
      * @param wxOrderRequestData
-     * @param wx_code
+     * @param wxCode
      * @param ipAddress
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wx_code, String ipAddress) {
+    public BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
         //查询用户openid
-        String openid = WxUtil.getOpenId(wx_code);
+        String openid = WxUtil.getOpenId(wxCode);
         //积分判断
         BaseResult x = checkPoint(wxOrderRequestData, openid);
         if (x != null) {

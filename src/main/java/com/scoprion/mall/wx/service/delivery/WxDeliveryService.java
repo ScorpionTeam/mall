@@ -56,16 +56,16 @@ public interface WxDeliveryService {
      * 默认收货地址
      *
      * @param id
-     * @param wx_code
+     * @param wxCode
      * @return
      */
-    BaseResult defaultAddress(Long id, String wx_code);
+    BaseResult defaultAddress(Long id, String wxCode);
 
     /**
      * 获取默认地址
      *
-     * @param wx_code
+     * @param wxCode
      * @return
      */
-    BaseResult getDefault(String wx_code);
+    BaseResult getDefault(String wxCode);
 }

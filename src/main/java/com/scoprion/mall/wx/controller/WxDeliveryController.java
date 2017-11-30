@@ -102,19 +102,19 @@ public class WxDeliveryController {
      */
     @Access
     @RequestMapping(value = "/defaultAddress", method = RequestMethod.GET)
-    public BaseResult defaultAddress(Long id, String wx_code) {
-        return wxDeliveryService.defaultAddress(id, wx_code);
+    public BaseResult defaultAddress(Long id, String wxCode) {
+        return wxDeliveryService.defaultAddress(id, wxCode);
     }
 
     /**
      * 获取默认地址
      *
-     * @param wx_code
+     * @param wxCode
      * @return
      */
     @Access
     @RequestMapping(value = "/getDefault", method = RequestMethod.GET)
-    public BaseResult getDefault(String wx_code) {
-        return wxDeliveryService.getDefault(wx_code);
+    public BaseResult getDefault(String wxCode) {
+        return wxDeliveryService.getDefault(wxCode);
     }
 }
