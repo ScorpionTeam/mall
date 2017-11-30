@@ -77,10 +77,10 @@ public class WxActivityServiceImpl implements WxActivityService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult joinGroup(WxGroupOrder wxGroupOrder, String ipAddress) {
-        String openId = WxUtil.getOpenId(wxGroupOrder.getWxCode());
+        //String openId = WxUtil.getOpenId(wxGroupOrder.getWxCode());
 
         //查询是否参加过该活动
-        String activityMessage = checkActivity(wxGroupOrder.getGoodId(), wxGroupOrder.getActivityId(), openId);
+        String activityMessage = checkActivity(wxGroupOrder.getGoodId(), wxGroupOrder.getActivityId(), wxGroupOrder.getWxCode());
         if (!StringUtils.isEmpty(activityMessage)) {
             return BaseResult.error("ERROR", activityMessage);
         }
@@ -98,7 +98,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         wxGoodSnapShotMapper.add(goodSnapshot);
 
         //组装订单信息
-        Order order = orderConstructor(delivery, goodSnapshot.getId(), openId, goods, wxGroupOrder);
+        Order order = orderConstructor(delivery, goodSnapshot.getId(), wxGroupOrder.getWxCode(), goods, wxGroupOrder);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("order_fail", "下单失败");
@@ -111,7 +111,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         //统一下单参数
         String nonce_str = WxUtil.createRandom(false, 10);
         String unifiedOrderXML = WxPayUtil.unifiedOrder(goods.getGoodName(),
-                openId,
+                wxGroupOrder.getWxCode(),
                 order.getOrderNo(),
                 order.getPaymentFee(),
                 nonce_str);
@@ -314,7 +314,6 @@ public class WxActivityServiceImpl implements WxActivityService {
         order.setFreightFee(wxGroupOrder.getFreightFee());
         order.setPaymentFee(wxGroupOrder.getPaymentFee());
         order.setDeliveryId(wxGroupOrder.getDeliveryId());
-        order.setUserId(wxGroupOrder.getWxCode());
         return order;
     }
 
