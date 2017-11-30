@@ -27,14 +27,14 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     /**
      * 分页查询用户收货地址列表
      *
-     * @param wxCode
+     * @param wx_code
      * @param pageNo
      * @param pageSize
      * @return
      */
     @Override
-    public PageResult findByWxCode(String wxCode, Integer pageNo, Integer pageSize) {
-        String openId = WxUtil.getOpenId(wxCode);
+    public PageResult findByWxCode(String wx_code, Integer pageNo, Integer pageSize) {
+        String openId = WxUtil.getOpenId(wx_code);
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
         if (StringUtils.isEmpty(openId)) {
@@ -83,8 +83,8 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult deleteDelivery(Long id, String wxCode) {
-        String userId = WxUtil.getOpenId(wxCode);
+    public BaseResult deleteDelivery(Long id, String wx_code) {
+        String userId = WxUtil.getOpenId(wx_code);
         if (StringUtils.isEmpty(userId)) {
             return BaseResult.parameterError();
         }
@@ -132,8 +132,8 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult defaultAddress(Long id, String wxCode) {
-        String userId = WxUtil.getOpenId(wxCode);
+    public BaseResult defaultAddress(Long id, String wx_code) {
+        String userId = WxUtil.getOpenId(wx_code);
         int result = wxDeliveryMapper.updateDefaultAddress(id);
         if (result <= 0) {
             return BaseResult.error("ERROR", "设置默认地址失败");
@@ -152,9 +152,9 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @return
      */
     @Override
-    public BaseResult getDefault(String wxCode) {
-        String userId = WxUtil.getOpenId(wxCode);
-        if (StringUtils.isEmpty(wxCode)) {
+    public BaseResult getDefault(String wx_code) {
+        String userId = WxUtil.getOpenId(wx_code);
+        if (StringUtils.isEmpty(wx_code)) {
             return BaseResult.parameterError();
         }
         Delivery delivery = wxDeliveryMapper.getDefault(userId);
