@@ -89,12 +89,6 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
         }
         //获取收货地址是否是默认地址
         Delivery delivery=wxDeliveryMapper.findById(id);
-        if(StringUtils.isEmpty(id.toString())){
-            return BaseResult.parameterError();
-        }
-        if (delivery == null){
-            return BaseResult.notFound();
-        }
         if(CommonEnum.DEFAULT_ADDRESS.getCode().equals(delivery.getDefaultAddress())){
             Integer result = wxDeliveryMapper.deleteDelivery(id);
             if (result <= 0) {
