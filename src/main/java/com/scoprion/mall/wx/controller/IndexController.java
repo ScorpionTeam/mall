@@ -1,12 +1,18 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.annotation.Access;
+import com.scoprion.annotation.AccessSecret;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.result.BaseResult;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.nio.charset.Charset;
 
 /**
  * @author by kunlun
@@ -20,7 +26,7 @@ public class IndexController {
     private String url;
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
-
+    @Access
     @RequestMapping(value = "/test", method = RequestMethod.GET)
     public BaseResult index() {
 
@@ -30,10 +36,10 @@ public class IndexController {
     }
 
 
+    @Access(need = false)
     @RequestMapping(value = "/test", method = RequestMethod.POST)
     public BaseResult test(String world) {
         return BaseResult.success(world);
     }
-
 
 }
