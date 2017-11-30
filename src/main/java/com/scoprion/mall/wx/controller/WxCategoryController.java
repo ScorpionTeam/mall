@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.request.PageRequestParams;
 import com.scoprion.mall.wx.service.category.WxCategoryService;
 import com.scoprion.result.BaseResult;
@@ -26,9 +27,10 @@ public class WxCategoryController {
     /**
      * @param pageNo
      * @param pageSize
-     * @param type     PARENT_CATEGORY 一级类目 , CHILD_CATEGORY  子类目
+     * @param type     PARENT_CATEGORY 一级类目 , CHILD_CATEGORY  子类目 ，不传 全部
      * @return
      */
+    @Access
     @ApiOperation("获取类目列表")
     @RequestMapping(value = "findHomePage", method = RequestMethod.GET)
     public PageResult findHomePage(Integer pageNo, Integer pageSize, String type) {

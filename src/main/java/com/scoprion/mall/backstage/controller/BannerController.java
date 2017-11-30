@@ -1,6 +1,7 @@
 package com.scoprion.mall.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.Banner;
 import com.scoprion.mall.backstage.service.banner.BannerService;
 import com.scoprion.result.BaseResult;
@@ -29,7 +30,8 @@ public class BannerController {
      * @param banner
      * @return
      */
-    @ResponseBody
+    @Access
+    @ApiOperation(value = "banner创建")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody Banner banner) {
         return bannerService.add(banner);
@@ -44,7 +46,8 @@ public class BannerController {
      * @param searchKey
      * @return
      */
-    @ResponseBody
+    @Access
+    @ApiOperation(value = "关键字搜索")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public PageResult list(int pageNo, int pageSize, String searchKey) {
         return bannerService.listByPage(pageNo, pageSize, searchKey);
@@ -55,7 +58,8 @@ public class BannerController {
      *
      * @return
      */
-    @ResponseBody
+    @Access
+    @ApiOperation(value = "首页展示轮播")
     @RequestMapping(value = "/homeShow", method = RequestMethod.GET)
     public BaseResult homeShow() {
         return bannerService.homeShow();
@@ -67,6 +71,8 @@ public class BannerController {
      * @param banner
      * @return
      */
+    @Access
+    @ApiOperation(value = "编辑广告")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modify(@RequestBody Banner banner) {
         return bannerService.modify(banner);
@@ -78,6 +84,8 @@ public class BannerController {
      * @param id
      * @return
      */
+    @Access
+    @ApiOperation(value = "删除广告")
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     public BaseResult deleteById(Long id) {
         return bannerService.deleteById(id);
@@ -89,6 +97,7 @@ public class BannerController {
      * @param id
      * @return
      */
+    @Access
     @ApiOperation("banner详情")
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
@@ -102,6 +111,7 @@ public class BannerController {
      * @param jsonObject
      * @return
      */
+    @Access
     @ApiOperation(value = "批量修改广告状态")
     @RequestMapping(value = "/batchModifyStatus", method = RequestMethod.POST)
     public BaseResult batchModifyStatus(@RequestBody JSONObject jsonObject) {

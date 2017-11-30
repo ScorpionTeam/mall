@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.backstage.service.menu.MenuService;
 import com.scoprion.mall.domain.SysMenu;
 import com.scoprion.result.BaseResult;
@@ -24,49 +25,56 @@ public class MenuController {
     @Autowired
     MenuService menuService;
 
+    @Access
     @ApiOperation("查询菜单根节点列表")
     @RequestMapping(value = "/findRootMenu", method = RequestMethod.GET)
     public BaseResult findRootMenu() {
         return menuService.findRootMenu();
     }
 
-
+    @Access
     @ApiOperation("菜单列表")
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
     public BaseResult findByUserId(String userId) {
         return menuService.findByUserId(userId);
     }
 
+    @Access
     @ApiOperation("菜单列表")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String searchKey) {
         return menuService.findByCondition(pageNo, pageSize, searchKey);
     }
 
+    @Access
     @ApiOperation("菜单添加")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody SysMenu sysMenu) {
         return menuService.add(sysMenu);
     }
 
+    @Access
     @ApiOperation("菜单修改")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modify(@RequestBody SysMenu sysMenu) {
         return menuService.modify(sysMenu);
     }
 
+    @Access
     @ApiOperation("菜单详情")
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
         return menuService.findById(id);
     }
 
+    @Access
     @ApiOperation("菜单删除")
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     public BaseResult deleteById(Long id) {
         return menuService.deleteById(id);
     }
 
+    @Access
     @ApiOperation("菜单停用启用")
     @RequestMapping(value = "/modifyStatus", method = RequestMethod.GET)
     public BaseResult modifyStatus(Long id, String status) {

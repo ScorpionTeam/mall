@@ -1,6 +1,7 @@
 package com.scoprion.mall.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scoprion.annotation.Access;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.service.brand.BrandService;
 import com.scoprion.mall.backstage.service.category.CategoryService;
@@ -37,6 +38,7 @@ public class CategoryController {
      * @param category
      * @return
      */
+    @Access
     @ApiOperation("增加类目")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody Category category) {
@@ -49,6 +51,7 @@ public class CategoryController {
      * @param category Category
      * @return
      */
+    @Access
     @ApiOperation("修改类目")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modify(@RequestBody Category category) {
@@ -61,6 +64,7 @@ public class CategoryController {
      * @param id Long
      * @return
      */
+    @Access
     @ApiOperation("根据ID查询详情")
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
@@ -73,6 +77,7 @@ public class CategoryController {
      * @param id Long
      * @return
      */
+    @Access
     @ApiOperation("根据ID删除类目")
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     public BaseResult deleteById(Long id) {
@@ -101,6 +106,7 @@ public class CategoryController {
      * @param type      PARENT CHILD
      * @return
      */
+    @Access
     @ApiOperation("列表查询")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String type, String searchKey) {
@@ -114,6 +120,7 @@ public class CategoryController {
      * @param object
      * @return
      */
+    @Access
     @ApiOperation("商品绑定类目")
     @RequestMapping(value = "/bindCategoryGood", method = RequestMethod.POST)
     public BaseResult bindCategoryGood(@RequestBody JSONObject object) {
@@ -130,11 +137,12 @@ public class CategoryController {
      * @param object
      * @return
      */
+    @Access
     @ApiOperation("商品批量解绑定类目")
     @RequestMapping(value = "/unbindCategoryGood", method = RequestMethod.POST)
     public BaseResult unbindCategoryGood(@RequestBody JSONObject object) {
         //商品id集合
         List<Long> goodIdList = object.getJSONArray("idList").toJavaList(Long.class);
-        return categoryService.unbindCategoryGood(  goodIdList);
+        return categoryService.unbindCategoryGood(goodIdList);
     }
 }

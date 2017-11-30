@@ -1,6 +1,7 @@
 package com.scoprion.mall.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.backstage.service.role.RoleService;
 import com.scoprion.mall.domain.SysMenu;
 import com.scoprion.mall.domain.SysRole;
@@ -36,6 +37,7 @@ public class RoleController {
      * @param searchKey
      * @return
      */
+    @Access
     @ApiOperation("角色列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String searchKey) {
@@ -48,6 +50,7 @@ public class RoleController {
      * @param sysRole
      * @return
      */
+    @Access
     @ApiOperation("角色添加")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody SysRole sysRole) {
@@ -60,6 +63,7 @@ public class RoleController {
      * @param sysRole
      * @return
      */
+    @Access
     @ApiOperation("角色修改")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modify(@RequestBody SysRole sysRole) {
@@ -72,6 +76,7 @@ public class RoleController {
      * @param id
      * @return
      */
+    @Access
     @ApiOperation("角色详情")
     @RequestMapping(value = "/findById", method = RequestMethod.POST)
     public BaseResult findById(Long id) {
@@ -84,6 +89,7 @@ public class RoleController {
      * @param id
      * @return
      */
+    @Access
     @ApiOperation("删除角色")
     @RequestMapping(value = "/deleteById", method = RequestMethod.POST)
     public BaseResult deleteById(Long id) {
@@ -96,6 +102,7 @@ public class RoleController {
      * @param jsonObject
      * @return
      */
+    @Access
     @ApiOperation("角色分配菜单")
     @RequestMapping(value = "/allocatedMenus", method = RequestMethod.POST)
     public BaseResult allocatedMenus(@RequestBody JSONObject jsonObject) {
@@ -111,6 +118,7 @@ public class RoleController {
      * @param roleId
      * @return
      */
+    @Access
     @ApiOperation("用户分配角色")
     @RequestMapping(value = "/bindRole", method = RequestMethod.POST)
     public BaseResult bindRole(Long userId, Long roleId) {

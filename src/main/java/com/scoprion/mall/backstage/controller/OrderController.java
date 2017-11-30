@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.backstage.service.order.OrderService;
 import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.domain.request.OrderRequestParams;
@@ -35,6 +36,7 @@ public class OrderController {
      * @param senderId    寄件人Id
      * @return
      */
+    @Access
     @ApiOperation(value = "商品发货")
     @RequestMapping(value = "/sendGood", method = RequestMethod.POST)
     public BaseResult sendGood(Long orderId, String deliveryNo, String expressName, String expressNo, Long senderId) {
@@ -48,13 +50,14 @@ public class OrderController {
      * @param order
      * @return
      */
+    @Access
     @ApiOperation(value = "修改订单")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modify(@RequestBody Order order) {
         return orderService.modify(order);
     }
 
-
+    @Access
     @ApiOperation(value = "订单列表")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.POST)
     public PageResult findByCondition(@RequestBody OrderRequestParams requestParams) {
@@ -67,6 +70,7 @@ public class OrderController {
      * @param id
      * @return
      */
+    @Access
     @ApiOperation(value = "根据id查询详情")
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
@@ -79,6 +83,7 @@ public class OrderController {
      * @param orderId
      * @return
      */
+    @Access
     @ApiOperation(value = "根据订单id查订单日志")
     @RequestMapping(value = "/findOrderLogByOrderId", method = RequestMethod.GET)
     public PageResult findOrderLogByOrderId(Integer pageNo, Integer pageSize, Long orderId) {
@@ -94,6 +99,7 @@ public class OrderController {
      * @return
      * @throws Exception
      */
+    @Access
     @RequestMapping(value = "/audit/refund", method = RequestMethod.POST)
     public BaseResult refund(Long orderId, String flag, String remark, int refundFee) throws Exception {
         return orderService.refund(orderId, flag, remark, refundFee);
@@ -107,6 +113,7 @@ public class OrderController {
      * @param count   退货数量
      * @return
      */
+    @Access
     @RequestMapping(value = "/goodReject", method = RequestMethod.GET)
     public BaseResult goodReject(Long orderId, Integer count) {
         return orderService.goodReject(orderId, count);

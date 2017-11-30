@@ -1,6 +1,7 @@
 package com.scoprion.mall.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.backstage.service.ticket.TicketService;
 import com.scoprion.result.BaseResult;
@@ -19,7 +20,7 @@ import java.util.List;
  * @author ycj
  */
 @RestController
-@RequestMapping("backstage/ticket")
+@RequestMapping("/backstage/ticket")
 public class TicketController {
 
     @Autowired
@@ -31,6 +32,7 @@ public class TicketController {
      * @param ticket
      * @return
      */
+    @Access
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody Ticket ticket) throws Exception {
         return ticketService.add(ticket);
@@ -44,6 +46,7 @@ public class TicketController {
      * @param searchKey
      * @return
      */
+    @Access
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(int pageNo, int pageSize, String searchKey) {
         return ticketService.listByPage(pageNo, pageSize, searchKey);
@@ -55,6 +58,7 @@ public class TicketController {
      * @param ticket
      * @return
      */
+    @Access
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modify(@RequestBody Ticket ticket) {
         return ticketService.modify(ticket);
@@ -66,6 +70,7 @@ public class TicketController {
      * @param id
      * @return
      */
+    @Access
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     public BaseResult deleteById(Long id) {
         return ticketService.deleteById(id);
@@ -77,6 +82,7 @@ public class TicketController {
      * @param jsonObject
      * @return
      */
+    @Access
     @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
     public BaseResult batchDelete(@RequestBody JSONObject jsonObject) {
         List<Long> idList = jsonObject.getJSONArray("idList").toJavaList(Long.class);
@@ -89,6 +95,7 @@ public class TicketController {
      * @param id
      * @return
      */
+    @Access
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
         return ticketService.findById(id);

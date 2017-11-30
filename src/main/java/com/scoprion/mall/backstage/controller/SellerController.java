@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.mall.backstage.service.seller.SellerService;
 import com.scoprion.result.BaseResult;
@@ -10,11 +11,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * Created on 2017/10/10.
  */
-@Controller
+@RestController
 @RequestMapping("seller")
 public class SellerController {
 
@@ -30,7 +32,7 @@ public class SellerController {
      * @return
      */
     @ApiOperation(value = "分页查询店铺列表")
-    @ResponseBody
+    @Access
     @RequestMapping(value = "/init", method = RequestMethod.GET)
     public PageResult init(int pageNo, int pageSize, String sellerName) {
         return sellerService.listByPage(pageNo, pageSize, sellerName);
@@ -42,7 +44,7 @@ public class SellerController {
      * @param seller
      * @return
      */
-    @ResponseBody
+    @Access
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(Seller seller) throws Exception {
         return sellerService.add(seller);
@@ -54,7 +56,7 @@ public class SellerController {
      * @param seller
      * @return
      */
-    @ResponseBody
+    @Access
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public BaseResult edit(Seller seller) {
         return sellerService.edit(seller);
@@ -66,7 +68,7 @@ public class SellerController {
      *
      * @return
      */
-    @ResponseBody
+    @Access
     @RequestMapping(value = "/deleteByPrimaryKey", method = RequestMethod.POST)
     public BaseResult deleteByPrimaryKey(Long id) {
         return sellerService.deleteByPrimaryKey(id);
@@ -78,7 +80,7 @@ public class SellerController {
      * @param id
      * @return
      */
-    @ResponseBody
+    @Access
     @RequestMapping(value = "/sellerInfo", method = RequestMethod.GET)
     public BaseResult sellerInfo(Long id) {
         return sellerService.sellerInfo(id);

@@ -1,6 +1,7 @@
 package com.scoprion.mall.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.backstage.service.activity.ActivityService;
 import com.scoprion.mall.domain.Activity;
 import com.scoprion.mall.domain.Goods;
@@ -33,6 +34,7 @@ public class ActivityController {
      * @param activity
      * @return
      */
+    @Access
     @ApiOperation(value = "创建活动")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody Activity activity) {
@@ -45,6 +47,7 @@ public class ActivityController {
      * @param jsonObject
      * @return
      */
+    @Access
     @ApiOperation(value = "批量修改活动")
     @RequestMapping(value = "/batchModifyStatus", method = RequestMethod.POST)
     public BaseResult batchModifyStatus(@RequestBody JSONObject jsonObject) {
@@ -60,6 +63,7 @@ public class ActivityController {
      * @param id
      * @return
      */
+    @Access
     @ApiOperation(value = "删除活动")
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     public BaseResult deleteById(Long id) {
@@ -72,6 +76,7 @@ public class ActivityController {
      * @param activity
      * @return
      */
+    @Access
     @ApiOperation(value = "修改活动")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modify(@RequestBody Activity activity) {
@@ -84,6 +89,7 @@ public class ActivityController {
      * @param id 活动id、主键
      * @return
      */
+    @Access
     @ApiOperation(value = "查询活动详情")
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
@@ -100,6 +106,7 @@ public class ActivityController {
      * @param status    0正常,1删除
      * @return
      */
+    @Access
     @ApiOperation(value = "条件查询活动")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(int pageNo, int pageSize, String type, String status, String searchKey) {
@@ -113,6 +120,7 @@ public class ActivityController {
      * @param jsonObject
      * @return
      */
+    @Access
     @ApiOperation(value = "活动跟商品绑定")
     @RequestMapping(value = "/bindActivityWithGood", method = RequestMethod.POST)
     public BaseResult bindActivityWithGood(@RequestBody JSONObject jsonObject) {
@@ -129,6 +137,7 @@ public class ActivityController {
      * @param jsonObject
      * @return
      */
+    @Access
     @ApiOperation(value = "活动跟商品解绑")
     @RequestMapping(value = "/unbindActivityWithGood", method = RequestMethod.POST)
     public BaseResult unbindActivityWithGood(@RequestBody JSONObject jsonObject) {

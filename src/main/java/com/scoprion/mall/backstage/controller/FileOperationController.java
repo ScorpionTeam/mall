@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.backstage.service.file.FileOperationService;
 import com.scoprion.result.BaseResult;
 import io.swagger.annotations.ApiOperation;
@@ -30,6 +31,7 @@ public class FileOperationController {
      * @return
      * @throws IOException
      */
+    @Access
     @ApiOperation("图片上传")
     @RequestMapping(value = "/uploadImage", method = RequestMethod.POST)
     public BaseResult uploadImage(@RequestParam MultipartFile file, String jsonContent) throws IOException {
@@ -43,6 +45,7 @@ public class FileOperationController {
      * @return
      * @throws IOException
      */
+    @Access
     @ApiOperation("图片删除")
     @RequestMapping(value = "/deleteImage", method = RequestMethod.GET)
     public BaseResult deleteImage(String imageName) throws IOException {

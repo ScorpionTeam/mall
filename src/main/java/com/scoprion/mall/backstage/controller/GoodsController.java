@@ -1,6 +1,7 @@
 package com.scoprion.mall.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.GoodExt;
 import com.scoprion.mall.backstage.service.good.GoodsService;
 import com.scoprion.mall.domain.MallImage;
@@ -35,6 +36,7 @@ public class GoodsController {
      * @param object
      * @return
      */
+    @Access
     @ApiOperation(value = "创建商品")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody JSONObject object) {
@@ -53,6 +55,7 @@ public class GoodsController {
      * @param id 商品id
      * @return
      */
+    @Access
     @ApiOperation(value = "删除商品")
     @RequestMapping(value = "/deleteById", method = RequestMethod.GET)
     public BaseResult deleteById(Long id) {
@@ -64,6 +67,7 @@ public class GoodsController {
      *
      * @return
      */
+    @Access
     @ApiOperation(value = "删除商品")
     @RequestMapping(value = "/batchDeleteGood", method = RequestMethod.POST)
     public BaseResult batchDeleteGood(@RequestBody JSONObject jsonObject) {
@@ -77,13 +81,14 @@ public class GoodsController {
      * @param id 商品id
      * @return
      */
+    @Access
     @ApiOperation(value = "根据商品id查询商品")
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findByGoodId(Long id) {
         return goodsService.findByGoodId(id);
     }
 
-
+    @Access
     @ApiOperation(value = "查询商品")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.POST)
     public PageResult findByCondition(@RequestBody GoodRequestParams goodRequestParams) {

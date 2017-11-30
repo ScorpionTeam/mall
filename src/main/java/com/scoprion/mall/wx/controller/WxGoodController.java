@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.wx.service.good.WxGoodService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -27,6 +28,7 @@ public class WxGoodController {
      * @param pageSize
      * @return
      */
+    @Access
     @RequestMapping(value = "/findAll", method = RequestMethod.GET)
     public PageResult findAll(int pageNo, int pageSize) {
         return wxGoodService.findOnline(pageNo, pageSize);
@@ -38,6 +40,7 @@ public class WxGoodController {
      * @param goodId
      * @return
      */
+    @Access
     @RequestMapping(value = "/findByGoodId", method = RequestMethod.GET)
     public BaseResult findByGoodId(Long goodId) {
         return wxGoodService.findById(goodId);
@@ -51,6 +54,7 @@ public class WxGoodController {
      * @param goodId
      * @return
      */
+    @Access
     @RequestMapping(value = "/findEstimate", method = RequestMethod.GET)
     public BaseResult findEstimate(Integer pageNo, Integer pageSize,
                                    Long goodId) {
@@ -66,6 +70,7 @@ public class WxGoodController {
      * @param searchKey
      * @return
      */
+    @Access
     @RequestMapping(value = "/findBySearchKey", method = RequestMethod.GET)
     public PageResult findBySearchKey(Integer pageNo, Integer pageSize, Long categoryId, String searchKey) {
         return wxGoodService.findBySearchKey(pageNo, pageSize, categoryId,searchKey);

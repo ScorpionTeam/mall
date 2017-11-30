@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.Member;
 import com.scoprion.mall.backstage.service.user.UserService;
 import com.scoprion.result.BaseResult;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("/backstage/user")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
@@ -30,6 +32,7 @@ public class UserController {
      * @param request  请求
      * @return
      */
+    @Access
     @ApiOperation(value = "后台登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public BaseResult login(String mobile, String password, HttpServletRequest request) throws Exception {
@@ -46,6 +49,7 @@ public class UserController {
      * @return
      * @throws Exception
      */
+    @Access
     @ApiOperation(value = "管理后台注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public BaseResult register(@RequestBody Member member, HttpServletRequest request) throws Exception {
@@ -59,6 +63,7 @@ public class UserController {
      * @param member
      * @return
      */
+    @Access
     @ApiOperation(value = "修改个人信息")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modifyUserInfo(@RequestBody Member member) {
@@ -71,6 +76,7 @@ public class UserController {
      * @param mobile 手机号
      * @return BaseResult
      */
+    @Access
     @ApiOperation(value = "后台系统退出登录")
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public BaseResult logout(String mobile) {
@@ -87,6 +93,7 @@ public class UserController {
      * @param searchKey
      * @return
      */
+    @Access
     @ApiOperation(value = "会员列表(运营平台)")
     @RequestMapping(value = "/userList", method = RequestMethod.GET)
     public PageResult findByPage(int pageNo, int pageSize, String startDate,
@@ -101,6 +108,7 @@ public class UserController {
      * @param id 主键
      * @return BaseResult
      */
+    @Access
     @ApiOperation(value = "根据id查询详情")
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {

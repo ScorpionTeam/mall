@@ -1,6 +1,7 @@
 package com.scoprion.mall.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.scoprion.annotation.Access;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.service.brand.BrandService;
 import com.scoprion.mall.domain.Brand;
@@ -33,6 +34,7 @@ public class BrandController {
      * @param brand Brand
      * @return
      */
+    @Access
     @ApiOperation("增加品牌")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody Brand brand) {
@@ -45,6 +47,7 @@ public class BrandController {
      * @param brand Brand
      * @return
      */
+    @Access
     @ApiOperation("修改品牌")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
     public BaseResult modify(@RequestBody Brand brand) {
@@ -57,15 +60,11 @@ public class BrandController {
      * @param jsonObject
      * @return
      */
+    @Access
     @ApiOperation("批量删除品牌")
     @RequestMapping(value = "/batchDelete", method = RequestMethod.POST)
     public BaseResult batchDelete(@RequestBody JSONObject jsonObject) {
         return BaseResult.error("delete_error", "调用批量修改品牌状态（batchModifyStatus）接口");
-//        if (!jsonObject.containsKey(Constant.ID_LIST)) {
-//            return BaseResult.parameterError();
-//        }
-//        List<Long> idList = jsonObject.getJSONArray(Constant.ID_LIST).toJavaList(Long.class);
-//        return brandService.batchDelete(idList);
     }
 
     /**
@@ -74,6 +73,7 @@ public class BrandController {
      * @param id Long
      * @return
      */
+    @Access
     @ApiOperation("根据ID查询详情")
     @RequestMapping(value = "/findById", method = RequestMethod.GET)
     public BaseResult findById(Long id) {
@@ -82,9 +82,11 @@ public class BrandController {
 
     /**
      * 批量修改品牌状态
-     *状态 ENTER入驻 QUITE退出
+     * 状态 ENTER入驻 QUITE退出
+     *
      * @return
      */
+    @Access
     @ApiOperation("批量修改品牌状态")
     @RequestMapping(value = "/batchModifyStatus", method = RequestMethod.POST)
     public BaseResult batchModifyStatus(@RequestBody JSONObject jsonObject) {
@@ -105,6 +107,7 @@ public class BrandController {
      * @param searchKey 模糊查询信息
      * @return
      */
+    @Access
     @ApiOperation("列表查询")
     @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String searchKey) {
