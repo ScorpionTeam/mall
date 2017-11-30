@@ -50,6 +50,9 @@ public class WxOrderServiceImpl implements WxOrderService {
         String userId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         //所有订单
+        if (CommonEnum.ALL.getCode().equals(orderStatus)) {
+            orderStatus = null;
+        }
         Page<OrderExt> page = wxOrderMapper.findByUserId(userId, orderStatus);
         return new PageResult(page);
     }
