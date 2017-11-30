@@ -5,14 +5,13 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
 /**
- *
  * @author hmy
  * @date 2017/11/1
  */
 public interface WxDeliveryService {
 
     /**
-     * 查询用户收获地址列表
+     * 查询用户收货地址列表
      *
      * @param wxCode
      * @param pageNo
@@ -56,14 +55,16 @@ public interface WxDeliveryService {
 
     /**
      * 默认收货地址
+     *
      * @param id
      * @param wxCode
      * @return
      */
-    BaseResult defaultAddress(Long id,String wxCode);
+    BaseResult defaultAddress(Long id, String wxCode);
 
     /**
      * 获取默认地址
+     *
      * @param wxCode
      * @return
      */

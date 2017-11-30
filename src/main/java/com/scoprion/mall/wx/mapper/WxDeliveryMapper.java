@@ -14,7 +14,7 @@ import org.apache.ibatis.annotations.Param;
 public interface WxDeliveryMapper {
 
     /**
-     * 分页查询用户收获地址
+     * 分页查询用户收货地址
      *
      * @param userId
      * @return
