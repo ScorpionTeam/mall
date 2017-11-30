@@ -17,6 +17,7 @@
         status
         FROM t_category
         WHERE  parent_id='0' AND status='NORMAL'
+        ORDER BY sort ASC
     </select>
 
     <!--首页子类目列表-->
@@ -34,6 +35,7 @@
         WHERE status='NORMAL'
         <if test="parentId==null">AND parent_id!='0'</if>
         <if test="parentId!=null">AND parent_id=#{parentId}</if>
+        ORDER BY sort ASC
     </select>
 
 </mapper>

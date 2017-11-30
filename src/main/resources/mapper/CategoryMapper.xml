@@ -70,7 +70,7 @@
         WHERE  id=#{id}
     </select>
 
-    <!--根据ID查询类目详情-->
+    <!--根据一级类目查询子类目列表-->
     <select id="findByParentId" resultType="com.scoprion.mall.domain.Category">
         SELECT
         id,
