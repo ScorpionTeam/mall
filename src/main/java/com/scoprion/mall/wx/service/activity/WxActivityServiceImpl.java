@@ -113,7 +113,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         String unifiedOrderXML = WxPayUtil.unifiedOrder(goods.getGoodName(),
                 openId,
                 order.getOrderNo(),
-                order.getFreightFee(),
+                order.getPaymentFee(),
                 nonce_str);
 
         //生成预付款订单
@@ -302,7 +302,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         order.setOrderNo(orderNo);
         order.setUserId(userId);
         order.setPayType(CommonEnum.WE_CHAT_PAY.getCode());
-        order.setOrderType(CommonEnum.FREE_ORDER.getCode());
+        order.setOrderType(CommonEnum.SPELL_GROUP.getCode());
         order.setOrderStatus(CommonEnum.UN_PAY.getCode());
         order.setGoodName(goods.getGoodName());
         order.setGoodSnapShotId(snapshotId);
@@ -312,6 +312,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         order.setUsePoint(CommonEnum.NOT_USE_POINT.getCode());
         order.setUseTicket(CommonEnum.UN_USE_TICKET.getCode());
         order.setFreightFee(wxGroupOrder.getFreightFee());
+        order.setPaymentFee(wxGroupOrder.getPaymentFee());
         order.setDeliveryId(wxGroupOrder.getDeliveryId());
         order.setUserId(wxGroupOrder.getWxCode());
         return order;

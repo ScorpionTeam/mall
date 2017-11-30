@@ -34,8 +34,8 @@ public class WxActivityController {
      * @return
      */
     @RequestMapping(value = "/groupList", method = RequestMethod.GET)
-    public PageResult groupList(int pageNo, int pageSize, String activity_type) {
-        return wxActivityService.groupList(pageNo, pageSize, activity_type);
+    public PageResult groupList(int pageNo, int pageSize, String activityType) {
+        return wxActivityService.groupList(pageNo, pageSize, activityType);
     }
 
     /**

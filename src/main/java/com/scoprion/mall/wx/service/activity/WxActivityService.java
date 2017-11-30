@@ -18,7 +18,7 @@ public interface WxActivityService {
      * @param pageSize
      * @return
      */
-    PageResult groupList(int pageNo, int pageSize, String activity_type);
+    PageResult groupList(int pageNo, int pageSize, String activityType);
 
     /**
      * 参加拼团

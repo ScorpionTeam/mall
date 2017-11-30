@@ -314,7 +314,7 @@ public class WxPayServiceImpl implements WxPayService {
             return "找不到订单";
         }
         if (!CommonEnum.UN_PAY.getCode().equals(order.getOrderStatus())) {
-            return "订单状态异常";
+            return "订单状态异常了";
         }
         long createTime = order.getCreateDate().getTime();
         long result = System.currentTimeMillis() - createTime;
