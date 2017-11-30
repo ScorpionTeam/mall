@@ -84,6 +84,11 @@ public class Activity {
     private Integer discount;
 
     /**
+     * 折扣价别名
+     */
+    private Integer actDiscount;
+
+    /**
      * 活动描述
      */
     private String describes;
@@ -196,6 +201,14 @@ public class Activity {
         this.actStatus = actStatus;
     }
 
+    public Integer getActDiscount() {
+        return actDiscount;
+    }
+
+    public void setActDiscount(Integer actDiscount) {
+        this.actDiscount = actDiscount;
+    }
+
     @Override
     public String toString() {
         return "Activity{" +
@@ -211,6 +224,7 @@ public class Activity {
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", discount=" + discount +
+                ", actDiscount=" + actDiscount +
                 ", describes='" + describes + '\'' +
                 '}';
     }

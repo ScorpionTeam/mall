@@ -3,6 +3,7 @@ package com.scoprion.mall.wx.controller;
 import com.scoprion.result.BaseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("index")
 public class IndexController {
 
+    @Value("${spring.datasource.url}")
+    private String url;
     private static final Logger LOGGER = LoggerFactory.getLogger(IndexController.class);
 
 
@@ -22,6 +25,7 @@ public class IndexController {
     public BaseResult index() {
 
         LOGGER.info("进入......");
+        LOGGER.info(url);
         return BaseResult.success("Hello world");
     }
 

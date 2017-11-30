@@ -23,41 +23,11 @@ public interface WxActivityMapper {
     Page<Activity> groupList(@Param("activity_type") String activity_type);
 
     /**
-     * 秒杀
+     * 根据活动类型查询商品
      *
+     * @param activity_type
      * @return
      */
-    Page<Activity> secKill();
-
-    /**
-     * 优选
-     *
-     * @return
-     */
-    Page<Activity> preference();
-
-
-    /**
-     * 根据活动类型查找商品(拼团 activityType = 2)
-     *
-     * @return
-     */
-    Activity findByActivityTypeTwo();
-
-    /**
-     * 根据活动类型查找商品(秒杀 activityType = 1)
-     *
-     * @return
-     */
-    Activity findByActivityTypeOne();
-
-    /**
-     * 根据活动类型查找商品(优选 activityType = 3)
-     *
-     * @return
-     */
-    Activity findByActivityTypeThree();
-
     Activity findByActivityType(@Param("activity_type") String activity_type);
 
     /**
@@ -101,4 +71,15 @@ public interface WxActivityMapper {
      * @return
      */
     Goods findByGoodId(@Param("goodId") Long goodId);
+
+    /**
+     * 查询活动商品库存
+     *
+     * @param goodId
+     * @return
+     */
+    ActivityGoods findByActivityGoodStock(@Param("goodId") Long goodId);
+
+    ActivityGoods findByActivityIdAndGoodId(@Param("activityId") Long activityId, @Param("goodId") Long goodId);
+
 }

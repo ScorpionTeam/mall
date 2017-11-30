@@ -1,0 +1,23 @@
+server:
+  port: 8088
+  context-path: /mall
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://101.37.35.73:3306/mall?useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    username: hcon
+    password: hconuser
+    initialSize: 5
+    minIdle: 1
+    maxActive: 20
+    maxWait: 5000
+    filters: stat,wall
+    poolPreparedStatements: true
+    maxPoolPreparedStatementPerConnectionSize: 20
+  freemarker:
+    template-loader-path: classpath:/templates
+    request-context-attribute: ctx
+  mvc:
+    static-path-pattern: /static/**
+
