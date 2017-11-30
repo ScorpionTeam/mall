@@ -41,16 +41,16 @@ public class WxPayController {
      * 付款签名信息
      *
      * @param order
-     * @param wxCode
+     * @param wx_code
      * @param request
      * @return
      */
     @Access
     @RequestMapping(value = "/jsapi/order/unifiedOrder", method = RequestMethod.GET)
-    public BaseResult preOrder(String order, String wxCode, HttpServletRequest request) {
+    public BaseResult preOrder(String order, String wx_code, HttpServletRequest request) {
         WxOrderRequestData wxOrderRequestData = JSON.parseObject(order, WxOrderRequestData.class);
         String ipAddress = IPUtil.getIPAddress(request);
-        return wxPayService.unifiedOrder(wxOrderRequestData, wxCode, ipAddress);
+        return wxPayService.unifiedOrder(wxOrderRequestData, wx_code, ipAddress);
     }
 
 

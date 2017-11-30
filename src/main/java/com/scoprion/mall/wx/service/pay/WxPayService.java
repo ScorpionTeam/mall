@@ -15,11 +15,11 @@ public interface WxPayService {
      * 统一下单
      *
      * @param wxOrderRequestData
-     * @param wxCode
+     * @param wx_code
      * @param ipAddress
      * @return
      */
-    BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress);
+    BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wx_code, String ipAddress);
 
     /**
      * 重新发起支付

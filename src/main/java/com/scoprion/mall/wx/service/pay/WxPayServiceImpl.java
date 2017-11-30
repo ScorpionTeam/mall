@@ -29,6 +29,7 @@ import java.util.Map;
  * @author by kunlun
  * @created on 2017/11/6.
  */
+@SuppressWarnings("ALL")
 @Service
 public class WxPayServiceImpl implements WxPayService {
     private final static Logger LOGGER = LoggerFactory.getLogger(WxPayServiceImpl.class);
@@ -65,15 +66,15 @@ public class WxPayServiceImpl implements WxPayService {
      * 统一下单
      *
      * @param wxOrderRequestData
-     * @param wxCode
+     * @param wx_code
      * @param ipAddress
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
+    public BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wx_code, String ipAddress) {
         //查询用户openid
-        String openid = WxUtil.getOpenId(wxCode);
+        String openid = WxUtil.getOpenId(wx_code);
         //积分判断
         BaseResult x = checkPoint(wxOrderRequestData, openid);
         if (x != null) {
