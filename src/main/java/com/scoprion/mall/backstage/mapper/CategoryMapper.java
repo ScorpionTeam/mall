@@ -65,7 +65,7 @@ public interface CategoryMapper {
     Category findById(@Param("id") Long id);
 
     /**
-     * 根据parentId查询详情
+     * 根据一级类目查询子类目列表
      *
      * @param parentId
      * @return

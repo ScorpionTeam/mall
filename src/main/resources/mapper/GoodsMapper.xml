@@ -107,10 +107,12 @@
          good.status,
          good.rich_content,
          good.main_image_url,
-         tacg.activity_id as activityId
+         tacg.activity_id as activityId,
+         categorygood.category_id as category_id
          FROM t_good good
          LEFT  JOIN t_activity_good  tacg ON tacg.good_id=good.id
-        WHERE good.id=#{goodId}
+         LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
+         WHERE good.id=#{goodId}
         GROUP BY  good.id
     </select>
 

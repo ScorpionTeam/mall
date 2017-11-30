@@ -32,7 +32,7 @@ public class UserController {
      * @param request  请求
      * @return
      */
-    @Access
+    @Access(need = false)
     @ApiOperation(value = "后台登录")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public BaseResult login(String mobile, String password, HttpServletRequest request) throws Exception {

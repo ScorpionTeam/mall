@@ -95,22 +95,21 @@ public class CategoryServiceImpl implements CategoryService {
      */
     private BaseResult checkStatus(Category category) {
         if (category.getParentId() > 0) {
-            //是一级类目,查询子类目列表
-            List<Category> categoryList = categoryMapper.findByParentId(category.getParentId());
+            //是子类目
             List<Long> idList = new ArrayList<>();
-            categoryList.forEach(item -> idList.add(item.getId()));
+            idList.add(category.getId());
             Integer bindCount = categoryGoodMapper.findCountByCategoryIdList(idList);
             if (bindCount > 0) {
-                return BaseResult.error("delete_error", "当前类目子类目正在使用中，请先解绑子类目");
+                return BaseResult.error("delete_error", "当前类目正在使用中，请先解绑");
             }
         } else {
-            //子类目
-            List<Category> categoryList = categoryMapper.findByParentId(category.getId());
-            for (Category categ : categoryList) {
-                List<CategoryGood> cgList = categoryGoodMapper.findByCategoryId(categ.getId());
-                if (cgList != null && cgList.size() > 0) {
-                    return BaseResult.error("delete_error", "当前类目子类目正在使用中，请先解绑");
-                }
+            //一级类目
+            List<Category> childList = categoryMapper.findByParentId(category.getId());
+            List<Long> idList = new ArrayList<>();
+            childList.forEach(item -> idList.add(item.getId()));
+            Integer bindCount = categoryGoodMapper.findCountByCategoryIdList(idList);
+            if (bindCount > 0) {
+                return BaseResult.error("delete_error", "当前类目子类目正在使用中，请先解绑");
             }
         }
         return null;
