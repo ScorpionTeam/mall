@@ -41,7 +41,7 @@ public class Category {
     /**
      * 排序
      */
-    private String sort;
+    private Integer sort;
     /**
      * 图标（一级类目才有）
      */
@@ -100,11 +100,11 @@ public class Category {
         this.parentId = parentId;
     }
 
-    public String getSort() {
+    public Integer getSort() {
         return sort;
     }
 
-    public void setSort(String sort) {
+    public void setSort(Integer sort) {
         this.sort = sort;
     }
 
