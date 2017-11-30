@@ -41,9 +41,10 @@ public interface WxDeliveryService {
      * 删除收货地址
      *
      * @param id
+     * @param wxCode
      * @return
      */
-    BaseResult deleteDelivery(Long id, String userId);
+    BaseResult deleteDelivery(Long id, String wxCode);
 
     /**
      * 获取收货地址详情

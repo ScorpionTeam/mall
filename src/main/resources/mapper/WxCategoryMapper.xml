@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.wx.mapper.WxCategoryMapper">
+
+    <!--首页一级类目列表-->
+    <select id="findParentPage" resultType="com.scoprion.mall.domain.CategoryExt">
+        SELECT
+        id,
+        category_name,
+        create_date,
+        update_date,
+        parent_id,
+        sort,
+        icon,
+        status
+        FROM t_category
+        WHERE  parent_id='0' AND status='NORMAL'
+    </select>
+
+    <!--首页子类目列表-->
+    <select id="findChildPage" resultType="com.scoprion.mall.domain.Category">
+        SELECT
+        id,
+        category_name,
+        create_date,
+        update_date,
+        parent_id,
+        sort,
+        icon,
+        status
+        FROM t_category
+        WHERE status='NORMAL'
+        <if test="parentId==null">AND parent_id!='0'</if>
+        <if test="parentId!=null">AND parent_id=#{parentId}</if>
+    </select>
+
+</mapper>

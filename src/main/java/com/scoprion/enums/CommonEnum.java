@@ -12,8 +12,8 @@ public enum CommonEnum {
     SPELL_GROUP("SPELL_GROUP", "拼团"),
     FREE("FREE", "试用"),
     PREFERRED("PREFERRED", "优选"),
-    DEFAULT_ADDRESS("DEFAULT", "默认地址"),
-    UN_DEFAULT_ADDRESS("UN_DEFAULT", "非默认地址"),
+    DEFAULT_ADDRESS("DEFAULT_ADDRESS", "默认地址"),
+    UN_DEFAULT_ADDRESS("UN_DEFAULT_ADDRESS", "非默认地址"),
     PLATFORM("PLATFORM", "平台"),
     SELLER("SELLER", "商家"),
     CUSTOMER("CUSTOMER", "客户"),
@@ -86,6 +86,9 @@ public enum CommonEnum {
     BIND_ACTIVITY("BIND_ACTIVITY", "已经绑定活动"),
     REFUSE("REFUSE", "拒绝"),
     AGREE("AGREE", "同意"),
+    PARENT_CATEGORY("PARENT_CATEGORY", "一级类目"),
+    CHILD_CATEGORY("CHILD_CATEGORY", "子类目"),
+    ALL_DONE("ALL_DONE", "已完成");
     ALL_DONE("ALL_DONE", "已完成"),
     AUTH("AUTH", "JSONID:94268"),
     SALT("SALT", "&&salt");

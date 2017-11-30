@@ -105,9 +105,12 @@ public class CategoryServiceImpl implements CategoryService {
             }
         } else {
             //子类目
-            CategoryGood categoryGood = categoryGoodMapper.findByCategoryId(category.getId());
-            if (categoryGood != null) {
-                return BaseResult.error("delete_error", "当前类目子类目正在使用中，请先解绑");
+            List<Category> categoryList = categoryMapper.findByParentId(category.getId());
+            for (Category categ : categoryList) {
+                List<CategoryGood> cgList = categoryGoodMapper.findByCategoryId(categ.getId());
+                if (cgList != null && cgList.size() > 0) {
+                    return BaseResult.error("delete_error", "当前类目子类目正在使用中，请先解绑");
+                }
             }
         }
         return null;
