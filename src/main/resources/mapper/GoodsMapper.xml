@@ -230,7 +230,6 @@
         good.id,
         good.seo,
         good.good_no,
-        good.category_id,
         good.good_name,
         good.description,
         good.promotion,

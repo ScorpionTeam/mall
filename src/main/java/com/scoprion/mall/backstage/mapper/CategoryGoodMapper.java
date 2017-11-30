@@ -23,7 +23,7 @@ public interface CategoryGoodMapper {
      * @param categoryId
      * @return
      */
-    CategoryGood findByCategoryId(@Param("categoryId") Long categoryId);
+    List<CategoryGood> findByCategoryId(@Param("categoryId") Long categoryId);
 
 
     /**
