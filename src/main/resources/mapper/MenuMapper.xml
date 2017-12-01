@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.MenuMapper">
+
     <!--新增-->
     <insert id="add" parameterType="com.scoprion.mall.domain.SysMenu">
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
@@ -13,6 +14,7 @@
         VALUES
         (#{name},#{pid},#{url},#{type},#{status},#{icon},#{description},#{operator},#{sort},now())
     </insert>
+
     <!--修改-->
     <update id="modify" parameterType="com.scoprion.mall.domain.SysMenu">
         UPDATE t_sys_menu SET
@@ -46,7 +48,7 @@
         description,
         operator
         FROM t_sys_menu WHERE 1=1
-        <if test="searchKey!=null">AND CONCAT(name,description) LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND CONCAT_WS('',name,description) LIKE #{searchKey}</if>
     </select>
 
     <!--根据ID删除活动,不做物理删除-->
@@ -93,10 +95,10 @@
     </select>
 
     <select id="validAdmin" resultType="java.lang.Integer">
-        SELECT  COUNT(*) FROM  t_user  WHERE mobile=#{userId} AND userType='NORMAL'
+        SELECT  COUNT(*) FROM  t_user  WHERE mobile=#{userId} AND user_type='USER_ADMIN'
     </select>
 
-    <!--查询所有-->
+    <!--查询所有一级菜单-->
     <select id="findRootMenuList" resultType="com.scoprion.mall.domain.SysMenu">
         SELECT
         id,
@@ -115,20 +117,25 @@
         WHERE  pid='0'
     </select>
 
-    <select id="findRootMenu" resultType="com.scoprion.mall.domain.SysMenu">
-        SELECT id,
-        name,
-        pid,
-        url,
-        type,
-        status,
-        icon,
-        sort,
-        create_date,
-        update_date,
-        description,
-        operator
-        FROM t_sys_menu WHERE pid='0'
+    <!--查询所有一级 二级菜单-->
+    <select id="findMenuListByRoleId" resultType="com.scoprion.mall.domain.SysMenu">
+        SELECT
+        menu.id,
+        menu.name,
+        menu.pid,
+        menu.url,
+        menu.type,
+        menu.status,
+        menu.icon,
+        menu.sort,
+        menu.create_date,
+        menu.update_date,
+        menu.description,
+        menu.operator
+        FROM t_sys_menu menu
+        LEFT JOIN t_sys_menu_role_relation menurole ON menurole.menu_id=menu.id
+        WHERE menurole.role_id=#{roleId}
+        <if test="type==0 ">AND menu.pid='0'</if>
+        <if test="type==1 ">AND menu.pid=#{parentId}</if>
     </select>
-
 </mapper>

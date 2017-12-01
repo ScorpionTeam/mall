@@ -28,7 +28,7 @@
         create_date
         FROM t_good_log
         WHERE 1=1
-        <if test="searchkey!=null">>AND CONCAT(good_name,action) LIKE #{searchkey}</if>
+        <if test="searchkey!=null">>AND CONCAT_WS('',good_name,action) LIKE #{searchkey}</if>
         <if test="goodId!=null">AND good_id=#{goodId}</if>
     </select>
 </mapper>

@@ -111,9 +111,14 @@ public interface MenuMapper {
     List<SysMenu> findByUrlAndUserId(@Param("url") String url, @Param("userId") String userId);
 
     /**
-     * 根菜单
+     * 根据角色id查询菜单列表
      *
+     * @param roleId
+     * @param parentId
+     * @param type     type=0  一级菜单 type=1  二级菜单
      * @return
      */
-    List<SysMenu> findRootMenu();
+    List<SysMenu> findMenuListByRoleId(@Param("roleId") Long roleId,
+                                       @Param("parentId") Long parentId,
+                                       @Param("type") Integer type);
 }

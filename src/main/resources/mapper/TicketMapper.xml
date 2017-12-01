@@ -92,7 +92,7 @@
         num_limit,
         update_date
         FROM t_ticket where 1=1
-        <if test="searchKey!=null">AND CONCAT(ticket_name,content) LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND CONCAT_WS('',ticket_name,content) LIKE #{searchKey}</if>
     </select>
 
     <!--查询详情-->

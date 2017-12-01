@@ -53,18 +53,17 @@ public class SysRole {
      */
     private String status;
 
-    @Override
-    public String toString() {
-        return "SysRole{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", remark='" + remark + '\'' +
-                ", createTime=" + createTime +
-                ", operator='" + operator + '\'' +
-                ", updateTime=" + updateTime +
-                ", menuId=" + menuId +
-                ", status='" + status + '\'' +
-                '}';
+    /**
+     * LEVEL_SU_ADMIN 超级管理员 ，LEVEL_ADMIN 管理员 ,LEVEL_ORDINARY 普通
+     */
+    private String role_level;
+
+    public String getRole_level() {
+        return role_level;
+    }
+
+    public void setRole_level(String role_level) {
+        this.role_level = role_level;
     }
 
     public Long getId() {
@@ -129,5 +128,20 @@ public class SysRole {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    @Override
+    public String toString() {
+        return "SysRole{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", remark='" + remark + '\'' +
+                ", createTime=" + createTime +
+                ", operator='" + operator + '\'' +
+                ", updateTime=" + updateTime +
+                ", menuId=" + menuId +
+                ", status='" + status + '\'' +
+                ", role_level='" + role_level + '\'' +
+                '}';
     }
 }

@@ -29,16 +29,16 @@ public class MallInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (handler instanceof HandlerMethod) {
             response.setHeader("Content-Type", "application/json;charset=UTF-8");
-            //获取头部信息
-            String headerAuth = request.getHeader("auth");
-            if(StringUtils.isEmpty(headerAuth)){
-                response.getWriter().write(JSON.toJSONString(BaseResult.parameterError()));
-                return false;
-            }
             //判断校验注解
             Access access = ((HandlerMethod) handler).getMethodAnnotation(Access.class);
             if (null != access) {
                 if (access.need()) {
+                    //获取头部信息
+                    String headerAuth = request.getHeader("auth");
+                    if (StringUtils.isEmpty(headerAuth)) {
+                        response.getWriter().write(JSON.toJSONString(BaseResult.parameterError()));
+                        return false;
+                    }
                     //MD5加密
                     byte[] bytes = (CommonEnum.AUTH.getDesc() + CommonEnum.SALT.getDesc()).getBytes(
                             Charset.forName("UTF-8"));

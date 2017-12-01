@@ -70,12 +70,12 @@ public interface MenuService {
      */
     BaseResult findRootMenu();
 
+
     /**
-     * 修改状态
+     * 根据角色id查询菜单列表
      *
-     * @param id
-     * @param status
+     * @param roleId
      * @return
      */
-    BaseResult modifyStatus(Long id, String status);
+    BaseResult findByRoleId(Long roleId);
 }
