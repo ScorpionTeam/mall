@@ -61,7 +61,7 @@ public interface MenuService {
      * @param userId
      * @return
      */
-    BaseResult findByUserId(String userId);
+    BaseResult findByUserId(Long userId);
 
     /**
      * 根菜单列表
@@ -78,4 +78,11 @@ public interface MenuService {
      * @return
      */
     BaseResult findByRoleId(Long roleId);
+
+    /**
+     * 查询菜单列表,分层级
+     *
+     * @return
+     */
+    BaseResult findAllMenu();
 }

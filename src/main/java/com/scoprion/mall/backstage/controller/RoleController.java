@@ -39,7 +39,7 @@ public class RoleController {
      */
     @Access
     @ApiOperation("角色列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
     public PageResult findByCondition(Integer pageNo, Integer pageSize, String searchKey) {
         return roleService.findByCondition(pageNo, pageSize, searchKey);
     }

@@ -91,7 +91,7 @@ public interface MenuMapper {
      * @param userId
      * @return
      */
-    Integer validAdmin(@Param("userId") String userId);
+    Integer validAdmin(@Param("userId") Long userId);
 
     /**
      * 查询根节点
@@ -102,13 +102,14 @@ public interface MenuMapper {
 
 
     /**
-     * 根据userid-url查询列表
+     * 根据userid-parentId查询列表
      *
-     * @param url
+     * @param parentId
      * @param userId
      * @return
      */
-    List<SysMenu> findByUrlAndUserId(@Param("url") String url, @Param("userId") String userId);
+    List<SysMenu> findByParentIdAndUserId(@Param("parentId") Long parentId,
+                                          @Param("userId") Long userId);
 
     /**
      * 根据角色id查询菜单列表
