@@ -49,6 +49,7 @@
         operator
         FROM t_sys_menu WHERE 1=1
         <if test="searchKey!=null">AND CONCAT_WS('',name,description) LIKE #{searchKey}</if>
+        ORDER BY pid ASC
     </select>
 
     <!--根据ID删除活动,不做物理删除-->
@@ -139,6 +140,7 @@
         <if test="type==0 ">AND menu.pid='0'</if>
         <if test="type==1 ">AND menu.pid=#{parentId}</if>
         GROUP BY menu.id
+        ORDER BY menu.pid ASC
     </select>
 
     <select id="findByParentIdAndUserId" resultType="com.scoprion.mall.domain.SysMenu">
@@ -162,5 +164,6 @@
         <if test="parentId==null">AND menu.pid=0</if>
         <if test="parentId!=null">AND menu.pid=#{parentId}</if>
         GROUP BY menu.id
+        ORDER BY menu.pid ASC
     </select>
 </mapper>
