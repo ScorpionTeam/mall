@@ -66,12 +66,12 @@ public class GoodsServiceImpl implements GoodsService {
                     fileOperationMapper.add(mallImage);
                 }
             }
+            if (good.getCategoryId() != null) {
+                bindCategoryGood(good.getCategoryId(), good.getId());
+            }
+            saveGoodLog(good.getGoodName(), "创建商品", good.getId());
             return BaseResult.success("添加成功");
         }
-        if (good.getCategoryId() != null) {
-            bindCategoryGood(good.getCategoryId(), good.getId());
-        }
-        saveGoodLog(good.getGoodName(), "创建商品", good.getId());
         return BaseResult.error("ERROR", "创建商品失败");
     }
 
