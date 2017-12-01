@@ -48,7 +48,7 @@
         #{sellerId},
         #{visitTotal},
         #{goodNo},
-        #{status},
+        'NORMAL',
         #{richContent},
         #{seo},
         #{mainImageUrl})
