@@ -5,6 +5,7 @@ import com.scoprion.mall.wx.service.good.WxGoodService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,6 +75,17 @@ public class WxGoodController {
     @RequestMapping(value = "/findBySearchKey", method = RequestMethod.GET)
     public PageResult findBySearchKey(Integer pageNo, Integer pageSize, Long categoryId, String searchKey) {
         return wxGoodService.findBySearchKey(pageNo, pageSize, categoryId, searchKey);
+    }
+
+    /**
+     * 获取商品快照详情
+     * @param orderId
+     * @return
+     */
+    @Access
+    @RequestMapping(value = "/findByGoodSnapshotDetail", method = RequestMethod.GET)
+    public BaseResult findByGoodSnapshotDetail(Long orderId) {
+        return wxGoodService.findByGoodSnapshotDetail(orderId);
     }
 
 }

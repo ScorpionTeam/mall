@@ -49,4 +49,11 @@ public interface WxGoodService {
      * @return
      */
     PageResult findBySearchKey(Integer pageNo, Integer pageSize, Long categoryId, String searchKey);
+
+    /**
+     * 获取商品快照详情
+     * @param orderId
+     * @return
+     */
+    BaseResult findByGoodSnapshotDetail(Long orderId);
 }
