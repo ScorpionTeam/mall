@@ -105,7 +105,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public PageResult findByWxCode(@RequestParam("wxCode") String wxCode, Integer pageNo, Integer pageSize) {
-        //String openId = WxUtil.getOpenId(wxCode);
+        String openId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
         if (StringUtils.isEmpty(wxCode)) {
