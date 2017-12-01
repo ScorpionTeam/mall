@@ -60,7 +60,7 @@ public class WxOrderController {
      *
      * @return
      */
-    @Access
+    @Access(need=false)
     @RequestMapping(value = "/refund", method = RequestMethod.POST)
     public BaseResult refund(Long orderId) {
         return wxOrderService.refund(orderId);
