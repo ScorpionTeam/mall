@@ -108,10 +108,10 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
         String openId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
-        if (StringUtils.isEmpty(wxCode)) {
+        if (StringUtils.isEmpty(openId)) {
             return new PageResult();
         }
-        Page<Delivery> page = wxDeliveryMapper.listPage(wxCode);
+        Page<Delivery> page = wxDeliveryMapper.listPage(openId);
         return new PageResult(page);
     }
 
