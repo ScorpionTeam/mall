@@ -131,7 +131,7 @@ public class WxOrderServiceImpl implements WxOrderService {
             return BaseResult.error("ERROR", "订单状态异常，不能确认收货");
         }
         //签收成功后订单状态修改为  待评价
-        int result = wxOrderMapper.updateByOrderID(id, CommonEnum.UN_ESTIMATE.getCode());
+        int result = wxOrderMapper.updateByOrderID(id, CommonEnum.ALL_DONE.getCode());
         if (result > 0) {
             saveOrderLog("确认收货", order, ipAddress);
             return BaseResult.success("确认收货成功");
