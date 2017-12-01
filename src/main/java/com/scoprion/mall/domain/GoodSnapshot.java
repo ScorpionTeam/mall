@@ -32,10 +32,10 @@ public class GoodSnapshot {
     private String goodDescription;
 
     //促销价
-    private Integer promotion;
+    private int promotion;
 
     //商品原价
-    private Integer price;
+    private int price;
 
     //折扣
     private int discount;
