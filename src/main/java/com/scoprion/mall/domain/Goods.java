@@ -48,7 +48,7 @@ public class Goods {
     /**
      * 促销价格
      */
-    private BigDecimal promotion;
+    private int promotion;
 
     /**
      * 价格
@@ -200,11 +200,11 @@ public class Goods {
         this.description = description;
     }
 
-    public BigDecimal getPromotion() {
+    public int getPromotion() {
         return promotion;
     }
 
-    public void setPromotion(BigDecimal promotion) {
+    public void setPromotion(int promotion) {
         this.promotion = promotion;
     }
 
