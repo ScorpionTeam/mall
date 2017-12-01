@@ -41,9 +41,6 @@ public class GoodsController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public BaseResult add(@RequestBody JSONObject object) {
         GoodExt goods = object.getObject("good", GoodExt.class);
-        if (!object.containsKey(IMAGE_LIST)) {
-            return BaseResult.error("add_error", "图片为必传信息");
-        }
         List<MallImage> imgList = object.getJSONArray(IMAGE_LIST).toJavaList(MallImage.class);
         goods.setImgList(imgList);
         return goodsService.add(goods);
