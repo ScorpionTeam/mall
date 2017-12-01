@@ -95,7 +95,7 @@ public class WxDeliveryController {
     }
 
     /**
-     * 默认收货地址
+     * 设置默认收货地址
      *
      * @param id
      * @return
