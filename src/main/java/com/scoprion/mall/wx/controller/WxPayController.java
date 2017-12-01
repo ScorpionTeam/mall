@@ -72,7 +72,7 @@ public class WxPayController {
      * @param request
      * @return
      */
-    @Access
+    @Access(need = false)
     @RequestMapping(value = "/jsapi/callback/pay", method = RequestMethod.POST)
     public void pay(HttpServletRequest request) {
         String inputLine;
