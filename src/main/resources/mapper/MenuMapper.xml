@@ -140,7 +140,7 @@
         <if test="type==0 ">AND menu.pid='0'</if>
         <if test="type==1 ">AND menu.pid=#{parentId}</if>
         GROUP BY menu.id
-        ORDER BY menu.pid ASC
+        ORDER BY menu.sort ASC
     </select>
 
     <select id="findByParentIdAndUserId" resultType="com.scoprion.mall.domain.SysMenu">
@@ -164,6 +164,6 @@
         <if test="parentId==null">AND menu.pid=0</if>
         <if test="parentId!=null">AND menu.pid=#{parentId}</if>
         GROUP BY menu.id
-        ORDER BY menu.pid ASC
+        ORDER BY menu.sort ASC
     </select>
 </mapper>
