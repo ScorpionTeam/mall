@@ -19,33 +19,12 @@ import java.util.List;
 public interface GoodsMapper {
 
     /**
-     * 首页展示 查询限时购买商品   4条
-     *
-     * @return
-     */
-    List<Goods> findLimit4ByTimeGoods();
-
-    /**
-     * 分页查询 限时购买商品列表
-     *
-     * @return
-     */
-    Page<Goods> findByPageAndLimit();
-
-    /**
      * 创建商品
      *
      * @param goods
      * @return
      */
     int add(Goods goods);
-
-    /**
-     * 优选  分页查询
-     *
-     * @return
-     */
-    Page<Goods> preferenceGivenByPage();
 
     /**
      * 根据id查询商品详情

@@ -92,7 +92,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         }
 
         //查询活动商品是否还有库存
-        String activityGoodMessage = checkActivityGood(wxFreeOrder.getActivityId(),wxFreeOrder.getGoodId());
+        String activityGoodMessage = checkActivityGood(wxFreeOrder.getActivityId(), wxFreeOrder.getGoodId());
         if (!StringUtils.isEmpty(activityGoodMessage)) {
             return BaseResult.error("ERROR", activityGoodMessage);
         }
@@ -139,10 +139,10 @@ public class WxFreeServiceImpl implements WxFreeService {
         wxOrderMapper.updateOrderForPrepayId(order.getId(), unifiedOrderResponseData.getPrepay_id());
 
         //添加活动记录
-        UserActivity userActivity = ServiceCommon.userActivityConstructor( wxFreeOrder,userId);
+        UserActivity userActivity = ServiceCommon.userActivityConstructor(wxFreeOrder, userId);
         int userActivityResult = wxFreeMapper.add(userActivity);
-        if(userActivityResult<=0){
-            return BaseResult.error("ERROR","添加活动记录失败");
+        if (userActivityResult <= 0) {
+            return BaseResult.error("ERROR", "添加活动记录失败");
         }
 
         //时间戳
@@ -167,7 +167,7 @@ public class WxFreeServiceImpl implements WxFreeService {
      * @return
      */
     @Override
-    public BaseResult pay( Long orderId,Long activityId,Long goodId) {
+    public BaseResult pay(Long orderId, Long activityId, Long goodId) {
         //查询订单详情
         Order order = wxOrderMapper.findByOrderId(orderId);
         //订单信息校验
@@ -181,10 +181,10 @@ public class WxFreeServiceImpl implements WxFreeService {
         if (result > Constant.TIME_TWO_HOUR) {
             //关闭订单
             wxOrderMapper.updateByOrderID(order.getId(), CommonEnum.CLOSING.getCode());
-            return BaseResult.error("ERROR","订单已超时，请重新下单");
+            return BaseResult.error("ERROR", "订单已超时，请重新下单");
         }
         //查询活动商品是否还有库存
-        String activityGoodMessage = checkActivityGood(activityId,goodId);
+        String activityGoodMessage = checkActivityGood(activityId, goodId);
         if (!StringUtils.isEmpty(activityGoodMessage)) {
             return BaseResult.error("ERROR", activityGoodMessage);
         }
@@ -202,6 +202,7 @@ public class WxFreeServiceImpl implements WxFreeService {
 
     /**
      * 记录商品日志
+     *
      * @param order
      */
     private void saveGoodLog(Order order) {
@@ -294,14 +295,17 @@ public class WxFreeServiceImpl implements WxFreeService {
      * @param goodId
      * @return
      */
-    private String checkActivityGood(Long activityId,Long goodId){
+    private String checkActivityGood(Long activityId, Long goodId) {
         //判断活动商品库存
-        ActivityGoods activityGoods=wxFreeMapper.findByActivityIdAndGoodId(activityId,goodId);
-        if (activityGoods.getStock()<=0 || null==activityGoods) {
+        ActivityGoods activityGoods = wxFreeMapper.findByActivityIdAndGoodId(activityId, goodId);
+        if (activityGoods.getStock() <= 0 || null == activityGoods) {
             return "库存不足";
         }
         if (CommonEnum.UN_NORMAL.getCode().equals(activityGoods.getStatus())) {
             return "活动商品信息已过期,请重新下单";
+        }
+        if (CommonEnum.OFF_SALE.getCode().equals(activityGoods.getOnSale())) {
+            return "活动商品下架,请重新下单";
         }
         return null;
     }
@@ -312,7 +316,7 @@ public class WxFreeServiceImpl implements WxFreeService {
      * @param order
      * @return
      */
-    private String checkOrder(Order order){
+    private String checkOrder(Order order) {
         if (order == null) {
             return "找不到订单";
         }

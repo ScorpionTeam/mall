@@ -135,15 +135,15 @@ public class RoleServiceImpl implements RoleService {
     public BaseResult bindMenu(Long roleId, List<Long> menuIdList) {
         roleMapper.clearRelation(roleId);
         menuIdList.forEach(menuId -> {
-//            //查询父节点
-//            Long parentId = roleMapper.findPidByMenuId(menuId);
-//            Integer count = roleMapper.queryExistByPid(roleId, menuId);
-//            if (count > 0) {
-//                roleMapper.addRoleMenuRelation(roleId, menuId);
-//            } else {
-//                roleMapper.insertPid(roleId, parentId);
-            roleMapper.addRoleMenuRelation(roleId, menuId);
-//            }
+            //查询父节点
+            Long parentId = roleMapper.findPidByMenuId(menuId);
+            Integer count = roleMapper.queryExistByPid(roleId, parentId);
+            if (count > 0) {
+                roleMapper.addRoleMenuRelation(roleId, menuId);
+            } else {
+                roleMapper.insertPid(roleId, parentId);
+                roleMapper.addRoleMenuRelation(roleId, menuId);
+            }
         });
         return BaseResult.success("绑定菜单成功");
     }
@@ -161,7 +161,7 @@ public class RoleServiceImpl implements RoleService {
         if (count > 0) {
             roleMapper.updateRoleRelation(userId, roleId);
         } else {
-            roleMapper.insertRoleRelation(userId, roleId);
+            roleMapper.addRoleRelation(userId, roleId);
         }
         return BaseResult.success("角色绑定成功");
     }

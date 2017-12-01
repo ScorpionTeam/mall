@@ -282,7 +282,7 @@ public class WxActivityServiceImpl implements WxActivityService {
             return "商品库存不足";
         }
         //判断活动人数
-        if(activity.getNum() > Constant.ACTIVITY_NUMBER) {
+        if (activity.getNum() > Constant.ACTIVITY_NUMBER) {
             return "活动人数已满";
         }
         return null;
@@ -360,6 +360,9 @@ public class WxActivityServiceImpl implements WxActivityService {
         }
         if (CommonEnum.UN_NORMAL.getCode().equals(activityGoods.getStatus())) {
             return "活动商品信息已过期,请重新下单";
+        }
+        if (CommonEnum.OFF_SALE.getCode().equals(activityGoods.getOnSale())) {
+            return "活动商品下架,请重新下单";
         }
         return activityGoods.toString();
     }

@@ -90,13 +90,12 @@
     </delete>
 
     <select id="findPidByMenuId" resultType="java.lang.Long">
-        SELECT id FROM t_sys_menu
-        WHERE pid='0' AND url=(select pid from t_sys_menu where id=#{menuId})
+        SELECT pid FROM t_sys_menu WHERE  id=#{menuId}
     </select>
 
     <select id="queryExistByPid" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_sys_menu_role_relation
-         WHERE role_id=#{roleId} AND menu_id=#{menuId}
+         WHERE role_id=#{roleId} AND menu_id=#{parentId}
     </select>
 
     <insert id="addRoleMenuRelation">
@@ -107,7 +106,7 @@
     <insert id="insertPid" parameterType="java.lang.Long">
         INSERT INTO
         t_sys_menu_role_relation(role_id,menu_id)
-        VALUES (#{roleId},#{menuId})
+        VALUES (#{roleId},#{parentId})
     </insert>
 
     <!--校验角色绑定用户数量-->
@@ -123,7 +122,7 @@
         UPDATE t_sys_user_role SET role_id=#{roleId} WHERE user_id=#{userId}
     </update>
 
-    <insert id="insertRoleRelation" parameterType="java.lang.Long">
+    <insert id="addRoleRelation" parameterType="java.lang.Long">
         INSERT INTO t_sys_user_role(user_id,role_id) VALUE (#{userId},#{roleId})
     </insert>
 </mapper>
