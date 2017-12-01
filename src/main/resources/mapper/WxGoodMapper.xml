@@ -116,7 +116,7 @@
     <select id="findByGoodSnapshotDetail" resultType="com.scoprion.mall.domain.GoodSnapshot">
         SELECT
         tgs.good_name,
-        tgs.price,
+        tgs.promotion,
         tgs.main_image_url
         FROM t_good_snapshot tgs LEFT JOIN t_order o ON tgs.id=o.good_snapshot_id
         WHERE o.id=#{orderId}
