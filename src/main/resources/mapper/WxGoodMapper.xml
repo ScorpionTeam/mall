@@ -112,4 +112,12 @@
         UPDATE t_good SET visit_total=visit_total+1 WHERE id=#{goodId}
     </update>
 
+    <!--获取商品快照详情-->
+    <select id="findByGoodSnapshotDetail" resultType="com.scoprion.mall.domain.GoodSnapshot">
+        SELECT
+        tgs.good_name,
+        tgs.main_image_url
+        FROM t_good_snapshot tgs LEFT JOIN t_order o ON tgs.id=o.good_snapshot_id
+        WHERE o.id=#{orderId}
+    </select>
 </mapper>

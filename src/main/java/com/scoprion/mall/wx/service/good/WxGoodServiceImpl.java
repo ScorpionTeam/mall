@@ -6,10 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
-import com.scoprion.mall.domain.Estimate;
-import com.scoprion.mall.domain.GoodExt;
-import com.scoprion.mall.domain.Goods;
-import com.scoprion.mall.domain.MallImage;
+import com.scoprion.mall.domain.*;
 import com.scoprion.mall.wx.mapper.WxEstimateMapper;
 import com.scoprion.mall.wx.mapper.WxGoodMapper;
 import com.scoprion.result.BaseResult;
@@ -113,5 +110,19 @@ public class WxGoodServiceImpl implements WxGoodService {
         }
         Page<Goods> page = wxGoodMapper.findBySearchKey(categoryId, searchKey);
         return new PageResult(page);
+    }
+
+    /**
+     * 获取商品快照详情
+     * @param orderId
+     * @return
+     */
+    @Override
+    public BaseResult findByGoodSnapshotDetail(Long orderId) {
+        if(StringUtils.isEmpty(orderId.toString())) {
+            return BaseResult.notFound();
+        }
+        GoodSnapshot goodSnapshot = wxGoodMapper.findByGoodSnapshotDetail(orderId);
+        return BaseResult.success(goodSnapshot);
     }
 }
