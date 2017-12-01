@@ -21,7 +21,7 @@ public interface WxActivityMapper {
      *
      * @return
      */
-    Page<Activity> groupList(@Param("activity_type") String activity_type);
+    Page<Activity> groupList(@Param("activityType") String activityType);
 
     /**
      * 查询试用列表
