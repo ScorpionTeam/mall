@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.wx.mapper.WxGoodSnapShotMapper">
+    <!--新增快照-->
     <insert id="add" parameterType="com.scoprion.mall.domain.GoodSnapshot">
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
@@ -31,6 +32,7 @@
         #{goodId})
     </insert>
 
+    <!--查询详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.GoodSnapshot">
         SELECT  id,
         good_id,
