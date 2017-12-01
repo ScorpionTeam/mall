@@ -2,7 +2,9 @@ package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.GoodExt;
+import com.scoprion.mall.domain.GoodSnapshot;
 import com.scoprion.mall.domain.Goods;
+import com.scoprion.result.BaseResult;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -64,4 +66,11 @@ public interface WxGoodMapper {
      */
     Page<Goods> findBySearchKey(@Param("categoryId") Long categoryId,
                                 @Param("searchKey") String searchKey);
+
+    /**
+     * 获取商品快照详情
+     * @param orderId
+     * @return
+     */
+    GoodSnapshot findByGoodSnapshotDetail(@Param("orderId") Long orderId);
 }

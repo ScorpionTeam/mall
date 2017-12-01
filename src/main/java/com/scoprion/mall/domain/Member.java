@@ -1,7 +1,9 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.beans.Transient;
 import java.util.Date;
 
 /**
@@ -14,6 +16,10 @@ public class Member {
      */
     private Long id;
 
+    /**
+     * 角色id
+     */
+    private Long roleId;
     /**
      * 姓名
      */
@@ -86,19 +92,19 @@ public class Member {
     /**
      * 注册时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "create_date")
     private Date createDate;
 
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "update_date")
     private Date updateDate;
 
     /**
      * 最后一次登录时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "last_login_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "last_login_date")
     private Date lastLoginDate;
 
     /**
@@ -130,6 +136,14 @@ public class Member {
         this.nickName = nickName;
         this.mobile = mobile;
         this.password = password;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
     }
 
     public String getToken() {

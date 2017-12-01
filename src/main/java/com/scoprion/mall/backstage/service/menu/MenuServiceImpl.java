@@ -94,27 +94,22 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public BaseResult findByUserId(String userId) {
+    public BaseResult findByUserId(Long userId) {
         Integer validCount = menuMapper.validAdmin(userId);
         List<SysMenu> list;
         if (validCount > 0) {
-            //管理员用户菜单
-            list = menuMapper.findRootMenuList();
-            if (list != null && list.size() > 0) {
-                list.forEach(menu -> {
-                    List<SysMenu> childMenuList = menuMapper.findRootMenuList();
-                    menu.setLeaf(childMenuList);
-                });
-            }
-            return BaseResult.success(list);
+            //超级管理员用户菜单
+            list = menuMapper.findMenuListByRoleId(null, null, 0);
+            list.forEach(menu -> {
+                List<SysMenu> childMenuList = menuMapper.findMenuListByRoleId(null, menu.getId(), 1);
+                menu.setLeaf(childMenuList);
+            });
         } else {
-            list = menuMapper.findByUrlAndUserId("0", userId);
-            if (list != null && list.size() > 0) {
-                list.forEach(menu -> {
-                    List<SysMenu> childMenuList = menuMapper.findByUrlAndUserId(menu.getUrl(), userId);
-                    menu.setLeaf(childMenuList);
-                });
-            }
+            list = menuMapper.findByParentIdAndUserId(null, userId);
+            list.forEach(menu -> {
+                List<SysMenu> childMenuList = menuMapper.findByParentIdAndUserId(menu.getPid(), userId);
+                menu.setLeaf(childMenuList);
+            });
         }
         return BaseResult.success(list);
     }
@@ -128,7 +123,6 @@ public class MenuServiceImpl implements MenuService {
     public BaseResult findRootMenu() {
         return BaseResult.success(menuMapper.findRootMenuList());
     }
-
 
 
     /**
@@ -146,5 +140,10 @@ public class MenuServiceImpl implements MenuService {
             item.setLeaf(childMenus);
         });
         return BaseResult.success(list);
+    }
+
+    @Override
+    public BaseResult findAllMenu() {
+        return findByRoleId(null);
     }
 }

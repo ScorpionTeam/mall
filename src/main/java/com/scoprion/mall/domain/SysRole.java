@@ -56,14 +56,15 @@ public class SysRole {
     /**
      * LEVEL_SU_ADMIN 超级管理员 ，LEVEL_ADMIN 管理员 ,LEVEL_ORDINARY 普通
      */
-    private String role_level;
+    @JSONField(name = "role_level")
+    private String roleLevel;
 
-    public String getRole_level() {
-        return role_level;
+    public String getRoleLevel() {
+        return roleLevel;
     }
 
-    public void setRole_level(String role_level) {
-        this.role_level = role_level;
+    public void setRoleLevel(String roleLevel) {
+        this.roleLevel = roleLevel;
     }
 
     public Long getId() {
@@ -141,7 +142,7 @@ public class SysRole {
                 ", updateTime=" + updateTime +
                 ", menuId=" + menuId +
                 ", status='" + status + '\'' +
-                ", role_level='" + role_level + '\'' +
+                ", roleLevel='" + roleLevel + '\'' +
                 '}';
     }
 }

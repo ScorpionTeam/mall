@@ -107,37 +107,41 @@
     </insert>
 
     <select id="findByPage" resultType="com.scoprion.mall.domain.Member">
-        SELECT id,
-        name,
-        head_picture,
-        nick_name,
-        sex,
-        age,
-        certificate_id,
-        mobile,
-        address,
-        city,
-        email,
-        born_date,
-        certification,
-        status,
-        create_date,
-        update_date,
-        last_login_date,
-        login_ip,
-        user_type
-        FROM t_user WHERE 1=1
+        SELECT
+        tuser.id,
+        tuser.name,
+        tuser.head_picture,
+        tuser.nick_name,
+        tuser.sex,
+        tuser.age,
+        tuser.certificate_id,
+        tuser.mobile,
+        tuser.address,
+        tuser.city,
+        tuser.email,
+        tuser.born_date,
+        tuser.certification,
+        tuser.status,
+        tuser.create_date,
+        tuser.update_date,
+        tuser.last_login_date,
+        tuser.login_ip,
+        tuser.user_type,
+        troleuser.role_id as roleId
+        FROM t_user tuser
+        LEFT JOIN t_sys_user_role troleuser ON troleuser.user_id=tuser.id
+        WHERE 1=1
         <if test="searchKey!=null">
-            AND CONCAT_WS('',name,nick_name,mobile)LIKE #{searchKey}
+            AND CONCAT_WS('',tuser.name,tuser.nick_name,tuser.mobile)LIKE #{searchKey}
         </if>
         <if test="startDate!=null and endDate!=null">
-            AND create_date BETWEEN #{startDate} AND #{endDate}
+            AND tuser.create_date BETWEEN #{startDate} AND #{endDate}
         </if>
         <if test="startDate!=null and endDate==null">
-            AND create_date BETWEEN #{startDate} AND NOW()
+            AND tuser.create_date BETWEEN #{startDate} AND NOW()
         </if>
         <if test="endDate!=null and startDate==null">
-            AND create_date BETWEEN '1970-01-01' AND #{endDate}
+            AND tuser.create_date BETWEEN '1970-01-01' AND #{endDate}
         </if>
     </select>
 

@@ -104,6 +104,9 @@ public class RoleServiceImpl implements RoleService {
             return BaseResult.parameterError();
         }
         SysRole sysRole = roleMapper.findById(id);
+        if (sysRole == null) {
+            return BaseResult.notFound();
+        }
         return BaseResult.success(sysRole);
     }
 
@@ -139,7 +142,7 @@ public class RoleServiceImpl implements RoleService {
 //                roleMapper.addRoleMenuRelation(roleId, menuId);
 //            } else {
 //                roleMapper.insertPid(roleId, parentId);
-                roleMapper.addRoleMenuRelation(roleId, menuId);
+            roleMapper.addRoleMenuRelation(roleId, menuId);
 //            }
         });
         return BaseResult.success("绑定菜单成功");

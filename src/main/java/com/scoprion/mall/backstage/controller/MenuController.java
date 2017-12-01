@@ -26,16 +26,24 @@ public class MenuController {
     MenuService menuService;
 
     @Access
-    @ApiOperation("查询菜单根节点列表")
+    @ApiOperation("查询菜单根菜单列表")
     @RequestMapping(value = "/findRootMenu", method = RequestMethod.GET)
     public BaseResult findRootMenu() {
         return menuService.findRootMenu();
     }
 
+
     @Access
-    @ApiOperation("菜单列表")
+    @ApiOperation("分层级查询菜单列表")
+    @RequestMapping(value = "/findAllMenu", method = RequestMethod.GET)
+    public BaseResult findAllMenu() {
+        return menuService.findAllMenu();
+    }
+
+    @Access
+    @ApiOperation("用户菜单列表")
     @RequestMapping(value = "/findByUserId", method = RequestMethod.GET)
-    public BaseResult findByUserId(String userId) {
+    public BaseResult findByUserId(Long userId) {
         return menuService.findByUserId(userId);
     }
 
