@@ -125,7 +125,7 @@ public class GoodsServiceImpl implements GoodsService {
             return BaseResult.notFound();
         }
         //获取图片列表
-        List<MallImage> imgList = fileOperationMapper.findByCondition(goods.getId(), 0);
+        List<MallImage> imgList = fileOperationMapper.findByTargetId(goods.getId(), 0);
         goods.setImgList(imgList);
         return BaseResult.success(goods);
     }
