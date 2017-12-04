@@ -13,6 +13,7 @@ import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +54,7 @@ public class WxGoodServiceImpl implements WxGoodService {
      * @param goodId
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult findById(Long goodId) {
         if (StringUtils.isEmpty(goodId.toString())) {

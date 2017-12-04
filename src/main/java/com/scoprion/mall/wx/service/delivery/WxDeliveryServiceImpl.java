@@ -67,6 +67,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @param id
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult deleteDelivery(DeliveryExt deliveryExt) {
         String userId = WxUtil.getOpenId(deliveryExt.getWxCode());
@@ -136,6 +137,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      * @param id
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult defaultAddress(Long id, String wxCode) {
         String userId = WxUtil.getOpenId(wxCode);
