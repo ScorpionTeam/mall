@@ -166,6 +166,7 @@ public class WxFreeServiceImpl implements WxFreeService {
      * @param goodId
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult pay(Long orderId, Long activityId, Long goodId) {
         //查询订单详情

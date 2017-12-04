@@ -15,6 +15,7 @@ import com.scoprion.result.PageResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author by hmy
@@ -63,6 +64,7 @@ public class WxOrderServiceImpl implements WxOrderService {
      * @param orderId
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult findByOrderId(Long orderId) {
         Order order = wxOrderMapper.findByOrderId(orderId);
@@ -146,6 +148,7 @@ public class WxOrderServiceImpl implements WxOrderService {
      * @param id
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult cancelOrder(Long id, String ipAddress) {
         if (StringUtils.isEmpty(id.toString())) {

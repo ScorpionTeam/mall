@@ -59,12 +59,6 @@ public class TicketSnapshot {
     private Date updateDate;
 
     /**
-     * 使用时间
-     */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "use_date")
-    private Date useDate;
-
-    /**
      * 总金额
      */
     private int money;
@@ -78,7 +72,6 @@ public class TicketSnapshot {
      * 数量
      */
     private int num;
-
 
     /**
      * 使用范围 使用范围 平台0通用，1其他类型 默认0
@@ -102,6 +95,12 @@ public class TicketSnapshot {
      * 状态 1 删除 0正常
      */
     private String status;
+
+    /**
+     * 使用时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "use_date")
+    private Date useDate;
 
     public Date getUseDate() {
         return useDate;

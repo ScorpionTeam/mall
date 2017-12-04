@@ -15,6 +15,7 @@ import com.scoprion.result.PageResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -74,6 +75,7 @@ public class WxTicketServiceImpl implements WxTicketService {
      * @param ticketId
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult getTicket(Long ticketId, String wxCode) {
         String userId = WxUtil.getOpenId(wxCode);
@@ -84,8 +86,11 @@ public class WxTicketServiceImpl implements WxTicketService {
 
         //查询优惠券详情
         Ticket ticket = wxTicketMapper.findById(ticketId);
-        if (ticket.getEndDate().before(new Date()) || CommonEnum.NORMAL.getCode().equals(ticket.getStatus())) {
+        if (ticket.getEndDate().before(new Date())) {
             return BaseResult.error("ERROR", "优惠券已过期");
+        }
+        if (CommonEnum.UN_NORMAL.getCode().equals(ticket.getStatus())){
+            return BaseResult.notFound();
         }
 
         //判断优惠券是否限量
@@ -146,7 +151,7 @@ public class WxTicketServiceImpl implements WxTicketService {
         ticketUser.setNum(1);
         ticketUser.setSnapshotId(snapshotId);
         ticketUser.setUserId(userId);
-        ticketUser.setStatus(CommonEnum.UN_NORMAL.getCode());
+        ticketUser.setStatus(CommonEnum.UNUSED.getCode());
         return wxTicketMapper.addTicketUser(ticketUser);
     }
 
