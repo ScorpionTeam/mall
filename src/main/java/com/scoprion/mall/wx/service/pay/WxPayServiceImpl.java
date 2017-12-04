@@ -154,6 +154,7 @@ public class WxPayServiceImpl implements WxPayService {
      * @param orderId
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult pay(Long orderId) {
         Order order = wxOrderMapper.findByOrderId(orderId);

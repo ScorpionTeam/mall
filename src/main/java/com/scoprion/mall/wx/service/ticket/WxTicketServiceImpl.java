@@ -15,6 +15,7 @@ import com.scoprion.result.PageResult;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -74,6 +75,7 @@ public class WxTicketServiceImpl implements WxTicketService {
      * @param ticketId
      * @return
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult getTicket(Long ticketId, String wxCode) {
         String userId = WxUtil.getOpenId(wxCode);
