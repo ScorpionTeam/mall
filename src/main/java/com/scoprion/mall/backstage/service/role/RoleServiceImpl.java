@@ -34,7 +34,7 @@ public class RoleServiceImpl implements RoleService {
     public BaseResult add(SysRole sysRole) {
         Integer validCount = roleMapper.validByName(sysRole.getName());
         if (validCount > 0) {
-            return BaseResult.error("name_exist", "角色名称已经存在");
+            return BaseResult.error("ERROR", "角色名称已经存在");
         }
         roleMapper.add(sysRole);
         return BaseResult.success("添加成功");
@@ -53,20 +53,20 @@ public class RoleServiceImpl implements RoleService {
         }
         Integer validCount = roleMapper.validByNameAndId(sysRole.getName(), sysRole.getId());
         if (validCount > 0) {
-            return BaseResult.error("name_exist", "角色名称已经存在");
+            return BaseResult.error("ERROR", "角色名称已经存在");
         }
 
         if (CommonEnum.UN_NORMAL.getCode().equals(sysRole.getStatus())) {
             //删除角色,校验角色绑定用户数量
             Integer count = roleMapper.validUserByRoleId(sysRole.getId());
             if (count > 0) {
-                return BaseResult.error("unable_delete", "角色正在使用中，不可删除");
+                return BaseResult.error("ERROR", "角色正在使用中，不可删除");
             }
         }
 
         Integer result = roleMapper.modify(sysRole);
         if (result <= 0) {
-            return BaseResult.error("modify_error", "修改失败");
+            return BaseResult.error("ERROR", "修改失败");
         }
         return BaseResult.success("修改成功");
     }
@@ -120,7 +120,7 @@ public class RoleServiceImpl implements RoleService {
     public BaseResult deleteById(Long id) {
         Integer count = roleMapper.validUserByRoleId(id);
         if (count > 0) {
-            return BaseResult.error("unable_delete", "角色正在使用中，不可删除");
+            return BaseResult.error("ERROR", "角色正在使用中，不可删除");
         }
         roleMapper.deleteById(id);
         return BaseResult.success("delete_success");

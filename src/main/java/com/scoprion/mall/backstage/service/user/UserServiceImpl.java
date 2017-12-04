@@ -48,15 +48,15 @@ public class UserServiceImpl implements UserService {
             return BaseResult.systemError();
         }
         if (mobile.length() < Constant.MOBILE_LENGTH) {
-            return BaseResult.error("phone_error", "手机号码不正确");
+            return BaseResult.error("ERROR", "手机号码不正确");
         }
         if (password.length() < Constant.PASSWORD_MIN_LENGTH) {
-            return BaseResult.error("password_error", "密码不能小于六位");
+            return BaseResult.error("ERROR", "密码不能小于六位");
         }
         String encryptPassword = EncryptUtil.encryptMD5(password);
         Member member = userMapper.login(mobile, encryptPassword);
         if (null == member) {
-            return BaseResult.error("login_fail", "手机号或密码不正确!");
+            return BaseResult.error("ERROR", "手机号或密码不正确!");
         }
         //更新用户最后登录IP地址
         userMapper.updateLoginIpAddress(member.getId(), ip);
@@ -85,24 +85,24 @@ public class UserServiceImpl implements UserService {
             return BaseResult.systemError();
         }
         if (mobile.length() < Constant.MOBILE_LENGTH) {
-            return BaseResult.error("phone_error", "手机号码不正确");
+            return BaseResult.error("ERROR", "手机号码不正确");
         }
         if (password.length() < Constant.PASSWORD_MIN_LENGTH) {
-            return BaseResult.error("password_error", "密码不能小于六位");
+            return BaseResult.error("ERROR", "密码不能小于六位");
         }
         int mobileCount = userMapper.findByMobile(mobile);
         if (mobileCount > 0) {
-            return BaseResult.error("register_fail", "手机已存在");
+            return BaseResult.error("ERROR", "手机已存在");
         }
         int nick = userMapper.findByNickName(nickName);
         if (nick > 0) {
-            return BaseResult.error("register_fail", "昵称已存在");
+            return BaseResult.error("ERROR", "昵称已存在");
         }
         String encryptPassword = EncryptUtil.encryptMD5(password);
         member.setPassword(encryptPassword);
         int result = userMapper.register(member);
         if (result <= 0) {
-            return BaseResult.error("register_fail", "注册失败");
+            return BaseResult.error("ERROR", "注册失败");
         }
         //将用户手机号码作为加密字符串回传
         String tokenStr = EncryptUtil.aesEncrypt(mobile, "ScorpionMall8888");
@@ -126,7 +126,7 @@ public class UserServiceImpl implements UserService {
         if (result > 0) {
             return BaseResult.success("修改成功");
         }
-        return BaseResult.error("error", "修改失败");
+        return BaseResult.error("ERROR", "修改失败");
     }
 
 
@@ -144,7 +144,7 @@ public class UserServiceImpl implements UserService {
             redisTemplate.delete("Login:" + mobile);
             return BaseResult.success("退出成功");
         }
-        return BaseResult.error("exit_error", "没有该账号");
+        return BaseResult.error("ERROR", "没有该账号");
     }
 
     /**
