@@ -3,8 +3,10 @@ package com.scoprion.mall.backstage.service.banner;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.domain.Banner;
 import com.scoprion.mall.backstage.mapper.BannerMapper;
+import com.scoprion.mall.domain.MallImage;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class BannerServiceImpl implements BannerService {
     @Autowired
     private BannerMapper bannerMapper;
 
+    @Autowired
+    private FileOperationMapper fileOperationMapper;
+
     /**
      * 创建banner
      *
@@ -36,6 +41,12 @@ public class BannerServiceImpl implements BannerService {
             return BaseResult.error("ERROR", "广告名称不能重复");
         }
         bannerMapper.add(banner);
+        if (!StringUtils.isEmpty(banner.getImageUrl())) {
+            MallImage mallImage = new MallImage();
+            mallImage.setUrl(banner.getImageUrl());
+            mallImage.setBannerId(banner.getId());
+            fileOperationMapper.add(mallImage);
+        }
         return BaseResult.success("创建成功");
     }
 
@@ -120,6 +131,7 @@ public class BannerServiceImpl implements BannerService {
         }
         return BaseResult.success("修改成功");
     }
+
     /**
      * banner详情
      *

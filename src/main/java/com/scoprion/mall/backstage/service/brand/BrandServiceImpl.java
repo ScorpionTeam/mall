@@ -28,6 +28,9 @@ public class BrandServiceImpl implements BrandService {
     @Autowired
     BrandMapper brandMapper;
 
+    @Autowired
+    FileOperationMapper fileOperationMapper;
+
     /**
      * 增加品牌
      *
@@ -46,6 +49,12 @@ public class BrandServiceImpl implements BrandService {
         int result = brandMapper.add(brand);
         if (result > 0) {
             return BaseResult.success("增加成功");
+        }
+        if (!StringUtils.isEmpty(brand.getBrandImage())) {
+            MallImage mallImage = new MallImage();
+            mallImage.setUrl(brand.getBrandImage());
+            mallImage.setBrandId(brand.getId());
+            fileOperationMapper.add(mallImage);
         }
         return BaseResult.error("ERROR", "增加失败");
     }
