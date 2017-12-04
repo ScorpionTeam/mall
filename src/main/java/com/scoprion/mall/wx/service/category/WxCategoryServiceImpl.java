@@ -9,6 +9,7 @@ import com.scoprion.mall.wx.mapper.WxCategoryMapper;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author ycj
@@ -21,6 +22,7 @@ public class WxCategoryServiceImpl implements WxCategoryService {
     @Autowired
     WxCategoryMapper wxCategoryMapper;
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public PageResult findHomePage(Integer pageNo, Integer pageSize, String type) {
         PageHelper.startPage(pageNo, pageSize);
