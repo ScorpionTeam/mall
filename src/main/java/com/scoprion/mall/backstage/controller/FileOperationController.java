@@ -3,6 +3,7 @@ package com.scoprion.mall.backstage.controller;
 import com.scoprion.annotation.Access;
 import com.scoprion.mall.backstage.service.file.FileOperationService;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,8 +49,23 @@ public class FileOperationController {
     @Access
     @ApiOperation("图片删除")
     @RequestMapping(value = "/deleteImage", method = RequestMethod.GET)
-    public BaseResult deleteImage(String imageName) throws IOException {
+    public BaseResult deleteImage(String imageName) {
         return fileOperationService.deleteImage(imageName);
+    }
+
+    /**
+     * 图片列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param type     商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6
+     * @return
+     */
+    @Access
+    @ApiOperation("图片列表")
+    @RequestMapping(value = "/findByCondition", method = RequestMethod.GET)
+    public PageResult findByCondition(Integer pageNo, Integer pageSize, Integer type) {
+        return fileOperationService.findByCondition(pageNo, pageSize, type);
     }
 
 }

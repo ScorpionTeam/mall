@@ -24,7 +24,7 @@
     </insert>
 
     <!--根据targetId查找图片 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6-->
-    <select id="findByCondition" resultType="com.scoprion.mall.domain.MallImage">
+    <select id="findByTargetId" resultType="com.scoprion.mall.domain.MallImage">
         SELECT id,
         article_id,
         activity_id,
@@ -41,6 +41,26 @@
         <if test="type==3">AND estimate_id=#{targetId}</if>
         <if test="type==4">AND banner_id=#{targetId}</if>
         <if test="type==5">AND activity_id=#{targetId}</if>
+    </select>
+
+    <!--根据type查找图片 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6-->
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.MallImage">
+        SELECT id,
+        article_id,
+        activity_id,
+        banner_id,
+        brand_id,
+        good_id,
+        estimate_id,
+        create_date,
+        url
+        FROM t_mall_image WHERE 1=1
+        <if test="type==0">AND good_id IS NOT NULL</if>
+        <if test="type==1">AND brand_id IS NOT NULL</if>
+        <if test="type==2">AND article_id IS NOT NULL</if>
+        <if test="type==3">AND estimate_id IS NOT NULL</if>
+        <if test="type==4">AND banner_id IS NOT NULL</if>
+        <if test="type==5">AND activity_id IS NOT NULL</if>
     </select>
 
     <!--根据id修改图片-->

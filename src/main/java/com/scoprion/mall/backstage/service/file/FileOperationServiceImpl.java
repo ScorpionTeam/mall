@@ -3,12 +3,15 @@ package com.scoprion.mall.backstage.service.file;
 import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.domain.ImageCutSize;
 import com.scoprion.mall.domain.MallImage;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.geometry.Positions;
 import org.slf4j.Logger;
@@ -108,7 +111,7 @@ public class FileOperationServiceImpl implements FileOperationService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public BaseResult deleteImage(String imageName) throws IOException {
+    public BaseResult deleteImage(String imageName) {
         if (StringUtils.isEmpty(imageName)) {
             return BaseResult.parameterError();
         }
@@ -117,6 +120,21 @@ public class FileOperationServiceImpl implements FileOperationService {
         //删除源文件
         deleteDiskImage(imageName);
         return BaseResult.success("删除成功");
+    }
+
+    /**
+     * 图片列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param type     商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6
+     * @return
+     */
+    @Override
+    public PageResult findByCondition(Integer pageNo, Integer pageSize, Integer type) {
+        PageHelper.startPage(pageNo, pageSize);
+        Page<MallImage> page = fileOperationMapper.findByCondition(type);
+        return new PageResult(page);
     }
 
     /**

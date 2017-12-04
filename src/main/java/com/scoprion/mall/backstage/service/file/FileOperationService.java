@@ -1,6 +1,7 @@
 package com.scoprion.mall.backstage.service.file;
 
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,5 +32,15 @@ public interface FileOperationService {
      * @return
      * @throws IOException
      */
-    BaseResult deleteImage(String imageName) throws IOException;
+    BaseResult deleteImage(String imageName);
+
+    /**
+     * 图片列表
+     *
+     * @param pageNo
+     * @param pageSize
+     * @param type 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6
+     * @return
+     */
+    PageResult findByCondition(Integer pageNo, Integer pageSize, Integer type);
 }
