@@ -43,7 +43,7 @@ public class WxTicketController {
      * @param wxCode
      * @return
      */
-    @Access
+
     @RequestMapping(value = "/getTicket", method = RequestMethod.GET)
     public BaseResult getTicket(Long ticketId,  String wxCode  ) {
         return wxTicketService.getTicket(ticketId, wxCode);

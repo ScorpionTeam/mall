@@ -59,7 +59,8 @@
         num,
         status,
         use_range,
-        num_limit
+        num_limit,
+        use_date
         FROM  t_ticket WHERE  id=#{id}
     </select>
 

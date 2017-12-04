@@ -9,12 +9,36 @@
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        INSERT INTO t_ticket_snapshot
-        (ticket_name,content,start_date,end_date,money,reduce_money,num,create_date,
-        ticket_no,type,use_range,num_limit,ticket_id,status,use_date)
-        VALUES
-        (#{ticketName},#{content},#{startDate},#{endDate},#{money},#{reduceMoney},#{num},
-        now(),#{ticketNo} ,#{type},#{useRange},#{numLimit},#{ticketId},#{status},#{useDate})
+        INSERT INTO t_ticket_snapshot(ticket_name,
+        content,
+        start_date,
+        end_date,
+        money,
+        reduce_money,
+        num,
+        create_date,
+        ticket_no,
+        type,
+        use_range,
+        num_limit,
+        ticket_id,
+        status,
+        use_date)
+        VALUES(#{ticketName},
+        #{content},
+        #{startDate},
+        #{endDate},
+        #{money},
+        #{reduceMoney},
+        #{num},
+        now(),
+        #{ticketNo},
+        #{type},
+        #{useRange},
+        #{numLimit},
+        #{ticketId},
+        #{status},
+        #{useDate})
     </insert>
 
     <!--查询详情-->
