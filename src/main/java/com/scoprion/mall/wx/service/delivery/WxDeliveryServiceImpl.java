@@ -38,6 +38,13 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult add(Delivery delivery) {
+        Page<Delivery> pages = wxDeliveryMapper.listPage(delivery.getUserId());
+        if (pages.size() <= 0){
+            Integer result = wxDeliveryMapper.add(delivery);
+            if (result > 0) {
+                return BaseResult.success("新增成功");
+            }
+        }
         Integer result = wxDeliveryMapper.add(delivery);
         if (result <= 0) {
             return BaseResult.error("ERROR", "新增失败");
@@ -88,6 +95,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
                     return BaseResult.success("设置成功");
                 }
             }
+            return BaseResult.success("删除成功");
         }
         Integer result = wxDeliveryMapper.deleteDelivery(delivery.getId());
         if (result <= 0) {
