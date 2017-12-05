@@ -20,6 +20,17 @@ spring:
     request-context-attribute: ctx
   mvc:
     static-path-pattern: /static/**
+  cloud:
+    consul:
+      port: 8500
+      host: localhost
+      discovery:
+        health-check-path: /mall/health
+        health-check-url: /mall/health
+management:
+  security:
+    enabled: false
+
 
 
 
