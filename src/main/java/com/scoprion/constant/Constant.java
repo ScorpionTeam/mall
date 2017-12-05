@@ -37,7 +37,7 @@ public class Constant {
     /**
      * 商品评价图片路径 3
      */
-    public static final String GOODS_ESTIMATE_IMG_PATH = BASE_IMG_DIR + "/mall/goodsestimateimage/";
+    public static final String GOODS_ESTIMATE_IMG_PATH = GOODS_IMG_PATH + "estimateimage/";
     /**
      * 广告图片路径 4
      */
@@ -46,8 +46,15 @@ public class Constant {
      * 活动图片路径 5
      */
     public static final String ACTIVITY_IMG_PATH = BASE_IMG_DIR + "/mall/activityimage/";
+
+
     /**
-     * 其他模块图片路径6
+     * 富文本图片路径 6
+     */
+    public static final String RICH_TEXT_IMG_PATH = GOODS_IMG_PATH + "richtext/";
+
+    /**
+     * 其他模块图片路径 7
      */
     public static final String OTHER_IMG_PATH = BASE_IMG_DIR + "/mall/otherimage/";
 
