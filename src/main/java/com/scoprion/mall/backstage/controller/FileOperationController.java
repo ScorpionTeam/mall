@@ -2,14 +2,12 @@ package com.scoprion.mall.backstage.controller;
 
 import com.scoprion.annotation.Access;
 import com.scoprion.mall.backstage.service.file.FileOperationService;
+import com.scoprion.mall.domain.MallImage;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -39,6 +37,12 @@ public class FileOperationController {
         return fileOperationService.uploadImage(file, jsonContent);
     }
 
+    @ApiOperation("图片上传test")
+    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    public BaseResult test(@RequestBody MallImage mallImage) {
+        return fileOperationService.test(mallImage);
+    }
+
     /**
      * 图片删除
      *
@@ -58,7 +62,7 @@ public class FileOperationController {
      *
      * @param pageNo
      * @param pageSize
-     * @param type     商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6
+     * @param type     商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,富文本图片6
      * @return
      */
     @Access

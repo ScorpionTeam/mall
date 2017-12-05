@@ -19,12 +19,20 @@ public class MallImage {
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "create_date")
     private Date createDate;
     /**
      * 图片地址
      */
     private String url;
+
+    /**
+     * 是否是富文本图片   默认 不是 UN_NORMAL    NORMAL 是
+     */
+    @JSONField(name = "is_rich_text")
+    private String isRichText;
+
+
     /**
      * 文章id
      */
@@ -62,6 +70,19 @@ public class MallImage {
 
     public MallImage(String url) {
         this.url = url;
+    }
+
+    public MallImage(String url, String isRichText) {
+        this.url = url;
+        this.isRichText = isRichText;
+    }
+
+    public String getIsRichText() {
+        return isRichText == null ? "UN_NORMAL" : isRichText;
+    }
+
+    public void setIsRichText(String isRichText) {
+        this.isRichText = isRichText;
     }
 
     public Long getId() {
