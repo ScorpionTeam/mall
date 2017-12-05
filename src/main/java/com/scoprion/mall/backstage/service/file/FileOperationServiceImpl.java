@@ -49,12 +49,24 @@ public class FileOperationServiceImpl implements FileOperationService {
     @Autowired
     FileOperationMapper fileOperationMapper;
 
+
+    @Override
+    public BaseResult test(MallImage mallImage) {
+        if (mallImage.getUrl() == null) {
+            return BaseResult.parameterError();
+        }
+        fileOperationMapper.add(mallImage);
+        return BaseResult.success("success");
+    }
+
+
     /**
      * @param file        文件
      * @param jsonContent
      * @return
      * @throws IOException
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult uploadImage(MultipartFile file, String jsonContent) throws IOException {
         if (StringUtils.isEmpty(jsonContent)) {
@@ -82,8 +94,14 @@ public class FileOperationServiceImpl implements FileOperationService {
         String endName = name.substring(name.lastIndexOf("."));
         File image = new File(path + fileName + endName);
         file.transferTo(image);
+
         List<MallImage> urlList = new ArrayList<>();
-        urlList.add(new MallImage(getFileName(path, fileName, endName, null)));
+        String imageUrl = getFileName(path, fileName, endName, null);
+        urlList.add(new MallImage(imageUrl));
+        if (Constant.RICH_TEXT_IMG_PATH.equals(path)) {
+            //富文本图片记录 url入库
+            fileOperationMapper.add(new MallImage(imageUrl, CommonEnum.NORMAL.getCode()));
+        }
         //裁剪
         if (CommonEnum.CUT.getCode().equals(cut)) {
             for (ImageCutSize imageCutSize : cutSizeList) {
@@ -101,6 +119,7 @@ public class FileOperationServiceImpl implements FileOperationService {
                 urlList.add(new MallImage(getFileName(path, fileName, endName, null)));
             }
         }
+
         return BaseResult.success(urlList);
     }
 
@@ -136,6 +155,7 @@ public class FileOperationServiceImpl implements FileOperationService {
         Page<MallImage> page = fileOperationMapper.findByCondition(type);
         return new PageResult(page);
     }
+
 
     /**
      * 删除数据库图片
@@ -287,7 +307,7 @@ public class FileOperationServiceImpl implements FileOperationService {
      * @param imageType
      * @return
      */
-    public static String parseFilePathByType(String imageType) {
+    private String parseFilePathByType(String imageType) {
         String path;
         switch (imageType) {
             case "0":
@@ -295,31 +315,31 @@ public class FileOperationServiceImpl implements FileOperationService {
                 path = Constant.GOODS_IMG_PATH;
                 break;
             case "1":
-                //品牌图片路径1
+                //品牌图片路径 1
                 path = Constant.BRAND_IMG_PATH;
                 break;
             case "2":
-                //文章图片路径2
+                //文章图片路径 2
                 path = Constant.ARTICLE_IMG_PATH;
                 break;
             case "3":
-                //商品评价图片路径3
+                //商品评价图片路径 3
                 path = Constant.GOODS_ESTIMATE_IMG_PATH;
                 break;
             case "4":
-                //广告图片路径4
+                //广告图片路径 4
                 path = Constant.BANNER_IMG_PATH;
                 break;
             case "5":
-                //活动图片路径5
+                //活动图片路径 5
                 path = Constant.ACTIVITY_IMG_PATH;
                 break;
             case "6":
-                //其他模块图片路径6
-                path = Constant.OTHER_IMG_PATH;
+                //富文本图片路径 6
+                path = Constant.RICH_TEXT_IMG_PATH;
                 break;
             default:
-                //其他模块图片路径6
+                //其他模块图片路径
                 path = Constant.OTHER_IMG_PATH;
                 break;
         }

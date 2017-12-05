@@ -2,12 +2,14 @@ package com.scoprion;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author by kunlun
  * @created on 2017/11/6
  */
+@EnableDiscoveryClient
 @SpringBootApplication
 @EnableScheduling
 public class MallApplication {
