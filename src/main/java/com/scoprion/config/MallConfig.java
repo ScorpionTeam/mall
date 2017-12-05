@@ -4,8 +4,14 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.scoprion.intercepter.MallInterceptor;
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -26,12 +32,17 @@ public class MallConfig extends WebMvcConfigurerAdapter {
         return new MallInterceptor();
     }
 
+    /**
+     * 注入拦截器
+     *
+     * @param registry
+     */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(getMallInterceptor());
         super.addInterceptors(registry);
     }
-    
+
 
     /**
      * 重写消息转换格式
@@ -64,4 +75,30 @@ public class MallConfig extends WebMvcConfigurerAdapter {
                 .allowedHeaders("*")
                 .allowedMethods("*");
     }
+
+    @Bean
+    public ConnectionFactory connectionFactory() {
+        CachingConnectionFactory factory = new CachingConnectionFactory();
+        factory.setAddresses("127.0.0.1:5672");
+        factory.setUsername("guest");
+        factory.setPassword("guest");
+        //回调必须设置  否则接收不到
+        factory.setPublisherConfirms(true);
+        factory.setPublisherReturns(true);
+        return factory;
+    }
+
+    @Bean
+    public Queue queue() {
+        return new Queue("message");
+    }
+
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public RabbitTemplate rabbitTemplate() {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory());
+        return template;
+    }
+
+
 }
