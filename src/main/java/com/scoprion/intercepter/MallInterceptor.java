@@ -31,6 +31,7 @@ public class MallInterceptor implements HandlerInterceptor {
             response.setHeader("Content-Type", "application/json;charset=UTF-8");
             //判断校验注解
             Access access = ((HandlerMethod) handler).getMethodAnnotation(Access.class);
+            
             if (null != access) {
                 if (access.need()) {
                     //获取头部信息
@@ -61,14 +62,13 @@ public class MallInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, ModelAndView modelAndView) throws Exception {
-        LOGGER.info("请求2..........");
+
 
     }
 
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
 
-        LOGGER.info("请求3..........");
 
     }
 }

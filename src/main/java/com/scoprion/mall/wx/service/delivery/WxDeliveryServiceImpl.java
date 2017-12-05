@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -114,6 +115,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public PageResult findByWxCode(@RequestParam("wxCode") String wxCode, Integer pageNo, Integer pageSize) {
+
         String openId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空
@@ -149,6 +151,14 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
     @Override
     public BaseResult defaultAddress(Long id, String wxCode) {
         String userId = WxUtil.getOpenId(wxCode);
+        Delivery delivery=wxDeliveryMapper.findById(id);
+        if (CommonEnum.DEFAULT_ADDRESS.getCode().equals(delivery.getDefaultAddress())){
+            int result = wxDeliveryMapper.updateDefaultAddress(id);
+            if (result <= 0) {
+                return BaseResult.error("ERROR", "设置默认地址失败");
+            }
+            return BaseResult.success("设置成功");
+        }
         int result = wxDeliveryMapper.updateDefaultAddress(id);
         if (result <= 0) {
             return BaseResult.error("ERROR", "设置默认地址失败");
