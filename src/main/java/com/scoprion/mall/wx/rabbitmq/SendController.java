@@ -16,13 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class SendController {
 
     @Autowired
-    private SendServiceImpl sendService;
+    private SendComponent sendComponent;
 
     @RequestMapping(value = "/sendMessage/{message}", method = RequestMethod.GET)
     public BaseResult sendMessage(@PathVariable String message) {
         System.out.println("即将发送的消息：" + message);
         for (int i = 0; i < 10; i++) {
-            sendService.send(message);
+            sendComponent.send(message);
         }
         return BaseResult.success("消息发送成功");
     }

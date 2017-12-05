@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RabbitListener(queues = "mall.queue.message")
-public class ReceiveController {
+public class ReceiveComponent {
 
     @RabbitHandler
     public void process(String message) {

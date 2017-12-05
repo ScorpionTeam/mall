@@ -12,14 +12,14 @@ import java.util.UUID;
  * @created on 2017/12/4.
  */
 @Component
-public class SendServiceImpl implements RabbitTemplate.ConfirmCallback {
+public class SendComponent implements RabbitTemplate.ConfirmCallback {
 
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SendServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SendComponent.class);
 
     private RabbitTemplate rabbitTemplate;
 
-    public SendServiceImpl(RabbitTemplate rabbitTemplate) {
+    public SendComponent(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
         this.rabbitTemplate.setConfirmCallback(this);
     }
