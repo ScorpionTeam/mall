@@ -1,19 +1,25 @@
 spring:
   profiles:
-    active: prod
+    active: dev
   aop:
     proxy-target-class: true
   redis:
     database: 0
     host: 127.0.0.1
     port: 6379
-    password:
+    password: 1234567890
     pool:
       max-active: 8
       max-wait: -1
       max-idle: 8
       min-idle: 0
     timeout: 0
+  application:
+    name: mall-service
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
 logging:
   file: logs/spring-boot-logging.log
   level:
