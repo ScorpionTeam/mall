@@ -21,12 +21,5 @@ spring:
   mvc:
     static-path-pattern: /static/**
 
-     rabbitmq:
-        host: localhost
-        port: 5672
-        username: guest
-        password: guest
-        virtual-host: guest
-
 
 
