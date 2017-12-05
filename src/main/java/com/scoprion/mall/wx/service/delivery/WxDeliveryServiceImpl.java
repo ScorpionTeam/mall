@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -106,6 +107,7 @@ public class WxDeliveryServiceImpl implements WxDeliveryService {
      */
     @Override
     public PageResult findByWxCode(@RequestParam("wxCode") String wxCode, Integer pageNo, Integer pageSize) {
+
         String openId = WxUtil.getOpenId(wxCode);
         PageHelper.startPage(pageNo, pageSize);
         //判断userId是否为空

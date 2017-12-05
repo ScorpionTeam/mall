@@ -91,7 +91,7 @@ public class WxPayController {
         //回调出现错误 返回
         if (unifiedOrderNotifyRequestData.getReturn_code().equalsIgnoreCase("FAIL")) {
             LOGGER.error("微信回调出错@------" + unifiedOrderNotifyRequestData.getReturn_msg());
-            return ;
+            return;
         }
 
         BaseResult baseResult = wxPayService.callback(unifiedOrderNotifyRequestData);
