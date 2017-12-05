@@ -9,7 +9,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * @author by kunlun
  * @created on 2017/11/6
  */
-@EnableDiscoveryClient
 @SpringBootApplication
 @EnableScheduling
 public class MallApplication {

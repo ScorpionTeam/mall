@@ -4,6 +4,9 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.scoprion.intercepter.MallInterceptor;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -89,10 +92,28 @@ public class MallConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
-    public Queue queue() {
-        return new Queue("message");
+    public DirectExchange defaultExchange() {
+
+        /**
+         * DirectExchange: 按照routingkey分发到指定队列
+         * TopicExchange: 多关键字匹配
+         * FanoutExchange: 将消息分发到所有的绑定队列，无routingkey的概念
+         * HeadersExchange: 通过添加属性 key-value匹配
+         */
+        return new DirectExchange("mall.exchange.message");
     }
 
+
+    @Bean
+    public Queue queue() {
+        return new Queue("mall.queue.message");
+    }
+
+    @Bean
+    public Binding binding() {
+        /** 将队列绑定到交换机 */
+        return BindingBuilder.bind(queue()).to(defaultExchange()).with("mall.routingkey.message");
+    }
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public RabbitTemplate rabbitTemplate() {

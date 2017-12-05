@@ -101,4 +101,22 @@ public class Constant {
     public static final long TIME_HALF_HOUR = 1000 * 60 * 30;
 
     public static final int ACTIVITY_NUMBER = 5;
+
+    //线程数
+    public static final int THREAD_COUNT = 5;
+
+    //处理间隔时间  毫秒
+    public static final int INTERVAL_MILLS = 0;
+
+    //失败后等待时间 毫秒
+    public static final int ONE_SECOND = 1 * 1000;
+
+    //异常休眠时间
+    public static final int ONE_MINUTE = 1 * 60 * 1000;
+
+    //MQ 消息重试时间
+    public static final int RETRY_TIME_INTERVAL = ONE_MINUTE;
+
+    //MQ 消息有效时间
+    public static final int VALID_TIME = ONE_MINUTE;
 }
