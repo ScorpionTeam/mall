@@ -46,9 +46,6 @@ public class OrderServiceImpl implements OrderService {
     private PointMapper pointMapper;
 
     @Autowired
-    private WxPointMapper wxPointMapper;
-
-    @Autowired
     private WxPointLogMapper wxPointLogMapper;
 
     @Autowired
