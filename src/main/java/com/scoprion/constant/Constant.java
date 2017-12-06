@@ -119,4 +119,10 @@ public class Constant {
 
     //MQ 消息有效时间
     public static final int VALID_TIME = ONE_MINUTE;
+
+    public static final String QUEUE = "mall.queue.content";
+
+    public static final String EXCHANGE = "mall.exchange.content";
+
+    public static final String ROUTING_KEY = "mall.routingkey.content";
 }
