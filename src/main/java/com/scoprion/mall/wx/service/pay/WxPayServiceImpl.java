@@ -11,6 +11,7 @@ import com.scoprion.mall.domain.Goods;
 import com.scoprion.mall.wx.mapper.*;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
+import com.scoprion.mall.wx.rabbitmq.SendComponent;
 import com.scoprion.result.BaseResult;
 import com.scoprion.utils.OrderNoUtil;
 import com.scoprion.mall.wx.pay.WxPayConfig;
@@ -61,6 +62,8 @@ public class WxPayServiceImpl implements WxPayService {
     @Autowired
     private WxTicketSnapshotMapper wxTicketSnapshotMapper;
 
+    @Autowired
+    private SendComponent sendComponent;
 
     /**
      * 统一下单

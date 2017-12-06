@@ -27,6 +27,9 @@ public class WxFreeController {
     @Autowired
     private WxFreeService wxFreeService;
 
+    @Autowired
+    private SendComponent sendComponent;
+
     /**
      * 试用商品列表
      *
@@ -49,9 +52,11 @@ public class WxFreeController {
      */
     @Access
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
-    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder, HttpServletRequest request) {
+    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder,HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
-        return wxFreeService.apply(wxFreeOrder, ipAddress);
+        wxFreeOrder.setIpAddress(ipAddress);
+        sendComponent.send(wxFreeOrder);
+        return wxFreeService.apply(wxFreeOrder);
     }
 
     /**
@@ -63,9 +68,9 @@ public class WxFreeController {
      * @return
      */
     @Access
-    @RequestMapping(value = "/pay", method = RequestMethod.GET)
-    public BaseResult pay(Long orderId, Long activityId, Long goodId) {
-        return wxFreeService.pay(orderId, activityId, goodId);
+    @RequestMapping(value = "/pay",method = RequestMethod.GET)
+    public BaseResult pay(Long orderId,Long activityId,Long goodId){
+        return wxFreeService.pay(orderId,activityId,goodId);
     }
 
 }

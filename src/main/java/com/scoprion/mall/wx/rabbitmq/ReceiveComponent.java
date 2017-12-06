@@ -1,7 +1,9 @@
 package com.scoprion.mall.wx.rabbitmq;
 
 import com.scoprion.constant.Constant;
+import com.scoprion.mall.domain.WxFreeOrder;
 import com.scoprion.mall.domain.WxOrderRequestData;
+import com.scoprion.mall.wx.controller.WxFreeController;
 import com.scoprion.mall.wx.service.pay.WxPayService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +26,18 @@ public class ReceiveComponent {
     @Autowired
     private WxPayService wxPayService;
 
+    @Autowired
+    private WxFreeController wxFreeController;
+
     @RabbitHandler
     public void process(WxOrderRequestData wxOrderRequestData) {
         LOGGER.info("接收到信息为：" + wxOrderRequestData.getWxCode());
         //wxPayService.unifiedOrder(wxOrderRequestData);
     }
 
+    @RabbitHandler
+    public void receiveFree(WxFreeOrder wxFreeOrder){
+        LOGGER.info("接收到信息为:"+wxFreeOrder.getWxCode());
+    }
 
 }

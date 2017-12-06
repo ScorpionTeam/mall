@@ -75,14 +75,12 @@ public class WxFreeServiceImpl implements WxFreeService {
 
     /**
      * 参加试用活动
-     *
-     * @param orderExt  订单
-     * @param ipAddress
+     * @param wxFreeOrder
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public BaseResult apply(WxFreeOrder wxFreeOrder, String ipAddress) {
+    public BaseResult apply(WxFreeOrder wxFreeOrder) {
         String userId = WxUtil.getOpenId(wxFreeOrder.getWxCode());
 
         //查询是否参加过该活动
@@ -115,7 +113,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         }
 
         //系统内生成订单信息
-        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", ipAddress, order.getId());
+        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", wxFreeOrder.getIpAddress(), order.getId());
         wxOrderLogMapper.add(orderLog);
 
         //统一下单参数

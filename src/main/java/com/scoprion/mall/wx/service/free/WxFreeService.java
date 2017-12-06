@@ -25,10 +25,9 @@ public interface WxFreeService {
     /**
      * 参加试用
      * @param wxFreeOrder
-     * @param ipAddress
      * @return
      */
-    BaseResult apply(WxFreeOrder wxFreeOrder, String ipAddress);
+    BaseResult apply(WxFreeOrder wxFreeOrder);
 
     /**
      * 微信支付
