@@ -9,6 +9,7 @@ import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
+import com.scoprion.mall.wx.rabbitmq.SendComponent;
 import com.scoprion.mall.wx.service.free.WxFreeService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -35,6 +36,9 @@ public class WxFreeController {
     @Autowired
     private WxFreeService wxFreeService;
 
+    @Autowired
+    private SendComponent sendComponent;
+
     /**
      * 试用商品列表
      *
@@ -59,7 +63,9 @@ public class WxFreeController {
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
     public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder,HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
-        return wxFreeService.apply(wxFreeOrder, ipAddress);
+        wxFreeOrder.setIpAddress(ipAddress);
+        sendComponent.send(wxFreeOrder);
+        return wxFreeService.apply(wxFreeOrder);
     }
 
     /**

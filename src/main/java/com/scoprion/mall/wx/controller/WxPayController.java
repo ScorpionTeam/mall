@@ -57,8 +57,8 @@ public class WxPayController {
         String ipAddress = IPUtil.getIPAddress(request);
         wxOrderRequestData.setIpAddress(ipAddress);
         sendComponent.send(wxOrderRequestData);
-        return null;
-        //return wxPayService.unifiedOrder(wxOrderRequestData, wxCode, ipAddress);
+//        return null;
+        return wxPayService.unifiedOrder(wxOrderRequestData);
     }
 
 
