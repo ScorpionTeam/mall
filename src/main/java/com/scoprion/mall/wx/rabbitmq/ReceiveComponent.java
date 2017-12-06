@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.rabbitmq;
 
+import com.scoprion.constant.Constant;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Component;
  * @created on 2017/12/4.
  */
 @Component
-@RabbitListener(queues = "mall.queue.message")
+@RabbitListener(queues = Constant.QUEUE)
 public class ReceiveComponent {
 
     @RabbitHandler
