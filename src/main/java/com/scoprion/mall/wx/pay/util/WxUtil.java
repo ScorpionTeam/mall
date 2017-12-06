@@ -3,7 +3,6 @@ package com.scoprion.mall.wx.pay.util;
 import com.alibaba.fastjson.JSON;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.AuthorizationCode;
-import com.scoprion.mall.wx.pay.util.WxTrustManager;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;

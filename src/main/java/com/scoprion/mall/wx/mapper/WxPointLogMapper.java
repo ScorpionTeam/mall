@@ -1,7 +1,6 @@
 package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.Point;
 import com.scoprion.mall.domain.PointLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

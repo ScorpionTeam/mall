@@ -1,7 +1,6 @@
 package com.scoprion.mall.wx.service.delivery;
 
 import com.alibaba.druid.util.StringUtils;
-import com.alibaba.fastjson.annotation.JSONField;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.enums.CommonEnum;
@@ -11,12 +10,9 @@ import com.scoprion.mall.wx.mapper.WxDeliveryMapper;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**

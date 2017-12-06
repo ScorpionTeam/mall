@@ -1,9 +1,7 @@
 package com.scoprion.mall.wx.controller;
 
 import com.scoprion.annotation.Access;
-import com.scoprion.mall.domain.request.PageRequestParams;
 import com.scoprion.mall.wx.service.category.WxCategoryService;
-import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -109,13 +109,13 @@ public class VerifyCodeUtil {
         BufferedImage image = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
         Random rand = new Random();
         Graphics2D g2 = image.createGraphics();
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         Color[] colors = new Color[5];
-        Color[] colorSpaces = new Color[] { Color.WHITE, Color.CYAN,
+        Color[] colorSpaces = new Color[]{Color.WHITE, Color.CYAN,
                 Color.GRAY, Color.LIGHT_GRAY, Color.MAGENTA, Color.ORANGE,
-                Color.PINK, Color.YELLOW };
+                Color.PINK, Color.YELLOW};
         float[] fractions = new float[colors.length];
-        for(int i = 0; i < colors.length; i++){
+        for (int i = 0; i < colors.length; i++) {
             colors[i] = colorSpaces[rand.nextInt(colorSpaces.length)];
             fractions[i] = rand.nextFloat();
         }
@@ -126,7 +126,7 @@ public class VerifyCodeUtil {
 
         Color c = getRandColor(200, 250);
         g2.setColor(c);// 设置背景色
-        g2.fillRect(0, 2, w, h-4);
+        g2.fillRect(0, 2, w, h - 4);
 
         //绘制干扰线
         Random random = new Random();
@@ -152,21 +152,23 @@ public class VerifyCodeUtil {
         shear(g2, w, h, c);// 使图片扭曲
 
         g2.setColor(getRandColor(100, 160));
-        int fontSize = h-4;
+        int fontSize = h - 4;
         Font font = new Font("Algerian", Font.ITALIC, fontSize);
         g2.setFont(font);
         char[] chars = code.toCharArray();
-        for(int i = 0; i < verifySize; i++){
+        for (int i = 0; i < verifySize; i++) {
             AffineTransform affine = new AffineTransform();
-            affine.setToRotation(Math.PI / 4 * rand.nextDouble() * (rand.nextBoolean() ? 1 : -1), (w / verifySize) * i + fontSize/2, h/2);
+            affine.setToRotation(Math.PI / 4 * rand.nextDouble() * (rand.nextBoolean() ? 1 : -1),
+                    (w / verifySize) * i + fontSize / 2, h / 2);
             g2.setTransform(affine);
-            g2.drawChars(chars, i, 1, ((w-10) / verifySize) * i + 5, h/2 + fontSize/2 - 10);
+            g2.drawChars(chars, i, 1, ((w - 10) / verifySize) * i + 5, h / 2 + fontSize / 2 - 10);
         }
 
         g2.dispose();
         ImageIO.write(image, "jpg", os);
 
     }
+
     private static Color getRandColor(int fc, int bc) {
         if (fc > 255)
             fc = 255;
@@ -246,14 +248,14 @@ public class VerifyCodeUtil {
         }
 
     }
-//    public static void main(String[] args) throws IOException{
-//        File dir = new File("F:/verifies");
+
+//    public static void main(String[] args) throws IOException {
+//        File dir = new File("/Users/kunlun/Documents");
 //        int w = 200, h = 80;
-//        for(int i = 0; i < 50; i++){
-//            String verifyCode = generateVerifyCode(4);
-//            File file = new File(dir, verifyCode + ".jpg");
-//            outputImage(w, h, file, verifyCode);
-//        }
+//        String verifyCode = generateVerifyCode(4);
+//        File file = new File(dir, verifyCode + ".jpg");
+//        outputImage(w, h, file, verifyCode);
+//        System.out.println(verifyCode);
 //    }
 
 }

@@ -15,7 +15,7 @@ import java.util.UUID;
  * @created on 2017/12/4.
  */
 @Component
-public class SendComponent implements RabbitTemplate.ConfirmCallback {
+public class SendComponent  {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SendComponent.class);
@@ -24,7 +24,7 @@ public class SendComponent implements RabbitTemplate.ConfirmCallback {
 
     public SendComponent(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
-        this.rabbitTemplate.setConfirmCallback(this);
+//        this.rabbitTemplate.setConfirmCallback(this);
     }
 
     public void send(WxOrderRequestData wxOrderRequestData) {
@@ -34,12 +34,12 @@ public class SendComponent implements RabbitTemplate.ConfirmCallback {
                 correlationData);
     }
 
-    @Override
-    public void confirm(CorrelationData correlationData, boolean b, String s) {
-        LOGGER.info("回调信息：" + correlationData.getId());
-        if (b) {
-
-        }
-    }
+//    @Override
+//    public void confirm(CorrelationData correlationData, boolean b, String s) {
+//        LOGGER.info("回调信息：" + correlationData.getId());
+//        if (b) {
+//
+//        }
+//    }
 
 }

@@ -76,13 +76,4 @@ public class IDWorker {
     private static long timeGen() {
         return System.currentTimeMillis();
     }
-
-//    public static void main(String[] args) throws Exception {
-//        System.out.println(timeGen());
-//
-//        IDWorker idWorker = IDWorker.getFlowIdWorkerInstance();
-//        // System.out.println(Long.toBinaryString(idWorker.nextId()));
-//        System.out.println(idWorker.nextId());
-//        System.out.println(idWorker.nextId());
-//    }
 }

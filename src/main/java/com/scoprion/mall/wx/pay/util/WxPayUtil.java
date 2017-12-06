@@ -1,6 +1,5 @@
 package com.scoprion.mall.wx.pay.util;
 
-import com.alibaba.fastjson.JSON;
 import com.scoprion.mall.wx.pay.domain.OrderQueryRequestData;
 import com.scoprion.mall.wx.pay.domain.OrderQueryResponseData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
@@ -20,7 +19,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.apache.http.util.EntityUtils;
-import org.apache.poi.ss.formula.functions.T;
 
 import javax.net.ssl.SSLContext;
 import java.io.File;

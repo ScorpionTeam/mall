@@ -6,7 +6,6 @@ import com.scoprion.mall.domain.Order;
 import com.scoprion.mall.domain.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * @author by hmy

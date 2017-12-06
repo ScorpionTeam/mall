@@ -1,7 +1,6 @@
 package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.domain.Activity;
 import com.scoprion.mall.domain.ActivityGoods;
 import com.scoprion.mall.domain.Goods;
