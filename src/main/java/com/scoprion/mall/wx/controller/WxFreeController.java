@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.controller;
 
 import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.WxFreeOrder;
+import com.scoprion.mall.wx.rabbitmq.SendComponent;
 import com.scoprion.mall.wx.service.free.WxFreeService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;

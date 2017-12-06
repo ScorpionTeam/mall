@@ -10,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -39,5 +38,6 @@ public class ReceiveComponent {
     public void receiveFree(WxFreeOrder wxFreeOrder){
         LOGGER.info("接收到信息为:"+wxFreeOrder.getWxCode());
     }
+
 
 }
