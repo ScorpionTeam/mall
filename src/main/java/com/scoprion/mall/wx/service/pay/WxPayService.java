@@ -19,7 +19,7 @@ public interface WxPayService {
      * @param ipAddress
      * @return
      */
-    BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress);
+    BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData);
 
     /**
      * 重新发起支付

@@ -4,6 +4,7 @@ import com.scoprion.annotation.Access;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
+import com.scoprion.mall.wx.rabbitmq.SendComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +37,9 @@ public class WxPayController {
     @Autowired
     private WxPayService wxPayService;
 
+    @Autowired
+    private SendComponent sendComponent;
+
     /**
      * 预付款订单信息
      * 付款签名信息
@@ -49,8 +53,12 @@ public class WxPayController {
     @RequestMapping(value = "/jsapi/order/unifiedOrder", method = RequestMethod.GET)
     public BaseResult preOrder(String order, String wxCode, HttpServletRequest request) {
         WxOrderRequestData wxOrderRequestData = JSON.parseObject(order, WxOrderRequestData.class);
+        wxOrderRequestData.setWxCode(wxCode);
         String ipAddress = IPUtil.getIPAddress(request);
-        return wxPayService.unifiedOrder(wxOrderRequestData, wxCode, ipAddress);
+        wxOrderRequestData.setIpAddress(ipAddress);
+        sendComponent.send(wxOrderRequestData);
+        return null;
+        //return wxPayService.unifiedOrder(wxOrderRequestData, wxCode, ipAddress);
     }
 
 

@@ -72,9 +72,9 @@ public class WxPayServiceImpl implements WxPayService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData, String wxCode, String ipAddress) {
+    public BaseResult unifiedOrder(WxOrderRequestData wxOrderRequestData) {
         //查询用户openid
-        String openid = WxUtil.getOpenId(wxCode);
+        String openid = WxUtil.getOpenId(wxOrderRequestData.getWxCode());
         //积分判断
         BaseResult x = checkPoint(wxOrderRequestData, openid);
         if (x != null) {
@@ -112,7 +112,7 @@ public class WxPayServiceImpl implements WxPayService {
         }
 
         //系统内部生成订单信息
-        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", ipAddress, order.getId());
+        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成预付款订单", wxOrderRequestData.getIpAddress(), order.getId());
         wxOrderLogMapper.add(orderLog);
 
         String nonce_str = WxUtil.createRandom(false, 10);
