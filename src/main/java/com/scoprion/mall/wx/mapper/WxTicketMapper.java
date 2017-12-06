@@ -3,12 +3,10 @@ package com.scoprion.mall.wx.mapper;
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Ticket;
 import com.scoprion.mall.domain.TicketExt;
-import com.scoprion.mall.domain.TicketSnapshot;
 import com.scoprion.mall.domain.TicketUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 
 /**
  * @author by hmy

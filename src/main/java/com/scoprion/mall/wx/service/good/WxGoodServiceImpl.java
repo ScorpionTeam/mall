@@ -3,7 +3,6 @@ package com.scoprion.mall.wx.service.good;
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.domain.*;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

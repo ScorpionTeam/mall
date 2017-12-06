@@ -5,7 +5,6 @@ import com.scoprion.mall.wx.service.good.WxGoodService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;

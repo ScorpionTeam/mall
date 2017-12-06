@@ -2,7 +2,6 @@ package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Estimate;
-import com.scoprion.mall.domain.Suggest;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

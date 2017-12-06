@@ -1,14 +1,7 @@
 package com.scoprion.mall.wx.controller;
 
-
-
 import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.WxFreeOrder;
-import com.scoprion.mall.wx.pay.WxPayConfig;
-import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
-import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
-import com.scoprion.mall.wx.pay.util.WxPayUtil;
-import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.mall.wx.rabbitmq.SendComponent;
 import com.scoprion.mall.wx.rabbitmq.SendFreeComponent;
 import com.scoprion.mall.wx.service.free.WxFreeService;
@@ -22,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 /**
  * 试用接口

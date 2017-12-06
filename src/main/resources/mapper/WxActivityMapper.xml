@@ -51,7 +51,7 @@
         actg.activity_id,
         actg.good_id,
         actg.create_date,
-        actg.stock AS actgtock,
+        actg.stock AS actgStock,
         tg.id AS tgId,
         tg.category_id,
         tg.good_name,

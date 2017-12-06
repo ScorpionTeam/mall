@@ -38,10 +38,4 @@ public class IndexController {
         return BaseResult.success("V2");
     }
 
-
-    @RequestMapping(value = "/test1", method = RequestMethod.GET)
-    public BaseResult test(String wxCode) {
-        return BaseResult.success(wxCode);
-    }
-
 }
