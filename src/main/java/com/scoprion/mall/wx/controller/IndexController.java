@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.annotation.ApiVersion;
 import com.scoprion.result.BaseResult;
 import org.slf4j.Logger;
@@ -31,6 +32,7 @@ public class IndexController {
         return BaseResult.success("V1");
     }
 
+    @Access
     @GetMapping("/test")
     @ApiVersion(2)
     public BaseResult index1() {
