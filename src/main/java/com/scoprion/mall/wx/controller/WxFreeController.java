@@ -1,14 +1,7 @@
 package com.scoprion.mall.wx.controller;
 
-
-
 import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.WxFreeOrder;
-import com.scoprion.mall.wx.pay.WxPayConfig;
-import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
-import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyResponseData;
-import com.scoprion.mall.wx.pay.util.WxPayUtil;
-import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.mall.wx.service.free.WxFreeService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -20,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 
 /**
  * 试用接口
@@ -57,7 +49,7 @@ public class WxFreeController {
      */
     @Access
     @RequestMapping(value = "/apply", method = RequestMethod.POST)
-    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder,HttpServletRequest request) {
+    public BaseResult apply(@RequestBody WxFreeOrder wxFreeOrder, HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
         return wxFreeService.apply(wxFreeOrder, ipAddress);
     }
@@ -71,9 +63,9 @@ public class WxFreeController {
      * @return
      */
     @Access
-    @RequestMapping(value = "/pay",method = RequestMethod.GET)
-    public BaseResult pay(Long orderId,Long activityId,Long goodId){
-        return wxFreeService.pay(orderId,activityId,goodId);
+    @RequestMapping(value = "/pay", method = RequestMethod.GET)
+    public BaseResult pay(Long orderId, Long activityId, Long goodId) {
+        return wxFreeService.pay(orderId, activityId, goodId);
     }
 
 }
