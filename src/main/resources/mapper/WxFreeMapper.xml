@@ -42,7 +42,7 @@
 
     <!--新增参加过的活动记录-->
     <insert id="add" parameterType="com.scoprion.mall.domain.UserActivity">
-        INNER INTO t_user_activity (
+        INSERT INTO t_user_activity (
             activity_id,
             user_id,
             good_id,

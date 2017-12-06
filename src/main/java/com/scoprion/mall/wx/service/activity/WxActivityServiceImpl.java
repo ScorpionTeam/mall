@@ -77,10 +77,10 @@ public class WxActivityServiceImpl implements WxActivityService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public BaseResult joinGroup(WxGroupOrder wxGroupOrder, String ipAddress) {
-        //String openId = WxUtil.getOpenId(wxGroupOrder.getWxCode());
+        String openId = WxUtil.getOpenId(wxGroupOrder.getWxCode());
 
         //查询是否参加过该活动
-        String activityMessage = checkActivity(wxGroupOrder.getGoodId(), wxGroupOrder.getActivityId(), wxGroupOrder.getWxCode());
+        String activityMessage = checkActivity(wxGroupOrder.getGoodId(), wxGroupOrder.getActivityId(), openId);
         if (!StringUtils.isEmpty(activityMessage)) {
             return BaseResult.error("ERROR", activityMessage);
         }
@@ -98,7 +98,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         wxGoodSnapShotMapper.add(goodSnapshot);
 
         //组装订单信息
-        Order order = orderConstructor(delivery, goodSnapshot.getId(), wxGroupOrder.getWxCode(), goods, wxGroupOrder);
+        Order order = orderConstructor(goods,goodSnapshot.getId(),delivery,wxGroupOrder,openId);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("ERROR", "下单失败");
@@ -111,7 +111,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         //统一下单参数
         String nonce_str = WxUtil.createRandom(false, 10);
         String unifiedOrderXML = WxPayUtil.unifiedOrder(goods.getGoodName(),
-                wxGroupOrder.getWxCode(),
+                openId,
                 order.getOrderNo(),
                 order.getPaymentFee(),
                 nonce_str);
@@ -130,7 +130,7 @@ public class WxActivityServiceImpl implements WxActivityService {
 
         //写入参加活动记录
         UserActivity userActivity = new UserActivity();
-        userActivity = userActivityConstructor(wxGroupOrder, wxGroupOrder.getWxCode());
+        userActivity = userActivityConstructor(wxGroupOrder, openId);
         int userActivityResult = wxFreeMapper.add(userActivity);
         if (userActivityResult <= 0) {
             return BaseResult.error("ERROR", "添加活动记录失败");
@@ -300,7 +300,7 @@ public class WxActivityServiceImpl implements WxActivityService {
      * @return
      */
 
-    private Order orderConstructor(Delivery delivery, Long snapshotId, String userId, Goods goods, WxGroupOrder wxGroupOrder) {
+    private Order orderConstructor(Goods goods, Long snapshotId, Delivery delivery, WxGroupOrder wxGroupOrder, String userId) {
         Order order = new Order();
         BeanUtils.copyProperties(delivery, order);
         String orderNo = OrderNoUtil.getOrderNo();
@@ -319,6 +319,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         order.setFreightFee(wxGroupOrder.getFreightFee());
         order.setPaymentFee(wxGroupOrder.getPaymentFee());
         order.setDeliveryId(wxGroupOrder.getDeliveryId());
+        order.setOrderFee(wxGroupOrder.getOrderFee());
         return order;
     }
 
