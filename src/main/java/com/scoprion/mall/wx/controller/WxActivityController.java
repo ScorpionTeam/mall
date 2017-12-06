@@ -47,7 +47,7 @@ public class WxActivityController {
      * @param request
      * @return
      */
-    @Access
+    @Access(need = false)
     @RequestMapping(value = "/joinGroup", method = RequestMethod.POST)
     public BaseResult joinGroup(@RequestBody WxGroupOrder wxGroupOrder, HttpServletRequest request) {
         String ipAddress = IPUtil.getIPAddress(request);
