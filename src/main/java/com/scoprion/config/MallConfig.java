@@ -37,23 +37,23 @@
 //@Configuration
 //public class MallConfig extends WebMvcConfigurerAdapter {
 //
-//    private static final Logger LOGGER = LoggerFactory.getLogger(MallConfig.class);
-//
-//    @Bean
-//    public MallInterceptor getMallInterceptor() {
-//        return new MallInterceptor();
-//    }
-//
-//    /**
-//     * 注入拦截器
-//     *
-//     * @param registry
-//     */
-//    @Override
-//    public void addInterceptors(InterceptorRegistry registry) {
-//        registry.addInterceptor(getMallInterceptor());
-//        super.addInterceptors(registry);
-//    }
+////    private static final Logger LOGGER = LoggerFactory.getLogger(MallConfig.class);
+////
+////    @Bean
+////    public MallInterceptor getMallInterceptor() {
+////        return new MallInterceptor();
+////    }
+////
+////    /**
+////     * 注入拦截器
+////     *
+////     * @param registry
+////     */
+////    @Override
+////    public void addInterceptors(InterceptorRegistry registry) {
+////        registry.addInterceptor(getMallInterceptor());
+////        super.addInterceptors(registry);
+////    }
 //
 //
 //    /**
@@ -63,21 +63,21 @@
 //     *
 //     * @param converters
 //     */
-//    @Override
-//    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+////    @Override
+////    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
 ////        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
 ////        FastJsonConfig fastJsonConfig = new FastJsonConfig();
 ////        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
 ////        fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
 ////        converters.add(fastJsonHttpMessageConverter);
 ////        super.configureMessageConverters(converters);
-//    }
+////    }
 //
-//    @Override
-//    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
-//        super.addResourceHandlers(registry);
-//    }
+////    @Override
+////    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+////        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+////        super.addResourceHandlers(registry);
+////    }
 //
 ////    @Override
 ////    public void addCorsMappings(CorsRegistry registry) {
@@ -88,66 +88,66 @@
 ////                .allowedMethods("*");
 ////    }
 //
-//    @Bean
-//    public ConnectionFactory connectionFactory() {
-//        CachingConnectionFactory factory = new CachingConnectionFactory();
-//        factory.setAddresses("127.0.0.1:5672");
-//        factory.setUsername("guest");
-//        factory.setPassword("guest");
-//        //回调必须设置  否则接收不到
-//        factory.setPublisherConfirms(true);
-//        factory.setPublisherReturns(true);
-//        //设置连接数  此种方式已解决高并发数据丢失 重连丢失问题
-//        factory.setChannelCacheSize(100);
-//        return factory;
-//    }
-//
-//    @Bean
-//    public DirectExchange defaultExchange() {
-//
-//        /**
-//         * DirectExchange: 按照routingkey分发到指定队列
-//         * TopicExchange: 多关键字匹配
-//         * FanoutExchange: 将消息分发到所有的绑定队列，无routingkey的概念
-//         * HeadersExchange: 通过添加属性 key-value匹配
-//         */
-//        return new DirectExchange(Constant.EXCHANGE);
-//    }
-//
-//
-//    @Bean
-//    public Queue queue() {
-//        return new Queue(Constant.QUEUE);
-//    }
-//
-//    @Bean
-//    public Binding binding() {
-//        /** 将队列绑定到交换机 */
-//        return BindingBuilder.bind(queue()).to(defaultExchange()).with(Constant.ROUTING_KEY);
-//    }
-//
-//    @Bean
-//    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-//    public RabbitTemplate rabbitTemplate() {
-//        RabbitTemplate template = new RabbitTemplate(connectionFactory());
-//        template.setMessageConverter(new Jackson2JsonMessageConverter());
-//        template.setConfirmCallback(new ConfirmCallBackListener());
-//        template.setReturnCallback(new ReturnCallBackListener());
-//        return template;
-//    }
-//
-//    /**
-//     * 解决 队列消费 Object失败
-//     *
-//     * @return
-//     */
-//    @Bean
-//    public SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory() {
-//        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
-//        factory.setConnectionFactory(connectionFactory());
-//        factory.setMessageConverter(new Jackson2JsonMessageConverter());
-//        return factory;
-//    }
+////    @Bean
+////    public ConnectionFactory connectionFactory() {
+////        CachingConnectionFactory factory = new CachingConnectionFactory();
+////        factory.setAddresses("127.0.0.1:5672");
+////        factory.setUsername("guest");
+////        factory.setPassword("guest");
+////        //回调必须设置  否则接收不到
+////        factory.setPublisherConfirms(true);
+////        factory.setPublisherReturns(true);
+////        //设置连接数  此种方式已解决高并发数据丢失 重连丢失问题
+////        factory.setChannelCacheSize(100);
+////        return factory;
+////    }
+////
+////    @Bean
+////    public DirectExchange defaultExchange() {
+////
+////        /**
+////         * DirectExchange: 按照routingkey分发到指定队列
+////         * TopicExchange: 多关键字匹配
+////         * FanoutExchange: 将消息分发到所有的绑定队列，无routingkey的概念
+////         * HeadersExchange: 通过添加属性 key-value匹配
+////         */
+////        return new DirectExchange(Constant.EXCHANGE);
+////    }
+////
+////
+////    @Bean
+////    public Queue queue() {
+////        return new Queue(Constant.QUEUE);
+////    }
+////
+////    @Bean
+////    public Binding binding() {
+////        /** 将队列绑定到交换机 */
+////        return BindingBuilder.bind(queue()).to(defaultExchange()).with(Constant.ROUTING_KEY);
+////    }
+////
+////    @Bean
+////    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+////    public RabbitTemplate rabbitTemplate() {
+////        RabbitTemplate template = new RabbitTemplate(connectionFactory());
+////        template.setMessageConverter(new Jackson2JsonMessageConverter());
+////        template.setConfirmCallback(new ConfirmCallBackListener());
+////        template.setReturnCallback(new ReturnCallBackListener());
+////        return template;
+////    }
+////
+////    /**
+////     * 解决 队列消费 Object失败
+////     *
+////     * @return
+////     */
+////    @Bean
+////    public SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory() {
+////        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+////        factory.setConnectionFactory(connectionFactory());
+////        factory.setMessageConverter(new Jackson2JsonMessageConverter());
+////        return factory;
+////    }
 //
 //
 //}
