@@ -5,6 +5,8 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.scoprion.constant.Constant;
 import com.scoprion.intercepter.MallInterceptor;
+import com.scoprion.mall.wx.rabbitmq.ConfirmCallBackListener;
+import com.scoprion.mall.wx.rabbitmq.ReturnCallBackListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
@@ -127,9 +129,16 @@ public class MallConfig extends WebMvcConfigurerAdapter {
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate template = new RabbitTemplate(connectionFactory());
         template.setMessageConverter(new Jackson2JsonMessageConverter());
+        template.setConfirmCallback(new ConfirmCallBackListener());
+        template.setReturnCallback(new ReturnCallBackListener());
         return template;
     }
 
+    /**
+     * 解决 队列消费 Object失败
+     *
+     * @return
+     */
     @Bean
     public SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory() {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
