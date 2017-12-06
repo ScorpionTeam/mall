@@ -45,8 +45,8 @@
         ta.describes,
         ta.create_date
         FROM t_activity ta WHERE 1=1
-        <if test="type!=null">AND ta.activity_type=#{type}</if>
-        <if test="status!=null">AND ta.status=#{status}</if>
+        <if test="type!=null and type!=''">AND ta.activity_type=#{type}</if>
+        <if test="status!=null and  status!=''">AND ta.status=#{status}</if>
         <if test="searchKey!=null">AND ta.name LIKE #{searchKey}</if>
     </select>
 
