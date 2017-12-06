@@ -44,7 +44,6 @@
         SELECT
         act.name,
         act.activity_type,
-        act.discount,
         act.status AS actStatus,
         act.num,
         act.discount AS actDiscount,
