@@ -65,12 +65,12 @@ public class MallConfig extends WebMvcConfigurerAdapter {
      */
     @Override
     public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
-        FastJsonConfig fastJsonConfig = new FastJsonConfig();
-        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
-        fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
-        converters.add(fastJsonHttpMessageConverter);
-        super.configureMessageConverters(converters);
+//        FastJsonHttpMessageConverter fastJsonHttpMessageConverter = new FastJsonHttpMessageConverter();
+//        FastJsonConfig fastJsonConfig = new FastJsonConfig();
+//        fastJsonConfig.setSerializerFeatures(SerializerFeature.PrettyFormat);
+//        fastJsonHttpMessageConverter.setFastJsonConfig(fastJsonConfig);
+//        converters.add(fastJsonHttpMessageConverter);
+//        super.configureMessageConverters(converters);
     }
 
     @Override
@@ -97,6 +97,8 @@ public class MallConfig extends WebMvcConfigurerAdapter {
         //回调必须设置  否则接收不到
         factory.setPublisherConfirms(true);
         factory.setPublisherReturns(true);
+        //设置连接数  此种方式已解决高并发数据丢失 重连丢失问题
+        factory.setChannelCacheSize(100);
         return factory;
     }
 

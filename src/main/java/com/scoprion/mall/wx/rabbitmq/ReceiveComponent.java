@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  * @created on 2017/12/4.
  */
 @Component
-@RabbitListener(queues = Constant.QUEUE,containerFactory = "simpleRabbitListenerContainerFactory")
+@RabbitListener(queues = Constant.QUEUE, containerFactory = "simpleRabbitListenerContainerFactory")
 public class ReceiveComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReceiveComponent.class);
@@ -28,7 +28,5 @@ public class ReceiveComponent {
         LOGGER.info("接收到信息为：" + wxOrderRequestData.getWxCode());
         //wxPayService.unifiedOrder(wxOrderRequestData);
     }
-
-
 
 }
