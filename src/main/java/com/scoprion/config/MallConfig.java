@@ -5,6 +5,8 @@ import com.alibaba.fastjson.support.config.FastJsonConfig;
 import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import com.scoprion.constant.Constant;
 import com.scoprion.intercepter.MallInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -30,6 +32,8 @@ import java.util.List;
  */
 @Configuration
 public class MallConfig extends WebMvcConfigurerAdapter {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MallConfig.class);
 
     @Bean
     public MallInterceptor getMallInterceptor() {
@@ -115,6 +119,7 @@ public class MallConfig extends WebMvcConfigurerAdapter {
         /** 将队列绑定到交换机 */
         return BindingBuilder.bind(queue()).to(defaultExchange()).with(Constant.ROUTING_KEY);
     }
+
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public RabbitTemplate rabbitTemplate() {

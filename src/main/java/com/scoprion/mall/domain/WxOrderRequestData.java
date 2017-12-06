@@ -88,6 +88,12 @@ public class WxOrderRequestData {
     @JSONField(name = "freight_fee")
     private int freightFee;
 
+    @JSONField(name = "wx_code")
+    private String wxCode;
+
+    @JSONField(name = "ip_address")
+    private String ipAddress;
+
 
     public String getOrderType() {
         return orderType;
@@ -201,6 +207,22 @@ public class WxOrderRequestData {
         this.useTicket = useTicket;
     }
 
+    public String getWxCode() {
+        return wxCode;
+    }
+
+    public void setWxCode(String wxCode) {
+        this.wxCode = wxCode;
+    }
+
+    public String getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
     @Override
     public String toString() {
         return "WxOrderRequestData{" +
@@ -218,6 +240,8 @@ public class WxOrderRequestData {
                 ", orderFee=" + orderFee +
                 ", reduceFee=" + reduceFee +
                 ", freightFee=" + freightFee +
+                ", wxCode='" + wxCode + '\'' +
+                ", ipAddress='" + ipAddress + '\'' +
                 '}';
     }
 }

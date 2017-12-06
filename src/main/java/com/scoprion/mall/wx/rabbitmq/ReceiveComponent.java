@@ -1,7 +1,13 @@
 package com.scoprion.mall.wx.rabbitmq;
+
 import com.scoprion.constant.Constant;
+import com.scoprion.mall.domain.WxOrderRequestData;
+import com.scoprion.mall.wx.service.pay.WxPayService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,10 +18,16 @@ import org.springframework.stereotype.Component;
 @RabbitListener(queues = Constant.QUEUE)
 public class ReceiveComponent {
 
-    @RabbitHandler
-    public void process(String message) {
-        System.out.println("接收到的消息：" + message);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReceiveComponent.class);
 
+    @Autowired
+    private WxPayService wxPayService;
+
+    @RabbitHandler
+    public void process(WxOrderRequestData wxOrderRequestData) {
+        LOGGER.info("接收到信息为：" + wxOrderRequestData);
+        wxPayService.unifiedOrder(wxOrderRequestData);
     }
+
 
 }
