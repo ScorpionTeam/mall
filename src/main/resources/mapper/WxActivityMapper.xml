@@ -44,6 +44,7 @@
         SELECT
         act.name,
         act.activity_type,
+        act.discount,
         act.status AS actStatus,
         act.num,
         act.discount AS actDiscount,
@@ -51,7 +52,7 @@
         actg.activity_id,
         actg.good_id,
         actg.create_date,
-        actg.stock AS actgtock,
+        actg.stock AS actgStock,
         tg.id AS tgId,
         tg.category_id,
         tg.good_name,
