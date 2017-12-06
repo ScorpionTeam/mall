@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Component;
  * @created on 2017/12/4.
  */
 @Component
-@RabbitListener(queues = Constant.QUEUE)
+@RabbitListener(queues = Constant.QUEUE,containerFactory = "simpleRabbitListenerContainerFactory")
 public class ReceiveComponent {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReceiveComponent.class);
@@ -25,8 +26,8 @@ public class ReceiveComponent {
 
     @RabbitHandler
     public void process(WxOrderRequestData wxOrderRequestData) {
-        LOGGER.info("接收到信息为：" + wxOrderRequestData);
-        wxPayService.unifiedOrder(wxOrderRequestData);
+        LOGGER.info("接收到信息为：" + wxOrderRequestData.getWxCode());
+        //wxPayService.unifiedOrder(wxOrderRequestData);
     }
 
 
