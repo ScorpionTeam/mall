@@ -1,4 +1,5 @@
 package com.scoprion.mall.wx.rabbitmq;
+import com.scoprion.constant.Constant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -27,7 +28,7 @@ public class SendComponent implements RabbitTemplate.ConfirmCallback {
     public void send(String message) {
         CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
         LOGGER.info("发送消息：" + correlationData.getId());
-        this.rabbitTemplate.convertAndSend("mall.exchange.message","mall.routingkey.message",message,correlationData);
+        this.rabbitTemplate.convertAndSend(Constant.EXCHANGE,Constant.ROUTING_KEY,message,correlationData);
     }
 
     @Override
