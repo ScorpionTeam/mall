@@ -1,4 +1,4 @@
-package com.scoprion.mall.seller;
+package com.scoprion.mall.seller.controller;
 
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.result.BaseResult;
