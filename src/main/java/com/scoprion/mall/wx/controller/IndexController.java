@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @created on 2017/11/5.
  */
 @RestController
-@RequestMapping("/{version}/")
+@RequestMapping("/index")
 public class IndexController {
 
     @Value("${spring.datasource.url}")
@@ -26,7 +26,6 @@ public class IndexController {
 
 
     @GetMapping("/test")
-    @ApiVersion(1)
     public BaseResult index() {
         LOGGER.info("版本号：V1");
         return BaseResult.success("V1");

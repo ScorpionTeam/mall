@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scoprion.mall.seller.mapper.SellerMapper">
+    <!--新增商铺-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.Seller">
+        INSERT INTO t_seller(
+        audit,
+        status,
+        mobile,
+        user_id,
+        seller_no,
+        reputation,
+        seller_name,
+        seller_address,
+        seller_description,
+        create_date)
+        VALUES (
+        'AUDITING',
+        'UN_NORMAL',
+        #{mobile},
+        #{userId},
+        #{sellerNo},
+        '50',
+        #{sellerName},
+        #{sellerAddress},
+        #{sellerDescription},
+        NOW()
+        )
+    </insert>
+
+    <!--删除店铺-->
+    <delete id="delete">
+        DELETE FROM t_seller WHERE id=#{id}
+    </delete>
+
+    <!--修改店铺信息-->
+    <update id="modify" parameterType="com.scoprion.mall.domain.Seller">
+        UPDATE t_seller SET
+        <if test="mobile!=null">mobile=#{mobile}</if>
+        <if test="sellerName!=null">seller_name=#{sellerName}</if>
+        <if test="sellerAddress!=null">seller_address=#{sellerAddress}</if>
+        <if test="sellerDescription!=null">seller_description=#{sellerDescription}</if>
+        update_date=now()
+        WHERE id={id}
+    </update>
+
+    <!--校验名称是否存在-->
+    <select id="validByName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_seller WHERE seller_name=#{sellerName}
+    </select>
+
+    <!--校验商户是否已经存在商铺-->
+    <select id="validByUserId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_seller WHERE user_id=#{userId}
+    </select>
+</mapper>
