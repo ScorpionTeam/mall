@@ -19,6 +19,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author by hmy
@@ -90,7 +92,10 @@ public class WxOrderServiceImpl implements WxOrderService {
      * @return
      */
     @Override
-    public BaseResult refund(Long orderId) {
+    public BaseResult refund( Long orderId) {
+        if (StringUtils.isEmpty(orderId.toString())){
+            return BaseResult.parameterError();
+        }
         wxOrderMapper.updateByOrderID(orderId, CommonEnum.REFUND.getCode());
         return BaseResult.success("申请成功");
     }
