@@ -32,7 +32,8 @@ public class WxPayConfig {
      * 微信商户平台支付结果通知URL
      * 线上环境
      */
-    public final static String NOTIFY_URL = "https://vz2dc5.natappfree.cc/mall/wx/jsapi/callback/pay";
+    public final static String NOTIFY_URL = "https://zjhkhl.com/mall/wx/jsapi/callback/pay";
+
     /**
      * 统一下单URL
      */
@@ -62,6 +63,6 @@ public class WxPayConfig {
     /**
      * 访问趋势
      */
-    public final static String VISIT_REND="https://api.weixin.qq.com/datacube/getweanalysisappiddailyvisittrend?access_token="+APP_SECRET;
+    public final static String VISIT_REND = "https://api.weixin.qq.com/datacube/getweanalysisappiddailyvisittrend?access_token=" + APP_SECRET;
 
 }
