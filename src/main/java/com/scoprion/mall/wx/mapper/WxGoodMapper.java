@@ -6,6 +6,7 @@ import com.scoprion.mall.domain.good.GoodSnapshot;
 import com.scoprion.mall.domain.good.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * @author by hmy
@@ -72,4 +73,11 @@ public interface WxGoodMapper {
      * @return
      */
     GoodSnapshot findByGoodSnapshotDetail(@Param("orderId") Long orderId);
+
+    /**
+     * 活动(拼团)商品库存扣减
+     * @param id
+     * @param count
+     */
+    void updateActivityGoodStockById(@Param("id") Long id, @Param("count") int count);
 }

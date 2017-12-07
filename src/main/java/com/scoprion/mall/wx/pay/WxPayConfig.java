@@ -28,6 +28,7 @@ public class WxPayConfig {
      * 退款
      */
     public final static String WECHAT_REFUND = "https://api.mch.weixin.qq.com/secapi/pay/refund";
+
     /**
      * 微信商户平台支付结果通知URL
      * 线上环境
@@ -35,9 +36,15 @@ public class WxPayConfig {
     public final static String NOTIFY_URL = "https://zjhkhl.com/mall/wx/jsapi/callback/pay";
 
     /**
+     * 微信商户平台拼团支付结果通知URL
+     */
+    public final static String NOTIFY_URL_GROUP = "http://zjhkhl.com/mall/wx/activity/callBack";
+
+    /**
      * 统一下单URL
      */
     public final static String WECHAT_UNIFIED_ORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+
     /**
      * 查询订单URL
      */

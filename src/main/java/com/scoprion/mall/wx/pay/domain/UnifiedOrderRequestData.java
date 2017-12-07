@@ -95,6 +95,11 @@ public class UnifiedOrderRequestData {
     private String notify_url;
 
     /**
+     * 通知地址(拼团)
+     */
+    private String notify_url_group;
+
+    /**
      * 交易类型
      */
     private String trade_type;
@@ -153,6 +158,7 @@ public class UnifiedOrderRequestData {
         this.time_expire = builder.time_expire;
         this.goods_tag = builder.goods_tag;
         this.notify_url = builder.notify_url;
+        this.notify_url_group = builder.notify_url_group;
         this.trade_type = builder.trade_type;
         this.product_id = builder.product_id;
         this.limit_pay = builder.limit_pay;
@@ -176,6 +182,7 @@ public class UnifiedOrderRequestData {
         private String time_expire;
         private String goods_tag;
         private String notify_url;
+        private String notify_url_group;
         private String trade_type;
         private String product_id;
         private String limit_pay;
@@ -194,12 +201,12 @@ public class UnifiedOrderRequestData {
         public UnifiedOrderReqDataBuilder(String body, String out_trade_no,
                                           Integer total_fee, String spbill_create_ip, String trade_type) {
 
-            this(WxPayConfig.APP_ID, WxPayConfig.MCHID, WxPayConfig.NOTIFY_URL,
+            this(WxPayConfig.APP_ID, WxPayConfig.MCHID, WxPayConfig.NOTIFY_URL, WxPayConfig.NOTIFY_URL_GROUP,
                     body, out_trade_no, total_fee, spbill_create_ip, trade_type);
         }
 
         public UnifiedOrderReqDataBuilder(String appid, String mch_id,
-                                          String notify_url, String body, String out_trade_no,
+                                          String notify_url, String notify_url_group, String body, String out_trade_no,
                                           Integer total_fee, String spbill_create_ip, String trade_type) {
             // 校验外部传入数据
             if (appid == null) {
@@ -231,6 +238,7 @@ public class UnifiedOrderRequestData {
             this.total_fee = total_fee;
             this.spbill_create_ip = spbill_create_ip;
             this.notify_url = notify_url;
+            this.notify_url_group = notify_url_group;
             this.trade_type = trade_type;
             this.nonce_str = WxUtil.createRandom(true, 10);
         }
@@ -430,6 +438,14 @@ public class UnifiedOrderRequestData {
         this.notify_url = notify_url;
     }
 
+    public String getNotify_url_group() {
+        return notify_url_group;
+    }
+
+    public void setNotify_url_group(String notify_url_group) {
+        this.notify_url_group = notify_url_group;
+    }
+
     public String getTrade_type() {
         return trade_type;
     }
@@ -481,6 +497,7 @@ public class UnifiedOrderRequestData {
                 ", time_expire='" + time_expire + '\'' +
                 ", goods_tag='" + goods_tag + '\'' +
                 ", notify_url='" + notify_url + '\'' +
+                ", notify_url_group='" + notify_url_group + '\'' +
                 ", trade_type='" + trade_type + '\'' +
                 ", product_id='" + product_id + '\'' +
                 ", limit_pay='" + limit_pay + '\'' +
