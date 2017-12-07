@@ -1,6 +1,8 @@
-package com.scoprion.mall.domain;
+package com.scoprion.mall.domain.order;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.scoprion.mall.domain.Delivery;
+import com.scoprion.mall.domain.SendGood;
 
 /**
  * @author by Administrator

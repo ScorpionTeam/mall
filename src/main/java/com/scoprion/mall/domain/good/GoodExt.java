@@ -1,6 +1,7 @@
-package com.scoprion.mall.domain;
+package com.scoprion.mall.domain.good;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.scoprion.mall.domain.MallImage;
 
 import java.util.Date;
 import java.util.List;

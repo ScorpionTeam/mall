@@ -2,7 +2,7 @@ package com.scoprion.mall.backstage.controller;
 
 import com.scoprion.annotation.Access;
 import com.scoprion.mall.backstage.service.order.OrderService;
-import com.scoprion.mall.domain.Order;
+import com.scoprion.mall.domain.order.Order;
 import com.scoprion.mall.domain.request.OrderRequestParams;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;

@@ -1,7 +1,7 @@
 package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.OrderLog;
+import com.scoprion.mall.domain.order.OrderLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

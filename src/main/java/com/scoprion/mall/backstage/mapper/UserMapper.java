@@ -1,7 +1,7 @@
 package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.Member;
+import com.scoprion.mall.domain.MallUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,7 +20,7 @@ public interface UserMapper {
      * @param password
      * @return
      */
-    Member login(@Param("mobile") String mobile, @Param("password") String password);
+    MallUser login(@Param("mobile") String mobile, @Param("password") String password);
 
     /**
      * 根据email登录
@@ -29,7 +29,7 @@ public interface UserMapper {
      * @param password
      * @return
      */
-    Member loginByEmail(String email, String password);
+    MallUser loginByEmail(String email, String password);
 
 
     /**
@@ -46,7 +46,7 @@ public interface UserMapper {
      * @param id
      * @return
      */
-    Member findById(@Param("id") Long id);
+    MallUser findById(@Param("id") Long id);
 
     /**
      * 根据昵称查询是否存在
@@ -71,7 +71,7 @@ public interface UserMapper {
      * @param member
      * @return
      */
-    int register(Member member);
+    int register(MallUser member);
 
     /**
      * 查询用户列表
@@ -81,7 +81,7 @@ public interface UserMapper {
      * @param searchKey 匹配条件
      * @return Page
      */
-    Page<Member> findByPage(@Param("startDate") String startDate,
+    Page<MallUser> findByPage(@Param("startDate") String startDate,
                             @Param("endDate") String endDate,
                             @Param("searchKey") String searchKey);
 
@@ -91,5 +91,5 @@ public interface UserMapper {
      * @param member
      * @return
      */
-    int modifyUserInfo(Member member);
+    int modifyUserInfo(MallUser member);
 }

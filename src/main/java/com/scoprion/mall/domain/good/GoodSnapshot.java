@@ -1,4 +1,4 @@
-package com.scoprion.mall.domain;
+package com.scoprion.mall.domain.good;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import java.util.Date;

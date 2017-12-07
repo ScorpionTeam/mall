@@ -1,13 +1,9 @@
 package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.GoodExt;
-import com.scoprion.mall.domain.GoodLog;
-import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.good.GoodLog;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * Created on 2017/9/29.

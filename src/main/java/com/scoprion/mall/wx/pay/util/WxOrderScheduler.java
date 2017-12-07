@@ -3,7 +3,7 @@ package com.scoprion.mall.wx.pay.util;
 import com.github.pagehelper.Page;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.backstage.mapper.OrderMapper;
-import com.scoprion.mall.domain.Order;
+import com.scoprion.mall.domain.order.Order;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.OrderQueryResponseData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;

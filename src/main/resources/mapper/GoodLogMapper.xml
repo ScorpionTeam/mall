@@ -5,7 +5,7 @@
 <mapper namespace="com.scoprion.mall.backstage.mapper.GoodLogMapper">
 
     <!-- 添加日志信息 -->
-    <insert id="add" parameterType="com.scoprion.mall.domain.GoodLog">
+    <insert id="add" parameterType="com.scoprion.mall.domain.good.GoodLog">
         INSERT INTO t_good_log(
           good_id,
           good_name,
@@ -19,7 +19,7 @@
         )
     </insert>
     <!--模糊查询-->
-    <select id="findByCondition" resultType="com.scoprion.mall.domain.GoodLog">
+    <select id="findByCondition" resultType="com.scoprion.mall.domain.good.GoodLog">
         SELECT
         id,
         good_id,

@@ -1,9 +1,8 @@
 package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.GoodExt;
-import com.scoprion.mall.domain.Goods;
-import com.scoprion.mall.domain.MallImage;
+import com.scoprion.mall.domain.good.GoodExt;
+import com.scoprion.mall.domain.good.Goods;
 import com.scoprion.mall.domain.request.GoodRequestParams;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

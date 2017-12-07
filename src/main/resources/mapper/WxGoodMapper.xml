@@ -5,7 +5,7 @@
 <mapper namespace="com.scoprion.mall.wx.mapper.WxGoodMapper">
 
     <!--首页商品列表-->
-    <select id="findHomePage" resultType="com.scoprion.mall.domain.Goods">
+    <select id="findHomePage" resultType="com.scoprion.mall.domain.good.Goods">
         SELECT
         good.id,
         good.good_name,
@@ -38,7 +38,7 @@
     </select>
 
     <!--根据商品id查询详情-->
-    <select id="findById" resultType="com.scoprion.mall.domain.GoodExt">
+    <select id="findById" resultType="com.scoprion.mall.domain.good.GoodExt">
         SELECT
         good.id,
         good.category_id,
@@ -77,7 +77,7 @@
     </select>
 
     <!--商品搜素-->
-    <select id="findBySearchKey" resultType="com.scoprion.mall.domain.Goods">
+    <select id="findBySearchKey" resultType="com.scoprion.mall.domain.good.Goods">
         SELECT
         good.id,
         good.good_name,
@@ -113,7 +113,7 @@
     </update>
 
     <!--获取商品快照详情-->
-    <select id="findByGoodSnapshotDetail" resultType="com.scoprion.mall.domain.GoodSnapshot">
+    <select id="findByGoodSnapshotDetail" resultType="com.scoprion.mall.domain.good.GoodSnapshot">
         SELECT
         tgs.good_name,
         tgs.price,

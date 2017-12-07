@@ -1,7 +1,7 @@
 package com.scoprion.mall.backstage.controller;
 
 import com.scoprion.annotation.Access;
-import com.scoprion.mall.domain.Member;
+import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.backstage.service.user.UserService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -44,7 +44,7 @@ public class UserController {
     /**
      * 管理后台注册
      *
-     * @param member  Member
+     * @param member  MallUser
      * @param request HttpServletRequest
      * @return
      * @throws Exception
@@ -52,7 +52,7 @@ public class UserController {
     @Access
     @ApiOperation(value = "管理后台注册")
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public BaseResult register(@RequestBody Member member, HttpServletRequest request) throws Exception {
+    public BaseResult register(@RequestBody MallUser member, HttpServletRequest request) throws Exception {
         String ip = IPUtil.getIPAddress(request);
         return userService.register(member, ip);
     }
@@ -66,7 +66,7 @@ public class UserController {
     @Access
     @ApiOperation(value = "修改个人信息")
     @RequestMapping(value = "/modify", method = RequestMethod.POST)
-    public BaseResult modifyUserInfo(@RequestBody Member member) {
+    public BaseResult modifyUserInfo(@RequestBody MallUser member) {
         return userService.modifyUserInfo(member);
     }
 

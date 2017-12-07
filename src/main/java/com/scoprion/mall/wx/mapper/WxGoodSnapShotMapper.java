@@ -1,6 +1,6 @@
 package com.scoprion.mall.wx.mapper;
 
-import com.scoprion.mall.domain.GoodSnapshot;
+import com.scoprion.mall.domain.good.GoodSnapshot;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

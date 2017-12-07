@@ -1,4 +1,4 @@
-package com.scoprion.mall.domain;
+package com.scoprion.mall.domain.order;
 
 import com.alibaba.fastjson.annotation.JSONField;
 

@@ -1,15 +1,13 @@
 package com.scoprion.mall.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.beans.Transient;
 import java.util.Date;
 
 /**
  * Created on 2017/9/26.
  */
-public class Member {
+public class MallUser {
 
     /**
      * 主键
@@ -38,7 +36,7 @@ public class Member {
     private String nickName;
 
     /**
-     * 性别  1男  0女
+     * 性别   MALE("MALE", "男"),FEMALE("FEMALE", "女"),
      */
     private String sex;
 
@@ -69,7 +67,7 @@ public class Member {
     private String email;
 
     /**
-     * 实名认证  0 未认证  1 已认证未通过  2认证通过
+     * 实名认证  实名认证 NOT_AUTH", "未实名认证 IS_AUTH", "认证通过 NOT_PASS_AUTH", "认证未通过
      */
     private String certification;
 
@@ -124,18 +122,46 @@ public class Member {
     private String token;
 
     /**
-     * 类型 0
+     * 类型 用户类型 USER_ADMIN 管理员，USER_ORDINARY 普通用户,SELLER 商户
      */
     @JSONField(name = "user_type")
     private String userType;
 
-    public Member() {
+    /**
+     * 证件照正面
+     */
+    @JSONField(name = "id_photo_front_url")
+    private String idPhotoFrontUrl;
+
+    /**
+     * 证件照贩反面
+     */
+    @JSONField(name = "id_photo_bg_url")
+    private String idPhotoBgUrl;
+
+    public MallUser() {
     }
 
-    public Member(String nickName, String mobile, String password) {
+    public MallUser(String nickName, String mobile, String password) {
         this.nickName = nickName;
         this.mobile = mobile;
         this.password = password;
+    }
+
+    public String getIdPhotoFrontUrl() {
+        return idPhotoFrontUrl;
+    }
+
+    public void setIdPhotoFrontUrl(String idPhotoFrontUrl) {
+        this.idPhotoFrontUrl = idPhotoFrontUrl;
+    }
+
+    public String getIdPhotoBgUrl() {
+        return idPhotoBgUrl;
+    }
+
+    public void setIdPhotoBgUrl(String idPhotoBgUrl) {
+        this.idPhotoBgUrl = idPhotoBgUrl;
     }
 
     public Long getRoleId() {

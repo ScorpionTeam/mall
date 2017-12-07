@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.GoodsMapper">
 
-    <insert id="add" parameterType="com.scoprion.mall.domain.Goods">
+    <insert id="add" parameterType="com.scoprion.mall.domain.good.Goods">
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -55,7 +55,7 @@
     </insert>
 
     <!--优选商品分页查询-->
-    <select id="preferenceGivenByPage" resultType="com.scoprion.mall.domain.Goods">
+    <select id="preferenceGivenByPage" resultType="com.scoprion.mall.domain.good.Goods">
         SELECT
          id,
          good_name,
@@ -83,7 +83,7 @@
     </select>
 
     <!--根据商品id查询详情-->
-    <select id="findById" resultType="com.scoprion.mall.domain.GoodExt">
+    <select id="findById" resultType="com.scoprion.mall.domain.good.GoodExt">
         SELECT
          good.id,
          good.good_name,
@@ -122,7 +122,7 @@
     </update>
 
     <!--更新商品信息-->
-    <update id="updateGoods" parameterType="com.scoprion.mall.domain.Goods">
+    <update id="updateGoods" parameterType="com.scoprion.mall.domain.good.Goods">
         UPDATE t_good SET
         <if test="goodName!=null">good_name=#{goodName},</if>
         <if test="description!=null">description=#{description},</if>
@@ -177,7 +177,7 @@
 
     <!--列表查询-->
     <select id="findByCondition" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
-            resultType="com.scoprion.mall.domain.GoodExt">
+            resultType="com.scoprion.mall.domain.good.GoodExt">
         SELECT
         good.id,
         good.seo,
@@ -227,7 +227,7 @@
 
     <!--查询未绑定活动的商品-->
     <select id="findForActivity" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
-            resultType="com.scoprion.mall.domain.GoodExt">
+            resultType="com.scoprion.mall.domain.good.GoodExt">
         SELECT
         good.id,
         good.seo,
@@ -283,7 +283,7 @@
 
     <!--查询绑定活动的商品列表-->
     <select id="findByActivityId" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
-            resultType="com.scoprion.mall.domain.GoodExt">
+            resultType="com.scoprion.mall.domain.good.GoodExt">
         SELECT
         good.id,
         good.seo,
