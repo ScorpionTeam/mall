@@ -34,8 +34,13 @@ public class Seller {
      * 用户id
      */
     @JSONField(name = "user_id")
-    private Long userId;
+    private String userId;
 
+    /**
+     * 微信id
+     */
+    @JSONField(name="wx_code")
+    private String wxCode;
 
     /**
      * 信誉值 0-99
@@ -119,11 +124,11 @@ public class Seller {
         this.mobile = mobile;
     }
 
-    public Long getUserId() {
+    public String getUserId() {
         return userId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 
@@ -173,5 +178,32 @@ public class Seller {
 
     public void setCreateDate(Date createDate) {
         this.createDate = createDate;
+    }
+
+    public String getWxCode() {
+        return wxCode;
+    }
+
+    public void setWxCode(String wxCode) {
+        this.wxCode = wxCode;
+    }
+
+    @Override
+    public String toString() {
+        return "Seller{" +
+                "id=" + id +
+                ", audit='" + audit + '\'' +
+                ", status='" + status + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", userId='" + userId + '\'' +
+                ", wxCode='" + wxCode + '\'' +
+                ", reputation=" + reputation +
+                ", sellerNo='" + sellerNo + '\'' +
+                ", sellerName='" + sellerName + '\'' +
+                ", sellerAddress='" + sellerAddress + '\'' +
+                ", sellerDescription='" + sellerDescription + '\'' +
+                ", updateDate=" + updateDate +
+                ", createDate=" + createDate +
+                '}';
     }
 }
