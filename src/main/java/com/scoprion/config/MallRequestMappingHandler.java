@@ -2,6 +2,7 @@ package com.scoprion.config;
 
 import com.scoprion.annotation.ApiVersion;
 import org.springframework.core.annotation.AnnotationUtils;
+import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.mvc.condition.RequestCondition;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
@@ -28,6 +29,5 @@ public class MallRequestMappingHandler extends RequestMappingHandlerMapping {
     private RequestCondition<ApiVersionCondition> createCondition(ApiVersion apiVersion) {
         return apiVersion == null ? null : new ApiVersionCondition(apiVersion.value());
     }
-
 
 }

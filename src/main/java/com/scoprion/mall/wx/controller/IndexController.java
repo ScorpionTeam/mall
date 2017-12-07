@@ -32,12 +32,12 @@ public class IndexController {
         return BaseResult.success("V1");
     }
 
-    @Access
-    @GetMapping("/test")
-    @ApiVersion(2)
-    public BaseResult index1() {
-        LOGGER.info("版本号：V2");
-        return BaseResult.success("V2");
-    }
+//    @Access
+//    @GetMapping("/test")
+//    @ApiVersion(2)
+//    public BaseResult index1() {
+//        LOGGER.info("版本号：V2");
+//        return BaseResult.success("V2");
+//    }
 
 }

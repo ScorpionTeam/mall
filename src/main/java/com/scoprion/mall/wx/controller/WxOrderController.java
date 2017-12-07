@@ -1,5 +1,6 @@
 package com.scoprion.mall.wx.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.Estimate;
 import com.scoprion.mall.wx.service.order.WxOrderService;
@@ -60,10 +61,10 @@ public class WxOrderController {
      *
      * @return
      */
-    @Access(need=false)
+    @Access(need = false)
     @RequestMapping(value = "/refund", method = RequestMethod.POST)
-    public BaseResult refund(Long orderId) {
-        return wxOrderService.refund(orderId);
+    public BaseResult refund(@RequestBody JSONObject jsonObject) {
+        return wxOrderService.refund(jsonObject.getLong("orderId"));
     }
 
     /**
