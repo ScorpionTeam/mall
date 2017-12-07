@@ -14,7 +14,6 @@ import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
-import com.scoprion.mall.wx.rabbitmq.SendGroupComponent;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.OrderNoUtil;
@@ -54,8 +53,6 @@ public class WxActivityServiceImpl implements WxActivityService {
     @Autowired
     private WxDeliveryMapper wxDeliveryMapper;
 
-    @Autowired
-    private SendGroupComponent sendGroupComponent;
     /**
      * 拼团列表
      *
@@ -99,7 +96,6 @@ public class WxActivityServiceImpl implements WxActivityService {
         Goods goods = wxActivityMapper.findByGoodId(goodId);
         GoodSnapshot goodSnapshot = ServiceCommon.snapshotConstructor(goods, goodId);
         wxGoodSnapShotMapper.add(goodSnapshot);
-        //sendGroupComponent.send(goodSnapshot);
 
         //组装订单信息
         Order order = orderConstructor(goods,goodSnapshot.getId(),delivery,wxGroupOrder,openId);
