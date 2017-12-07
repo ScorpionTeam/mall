@@ -3,7 +3,7 @@ package com.scoprion.mall.wx.mapper;
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Activity;
 import com.scoprion.mall.domain.ActivityGoods;
-import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.good.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

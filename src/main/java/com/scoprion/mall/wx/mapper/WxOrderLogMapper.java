@@ -1,6 +1,6 @@
 package com.scoprion.mall.wx.mapper;
 
-import com.scoprion.mall.domain.OrderLog;
+import com.scoprion.mall.domain.order.OrderLog;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

@@ -16,7 +16,7 @@
         <result property="createDate" column="createDate"/>
     </resultMap>
 
-    <resultMap type="com.scoprion.mall.domain.Goods" id="goods">
+    <resultMap type="com.scoprion.mall.domain.good.Goods" id="goods">
         <result property="id" column="id"/>
         <result property="categoryId" column="categoryId"/>
         <result property="goodName" column="goodName"/>
@@ -152,7 +152,7 @@
     </select>
 
     <!-- 获取商品详情 -->
-    <select id="findByGoodId" resultType="com.scoprion.mall.domain.Goods">
+    <select id="findByGoodId" resultType="com.scoprion.mall.domain.good.Goods">
         SELECT
         id,
         good_no,

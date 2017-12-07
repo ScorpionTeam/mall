@@ -2,6 +2,7 @@ package com.scoprion.mall.domain;
 
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.scoprion.mall.domain.good.Goods;
 
 import java.util.Date;
 

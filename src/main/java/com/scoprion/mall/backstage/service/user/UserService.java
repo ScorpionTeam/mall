@@ -1,6 +1,6 @@
 package com.scoprion.mall.backstage.service.user;
 
-import com.scoprion.mall.domain.Member;
+import com.scoprion.mall.domain.MallUser;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -26,11 +26,11 @@ public interface UserService {
      * 管理后台注册
      *
      * @param ip     注册的IP地址
-     * @param member Member
+     * @param member MallUser
      * @return
      * @throws Exception
      */
-    BaseResult register(Member member, String ip) throws Exception;
+    BaseResult register(MallUser member, String ip) throws Exception;
 
     /**
      * 修改个人资料
@@ -38,7 +38,7 @@ public interface UserService {
      * @param member
      * @return
      */
-    BaseResult modifyUserInfo(Member member);
+    BaseResult modifyUserInfo(MallUser member);
 
     /**
      * 后台系统退出登录

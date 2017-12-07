@@ -1,9 +1,9 @@
 package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.GoodExt;
-import com.scoprion.mall.domain.GoodSnapshot;
-import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.good.GoodExt;
+import com.scoprion.mall.domain.good.GoodSnapshot;
+import com.scoprion.mall.domain.good.Goods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

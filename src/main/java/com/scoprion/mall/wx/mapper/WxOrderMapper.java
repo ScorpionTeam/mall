@@ -2,8 +2,8 @@ package com.scoprion.mall.wx.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Estimate;
-import com.scoprion.mall.domain.Order;
-import com.scoprion.mall.domain.OrderExt;
+import com.scoprion.mall.domain.order.Order;
+import com.scoprion.mall.domain.order.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

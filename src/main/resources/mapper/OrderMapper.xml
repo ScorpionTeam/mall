@@ -5,7 +5,7 @@
 <mapper namespace="com.scoprion.mall.backstage.mapper.OrderMapper">
 
     <!--查询4-24小时内未支付的订单列表 UNIX_TIMESTAMP秒  60*60*4 -->
-    <select id="findByScheduler" resultType="com.scoprion.mall.domain.Order">
+    <select id="findByScheduler" resultType="com.scoprion.mall.domain.order.Order">
         SELECT
         id,
         order_no,
@@ -19,7 +19,7 @@
 
     <!--订单列表-->
     <select id="findByCondition" parameterType="com.scoprion.mall.domain.request.OrderRequestParams"
-            resultType="com.scoprion.mall.domain.OrderExt">
+            resultType="com.scoprion.mall.domain.order.OrderExt">
         SELECT
         torder.id,
         torder.use_point,
@@ -52,7 +52,7 @@
     </select>
 
     <!--详情-->
-    <select id="findById" resultType="com.scoprion.mall.domain.OrderExt">
+    <select id="findById" resultType="com.scoprion.mall.domain.order.OrderExt">
         SELECT tor.id,
         tor.user_id,
         tor.use_point,
@@ -98,7 +98,7 @@
     </select>
 
     <!--修改订单-->
-    <update id="modify" parameterType="com.scoprion.mall.domain.Order">
+    <update id="modify" parameterType="com.scoprion.mall.domain.order.Order">
         UPDATE t_order SET
         <if test="userId!=null">user_id=#{userId},</if>
         <if test="orderNo!=null">order_no=#{orderNo},</if>

@@ -1,7 +1,7 @@
 package com.scoprion.mall.common;
 
-import com.scoprion.mall.domain.GoodSnapshot;
-import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.good.GoodSnapshot;
+import com.scoprion.mall.domain.good.Goods;
 import com.scoprion.mall.domain.UserActivity;
 import com.scoprion.mall.domain.WxFreeOrder;
 import org.springframework.beans.BeanUtils;

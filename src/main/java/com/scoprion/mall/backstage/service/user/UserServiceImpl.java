@@ -4,7 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
-import com.scoprion.mall.domain.Member;
+import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.backstage.mapper.UserMapper;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
             return BaseResult.error("ERROR", "密码不能小于六位");
         }
         String encryptPassword = EncryptUtil.encryptMD5(password);
-        Member member = userMapper.login(mobile, encryptPassword);
+        MallUser member = userMapper.login(mobile, encryptPassword);
         if (null == member) {
             return BaseResult.error("ERROR", "手机号或密码不正确!");
         }
@@ -71,13 +71,13 @@ public class UserServiceImpl implements UserService {
     /**
      * 管理后台注册
      *
-     * @param member Member
+     * @param member MallUser
      * @param ip     注册的IP地址
      * @return BaseResult
      * @throws Exception e
      */
     @Override
-    public BaseResult register(Member member, String ip) throws Exception {
+    public BaseResult register(MallUser member, String ip) throws Exception {
         String mobile = member.getMobile();
         String password = member.getPassword();
         String nickName = member.getNickName();
@@ -114,11 +114,11 @@ public class UserServiceImpl implements UserService {
     /**
      * 编辑个人信息
      *
-     * @param member Member
+     * @param member MallUser
      * @return BaseResult
      */
     @Override
-    public BaseResult modifyUserInfo(Member member) {
+    public BaseResult modifyUserInfo(MallUser member) {
         if (member.getId() == null) {
             return BaseResult.error("003", "id不能为空");
         }
@@ -172,7 +172,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(endDate)) {
             endDate = null;
         }
-        Page<Member> page = userMapper.findByPage(startDate, endDate, searchKey);
+        Page<MallUser> page = userMapper.findByPage(startDate, endDate, searchKey);
         return new PageResult(page);
     }
 
@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService {
         if (id == null) {
             return BaseResult.parameterError();
         }
-        Member member = userMapper.findById(id);
+        MallUser member = userMapper.findById(id);
         if (member == null) {
             return BaseResult.notFound();
         }

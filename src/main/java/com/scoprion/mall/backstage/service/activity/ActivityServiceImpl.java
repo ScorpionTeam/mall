@@ -9,6 +9,8 @@ import com.scoprion.mall.backstage.mapper.ActivityMapper;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
 import com.scoprion.mall.domain.*;
+import com.scoprion.mall.domain.good.GoodLog;
+import com.scoprion.mall.domain.good.Goods;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;

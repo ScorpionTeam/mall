@@ -5,12 +5,12 @@
 <mapper namespace="com.scoprion.mall.wx.mapper.WxOrderLogMapper">
 
     <!--订单日志-->
-    <insert id="add" parameterType="com.scoprion.mall.domain.OrderLog">
+    <insert id="add" parameterType="com.scoprion.mall.domain.order.OrderLog">
         INSERT INTO t_order_log(order_no,action,ip_address,create_date,order_id)
         VALUES (#{orderNo},#{action},#{ipAddress},NOW(),#{orderId})
     </insert>
 
-    <select id="findOrderLog" resultType="com.scoprion.mall.domain.OrderLog">
+    <select id="findOrderLog" resultType="com.scoprion.mall.domain.order.OrderLog">
         SELECT
         id,
         good_no,

@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.scoprion.annotation.Access;
 import com.scoprion.mall.backstage.service.activity.ActivityService;
 import com.scoprion.mall.domain.Activity;
-import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.good.Goods;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 

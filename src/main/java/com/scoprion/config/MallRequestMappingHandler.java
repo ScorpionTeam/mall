@@ -30,4 +30,6 @@ public class MallRequestMappingHandler extends RequestMappingHandlerMapping {
         return apiVersion == null ? null : new ApiVersionCondition(apiVersion.value());
     }
 
+
+
 }

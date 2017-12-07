@@ -1,8 +1,6 @@
 package com.scoprion.mall.backstage.service.good;
 
-import com.alibaba.fastjson.JSONObject;
-import com.scoprion.mall.domain.GoodExt;
-import com.scoprion.mall.domain.Goods;
+import com.scoprion.mall.domain.good.GoodExt;
 import com.scoprion.mall.domain.request.GoodRequestParams;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;

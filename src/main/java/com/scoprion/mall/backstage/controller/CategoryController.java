@@ -2,12 +2,8 @@ package com.scoprion.mall.backstage.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.scoprion.annotation.Access;
-import com.scoprion.constant.Constant;
-import com.scoprion.mall.backstage.service.brand.BrandService;
 import com.scoprion.mall.backstage.service.category.CategoryService;
-import com.scoprion.mall.domain.Brand;
 import com.scoprion.mall.domain.Category;
-import com.scoprion.mall.domain.Goods;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
