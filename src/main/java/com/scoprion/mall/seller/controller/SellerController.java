@@ -43,6 +43,11 @@ public class SellerController {
     }
 
 
+    /**
+     * 修改店铺信息
+     * @param seller
+     * @return
+     */
     @PostMapping("/modify")
     public BaseResult modify(@RequestBody Seller seller){
         return sellerService.modify(seller);

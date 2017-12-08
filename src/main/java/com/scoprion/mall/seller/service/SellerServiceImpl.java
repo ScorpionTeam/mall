@@ -25,11 +25,11 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public BaseResult register(Seller seller) throws Exception {
-//        String userId= WxUtil.getOpenId(seller.getWxCode());
-        if (StringUtils.isEmpty(seller.getUserId())){
+        String userId= WxUtil.getOpenId(seller.getWxCode());
+        if (StringUtils.isEmpty(userId)){
             return BaseResult.parameterError();
         }
-        Integer validByUserResult=sellerMapper.validByUserId(seller.getUserId());
+        Integer validByUserResult=sellerMapper.validByUserId(userId);
         if (validByUserResult>0){
             return BaseResult.error("ERROR","不可重复创建店铺");
         }
