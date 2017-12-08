@@ -11,8 +11,7 @@
         order_no,
         wx_order_no,
         order_status
-        FROM
-        t_order
+        FROM t_order
         WHERE order_status ='UN_PAY'
         AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(create_date) BETWEEN 60*60*4 AND 60*60*24
     </select>
@@ -23,6 +22,7 @@
         SELECT
         torder.id,
         torder.use_point,
+        torder.seller_id,
         torder.order_no,
         torder.good_snapshot_id,
         torder.delivery_id,
@@ -38,14 +38,14 @@
         LEFT JOIN t_good_snapshot tgs ON tgs.id=torder.good_snapshot_id
         WHERE 1=1
         <if test="searchKey!=null">AND
-            CONCAT_WS('',torder.good_name,torder.post_code,torder.address,torder.phone,torder.recipients) LIKE #{searchKey}
+            CONCAT_WS('',torder.good_name,torder.post_code,torder.address,torder.phone,torder.recipients) LIKE
+            #{searchKey}
         </if>
         <if test="payType!=null and payType!=''">AND torder.pay_type =#{payType}</if>
         <if test="orderType!=null and orderType!=''">AND torder.order_type =#{orderType}</if>
         <if test="orderStatus!=null and orderStatus!=''">AND torder.order_status =#{orderStatus}</if>
         <if test="phone!=null and phone!=''">AND torder.phone =#{phone}</if>
         <if test="orderNo!=null and orderNo!=''">AND torder.order_no =#{orderNo}</if>
-
         <if test="startDate!=null and endDate!=null">AND torder.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND torder.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND torder.create_date BETWEEN #{startDate} AND now()</if>
@@ -55,6 +55,7 @@
     <select id="findById" resultType="com.scoprion.mall.domain.order.OrderExt">
         SELECT tor.id,
         tor.user_id,
+        tor.seller_id,
         tor.use_point,
         tor.order_no,
         tor.good_snapshot_id,
@@ -102,6 +103,7 @@
         UPDATE t_order SET
         <if test="userId!=null">user_id=#{userId},</if>
         <if test="orderNo!=null">order_no=#{orderNo},</if>
+        <if test="sellerId!=null">seller_id=#{sellerId},</if>
         <if test="goodSnapShotId!=null">good_snapshot_id=#{goodSnapShotId},</if>
         <if test="deliveryId!=null">delivery_id=#{deliveryId},</if>
         <if test="orderStatus!=null">order_status=#{orderStatus},</if>

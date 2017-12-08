@@ -476,6 +476,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         String orderNo = OrderNoUtil.getOrderNo();
         order.setOrderNo(orderNo);
         order.setUserId(userId);
+        order.setSellerId(goods.getSellerId());
         order.setPayType(CommonEnum.WE_CHAT_PAY.getCode());
         order.setOrderType(CommonEnum.SPELL_GROUP.getCode());
         order.setOrderStatus(CommonEnum.UN_PAY.getCode());
