@@ -1,12 +1,16 @@
 package com.scoprion.mall.seller.service;
 
 import com.alibaba.druid.util.StringUtils;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.domain.order.OrderExt;
 import com.scoprion.mall.seller.mapper.SellerMapper;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import com.scoprion.utils.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -182,6 +186,20 @@ public class SellerServiceImpl implements SellerService {
     }
 
     /**
+     * 商户订单
+     * @param pageNo
+     * @param pageSize
+     * @param sellerId
+     * @return
+     */
+    @Override
+    public PageResult findBySellerId(Integer pageNo, Integer pageSize, Long sellerId) {
+        PageHelper.startPage(pageNo,pageSize);
+        Page<OrderExt>page=sellerMapper.findBySellerId(sellerId);
+        return new PageResult(page);
+    }
+
+    /**
      * 微信商户登录
      *
      * @param mallUser
@@ -218,5 +236,6 @@ public class SellerServiceImpl implements SellerService {
         return BaseResult.success(mallUser);
 
     }
+
 }
 

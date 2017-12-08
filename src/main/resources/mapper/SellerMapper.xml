@@ -151,5 +151,25 @@
         'SELLER')
     </insert>
 
+    <!--商户订单列表-->
+    <select id="findBySellerId" resultType="com.scoprion.mall.domain.order.OrderExt">
+        SELECT
+        order_no,
+        delivery_no,
+        order_status,
+        order_type,
+        message,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        post_code,
+        good_name,
+        count,
+        create_date,
+        good_id
+    </select>
 
 </mapper>

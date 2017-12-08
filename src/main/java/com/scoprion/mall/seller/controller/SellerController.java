@@ -5,6 +5,7 @@ import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.mall.seller.service.SellerService;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import com.scoprion.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -104,5 +105,10 @@ public class SellerController {
     @GetMapping("/logout")
     public BaseResult logout(String mobile,String email){
         return sellerService.logout(mobile,email);
+    }
+
+    @GetMapping("findBySellerId")
+    public PageResult findBySellerId(Integer pageNo,Integer pageSize,Long sellerId){
+        return sellerService.findBySellerId(pageNo,pageSize,sellerId);
     }
 }
