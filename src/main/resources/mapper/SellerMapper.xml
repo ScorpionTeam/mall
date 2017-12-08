@@ -81,7 +81,7 @@
         user_type,
         id_photo_front_url,
         id_photo_bg_url
-        FROM t_user WHERE status='NORMAL' AND mobile=#{mobile} AND password=#{password}
+        FROM t_user WHERE status='NORMAL' AND email=#{email} AND mobile=#{mobile} AND password=#{password}
     </select>
 
     <!--更新商户最后登录的ip地址-->

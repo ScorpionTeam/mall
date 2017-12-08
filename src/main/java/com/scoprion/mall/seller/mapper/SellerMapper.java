@@ -61,7 +61,7 @@ public interface SellerMapper {
      * @param password
      * @return
      */
-    MallUser login(@Param("mobile") String mobile, @Param("password") String password);
+    MallUser login(@Param("mobile") String mobile, @Param("email") String email, @Param("password") String password);
 
     /**
      * 更新商品最后登录的ip地址

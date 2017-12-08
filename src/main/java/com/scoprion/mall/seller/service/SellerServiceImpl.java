@@ -161,22 +161,27 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public BaseResult login(MallUser mallUser, String ip) throws Exception {
-        if (StringUtils.isEmpty(mallUser.getMobile()) || StringUtils.isEmpty(mallUser.getPassword())) {
+        if (StringUtils.isEmpty(mallUser.getMobile()) && StringUtils.isEmpty(mallUser.getEmail())) {
             return BaseResult.parameterError();
         }
-        /*if (mallUser.getEmail().matches("EMAIL_FORMAT")) {
-            return BaseResult.error("ERROR", "输入的邮箱格式不正确");
-        }*/
-        if (mallUser.getMobile().length() < Constant.MOBILE_LENGTH) {
-            return BaseResult.error("ERROR", "输入的手机号码小于十一位");
+        if (StringUtils.isEmpty(mallUser.getPassword())) {
+            return BaseResult.parameterError();
         }
+        if (mallUser.getEmail().matches("EMAIL_FORMAT") && mallUser.getMobile().length() < Constant.MOBILE_LENGTH) {
+            return BaseResult.error("ERROR", "输入的邮箱格式或手机号码不正确");
+        }
+        /*if (mallUser.getMobile().length() < Constant.MOBILE_LENGTH) {
+            return BaseResult.error("ERROR", "输入的手机号码小于十一位");
+        }*/
         if (mallUser.getPassword().length() < Constant.PASSWORD_MIN_LENGTH) {
             return BaseResult.error("ERROR", "输入的密码小于六位");
         }
         String encryptPassword = EncryptUtil.encryptMD5(mallUser.getPassword());
-        MallUser user = sellerMapper.login(mallUser.getMobile(), encryptPassword);
+
+        //登录
+        MallUser user = sellerMapper.login(mallUser.getMobile(), mallUser.getEmail(), encryptPassword);
         if (user == null) {
-            return BaseResult.error("登录失败", "输入的账号和密码错误");
+            return BaseResult.error("登录失败", "输入的账号或邮箱或密码错误");
         }
         //更新商户最后登录ip地址
         sellerMapper.updateLoginIpAddress(mallUser.getId(), ip);
