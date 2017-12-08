@@ -1,5 +1,6 @@
 package com.scoprion.mall.seller.controller;
 
+import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.mall.seller.service.SellerService;

@@ -84,16 +84,10 @@
         FROM t_user WHERE status='NORMAL' AND mobile=#{mobile} AND password=#{password}
     </select>
 
-
-    <!--修改商户个人信息-->
-    <update id="alter" parameterType="com.scoprion.mall.domain.MallUser">
+    <!--更新商户最后登录的ip地址-->
+    <update id="updateLoginIpAddress" parameterType="com.scoprion.mall.domain.MallUser">
         UPDATE t_user SET
-        <if test="bornDate!=null">born_date#{bornDate},</if>
-        <if test="headPic!=null">head_picture#{headPic},</if>
-        <if test="nickName!=null">nick_name#{nickName},</if>
-        <if test="city!=null">city#{city},</if>
-        <if test="address!=null">address#{address},</if>
-        update_date=now()
+        login_ip=#{ip}
         WHERE id=#{id}
     </update>
 </mapper>

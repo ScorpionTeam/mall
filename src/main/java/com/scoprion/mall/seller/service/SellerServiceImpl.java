@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
-
 /**
  * @author by hmy
  * @created on 2017/12/7/007.
@@ -26,102 +25,106 @@ public class SellerServiceImpl implements SellerService {
 
     /**
      * 商户店铺建立
+     *
      * @param seller
      * @return
      * @throws Exception
      */
     @Override
     public BaseResult add(Seller seller) throws Exception {
-        String userId= WxUtil.getOpenId(seller.getWxCode());
-        if (StringUtils.isEmpty(userId)){
+        String userId = WxUtil.getOpenId(seller.getWxCode());
+        if (StringUtils.isEmpty(userId)) {
             return BaseResult.parameterError();
         }
-        Integer validByUserResult=sellerMapper.validByUserId(userId);
-        if (validByUserResult>0){
-            return BaseResult.error("ERROR","不可重复创建店铺");
+        Integer validByUserResult = sellerMapper.validByUserId(userId);
+        if (validByUserResult > 0) {
+            return BaseResult.error("ERROR", "不可重复创建店铺");
         }
-        if (seller == null){
+        if (seller == null) {
             return BaseResult.parameterError();
         }
-        Integer validNameResult=sellerMapper.validByName(seller.getSellerName());
-        if (validNameResult>0){
-            return BaseResult.error("ERROR","店铺名称已存在");
+        Integer validNameResult = sellerMapper.validByName(seller.getSellerName());
+        if (validNameResult > 0) {
+            return BaseResult.error("ERROR", "店铺名称已存在");
         }
-        Integer result=sellerMapper.add(seller);
-        if (result <= 0){
-            return BaseResult.error("ERROR","新增店铺失败");
+        Integer result = sellerMapper.add(seller);
+        if (result <= 0) {
+            return BaseResult.error("ERROR", "新增店铺失败");
         }
         return BaseResult.success("新增店铺成功");
     }
 
     /**
      * 删除店铺
+     *
      * @param id
      * @return
      */
     @Override
     public BaseResult delete(Long id) {
-        if (StringUtils.isEmpty(id.toString())){
+        if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
-        int result=sellerMapper.delete(id);
-        if (result<=0){
-            return BaseResult.error("ERROR","删除失败");
+        int result = sellerMapper.delete(id);
+        if (result <= 0) {
+            return BaseResult.error("ERROR", "删除失败");
         }
         return BaseResult.success("删除成功");
     }
 
     /**
      * 修改店铺信息
+     *
      * @param seller
      * @return
      */
     @Override
     public BaseResult modify(Seller seller) {
-        int result=sellerMapper.modify(seller);
-        if (result<=0){
-            return BaseResult.error("ERROR","修改失败");
+        int result = sellerMapper.modify(seller);
+        if (result <= 0) {
+            return BaseResult.error("ERROR", "修改失败");
         }
         return BaseResult.success("修改成功");
     }
 
     /**
      * 注册
+     *
      * @param mallUser
      * @return
      * @throws Exception
      */
     @Override
     public BaseResult register(MallUser mallUser) throws Exception {
-        if (mallUser==null){
+        if (mallUser == null) {
             return BaseResult.parameterError();
         }
-        if(StringUtils.isEmpty(mallUser.getMobile())){
+        if (StringUtils.isEmpty(mallUser.getMobile())) {
             return BaseResult.parameterError();
         }
-        if (StringUtils.isEmpty(mallUser.getPassword())){
+        if (StringUtils.isEmpty(mallUser.getPassword())) {
             return BaseResult.parameterError();
         }
-        Integer nickNameResult=sellerMapper.validByNickName(mallUser.getNickName());
-        if (nickNameResult>0){
-            return BaseResult.error("ERROR","该昵称已存在");
+        Integer nickNameResult = sellerMapper.validByNickName(mallUser.getNickName());
+        if (nickNameResult > 0) {
+            return BaseResult.error("ERROR", "该昵称已存在");
         }
-        if (mallUser.getPassword().length()< Constant.PASSWORD_MIN_LENGTH){
-            return BaseResult.error("ERROR","密码长度不能小于六位");
+        if (mallUser.getPassword().length() < Constant.PASSWORD_MIN_LENGTH) {
+            return BaseResult.error("ERROR", "密码长度不能小于六位");
         }
-        if (mallUser.getMobile().length() < Constant.MOBILE_LENGTH){
-            return BaseResult.error("ERROR","手机号码有误");
+        if (mallUser.getMobile().length() < Constant.MOBILE_LENGTH) {
+            return BaseResult.error("ERROR", "手机号码有误");
         }
-        Integer mobileResult=sellerMapper.validByMobile(mallUser.getMobile());
-        if (mobileResult>0){
-            return BaseResult.error("ERROR","手机号已存在");
+        Integer mobileResult = sellerMapper.validByMobile(mallUser.getMobile());
+        if (mobileResult > 0) {
+            return BaseResult.error("ERROR", "手机号已存在");
         }
-        String password=mallUser.getPassword();
+        String password = mallUser.getPassword();
         String encryptPassword = EncryptUtil.encryptMD5(password);
         mallUser.setPassword(encryptPassword);
-        Integer result=sellerMapper.register(mallUser);
-        if (result<=0){
-            return BaseResult.error("ERROR","注册失败");
+        Integer result = sellerMapper.register(mallUser);
+        if (result <= 0) {
+            return BaseResult.error("ERROR", "注册失败");
         }
         //将用户手机号码作为加密字符串回传
         String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), "ScorpionMall8888");
@@ -132,18 +135,19 @@ public class SellerServiceImpl implements SellerService {
 
     /**
      * 修改个人信息
+     *
      * @param mallUser
      * @return
      */
     @Override
     public BaseResult alter(MallUser mallUser) {
-        Integer result=sellerMapper.validByNickName(mallUser.getNickName());
-        if (result>0){
-            return BaseResult.error("ERROR","该昵称已存在");
+        Integer result = sellerMapper.validByNickName(mallUser.getNickName());
+        if (result > 0) {
+            return BaseResult.error("ERROR", "该昵称已存在");
         }
-        Integer alterResult=sellerMapper.alter(mallUser);
-        if (alterResult<=0){
-            return BaseResult.error("ERROR","修改失败");
+        Integer alterResult = sellerMapper.alter(mallUser);
+        if (alterResult <= 0) {
+            return BaseResult.error("ERROR", "修改失败");
         }
         return BaseResult.success("修改成功");
     }
@@ -170,7 +174,7 @@ public class SellerServiceImpl implements SellerService {
             return BaseResult.error("ERROR", "输入的密码小于六位");
         }
         String encryptPassword = EncryptUtil.encryptMD5(mallUser.getPassword());
-        MallUser user = sellerMapper.login(mallUser, encryptPassword);
+        MallUser user = sellerMapper.login(mallUser.getMobile(), encryptPassword);
         if (user == null) {
             return BaseResult.error("登录失败", "输入的账号和密码错误");
         }
