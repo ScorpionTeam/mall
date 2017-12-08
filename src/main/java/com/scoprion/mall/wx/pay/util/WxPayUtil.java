@@ -259,5 +259,37 @@ public class WxPayUtil {
         return WxPayUtil.mapConvertToXML(map);
     }
 
+    /**
+     * 拼团下单参数
+     *
+     * @param body       商品描述
+     * @param openid     用户openid
+     * @param outTradeNo 商户订单号
+     * @return
+     */
+    public static String placeOrder(String body,
+                                      String openid,
+                                      String outTradeNo,
+                                      int paymentFee,
+                                      String nonceStr) {
+
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("appid", WxPayConfig.APP_ID);
+        map.put("openid", openid);
+        map.put("mch_id", WxPayConfig.MCHID);
+        map.put("nonce_str", nonceStr);
+        map.put("body", body);
+        map.put("out_trade_no", outTradeNo);
+        map.put("total_fee", paymentFee);
+        map.put("notify_url", WxPayConfig.NOTIFY_URL_GROUP);
+        map.put("trade_type", "JSAPI");
+        System.out.println("排序参数:"+WxPayUtil.sort(map));
+
+        String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
+        map.put("sign", sign);
+        System.out.println("传输的参数:"+WxPayUtil.mapConvertToXML(map));
+        return WxPayUtil.mapConvertToXML(map);
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.scoprion.mall.wx.service.activity;
 
 import com.scoprion.mall.domain.WxGroupOrder;
+import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
@@ -39,4 +40,10 @@ public interface WxActivityService {
      */
     BaseResult pay(Long orderId, Long activityId, Long goodId);
 
+    /**
+     * 接收微信回调(拼团)
+     * @param unifiedOrderNotifyRequestData
+     * @return
+     */
+    BaseResult callBack(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData);
 }

@@ -102,6 +102,11 @@
         UPDATE t_good SET stock=(stock-#{stock}) WHERE id=#{goodId}
     </update>
 
+    <!--活动(拼团)商品库存扣减-->
+    <update id="updateActivityGoodStockById">
+        UPDATE t_activity_good SET stock=(stock-#{count}) WHERE id=#{id}
+    </update>
+
     <!--修改销量-->
     <update id="updateSaleVolume">
         UPDATE t_good SET sale_volume=(sale_volume+#{saleVolume}) WHERE id=#{goodId}

@@ -7,20 +7,26 @@ import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.exception.PayException;
+import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.*;
+import com.scoprion.mall.domain.good.GoodLog;
 import com.scoprion.mall.domain.good.GoodSnapshot;
 import com.scoprion.mall.domain.good.Goods;
 import com.scoprion.mall.domain.order.Order;
 import com.scoprion.mall.domain.order.OrderLog;
 import com.scoprion.mall.wx.mapper.*;
 import com.scoprion.mall.wx.pay.WxPayConfig;
+import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
+import com.scoprion.mall.wx.service.pay.WxPayServiceImpl;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.OrderNoUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +41,8 @@ import java.util.*;
 @SuppressWarnings("ALL")
 @Service
 public class WxActivityServiceImpl implements WxActivityService {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(WxActivityServiceImpl.class);
 
     @Autowired
     private WxActivityMapper wxActivityMapper;
@@ -56,6 +64,15 @@ public class WxActivityServiceImpl implements WxActivityService {
 
     @Autowired
     private WxDeliveryMapper wxDeliveryMapper;
+
+    @Autowired
+    private GoodLogMapper goodLogMapper;
+
+    @Autowired
+    private WxPointMapper wxPointMapper;
+
+    @Autowired
+    private WxPointLogMapper wxPointLogMapper;
 
     /**
      * 拼团列表
@@ -102,7 +119,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         wxGoodSnapShotMapper.add(goodSnapshot);
 
         //组装订单信息
-        Order order = orderConstructor(goods,goodSnapshot.getId(),delivery,wxGroupOrder,openId);
+        Order order = orderConstructor(goods, goodSnapshot.getId(), delivery, wxGroupOrder, openId);
         int orderResult = wxOrderMapper.add(order);
         if (orderResult <= 0) {
             return BaseResult.error("ERROR", "下单失败");
@@ -114,7 +131,7 @@ public class WxActivityServiceImpl implements WxActivityService {
 
         //统一下单参数
         String nonce_str = WxUtil.createRandom(false, 10);
-        String unifiedOrderXML = WxPayUtil.unifiedOrder(goods.getGoodName(),
+        String unifiedOrderXML = WxPayUtil.placeOrder(goods.getGoodName(),
                 openId,
                 order.getOrderNo(),
                 order.getPaymentFee(),
@@ -184,6 +201,155 @@ public class WxActivityServiceImpl implements WxActivityService {
         String paySign = WxPayUtil.paySign(map);
         map.put("paySign", paySign);
         return BaseResult.success(JSON.toJSON(map));
+    }
+
+    /**
+     * 接收微信回调(拼团)
+     *
+     * @param unifiedOrderNotifyRequestData
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public BaseResult callBack(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
+        Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
+        if (order == null) {
+            LOGGER.info("订单为空，查询不到订单信息");
+            return BaseResult.success("订单信息查询出错");
+        }
+        //判断是否成功接收回调
+        if (order != null && null == order.getPayDate()) {
+            //修改订单状态 以及微信订单号
+            wxOrderMapper.updateOrderStatusAndPayStatusAndWxOrderNo(unifiedOrderNotifyRequestData.getTime_end(),
+                    unifiedOrderNotifyRequestData.getOut_trade_no(),
+                    unifiedOrderNotifyRequestData.getTransaction_id());
+            //记录订单日志
+            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款",
+                    null, order.getId());
+            wxOrderLogMapper.add(orderLog);
+            //取到订单里的商品id
+            ActivityGoods activityGoods = wxActivityMapper.findByActivityGoodStock(order.getGoodId());
+            //库存扣减
+            wxGoodMapper.updateActivityGoodStockById(activityGoods.getId(), order.getCount());
+            //库存扣减日志
+            saveGoodLog(order.getGoodId(), "库存扣减" + order.getCount(), order.getGoodName());
+            //积分扣减、增加
+            BaseResult operateResult = operatePoint(order);
+            if (operateResult != null) {
+                return operateResult;
+            }
+            //销量
+            wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
+        }
+        return BaseResult.success("支付回调成功");
+    }
+
+    /**
+     * 保存商品日志
+     *
+     * @param goodId
+     * @param action
+     * @param goodName
+     */
+    private void saveGoodLog(Long goodId, String action, String goodName) {
+        GoodLog goodLog = new GoodLog();
+        goodLog.setAction(action);
+        goodLog.setGoodName(goodName);
+        goodLog.setGoodId(goodId);
+        goodLogMapper.add(goodLog);
+    }
+
+    /**
+     * 积分操作
+     *
+     * @param order
+     * @return
+     */
+    private BaseResult operatePoint(Order order) {
+        Point point = wxPointMapper.findByUserId(order.getUserId());
+        //第一次发起购买行为
+        if (point == null) {
+            point = new Point();
+        } else {
+            //非第一次购买
+            if (CommonEnum.USE_POINT.getCode()
+                    .equals(order.getUsePoint()) && order.getOperatePoint() > point.getPoint()) {
+                return BaseResult.error("ERROR", "支付失败积分不足");
+            }
+
+        }
+
+        //积分扣减日志
+        subtractPointLog(order, point.getPoint());
+        //TODO 获得本次交易增加的积分  暂时未除以1000
+//        int addPoint = order.getPaymentFee()/1000;
+        int addPoint = order.getPaymentFee();
+        int currentPoint = point.getPoint() - order.getOperatePoint() + addPoint;
+        // 积分增加日志
+        addPointLog(order, currentPoint, addPoint);
+
+        point.setPoint(currentPoint);
+        point.setUserId(order.getUserId());
+        if (currentPoint < Constant.WX_POINT_LEVEL1) {
+            point.setLevel(1);
+            point.setLevelName("白银");
+        } else if (currentPoint < Constant.WX_POINT_LEVEL2) {
+            point.setLevel(2);
+            point.setLevelName("黄金");
+        } else if (currentPoint < Constant.WX_POINT_LEVEL3) {
+            point.setLevel(3);
+            point.setLevelName("铂金");
+        } else {
+            point.setLevel(4);
+            point.setLevelName("钻石");
+        }
+        if (point.getId() == null) {
+            wxPointMapper.add(point);
+        } else {
+            wxPointMapper.level(point);
+        }
+        LOGGER.info("积分操作：" + point.toString());
+        return null;
+    }
+
+    /**
+     * 扣减积分
+     *
+     * @param order
+     * @param currPoint
+     */
+    private void subtractPointLog(Order order, Integer currPoint) {
+        if (CommonEnum.USE_POINT.getCode().equals(order.getUsePoint())) {
+            PointLog pointLog = new PointLog();
+            pointLog.setUserId(order.getUserId());
+            //扣减
+            pointLog.setAction(CommonEnum.CONSUME_POINT.getCode());
+            //得到订单消耗的积分
+            int operatePoint = order.getOperatePoint();
+            int currentPoint = currPoint - operatePoint;
+            pointLog.setCurrentPoint(currentPoint);
+            pointLog.setOperatePoint(-operatePoint);
+            if (operatePoint != 0) {
+                //不消耗积分，没有日志
+                wxPointLogMapper.add(pointLog);
+            }
+        }
+    }
+
+    /**
+     * 增加积分
+     *
+     * @param order
+     * @param currPoint
+     * @param addPoint
+     */
+    private void addPointLog(Order order, int currPoint, int addPoint) {
+        PointLog pointLog = new PointLog();
+        pointLog.setUserId(order.getUserId());
+        pointLog.setAction(CommonEnum.PRODUCE_POINT.getCode());
+        pointLog.setOperatePoint(addPoint);
+        pointLog.setCurrentPoint(currPoint);
+        wxPointLogMapper.add(pointLog);
     }
 
     /**
@@ -324,6 +490,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         order.setPaymentFee(wxGroupOrder.getPaymentFee());
         order.setDeliveryId(wxGroupOrder.getDeliveryId());
         order.setOrderFee(wxGroupOrder.getOrderFee());
+        order.setCount(Constant.ONE);
         return order;
     }
 
