@@ -1,5 +1,6 @@
 package com.scoprion.mall.seller.mapper;
 
+import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -14,13 +15,15 @@ public interface SellerMapper {
 
     /**
      * 创建商铺
+     *
      * @param seller
      * @return
      */
-    Integer add (Seller seller);
+    Integer add(Seller seller);
 
     /**
      * 删除商铺
+     *
      * @param id
      * @return
      */
@@ -28,6 +31,7 @@ public interface SellerMapper {
 
     /**
      * 修改商铺信息
+     *
      * @param seller
      * @return
      */
@@ -35,6 +39,7 @@ public interface SellerMapper {
 
     /**
      * 校验名字是否存在
+     *
      * @param sellerName
      * @return
      */
@@ -42,8 +47,54 @@ public interface SellerMapper {
 
     /**
      * 校验该商户是否已经存在商铺
+     *
      * @param userId
      * @return
      */
     Integer validByUserId(@Param("userId") String userId);
+
+    /**
+     * 微信商户登录
+     *
+     * @param mallUser
+     * @param encryptPassword
+     * @return
+     */
+    MallUser login(MallUser mallUser, String encryptPassword);
+
+    /**
+     * 更新商品最后登录的ip地址
+     *
+     * @param id
+     * @param ip
+     */
+    void updateLoginIpAddress(Long id, String ip);
+
+    /**
+     * 校验号码是否存在
+     * @param mobile
+     * @return
+     */
+    Integer validByMobile(@Param("mobile") String mobile);
+
+    /**
+     * 商户注册
+     * @param mallUser
+     * @return
+     */
+    Integer register(MallUser mallUser);
+
+    /**
+     * 校验昵称
+     * @param nickName
+     * @return
+     */
+    Integer validByNickName(@Param("nickName") String nickName);
+
+    /**
+     * 商户修改个人信息
+     * @param mallUser
+     * @return
+     */
+    Integer alter(MallUser mallUser);
 }

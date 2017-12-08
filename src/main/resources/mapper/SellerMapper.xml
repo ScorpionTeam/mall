@@ -39,12 +39,12 @@
     <!--修改店铺信息-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Seller">
         UPDATE t_seller SET
-        <if test="mobile!=null">mobile=#{mobile}</if>
-        <if test="sellerName!=null">seller_name=#{sellerName}</if>
-        <if test="sellerAddress!=null">seller_address=#{sellerAddress}</if>
-        <if test="sellerDescription!=null">seller_description=#{sellerDescription}</if>
+        <if test="mobile!=null">mobile=#{mobile},</if>
+        <if test="sellerName!=null">seller_name=#{sellerName},</if>
+        <if test="sellerAddress!=null">seller_address=#{sellerAddress},</if>
+        <if test="sellerDescription!=null">seller_description=#{sellerDescription},</if>
         update_date=now()
-        WHERE id={id}
+        WHERE id=#{id}
     </update>
 
     <!--校验名称是否存在-->
@@ -56,4 +56,44 @@
     <select id="validByUserId" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_seller WHERE user_id=#{userId}
     </select>
+
+    <!--微信商户登录(手机号)-->
+    <select id="login" resultType="com.scoprion.mall.domain.MallUser">
+        SELECT id,
+        name,
+        mobile,
+        born_date,
+        sex,
+        age,
+        email,
+        address,
+        password,
+        head_picture,
+        nick_name,
+        certification,
+        certificate_id,
+        city,
+        status,
+        create_date,
+        update_date,
+        last_login_date,
+        login_ip,
+        user_type,
+        id_photo_front_url,
+        id_photo_bg_url
+        FROM t_user WHERE status='NORMAL' AND mobile=#{mobile} AND password=#{password}
+    </select>
+
+
+    <!--修改商户个人信息-->
+    <update id="alter" parameterType="com.scoprion.mall.domain.MallUser">
+        UPDATE t_user SET
+        <if test="bornDate!=null">born_date#{bornDate},</if>
+        <if test="headPic!=null">head_picture#{headPic},</if>
+        <if test="nickName!=null">nick_name#{nickName},</if>
+        <if test="city!=null">city#{city},</if>
+        <if test="address!=null">address#{address},</if>
+        update_date=now()
+        WHERE id=#{id}
+    </update>
 </mapper>
