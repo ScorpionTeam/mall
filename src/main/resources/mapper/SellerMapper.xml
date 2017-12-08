@@ -56,4 +56,47 @@
     <select id="validByUserId" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_seller WHERE user_id=#{userId}
     </select>
+
+    <!--校验号码是否存在-->
+    <select id="validByMobile" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_user WHERE mobile=#{mobile}
+    </select>
+
+    <!--商户注册-->
+    <insert id="register" parameterType="com.scoprion.mall.domain.MallUser">
+        INSERT INTO t_user(
+        name,
+        mobile,
+        born_date,
+        sex,
+        age,
+        email,
+        address,
+        password,
+        head_picture,
+        nick_name,
+        certification,
+        certificate_id,
+        city,
+        status,
+        create_date,
+        user_type)
+        VALUES (
+        #{name},
+        #{mobile},
+        #{bornDate},
+        #{sex},
+        #{age},
+        #{email},
+        #{address},
+        #{password},
+        #{headPic},
+        #{nickName},
+        'NOT_AUTH',
+        #{certificateId},
+        #{city},
+        'NORMAL',
+        NOW(),
+        'SELLER')
+    </insert>
 </mapper>

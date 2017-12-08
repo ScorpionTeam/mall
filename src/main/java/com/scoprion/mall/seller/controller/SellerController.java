@@ -1,5 +1,6 @@
 package com.scoprion.mall.seller.controller;
 
+import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.mall.seller.service.SellerService;
 import com.scoprion.result.BaseResult;
@@ -27,8 +28,8 @@ public class SellerController {
      * @return
      */
     @PostMapping("/add")
-    public BaseResult registry(@RequestBody Seller seller) throws Exception{
-        return sellerService.register(seller);
+    public BaseResult add(@RequestBody Seller seller) throws Exception{
+        return sellerService.add(seller);
     }
 
 
@@ -52,5 +53,18 @@ public class SellerController {
     public BaseResult modify(@RequestBody Seller seller){
         return sellerService.modify(seller);
     }
+
+
+    /**
+     * 注册
+     * @param mallUser
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/registry")
+    public BaseResult registry(@RequestBody MallUser mallUser)throws Exception{
+        return sellerService.register(mallUser);
+    }
+
 
 }

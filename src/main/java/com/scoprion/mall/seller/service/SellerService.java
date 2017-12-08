@@ -1,5 +1,6 @@
 package com.scoprion.mall.seller.service;
 
+import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.result.BaseResult;
 
@@ -15,7 +16,7 @@ public interface SellerService {
      * @return
      * @throws Exception
      */
-    BaseResult register(Seller seller) throws Exception;
+    BaseResult add(Seller seller) throws Exception;
 
     /**
      * 删除商铺
@@ -30,4 +31,12 @@ public interface SellerService {
      * @return
      */
     BaseResult modify(Seller seller);
+
+    /**
+     * 注册
+     * @param mallUser
+     * @return
+     * @throws Exception
+     */
+    BaseResult register(MallUser mallUser) throws Exception;
 }

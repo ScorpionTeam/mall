@@ -1,5 +1,6 @@
 package com.scoprion.mall.seller.mapper;
 
+import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -46,4 +47,18 @@ public interface SellerMapper {
      * @return
      */
     Integer validByUserId(@Param("userId") String userId);
+
+    /**
+     * 校验号码是否存在
+     * @param mobile
+     * @return
+     */
+    Integer validByMobile(@Param("mobile") String mobile);
+
+    /**
+     * 商户注册
+     * @param mallUser
+     * @return
+     */
+    Integer register(MallUser mallUser);
 }
