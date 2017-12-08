@@ -167,26 +167,34 @@ public class SellerServiceImpl implements SellerService {
         if (StringUtils.isEmpty(mallUser.getPassword())) {
             return BaseResult.parameterError();
         }
-        if (mallUser.getEmail().matches("EMAIL_FORMAT") && mallUser.getMobile().length() < Constant.MOBILE_LENGTH) {
-            return BaseResult.error("ERROR", "输入的邮箱格式或手机号码不正确");
+        if (mallUser.getMobile() != null) {
+            if (mallUser.getMobile().length() != Constant.MOBILE_LENGTH) {
+                return BaseResult.error("ERROR", "输入的手机号码小于十一位");
+            }
+        } else if (mallUser.getEmail() != null) {
+            boolean matchResult = mallUser.getEmail().matches(Constant.REGEX);
+            if (!matchResult) {
+                return BaseResult.error("ERROR", "请输入正确的邮箱格式");
+            }
+        } else {
+            return BaseResult.parameterError();
         }
-        /*if (mallUser.getMobile().length() < Constant.MOBILE_LENGTH) {
-            return BaseResult.error("ERROR", "输入的手机号码小于十一位");
-        }*/
         if (mallUser.getPassword().length() < Constant.PASSWORD_MIN_LENGTH) {
             return BaseResult.error("ERROR", "输入的密码小于六位");
         }
+        //MD5加密
         String encryptPassword = EncryptUtil.encryptMD5(mallUser.getPassword());
 
         //登录
-        MallUser user = sellerMapper.login(mallUser.getMobile(), mallUser.getEmail(), encryptPassword);
+        MallUser user = sellerMapper.login(mallUser.getEmail(), mallUser.getMobile(), encryptPassword);
         if (user == null) {
             return BaseResult.error("登录失败", "输入的账号或邮箱或密码错误");
         }
+        Long id = user.getId();
         //更新商户最后登录ip地址
-        sellerMapper.updateLoginIpAddress(mallUser.getId(), ip);
+        sellerMapper.updateLoginIpAddress(id, ip);
         //将用户手机号作为加密字符回传
-        String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), "ScoprionMall8888");
+        String tokenStr = EncryptUtil.aesEncrypt(user.getEmail(), "ScoprionMall8888");
         mallUser.setToken(tokenStr);
         return BaseResult.success(mallUser);
 
