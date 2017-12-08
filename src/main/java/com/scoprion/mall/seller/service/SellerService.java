@@ -37,10 +37,10 @@ public interface SellerService {
 
     /**
      * 微信商户登录
-     *
      * @param mallUser
      * @param ip
      * @return
+     * @throws Exception
      */
     BaseResult login(MallUser mallUser, String ip) throws Exception;
 
