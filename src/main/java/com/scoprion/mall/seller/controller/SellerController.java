@@ -26,7 +26,7 @@ public class SellerController {
      * @param seller
      * @return
      */
-    @PostMapping("/registry")
+    @PostMapping("/add")
     public BaseResult registry(@RequestBody Seller seller) throws Exception{
         return sellerService.register(seller);
     }
