@@ -4,7 +4,6 @@ import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * @author by kunlun

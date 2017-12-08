@@ -59,6 +59,18 @@ public class SellerController {
     }
 
     /**
+     * 注册
+     * @param mallUser
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/registry")
+    public BaseResult registry(@RequestBody MallUser mallUser)throws Exception{
+        return sellerService.register(mallUser);
+    }
+
+
+    /**
      * 微信商户登录
      *
      * @param mallUser
@@ -71,4 +83,14 @@ public class SellerController {
         return sellerService.login(mallUser, ip);
     }
 
+
+    /**
+     * 修改个人信息
+     * @param mallUser
+     * @return
+     */
+    @PostMapping("/alter")
+    public BaseResult alter(@RequestBody MallUser mallUser){
+        return sellerService.alter(mallUser);
+    }
 }
