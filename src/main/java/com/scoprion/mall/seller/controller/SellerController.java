@@ -27,29 +27,31 @@ public class SellerController {
      * @return
      */
     @PostMapping("/registry")
-    public BaseResult registry(@RequestBody Seller seller) throws Exception{
+    public BaseResult registry(@RequestBody Seller seller) throws Exception {
         return sellerService.register(seller);
     }
 
 
     /**
      * 删除店铺
+     *
      * @param id
      * @return
      */
     @GetMapping("/delete")
-    public BaseResult deleteById(Long id){
+    public BaseResult deleteById(Long id) {
         return sellerService.delete(id);
     }
 
 
     /**
      * 修改店铺信息
+     *
      * @param seller
      * @return
      */
     @PostMapping("/modify")
-    public BaseResult modify(@RequestBody Seller seller){
+    public BaseResult modify(@RequestBody Seller seller) {
         return sellerService.modify(seller);
     }
 

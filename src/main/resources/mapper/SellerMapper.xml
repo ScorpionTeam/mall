@@ -39,12 +39,12 @@
     <!--修改店铺信息-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Seller">
         UPDATE t_seller SET
-        <if test="mobile!=null">mobile=#{mobile}</if>
-        <if test="sellerName!=null">seller_name=#{sellerName}</if>
-        <if test="sellerAddress!=null">seller_address=#{sellerAddress}</if>
-        <if test="sellerDescription!=null">seller_description=#{sellerDescription}</if>
+        <if test="mobile!=null">mobile=#{mobile},</if>
+        <if test="sellerName!=null">seller_name=#{sellerName},</if>
+        <if test="sellerAddress!=null">seller_address=#{sellerAddress},</if>
+        <if test="sellerDescription!=null">seller_description=#{sellerDescription},</if>
         update_date=now()
-        WHERE id={id}
+        WHERE id=#{id}
     </update>
 
     <!--校验名称是否存在-->

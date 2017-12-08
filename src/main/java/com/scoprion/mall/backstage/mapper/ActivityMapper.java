@@ -2,7 +2,6 @@ package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Activity;
-import com.scoprion.mall.domain.ActivityGoods;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

@@ -14,13 +14,15 @@ public interface SellerMapper {
 
     /**
      * 创建商铺
+     *
      * @param seller
      * @return
      */
-    Integer add (Seller seller);
+    Integer add(Seller seller);
 
     /**
      * 删除商铺
+     *
      * @param id
      * @return
      */
@@ -28,6 +30,7 @@ public interface SellerMapper {
 
     /**
      * 修改商铺信息
+     *
      * @param seller
      * @return
      */
@@ -35,6 +38,7 @@ public interface SellerMapper {
 
     /**
      * 校验名字是否存在
+     *
      * @param sellerName
      * @return
      */
@@ -42,6 +46,7 @@ public interface SellerMapper {
 
     /**
      * 校验该商户是否已经存在商铺
+     *
      * @param userId
      * @return
      */
