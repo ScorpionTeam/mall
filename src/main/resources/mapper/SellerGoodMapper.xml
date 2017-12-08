@@ -178,7 +178,7 @@
         LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
         WHERE 1=1
-        AND seller_id=#{sellerId}
+        AND good.seller_id=#{sellerId}
         <if test="searchKey!=null and searchKey!=''">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}
         </if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
@@ -226,26 +226,28 @@
         tac.end_date as endDate,
         tac.status as activityStatus
         FROM t_good good
+
         LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
         LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
         LEFT JOIN t_activity tac ON (tac.id=tacg.activity_id AND (tac.status IS NULL OR tac.status!='NORMAL' OR
         tac.end_date BETWEEN '0' AND NOW()) OR tacg.status='UN_NORMAL')
-        WHERE good.on_sale='ON_SALE'
+
+        WHERE
+        good.on_sale='ON_SALE'
+        AND good.seller_id=#{sellerId}
         AND good.id NOT IN(
-        SELECT tg.id
-        FROM t_good tg
-        LEFT JOIN t_activity_good tag ON tag.good_id=tg.id
-        LEFT JOIN t_activity ta ON ta.id=tag.activity_id
-        WHERE 1=1
-        AND seller_id=#{sellerId}
-        AND (
-        ta.status='NORMAL' OR ( ta.status!='UN_NORMAL' AND ta.start_date IS NOT NULL
-        AND ( ((ta.start_date BETWEEN '0' AND NOW()) AND ta.end_date > NOW()) OR ta.start_date >NOW() ) )
+            SELECT tg.id
+            FROM t_good tg
+            LEFT JOIN t_activity_good tag ON tag.good_id=tg.id
+            LEFT JOIN t_activity ta ON ta.id=tag.activity_id
+            WHERE 1=1
+            AND (
+            ta.status='NORMAL' OR ( ta.status!='UN_NORMAL' AND ta.start_date IS NOT NULL
+            AND ( ((ta.start_date BETWEEN '0' AND NOW()) AND ta.end_date > NOW()) OR ta.start_date >NOW() ) )
+            )
+            AND tag.status='NORMAL'
+            GROUP BY tg.id
         )
-        AND tag.status='NORMAL'
-        GROUP BY tg.id
-        )
-        AND good.on_sale='ON_SALE'
         <if test="searchKey!=null">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}</if>
         <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
         <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
@@ -289,7 +291,7 @@
         LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
         LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         WHERE 1=1
-        AND seller_id=#{sellerId}
+        AND good.seller_id=#{sellerId}
         AND tac.id=#{activityId}
         AND tac.status='NORMAL'
         AND tacg.status='NORMAL'
@@ -335,7 +337,7 @@
         good.create_date
         FROM t_good good
         WHERE 1=1
-        AND seller_id=#{sellerId}
+        AND good.seller_id=#{sellerId}
         AND NOT EXISTS (
         SELECT tcg.good_id FROM t_category_good tcg
         WHERE tcg.good_id =good.id

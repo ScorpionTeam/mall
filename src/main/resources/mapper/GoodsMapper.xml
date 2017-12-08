@@ -176,7 +176,8 @@
     </update>
 
     <!--列表查询-->
-    <select id="findByCondition" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+    <select id="findByCondition"
+            parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
             resultType="com.scoprion.mall.domain.good.GoodExt">
         SELECT
         good.id,
@@ -210,7 +211,8 @@
         LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
         WHERE 1=1
-        <if test="searchKey!=null and searchKey!=''">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}</if>
+        <if test="searchKey!=null and searchKey!=''">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}
+        </if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
@@ -222,11 +224,13 @@
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
         <if test="activityId!=null ">AND tacg.activity_id= #{activityId} AND tacg.status!='NORMAL'</if>
         <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
+        <if test="sellerId!=null ">AND good.seller_id= #{sellerId}</if>
         GROUP BY good.id
     </select>
 
     <!--查询未绑定活动的商品-->
-    <select id="findForActivity" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+    <select id="findForActivity"
+            parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
             resultType="com.scoprion.mall.domain.good.GoodExt">
         SELECT
         good.id,
@@ -255,11 +259,14 @@
         tac.end_date as endDate,
         tac.status as activityStatus
         FROM t_good good
+
         LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
         LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
         LEFT JOIN t_activity tac ON (tac.id=tacg.activity_id AND (tac.status IS NULL OR tac.status!='NORMAL' OR
         tac.end_date BETWEEN '0' AND NOW()) OR tacg.status='UN_NORMAL')
-        WHERE good.on_sale='ON_SALE'
+
+        WHERE
+        AND good.on_sale='ON_SALE'
         AND good.id NOT IN(
         SELECT tg.id
         FROM t_good tg
@@ -273,16 +280,17 @@
         AND tag.status='NORMAL'
         GROUP BY tg.id
         )
-        AND good.on_sale='ON_SALE'
         <if test="searchKey!=null">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}</if>
         <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
         <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
+        <if test="sellerId!=null ">AND good.seller_id= #{sellerId}</if>
         GROUP BY good.id
     </select>
 
     <!--查询绑定活动的商品列表-->
-    <select id="findByActivityId" parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+    <select id="findByActivityId"
+            parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
             resultType="com.scoprion.mall.domain.good.GoodExt">
         SELECT
         good.id,
@@ -319,7 +327,8 @@
         AND tac.id=#{activityId}
         AND tac.status='NORMAL'
         AND tacg.status='NORMAL'
-        <if test="searchKey!=null and   searchKey!=''">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}</if>
+        <if test="searchKey!=null and   searchKey!=''">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}
+        </if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
         <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
         <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
@@ -330,11 +339,14 @@
         <if test="goodNo!=null and goodNo!=''">AND good.good_no= #{goodNo}</if>
         <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
+        <if test="sellerId!=null ">AND good.seller_id= #{sellerId}</if>
         GROUP BY good.id
     </select>
 
     <!--查询未绑定类目的商品-->
-    <select id="findForCategory" parameterType="com.scoprion.mall.domain.request.GoodRequestParams">
+    <select id="findForCategory"
+            parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+            resultType="com.scoprion.mall.domain.good.GoodExt">
         SELECT
         good.id,
         good.seo,
@@ -365,6 +377,7 @@
         <if test="searchKey!=null">AND CONCAT_WS('',good.good_name,good.good_no,seo) LIKE #{searchKey}</if>
         <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
+        <if test="sellerId!=null ">AND good.seller_id= #{sellerId}</if>
     </select>
 
 
