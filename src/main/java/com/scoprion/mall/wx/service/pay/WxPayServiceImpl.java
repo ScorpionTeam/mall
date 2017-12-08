@@ -461,6 +461,7 @@ public class WxPayServiceImpl implements WxPayService {
         Order order = new Order();
         String orderNo = OrderNoUtil.getOrderNo();
         order.setOrderNo(orderNo);
+        order.setSellerId(goods.getSellerId());
         order.setGoodSnapShotId(goodSnapShotId);
         order.setPayType("");
         order.setOrderType(CommonEnum.MOBILE_ORDER.getCode());

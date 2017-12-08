@@ -27,6 +27,7 @@
         wx_order_no,
         create_date,
         good_id,
+        seller_id,
         use_ticket,
         ticket_id,
         remark,
@@ -58,6 +59,7 @@
         #{wxOrderNo},
         NOW(),
         #{goodId},
+        #{sellerId},
         #{useTicket},
         #{ticketId},
         #{remark},
@@ -88,6 +90,7 @@
         tor.user_id,
         tor.order_no,
         tor.good_id,
+        tor.seller_id,
         tor.good_snapshot_id,
         tor.delivery_id,
         tor.order_status,
@@ -124,13 +127,19 @@
 
     <!--付款回调-->
     <update id="updateOrderStatusAndPayStatusAndWxOrderNo">
-        UPDATE t_order SET pay_date=#{payDate},pay_type='WE_CHAT_PAY',order_status='UN_DELIVERY',wx_order_no=#{wxOrderNo} WHERE order_no=#{orderNo}
+        UPDATE t_order SET
+        pay_date=#{payDate},
+        pay_type='WE_CHAT_PAY',
+        order_status='UN_DELIVERY',
+        wx_order_no=#{wxOrderNo}
+        WHERE order_no=#{orderNo}
     </update>
 
     <!--根据微信号查询订单-->
     <select id="findByWxOrderNo" resultType="com.scoprion.mall.domain.order.Order">
         SELECT id,
         user_id,
+        seller_id,
         order_no,
         use_point,
         count,
@@ -150,6 +159,7 @@
     <select id="findByOrderId" resultType="com.scoprion.mall.domain.order.Order">
       SELECT id,
       user_id,
+      seller_id,
       order_no,
       good_snapshot_id,
       delivery_id,
@@ -220,6 +230,7 @@
     <select id="personalScore" resultType="com.scoprion.mall.domain.order.Order">
         SELECT tor.id,
         tor.user_id,
+        tor.seller_id,
         tor.use_point,
         tor.order_no,
         tor.good_snapshot_id,

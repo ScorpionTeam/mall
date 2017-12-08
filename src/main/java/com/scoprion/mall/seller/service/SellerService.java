@@ -12,6 +12,7 @@ public interface SellerService {
 
     /**
      * 商铺创建
+     *
      * @param seller
      * @return
      * @throws Exception
@@ -20,6 +21,7 @@ public interface SellerService {
 
     /**
      * 删除商铺
+     *
      * @param id
      * @return
      */
@@ -27,6 +29,7 @@ public interface SellerService {
 
     /**
      * 修改店铺信息
+     *
      * @param seller
      * @return
      */
