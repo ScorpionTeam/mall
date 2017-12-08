@@ -15,8 +15,6 @@ import com.scoprion.mall.domain.order.OrderLog;
 import com.scoprion.mall.wx.mapper.*;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
-import com.scoprion.mall.wx.rabbitmq.SendComponent;
-import com.scoprion.mall.wx.rabbitmq.SendSnapshotComponent;
 import com.scoprion.result.BaseResult;
 import com.scoprion.utils.OrderNoUtil;
 import com.scoprion.mall.wx.pay.WxPayConfig;
@@ -68,8 +66,6 @@ public class WxPayServiceImpl implements WxPayService {
     @Autowired
     private WxTicketSnapshotMapper wxTicketSnapshotMapper;
 
-    @Autowired
-    private SendSnapshotComponent sendSnapshotComponent;
 
     /**
      * 统一下单
@@ -111,7 +107,7 @@ public class WxPayServiceImpl implements WxPayService {
 
         //创建商品快照
         GoodSnapshot goodSnapshot = constructSnapshot(goods);
-        sendSnapshotComponent.send(goodSnapshot);
+        wxGoodSnapShotMapper.add(goodSnapshot);
 
         //组装订单信息
         Order order = constructOrder(goods, goodSnapshot.getId(), delivery, wxOrderRequestData, openid);
