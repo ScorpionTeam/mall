@@ -1,6 +1,6 @@
 package com.scoprion.mall.seller.controller;
 
-import com.scoprion.constant.Constant;
+
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.mall.seller.service.SellerService;
@@ -92,5 +92,17 @@ public class SellerController {
     @PostMapping("/alter")
     public BaseResult alter(@RequestBody MallUser mallUser){
         return sellerService.alter(mallUser);
+    }
+
+
+    /**
+     * 退出登录
+     * @param mobile
+     * @param email
+     * @return
+     */
+    @GetMapping("/logout")
+    public BaseResult logout(String mobile,String email){
+        return sellerService.logout(mobile,email);
     }
 }

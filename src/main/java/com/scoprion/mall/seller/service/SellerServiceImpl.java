@@ -9,7 +9,10 @@ import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.utils.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -21,6 +24,9 @@ import org.springframework.stereotype.Service;
 public class SellerServiceImpl implements SellerService {
     @Autowired
     private SellerMapper sellerMapper;
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
 
     /**
@@ -153,6 +159,29 @@ public class SellerServiceImpl implements SellerService {
     }
 
     /**
+     * 退出登录
+     * @param mobile
+     * @param email
+     * @return
+     */
+    @Override
+    public BaseResult logout(String mobile,String email) {
+        if (StringUtils.isEmpty(mobile)){
+            Boolean emailResult=redisTemplate.hasKey("Login:"+email);
+            if (emailResult){
+                return BaseResult.success("退出成功");
+            }
+            return BaseResult.error("ERROR", "没有该账号");
+        }
+        Boolean result=redisTemplate.hasKey("Login:"+mobile);
+        if (result){
+            redisTemplate.delete("Login:" + mobile);
+            return BaseResult.success("退出成功");
+        }
+        return BaseResult.error("ERROR", "没有该账号");
+    }
+
+    /**
      * 微信商户登录
      *
      * @param mallUser
@@ -170,9 +199,7 @@ public class SellerServiceImpl implements SellerService {
         if (mallUser.getEmail().matches("EMAIL_FORMAT") && mallUser.getMobile().length() < Constant.MOBILE_LENGTH) {
             return BaseResult.error("ERROR", "输入的邮箱格式或手机号码不正确");
         }
-        /*if (mallUser.getMobile().length() < Constant.MOBILE_LENGTH) {
-            return BaseResult.error("ERROR", "输入的手机号码小于十一位");
-        }*/
+
         if (mallUser.getPassword().length() < Constant.PASSWORD_MIN_LENGTH) {
             return BaseResult.error("ERROR", "输入的密码小于六位");
         }

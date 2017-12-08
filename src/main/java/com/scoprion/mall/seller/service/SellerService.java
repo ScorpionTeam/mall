@@ -58,4 +58,13 @@ public interface SellerService {
      * @return
      */
     BaseResult alter(MallUser mallUser);
+
+
+    /**
+     * 退出登录
+     * @param mobile
+     * @param email
+     * @return
+     */
+    BaseResult logout(String mobile,String email);
 }
