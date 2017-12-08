@@ -19,6 +19,7 @@ public class Constant {
      * 邮箱格式
      */
     public static final String EMAIL_FORMAT = "\\p{Alpha}\\w{2,15}[@][a-z0-9]{3,}[.]\\p{Lower}{2,}";
+
     /**
      * 图片路径
      */

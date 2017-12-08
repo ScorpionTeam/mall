@@ -57,14 +57,9 @@
         SELECT COUNT(*) FROM t_seller WHERE user_id=#{userId}
     </select>
 
-    <!--校验号码是否存在-->
-    <select id="validByMobile" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_user WHERE mobile=#{mobile}
-    </select>
-
-    <!--商户注册-->
-    <insert id="register" parameterType="com.scoprion.mall.domain.MallUser">
-        INSERT INTO t_user(
+    <!--微信商户登录(手机号)-->
+    <select id="login" resultType="com.scoprion.mall.domain.MallUser">
+        SELECT id,
         name,
         mobile,
         born_date,
@@ -80,29 +75,13 @@
         city,
         status,
         create_date,
-        user_type)
-        VALUES (
-        #{name},
-        #{mobile},
-        #{bornDate},
-        #{sex},
-        #{age},
-        #{email},
-        #{address},
-        #{password},
-        #{headPic},
-        #{nickName},
-        'NOT_AUTH',
-        #{certificateId},
-        #{city},
-        'NORMAL',
-        NOW(),
-        'SELLER')
-    </insert>
-
-    <!--校验昵称是否存在-->
-    <select id="validByNickName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_user WHERE nick_name=#{nickName}
+        update_date,
+        last_login_date,
+        login_ip,
+        user_type,
+        id_photo_front_url,
+        id_photo_bg_url
+        FROM t_user WHERE status='NORMAL' AND mobile=#{mobile} AND password=#{password}
     </select>
 
 

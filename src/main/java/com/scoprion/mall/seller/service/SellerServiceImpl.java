@@ -180,6 +180,7 @@ public class SellerServiceImpl implements SellerService {
         String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), "ScoprionMall8888");
         mallUser.setToken(tokenStr);
         return BaseResult.success(mallUser);
+
     }
 }
 

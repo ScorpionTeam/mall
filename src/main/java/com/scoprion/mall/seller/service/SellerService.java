@@ -36,6 +36,15 @@ public interface SellerService {
     BaseResult modify(Seller seller);
 
     /**
+     * 微信商户登录
+     *
+     * @param mallUser
+     * @param ip
+     * @return
+     */
+    BaseResult login(MallUser mallUser, String ip) throws Exception;
+
+    /**
      * 注册
      * @param mallUser
      * @return

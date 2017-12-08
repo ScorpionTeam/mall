@@ -4,8 +4,11 @@ import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.mall.seller.service.SellerService;
 import com.scoprion.result.BaseResult;
+import com.scoprion.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -54,21 +57,17 @@ public class SellerController {
         return sellerService.modify(seller);
     }
 
-
     /**
-     * 注册
+     * 微信商户登录
+     *
      * @param mallUser
+     * @param httpServletRequest
      * @return
-     * @throws Exception
      */
-    @PostMapping("/registry")
-    public BaseResult registry(@RequestBody MallUser mallUser)throws Exception{
-        return sellerService.register(mallUser);
+    @PostMapping("/login")
+    public BaseResult login(@RequestBody MallUser mallUser, HttpServletRequest httpServletRequest) throws Exception {
+        String ip = IPUtil.getIPAddress(httpServletRequest);
+        return sellerService.login(mallUser, ip);
     }
 
-
-    @PostMapping("/alter")
-    public BaseResult alter(@RequestBody MallUser mallUser){
-        return sellerService.alter(mallUser);
-    }
 }
