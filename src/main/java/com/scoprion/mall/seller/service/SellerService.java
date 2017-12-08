@@ -17,7 +17,7 @@ public interface SellerService {
      * @return
      * @throws Exception
      */
-    BaseResult register(Seller seller) throws Exception;
+    BaseResult add(Seller seller) throws Exception;
 
     /**
      * 删除商铺
@@ -36,11 +36,17 @@ public interface SellerService {
     BaseResult modify(Seller seller);
 
     /**
-     * 微信商户登录
-     *
+     * 注册
      * @param mallUser
-     * @param ip
+     * @return
+     * @throws Exception
+     */
+    BaseResult register(MallUser mallUser) throws Exception;
+
+    /**
+     * 修改商家个人信息
+     * @param mallUser
      * @return
      */
-    BaseResult login(MallUser mallUser, String ip) throws Exception;
+    BaseResult alter(MallUser mallUser);
 }

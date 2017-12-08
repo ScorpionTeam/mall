@@ -54,19 +54,30 @@ public interface SellerMapper {
     Integer validByUserId(@Param("userId") String userId);
 
     /**
-     * 微信商户登录
-     *
-     * @param mallUser
-     * @param encryptPassword
+     * 校验号码是否存在
+     * @param mobile
      * @return
      */
-    MallUser login(MallUser mallUser, String encryptPassword);
+    Integer validByMobile(@Param("mobile") String mobile);
 
     /**
-     * 更新商品最后登录的ip地址
-     *
-     * @param id
-     * @param ip
+     * 商户注册
+     * @param mallUser
+     * @return
      */
-    void updateLoginIpAddress(Long id, String ip);
+    Integer register(MallUser mallUser);
+
+    /**
+     * 校验昵称
+     * @param nickName
+     * @return
+     */
+    Integer validByNickName(@Param("nickName") String nickName);
+
+    /**
+     * 商户修改个人信息
+     * @param mallUser
+     * @return
+     */
+    Integer alter(MallUser mallUser);
 }
