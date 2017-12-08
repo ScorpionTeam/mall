@@ -15,6 +15,14 @@ public class Order {
      */
     private Long id;
 
+
+    /**
+     * 商铺Id
+     */
+    @JSONField(name = "seller_id")
+    private Long sellerId;
+
+
     /**
      * 用户Id
      */
@@ -62,7 +70,7 @@ public class Order {
     /**
      * 订单类型 1pc订单  2手机订单
      */
-    @JSONField(name="order_type")
+    @JSONField(name = "order_type")
     private String orderType;
 
     /**
@@ -113,24 +121,24 @@ public class Order {
     /**
      * 下单时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "create_date")
     private Date createDate;
 
     /**
      * 支付时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "pay_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "pay_date")
     private String payDate;
 
     /**
      * 发货时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "delivery_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "delivery_date")
     private Date deliveryDate;
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "update_date")
     private Date updateDate;
     /**
      * 收件人
@@ -203,19 +211,21 @@ public class Order {
     private String remark;
 
     /**
-     * 是否使用优惠券  1是  0 否
+     * 是否使用优惠券  USE_TICKET使用优惠券，UN_USE_TICKET不使用优惠券
      */
     @JSONField(name = "use_ticket")
     private String useTicket;
 
     /**
-     * 是否使用积分  1是  0 否
+     * USE_POINT", "使用积分 NOT_USE_POINT", "不使用积分
      */
+    @JSONField(name = "use_point")
     private String usePoint;
 
     /**
      * 优惠券id
      */
+    @JSONField(name = "ticket_id")
     private Long ticketId;
 
     /**
@@ -229,6 +239,9 @@ public class Order {
      */
     @JSONField(name = "send_good_id")
     private Long sendGoodId;
+
+    public Order() {
+    }
 
     public String getUsePoint() {
         return usePoint;
@@ -526,11 +539,20 @@ public class Order {
         this.deliveryNo = deliveryNo;
     }
 
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
                 ", userId='" + userId + '\'' +
+                ", sellerId='" + sellerId + '\'' +
                 ", orderNo='" + orderNo + '\'' +
                 ", goodSnapShotId=" + goodSnapShotId +
                 ", deliveryId=" + deliveryId +
