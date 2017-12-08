@@ -1,15 +1,22 @@
 package com.scoprion.mall.seller.service;
 
 import com.alibaba.druid.util.StringUtils;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.domain.order.OrderExt;
 import com.scoprion.mall.seller.mapper.SellerMapper;
 import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import com.scoprion.utils.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
 
 
 /**
@@ -21,6 +28,9 @@ import org.springframework.stereotype.Service;
 public class SellerServiceImpl implements SellerService {
     @Autowired
     private SellerMapper sellerMapper;
+
+    @Resource
+    private RedisTemplate redisTemplate;
 
 
     /**
@@ -153,6 +163,43 @@ public class SellerServiceImpl implements SellerService {
     }
 
     /**
+     * 退出登录
+     * @param mobile
+     * @param email
+     * @return
+     */
+    @Override
+    public BaseResult logout(String mobile,String email) {
+        if (StringUtils.isEmpty(mobile)){
+            Boolean emailResult=redisTemplate.hasKey("Login:"+email);
+            if (emailResult){
+                return BaseResult.success("退出成功");
+            }
+            return BaseResult.error("ERROR", "没有该账号");
+        }
+        Boolean result=redisTemplate.hasKey("Login:"+mobile);
+        if (result){
+            redisTemplate.delete("Login:" + mobile);
+            return BaseResult.success("退出成功");
+        }
+        return BaseResult.error("ERROR", "没有该账号");
+    }
+
+    /**
+     * 商户订单
+     * @param pageNo
+     * @param pageSize
+     * @param sellerId
+     * @return
+     */
+    @Override
+    public PageResult findBySellerId(Integer pageNo, Integer pageSize, Long sellerId) {
+        PageHelper.startPage(pageNo,pageSize);
+        Page<OrderExt>page=sellerMapper.findBySellerId(sellerId);
+        return new PageResult(page);
+    }
+
+    /**
      * 微信商户登录
      *
      * @param mallUser
@@ -167,34 +214,26 @@ public class SellerServiceImpl implements SellerService {
         if (StringUtils.isEmpty(mallUser.getPassword())) {
             return BaseResult.parameterError();
         }
-        if (mallUser.getMobile() != null) {
-            if (mallUser.getMobile().length() != Constant.MOBILE_LENGTH) {
-                return BaseResult.error("ERROR", "输入的手机号码小于十一位");
-            }
-        } else if (mallUser.getEmail() != null) {
-            boolean matchResult = mallUser.getEmail().matches(Constant.REGEX);
-            if (!matchResult) {
-                return BaseResult.error("ERROR", "请输入正确的邮箱格式");
-            }
-        } else {
-            return BaseResult.parameterError();
+        if (mallUser.getEmail().matches("EMAIL_FORMAT") && mallUser.getMobile().length() < Constant.MOBILE_LENGTH) {
+            return BaseResult.error("ERROR", "输入的邮箱格式或手机号码不正确");
         }
+        /*if (mallUser.getMobile().length() < Constant.MOBILE_LENGTH) {
+            return BaseResult.error("ERROR", "输入的手机号码小于十一位");
+        }*/
         if (mallUser.getPassword().length() < Constant.PASSWORD_MIN_LENGTH) {
             return BaseResult.error("ERROR", "输入的密码小于六位");
         }
-        //MD5加密
         String encryptPassword = EncryptUtil.encryptMD5(mallUser.getPassword());
 
         //登录
-        MallUser user = sellerMapper.login(mallUser.getEmail(), mallUser.getMobile(), encryptPassword);
+        MallUser user = sellerMapper.login(mallUser.getMobile(), mallUser.getEmail(), encryptPassword);
         if (user == null) {
             return BaseResult.error("登录失败", "输入的账号或邮箱或密码错误");
         }
-        Long id = user.getId();
         //更新商户最后登录ip地址
-        sellerMapper.updateLoginIpAddress(id, ip);
+        sellerMapper.updateLoginIpAddress(mallUser.getId(), ip);
         //将用户手机号作为加密字符回传
-        String tokenStr = EncryptUtil.aesEncrypt(user.getEmail(), "ScoprionMall8888");
+        String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), "ScoprionMall8888");
         mallUser.setToken(tokenStr);
         return BaseResult.success(mallUser);
 

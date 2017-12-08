@@ -1,7 +1,9 @@
 package com.scoprion.mall.seller.mapper;
 
+import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.domain.order.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -101,4 +103,11 @@ public interface SellerMapper {
      * @return
      */
     Integer alter(MallUser mallUser);
+
+    /**
+     * 商户订单列表
+     * @param sellerId
+     * @return
+     */
+    Page<OrderExt> findBySellerId(Long sellerId);
 }

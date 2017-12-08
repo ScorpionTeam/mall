@@ -1,10 +1,11 @@
 package com.scoprion.mall.seller.controller;
 
-import com.scoprion.constant.Constant;
+
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.mall.seller.service.SellerService;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 import com.scoprion.utils.IPUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -92,5 +93,22 @@ public class SellerController {
     @PostMapping("/alter")
     public BaseResult alter(@RequestBody MallUser mallUser){
         return sellerService.alter(mallUser);
+    }
+
+
+    /**
+     * 退出登录
+     * @param mobile
+     * @param email
+     * @return
+     */
+    @GetMapping("/logout")
+    public BaseResult logout(String mobile,String email){
+        return sellerService.logout(mobile,email);
+    }
+
+    @GetMapping("findBySellerId")
+    public PageResult findBySellerId(Integer pageNo,Integer pageSize,Long sellerId){
+        return sellerService.findBySellerId(pageNo,pageSize,sellerId);
     }
 }

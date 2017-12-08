@@ -3,6 +3,7 @@ package com.scoprion.mall.seller.service;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.result.BaseResult;
+import com.scoprion.result.PageResult;
 
 /**
  * @author by hmy
@@ -58,4 +59,23 @@ public interface SellerService {
      * @return
      */
     BaseResult alter(MallUser mallUser);
+
+
+    /**
+     * 退出登录
+     * @param mobile
+     * @param email
+     * @return
+     */
+    BaseResult logout(String mobile,String email);
+
+
+    /**
+     * 查找商户的订单列表
+     * @param pageNo
+     * @param pageSize
+     * @param sellerId
+     * @return
+     */
+    PageResult findBySellerId(Integer pageNo, Integer pageSize, Long sellerId);
 }
