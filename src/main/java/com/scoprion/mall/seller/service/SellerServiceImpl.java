@@ -125,7 +125,7 @@ public class SellerServiceImpl implements SellerService {
         //将用户手机号码作为加密字符串回传
         String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), "ScorpionMall8888");
         mallUser.setToken(tokenStr);
-        return BaseResult.success(mallUser);
+        return BaseResult.success(tokenStr);
     }
 
 
