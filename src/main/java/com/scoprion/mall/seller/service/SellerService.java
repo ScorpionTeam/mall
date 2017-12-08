@@ -1,5 +1,6 @@
 package com.scoprion.mall.seller.service;
 
+import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.result.BaseResult;
 
@@ -33,4 +34,13 @@ public interface SellerService {
      * @return
      */
     BaseResult modify(Seller seller);
+
+    /**
+     * 微信商户登录
+     *
+     * @param mallUser
+     * @param ip
+     * @return
+     */
+    BaseResult login(MallUser mallUser, String ip) throws Exception;
 }

@@ -1,5 +1,6 @@
 package com.scoprion.mall.seller.mapper;
 
+import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -51,4 +52,21 @@ public interface SellerMapper {
      * @return
      */
     Integer validByUserId(@Param("userId") String userId);
+
+    /**
+     * 微信商户登录
+     *
+     * @param mallUser
+     * @param encryptPassword
+     * @return
+     */
+    MallUser login(MallUser mallUser, String encryptPassword);
+
+    /**
+     * 更新商品最后登录的ip地址
+     *
+     * @param id
+     * @param ip
+     */
+    void updateLoginIpAddress(Long id, String ip);
 }

@@ -56,4 +56,38 @@
     <select id="validByUserId" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_seller WHERE user_id=#{userId}
     </select>
+
+    <!--微信商户登录(手机号)-->
+    <select id="login" resultType="com.scoprion.mall.domain.MallUser">
+        SELECT id,
+        name,
+        mobile,
+        born_date,
+        sex,
+        age,
+        email,
+        address,
+        password,
+        head_picture,
+        nick_name,
+        certification,
+        certificate_id,
+        city,
+        status,
+        create_date,
+        update_date,
+        last_login_date,
+        login_ip,
+        user_type,
+        id_photo_front_url,
+        id_photo_bg_url
+        FROM t_user WHERE status='NORMAL' AND mobile=#{mobile} AND password=#{password}
+    </select>
+
+    <!--更新商户最后登录的ip地址-->
+    <update id="updateLoginIpAddress" parameterType="com.scoprion.mall.domain.MallUser">
+        UPDATE t_user SET
+        login_ip=#{ip}
+        WHERE id=#{id}
+    </update>
 </mapper>
