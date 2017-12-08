@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.scoprion.mall.seller.mapper.SellerGoodMapper">
+
+    <insert id="add" parameterType="com.scoprion.mall.domain.good.Goods">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO t_good(
+        good_name,
+        description,
+        promotion,
+        price,
+        sale_volume,
+        discount,
+        stock,
+        on_sale,
+        hot,
+        is_new,
+        create_date,
+        last_update_date,
+        freight,
+        brand_id,
+        seller_id,
+        visit_total,
+        good_no,
+        status,
+        rich_content,
+        seo,
+        main_image_url)
+        VALUES (
+        #{goodName},
+        #{description},
+        #{promotion},
+        #{price},
+        #{saleVolume},
+        #{discount},
+        #{stock},
+        #{onSale},
+        #{hot},
+        #{isNew},
+        NOW(),
+        NOW(),
+        #{freight},
+        #{brandId},
+        #{sellerId},
+        #{visitTotal},
+        #{goodNo},
+        'NORMAL',
+        #{richContent},
+        #{seo},
+        #{mainImageUrl})
+    </insert>
+
+    <!--根据商品id查询详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.good.GoodExt">
+        SELECT
+        good.id,
+        good.good_name,
+        good.description,
+        good.promotion,
+        good.price,
+        good.sale_volume,
+        good.discount,
+        good.stock,
+        good.on_sale,
+        good.hot,
+        good.seo,
+        good.is_new,
+        good.create_date,
+        good.last_update_date,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.good_no,
+        good.status,
+        good.rich_content,
+        good.main_image_url,
+        tacg.activity_id as activityId,
+        categorygood.category_id as category_id
+        FROM t_good good
+        LEFT  JOIN t_activity_good  tacg ON tacg.good_id=good.id
+        LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
+        WHERE good.id=#{goodId}
+        GROUP BY  good.id
+    </select>
+
+    <!--更新商品信息-->
+    <update id="updateGood" parameterType="com.scoprion.mall.domain.good.Goods">
+        UPDATE t_good SET
+        <if test="goodName!=null">good_name=#{goodName},</if>
+        <if test="description!=null">description=#{description},</if>
+        <if test="promotion!=null">promotion=#{promotion},</if>
+        <if test="price!=null">price=#{price},</if>
+        <if test="saleVolume!=null">sale_volume=#{saleVolume},</if>
+        <if test="discount!=null">discount=#{discount},</if>
+        <if test="stock!=null">stock=#{stock},</if>
+        <if test="onSale!=null">on_sale=#{onSale},</if>
+        <if test="hot!=null">hot=#{hot},</if>
+        <if test="isNew!=null">is_new=#{isNew},</if>
+        <if test="freight!=null">freight=#{freight},</if>
+        <if test="brandId!=null">brand_id=#{brandId},</if>
+        <if test="sellerId!=null">seller_id=#{sellerId},</if>
+        <if test="visitTotal!=null">visit_total=#{visitTotal},</if>
+        <if test="goodNo!=null">good_no=#{goodNo},</if>
+        <if test="mainImageUrl!=null">main_image_url=#{mainImageUrl},</if>
+        <if test="status!=null">status=#{status},</if>
+        <if test="richContent!=null">rich_content=#{richContent},</if>
+        <if test="seo!=null">seo=#{seo},</if>
+        last_update_date=NOW()
+        WHERE id=#{id}
+    </update>
+
+    <!--商品批量上下架-->
+    <update id="batchModifySaleStatus">
+        UPDATE t_good SET
+        on_sale=#{saleStatus},
+        last_update_date=NOW()
+        WHERE id IN
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
+
+    <!--批量删除商品-->
+    <update id="batchDeleteGood">
+        UPDATE t_good
+        SET status='UN_NORMAL',
+        last_update_date=now()
+        WHERE id IN
+        <foreach collection="idList" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND on_sale='OFF_SALE'
+    </update>
+
+    <!--库存扣减-->
+    <update id="updateGoodStock">
+        UPDATE t_good SET stock=stock+#{count} WHERE id=#{goodId}
+    </update>
+
+    <!--列表查询-->
+    <select id="findByCondition"
+            parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+            resultType="com.scoprion.mall.domain.good.GoodExt">
+        SELECT
+        good.id,
+        good.seo,
+        good.good_no,
+        good.good_name,
+        good.description,
+        good.promotion,
+        good.price,
+        good.sale_volume,
+        good.discount,
+        good.stock,
+        good.on_sale,
+        good.hot,
+        good.is_new,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.main_image_url,
+        good.rich_content,
+        good.create_date,
+        tacg.activity_id,
+        tac.start_date as startDate,
+        tac.end_date as endDate,
+        tac.status as activityStatus,
+        categorygood.category_id as category_id,
+        tacg.stock as activityStock
+        FROM t_good good
+        LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
+        LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
+        LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
+        WHERE 1=1
+        AND seller_id=#{sellerId}
+        <if test="searchKey!=null and searchKey!=''">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}
+        </if>
+        <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
+        <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
+        <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
+        <if test="goodNo!=null and goodNo!=''">AND good.good_no= #{goodNo}</if>
+        <if test="saleStatus!=null and saleStatus!=''">AND good.on_sale= #{saleStatus}</if>
+        <if test="isHot!=null and isHot!=''">AND good.hot= #{hot}</if>
+        <if test="isNew!=null and isNew!=''">AND good.is_new= #{isNew}</if>
+        <if test="isFreight!=null and isFreight!=''">AND good.freight= #{freight}</if>
+        <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
+        <if test="activityId!=null ">AND tacg.activity_id= #{activityId} AND tacg.status!='NORMAL'</if>
+        <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
+        GROUP BY good.id
+    </select>
+
+    <!--查询未绑定活动的商品-->
+    <select id="findForActivity"
+            parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+            resultType="com.scoprion.mall.domain.good.GoodExt">
+        SELECT
+        good.id,
+        good.seo,
+        good.good_no,
+        good.good_name,
+        good.description,
+        good.promotion,
+        good.price,
+        good.sale_volume,
+        good.discount,
+        good.stock,
+        good.on_sale,
+        good.hot,
+        good.is_new,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.main_image_url,
+        good.create_date,
+        categorygood.category_id as category_id,
+        tacg.activity_id as activityId,
+        tacg.stock as activityStock,
+        tac.start_date as startDate,
+        tac.end_date as endDate,
+        tac.status as activityStatus
+        FROM t_good good
+        LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
+        LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
+        LEFT JOIN t_activity tac ON (tac.id=tacg.activity_id AND (tac.status IS NULL OR tac.status!='NORMAL' OR
+        tac.end_date BETWEEN '0' AND NOW()) OR tacg.status='UN_NORMAL')
+        WHERE good.on_sale='ON_SALE'
+        AND good.id NOT IN(
+        SELECT tg.id
+        FROM t_good tg
+        LEFT JOIN t_activity_good tag ON tag.good_id=tg.id
+        LEFT JOIN t_activity ta ON ta.id=tag.activity_id
+        WHERE 1=1
+        AND seller_id=#{sellerId}
+        AND (
+        ta.status='NORMAL' OR ( ta.status!='UN_NORMAL' AND ta.start_date IS NOT NULL
+        AND ( ((ta.start_date BETWEEN '0' AND NOW()) AND ta.end_date > NOW()) OR ta.start_date >NOW() ) )
+        )
+        AND tag.status='NORMAL'
+        GROUP BY tg.id
+        )
+        AND good.on_sale='ON_SALE'
+        <if test="searchKey!=null">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}</if>
+        <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
+        <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
+        <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
+        GROUP BY good.id
+    </select>
+
+    <!--查询绑定活动的商品列表-->
+    <select id="findByActivityId"
+            parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+            resultType="com.scoprion.mall.domain.good.GoodExt">
+        SELECT
+        good.id,
+        good.seo,
+        good.good_no,
+        good.good_name,
+        good.description,
+        good.promotion,
+        good.price,
+        good.sale_volume,
+        good.discount,
+        good.stock,
+        good.on_sale,
+        good.hot,
+        good.is_new,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.main_image_url,
+        good.rich_content,
+        good.create_date,
+        categorygood.category_id as category_id,
+        tacg.activity_id as activityId,
+        tac.start_date as startDate,
+        tac.end_date as endDate,
+        tac.status as activityStatus,
+        tacg.stock as activityStock
+        FROM t_good good
+        LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
+        LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
+        LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
+        WHERE 1=1
+        AND seller_id=#{sellerId}
+        AND tac.id=#{activityId}
+        AND tac.status='NORMAL'
+        AND tacg.status='NORMAL'
+        <if test="searchKey!=null and   searchKey!=''">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}
+        </if>
+        <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
+        <if test="startDate==null and endDate!=null">AND good.create_date BETWEEN '1970-01-01' AND #{endDate}</if>
+        <if test="startDate!=null and endDate==null">AND good.create_date BETWEEN #{startDate} AND now()</if>
+        <if test="saleStatus!=null and saleStatus!=''">AND good.on_sale= #{saleStatus}</if>
+        <if test="isHot!=null and isHot!=''">AND good.hot= #{hot}</if>
+        <if test="isNew!=null and isNew!=''">AND good.is_new= #{isNew}</if>
+        <if test="isFreight!=null and isFreight!=''">AND good.freight= #{freight}</if>
+        <if test="goodNo!=null and goodNo!=''">AND good.good_no= #{goodNo}</if>
+        <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
+        <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
+        GROUP BY good.id
+    </select>
+
+    <!--查询未绑定类目的商品-->
+    <select id="findForCategory"
+            parameterType="com.scoprion.mall.domain.request.GoodRequestParams"
+            resultType="com.scoprion.mall.domain.good.GoodExt">
+        SELECT
+        good.id,
+        good.seo,
+        good.good_no,
+        good.category_id,
+        good.good_name,
+        good.description,
+        good.promotion,
+        good.price,
+        good.sale_volume,
+        good.discount,
+        good.stock,
+        good.on_sale,
+        good.hot,
+        good.is_new,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.main_image_url,
+        good.create_date
+        FROM t_good good
+        WHERE 1=1
+        AND seller_id=#{sellerId}
+        AND NOT EXISTS (
+        SELECT tcg.good_id FROM t_category_good tcg
+        WHERE tcg.good_id =good.id
+        )
+        <if test="searchKey!=null">AND CONCAT_WS('',good.good_name,good.good_no,seo) LIKE #{searchKey}</if>
+        <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
+        <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
+    </select>
+</mapper>

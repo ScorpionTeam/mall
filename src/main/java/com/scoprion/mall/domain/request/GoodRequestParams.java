@@ -52,6 +52,11 @@ public class GoodRequestParams extends PageRequestParams {
     private Long activityId;
 
     /**
+     * 商铺id
+     */
+    private Long sellerId;
+
+    /**
      * UNBIND_CATEGORY, 未绑定类目列表
      * UNBIND_ACTIVITY, 未绑定活动列表
      * BIND_ACTIVITY, "已经绑定活动列表
@@ -154,7 +159,6 @@ public class GoodRequestParams extends PageRequestParams {
     public void setActivityId(Long activityId) {
         this.activityId = activityId;
     }
-
 
     @Override
     public String toString() {
