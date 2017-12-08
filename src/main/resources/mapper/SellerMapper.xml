@@ -99,4 +99,22 @@
         NOW(),
         'SELLER')
     </insert>
+
+    <!--校验昵称是否存在-->
+    <select id="validByNickName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_user WHERE nick_name=#{nickName}
+    </select>
+
+
+    <!--修改商户个人信息-->
+    <update id="alter" parameterType="com.scoprion.mall.domain.MallUser">
+        UPDATE t_user SET
+        <if test="bornDate!=null">born_date#{bornDate},</if>
+        <if test="headPic!=null">head_picture#{headPic},</if>
+        <if test="nickName!=null">nick_name#{nickName},</if>
+        <if test="city!=null">city#{city},</if>
+        <if test="address!=null">address#{address},</if>
+        update_date=now()
+        WHERE id=#{id}
+    </update>
 </mapper>

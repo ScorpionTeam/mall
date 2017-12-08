@@ -42,4 +42,11 @@ public interface SellerService {
      * @throws Exception
      */
     BaseResult register(MallUser mallUser) throws Exception;
+
+    /**
+     * 修改商家个人信息
+     * @param mallUser
+     * @return
+     */
+    BaseResult alter(MallUser mallUser);
 }

@@ -66,4 +66,18 @@ public interface SellerMapper {
      * @return
      */
     Integer register(MallUser mallUser);
+
+    /**
+     * 校验昵称
+     * @param nickName
+     * @return
+     */
+    Integer validByNickName(@Param("nickName") String nickName);
+
+    /**
+     * 商户修改个人信息
+     * @param mallUser
+     * @return
+     */
+    Integer alter(MallUser mallUser);
 }

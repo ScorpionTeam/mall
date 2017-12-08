@@ -67,4 +67,8 @@ public class SellerController {
     }
 
 
+    @PostMapping("/alter")
+    public BaseResult alter(@RequestBody MallUser mallUser){
+        return sellerService.alter(mallUser);
+    }
 }

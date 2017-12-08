@@ -101,6 +101,10 @@ public class SellerServiceImpl implements SellerService {
         if (StringUtils.isEmpty(mallUser.getPassword())){
             return BaseResult.parameterError();
         }
+        Integer nickNameResult=sellerMapper.validByNickName(mallUser.getNickName());
+        if (nickNameResult>0){
+            return BaseResult.error("ERROR","该昵称已存在");
+        }
         if (mallUser.getPassword().length()< Constant.PASSWORD_MIN_LENGTH){
             return BaseResult.error("ERROR","密码长度不能小于六位");
         }
@@ -122,6 +126,25 @@ public class SellerServiceImpl implements SellerService {
         String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), "ScorpionMall8888");
         mallUser.setToken(tokenStr);
         return BaseResult.success(mallUser);
+    }
+
+
+    /**
+     * 修改个人信息
+     * @param mallUser
+     * @return
+     */
+    @Override
+    public BaseResult alter(MallUser mallUser) {
+        Integer result=sellerMapper.validByNickName(mallUser.getNickName());
+        if (result>0){
+            return BaseResult.error("ERROR","该昵称已存在");
+        }
+        Integer alterResult=sellerMapper.alter(mallUser);
+        if (alterResult<=0){
+            return BaseResult.error("ERROR","修改失败");
+        }
+        return BaseResult.success("修改成功");
     }
 }
 
