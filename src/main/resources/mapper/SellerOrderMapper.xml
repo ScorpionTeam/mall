@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scoprion.mall.backstage.mapper.OrderMapper">
-
+<mapper namespace="com.scoprion.mall.seller.mapper.SellerOrderMapper">
     <!--订单列表-->
-    <select id="findByCondition" parameterType="com.scoprion.mall.domain.request.OrderRequestParams"
+    <select id="findByCondition"
+            parameterType="com.scoprion.mall.domain.request.OrderRequestParams"
             resultType="com.scoprion.mall.domain.order.OrderExt">
         SELECT
         torder.id,
@@ -25,6 +25,7 @@
         FROM t_order torder
         LEFT JOIN t_good_snapshot tgs ON tgs.id=torder.good_snapshot_id
         WHERE 1=1
+        AND torder.seller_id =#{sellerId}
         <if test="searchKey!=null">AND
             CONCAT_WS('',torder.good_name,torder.post_code,torder.address,torder.phone,torder.recipients) LIKE
             #{searchKey}
@@ -83,7 +84,7 @@
         tg.main_image_url as goodMainImage
         FROM t_order tor
         LEFT JOIN t_good_snapshot tg ON tor.good_snapshot_id=tg.id
-        WHERE tor.id=#{id}
+        WHERE tor.id=#{id} AND tor.seller_id=#{sellerId}
     </select>
 
     <!--修改订单-->
@@ -128,16 +129,15 @@
         WHERE id=#{id}
     </update>
 
-
     <!--修改订单退款状态-->
     <update id="updateOrderRefundById">
         UPDATE t_order SET
-         order_status=#{status},
-         refund_free=#{refundFree},
-         refund_date=NOW(),
-         update_date=NOW(),
-         remark=#{remark}
-         WHERE id=#{orderId}
+        order_status=#{status},
+        refund_free=#{refundFree},
+        remark=#{remark},
+        refund_date=NOW(),
+        update_date=NOW()
+        WHERE id=#{orderId}
     </update>
 
     <!--修改订单支付状态-->

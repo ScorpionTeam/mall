@@ -2,19 +2,27 @@ package com.scoprion.mall.wx.pay.util;
 
 import com.github.pagehelper.Page;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.OrderMapper;
 import com.scoprion.mall.domain.order.Order;
+import com.scoprion.mall.domain.order.OrderLog;
+import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
+import com.scoprion.mall.wx.mapper.WxOrderMapper;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.OrderQueryResponseData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
+import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
 import com.scoprion.mall.wx.service.pay.WxPayService;
+import com.scoprion.result.BaseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,16 +34,80 @@ import java.util.Map;
 public class WxOrderScheduler {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     OrderMapper orderMapper;
 
     @Autowired
+    WxOrderMapper wxOrderMapper;
+
+    @Autowired
+    WxOrderLogMapper wxOrderLogMapper;
+
+    @Autowired
     WxPayService wxPayService;
 
+    /**
+     * 12小时执行一次 查询申请退款时间大于两天（48小时） 的订单
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Scheduled(fixedRate = 12 * 60 * 60 * 1000)
+    public void findRefundingOrder() {
+        List<Order> orderList = wxOrderMapper.findRefundingOrder();
+        orderList.forEach(order -> {
+            if (order.getRefundFee() > 0) {
+                String nonceStr = WxUtil.createRandom(false, 10);
+                String refundOrderNo = order.getOrderNo() + "T";
+                //定义接收退款返回字符串
+                String refundXML = WxPayUtil.refundSign(order.getOrderNo(), order.getPaymentFee(), order.getRefundFee(),
+                        refundOrderNo, nonceStr);
+                //接收退款返回
+                String response = null;
+                try {
+                    response = WxPayUtil.doRefund(WxPayConfig.WECHAT_REFUND, refundXML, WxPayConfig.MCHID);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (response != null) {
+                    WxRefundNotifyResponseData responseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(response);
+                    Boolean result = "success".equalsIgnoreCase(responseData.getReturn_code());
+                    if (result) {
+                        //退款成功，更新状态
+                        wxOrderMapper.updateOrderStatusById(order.getId(), CommonEnum.REFUND_SUCCESS.getCode());
+                    }
+                    //记录退款日志
+                    saveOrderLog(order.getId(), order.getOrderNo(), responseData.getReturn_msg());
+                } else {
+                    //记录退款失败日志
+                    saveOrderLog(order.getId(), order.getOrderNo(), "微信退款失败");
+                }
+            }
+        });
+    }
+
+    /**
+     * 保存订单日志
+     *
+     * @param orderId
+     * @param orderNo
+     * @param action
+     */
+    private void saveOrderLog(Long orderId, String orderNo, String action) {
+        OrderLog orderLog = new OrderLog();
+        orderLog.setOrderId(orderId);
+        orderLog.setOrderNo(orderNo);
+        orderLog.setIpAddress("");
+        orderLog.setAction(action);
+        wxOrderLogMapper.add(orderLog);
+    }
+
+    /**
+     * 查询未付款订单，校验微信支付结果
+     */
     @Scheduled(fixedRate = 4 * 60 * 60 * 1000)
-    public void findOrderTasks() {
+    public void findUnPayOrder() {
 //        logger.info("每4小時执行一次。开始");
-        Page<Order> page = orderMapper.findByScheduler();
+        List<Order> page = wxOrderMapper.findUnPayOrder();
         if (page == null || page.size() == 0) {
 //            logger.info("每4小時执行一次。结束。");
             return;

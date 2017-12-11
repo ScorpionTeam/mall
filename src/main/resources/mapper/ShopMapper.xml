@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scoprion.mall.backstage.mapper.ShopMapper">
+
+    <!--商铺列表-->
+    <select id="listPage" resultType="com.scoprion.mall.domain.Seller">
+        SELECT
+        id,
+        audit,
+        status,
+        mobile,
+        user_id,
+        seller_no,
+        reputation,
+        seller_name,
+        seller_address,
+        seller_description
+        FROM t_seller WHERE audit=#{audit}
+    </select>
+
+    <!--店铺审核-->
+    <update id="update" parameterType="com.scoprion.mall.domain.Seller">
+        UPDATE t_seller SET
+        <if test="audit!=null">audit=#{audit},</if>
+        <if test="reason!=null">reason=#{reason},</if>
+        update_date=now()
+        WHERE id=#{id}
+    </update>
+</mapper>

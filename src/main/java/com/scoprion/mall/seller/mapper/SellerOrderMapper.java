@@ -1,4 +1,4 @@
-package com.scoprion.mall.backstage.mapper;
+package com.scoprion.mall.seller.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.order.Order;
@@ -8,20 +8,12 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * Created on 2017/9/29.
- *
  * @author ycj
+ * @version V1.0 <>
+ * @date 2017-12-08 10:26
  */
 @Mapper
-public interface OrderMapper {
-
-    /**
-     * 订单列表
-     *
-     * @param requestParams
-     * @return
-     */
-    Page<OrderExt> findByCondition(OrderRequestParams requestParams);
+public interface SellerOrderMapper {
 
     /**
      * 根据id查询详情
@@ -32,6 +24,15 @@ public interface OrderMapper {
     OrderExt findById(@Param("id") Long id);
 
     /**
+     * 订单列表
+     *
+     * @param requestParams
+     * @return
+     */
+    Page<OrderExt> findByCondition(OrderRequestParams requestParams);
+
+
+    /**
      * 修改订单
      *
      * @param order
@@ -40,34 +41,18 @@ public interface OrderMapper {
     int modify(Order order);
 
     /**
-     * 修改订单退款状态
+     * 将订单状态修改为  拒绝退款
      *
      * @param orderId
      * @param status
-     * @param refundFree
+     * @param refundFee
      * @param remark
      * @return
      */
     int updateOrderRefundById(@Param("orderId") Long orderId,
                               @Param("status") String status,
-                              @Param("refundFree") Integer refundFree,
+                              @Param("refundFee") Integer refundFee,
                               @Param("remark") String remark);
-
-    /**
-     * 将订单支付状态
-     *
-     * @param orderId
-     * @param orderStatus
-     * @param wxOrderNo
-     * @param orderNo
-     * @param payDate
-     * @return
-     */
-    int updateOrderPayStatus(@Param("orderId") Long orderId,
-                             @Param("orderStatus") String orderStatus,
-                             @Param("wxOrderNo") String wxOrderNo,
-                             @Param("orderNo") String orderNo,
-                             @Param("payDate") String payDate);
 
     /**
      * 修改订单发货状态

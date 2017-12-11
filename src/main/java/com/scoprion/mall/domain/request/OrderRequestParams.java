@@ -47,6 +47,19 @@ public class OrderRequestParams extends PageRequestParams {
      */
     private String orderNo;
 
+    /**
+     * 商铺id
+     */
+    private Long sellerId;
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
     public String getPayType() {
         return payType;
     }
