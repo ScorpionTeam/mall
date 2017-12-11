@@ -1,5 +1,6 @@
 package com.scoprion.mall.backstage.service.shop;
 
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 
 /**
@@ -16,4 +17,14 @@ public interface ShopService {
      * @return
      */
     PageResult listPage(Integer pageNo, Integer pageSize,String audit);
+
+
+    /**
+     * 店铺审核
+     * @param audit
+     * @param reason
+     * @param id
+     * @return
+     */
+    BaseResult audit(String audit, String reason,Long id);
 }

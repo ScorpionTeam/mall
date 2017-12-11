@@ -20,4 +20,12 @@
         seller_description
         FROM t_seller WHERE audit=#{audit}
     </select>
+
+    <update id="update" parameterType="com.scoprion.mall.domain.Seller">
+        UPDATE t_seller SET
+        <if test="audit!=null">audit#{audit},</if>
+        <if test="reason!=null">reason#{reason},</if>
+        update_date=now()
+        WHERE id=#{id}
+    </update>
 </mapper>

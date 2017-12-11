@@ -83,6 +83,11 @@ public class Seller {
     @JSONField(name = "create_date", format = "yyyy-MM-dd HH:mm:ss")
     private Date createDate;
 
+    /**
+     * 不通过的原因
+     */
+    private String reason;
+
 
     public Long getId() {
         return id;
@@ -188,6 +193,14 @@ public class Seller {
         this.wxCode = wxCode;
     }
 
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     @Override
     public String toString() {
         return "Seller{" +
@@ -204,6 +217,7 @@ public class Seller {
                 ", sellerDescription='" + sellerDescription + '\'' +
                 ", updateDate=" + updateDate +
                 ", createDate=" + createDate +
+                ", reason='" + reason + '\'' +
                 '}';
     }
 }

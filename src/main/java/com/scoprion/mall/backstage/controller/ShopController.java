@@ -1,9 +1,11 @@
 package com.scoprion.mall.backstage.controller;
 
 import com.scoprion.mall.backstage.service.shop.ShopService;
+import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,5 +31,10 @@ public class ShopController {
     @GetMapping("/listPage")
     public PageResult listPage(Integer pageNo,Integer pageSize,String audit){
         return shopService.listPage(pageNo,pageSize,audit);
+    }
+
+    @PostMapping("/audit")
+    public BaseResult audit(String audit,String reason,Long id){
+        return shopService.audit(audit,reason,id);
     }
 }
