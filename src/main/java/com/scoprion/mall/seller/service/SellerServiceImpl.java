@@ -244,8 +244,8 @@ public class SellerServiceImpl implements SellerService {
         //将用户手机号作为加密字符回传
         String tokenStr = EncryptUtil.aesEncrypt(user.getMobile(), "ScoprionMall8888");
         mallUser.setToken(tokenStr);
-        /*//设置用户登录有效期为30分钟
-        redisTemplate.opsForValue().set("Login:" + user.getMobile(), user.toString(), 30, TimeUnit.MINUTES);*/
+        //设置用户登录有效期为30分钟
+        redisTemplate.opsForValue().set("Login:" + user.getMobile(), user.toString(), 30, TimeUnit.MINUTES);
         return BaseResult.success(mallUser);
     }
 }
