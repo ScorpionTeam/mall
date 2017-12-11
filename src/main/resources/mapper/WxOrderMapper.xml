@@ -271,7 +271,7 @@
     </select>
 
 
-    <!--查询 申请退款时间大于两天（48小时） 的订单-->
+    <!--查询 申请退款时间大于两天（48小时） 的订单 REFUNDING -->
     <select id="findRefundingOrder" resultType="com.scoprion.mall.domain.order.Order">
         SELECT
         id,

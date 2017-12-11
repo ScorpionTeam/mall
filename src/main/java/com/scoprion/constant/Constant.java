@@ -129,5 +129,4 @@ public class Constant {
 
     public static final String ROUTING_KEY = "mall.routingkey.content";
 
-    public static final int ONE = 1;
 }

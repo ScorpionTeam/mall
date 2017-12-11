@@ -1,8 +1,17 @@
 package com.scoprion.mall.wx.rabbitmq;
 
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.WxFreeOrder;
 import com.scoprion.mall.domain.WxOrderRequestData;
+import com.scoprion.mall.domain.order.Order;
+import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
+import com.scoprion.mall.wx.mapper.WxOrderMapper;
+import com.scoprion.mall.wx.pay.WxPayConfig;
+import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
+import com.scoprion.mall.wx.pay.util.WxPayUtil;
+import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.mall.wx.service.free.WxFreeService;
 import com.scoprion.mall.wx.service.pay.WxPayService;
 import org.slf4j.Logger;
@@ -18,7 +27,7 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-@RabbitListener(queues = Constant.QUEUE,containerFactory = "simpleRabbitListenerContainerFactory")
+@RabbitListener(queues = Constant.QUEUE, containerFactory = "simpleRabbitListenerContainerFactory")
 public class ReceiveFreeComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReceiveFreeComponent.class);
 
@@ -30,4 +39,5 @@ public class ReceiveFreeComponent {
         LOGGER.info("接收到信息为：" + wxFreeOrder.getWxCode());
         //wxPayService.unifiedOrder(wxOrderRequestData);
     }
+
 }

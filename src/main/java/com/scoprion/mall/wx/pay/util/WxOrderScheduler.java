@@ -13,6 +13,7 @@ import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.OrderQueryResponseData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
+import com.scoprion.mall.wx.rabbitmq.SendComponent;
 import com.scoprion.mall.wx.service.pay.WxPayService;
 import com.scoprion.result.BaseResult;
 import org.slf4j.Logger;
@@ -48,42 +49,46 @@ public class WxOrderScheduler {
     @Autowired
     WxPayService wxPayService;
 
+    @Autowired
+    private SendComponent sendComponent;
+
     /**
      * 12小时执行一次 查询申请退款时间大于两天（48小时） 的订单
      */
-    @Transactional(rollbackFor = Exception.class)
     @Scheduled(fixedRate = 12 * 60 * 60 * 1000)
     public void findRefundingOrder() {
         List<Order> orderList = wxOrderMapper.findRefundingOrder();
         orderList.forEach(order -> {
             if (order.getRefundFee() > 0) {
-                String nonceStr = WxUtil.createRandom(false, 10);
-                String refundOrderNo = order.getOrderNo() + "T";
-                //定义接收退款返回字符串
-                String refundXML = WxPayUtil.refundSign(order.getOrderNo(), order.getPaymentFee(), order.getRefundFee(),
-                        refundOrderNo, nonceStr);
-                //接收退款返回
-                String response = null;
-                try {
-                    response = WxPayUtil.doRefund(WxPayConfig.WECHAT_REFUND, refundXML, WxPayConfig.MCHID);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if (response != null) {
-                    WxRefundNotifyResponseData responseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(response);
-                    Boolean result = "success".equalsIgnoreCase(responseData.getReturn_code());
-                    if (result) {
-                        //退款成功，更新状态
-                        wxOrderMapper.updateOrderStatusById(order.getId(), CommonEnum.REFUND_SUCCESS.getCode());
-                    }
-                    //记录退款日志
-                    ServiceCommon.saveWxOrderLog(order.getId(), order.getAddress(), order.getOrderNo(),
-                            responseData.getReturn_msg(), wxOrderLogMapper);
-                } else {
-                    //记录退款失败日志
-                    ServiceCommon.saveWxOrderLog(order.getId(), order.getAddress(), order.getOrderNo(),
-                            "微信退款失败", wxOrderLogMapper);
-                }
+                //发送到消息队列
+                sendComponent.sendRefundingOrder(order);
+//                String nonceStr = WxUtil.createRandom(false, 10);
+//                String refundOrderNo = order.getOrderNo() + "T";
+//                //定义接收退款返回字符串
+//                String refundXML = WxPayUtil.refundSign(order.getOrderNo(), order.getPaymentFee(), order.getRefundFee(),
+//                        refundOrderNo, nonceStr);
+//                //接收退款返回
+//                String response = null;
+//                try {
+//                    response = WxPayUtil.doRefund(WxPayConfig.WECHAT_REFUND, refundXML, WxPayConfig.MCHID);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//                if (response != null) {
+//                    WxRefundNotifyResponseData responseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(response);
+//                    Boolean result = "success".equalsIgnoreCase(responseData.getReturn_code());
+//                    if (result) {
+//                        //退款成功，更新状态
+//                        wxOrderMapper.updateOrderStatusById(order.getId(), CommonEnum.REFUND_SUCCESS.getCode());
+//                    }
+//                    //记录退款日志
+//                    ServiceCommon.saveWxOrderLog(order.getId(), order.getAddress(), order.getOrderNo(),
+//                            responseData.getReturn_msg(), wxOrderLogMapper);
+//                } else {
+//                    //记录退款失败日志
+//                    ServiceCommon.saveWxOrderLog(order.getId(), order.getAddress(), order.getOrderNo(),
+//                            "微信退款失败", wxOrderLogMapper);
+//                }
             }
         });
     }
