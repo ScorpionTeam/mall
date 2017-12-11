@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.scoprion.mall.backstage.mapper.GoodsMapper">
+<mapper namespace="com.scoprion.mall.seller.mapper.SellerGoodMapper">
 
     <insert id="add" parameterType="com.scoprion.mall.domain.good.Goods">
         <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
@@ -54,75 +54,42 @@
         #{mainImageUrl})
     </insert>
 
-    <!--优选商品分页查询-->
-    <select id="preferenceGivenByPage" resultType="com.scoprion.mall.domain.good.Goods">
-        SELECT
-         id,
-         good_name,
-         description,
-         promotion,
-         price,
-         sale_volume,
-         discount,
-         stock,
-         on_sale,
-         hot,
-         is_new,
-         create_date,
-         last_update_date,
-         freight,
-         brand_id,
-         seller_id,
-         visit_total,
-         good_no,
-         status,
-         rich_content,
-         main_image_url,
-         seo
-        FROM t_good
-    </select>
-
     <!--根据商品id查询详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.good.GoodExt">
         SELECT
-         good.id,
-         good.good_name,
-         good.description,
-         good.promotion,
-         good.price,
-         good.sale_volume,
-         good.discount,
-         good.stock,
-         good.on_sale,
-         good.hot,
-         good.seo,
-         good.is_new,
-         good.create_date,
-         good.last_update_date,
-         good.freight,
-         good.brand_id,
-         good.seller_id,
-         good.visit_total,
-         good.good_no,
-         good.status,
-         good.rich_content,
-         good.main_image_url,
-         tacg.activity_id as activityId,
-         categorygood.category_id as category_id
-         FROM t_good good
-         LEFT  JOIN t_activity_good  tacg ON tacg.good_id=good.id
-         LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
-         WHERE good.id=#{goodId}
+        good.id,
+        good.good_name,
+        good.description,
+        good.promotion,
+        good.price,
+        good.sale_volume,
+        good.discount,
+        good.stock,
+        good.on_sale,
+        good.hot,
+        good.seo,
+        good.is_new,
+        good.create_date,
+        good.last_update_date,
+        good.freight,
+        good.brand_id,
+        good.seller_id,
+        good.visit_total,
+        good.good_no,
+        good.status,
+        good.rich_content,
+        good.main_image_url,
+        tacg.activity_id as activityId,
+        categorygood.category_id as category_id
+        FROM t_good good
+        LEFT  JOIN t_activity_good  tacg ON tacg.good_id=good.id
+        LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
+        WHERE good.id=#{goodId}
         GROUP BY  good.id
     </select>
 
-    <!--库存扣减-->
-    <update id="modifyGoodsDeduction">
-        UPDATE t_good SET stock=stock+#{count} WHERE id=#{goodId}
-    </update>
-
     <!--更新商品信息-->
-    <update id="updateGoods" parameterType="com.scoprion.mall.domain.good.Goods">
+    <update id="updateGood" parameterType="com.scoprion.mall.domain.good.Goods">
         UPDATE t_good SET
         <if test="goodName!=null">good_name=#{goodName},</if>
         <if test="description!=null">description=#{description},</if>
@@ -147,7 +114,7 @@
         WHERE id=#{id}
     </update>
 
-    <!--商品上下架-->
+    <!--商品批量上下架-->
     <update id="batchModifySaleStatus">
         UPDATE t_good SET
         on_sale=#{saleStatus},
@@ -170,9 +137,9 @@
         AND on_sale='OFF_SALE'
     </update>
 
-    <!--库存回退-->
-    <update id="updateGoodStockById">
-        UPDATE t_good SET stock=stock+#{stock} WHERE id=#{goodId}
+    <!--库存扣减-->
+    <update id="updateGoodStock">
+        UPDATE t_good SET stock=stock+#{count} WHERE id=#{goodId}
     </update>
 
     <!--列表查询-->
@@ -211,6 +178,7 @@
         LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         LEFT JOIN t_category_good categorygood ON categorygood.good_id=good.id
         WHERE 1=1
+        AND good.seller_id=#{sellerId}
         <if test="searchKey!=null and searchKey!=''">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}
         </if>
         <if test="startDate!=null and endDate!=null">AND good.create_date BETWEEN #{startDate} AND #{endDate}</if>
@@ -224,7 +192,6 @@
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
         <if test="activityId!=null ">AND tacg.activity_id= #{activityId} AND tacg.status!='NORMAL'</if>
         <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
-        <if test="sellerId!=null ">AND good.seller_id= #{sellerId}</if>
         GROUP BY good.id
     </select>
 
@@ -266,25 +233,25 @@
         tac.end_date BETWEEN '0' AND NOW()) OR tacg.status='UN_NORMAL')
 
         WHERE
-        AND good.on_sale='ON_SALE'
+        good.on_sale='ON_SALE'
+        AND good.seller_id=#{sellerId}
         AND good.id NOT IN(
-        SELECT tg.id
-        FROM t_good tg
-        LEFT JOIN t_activity_good tag ON tag.good_id=tg.id
-        LEFT JOIN t_activity ta ON ta.id=tag.activity_id
-        WHERE 1=1
-        AND (
-        ta.status='NORMAL' OR ( ta.status!='UN_NORMAL' AND ta.start_date IS NOT NULL
-        AND ( ((ta.start_date BETWEEN '0' AND NOW()) AND ta.end_date > NOW()) OR ta.start_date >NOW() ) )
-        )
-        AND tag.status='NORMAL'
-        GROUP BY tg.id
+            SELECT tg.id
+            FROM t_good tg
+            LEFT JOIN t_activity_good tag ON tag.good_id=tg.id
+            LEFT JOIN t_activity ta ON ta.id=tag.activity_id
+            WHERE 1=1
+            AND (
+            ta.status='NORMAL' OR ( ta.status!='UN_NORMAL' AND ta.start_date IS NOT NULL
+            AND ( ((ta.start_date BETWEEN '0' AND NOW()) AND ta.end_date > NOW()) OR ta.start_date >NOW() ) )
+            )
+            AND tag.status='NORMAL'
+            GROUP BY tg.id
         )
         <if test="searchKey!=null">AND CONCAT_WS('',good.good_name,good.good_no) LIKE #{searchKey}</if>
         <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
         <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
-        <if test="sellerId!=null ">AND good.seller_id= #{sellerId}</if>
         GROUP BY good.id
     </select>
 
@@ -324,6 +291,7 @@
         LEFT JOIN t_activity_good tacg ON tacg.good_id=good.id
         LEFT JOIN t_activity tac ON tac.id=tacg.activity_id
         WHERE 1=1
+        AND good.seller_id=#{sellerId}
         AND tac.id=#{activityId}
         AND tac.status='NORMAL'
         AND tacg.status='NORMAL'
@@ -339,7 +307,6 @@
         <if test="goodNo!=null and goodNo!=''">AND good.good_no= #{goodNo}</if>
         <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
-        <if test="sellerId!=null ">AND good.seller_id= #{sellerId}</if>
         GROUP BY good.id
     </select>
 
@@ -370,6 +337,7 @@
         good.create_date
         FROM t_good good
         WHERE 1=1
+        AND good.seller_id=#{sellerId}
         AND NOT EXISTS (
         SELECT tcg.good_id FROM t_category_good tcg
         WHERE tcg.good_id =good.id
@@ -377,8 +345,5 @@
         <if test="searchKey!=null">AND CONCAT_WS('',good.good_name,good.good_no,seo) LIKE #{searchKey}</if>
         <if test="goodNo!=null ">AND good.good_no= #{goodNo}</if>
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
-        <if test="sellerId!=null ">AND good.seller_id= #{sellerId}</if>
     </select>
-
-
 </mapper>
