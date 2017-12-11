@@ -8,6 +8,7 @@ import com.scoprion.result.PageResult;
 /**
  * Created by fk
  *
+ * @author fk
  * @create on 2017/11/12.
  */
 public interface WxActivityService {
@@ -17,6 +18,7 @@ public interface WxActivityService {
      *
      * @param pageNo
      * @param pageSize
+     * @param activityType
      * @return
      */
     PageResult groupList(int pageNo, int pageSize, String activityType);
