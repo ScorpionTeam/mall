@@ -51,6 +51,7 @@ public class SellerServiceImpl implements SellerService {
         if (validByUserResult > 0) {
             return BaseResult.error("ERROR", "不可重复创建店铺");
         }
+        seller.setUserId(userId);
         if (seller == null) {
             return BaseResult.parameterError();
         }
