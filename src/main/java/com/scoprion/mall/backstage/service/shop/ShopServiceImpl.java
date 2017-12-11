@@ -38,6 +38,13 @@ public class ShopServiceImpl implements ShopService {
         return new PageResult(page);
     }
 
+    /**
+     * 店铺审核
+     * @param audit
+     * @param reason
+     * @param id
+     * @return
+     */
     @Override
     public BaseResult audit(String audit, String reason,Long id) {
         if (StringUtils.isEmpty(id.toString())){

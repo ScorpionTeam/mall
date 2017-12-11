@@ -33,6 +33,13 @@ public class ShopController {
         return shopService.listPage(pageNo,pageSize,audit);
     }
 
+    /**
+     * 店铺审核
+     * @param audit
+     * @param reason
+     * @param id
+     * @return
+     */
     @PostMapping("/audit")
     public BaseResult audit(String audit,String reason,Long id){
         return shopService.audit(audit,reason,id);
