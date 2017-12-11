@@ -106,7 +106,7 @@ public class SellerServiceImpl implements SellerService {
      * @throws Exception
      */
     @Override
-    public BaseResult register(MallUser mallUser) throws Exception {
+    public BaseResult register(MallUser mallUser,String ip) throws Exception {
         if (mallUser == null) {
             return BaseResult.parameterError();
         }

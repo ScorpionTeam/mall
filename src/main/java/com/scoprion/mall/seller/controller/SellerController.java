@@ -62,12 +62,14 @@ public class SellerController {
     /**
      * 注册
      * @param mallUser
+     * @param httpServletRequest
      * @return
      * @throws Exception
      */
     @PostMapping("/registry")
-    public BaseResult registry(@RequestBody MallUser mallUser)throws Exception{
-        return sellerService.register(mallUser);
+    public BaseResult registry(@RequestBody MallUser mallUser,HttpServletRequest httpServletRequest)throws Exception{
+        String ip=IPUtil.getIPAddress(httpServletRequest);
+        return sellerService.register(mallUser,ip);
     }
 
 
