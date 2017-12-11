@@ -41,6 +41,11 @@ public class WxPayConfig {
     public final static String NOTIFY_URL_GROUP = "http://zjhkhl.com/mall/wx/activity/callBack";
 
     /**
+     * 微信商户平台免费试用支付结果通知URL
+     */
+    public final static String FREE_URL_GROUP="http://zjhkhl.com/mall/wx/free/callBack";
+
+    /**
      * 统一下单URL
      */
     public final static String WECHAT_UNIFIED_ORDER_URL = "https://api.mch.weixin.qq.com/pay/unifiedorder";

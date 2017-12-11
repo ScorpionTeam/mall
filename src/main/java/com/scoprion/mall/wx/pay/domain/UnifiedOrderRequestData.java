@@ -201,12 +201,12 @@ public class UnifiedOrderRequestData {
         public UnifiedOrderReqDataBuilder(String body, String out_trade_no,
                                           Integer total_fee, String spbill_create_ip, String trade_type) {
 
-            this(WxPayConfig.APP_ID, WxPayConfig.MCHID, WxPayConfig.NOTIFY_URL, WxPayConfig.NOTIFY_URL_GROUP,
+            this(WxPayConfig.APP_ID, WxPayConfig.MCHID, WxPayConfig.NOTIFY_URL, WxPayConfig.NOTIFY_URL_GROUP,WxPayConfig.FREE_URL_GROUP,
                     body, out_trade_no, total_fee, spbill_create_ip, trade_type);
         }
 
         public UnifiedOrderReqDataBuilder(String appid, String mch_id,
-                                          String notify_url, String notify_url_group, String body, String out_trade_no,
+                                          String notify_url, String notify_url_group, String free_url_group,String body, String out_trade_no,
                                           Integer total_fee, String spbill_create_ip, String trade_type) {
             // 校验外部传入数据
             if (appid == null) {

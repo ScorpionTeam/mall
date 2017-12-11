@@ -39,4 +39,11 @@ public interface WxFreeService {
      */
     BaseResult pay(Long orderId,Long activityId,Long goodId);
 
+
+    /**
+     * 接收微信回调(免费试用)
+     * @param unifiedOrderNotifyRequestData
+     * @return
+     */
+    BaseResult callBack(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData);
 }
