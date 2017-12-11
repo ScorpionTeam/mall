@@ -128,9 +128,9 @@ public class WxActivityServiceImpl implements WxActivityService {
         }
 
         //系统内生成订单信息
-        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", ipAddress, order.getId());
-        wxOrderLogMapper.add(orderLog);
-
+//        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", ipAddress, order.getId());
+//        wxOrderLogMapper.add(orderLog);
+        ServiceCommon.saveWxOrderLog(order.getId(), ipAddress, order.getOrderNo(), "生成试用订单", wxOrderLogMapper);
         //统一下单参数
         String nonce_str = WxUtil.createRandom(false, 10);
         String unifiedOrderXML = WxPayUtil.placeOrder(goods.getGoodName(),
@@ -226,9 +226,11 @@ public class WxActivityServiceImpl implements WxActivityService {
                     unifiedOrderNotifyRequestData.getOut_trade_no(),
                     unifiedOrderNotifyRequestData.getTransaction_id());
             //记录订单日志
-            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款",
-                    null, order.getId());
-            wxOrderLogMapper.add(orderLog);
+//            OrderLog orderLog = constructOrderLog(unifiedOrderNotifyRequestData.getOut_trade_no(), "付款",
+//                    null, order.getId());
+//            wxOrderLogMapper.add(orderLog);
+            ServiceCommon.saveWxOrderLog(order.getId(), null, order.getOrderNo(), "付款", wxOrderLogMapper);
+
             //取到订单里的商品id
             ActivityGoods activityGoods = wxActivityMapper.findByActivityGoodStock(order.getGoodId());
             //库存扣减
@@ -254,11 +256,12 @@ public class WxActivityServiceImpl implements WxActivityService {
      * @param goodName
      */
     private void saveGoodLog(Long goodId, String action, String goodName) {
-        GoodLog goodLog = new GoodLog();
-        goodLog.setAction(action);
-        goodLog.setGoodName(goodName);
-        goodLog.setGoodId(goodId);
-        goodLogMapper.add(goodLog);
+//        GoodLog goodLog = new GoodLog();
+//        goodLog.setAction(action);
+//        goodLog.setGoodName(goodName);
+//        goodLog.setGoodId(goodId);
+//        goodLogMapper.add(goodLog);
+        ServiceCommon.saveGoodLog(goodName, action, goodId, goodLogMapper);
     }
 
     /**

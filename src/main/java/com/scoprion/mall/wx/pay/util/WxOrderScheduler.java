@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.OrderMapper;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.order.Order;
 import com.scoprion.mall.domain.order.OrderLog;
 import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
@@ -76,29 +77,15 @@ public class WxOrderScheduler {
                         wxOrderMapper.updateOrderStatusById(order.getId(), CommonEnum.REFUND_SUCCESS.getCode());
                     }
                     //记录退款日志
-                    saveOrderLog(order.getId(), order.getOrderNo(), responseData.getReturn_msg());
+                    ServiceCommon.saveWxOrderLog(order.getId(), order.getAddress(), order.getOrderNo(),
+                            responseData.getReturn_msg(), wxOrderLogMapper);
                 } else {
                     //记录退款失败日志
-                    saveOrderLog(order.getId(), order.getOrderNo(), "微信退款失败");
+                    ServiceCommon.saveWxOrderLog(order.getId(), order.getAddress(), order.getOrderNo(),
+                            "微信退款失败", wxOrderLogMapper);
                 }
             }
         });
-    }
-
-    /**
-     * 保存订单日志
-     *
-     * @param orderId
-     * @param orderNo
-     * @param action
-     */
-    private void saveOrderLog(Long orderId, String orderNo, String action) {
-        OrderLog orderLog = new OrderLog();
-        orderLog.setOrderId(orderId);
-        orderLog.setOrderNo(orderNo);
-        orderLog.setIpAddress("");
-        orderLog.setAction(action);
-        wxOrderLogMapper.add(orderLog);
     }
 
     /**

@@ -8,6 +8,7 @@ import com.scoprion.mall.backstage.mapper.CategoryGoodMapper;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.backstage.service.file.FileOperationServiceImpl;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.good.GoodExt;
 import com.scoprion.mall.domain.good.GoodLog;
 import com.scoprion.mall.domain.good.Goods;
@@ -105,11 +106,7 @@ public class GoodsServiceImpl implements GoodsService {
      * @param goodId
      */
     private void saveGoodLog(String goodName, String action, Long goodId) {
-        GoodLog goodLog = new GoodLog();
-        goodLog.setGoodName(goodName);
-        goodLog.setGoodId(goodId);
-        goodLog.setAction(action);
-        goodLogMapper.add(goodLog);
+        ServiceCommon.saveGoodLog(goodName, action, goodId, goodLogMapper);
     }
 
     /**

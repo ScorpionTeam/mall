@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.SendGoodMapper;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.domain.order.Order;
 import com.scoprion.mall.domain.order.OrderExt;
@@ -92,8 +93,8 @@ public class WxOrderServiceImpl implements WxOrderService {
      * @return
      */
     @Override
-    public BaseResult refund( Long orderId) {
-        if (StringUtils.isEmpty(orderId.toString())){
+    public BaseResult refund(Long orderId) {
+        if (StringUtils.isEmpty(orderId.toString())) {
             return BaseResult.parameterError();
         }
         wxOrderMapper.updateByOrderID(orderId, CommonEnum.REFUND.getCode());
@@ -143,7 +144,8 @@ public class WxOrderServiceImpl implements WxOrderService {
         //签收成功后订单状态修改为  待评价
         int result = wxOrderMapper.updateByOrderID(id, CommonEnum.DONE.getCode());
         if (result > 0) {
-            saveOrderLog("确认收货", order, ipAddress);
+            ServiceCommon.saveWxOrderLog(order.getId(), null, order.getOrderNo(), "确认收货",
+                    wxOrderLogMapper);
             return BaseResult.success("确认收货成功");
         }
         return BaseResult.error("ERROR", "确认收货失败");
@@ -170,18 +172,10 @@ public class WxOrderServiceImpl implements WxOrderService {
         //将订单修改为关闭状态
         int result = wxOrderMapper.updateByOrderID(id, CommonEnum.CLOSING.getCode());
         if (result > 0) {
-            saveOrderLog("取消订单", order, ipAddress);
+            ServiceCommon.saveWxOrderLog(order.getId(), null, order.getOrderNo(), "取消订单",
+                    wxOrderLogMapper);
             return BaseResult.success("取消订单成功");
         }
         return BaseResult.error("ERROR", "取消订单失败");
-    }
-
-    private void saveOrderLog(String action, Order order, String ipAddress) {
-        OrderLog orderLog = new OrderLog();
-        orderLog.setAction(action);
-        orderLog.setOrderId(order.getId());
-        orderLog.setOrderNo(order.getOrderNo());
-        orderLog.setIpAddress(ipAddress);
-        wxOrderLogMapper.add(orderLog);
     }
 }

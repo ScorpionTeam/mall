@@ -8,6 +8,7 @@ import com.scoprion.mall.backstage.mapper.ActivityGoodMapper;
 import com.scoprion.mall.backstage.mapper.ActivityMapper;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.backstage.mapper.GoodsMapper;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.domain.good.GoodLog;
 import com.scoprion.mall.domain.good.Goods;
@@ -228,9 +229,6 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     private void saveGoodLog(Long goodId, String action) {
-        GoodLog goodLog = new GoodLog();
-        goodLog.setGoodId(goodId);
-        goodLog.setAction(action);
-        goodLogMapper.add(goodLog);
+        ServiceCommon.saveGoodLog(null, action, goodId, goodLogMapper);
     }
 }
