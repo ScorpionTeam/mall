@@ -64,6 +64,14 @@ public class GoodRequestParams extends PageRequestParams {
      */
     private String type;
 
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
     public String getType() {
         return type;
     }

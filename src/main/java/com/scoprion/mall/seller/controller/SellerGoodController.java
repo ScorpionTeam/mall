@@ -80,14 +80,14 @@ public class SellerGoodController {
     @Access
     @ApiOperation(value = "根据商品id查询商品")
     @GetMapping(value = "/findById/{id}")
-    public BaseResult findByGoodId(@PathVariable("id") Long id) {
-        return sellerGoodService.findByGoodId(id);
+    public BaseResult findById(@PathVariable("id") Long id) {
+        return sellerGoodService.findById(id);
 
     }
 
     @Access
     @ApiOperation(value = "查询商品")
-    @GetMapping(value = "/findByCondition")
+    @PostMapping(value = "/findByCondition")
     public PageResult findByCondition(@RequestBody GoodRequestParams goodRequestParams) {
         return sellerGoodService.findByCondition(goodRequestParams);
     }

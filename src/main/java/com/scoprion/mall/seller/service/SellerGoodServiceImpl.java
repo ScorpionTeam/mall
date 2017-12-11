@@ -111,7 +111,7 @@ public class SellerGoodServiceImpl implements SellerGoodService {
      * @return
      */
     @Override
-    public BaseResult findByGoodId(Long goodsId) {
+    public BaseResult findById(Long goodsId) {
         GoodExt good = sellerGoodMapper.findById(goodsId);
         if (good == null) {
             return BaseResult.notFound();
@@ -252,6 +252,9 @@ public class SellerGoodServiceImpl implements SellerGoodService {
 
     @Override
     public PageResult findByCondition(GoodRequestParams params) {
+        if (params.getSellerId() == null) {
+            return new PageResult();
+        }
         PageHelper.startPage(params.getPageNo(), params.getPageSize());
         if (StringUtils.isEmpty(params.getSearchKey())) {
             params.setSearchKey(null);
