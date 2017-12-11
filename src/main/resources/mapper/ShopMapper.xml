@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scoprion.mall.backstage.mapper.ShopMapper">
+
+    <!--商铺列表-->
+    <select id="listPage" resultType="com.scoprion.mall.domain.Seller">
+        SELECT
+        id,
+        audit,
+        status,
+        mobile,
+        user_id,
+        seller_no,
+        reputation,
+        seller_name,
+        seller_address,
+        seller_description
+        FROM t_seller WHERE audit=#{audit}
+    </select>
+</mapper>

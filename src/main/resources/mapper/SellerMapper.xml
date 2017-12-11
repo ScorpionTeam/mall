@@ -19,7 +19,7 @@
         create_date)
         VALUES (
         'AUDITING',
-        'UN_NORMAL',
+        'NORMAL',
         #{mobile},
         #{userId},
         #{sellerNo},
