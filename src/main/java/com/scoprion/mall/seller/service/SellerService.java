@@ -48,10 +48,11 @@ public interface SellerService {
     /**
      * 注册
      * @param mallUser
+     * @param ip
      * @return
      * @throws Exception
      */
-    BaseResult register(MallUser mallUser) throws Exception;
+    BaseResult register(MallUser mallUser,String ip) throws Exception;
 
     /**
      * 修改商家个人信息

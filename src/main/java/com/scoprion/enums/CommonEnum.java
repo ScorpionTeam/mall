@@ -94,7 +94,11 @@ public enum CommonEnum {
     LEVEL_ADMIN("LEVEL_ADMIN", "管理员角色等级"),
     LEVEL_ORDINARY("LEVEL_ORDINARY", "普通角色等级"),
     AUTH("AUTH", "JSONID:94268"),
-    SALT("SALT", "&&salt");
+    SALT("SALT", "&&salt"),
+    AUDITED("AUDITED","已审核"),
+    AUDITING("AUDITING","审核中"),
+    NOT_AUDIT("NOT_AUDIT","审核未通过"),
+    PASS_AUDIT("PASS_AUDIT","审核通过");
     /**
      * 编码
      */

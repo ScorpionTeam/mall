@@ -106,7 +106,7 @@ public class SellerServiceImpl implements SellerService {
      * @throws Exception
      */
     @Override
-    public BaseResult register(MallUser mallUser) throws Exception {
+    public BaseResult register(MallUser mallUser,String ip) throws Exception {
         if (mallUser == null) {
             return BaseResult.parameterError();
         }
@@ -242,10 +242,10 @@ public class SellerServiceImpl implements SellerService {
         //更新商户最后登录ip地址
         sellerMapper.updateLoginIpAddress(id, ip);
         //将用户手机号作为加密字符回传
-        String tokenStr = EncryptUtil.aesEncrypt(user.getEmail(), "ScoprionMall8888");
+        String tokenStr = EncryptUtil.aesEncrypt(user.getMobile(), "ScoprionMall8888");
         mallUser.setToken(tokenStr);
-        /*//设置用户登录有效期为30分钟
-        redisTemplate.opsForValue().set("Login:" + user.getMobile(), user.toString(), 30, TimeUnit.MINUTES);*/
+        //设置用户登录有效期为30分钟
+        redisTemplate.opsForValue().set("Login:" + user.getMobile(), user.toString(), 30, TimeUnit.MINUTES);
         return BaseResult.success(mallUser);
     }
 }

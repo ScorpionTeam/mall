@@ -1,6 +1,8 @@
 package com.scoprion.mall.backstage.service.good;
 
+import com.github.pagehelper.PageHelper;
 import com.scoprion.mall.domain.good.GoodExt;
+import com.scoprion.mall.domain.good.Goods;
 import com.scoprion.mall.domain.request.GoodRequestParams;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -90,5 +92,12 @@ public interface GoodsService {
      */
     BaseResult batchModifySaleStatus(String saleStatus, List<Long> goodsIdList);
 
+    /**
+     * 审核新创建商品
+     *
+     * @param goods
+     * @return
+     */
+    BaseResult auditByGoods(Goods goods);
 
 }

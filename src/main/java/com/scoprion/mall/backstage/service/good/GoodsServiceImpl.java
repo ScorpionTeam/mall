@@ -277,7 +277,6 @@ public class GoodsServiceImpl implements GoodsService {
         return BaseResult.success(action + "成功");
     }
 
-
     @Override
     public PageResult findByCondition(GoodRequestParams requestParams) {
         PageHelper.startPage(requestParams.getPageNo(), requestParams.getPageSize());
@@ -305,4 +304,33 @@ public class GoodsServiceImpl implements GoodsService {
         }
         return new PageResult(page);
     }
+
+    /**
+     * 审核新创建商品
+     *
+     * @param goods
+     * @return
+     */
+    @Override
+    public BaseResult auditByGoods(Goods goods) {
+        if (goods.getId() == null) {
+            return BaseResult.parameterError();
+        }
+        if (goods.getAudit().equals(CommonEnum.PASS_AUDIT.getCode())) {
+            int result = goodsMapper.auditByGoods(goods);
+            if (result < 0) {
+                return BaseResult.error("ERROR", "审核未通过");
+            }
+            return BaseResult.success("审核已通过");
+        }
+        if (goods.getReason() == null) {
+            return BaseResult.error("ERROR", "请填写失败的原因");
+        }
+        int auditGoods = goodsMapper.auditByGoods(goods);
+        if (auditGoods < 0) {
+            return BaseResult.error("ERROR", "审核失败");
+        }
+        return BaseResult.success("审核未通过");
+    }
+
 }

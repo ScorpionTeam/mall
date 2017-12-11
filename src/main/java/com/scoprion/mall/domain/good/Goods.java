@@ -144,6 +144,16 @@ public class Goods {
      */
     private String seo;
 
+    /**
+     * 审核新商品创建 AUDITING 审核中 AUDITED 已审核 NOT_AUDITED 审核未通过
+     */
+    private String audit;
+
+    /**
+     * 审核商品部通过的原因
+     */
+    private String reason;
+
     public String getSeo() {
         return seo;
     }
@@ -336,6 +346,22 @@ public class Goods {
         this.tgId = tgId;
     }
 
+    public String getAudit() {
+        return audit;
+    }
+
+    public void setAudit(String audit) {
+        this.audit = audit;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
@@ -363,6 +389,8 @@ public class Goods {
                 ", richContent='" + richContent + '\'' +
                 ", status='" + status + '\'' +
                 ", seo='" + seo + '\'' +
+                ", audit='" + audit + '\'' +
+                ", reason='" + reason + '\'' +
                 '}';
     }
 }

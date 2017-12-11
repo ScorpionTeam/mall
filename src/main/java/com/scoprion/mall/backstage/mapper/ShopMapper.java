@@ -20,4 +20,13 @@ public interface ShopMapper {
      * @return
      */
     Page<Seller>listPage(@Param("audit") String audit);
+
+    /**
+     * 修改审核状态
+     * @param audit
+     * @param reason
+     * @param id
+     * @return
+     */
+    Integer update(@Param("audit") String audit,@Param("reason") String reason,@Param("id") Long id);
 }
