@@ -292,6 +292,38 @@ public class WxPayUtil {
     }
 
     /**
+     * 免费试用下单参数
+     *
+     * @param body       商品描述
+     * @param userId     用户userId
+     * @param outTradeNo 商户订单号
+     * @return
+     */
+    public static String freeOrder(String body,
+                                    String userId,
+                                    String outTradeNo,
+                                    int paymentFee,
+                                    String nonceStr) {
+
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("appid", WxPayConfig.APP_ID);
+        map.put("userId", userId);
+        map.put("mch_id", WxPayConfig.MCHID);
+        map.put("nonce_str", nonceStr);
+        map.put("body", body);
+        map.put("out_trade_no", outTradeNo);
+        map.put("total_fee", paymentFee);
+        map.put("notify_url", WxPayConfig.FREE_URL_GROUP);
+        map.put("trade_type", "JSAPI");
+        System.out.println("排序参数:" + WxPayUtil.sort(map));
+
+        String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
+        map.put("sign", sign);
+        System.out.println("传输的参数:" + WxPayUtil.mapConvertToXML(map));
+        return WxPayUtil.mapConvertToXML(map);
+    }
+
+    /**
      * 退款读取证书
      *
      * @param orderNo

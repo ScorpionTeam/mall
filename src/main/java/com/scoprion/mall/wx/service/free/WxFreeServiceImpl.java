@@ -18,12 +18,16 @@ import com.scoprion.mall.domain.order.Order;
 import com.scoprion.mall.domain.order.OrderLog;
 import com.scoprion.mall.wx.mapper.*;
 import com.scoprion.mall.wx.pay.WxPayConfig;
+import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderResponseData;
 import com.scoprion.mall.wx.pay.util.WxPayUtil;
 import com.scoprion.mall.wx.pay.util.WxUtil;
+import com.scoprion.mall.wx.service.activity.WxActivityServiceImpl;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.OrderNoUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +43,8 @@ import java.util.Map;
 @SuppressWarnings("ALL")
 @Service
 public class WxFreeServiceImpl implements WxFreeService {
+
+    private final static Logger LOGGER = LoggerFactory.getLogger(WxFreeServiceImpl.class);
 
     @Autowired
     private WxFreeMapper wxFreeMapper;
@@ -125,7 +131,7 @@ public class WxFreeServiceImpl implements WxFreeService {
                 "生成试用订单", wxOrderLogMapper);
         //统一下单参数
         String nonce_str = WxUtil.createRandom(false, 10);
-        String unifiedOrderXML = WxPayUtil.unifiedOrder(goods.getGoodName(),
+        String unifiedOrderXML = WxPayUtil.freeOrder(goods.getGoodName(),
                 userId,
                 order.getOrderNo(),
                 order.getFreightFee(),
@@ -205,20 +211,54 @@ public class WxFreeServiceImpl implements WxFreeService {
         return BaseResult.success(JSON.toJSON(map));
     }
 
+    /**
+     * 接收微信回调(免费试用)
+     *
+     * @param unifiedOrderNotifyRequestData
+     * @return
+     */
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public BaseResult callBack(UnifiedOrderNotifyRequestData unifiedOrderNotifyRequestData) {
+        Order order = wxOrderMapper.findByWxOrderNo(unifiedOrderNotifyRequestData.getOut_trade_no());
+        if (order == null) {
+            LOGGER.info("订单为空，查询不到订单信息");
+            return BaseResult.success("订单信息查询出错");
+        }
+        //判断是否成功接收回调
+        if (order != null && null == order.getPayDate()) {
+            //修改订单状态 以及微信订单号
+            wxOrderMapper.updateOrderStatusAndPayStatusAndWxOrderNo(unifiedOrderNotifyRequestData.getTime_end(),
+                    unifiedOrderNotifyRequestData.getOut_trade_no(),
+                    unifiedOrderNotifyRequestData.getTransaction_id());
+
+            //记录订单日志
+            ServiceCommon.saveWxOrderLog(order.getId(), null, order.getOrderNo(), "付款", wxOrderLogMapper);
+            //取到订单里的商品id
+            ActivityGoods activityGoods = wxActivityMapper.findByActivityGoodStock(order.getGoodId());
+            //库存扣减
+            wxGoodMapper.updateActivityGoodStockById(activityGoods.getId(), order.getCount());
+            //库存扣减日志
+            saveGoodLog(order.getGoodId(), "库存扣减" + order.getCount(), order.getGoodName());
+            //销量
+            wxGoodMapper.updateSaleVolume(order.getCount(), order.getGoodId());
+        }
+        return BaseResult.success("支付回调成功");
+    }
+
 
     /**
      * 记录商品日志
      *
      * @param order
      */
-    private void saveGoodLog(Order order) {
+    private void saveGoodLog(Long goodId, String action, String goodName) {
 //        GoodLog goodLog = new GoodLog();
 //        goodLog.setAction("库存扣减" + order.getCount());
 //        goodLog.setGoodName(order.getGoodName());
 //        goodLog.setGoodId(order.getGoodId());
 //        goodLogMapper.add(goodLog);
-        ServiceCommon.saveGoodLog(order.getGoodName(), "库存扣减" + order.getCount(),
-                order.getGoodId(), goodLogMapper);
+        ServiceCommon.saveGoodLog(goodName, action, goodId, goodLogMapper);
     }
 
     /**
