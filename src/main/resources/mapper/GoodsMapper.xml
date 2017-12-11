@@ -367,5 +367,38 @@
         <if test="brandId!=null ">AND good.brand_id= #{brandId}</if>
     </select>
 
+    <!-- 条件查询商品 -->
+    <select id="findByGoodsByCondition" resultType="com.scoprion.mall.domain.good.Goods">
+        SELECT id,
+        category_id,
+        good_name,
+        description,
+        promotion,
+        price,
+        sale_volume,
+        discount,
+        stock,
+        on_sale,
+        hot,
+        is_new,
+        create_date,
+        last_update_date,
+        freight,
+        brand_id,
+        seller_id,
+        visit_total,
+        good_no,
+        main_image_url,
+        status,
+        audit,
+        reason
+        FROM t_good WHERE id=#{id}
+    </select>
+
+    <!-- 审核新创建商品 -->
+    <update id="auditByGoods" parameterType="com.scoprion.mall.domain.good.Goods">
+        UPDATE t_good
+        SET audit=#{audit} AND reason=#{reason} WHERE id=#{id}
+    </update>
 
 </mapper>

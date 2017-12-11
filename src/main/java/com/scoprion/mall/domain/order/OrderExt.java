@@ -149,7 +149,7 @@ public class OrderExt extends Order {
                 "ipAddress='" + ipAddress + '\'' +
                 ", openCode='" + openCode + '\'' +
                 ", sendGood=" + sendGood +
-                ", delivery=" + delivery +
+                ", DeliveryService=" + delivery +
                 ", goodMainImage='" + goodMainImage + '\'' +
                 ", expressName='" + expressName + '\'' +
                 ", wxCode='" + wxCode + '\'' +

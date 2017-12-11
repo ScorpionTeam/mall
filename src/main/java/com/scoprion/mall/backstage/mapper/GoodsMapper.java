@@ -110,4 +110,20 @@ public interface GoodsMapper {
      * @return
      */
     Page<GoodExt> findForCategory(GoodRequestParams requestParams);
+
+    /**
+     * 条件查询商品
+     *
+     * @param goods
+     * @return
+     */
+    Goods findByGoodsByCondition(Goods goods);
+
+    /**
+     * 审核新创建商品
+     *
+     * @param goods
+     * @return
+     */
+    Goods auditByGoods(Goods goods);
 }

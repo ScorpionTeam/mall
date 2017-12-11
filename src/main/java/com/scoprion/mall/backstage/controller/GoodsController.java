@@ -5,6 +5,7 @@ import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.good.GoodExt;
 import com.scoprion.mall.backstage.service.good.GoodsService;
 import com.scoprion.mall.domain.MallImage;
+import com.scoprion.mall.domain.good.Goods;
 import com.scoprion.mall.domain.request.GoodRequestParams;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -150,5 +151,16 @@ public class GoodsController {
         return goodsService.modifyGoodsDeduction(id, count);
     }
 
+    /**
+     * 审核新创建商品
+     *
+     * @param goods
+     * @return
+     */
+    @ApiOperation(value = "审核新创建商品")
+    @PostMapping(value = "/auditByGoods")
+    public BaseResult auditByGoods(@RequestBody Goods goods) {
+        return goodsService.auditByGoods(goods);
+    }
 
 }
