@@ -1,7 +1,9 @@
 package com.scoprion.mall.seller.mapper;
 
+import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.domain.order.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -56,11 +58,11 @@ public interface SellerMapper {
     /**
      * 微信商户登录
      *
-     * @param mallUser
-     * @param encryptPassword
+     * @param mobile
+     * @param password
      * @return
      */
-    MallUser login(MallUser mallUser, String encryptPassword);
+    MallUser login(@Param("email") String email, @Param("mobile") String mobile, @Param("password") String password);
 
     /**
      * 更新商品最后登录的ip地址
@@ -68,10 +70,11 @@ public interface SellerMapper {
      * @param id
      * @param ip
      */
-    void updateLoginIpAddress(Long id, String ip);
+    void updateLoginIpAddress(@Param("id") Long id, @Param("ip") String ip);
 
     /**
      * 校验号码是否存在
+     *
      * @param mobile
      * @return
      */
@@ -79,6 +82,7 @@ public interface SellerMapper {
 
     /**
      * 商户注册
+     *
      * @param mallUser
      * @return
      */
@@ -86,6 +90,7 @@ public interface SellerMapper {
 
     /**
      * 校验昵称
+     *
      * @param nickName
      * @return
      */
@@ -93,8 +98,16 @@ public interface SellerMapper {
 
     /**
      * 商户修改个人信息
+     *
      * @param mallUser
      * @return
      */
     Integer alter(MallUser mallUser);
+
+    /**
+     * 商户订单列表
+     * @param sellerId
+     * @return
+     */
+    Page<OrderExt> findBySellerId(Long sellerId);
 }

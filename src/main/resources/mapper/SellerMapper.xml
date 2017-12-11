@@ -57,6 +57,28 @@
         SELECT COUNT(*) FROM t_seller WHERE user_id=#{userId}
     </select>
 
+    <!--校验号码是否存在-->
+    <select id="validByMobile" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_user WHERE mobile=#{mobile}
+    </select>
+
+    <!--校验昵称是否存在-->
+    <select id="validByNickName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_user WHERE nick_name=#{nickName}
+    </select>
+
+    <!--修改商户个人信息-->
+    <update id="alter" parameterType="com.scoprion.mall.domain.MallUser">
+        UPDATE t_user SET
+        <if test="bornDate!=null">born_date#{bornDate},</if>
+        <if test="headPic!=null">head_picture#{headPic},</if>
+        <if test="nickName!=null">nick_name#{nickName},</if>
+        <if test="city!=null">city#{city},</if>
+        <if test="address!=null">address#{address},</if>
+        update_date=now()
+        WHERE id=#{id}
+    </update>
+
     <!--微信商户登录(手机号)-->
     <select id="login" resultType="com.scoprion.mall.domain.MallUser">
         SELECT id,
@@ -81,19 +103,75 @@
         user_type,
         id_photo_front_url,
         id_photo_bg_url
-        FROM t_user WHERE status='NORMAL' AND mobile=#{mobile} AND password=#{password}
+        FROM t_user WHERE status='NORMAL'
+        AND(email=#{email} AND password=#{password})
+        OR(mobile=#{mobile} AND password=#{password})
     </select>
 
-
-    <!--修改商户个人信息-->
-    <update id="alter" parameterType="com.scoprion.mall.domain.MallUser">
+    <!--更新商户最后登录的ip地址-->
+    <update id="updateLoginIpAddress" parameterType="com.scoprion.mall.domain.MallUser">
         UPDATE t_user SET
-        <if test="bornDate!=null">born_date#{bornDate},</if>
-        <if test="headPic!=null">head_picture#{headPic},</if>
-        <if test="nickName!=null">nick_name#{nickName},</if>
-        <if test="city!=null">city#{city},</if>
-        <if test="address!=null">address#{address},</if>
-        update_date=now()
+        login_ip=#{ip}
         WHERE id=#{id}
     </update>
+
+    <!--商户注册-->
+    <insert id="register" parameterType="com.scoprion.mall.domain.MallUser">
+        INSERT INTO t_user(
+        name,
+        mobile,
+        born_date,
+        sex,
+        age,
+        email,
+        address,
+        password,
+        head_picture,
+        nick_name,
+        certification,
+        certificate_id,
+        city,
+        status,
+        create_date,
+        user_type)
+        VALUES (
+        #{name},
+        #{mobile},
+        #{bornDate},
+        #{sex},
+        #{age},
+        #{email},
+        #{address},
+        #{password},
+        #{headPic},
+        #{nickName},
+        'NOT_AUTH',
+        #{certificateId},
+        #{city},
+        'NORMAL',
+        NOW(),
+        'SELLER')
+    </insert>
+
+    <!--商户订单列表-->
+    <select id="findBySellerId" resultType="com.scoprion.mall.domain.order.OrderExt">
+        SELECT
+        order_no,
+        delivery_no,
+        order_status,
+        order_type,
+        message,
+        recipients,
+        phone,
+        province,
+        city,
+        area,
+        address,
+        post_code,
+        good_name,
+        count,
+        create_date,
+        good_id
+    </select>
+
 </mapper>
