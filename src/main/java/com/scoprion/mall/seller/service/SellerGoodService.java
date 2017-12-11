@@ -28,7 +28,7 @@ public interface SellerGoodService {
      * @param goodId
      * @return
      */
-    BaseResult findByGoodId(Long goodId);
+    BaseResult findById(Long goodId);
 
     /**
      * 根据id修改商品信息
