@@ -15,8 +15,9 @@ public interface OrderLogMapper {
      * 添加日志
      *
      * @param orderLog
+     * @return
      */
-    void add(OrderLog orderLog);
+    Integer add(OrderLog orderLog);
 
     /**
      * 根据订单id查询订单日志

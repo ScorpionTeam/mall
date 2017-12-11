@@ -7,6 +7,7 @@ import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.CategoryGoodMapper;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.backstage.mapper.GoodLogMapper;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.MallImage;
 import com.scoprion.mall.domain.good.GoodExt;
 import com.scoprion.mall.domain.good.GoodLog;
@@ -100,11 +101,7 @@ public class SellerGoodServiceImpl implements SellerGoodService {
      * @param goodId
      */
     private void saveGoodLog(String goodName, String action, Long goodId) {
-        GoodLog goodLog = new GoodLog();
-        goodLog.setGoodId(goodId);
-        goodLog.setGoodName(goodName);
-        goodLog.setAction(action);
-        goodLogMapper.add(goodLog);
+        ServiceCommon.saveGoodLog(goodName, action, goodId, goodLogMapper);
     }
 
     /**

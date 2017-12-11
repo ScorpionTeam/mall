@@ -8,6 +8,7 @@ import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.backstage.mapper.OrderLogMapper;
 import com.scoprion.mall.backstage.mapper.PointMapper;
 import com.scoprion.mall.backstage.mapper.SendGoodMapper;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.Delivery;
 import com.scoprion.mall.domain.Point;
 import com.scoprion.mall.domain.PointLog;
@@ -275,11 +276,7 @@ public class SellerOrderServiceImpl implements SellerOrderService {
     }
 
     private void saveGoodLog(String goodName, Long goodId, String action) {
-        GoodLog goodLog = new GoodLog();
-        goodLog.setGoodId(goodId);
-        goodLog.setAction(action);
-        goodLog.setGoodName(goodName);
-        goodLogMapper.add(goodLog);
+        ServiceCommon.saveGoodLog(goodName, action, goodId, goodLogMapper);
     }
 
     private void savePointLog(Order order, String action, Integer operatePoint, Integer currentPoint) {
@@ -299,12 +296,7 @@ public class SellerOrderServiceImpl implements SellerOrderService {
      * @param action
      */
     private void saveOrderLog(Long orderId, String orderNo, String action) {
-        OrderLog orderLog = new OrderLog();
-        orderLog.setIpAddress("");
-        orderLog.setAction(action);
-        orderLog.setOrderId(orderId);
-        orderLog.setOrderNo(orderNo);
-        orderLogMapper.add(orderLog);
+        ServiceCommon.saveOrderLog(orderId, null, orderNo, action, orderLogMapper);
     }
 
     /**

@@ -80,6 +80,7 @@ public class WxFreeServiceImpl implements WxFreeService {
 
     /**
      * 参加试用活动
+     *
      * @param wxFreeOrder
      * @return
      */
@@ -118,9 +119,10 @@ public class WxFreeServiceImpl implements WxFreeService {
         }
 
         //系统内生成订单信息
-        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", wxFreeOrder.getIpAddress(), order.getId());
-        wxOrderLogMapper.add(orderLog);
-
+//        OrderLog orderLog = constructOrderLog(order.getOrderNo(), "生成试用订单", wxFreeOrder.getIpAddress(), order.getId());
+//        wxOrderLogMapper.add(orderLog);
+        ServiceCommon.saveWxOrderLog(order.getId(), wxFreeOrder.getIpAddress(), order.getOrderNo(),
+                "生成试用订单", wxOrderLogMapper);
         //统一下单参数
         String nonce_str = WxUtil.createRandom(false, 10);
         String unifiedOrderXML = WxPayUtil.unifiedOrder(goods.getGoodName(),
@@ -210,11 +212,13 @@ public class WxFreeServiceImpl implements WxFreeService {
      * @param order
      */
     private void saveGoodLog(Order order) {
-        GoodLog goodLog = new GoodLog();
-        goodLog.setAction("库存扣减" + order.getCount());
-        goodLog.setGoodName(order.getGoodName());
-        goodLog.setGoodId(order.getGoodId());
-        goodLogMapper.add(goodLog);
+//        GoodLog goodLog = new GoodLog();
+//        goodLog.setAction("库存扣减" + order.getCount());
+//        goodLog.setGoodName(order.getGoodName());
+//        goodLog.setGoodId(order.getGoodId());
+//        goodLogMapper.add(goodLog);
+        ServiceCommon.saveGoodLog(order.getGoodName(), "库存扣减" + order.getCount(),
+                order.getGoodId(), goodLogMapper);
     }
 
     /**

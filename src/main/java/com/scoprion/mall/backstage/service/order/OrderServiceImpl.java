@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.*;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.*;
 import com.scoprion.mall.domain.good.GoodLog;
 import com.scoprion.mall.domain.order.Order;
@@ -259,11 +260,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     private void saveGoodLog(String goodName, Long goodId, String action) {
-        GoodLog goodLog = new GoodLog();
-        goodLog.setAction(action);
-        goodLog.setGoodId(goodId);
-        goodLog.setGoodName(goodName);
-        goodLogMapper.add(goodLog);
+        ServiceCommon.saveGoodLog(goodName, action, goodId, goodLogMapper);
     }
 
     private void savePointLog(Order order, String action, Integer operatePoint, Integer currentPoint) {
@@ -283,12 +280,7 @@ public class OrderServiceImpl implements OrderService {
      * @param action
      */
     private void saveOrderLog(Long orderId, String orderNo, String action) {
-        OrderLog orderLog = new OrderLog();
-        orderLog.setOrderId(orderId);
-        orderLog.setIpAddress("");
-        orderLog.setOrderNo(orderNo);
-        orderLog.setAction(action);
-        orderLogMapper.add(orderLog);
+        ServiceCommon.saveOrderLog(orderId, null, orderNo, action, orderLogMapper);
     }
 
 //    /**
