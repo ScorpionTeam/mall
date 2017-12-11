@@ -2,6 +2,7 @@ package com.scoprion.mall.wx.rabbitmq;
 
 import com.scoprion.constant.Constant;
 import com.scoprion.mall.domain.WxOrderRequestData;
+import com.scoprion.mall.domain.order.Order;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -15,7 +16,7 @@ import java.util.UUID;
  * @created on 2017/12/4.
  */
 @Component
-public class SendComponent  {
+public class SendComponent {
 
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SendComponent.class);
@@ -32,6 +33,12 @@ public class SendComponent  {
         LOGGER.info("发送消息：" + correlationData.getId());
         this.rabbitTemplate.convertAndSend(Constant.EXCHANGE, Constant.ROUTING_KEY, wxOrderRequestData,
                 correlationData);
+    }
+
+    public void sendRefundingOrder(Order order) {
+        CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
+        LOGGER.info("发送消息：" + correlationData.getId());
+        this.rabbitTemplate.convertAndSend(Constant.EXCHANGE, Constant.ROUTING_KEY, order, correlationData);
     }
 
 //    @Override

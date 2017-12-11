@@ -494,7 +494,7 @@ public class WxActivityServiceImpl implements WxActivityService {
         order.setPaymentFee(wxGroupOrder.getPaymentFee());
         order.setDeliveryId(wxGroupOrder.getDeliveryId());
         order.setOrderFee(wxGroupOrder.getOrderFee());
-        order.setCount(Constant.ONE);
+        order.setCount(1);
         return order;
     }
 
