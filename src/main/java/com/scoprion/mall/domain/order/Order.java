@@ -117,7 +117,17 @@ public class Order {
      */
     @JSONField(name = "freight_fee")
     private int freightFee;
+    /**
+     * 退款金额
+     */
+    @JSONField(name = "refund_fee")
+    private int refundFee;
 
+    /**
+     * 申请退款时间
+     */
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "refund_date")
+    private Date refundDate;
     /**
      * 下单时间
      */
@@ -241,6 +251,14 @@ public class Order {
     private Long sendGoodId;
 
     public Order() {
+    }
+
+    public int getRefundFee() {
+        return refundFee;
+    }
+
+    public void setRefundFee(int refundFee) {
+        this.refundFee = refundFee;
     }
 
     public String getUsePoint() {
@@ -547,15 +565,24 @@ public class Order {
         this.sellerId = sellerId;
     }
 
+    public Date getRefundDate() {
+        return refundDate;
+    }
+
+    public void setRefundDate(Date refundDate) {
+        this.refundDate = refundDate;
+    }
+
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
+                ", sellerId=" + sellerId +
                 ", userId='" + userId + '\'' +
-                ", sellerId='" + sellerId + '\'' +
                 ", orderNo='" + orderNo + '\'' +
                 ", goodSnapShotId=" + goodSnapShotId +
                 ", deliveryId=" + deliveryId +
+                ", deliveryNo='" + deliveryNo + '\'' +
                 ", orderStatus='" + orderStatus + '\'' +
                 ", orderType='" + orderType + '\'' +
                 ", payType='" + payType + '\'' +
@@ -565,6 +592,8 @@ public class Order {
                 ", paymentFee=" + paymentFee +
                 ", goodFee=" + goodFee +
                 ", freightFee=" + freightFee +
+                ", refundFee=" + refundFee +
+                ", refundDate=" + refundDate +
                 ", createDate=" + createDate +
                 ", payDate='" + payDate + '\'' +
                 ", deliveryDate=" + deliveryDate +
@@ -583,9 +612,10 @@ public class Order {
                 ", goodId=" + goodId +
                 ", remark='" + remark + '\'' +
                 ", useTicket='" + useTicket + '\'' +
+                ", usePoint='" + usePoint + '\'' +
                 ", ticketId=" + ticketId +
-                ", deliveryNo=" + deliveryNo +
-                ", sendGoodId='" + sendGoodId + '\'' +
+                ", operatePoint=" + operatePoint +
+                ", sendGoodId=" + sendGoodId +
                 '}';
     }
 }

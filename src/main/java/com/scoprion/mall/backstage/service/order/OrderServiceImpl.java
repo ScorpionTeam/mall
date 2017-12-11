@@ -22,6 +22,7 @@ import com.scoprion.result.PageResult;
 import com.scoprion.utils.DateParamFormatUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -208,49 +209,51 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public BaseResult refund(Long orderId, String flag, String remark, int refundFee) throws Exception {
+        Order order = orderMapper.findById(orderId);
         if (CommonEnum.REFUSE.getCode().equals(flag)) {
-            orderMapper.updateOrderRefundById(orderId, CommonEnum.REFUND_FAIL.getCode(), remark);
+            orderMapper.updateOrderRefundById(orderId, CommonEnum.REFUND_FAIL.getCode(), 0, remark);
+            saveOrderLog(orderId, order.getOrderNo(), remark);
             return BaseResult.success("审核完成");
         } else {
-            String nonceStr = WxUtil.createRandom(false, 10);
-            Order order = orderMapper.findById(orderId);
-            String refundOrderNo = order.getOrderNo() + "T";
-            //定义接收退款返回字符串
-            String refundXML = refundSign(order.getOrderNo(), order.getPaymentFee(), refundFee, refundOrderNo,
-                    nonceStr);
-            //接收退款返回
-            String response = WxPayUtil.doRefund(WxPayConfig.WECHAT_REFUND, refundXML, WxPayConfig.MCHID);
-            WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
-                    response);
-            Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
-            if (result) {
-                orderMapper.updateOrderRefundById(order.getId(), CommonEnum.REFUND_SUCCESS.getCode(), remark);
-                saveOrderLog(order.getId(), order.getOrderNo(), "退款");
-                goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
-                //记录商品库存反还日志
-                saveGoodLog(order.getGoodName(), order.getGoodId(), "退款，商品库存返还");
-                //使用积分返还
-                //支付时扣减的积分，需要返还
-                int operatePoint = order.getOperatePoint();
-                Point localPoint = pointMapper.findByUserId(order.getUserId());
-                if (CommonEnum.USE_POINT.getCode().equals(order.getUsePoint())) {
-                    //积分返还
-                    pointMapper.updatePoint(order.getUserId(), operatePoint);
-                    //记录积分返还日志
-                    savePointLog(order, CommonEnum.PRODUCE_POINT.getCode(), +operatePoint, localPoint.getPoint() + operatePoint);
-                    localPoint.setPoint(localPoint.getPoint() + operatePoint);
-                }
-                //支付产生的积分，需要扣减
-                int point2 = order.getPaymentFee();
-                int currPoint = localPoint.getPoint() - point2;
-                //积分扣减日志
-                savePointLog(order, CommonEnum.CONSUME_POINT.getCode(), -point2, currPoint);
+//            String nonceStr = WxUtil.createRandom(false, 10);
+//            Order order = orderMapper.findById(orderId);
+//            String refundOrderNo = order.getOrderNo() + "T";
+//            //定义接收退款返回字符串
+//            String refundXML = refundSign(order.getOrderNo(), order.getPaymentFee(), refundFee, refundOrderNo,
+//                    nonceStr);
+//            //接收退款返回
+//            String response = WxPayUtil.doRefund(WxPayConfig.WECHAT_REFUND, refundXML, WxPayConfig.MCHID);
+//            WxRefundNotifyResponseData wxRefundNotifyResponseData = WxPayUtil.castXMLStringToWxRefundNotifyResponseData(
+//                    response);
+//            Boolean result = "success".equalsIgnoreCase(wxRefundNotifyResponseData.getReturn_code());
+//            if (result) {
+            orderMapper.updateOrderRefundById(order.getId(), CommonEnum.REFUNDING.getCode(), refundFee, remark);
+            saveOrderLog(order.getId(), order.getOrderNo(), "退款");
+            goodsMapper.updateGoodStockById(order.getGoodId(), order.getCount());
+            //记录商品库存反还日志
+            saveGoodLog(order.getGoodName(), order.getGoodId(), "退款，商品库存返还");
+            //使用积分返还
+            //支付时扣减的积分，需要返还
+            int operatePoint = order.getOperatePoint();
+            Point localPoint = pointMapper.findByUserId(order.getUserId());
+            if (CommonEnum.USE_POINT.getCode().equals(order.getUsePoint())) {
                 //积分返还
-                pointMapper.updatePoint(order.getUserId(), -point2);
-            } else {
-                return BaseResult.error(wxRefundNotifyResponseData.getReturn_code(),
-                        wxRefundNotifyResponseData.getReturn_msg());
+                pointMapper.updatePoint(order.getUserId(), operatePoint);
+                //记录积分返还日志
+                savePointLog(order, CommonEnum.PRODUCE_POINT.getCode(), +operatePoint, localPoint.getPoint() + operatePoint);
+                localPoint.setPoint(localPoint.getPoint() + operatePoint);
             }
+            //支付产生的积分，需要扣减
+            int point2 = order.getPaymentFee();
+            int currPoint = localPoint.getPoint() - point2;
+            //积分扣减日志
+            savePointLog(order, CommonEnum.CONSUME_POINT.getCode(), -point2, currPoint);
+            //积分返还
+            pointMapper.updatePoint(order.getUserId(), -point2);
+//            } else {
+//                return BaseResult.error(wxRefundNotifyResponseData.getReturn_code(),
+//                        wxRefundNotifyResponseData.getReturn_msg());
+//            }
         }
         return BaseResult.success("退款成功");
     }
@@ -288,32 +291,32 @@ public class OrderServiceImpl implements OrderService {
         orderLogMapper.add(orderLog);
     }
 
-    /**
-     * 退款读取证书
-     *
-     * @param orderNo
-     * @param total_fee
-     * @param refund_fee
-     * @return
-     */
-    private String refundSign(
-            String orderNo,
-            int total_fee,
-            int refund_fee,
-            String refundNo,
-            String nonce_str) {
-        Map<String, Object> map = new HashMap<>(16);
-        map.put("appid", WxPayConfig.APP_ID);
-        map.put("mch_id", WxPayConfig.MCHID);
-        map.put("nonce_str", nonce_str);
-        map.put("out_trade_no", orderNo);
-        map.put("out_refund_no", refundNo);
-        map.put("total_fee", total_fee);
-        map.put("refund_fee", refund_fee);
-        map.put("op_user_id", "100000");
-        String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
-        map.put("sign", sign);
-        return WxPayUtil.mapConvertToXML(map);
-    }
+//    /**
+//     * 退款读取证书
+//     *
+//     * @param orderNo
+//     * @param totalFee
+//     * @param refundFee
+//     * @return
+//     */
+//    private String refundSign(
+//            String orderNo,
+//            int totalFee,
+//            int refundFee,
+//            String refundNo,
+//            String nonceStr) {
+//        Map<String, Object> map = new HashMap<>(16);
+//        map.put("appid", WxPayConfig.APP_ID);
+//        map.put("mch_id", WxPayConfig.MCHID);
+//        map.put("nonce_str", nonceStr);
+//        map.put("out_trade_no", orderNo);
+//        map.put("out_refund_no", refundNo);
+//        map.put("total_fee", totalFee);
+//        map.put("refund_fee", refundFee);
+//        map.put("op_user_id", "100000");
+//        String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
+//        map.put("sign", sign);
+//        return WxPayUtil.mapConvertToXML(map);
+//    }
 
 }

@@ -129,11 +129,13 @@
         WHERE id=#{id}
     </update>
 
-    <!--修改订单状态为拒绝-->
+    <!--修改订单退款状态-->
     <update id="updateOrderRefundById">
         UPDATE t_order SET
         order_status=#{status},
+        refund_free=#{refundFree},
         remark=#{remark},
+        refund_date=NOW(),
         update_date=NOW()
         WHERE id=#{orderId}
     </update>

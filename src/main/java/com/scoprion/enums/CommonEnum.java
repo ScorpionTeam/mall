@@ -23,6 +23,7 @@ public enum CommonEnum {
     ALL("ALL", "所有"),
     DONE("DONE", "已完成"),
     REFUND("REFUND", "退款"),
+    REFUNDING("REFUNDING", "退款中"),
     REFUND_SUCCESS("REFUND_SUCCESS", "退款成功"),
     REFUND_FAIL("REFUND_FAIL", "退款失败"),
     CLOSING("CLOSING", "关闭"),
