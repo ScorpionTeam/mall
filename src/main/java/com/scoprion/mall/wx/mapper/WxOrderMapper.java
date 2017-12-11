@@ -7,6 +7,8 @@ import com.scoprion.mall.domain.order.OrderExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 /**
  * @author by hmy
  * @created on 2017/11/6/006.
@@ -42,8 +44,8 @@ public interface WxOrderMapper {
      * @return
      */
     int updateOrderStatusAndPayStatusAndWxOrderNo(@Param("payDate") String payDate,
-                                      @Param("orderNo") String orderNo,
-                                      @Param("wxOrderNo") String wxOrderNo);
+                                                  @Param("orderNo") String orderNo,
+                                                  @Param("wxOrderNo") String wxOrderNo);
 
     /**
      * 根据微信单号查询订单信息
@@ -96,4 +98,29 @@ public interface WxOrderMapper {
      */
 
     String findPrepayIdByOrderId(@Param("orderId") Long orderId);
+
+    /**
+     * 查询 申请退款时间大于两天（48小时） 的订单
+     *
+     * @return
+     */
+    List<Order> findRefundingOrder();
+
+    /**
+     * 订单列表
+     *
+     * @return
+     */
+    List<Order> findUnPayOrder();
+
+
+    /**
+     * 更新订单状态
+     *
+     * @param id          订单id
+     * @param orderStatus 状态
+     * @return
+     */
+    Integer updateOrderStatusById(@Param("id") Long id,
+                                  @Param("orderStatus") String orderStatus);
 }

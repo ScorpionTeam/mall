@@ -4,18 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.scoprion.mall.backstage.mapper.OrderMapper">
 
-    <!--查询4-24小时内未支付的订单列表 UNIX_TIMESTAMP秒  60*60*4 -->
-    <select id="findByScheduler" resultType="com.scoprion.mall.domain.order.Order">
-        SELECT
-        id,
-        order_no,
-        wx_order_no,
-        order_status
-        FROM t_order
-        WHERE order_status ='UN_PAY'
-        AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(create_date) BETWEEN 60*60*4 AND 60*60*24
-    </select>
-
     <!--订单列表-->
     <select id="findByCondition" parameterType="com.scoprion.mall.domain.request.OrderRequestParams"
             resultType="com.scoprion.mall.domain.order.OrderExt">
@@ -141,9 +129,15 @@
     </update>
 
 
-    <!--修改订单状态为拒绝-->
+    <!--修改订单退款状态-->
     <update id="updateOrderRefundById">
-        UPDATE t_order SET order_status=#{status},remark=#{remark} WHERE id=#{orderId}
+        UPDATE t_order SET
+         order_status=#{status},
+         refund_free=#{refundFree},
+         refund_date=NOW(),
+         update_date=NOW(),
+         remark=#{remark}
+         WHERE id=#{orderId}
     </update>
 
     <!--修改订单支付状态-->

@@ -268,10 +268,10 @@ public class WxPayUtil {
      * @return
      */
     public static String placeOrder(String body,
-                                      String openid,
-                                      String outTradeNo,
-                                      int paymentFee,
-                                      String nonceStr) {
+                                    String openid,
+                                    String outTradeNo,
+                                    int paymentFee,
+                                    String nonceStr) {
 
         Map<String, Object> map = new HashMap<>(16);
         map.put("appid", WxPayConfig.APP_ID);
@@ -283,13 +283,39 @@ public class WxPayUtil {
         map.put("total_fee", paymentFee);
         map.put("notify_url", WxPayConfig.NOTIFY_URL_GROUP);
         map.put("trade_type", "JSAPI");
-        System.out.println("排序参数:"+WxPayUtil.sort(map));
+        System.out.println("排序参数:" + WxPayUtil.sort(map));
 
         String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
         map.put("sign", sign);
-        System.out.println("传输的参数:"+WxPayUtil.mapConvertToXML(map));
+        System.out.println("传输的参数:" + WxPayUtil.mapConvertToXML(map));
         return WxPayUtil.mapConvertToXML(map);
     }
 
-
+    /**
+     * 退款读取证书
+     *
+     * @param orderNo
+     * @param totalFee
+     * @param refundFee
+     * @return
+     */
+    public static String refundSign(
+            String orderNo,
+            int totalFee,
+            int refundFee,
+            String refundNo,
+            String nonceStr) {
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("appid", WxPayConfig.APP_ID);
+        map.put("mch_id", WxPayConfig.MCHID);
+        map.put("nonce_str", nonceStr);
+        map.put("out_trade_no", orderNo);
+        map.put("out_refund_no", refundNo);
+        map.put("total_fee", totalFee);
+        map.put("refund_fee", refundFee);
+        map.put("op_user_id", "100000");
+        String sign = WxUtil.MD5(WxPayUtil.sort(map)).toUpperCase();
+        map.put("sign", sign);
+        return WxPayUtil.mapConvertToXML(map);
+    }
 }

@@ -18,13 +18,6 @@ public interface OrderMapper {
     /**
      * 订单列表
      *
-     * @return
-     */
-    Page<Order> findByScheduler();
-
-    /**
-     * 订单列表
-     *
      * @param requestParams
      * @return
      */
@@ -47,15 +40,17 @@ public interface OrderMapper {
     int modify(Order order);
 
     /**
-     * 将订单状态修改为  拒绝退款
+     * 修改订单退款状态
      *
      * @param orderId
      * @param status
+     * @param refundFree
      * @param remark
      * @return
      */
     int updateOrderRefundById(@Param("orderId") Long orderId,
                               @Param("status") String status,
+                              @Param("refundFree") Integer refundFree,
                               @Param("remark") String remark);
 
     /**
