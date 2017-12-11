@@ -99,4 +99,5 @@ public interface GoodsService {
      * @return
      */
     BaseResult auditByGoods(Goods goods);
+
 }

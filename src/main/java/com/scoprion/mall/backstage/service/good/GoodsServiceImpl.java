@@ -319,14 +319,20 @@ public class GoodsServiceImpl implements GoodsService {
         if (goods.getId() == null) {
             return BaseResult.parameterError();
         }
-        Goods auditGoods = goodsMapper.findByGoodsByCondition(goods);
-        if (auditGoods.getAudit() == null) {
-            return BaseResult.error("ERROR", "请选择审核是否通过");
+        if (goods.getAudit().equals(CommonEnum.PASS_AUDIT.getCode())) {
+            int result = goodsMapper.auditByGoods(goods);
+            if (result < 0) {
+                return BaseResult.error("ERROR", "审核未通过");
+            }
+            return BaseResult.success("审核已通过");
         }
-        if (auditGoods.getReason() == null) {
-            return BaseResult.error("ERROR", "请输入拒绝信息");
+        if (goods.getReason() == null) {
+            return BaseResult.error("ERROR", "请填写失败的原因");
         }
-        goodsMapper.auditByGoods(goods);
+        int auditGoods = goodsMapper.auditByGoods(goods);
+        if (auditGoods < 0) {
+            return BaseResult.error("ERROR", "审核失败");
+        }
         return BaseResult.success("审核未通过");
     }
 

@@ -162,5 +162,4 @@ public class GoodsController {
     public BaseResult auditByGoods(@RequestBody Goods goods) {
         return goodsService.auditByGoods(goods);
     }
-
 }
