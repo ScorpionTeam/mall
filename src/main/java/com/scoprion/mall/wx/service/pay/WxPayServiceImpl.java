@@ -479,6 +479,7 @@ public class WxPayServiceImpl implements WxPayService {
         order.setCount(wxOrderRequestData.getCount());
         order.setMessage(wxOrderRequestData.getMessage());
         order.setGoodId(goods.getId());
+        order.setSellerId(goods.getSellerId());
         //是否使用优惠券
         if (CommonEnum.USE_TICKET.getCode().equals(wxOrderRequestData.getUseTicket())) {
             order.setUseTicket(CommonEnum.USE_TICKET.getCode());
