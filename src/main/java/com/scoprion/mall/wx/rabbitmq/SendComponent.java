@@ -36,9 +36,8 @@ public class SendComponent {
     }
 
     public void sendRefundingOrder(Order order) {
-        CorrelationData correlationData = new CorrelationData(UUID.randomUUID().toString());
-        LOGGER.info("发送消息：" + correlationData.getId());
-        this.rabbitTemplate.convertAndSend(Constant.EXCHANGE, Constant.ROUTING_KEY, order, correlationData);
+        LOGGER.info("发送消息：" + order.toString());
+        this.rabbitTemplate.convertAndSend(Constant.REFUND_EXCHANGE, Constant.REFUND_ROUTING_KEY, order);
     }
 
 //    @Override
