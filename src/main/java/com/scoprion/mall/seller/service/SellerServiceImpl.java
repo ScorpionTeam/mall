@@ -4,6 +4,8 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.mall.backstage.mapper.FileOperationMapper;
+import com.scoprion.mall.domain.MallImage;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.mall.domain.order.OrderExt;
@@ -29,6 +31,9 @@ import java.util.concurrent.TimeUnit;
 public class SellerServiceImpl implements SellerService {
     @Autowired
     private SellerMapper sellerMapper;
+
+    @Autowired
+    private FileOperationMapper fileOperationMapper;
 
     @Resource
     private RedisTemplate redisTemplate;
@@ -105,7 +110,7 @@ public class SellerServiceImpl implements SellerService {
      * @throws Exception
      */
     @Override
-    public BaseResult register(MallUser mallUser,String ip) throws Exception {
+    public BaseResult register(MallUser mallUser, String ip) throws Exception {
         if (mallUser == null) {
             return BaseResult.parameterError();
         }
@@ -133,6 +138,8 @@ public class SellerServiceImpl implements SellerService {
         String encryptPassword = EncryptUtil.encryptMD5(password);
         mallUser.setPassword(encryptPassword);
         Integer result = sellerMapper.register(mallUser);
+        //存储证件照片
+        saveIdPhotoImage(mallUser);
         if (result <= 0) {
             return BaseResult.error("ERROR", "注册失败");
         }
@@ -142,6 +149,25 @@ public class SellerServiceImpl implements SellerService {
         return BaseResult.success(tokenStr);
     }
 
+    /**
+     * 存储证件照片
+     *
+     * @param user
+     */
+    private void saveIdPhotoImage(MallUser user) {
+        if (!StringUtils.isEmpty(user.getIdPhotoFrontUrl())) {
+            MallImage mallImage = new MallImage();
+            mallImage.setIdPhotoOwnerId(user.getId());
+            mallImage.setUrl(user.getIdPhotoFrontUrl());
+            fileOperationMapper.add(mallImage);
+        }
+        if (!StringUtils.isEmpty(user.getIdPhotoBgUrl())) {
+            MallImage mallImage = new MallImage();
+            mallImage.setIdPhotoOwnerId(user.getId());
+            mallImage.setUrl(user.getIdPhotoBgUrl());
+            fileOperationMapper.add(mallImage);
+        }
+    }
 
     /**
      * 修改个人信息
@@ -164,21 +190,22 @@ public class SellerServiceImpl implements SellerService {
 
     /**
      * 退出登录
+     *
      * @param mobile
      * @param email
      * @return
      */
     @Override
-    public BaseResult logout(String mobile,String email) {
-        if (StringUtils.isEmpty(mobile)){
-            Boolean emailResult=redisTemplate.hasKey("Login:"+email);
-            if (emailResult){
+    public BaseResult logout(String mobile, String email) {
+        if (StringUtils.isEmpty(mobile)) {
+            Boolean emailResult = redisTemplate.hasKey("Login:" + email);
+            if (emailResult) {
                 return BaseResult.success("退出成功");
             }
             return BaseResult.error("ERROR", "没有该账号");
         }
-        Boolean result=redisTemplate.hasKey("Login:"+mobile);
-        if (result){
+        Boolean result = redisTemplate.hasKey("Login:" + mobile);
+        if (result) {
             redisTemplate.delete("Login:" + mobile);
             return BaseResult.success("退出成功");
         }
@@ -187,6 +214,7 @@ public class SellerServiceImpl implements SellerService {
 
     /**
      * 商户订单
+     *
      * @param pageNo
      * @param pageSize
      * @param sellerId
@@ -194,8 +222,8 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public PageResult findBySellerId(Integer pageNo, Integer pageSize, Long sellerId) {
-        PageHelper.startPage(pageNo,pageSize);
-        Page<OrderExt>page=sellerMapper.findBySellerId(sellerId);
+        PageHelper.startPage(pageNo, pageSize);
+        Page<OrderExt> page = sellerMapper.findBySellerId(sellerId);
         return new PageResult(page);
     }
 

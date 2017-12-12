@@ -57,7 +57,12 @@ public class Constant {
     public static final String RICH_TEXT_IMG_PATH = GOODS_IMG_PATH + "richtext/";
 
     /**
-     * 其他模块图片路径 7
+     * 证件照图片路径  7
+     */
+    public static final String ID_CARD_IMG_PATH = BASE_IMG_DIR + "/mall/idcardimage/";
+
+    /**
+     * 其他模块图片路径
      */
     public static final String OTHER_IMG_PATH = BASE_IMG_DIR + "/mall/otherimage/";
 

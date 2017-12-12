@@ -17,6 +17,12 @@ public class MallImage {
     private Long id;
 
     /**
+     * 证件照所属人id
+     */
+    @JSONField(name = "id_photo_owner_id")
+    private Long idPhotoOwnerId;
+
+    /**
      * 创建时间
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "create_date")
@@ -75,6 +81,14 @@ public class MallImage {
     public MallImage(String url, String isRichText) {
         this.url = url;
         this.isRichText = isRichText;
+    }
+
+    public Long getIdPhotoOwnerId() {
+        return idPhotoOwnerId;
+    }
+
+    public void setIdPhotoOwnerId(Long idPhotoOwnerId) {
+        this.idPhotoOwnerId = idPhotoOwnerId;
     }
 
     public String getIsRichText() {
