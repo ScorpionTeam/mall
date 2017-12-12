@@ -308,6 +308,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         order.setFreightFee(wxFreeOrder.getFreightFee());
         order.setPaymentFee(wxFreeOrder.getPaymentFee());
         order.setDeliveryId(wxFreeOrder.getDeliveryId());
+        order.setCount(1);
         return order;
     }
 
