@@ -70,11 +70,12 @@
     <!--修改商户个人信息-->
     <update id="alter" parameterType="com.scoprion.mall.domain.MallUser">
         UPDATE t_user SET
-        <if test="bornDate!=null">born_date#{bornDate},</if>
-        <if test="headPic!=null">head_picture#{headPic},</if>
-        <if test="nickName!=null">nick_name#{nickName},</if>
-        <if test="city!=null">city#{city},</if>
-        <if test="address!=null">address#{address},</if>
+        <if test="headPic!=null">head_picture=#{headPic},</if>
+        <if test="nickName!=null">nick_name=#{nickName},</if>
+        <if test="city!=null">city=#{city},</if>
+        <if test="mobile!=null">mobile=#{mobile},</if>
+        <if test="email!=null">email=#{email},</if>
+        <if test="address!=null">address=#{address},</if>
         update_date=now()
         WHERE id=#{id}
     </update>
@@ -133,7 +134,9 @@
         city,
         status,
         create_date,
-        user_type)
+        user_type,
+        id_photo_front_url,
+        id_photo_bg_url)
         VALUES (
         #{name},
         #{mobile},
@@ -150,7 +153,10 @@
         #{city},
         'NORMAL',
         NOW(),
-        'SELLER')
+        'SELLER',
+        #{idPhotoFrontUrl},
+        #{idPhotoBgUrl}
+        )
     </insert>
 
     <!--商户订单列表-->

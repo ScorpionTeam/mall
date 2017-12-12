@@ -37,6 +37,7 @@
         <result property="goodNo" column="goodNo"/>
         <result property="mainImgUrl" column="mainImgUrl"/>
         <result property="status" column="status"/>
+        <result property="freightFee" column="freightFee"/>
     </resultMap>
 
     <!-- 拼团列表 -->
@@ -98,6 +99,7 @@
         tg.hot,
         tg.is_new,
         tg.freight,
+        tg.freight_fee,
         tg.brand_id,
         tg.seller_id,
         tg.visit_total,

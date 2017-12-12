@@ -73,7 +73,6 @@
         FROM t_good good
         LEFT JOIN t_activity_good tacg ON good.id=tacg.good_id
         WHERE good.id=#{goodId}
-        GROUP BY good.id
     </select>
 
     <!--商品搜素-->

@@ -302,17 +302,17 @@ public class WxPayUtil {
     public static String freeOrder(String body,
                                     String userId,
                                     String outTradeNo,
-                                    int paymentFee,
+                                    int freightFee,
                                     String nonceStr) {
 
         Map<String, Object> map = new HashMap<>(16);
         map.put("appid", WxPayConfig.APP_ID);
-        map.put("userId", userId);
+        map.put("openid", userId);
         map.put("mch_id", WxPayConfig.MCHID);
         map.put("nonce_str", nonceStr);
         map.put("body", body);
         map.put("out_trade_no", outTradeNo);
-        map.put("total_fee", paymentFee);
+        map.put("total_fee", freightFee);
         map.put("notify_url", WxPayConfig.FREE_URL_GROUP);
         map.put("trade_type", "JSAPI");
         System.out.println("排序参数:" + WxPayUtil.sort(map));
