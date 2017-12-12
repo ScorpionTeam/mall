@@ -29,6 +29,7 @@
         status,
         rich_content,
         seo,
+        audit,
         main_image_url)
         VALUES (
         #{goodName},
@@ -51,6 +52,7 @@
         'NORMAL',
         #{richContent},
         #{seo},
+        'AUDITING',
         #{mainImageUrl})
     </insert>
 
