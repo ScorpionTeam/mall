@@ -60,7 +60,7 @@ public class SellerController {
     }
 
     /**
-     * 注册
+     * 商户注册
      * @param mallUser
      * @param httpServletRequest
      * @return
@@ -117,7 +117,7 @@ public class SellerController {
      * @param sellerId
      * @return
      */
-    @GetMapping("findBySellerId")
+    @GetMapping("/findBySellerId")
     public PageResult findBySellerId(Integer pageNo,Integer pageSize,Long sellerId){
         return sellerService.findBySellerId(pageNo,pageSize,sellerId);
     }
