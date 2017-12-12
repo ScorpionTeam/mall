@@ -43,7 +43,7 @@ public class WxPayConfig {
     /**
      * 微信商户平台免费试用支付结果通知URL
      */
-    public final static String FREE_URL_GROUP="http://zjhkhl.com/mall/wx/free/callBack";
+    public final static String FREE_URL_GROUP="https://zjhkhl.com/mall/wx/free/callBack";
 
     /**
      * 统一下单URL
