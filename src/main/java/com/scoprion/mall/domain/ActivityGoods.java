@@ -62,6 +62,12 @@ public class ActivityGoods extends Goods {
      */
     private Integer num;
 
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "start_date")
+    private Date startDate;
+
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "end_date")
+    private Date endDate;
+
     @Override
     public String getStatus() {
         return status;
@@ -158,6 +164,22 @@ public class ActivityGoods extends Goods {
         this.activityGoodId = activityGoodId;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     @Override
     public String toString() {
         return "ActivityGoods{" +
@@ -172,6 +194,8 @@ public class ActivityGoods extends Goods {
                 ", actgStock=" + actgStock +
                 ", status='" + status + '\'' +
                 ", num=" + num +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
                 '}';
     }
 }

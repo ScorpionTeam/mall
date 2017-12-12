@@ -14,6 +14,8 @@
         <result property="actgId" column="actgId"/>
         <result property="actgStock" column="actgStock"/>
         <result property="createDate" column="createDate"/>
+        <result property="startDate" column="startDate"/>
+        <result property="endDate" column="endDate"/>
     </resultMap>
 
     <resultMap type="com.scoprion.mall.domain.good.Goods" id="goods">
@@ -83,6 +85,7 @@
         SELECT
         act.name,
         act.activity_type,
+        act.start_date,
         act.status,
         act.num,
         actg.id AS activityGoodId,
@@ -108,7 +111,9 @@
         tg.status
         FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activity_id
         INNER JOIN t_good tg ON actg.good_id = tg.id
-        AND act.activity_type ='FREE' AND actg.status='NORMAL' AND act.status='NORMAL'
+        AND act.activity_type ='FREE' AND actg.status='NORMAL' AND act.status='NORMAL'AND end_date>NOW()
+        AND NOW()>start_date
+
     </select>
 
     <!-- 查询活动商品详情 -->
