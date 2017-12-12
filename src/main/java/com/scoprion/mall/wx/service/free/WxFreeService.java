@@ -33,11 +33,9 @@ public interface WxFreeService {
      * 微信支付
      *
      * @param orderId
-     * @param activityId
-     * @param goodId
      * @return
      */
-    BaseResult pay(Long orderId,Long activityId,Long goodId);
+    BaseResult pay(Long orderId);
 
 
     /**

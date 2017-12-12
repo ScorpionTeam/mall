@@ -72,17 +72,16 @@ public class WxFreeController {
     }
 
     /**
-     * 支付
+     * 重新支付
      *
      * @param orderId
-     * @param activityId
-     * @param goodId
+
      * @return
      */
     @Access
     @RequestMapping(value = "/pay",method = RequestMethod.GET)
-    public BaseResult pay(Long orderId,Long activityId,Long goodId){
-        return wxFreeService.pay(orderId,activityId,goodId);
+    public BaseResult pay(Long orderId){
+        return wxFreeService.pay(orderId);
     }
 
     /**

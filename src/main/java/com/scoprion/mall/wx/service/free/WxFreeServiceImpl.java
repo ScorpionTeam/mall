@@ -102,7 +102,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         }
 
         //查询活动商品是否还有库存
-        String activityGoodMessage = checkActivityGood(wxFreeOrder.getActivityId(), wxFreeOrder.getGoodId());
+        String activityGoodMessage = checkActivityGood(wxFreeOrder.getGoodId());
         if (!StringUtils.isEmpty(activityGoodMessage)) {
             return BaseResult.error("ERROR", activityGoodMessage);
         }
@@ -179,7 +179,7 @@ public class WxFreeServiceImpl implements WxFreeService {
      */
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public BaseResult pay(Long orderId, Long activityId, Long goodId) {
+    public BaseResult pay(Long orderId) {
         //查询订单详情
         Order order = wxOrderMapper.findByOrderId(orderId);
         //订单信息校验
@@ -196,7 +196,7 @@ public class WxFreeServiceImpl implements WxFreeService {
             return BaseResult.error("ERROR", "订单已超时，请重新下单");
         }
         //查询活动商品是否还有库存
-        String activityGoodMessage = checkActivityGood(activityId, goodId);
+        String activityGoodMessage = checkActivityGood(order.getGoodId());
         if (!StringUtils.isEmpty(activityGoodMessage)) {
             return BaseResult.error("ERROR", activityGoodMessage);
         }
@@ -346,9 +346,9 @@ public class WxFreeServiceImpl implements WxFreeService {
      * @param goodId
      * @return
      */
-    private String checkActivityGood(Long activityId, Long goodId) {
+    private String checkActivityGood(Long goodId) {
         //判断活动商品库存
-        ActivityGoods activityGoods = wxFreeMapper.findByActivityIdAndGoodId(activityId, goodId);
+        ActivityGoods activityGoods = wxFreeMapper.findByActivityIdAndGoodId(goodId);
         if (activityGoods.getStock() <= 0 || null == activityGoods) {
             return "库存不足";
         }
