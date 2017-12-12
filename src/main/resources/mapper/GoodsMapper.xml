@@ -266,7 +266,7 @@
         tac.end_date BETWEEN '0' AND NOW()) OR tacg.status='UN_NORMAL')
 
         WHERE
-        AND good.on_sale='ON_SALE'
+        good.on_sale='ON_SALE'
         AND good.id NOT IN(
         SELECT tg.id
         FROM t_good tg
