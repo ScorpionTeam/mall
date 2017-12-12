@@ -63,6 +63,7 @@
         good.stock,
         good.seo,
         good.rich_content,
+        good.freight_fee
         tacg.id,
         tacg.activity_id,
         tacg.good_id,

@@ -106,6 +106,12 @@ public class Goods {
     private String freight;
 
     /**
+     * 运费
+     */
+    @JSONField(name = "freight_fee")
+    private String freightFee;
+
+    /**
      * 所属品牌
      */
     @JSONField(name = "brand_id")
@@ -362,6 +368,14 @@ public class Goods {
         this.reason = reason;
     }
 
+    public String getFreightFee() {
+        return freightFee;
+    }
+
+    public void setFreightFee(String freighFee) {
+        this.freightFee = freightFee;
+    }
+
     @Override
     public String toString() {
         return "Goods{" +
@@ -382,6 +396,7 @@ public class Goods {
                 ", createDate=" + createDate +
                 ", lastUpdateDate=" + lastUpdateDate +
                 ", freight='" + freight + '\'' +
+                ", freightFee='" + freightFee + '\'' +
                 ", brandId=" + brandId +
                 ", sellerId=" + sellerId +
                 ", visitTotal=" + visitTotal +
