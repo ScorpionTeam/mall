@@ -134,7 +134,7 @@ public class MallUser {
     private String idPhotoFrontUrl;
 
     /**
-     * 证件照贩反面
+     * 证件照正反面
      */
     @JSONField(name = "id_photo_bg_url")
     private String idPhotoBgUrl;
