@@ -9,10 +9,7 @@ import com.scoprion.mall.wx.rabbitmq.ConfirmCallBackListener;
 import com.scoprion.mall.wx.rabbitmq.ReturnCallBackListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -114,6 +111,17 @@ public class MallConfig extends WebMvcConfigurerAdapter {
         return new DirectExchange(Constant.EXCHANGE);
     }
 
+    @Bean
+    public DirectExchange refundExchange() {
+
+        /**
+         * DirectExchange: 按照routingkey分发到指定队列
+         * TopicExchange: 多关键字匹配
+         * FanoutExchange: 将消息分发到所有的绑定队列，无routingkey的概念
+         * HeadersExchange: 通过添加属性 key-value匹配
+         */
+        return new DirectExchange(Constant.REFUND_EXCHANGE);
+    }
 
     @Bean
     public Queue queue() {
@@ -121,7 +129,19 @@ public class MallConfig extends WebMvcConfigurerAdapter {
     }
 
     @Bean
+    public Queue refundQueue() {
+        return new Queue(Constant.REFUND_QUEUE);
+    }
+
+
+    @Bean
     public Binding binding() {
+        /** 将队列绑定到交换机 */
+        return BindingBuilder.bind(refundQueue()).to(refundExchange()).with(Constant.REFUND_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding bindingRefund() {
         /** 将队列绑定到交换机 */
         return BindingBuilder.bind(queue()).to(defaultExchange()).with(Constant.ROUTING_KEY);
     }

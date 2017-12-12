@@ -23,6 +23,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,10 +59,51 @@ public class WxOrderScheduler {
     @Scheduled(fixedRate = 12 * 60 * 60 * 1000)
     public void findRefundingOrder() {
         List<Order> orderList = wxOrderMapper.findRefundingOrder();
-        orderList.forEach(order -> {
-            if (order.getRefundFee() > 0) {
+//        Order order = new Order();
+//        order.setGoodName("sasa");
+//        order.setOrderStatus("sasa");
+//        order.setUseTicket("sasa");
+//        order.setUsePoint("sasa");
+//        order.setUserId("sasa");
+//        order.setDeliveryId(9900L);
+//        order.setFreightFee(90);
+//        order.setGoodId(12L);
+//        order.setGoodSnapShotId(133L);
+//        order.setOrderNo("sasa");
+//        order.setOrderType("sasa");
+//        order.setPayType("sasa");
+//        order.setSellerId(12L);
+//        order.setCount(1);
+//        order.setGoodFee(32);
+//        order.setOrderFee(123);
+//        order.setWxOrderNo("21212");
+//        order.setUpdateDate(new Date());
+//        order.setSendGoodId(90L);
+//        order.setRemark("wqefq");
+//        order.setRefundFee(11);
+//        order.setRefundDate(new Date());
+//        order.setRecipients("weas");
+//        order.setProvince("sq");
+//        order.setPrepayId("2qw");
+//        order.setPostCode("123we");
+//        order.setPhone("21qw");
+//        order.setId(12L);
+//        order.setUpdateDate(new Date());
+//        order.setOrderFee(21);
+//        order.setMessage("123");
+//        order.setTicketId(22L);
+//        order.setAddress("2");
+//        order.setArea("23");
+//        order.setCity("1212");
+//        order.setDeliveryDate(new Date());
+//        order.setPayDate("");
+//        order.setCreateDate(new Date());
+//        order.setDeliveryNo("21345");
+//        sendComponent.sendRefundingOrder(order);
+        orderList.forEach(item -> {
+            if (item.getRefundFee() >= 0) {
                 //发送到消息队列
-                sendComponent.sendRefundingOrder(order);
+                sendComponent.sendRefundingOrder(item);
 //                String nonceStr = WxUtil.createRandom(false, 10);
 //                String refundOrderNo = order.getOrderNo() + "T";
 //                //定义接收退款返回字符串
