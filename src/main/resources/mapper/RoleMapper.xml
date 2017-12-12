@@ -18,7 +18,7 @@
          #{remark},
          #{status},
          #{operator},
-         #{role_level},
+         #{roleLevel},
          now()
         )
     </insert>
