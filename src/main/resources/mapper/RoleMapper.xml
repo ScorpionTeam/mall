@@ -18,7 +18,7 @@
          #{remark},
          #{status},
          #{operator},
-         #{role_level},
+         #{roleLevel},
          now()
         )
     </insert>
@@ -125,4 +125,14 @@
     <insert id="addRoleRelation" parameterType="java.lang.Long">
         INSERT INTO t_sys_user_role(user_id,role_id) VALUE (#{userId},#{roleId})
     </insert>
+
+    <select id="findSellerRole" resultType="com.scoprion.mall.domain.SysRole">
+         SELECT
+         id,
+         name,
+         remark,
+         operator
+         FROM t_sys_role
+         WHERE role_level='LEVEL_ORDINARY' AND status='NORMAL'
+    </select>
 </mapper>
