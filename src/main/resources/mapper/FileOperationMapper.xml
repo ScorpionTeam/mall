@@ -22,6 +22,7 @@
         INSERT INTO t_mall_image(
         create_date,
         url,
+        id_photo_owner_id,
         article_id,
         activity_id,
         banner_id,
@@ -31,6 +32,7 @@
         estimate_id)
         VALUES(now(),
         #{url},
+        #{idPhotoOwnerId},
         #{articleId},
         #{activityId},
         #{bannerId},
@@ -40,14 +42,16 @@
         #{estimateId})
     </insert>
 
-    <!--根据targetId查找图片 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6-->
+    <!--根据targetId查找图片 商品图片0,品牌图片1,文章图片2,商品评价图片3,
+    广告图片4,活动图片5, 富文本图片路径 6 ,证件照图片路径  7-->
     <select id="findByTargetId" resultType="com.scoprion.mall.domain.MallImage">
         SELECT id,
+        good_id,
+        brand_id,
+        banner_id,
+        id_photo_owner_id,
         article_id,
         activity_id,
-        banner_id,
-        brand_id,
-        good_id,
         estimate_id,
         is_rich_text,
         create_date,
@@ -60,6 +64,8 @@
         <if test="type==4">AND banner_id=#{targetId}</if>
         <if test="type==5">AND activity_id=#{targetId}</if>
         <if test="type==6">AND is_rich_text='NORMAL'</if>
+        <if test="type==7 and targetId!=null">AND id_photo_owner_id =#{targetId}</if>
+        <if test="type==7 and targetId==null">AND id_photo_owner_id IS NOT NULL</if>
     </select>
 
     <!--根据type查找图片 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6-->
@@ -67,6 +73,7 @@
         SELECT id,
         article_id,
         activity_id,
+        id_photo_owner_id,
         banner_id,
         brand_id,
         good_id,
@@ -82,6 +89,7 @@
         <if test="type==4">AND banner_id IS NOT NULL</if>
         <if test="type==5">AND activity_id IS NOT NULL</if>
         <if test="type==6">AND is_rich_text ='NORMAL'</if>
+        <if test="type==7">AND id_photo_owner_id IS NOT NULL</if>
     </select>
 
     <!--根据id修改图片-->
@@ -96,6 +104,7 @@
         <if test="goodId!=null ">,good_id=#{goodId}</if>
         <if test="estimateId!=null ">,estimate_id=#{estimateId}</if>
         <if test="is_rich_text!=null ">,is_rich_text=#{isRichText}</if>
+        <if test="id_photo_owner_id!=null ">,id_photo_owner_id=#{idPhotoOwnerId}</if>
         WHERE id=#{id}
     </update>
 </mapper>

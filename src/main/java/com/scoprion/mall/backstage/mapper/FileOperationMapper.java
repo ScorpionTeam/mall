@@ -49,7 +49,8 @@ public interface FileOperationMapper {
     /**
      * 根据商品ID查找图片列表
      *
-     * @param type 类型 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6
+     * @param type 类型 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,
+     *             富文本图片路径 6 ,证件照图片路径  7
      * @return
      */
     Page<MallImage> findByCondition(@Param("type") Integer type);
@@ -58,7 +59,8 @@ public interface FileOperationMapper {
      * 根据商品ID查找图片列表
      *
      * @param targetId
-     * @param type     类型 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6
+     * @param type     类型 商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,
+     *                 富文本图片路径 6 ,证件照图片路径  7
      * @return
      */
     List<MallImage> findByTargetId(@Param("targetId") Long targetId, @Param("type") Integer type);
