@@ -155,4 +155,12 @@ public interface RoleMapper {
      * @return
      */
     Page<SysRole> findByCondition(@Param("searchKey") String searchKey);
+
+    /**
+     * 查询商户角色
+     *
+     * @return
+     */
+    SysRole findSellerRole();
+
 }
