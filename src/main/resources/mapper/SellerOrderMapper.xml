@@ -84,7 +84,7 @@
         tg.main_image_url as goodMainImage
         FROM t_order tor
         LEFT JOIN t_good_snapshot tg ON tor.good_snapshot_id=tg.id
-        WHERE tor.id=#{id} AND tor.seller_id=#{sellerId}
+        WHERE tor.id=#{id}
     </select>
 
     <!--修改订单-->

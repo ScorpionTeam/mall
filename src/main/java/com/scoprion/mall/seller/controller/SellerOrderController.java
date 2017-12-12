@@ -1,17 +1,17 @@
 package com.scoprion.mall.seller.controller;
 
+import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.order.Order;
 import com.scoprion.mall.domain.request.OrderRequestParams;
 import com.scoprion.mall.seller.service.SellerOrderService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.websocket.server.PathParam;
+
 
 /**
  * @author ycj
@@ -31,8 +31,10 @@ public class SellerOrderController {
      * @param requestParams
      * @return
      */
+    @Access
+    @ApiOperation(value = "订单列表")
     @PostMapping("/findByCondition")
-    PageResult findByCondition(OrderRequestParams requestParams) {
+    public PageResult findByCondition(@RequestBody OrderRequestParams requestParams) {
         return sellerOrderService.findByCondition(requestParams);
     }
 
@@ -42,8 +44,10 @@ public class SellerOrderController {
      * @param id
      * @return
      */
+    @Access
+    @ApiOperation(value = "根据id查询详情")
     @GetMapping("/findById/{id}")
-    BaseResult findById(@PathParam("id") Long id) {
+    public BaseResult findById(@PathParam("id") Long id) {
         return sellerOrderService.findById(id);
     }
 
@@ -53,8 +57,10 @@ public class SellerOrderController {
      * @param order
      * @return
      */
+    @Access
+    @ApiOperation(value = "修改订单")
     @PostMapping("/modify")
-    BaseResult modify(Order order) {
+    public BaseResult modify(@RequestBody Order order) {
         return sellerOrderService.modify(order);
     }
 
@@ -67,11 +73,13 @@ public class SellerOrderController {
      * @param refundFee
      * @return
      */
+    @Access
+    @ApiOperation(value = "退款")
     @PostMapping("/refund/{orderId}/{flag}/{remark}/{refundFee}")
-    BaseResult refund(@PathParam("orderId") Long orderId,
-                      @PathParam("flag") String flag,
-                      @PathParam("remark") String remark,
-                      @PathParam("refundFee") Integer refundFee) {
+    public BaseResult refund(@PathVariable("orderId") Long orderId,
+                             @PathVariable("flag") String flag,
+                             @PathVariable("remark") String remark,
+                             @PathVariable("refundFee") Integer refundFee) {
         return sellerOrderService.refund(orderId, flag, remark, refundFee);
     }
 
@@ -83,9 +91,11 @@ public class SellerOrderController {
      * @param count   退货数量
      * @return
      */
+    @Access
+    @ApiOperation(value = "退货")
     @PostMapping("/refund/{orderId}/{count}")
-    BaseResult goodReject(@PathParam("orderId") Long orderId,
-                          @PathParam("count") Integer count) {
+    public BaseResult goodReject(@PathVariable("orderId") Long orderId,
+                                 @PathVariable("count") Integer count) {
         return sellerOrderService.goodReject(orderId, count);
     }
 
@@ -99,12 +109,14 @@ public class SellerOrderController {
      * @param senderId    寄件人Id
      * @return
      */
+    @Access
+    @ApiOperation(value = "商品发货")
     @PostMapping("/sendGood/{orderId}/{deliveryNo}/{expressName}/{expressNo}/{senderId}")
-    BaseResult sendGood(@PathParam("orderId") Long orderId,
-                        @PathParam("deliveryNo") String deliveryNo,
-                        @PathParam("expressName") String expressName,
-                        @PathParam("expressNo") String expressNo,
-                        @PathParam("senderId") Long senderId) {
+    public BaseResult sendGood(@PathVariable("orderId") Long orderId,
+                               @PathVariable("deliveryNo") String deliveryNo,
+                               @PathVariable("expressName") String expressName,
+                               @PathVariable("expressNo") String expressNo,
+                               @PathVariable("senderId") Long senderId) {
         return sellerOrderService.sendGood(orderId, deliveryNo, expressName, expressNo, senderId);
     }
 
@@ -116,10 +128,12 @@ public class SellerOrderController {
      * @param orderId
      * @return
      */
+    @Access
+    @ApiOperation(value = "根据订单id查订单日志")
     @GetMapping("/sendGood/{pageNo}/{pageSize}/{orderId}")
-    PageResult findOrderLogByOrderId(@PathParam("pageNo") Integer pageNo,
-                                     @PathParam("pageSize") Integer pageSize,
-                                     @PathParam("orderId") Long orderId) {
+    public PageResult findOrderLogByOrderId(@PathVariable("pageNo") Integer pageNo,
+                                            @PathVariable("pageSize") Integer pageSize,
+                                            @PathVariable("orderId") Long orderId) {
         return sellerOrderService.findOrderLogByOrderId(pageNo, pageSize, orderId);
     }
 }

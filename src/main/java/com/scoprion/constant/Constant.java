@@ -124,9 +124,11 @@ public class Constant {
     public static final int VALID_TIME = ONE_MINUTE;
 
     public static final String QUEUE = "mall.queue.content";
-
     public static final String EXCHANGE = "mall.exchange.content";
-
     public static final String ROUTING_KEY = "mall.routingkey.content";
+
+    public static final String REFUND_QUEUE = "mall.queue.refund";
+    public static final String REFUND_EXCHANGE = "mall.exchange.refund";
+    public static final String REFUND_ROUTING_KEY = "mall.routingkey.refund";
 
 }

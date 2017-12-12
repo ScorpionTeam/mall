@@ -27,7 +27,6 @@ import org.springframework.stereotype.Component;
  */
 
 @Component
-@RabbitListener(queues = Constant.QUEUE, containerFactory = "simpleRabbitListenerContainerFactory")
 public class ReceiveFreeComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReceiveFreeComponent.class);
 
@@ -35,6 +34,7 @@ public class ReceiveFreeComponent {
     private WxFreeService wxFreeService;
 
     @RabbitHandler
+    @RabbitListener(queues = Constant.QUEUE, containerFactory = "simpleRabbitListenerContainerFactory")
     public void processFree(WxFreeOrder wxFreeOrder) {
         LOGGER.info("接收到信息为：" + wxFreeOrder.getWxCode());
         //wxPayService.unifiedOrder(wxOrderRequestData);

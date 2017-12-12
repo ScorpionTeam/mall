@@ -23,7 +23,6 @@ import org.springframework.stereotype.Component;
  * @date 2017-12-11 15:05
  */
 @Component
-@RabbitListener(queues = Constant.QUEUE, containerFactory = "simpleRabbitListenerContainerFactory")
 public class ReceiveRefundComponent {
     private static final Logger LOGGER = LoggerFactory.getLogger(ReceiveRefundComponent.class);
 
@@ -34,7 +33,8 @@ public class ReceiveRefundComponent {
     WxOrderLogMapper wxOrderLogMapper;
 
     @RabbitHandler
-    public void processFree(Order order) {
+    @RabbitListener(queues = Constant.REFUND_QUEUE, containerFactory = "simpleRabbitListenerContainerFactory")
+    public void processOrder(Order order) {
         LOGGER.info("接收到信息为：" + order.toString());
         String nonceStr = WxUtil.createRandom(false, 10);
         String refundOrderNo = order.getOrderNo() + "T";
