@@ -4,8 +4,13 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.mall.backstage.mapper.FileOperationMapper;
+import com.scoprion.mall.backstage.mapper.RoleMapper;
+import com.scoprion.mall.backstage.service.role.RoleService;
+import com.scoprion.mall.domain.MallImage;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.domain.SysRole;
 import com.scoprion.mall.domain.order.OrderExt;
 import com.scoprion.mall.seller.mapper.SellerMapper;
 import com.scoprion.mall.wx.pay.util.WxUtil;
@@ -15,6 +20,7 @@ import com.scoprion.utils.EncryptUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
@@ -30,9 +36,14 @@ public class SellerServiceImpl implements SellerService {
     @Autowired
     private SellerMapper sellerMapper;
 
+    @Autowired
+    private FileOperationMapper fileOperationMapper;
+
     @Resource
     private RedisTemplate redisTemplate;
 
+    @Autowired
+    RoleMapper roleMapper;
 
     /**
      * 商户店铺建立
@@ -104,8 +115,9 @@ public class SellerServiceImpl implements SellerService {
      * @return
      * @throws Exception
      */
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public BaseResult register(MallUser mallUser,String ip) throws Exception {
+    public BaseResult register(MallUser mallUser, String ip) throws Exception {
         if (mallUser == null) {
             return BaseResult.parameterError();
         }
@@ -136,12 +148,49 @@ public class SellerServiceImpl implements SellerService {
         if (result <= 0) {
             return BaseResult.error("ERROR", "注册失败");
         }
+        //存储证件照片
+        saveIdPhotoImage(mallUser);
+        //绑定商户角色
+        bindRole(mallUser);
         //将用户手机号码作为加密字符串回传
         String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), "ScorpionMall8888");
         mallUser.setToken(tokenStr);
         return BaseResult.success(tokenStr);
     }
 
+    /**
+     * 绑定商户角色
+     *
+     * @param mallUser
+     */
+    private void bindRole(MallUser mallUser) {
+        SysRole role = roleMapper.findSellerRole();
+        //查询普通角色
+        if (role != null) {
+            roleMapper.addRoleRelation(mallUser.getId(), role.getId());
+        }
+    }
+
+    /**
+     * 存储证件照片
+     *
+     * @param user
+     */
+    private void saveIdPhotoImage(MallUser user) {
+        System.out.println("存储证件照片: " + user.toString());
+        if (!StringUtils.isEmpty(user.getIdPhotoFrontUrl())) {
+            MallImage mallImage = new MallImage();
+            mallImage.setIdPhotoOwnerId(user.getId());
+            mallImage.setUrl(user.getIdPhotoFrontUrl());
+            fileOperationMapper.add(mallImage);
+        }
+        if (!StringUtils.isEmpty(user.getIdPhotoBgUrl())) {
+            MallImage mallImage = new MallImage();
+            mallImage.setIdPhotoOwnerId(user.getId());
+            mallImage.setUrl(user.getIdPhotoBgUrl());
+            fileOperationMapper.add(mallImage);
+        }
+    }
 
     /**
      * 修改个人信息
@@ -164,21 +213,22 @@ public class SellerServiceImpl implements SellerService {
 
     /**
      * 退出登录
+     *
      * @param mobile
      * @param email
      * @return
      */
     @Override
-    public BaseResult logout(String mobile,String email) {
-        if (StringUtils.isEmpty(mobile)){
-            Boolean emailResult=redisTemplate.hasKey("Login:"+email);
-            if (emailResult){
+    public BaseResult logout(String mobile, String email) {
+        if (StringUtils.isEmpty(mobile)) {
+            Boolean emailResult = redisTemplate.hasKey("Login:" + email);
+            if (emailResult) {
                 return BaseResult.success("退出成功");
             }
             return BaseResult.error("ERROR", "没有该账号");
         }
-        Boolean result=redisTemplate.hasKey("Login:"+mobile);
-        if (result){
+        Boolean result = redisTemplate.hasKey("Login:" + mobile);
+        if (result) {
             redisTemplate.delete("Login:" + mobile);
             return BaseResult.success("退出成功");
         }
@@ -187,6 +237,7 @@ public class SellerServiceImpl implements SellerService {
 
     /**
      * 商户订单
+     *
      * @param pageNo
      * @param pageSize
      * @param sellerId
@@ -194,8 +245,8 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public PageResult findBySellerId(Integer pageNo, Integer pageSize, Long sellerId) {
-        PageHelper.startPage(pageNo,pageSize);
-        Page<OrderExt>page=sellerMapper.findBySellerId(sellerId);
+        PageHelper.startPage(pageNo, pageSize);
+        Page<OrderExt> page = sellerMapper.findBySellerId(sellerId);
         return new PageResult(page);
     }
 

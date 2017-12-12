@@ -118,6 +118,9 @@
 
     <!--商户注册-->
     <insert id="register" parameterType="com.scoprion.mall.domain.MallUser">
+        <selectKey resultType="java.lang.Long" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         INSERT INTO t_user(
         name,
         mobile,

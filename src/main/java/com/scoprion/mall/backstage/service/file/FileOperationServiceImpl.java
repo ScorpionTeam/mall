@@ -146,7 +146,8 @@ public class FileOperationServiceImpl implements FileOperationService {
      *
      * @param pageNo
      * @param pageSize
-     * @param type     商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,其他图片6
+     * @param type     商品图片0,品牌图片1,文章图片2,商品评价图片3,广告图片4,活动图片5,
+     *                 富文本图片路径 6 ,证件照图片路径  7
      * @return
      */
     @Override
@@ -281,7 +282,7 @@ public class FileOperationServiceImpl implements FileOperationService {
     /**
      * 获取绝对路径
      *
-     * @param path         示例： D:Downloads/
+     * @param path         示例： /home/hcon/mall
      * @param fileName     示例：122334441121212
      * @param endName      后缀名 示例： .png
      * @param imageCutSize
@@ -337,6 +338,10 @@ public class FileOperationServiceImpl implements FileOperationService {
             case "6":
                 //富文本图片路径 6
                 path = Constant.RICH_TEXT_IMG_PATH;
+                break;
+            case "7":
+                //证件照图片 7
+                path = Constant.ID_CARD_IMG_PATH;
                 break;
             default:
                 //其他模块图片路径
