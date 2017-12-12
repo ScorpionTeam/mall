@@ -18,6 +18,7 @@
         main_image_url,
         create_date,
         rich_content,
+        seller_id,
         good_id)
         VALUES (#{goodSnapShotNo},
         #{goodName},
@@ -29,6 +30,7 @@
         #{mainImageUrl},
         NOW(),
         #{richContent},
+        #{sellerId},
         #{goodId})
     </insert>
 
