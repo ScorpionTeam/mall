@@ -306,6 +306,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         order.setUsePoint(CommonEnum.NOT_USE_POINT.getCode());
         order.setUseTicket(CommonEnum.UN_USE_TICKET.getCode());
         order.setFreightFee(wxFreeOrder.getFreightFee());
+        order.setPaymentFee(wxFreeOrder.getPaymentFee());
         order.setDeliveryId(wxFreeOrder.getDeliveryId());
         order.setUserId(wxFreeOrder.getWxCode());
         return order;
