@@ -1,29 +1,21 @@
 package com.scoprion.mall.wx.pay.util;
 
-import com.github.pagehelper.Page;
 import com.scoprion.constant.Constant;
-import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.OrderMapper;
-import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.order.Order;
-import com.scoprion.mall.domain.order.OrderLog;
 import com.scoprion.mall.wx.mapper.WxOrderLogMapper;
 import com.scoprion.mall.wx.mapper.WxOrderMapper;
 import com.scoprion.mall.wx.pay.WxPayConfig;
 import com.scoprion.mall.wx.pay.domain.OrderQueryResponseData;
 import com.scoprion.mall.wx.pay.domain.UnifiedOrderNotifyRequestData;
-import com.scoprion.mall.wx.pay.domain.WxRefundNotifyResponseData;
 import com.scoprion.mall.wx.rabbitmq.SendComponent;
 import com.scoprion.mall.wx.service.pay.WxPayService;
-import com.scoprion.result.BaseResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,47 +51,6 @@ public class WxOrderScheduler {
     @Scheduled(fixedRate = 12 * 60 * 60 * 1000)
     public void findRefundingOrder() {
         List<Order> orderList = wxOrderMapper.findRefundingOrder();
-//        Order order = new Order();
-//        order.setGoodName("sasa");
-//        order.setOrderStatus("sasa");
-//        order.setUseTicket("sasa");
-//        order.setUsePoint("sasa");
-//        order.setUserId("sasa");
-//        order.setDeliveryId(9900L);
-//        order.setFreightFee(90);
-//        order.setGoodId(12L);
-//        order.setGoodSnapShotId(133L);
-//        order.setOrderNo("sasa");
-//        order.setOrderType("sasa");
-//        order.setPayType("sasa");
-//        order.setSellerId(12L);
-//        order.setCount(1);
-//        order.setGoodFee(32);
-//        order.setOrderFee(123);
-//        order.setWxOrderNo("21212");
-//        order.setUpdateDate(new Date());
-//        order.setSendGoodId(90L);
-//        order.setRemark("wqefq");
-//        order.setRefundFee(11);
-//        order.setRefundDate(new Date());
-//        order.setRecipients("weas");
-//        order.setProvince("sq");
-//        order.setPrepayId("2qw");
-//        order.setPostCode("123we");
-//        order.setPhone("21qw");
-//        order.setId(12L);
-//        order.setUpdateDate(new Date());
-//        order.setOrderFee(21);
-//        order.setMessage("123");
-//        order.setTicketId(22L);
-//        order.setAddress("2");
-//        order.setArea("23");
-//        order.setCity("1212");
-//        order.setDeliveryDate(new Date());
-//        order.setPayDate("");
-//        order.setCreateDate(new Date());
-//        order.setDeliveryNo("21345");
-//        sendComponent.sendRefundingOrder(order);
         orderList.forEach(item -> {
             if (item.getRefundFee() >= 0) {
                 //发送到消息队列
