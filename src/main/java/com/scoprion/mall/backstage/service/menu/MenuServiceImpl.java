@@ -95,6 +95,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public BaseResult findByUserId(Long userId) {
+        if (userId == null) {
+            return BaseResult.parameterError();
+        }
         Integer validCount = menuMapper.validAdmin(userId);
         List<SysMenu> list;
         if (validCount > 0) {
@@ -107,7 +110,7 @@ public class MenuServiceImpl implements MenuService {
         } else {
             list = menuMapper.findByParentIdAndUserId(null, userId);
             list.forEach(menu -> {
-                List<SysMenu> childMenuList = menuMapper.findByParentIdAndUserId(menu.getPid(), userId);
+                List<SysMenu> childMenuList = menuMapper.findByParentIdAndUserId(menu.getId(), userId);
                 menu.setLeaf(childMenuList);
             });
         }
