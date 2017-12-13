@@ -6,6 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.MenuMapper;
 import com.scoprion.mall.backstage.mapper.RoleMapper;
+import com.scoprion.mall.backstage.mapper.UserMapper;
 import com.scoprion.mall.domain.SysMenu;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
@@ -22,6 +23,8 @@ import java.util.List;
  */
 @Service
 public class MenuServiceImpl implements MenuService {
+    @Autowired
+    UserMapper userMapper;
 
     @Autowired
     MenuMapper menuMapper;
@@ -98,7 +101,7 @@ public class MenuServiceImpl implements MenuService {
         if (userId == null) {
             return BaseResult.parameterError();
         }
-        Integer validCount = menuMapper.validAdmin(userId);
+        Integer validCount = userMapper.validAdmin(userId);
         List<SysMenu> list;
         if (validCount > 0) {
             //超级管理员用户菜单

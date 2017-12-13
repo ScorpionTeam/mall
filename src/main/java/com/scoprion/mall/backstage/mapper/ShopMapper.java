@@ -35,4 +35,11 @@ public interface ShopMapper {
     Integer update(@Param("audit") String audit,
                    @Param("reason") String reason,
                    @Param("id") Long id);
+
+    /**
+     * 店铺
+     * @param id 店铺id
+     * @return
+     */
+    Seller findById(@Param("id") Long id);
 }

@@ -85,13 +85,6 @@ public interface MenuMapper {
                                    @Param("name") String name,
                                    @Param("url") String url);
 
-    /**
-     * 校验是不是管理员
-     *
-     * @param userId
-     * @return
-     */
-    Integer validAdmin(@Param("userId") Long userId);
 
     /**
      * 查询根节点

@@ -21,6 +21,20 @@ public class ShopController {
 
 
     /**
+     * 根据id查询店铺详情
+     *
+     * @param id
+     * @return
+     */
+    @Access
+    @ApiOperation("根据id查询店铺详情")
+    @GetMapping("/findById/{id}")
+    public BaseResult findById(@PathVariable("id") Long id) {
+        return shopService.findById(id);
+    }
+
+
+    /**
      * 店铺列表
      *
      * @param pageNo
@@ -31,9 +45,11 @@ public class ShopController {
     @Access
     @ApiOperation("店铺列表")
     @GetMapping("/findPage")
-    public PageResult findPage(Integer pageNo, Integer pageSize, String audit, String searchKey) {
-        return shopService.findPage(pageNo, pageSize, audit, searchKey);
+    public PageResult findPage(Long userId, Integer pageNo, Integer pageSize,
+                               String audit, String searchKey) {
+        return shopService.findPage(userId, pageNo, pageSize, audit, searchKey);
     }
+
 
     /**
      * 店铺审核
@@ -43,10 +59,10 @@ public class ShopController {
      * @param id
      * @return
      */
-    @PostMapping("/audit/{audit}/{reason}/{id}")
-    public BaseResult audit(@PathVariable("audit") String audit,
-                            @PathVariable("reason") String reason,
-                            @PathVariable("id") Long id) {
+    @Access
+    @ApiOperation("店铺审核")
+    @PostMapping("/audit")
+    public BaseResult audit(String audit, Long id, String reason) {
         return shopService.audit(audit, reason, id);
     }
 }

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 /**
  * Created on 2017/9/27.
+ *
  * @author adming
  */
 @Mapper
@@ -82,8 +83,8 @@ public interface UserMapper {
      * @return Page
      */
     Page<MallUser> findByPage(@Param("startDate") String startDate,
-                            @Param("endDate") String endDate,
-                            @Param("searchKey") String searchKey);
+                              @Param("endDate") String endDate,
+                              @Param("searchKey") String searchKey);
 
     /**
      * 修改个人信息
@@ -92,4 +93,12 @@ public interface UserMapper {
      * @return
      */
     int modifyUserInfo(MallUser member);
+
+    /**
+     * 校验是否是管理员用户
+     *
+     * @param userId
+     * @return
+     */
+    int validAdmin(@Param("userId") Long userId);
 }
