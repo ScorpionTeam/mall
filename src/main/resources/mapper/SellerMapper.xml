@@ -155,7 +155,7 @@
         #{password},
         #{headPic},
         #{nickName},
-        'NOT_AUTH',
+        #{certification},
         #{certificateId},
         #{city},
         'NORMAL',
@@ -179,7 +179,8 @@
         seller_name,
         seller_address,
         seller_description
-        FROM t_seller WHERE  user_id=#{userId} AND status IS NOT 'STATUS_DELETE'
+        FROM t_seller
+        WHERE  user_id=#{userId} AND status !='STATUS_DELETE'
     </select>
 
     <select id="validCertification" resultType="java.lang.Integer">

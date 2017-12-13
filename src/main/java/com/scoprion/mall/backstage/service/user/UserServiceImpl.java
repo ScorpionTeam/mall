@@ -123,7 +123,6 @@ public class UserServiceImpl implements UserService {
         if (member.getId() == null) {
             return BaseResult.error("003", "id不能为空");
         }
-        //TODO:修改信息，普通用户修改信息需要修改审核状态
         int result = userMapper.modifyUserInfo(member);
         if (result > 0) {
             return BaseResult.success("修改成功");

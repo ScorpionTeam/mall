@@ -162,6 +162,12 @@ public class SellerServiceImpl implements SellerService {
         String password = mallUser.getPassword();
         String encryptPassword = EncryptUtil.encryptMD5(password);
         mallUser.setPassword(encryptPassword);
+        if (StringUtils.isEmpty(mallUser.getIdPhotoBgUrl()) &&
+                StringUtils.isEmpty(mallUser.getIdPhotoFrontUrl())) {
+            mallUser.setCertification(CommonEnum.NOT_AUTH.getCode());
+        } else {
+            mallUser.setCertification(CommonEnum.AUDITING.getCode());
+        }
         Integer result = sellerMapper.register(mallUser);
         if (result <= 0) {
             return BaseResult.error("ERROR", "注册失败");
