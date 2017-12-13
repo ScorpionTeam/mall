@@ -1,4 +1,4 @@
-package com.scoprion.mall.seller.service;
+package com.scoprion.mall.seller.service.good;
 
 import com.scoprion.mall.domain.good.GoodExt;
 import com.scoprion.mall.domain.request.GoodRequestParams;

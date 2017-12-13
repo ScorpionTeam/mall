@@ -1,4 +1,4 @@
-package com.scoprion.mall.seller.service;
+package com.scoprion.mall.seller.service.order;
 
 import com.scoprion.mall.domain.order.Order;
 import com.scoprion.mall.domain.request.OrderRequestParams;
