@@ -72,8 +72,8 @@ public class SellerTicketController {
      * @param id
      * @return
      */
-    @GetMapping("/deleteById/{id}")
-    public BaseResult deleteById(@PathVariable("id") Long id){
+    @PostMapping("/deleteById")
+    public BaseResult deleteById(Long id){
         return sellerTicketService.deleteById(id);
     }
 
@@ -88,7 +88,12 @@ public class SellerTicketController {
     }
 
 
-
+    /**
+     * 批量删除
+     *
+     * @param object
+     * @return
+     */
     @PostMapping("/delete")
     public BaseResult delete(@RequestBody JSONObject object){
         List<Long>idList=object.getJSONArray("idList").toJavaList(Long.class);
