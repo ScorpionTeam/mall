@@ -28,8 +28,25 @@
     <!--店铺审核-->
     <update id="update" parameterType="com.scoprion.mall.domain.Seller">
         UPDATE t_seller SET
-        <if test="audit!=null and  reason!='' ">audit=#{audit},update_date=now(),</if>
+        <if test="audit!=null and  audit!='' ">audit=#{audit},update_date=now(),</if>
         <if test="reason!=null and  reason!=''">reason=#{reason},</if>
         WHERE id=#{id}
     </update>
+
+    <!--商铺详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.Seller">
+        SELECT
+        id,
+        audit,
+        status,
+        mobile,
+        user_id,
+        seller_no,
+        reputation,
+        seller_name,
+        seller_address,
+        seller_description
+        FROM t_seller
+        WHERE id=#{id}
+    </select>
 </mapper>

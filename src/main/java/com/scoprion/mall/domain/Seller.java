@@ -34,7 +34,7 @@ public class Seller {
      * 用户id
      */
     @JSONField(name = "user_id")
-    private String userId;
+    private Long userId;
 
     /**
      * 微信id
@@ -129,11 +129,11 @@ public class Seller {
         this.mobile = mobile;
     }
 
-    public String getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 

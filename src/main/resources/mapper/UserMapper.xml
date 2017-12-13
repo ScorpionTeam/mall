@@ -206,4 +206,8 @@
         id_photo_bg_url
         FROM t_user WHERE id=#{id}
     </select>
+
+    <select id="validAdmin" resultType="java.lang.Integer">
+        SELECT  COUNT(*) FROM  t_user  WHERE id=#{userId} AND user_type='USER_ADMIN'
+    </select>
 </mapper>

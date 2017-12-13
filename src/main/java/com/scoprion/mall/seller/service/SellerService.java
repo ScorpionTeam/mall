@@ -18,7 +18,7 @@ public interface SellerService {
      * @return
      * @throws Exception
      */
-    BaseResult add(Seller seller) throws Exception;
+    BaseResult add(Seller seller);
 
     /**
      * 删除商铺
@@ -38,6 +38,7 @@ public interface SellerService {
 
     /**
      * 微信商户登录
+     *
      * @param mallUser
      * @param ip
      * @return
@@ -47,15 +48,17 @@ public interface SellerService {
 
     /**
      * 注册
+     *
      * @param mallUser
      * @param ip
      * @return
      * @throws Exception
      */
-    BaseResult register(MallUser mallUser,String ip) throws Exception;
+    BaseResult register(MallUser mallUser, String ip) throws Exception;
 
     /**
      * 修改商家个人信息
+     *
      * @param mallUser
      * @return
      */
@@ -64,19 +67,19 @@ public interface SellerService {
 
     /**
      * 退出登录
+     *
      * @param mobile
      * @param email
      * @return
      */
-    BaseResult logout(String mobile,String email);
+    BaseResult logout(String mobile, String email);
 
 
     /**
-     * 查找商户的订单列表
-     * @param pageNo
-     * @param pageSize
-     * @param sellerId
+     * 查找店铺详情
+     *
+     * @param userId
      * @return
      */
-    PageResult findBySellerId(Integer pageNo, Integer pageSize, Long sellerId);
+    BaseResult findByUserId(Long userId);
 }

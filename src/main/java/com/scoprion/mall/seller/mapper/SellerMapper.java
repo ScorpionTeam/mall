@@ -53,7 +53,7 @@ public interface SellerMapper {
      * @param userId
      * @return
      */
-    Integer validByUserId(@Param("userId") String userId);
+    Integer validByUserId(@Param("userId") Long userId);
 
     /**
      * 微信商户登录
@@ -104,10 +104,12 @@ public interface SellerMapper {
      */
     Integer alter(MallUser mallUser);
 
+
     /**
-     * 商户订单列表
-     * @param sellerId
+     * 详情
+     *
+     * @param userId
      * @return
      */
-    Page<OrderExt> findBySellerId(Long sellerId);
+    Seller findByUserId(@Param("userId") Long userId);
 }

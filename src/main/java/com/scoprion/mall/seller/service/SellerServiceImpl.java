@@ -17,6 +17,7 @@ import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import com.scoprion.utils.EncryptUtil;
+import com.scoprion.utils.SellerNoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -53,8 +54,8 @@ public class SellerServiceImpl implements SellerService {
      * @throws Exception
      */
     @Override
-    public BaseResult add(Seller seller) throws Exception {
-        if (StringUtils.isEmpty(seller.getUserId())) {
+    public BaseResult add(Seller seller) {
+        if (seller.getUserId() == null) {
             return BaseResult.parameterError();
         }
         Integer validByUserResult = sellerMapper.validByUserId(seller.getUserId());
@@ -68,6 +69,7 @@ public class SellerServiceImpl implements SellerService {
         if (validNameResult > 0) {
             return BaseResult.error("ERROR", "店铺名称已存在");
         }
+        seller.setSellerNo(SellerNoUtil.getSellerNo());
         Integer result = sellerMapper.add(seller);
         if (result <= 0) {
             return BaseResult.error("ERROR", "新增店铺失败");
@@ -236,18 +238,21 @@ public class SellerServiceImpl implements SellerService {
     }
 
     /**
-     * 商户订单
+     * 店铺详情
      *
-     * @param pageNo
-     * @param pageSize
-     * @param sellerId
+     * @param userId
      * @return
      */
     @Override
-    public PageResult findBySellerId(Integer pageNo, Integer pageSize, Long sellerId) {
-        PageHelper.startPage(pageNo, pageSize);
-        Page<OrderExt> page = sellerMapper.findBySellerId(sellerId);
-        return new PageResult(page);
+    public BaseResult findByUserId(Long userId) {
+        if (userId == null) {
+            return BaseResult.parameterError();
+        }
+        Seller seller = sellerMapper.findByUserId(userId);
+        if (seller == null) {
+            return BaseResult.notFound();
+        }
+        return BaseResult.success(seller);
     }
 
     /**

@@ -12,13 +12,14 @@ public interface ShopService {
     /**
      * 商铺列表
      *
+     * @param userId
      * @param pageNo
      * @param pageSize
      * @param audit     AUDITING 待审核/审核中    NOT_PASS_AUDIT审核未通过  PASS_AUDIT审核通过
      * @param searchKey
      * @return
      */
-    PageResult findPage(Integer pageNo, Integer pageSize, String audit, String searchKey);
+    PageResult findPage(Long userId, Integer pageNo, Integer pageSize, String audit, String searchKey);
 
 
     /**
@@ -30,4 +31,12 @@ public interface ShopService {
      * @return
      */
     BaseResult audit(String audit, String reason, Long id);
+
+    /**
+     * 根据id查询店铺详情
+     *
+     * @param id  id
+     * @return
+     */
+    BaseResult findById(Long id);
 }

@@ -49,12 +49,12 @@
 
     <!--校验名称是否存在-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_seller WHERE seller_name=#{sellerName}
+        SELECT COUNT(*) FROM t_seller WHERE seller_name=#{sellerName} AND status='NORMAL'
     </select>
 
     <!--校验商户是否已经存在商铺-->
     <select id="validByUserId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_seller WHERE user_id=#{userId}
+        SELECT COUNT(*) FROM t_seller WHERE user_id=#{userId} AND status='NORMAL'
     </select>
 
     <!--校验号码是否存在-->
@@ -163,24 +163,19 @@
     </insert>
 
     <!--商户订单列表-->
-    <select id="findBySellerId" resultType="com.scoprion.mall.domain.order.OrderExt">
+    <select id="findByUserId" resultType="com.scoprion.mall.domain.Seller">
         SELECT
-        order_no,
-        delivery_no,
-        order_status,
-        order_type,
-        message,
-        recipients,
-        phone,
-        province,
-        city,
-        area,
-        address,
-        post_code,
-        good_name,
-        count,
-        create_date,
-        good_id
+        id,
+        audit,
+        status,
+        mobile,
+        user_id,
+        seller_no,
+        reputation,
+        seller_name,
+        seller_address,
+        seller_description
+        FROM t_seller WHERE  user_id=#{userId} AND status='NORMAL'
     </select>
 
 </mapper>
