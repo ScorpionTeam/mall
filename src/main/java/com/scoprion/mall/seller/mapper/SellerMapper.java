@@ -129,4 +129,11 @@ public interface SellerMapper {
      * @return
      */
     Seller findById(@Param("id") Long id);
+
+    /**
+     * 修改审核状态
+     * @param id
+     * @return
+     */
+    int updateAudit(@Param("id") Long id);
 }

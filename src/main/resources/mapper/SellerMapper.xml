@@ -39,6 +39,14 @@
         WHERE id=#{id}
     </update>
 
+    <!--修改店铺审核状态-->
+    <update id="updateAudit">
+        UPDATE t_seller SET
+        audit='AUDITING',
+        update_date=NOW()
+        WHERE id=#{id}
+    </update>
+
     <!--修改店铺信息-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Seller">
         UPDATE t_seller SET
@@ -182,6 +190,24 @@
         reason
         FROM t_seller
         WHERE  user_id=#{userId} AND status !='STATUS_DELETE'
+    </select>
+
+    <!--商户详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.Seller">
+        SELECT
+        id,
+        audit,
+        status,
+        mobile,
+        user_id,
+        seller_no,
+        reputation,
+        seller_name,
+        seller_address,
+        seller_description,
+        reason
+        FROM t_seller
+        WHERE  id=#{id} AND status !='STATUS_DELETE'
     </select>
 
     <select id="validCertification" resultType="java.lang.Integer">
