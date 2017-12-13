@@ -39,11 +39,10 @@ public interface WxFreeMapper {
     /**
      * 查询活动商品详情
      *
-     * @param activityId
      * @param goodId
      * @return
      */
-    ActivityGoods findByActivityIdAndGoodId(@Param("activityId") Long activityId, @Param("goodId") Long goodId);
+    ActivityGoods findByActivityIdAndGoodId(@Param("goodId") Long goodId);
 
 
     /**

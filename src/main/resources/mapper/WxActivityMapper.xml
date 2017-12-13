@@ -108,7 +108,8 @@
         tg.visit_total,
         tg.good_no,
         tg.main_image_url,
-        tg.status
+        tg.status,
+        tg.rich_content
         FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activity_id
         INNER JOIN t_good tg ON actg.good_id = tg.id
         AND act.activity_type ='FREE' AND actg.status='NORMAL' AND act.status='NORMAL'AND end_date>NOW()

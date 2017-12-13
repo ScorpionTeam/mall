@@ -32,7 +32,7 @@
         create_date,
         stock,
         update_date
-        FROM t_activity_good WHERE activity_id=#{activityId} AND good_id=#{goodId}
+        FROM t_activity_good WHERE good_id=#{goodId}
     </select>
 
     <!-- 查询是否参加过该活动 -->

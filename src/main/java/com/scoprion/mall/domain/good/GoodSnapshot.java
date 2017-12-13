@@ -51,6 +51,11 @@ public class GoodSnapshot {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
     private Date createDate;
 
+    /**
+     * 商户ID
+     */
+    @JSONField(name = "seller_id")
+    private Long sellerId;
 
     public String getGoodNo() {
         return goodNo;
@@ -148,6 +153,22 @@ public class GoodSnapshot {
         this.mainImageUrl = mainImageUrl;
     }
 
+    public void setPromotion(int promotion) {
+        this.promotion = promotion;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
     @Override
     public String toString() {
         return "GoodSnapshot{" +
@@ -163,6 +184,7 @@ public class GoodSnapshot {
                 ", mainImageUrl='" + mainImageUrl + '\'' +
                 ", richContent='" + richContent + '\'' +
                 ", createDate=" + createDate +
+                ", sellerId=" + sellerId +
                 '}';
     }
 }

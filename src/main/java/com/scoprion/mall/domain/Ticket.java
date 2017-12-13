@@ -14,6 +14,12 @@ public class Ticket {
     private Long id;
 
     /**
+     * 商户Id
+     */
+    @JSONField(name = "seller_id")
+    private Long sellerId;
+
+    /**
      * 优惠券编码
      */
     @JSONField(name = "ticket_no")
@@ -36,25 +42,25 @@ public class Ticket {
     /**
      * 开始时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "start_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "start_date")
     private Date startDate;
 
     /**
      * 结束时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "end_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "end_date")
     private Date endDate;
 
     /**
      * 创建时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "create_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "create_date")
     private Date createDate;
 
     /**
      * 修改时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "update_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "update_date")
     private Date updateDate;
 
     /**
@@ -93,7 +99,7 @@ public class Ticket {
     /**
      * 优惠卷使用时间
      */
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss",name = "use_date")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss", name = "use_date")
     private Date useDate;
 
 
@@ -225,10 +231,19 @@ public class Ticket {
         this.useDate = useDate;
     }
 
+    public Long getSellerId() {
+        return sellerId;
+    }
+
+    public void setSellerId(Long sellerId) {
+        this.sellerId = sellerId;
+    }
+
     @Override
     public String toString() {
         return "Ticket{" +
                 "id=" + id +
+                ", sellerId=" + sellerId +
                 ", ticketNo='" + ticketNo + '\'' +
                 ", ticketName='" + ticketName + '\'' +
                 ", type='" + type + '\'' +
@@ -238,6 +253,7 @@ public class Ticket {
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 ", money=" + money +
+                ", reduceMoney=" + reduceMoney +
                 ", num=" + num +
                 ", status='" + status + '\'' +
                 ", useRange='" + useRange + '\'' +
