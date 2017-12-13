@@ -132,6 +132,7 @@
         FROM t_sys_menu menu
         LEFT JOIN t_sys_menu_role_relation menurole ON menurole.menu_id=menu.id
         WHERE 1=1
+        AND status='NORMAL'
         <if test="roleId!=null">AND menurole.role_id=#{roleId}</if>
         <if test="type==0 ">AND menu.pid='0'</if>
         <if test="type==1 ">AND menu.pid=#{parentId}</if>
@@ -156,7 +157,9 @@
         FROM t_sys_menu menu
         LEFT JOIN t_sys_menu_role_relation menurole ON menurole.menu_id=menu.id
         LEFT JOIN t_sys_user_role tuserrole ON tuserrole.role_id=menurole.role_id
-        WHERE 1=1 AND tuserrole.user_id=#{userId}
+        WHERE 1=1
+        AND status='NORMAL'
+        AND tuserrole.user_id=#{userId}
         <if test="parentId==null">AND menu.pid=0</if>
         <if test="parentId!=null">AND menu.pid=#{parentId}</if>
         GROUP BY menu.id

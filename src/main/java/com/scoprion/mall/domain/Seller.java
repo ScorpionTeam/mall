@@ -19,7 +19,7 @@ public class Seller {
     private String audit;
 
     /**
-     * 店铺状态 NORMAL 正常 UN_NORMAL关闭
+     * 店铺状态   NORMAL 正常   UN_NORMAL关闭  STATUS_DELETE 删除状态
      */
     private String status;
 
@@ -39,7 +39,7 @@ public class Seller {
     /**
      * 微信id
      */
-    @JSONField(name="wx_code")
+    @JSONField(name = "wx_code")
     private String wxCode;
 
     /**

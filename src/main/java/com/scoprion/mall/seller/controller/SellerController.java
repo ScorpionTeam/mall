@@ -41,16 +41,21 @@ public class SellerController {
 
 
     /**
-     * 删除店铺
+     * 修改店铺状态
      *
      * @param id
+     * @param status 店铺状态 NORMAL 正常 ,
+     *               CLOSE_LEADER 管理员关闭,
+     *               CLOSE 关闭，
+     *               DELETE 删除状态
      * @return
      */
     @Access
-    @ApiOperation("删除店铺")
-    @GetMapping("/delete")
-    public BaseResult deleteById(Long id) {
-        return sellerService.delete(id);
+    @ApiOperation("修改店铺状态")
+    @PostMapping("/updateStatus/{id}/{status}")
+    public BaseResult updateStatus(@PathVariable("id") Long id,
+                                   @PathVariable("status") String status) {
+        return sellerService.updateStatus(id, status);
     }
 
 

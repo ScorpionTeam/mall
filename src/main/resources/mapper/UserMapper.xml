@@ -210,4 +210,12 @@
     <select id="validAdmin" resultType="java.lang.Integer">
         SELECT  COUNT(*) FROM  t_user  WHERE id=#{userId} AND user_type='USER_ADMIN'
     </select>
+
+    <update id="auditSeller">
+        UPDATE t_user SET
+        certification=#{certification},
+        <if test="reason!=null and reason!=''">reason=#{reason},</if>
+        update_date=NOW()
+        WHERE id=#{sellerId}
+    </update>
 </mapper>

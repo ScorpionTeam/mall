@@ -24,9 +24,13 @@ public interface SellerService {
      * 删除商铺
      *
      * @param id
+     * @param status 店铺状态 NORMAL 正常 ,
+     *               CLOSE_LEADER 管理员关闭,
+     *               CLOSE 关闭，
+     *               DELETE 删除状态
      * @return
      */
-    BaseResult delete(Long id);
+    BaseResult updateStatus(Long id, String status);
 
     /**
      * 修改店铺信息

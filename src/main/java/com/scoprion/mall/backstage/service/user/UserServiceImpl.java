@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.backstage.mapper.UserMapper;
 import com.scoprion.result.BaseResult;
@@ -122,6 +123,7 @@ public class UserServiceImpl implements UserService {
         if (member.getId() == null) {
             return BaseResult.error("003", "id不能为空");
         }
+        //TODO:修改信息，普通用户修改信息需要修改审核状态
         int result = userMapper.modifyUserInfo(member);
         if (result > 0) {
             return BaseResult.success("修改成功");
@@ -201,14 +203,31 @@ public class UserServiceImpl implements UserService {
         return BaseResult.success(member);
     }
 
-//    public static void main(String[] args) {
-//
-//        String password = "e10adc3949ba59abbe56e057f20f883e";
-//        try {
-//            password = EncryptUtil.aesDecrypt(password, "1123456");
-//            password.toUpperCase();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    /**
+     * 审核商户信息
+     *
+     * @param sellerId
+     * @param userId
+     * @param certification
+     * @param reason
+     * @return
+     */
+    @Override
+    public BaseResult auditSeller(Long sellerId, Long userId, String certification, String reason) {
+        if (userId == null || sellerId == null || StringUtils.isEmpty(certification)) {
+            return BaseResult.parameterError();
+        }
+        int validResult = userMapper.validAdmin(userId);
+        if (validResult == 0) {
+            return BaseResult.error("audit_error", "只有管理员用户才能审核");
+        }
+        if (certification.equals(CommonEnum.NOT_PASS_AUDIT.getCode()) && StringUtils.isEmpty(reason)) {
+            return BaseResult.error("audit_error", "请填写未通过原因");
+        }
+        int result = userMapper.auditSeller(sellerId, certification, reason);
+        if (result > 0) {
+            return BaseResult.success("审核成功");
+        }
+        return BaseResult.error("audit_error", " 审核失败");
+    }
 }

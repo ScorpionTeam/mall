@@ -95,10 +95,14 @@ public enum CommonEnum {
     LEVEL_ORDINARY("LEVEL_ORDINARY", "普通角色等级"),
     AUTH("AUTH", "JSONID:94268"),
     SALT("SALT", "&&salt"),
-    AUDITED("AUDITED","已审核"),
-    AUDITING("AUDITING","审核中"),
-    NOT_PASS_AUDIT("NOT_PASS_AUDIT","审核未通过"),
-    PASS_AUDIT("PASS_AUDIT","审核通过");
+    AUDITING("AUDITING", "审核中"),
+    NOT_PASS_AUDIT("NOT_PASS_AUDIT", "审核未通过"),
+    PASS_AUDIT("PASS_AUDIT", "审核通过"),
+    CLOSE_LEADER("CLOSE_LEADER", "管理员删除"),
+    CLOSE("CLOSE", "关闭"),
+    DELETE("DELETE", "删除状态");
+
+
     /**
      * 编码
      */

@@ -68,4 +68,14 @@ public interface UserService {
      */
     BaseResult findById(Long id);
 
+    /**
+     * 审核商户信息
+     *
+     * @param sellerId
+     * @param userId
+     * @param certification
+     * @param reason
+     * @return
+     */
+    BaseResult auditSeller(Long sellerId, Long userId, String certification, String reason);
 }

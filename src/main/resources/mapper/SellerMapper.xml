@@ -31,15 +31,19 @@
         )
     </insert>
 
-    <!--删除店铺-->
-    <delete id="delete">
-        DELETE FROM t_seller WHERE id=#{id}
-    </delete>
+    <!--修改店铺状态-->
+    <update id="updateStatus">
+        UPDATE t_seller SET
+        status=#{status},
+        update_date=NOW()
+        WHERE id=#{id}
+    </update>
 
     <!--修改店铺信息-->
     <update id="modify" parameterType="com.scoprion.mall.domain.Seller">
         UPDATE t_seller SET
         <if test="mobile!=null">mobile=#{mobile},</if>
+        <if test="audit!=null">audit=#{audit},</if>
         <if test="sellerName!=null">seller_name=#{sellerName},</if>
         <if test="sellerAddress!=null">seller_address=#{sellerAddress},</if>
         <if test="sellerDescription!=null">seller_description=#{sellerDescription},</if>
@@ -175,7 +179,7 @@
         seller_name,
         seller_address,
         seller_description
-        FROM t_seller WHERE  user_id=#{userId} AND status='NORMAL'
+        FROM t_seller WHERE  user_id=#{userId} AND status IS NOT 'STATUS_DELETE'
     </select>
 
     <select id="validCertification" resultType="java.lang.Integer">

@@ -67,7 +67,7 @@ public class MallUser {
     private String email;
 
     /**
-     * 实名认证  实名认证 NOT_AUTH", "未实名认证 IS_AUTH", "认证通过 NOT_PASS_AUTH", "认证未通过
+     * 实名认证  实名认证 NOT_AUTH  未实名认证 ,AUTH_ING 审核中， IS_AUTH"  认证通过, NOT_PASS_AUTH 认证未通过
      */
     private String certification;
 

@@ -114,4 +114,20 @@ public class UserController {
     public BaseResult findById(Long id) {
         return userService.findById(id);
     }
+
+    /**
+     * 审核商户信息
+     *
+     * @param sellerId
+     * @param userId
+     * @param certification
+     * @param reason
+     * @return
+     */
+    @Access
+    @ApiOperation(value = "审核商户信息")
+    @RequestMapping(value = "/auditSeller", method = RequestMethod.POST)
+    public BaseResult auditSeller(Long sellerId, Long userId, String certification, String reason) {
+        return userService.auditSeller(sellerId, userId, certification, reason);
+    }
 }

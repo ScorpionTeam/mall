@@ -24,12 +24,13 @@ public interface SellerMapper {
     Integer add(Seller seller);
 
     /**
-     * 删除商铺
+     * 修改店铺状态
      *
      * @param id
+     * @param status
      * @return
      */
-    Integer delete(@Param("id") Long id);
+    Integer updateStatus(@Param("status") String status, @Param("id") Long id);
 
     /**
      * 修改商铺信息
@@ -120,4 +121,12 @@ public interface SellerMapper {
      * @return
      */
     Integer validCertification(@Param("userId") Long userId);
+
+    /**
+     * 详情
+     *
+     * @param id
+     * @return
+     */
+    Seller findById(@Param("id") Long id);
 }

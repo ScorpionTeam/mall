@@ -4,6 +4,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
+import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.backstage.mapper.RoleMapper;
 import com.scoprion.mall.backstage.service.role.RoleService;
@@ -59,9 +60,9 @@ public class SellerServiceImpl implements SellerService {
             return BaseResult.parameterError();
         }
         Integer validResult = sellerMapper.validCertification(seller.getUserId());
-        if (validResult == 0) {
-            return BaseResult.error("add_error", "未实名认证，不能创建店铺");
-        }
+//        if (validResult == 0) {
+//            return BaseResult.error("add_error", "未实名认证，不能创建店铺");
+//        }
         Integer validByUserResult = sellerMapper.validByUserId(seller.getUserId());
         if (validByUserResult > 0) {
             return BaseResult.error("ERROR", "不可重复创建店铺");
@@ -82,18 +83,31 @@ public class SellerServiceImpl implements SellerService {
      * 删除店铺
      *
      * @param id
+     * @param status 店铺状态 NORMAL 正常 ,
+     *               CLOSE_LEADER 管理员关闭,
+     *               CLOSE 关闭，
+     *               DELETE 删除状态
      * @return
      */
     @Override
-    public BaseResult delete(Long id) {
+    public BaseResult updateStatus(Long id, String status) {
         if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
-        int result = sellerMapper.delete(id);
-        if (result <= 0) {
-            return BaseResult.error("ERROR", "删除失败");
+        Seller seller = sellerMapper.findById(id);
+        if (CommonEnum.DELETE.getCode().equals(seller.getStatus())) {
+            //已经删除的，不能修改
+            return BaseResult.error("update_error", "已经删除的，不能修改");
         }
-        return BaseResult.success("删除成功");
+        if (CommonEnum.CLOSE_LEADER.getCode().equals(seller.getStatus())) {
+            //被管理员关闭，不能修改
+            return BaseResult.error("update_error", "被管理员关闭，不能修改");
+        }
+        int result = sellerMapper.updateStatus(status, id);
+        if (result <= 0) {
+            return BaseResult.error("ERROR", "修改失败");
+        }
+        return BaseResult.success("修改成功");
     }
 
     /**
@@ -104,6 +118,7 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public BaseResult modify(Seller seller) {
+        seller.setAudit(CommonEnum.AUDITING.getCode());
         int result = sellerMapper.modify(seller);
         if (result <= 0) {
             return BaseResult.error("ERROR", "修改失败");

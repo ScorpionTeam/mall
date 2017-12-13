@@ -63,7 +63,7 @@ public class ShopServiceImpl implements ShopService {
             return BaseResult.parameterError();
         }
         if (audit.equals(CommonEnum.NOT_PASS_AUDIT.getCode()) && StringUtils.isEmpty(reason)) {
-            return BaseResult.error("ERROR", "请填写失败原因");
+            return BaseResult.error("ERROR", "请填写未通过原因");
         }
         Integer result = shopMapper.update(audit, reason, id);
         if (result < 0) {

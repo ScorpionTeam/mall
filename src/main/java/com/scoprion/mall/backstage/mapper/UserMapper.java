@@ -101,4 +101,16 @@ public interface UserMapper {
      * @return
      */
     int validAdmin(@Param("userId") Long userId);
+
+    /**
+     * 商户信息审核
+     *
+     * @param sellerId
+     * @param certification
+     * @param reason
+     * @return
+     */
+    int auditSeller(@Param("sellerId") Long sellerId,
+                    @Param("certification") String certification,
+                    @Param("reason") String reason);
 }
