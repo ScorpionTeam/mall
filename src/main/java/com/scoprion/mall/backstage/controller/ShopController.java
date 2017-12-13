@@ -39,7 +39,7 @@ public class ShopController {
      *
      * @param pageNo
      * @param pageSize
-     * @param audit    审核状态 AUDITING待审核  NOT_AUDIT审核未通过 PASS_AUDIT审核通过
+     * @param audit    审核状态 AUDITING待审核  NOT_PASS_AUDIT审核未通过 PASS_AUDIT审核通过
      * @return
      */
     @Access

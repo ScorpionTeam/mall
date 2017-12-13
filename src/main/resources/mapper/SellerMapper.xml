@@ -178,7 +178,8 @@
         reputation,
         seller_name,
         seller_address,
-        seller_description
+        seller_description,
+        reason
         FROM t_seller
         WHERE  user_id=#{userId} AND status !='STATUS_DELETE'
     </select>
