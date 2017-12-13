@@ -54,18 +54,18 @@ public class UserServiceImpl implements UserService {
             return BaseResult.error("ERROR", "密码不能小于六位");
         }
         String encryptPassword = EncryptUtil.encryptMD5(password);
-        MallUser member = userMapper.login(mobile, encryptPassword);
-        if (null == member) {
+        MallUser mallUser = userMapper.login(mobile, encryptPassword);
+        if (null == mallUser) {
             return BaseResult.error("ERROR", "手机号或密码不正确!");
         }
         //更新用户最后登录IP地址
-        userMapper.updateLoginIpAddress(member.getId(), ip);
+        userMapper.updateLoginIpAddress(mallUser.getId(), ip);
         //将用户手机号码作为加密字符串回传
-        String tokenStr = EncryptUtil.aesEncrypt(member.getMobile(), "ScorpionMall8888");
-        member.setToken(tokenStr);
+        String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), "ScorpionMall8888");
+        mallUser.setToken(tokenStr);
         //设置用户登录有效期为30分钟
-        redisTemplate.opsForValue().set("Login:" + member.getMobile(), member.toString(), 30, TimeUnit.MINUTES);
-        return BaseResult.success(member);
+        redisTemplate.opsForValue().set("Login:" + mallUser.getMobile(), mallUser.toString(), 30, TimeUnit.MINUTES);
+        return BaseResult.success(mallUser);
     }
 
     /**

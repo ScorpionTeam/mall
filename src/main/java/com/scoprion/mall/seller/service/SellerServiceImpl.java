@@ -58,12 +58,13 @@ public class SellerServiceImpl implements SellerService {
         if (seller.getUserId() == null) {
             return BaseResult.parameterError();
         }
+        Integer validResult = sellerMapper.validCertification(seller.getUserId());
+        if (validResult == 0) {
+            return BaseResult.error("add_error", "未实名认证，不能创建店铺");
+        }
         Integer validByUserResult = sellerMapper.validByUserId(seller.getUserId());
         if (validByUserResult > 0) {
             return BaseResult.error("ERROR", "不可重复创建店铺");
-        }
-        if (seller == null) {
-            return BaseResult.parameterError();
         }
         Integer validNameResult = sellerMapper.validByName(seller.getSellerName());
         if (validNameResult > 0) {

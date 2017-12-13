@@ -28,8 +28,9 @@
     <!--店铺审核-->
     <update id="update" parameterType="com.scoprion.mall.domain.Seller">
         UPDATE t_seller SET
-        <if test="audit!=null and  audit!='' ">audit=#{audit},update_date=now(),</if>
+        <if test="audit!=null and  audit!='' ">audit=#{audit},</if>
         <if test="reason!=null and  reason!=''">reason=#{reason},</if>
+        update_date=now()
         WHERE id=#{id}
     </update>
 
