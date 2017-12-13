@@ -134,7 +134,7 @@ public class WxFreeServiceImpl implements WxFreeService {
         String unifiedOrderXML = WxPayUtil.freeOrder(goods.getGoodName(),
                 userId,
                 order.getOrderNo(),
-                order.getFreightFee(),
+                order.getPaymentFee(),
                 nonce_str);
 
         //生成预付款订单
