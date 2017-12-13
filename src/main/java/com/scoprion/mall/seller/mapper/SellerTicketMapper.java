@@ -2,8 +2,11 @@ package com.scoprion.mall.seller.mapper;
 
 import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.Ticket;
+import com.scoprion.mall.domain.TicketExt;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author by fk
@@ -19,4 +22,54 @@ public interface SellerTicketMapper {
      * @return
      */
     Page<Ticket> findAll(@Param("sellerId") Long sellerId);
+
+
+    /**
+     *校验名称
+     *
+     * @param sellerId
+     * @param ticketName
+     * @return
+     */
+    Integer validTicketName(@Param("sellerId") Long sellerId, @Param("ticketName") String ticketName);
+
+    /**
+     * 新增优惠券
+     *
+     * @param ticket
+     * @return
+     */
+    Integer add(TicketExt ticket);
+
+    /**
+     *修改优惠券
+     *
+     * @param ticket
+     * @return
+     */
+    int modify(Ticket ticket);
+
+    /**
+     * 根据主键删除优惠券
+     *
+     * @param id
+     * @return
+     */
+    int deleteById(@Param("id") Long id);
+
+    /**
+     * 根据主键查询优惠券详情
+     *
+     * @param id
+     * @return
+     */
+    Ticket findById(@Param("id") Long id);
+
+    /**
+     * 批量删除
+     *
+     * @param idList
+     * @return
+     */
+    Integer delete(@Param("idList") List<Long> idList);
 }
