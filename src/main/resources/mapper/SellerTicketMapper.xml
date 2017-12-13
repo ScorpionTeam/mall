@@ -27,7 +27,11 @@
 
     <!--校验优惠券名字是否存在-->
     <select id="validTicketName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_ticket WHERE ticket_name=#{ticketName} AND seller_id=#{sellerId}
+        SELECT COUNT(*) FROM t_ticket WHERE ticket_name=#{ticketName} AND status='NORMAL'
+    </select>
+
+    <select id="validTicketNameAndId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_ticket WHERE ticket_name=#{ticketName} AND id!=#{id} AND status='NORMAL'
     </select>
 
     <!--新增优惠券-->

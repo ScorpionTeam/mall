@@ -31,7 +31,7 @@ public interface SellerTicketMapper {
      * @param ticketName
      * @return
      */
-    Integer validTicketName(@Param("sellerId") Long sellerId, @Param("ticketName") String ticketName);
+    Integer validTicketName( @Param("ticketName") String ticketName);
 
     /**
      * 新增优惠券
@@ -72,4 +72,12 @@ public interface SellerTicketMapper {
      * @return
      */
     Integer delete(@Param("idList") List<Long> idList);
+
+    /**
+     * 校验优惠券名称
+     * @param ticketName
+     * @param id
+     * @return
+     */
+    Integer validTicketNameAndId(@Param("ticketName") String ticketName,@Param("id") Long id);
 }

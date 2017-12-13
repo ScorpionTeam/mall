@@ -62,7 +62,7 @@ public class SellerTicketServiceImpl implements SellerTicketService {
             return BaseResult.error("ERROR","满减金额错误");
         }
         //校验名称是否存在
-        Integer validName=sellerTicketMapper.validTicketName(ticket.getSellerId(),ticket.getTicketName());
+        Integer validName=sellerTicketMapper.validTicketName(ticket.getTicketName());
         if (validName>0){
             return BaseResult.error("ERROR","名称已存在");
         }
@@ -86,8 +86,8 @@ public class SellerTicketServiceImpl implements SellerTicketService {
         if (ticket.getId() == null) {
             return BaseResult.parameterError();
         }
-        int validResult = sellerTicketMapper.validTicketName(ticket.getSellerId(), ticket.getTicketName());
-        if (validResult != 0) {
+        int validResult = sellerTicketMapper.validTicketNameAndId( ticket.getTicketName(),ticket.getId());
+        if (validResult !=0) {
             return BaseResult.error("ERROR", "优惠券名称已存在");
         }
         int result = sellerTicketMapper.modify(ticket);
