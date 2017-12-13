@@ -24,4 +24,98 @@
         FROM t_ticket
         WHERE seller_id=#{sellerId}
     </select>
+
+    <!--校验优惠券名字是否存在-->
+    <select id="validTicketName" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_ticket WHERE ticket_name=#{ticketName} AND seller_id=#{sellerId}
+    </select>
+
+    <!--新增优惠券-->
+    <insert id="add" parameterType="com.scoprion.mall.domain.Ticket">
+        INSERT INTO t_ticket
+        (ticket_name,
+        seller_id,
+        content,
+        start_date,
+        end_date,
+        money,
+        reduce_money,
+        num,
+        status,
+        create_date,
+        ticket_no,
+        type,
+        num_limit,
+        use_range)
+        VALUES
+        (#{ticketName},
+        #{sellerId},
+        #{content},
+        #{startDate},
+        #{endDate},
+        #{money},
+        #{reduceMoney},
+        #{num},
+        #{status},
+        now(),
+        #{ticketNo},
+        #{type},
+        #{numLimit},
+        #{useRange})
+    </insert>
+
+    <!--修改-->
+    <update id="modify" parameterType="com.scoprion.mall.domain.Ticket">
+        UPDATE t_ticket SET
+        <if test="ticketName!=null ">ticket_name=#{ticketName},</if>
+        <if test="content!=null ">content =#{content},</if>
+        <if test="startDate!=null">start_date=#{startDate},</if>
+        <if test="endDate!=null">end_date=#{endDate},</if>
+        <if test="money!=null ">money=#{money},</if>
+        <if test="reduceMoney!=null">reduce_money=#{reduceMoney},</if>
+        <if test="num!=null ">num=#{num},</if>
+        <if test="status!=null ">status=#{status},</if>
+        <if test="ticketNo!=null ">ticket_no=#{ticketNo},</if>
+        <if test="type!=null ">type=#{type},</if>
+        <if test="useRange!=null ">use_range=#{useRange},</if>
+        <if test="numLimit!=null ">num_limit=#{numLimit},</if>
+        <if test="useDate!=null">use_date=#{useDate},</if>
+        update_date=now()
+        WHERE id=#{id}
+    </update>
+
+    <!--删除-->
+    <update id="deleteById">
+        UPDATE t_ticket SET status='UN_NORMAL',update_date=now()
+        WHERE id=#{id}
+    </update>
+
+    <!--查询详情-->
+    <select id="findById" resultType="com.scoprion.mall.domain.Ticket">
+        SELECT  id,
+        ticket_name,
+        ticket_no,
+        type,
+        content,
+        start_date,
+        end_date,
+        create_date,
+        update_date,
+        money,
+        reduce_Money,
+        num,
+        use_range,
+        num_limit,
+        status
+        FROM  t_ticket WHERE id=#{id}
+    </select>
+
+    <!--批量删除-->
+    <update id="delete">
+        UPDATE t_ticket SET status='UN_NORMAL',update_date=now()
+        WHERE id IN
+        <foreach collection="idList" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </update>
 </mapper>
