@@ -48,6 +48,7 @@ public class GoodExt extends Goods {
     @JSONField(name = "activity_stock")
     private int activityStock;
 
+    private int actgStock;
     /**
      * 目标
      * 0 小程序
@@ -155,4 +156,11 @@ public class GoodExt extends Goods {
         this.imgList = imgList;
     }
 
+    public int getActgStock() {
+        return actgStock;
+    }
+
+    public void setActgStock(int actgStock) {
+        this.actgStock = actgStock;
+    }
 }
