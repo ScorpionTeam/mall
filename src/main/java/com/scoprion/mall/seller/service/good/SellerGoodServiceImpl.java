@@ -1,4 +1,4 @@
-package com.scoprion.mall.seller.service;
+package com.scoprion.mall.seller.service.good;
 
 import com.alibaba.druid.util.StringUtils;
 import com.github.pagehelper.Page;
@@ -10,7 +10,6 @@ import com.scoprion.mall.backstage.mapper.GoodLogMapper;
 import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.MallImage;
 import com.scoprion.mall.domain.good.GoodExt;
-import com.scoprion.mall.domain.good.GoodLog;
 import com.scoprion.mall.domain.good.Goods;
 import com.scoprion.mall.domain.request.GoodRequestParams;
 import com.scoprion.mall.seller.mapper.SellerGoodMapper;

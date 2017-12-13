@@ -3,7 +3,7 @@ package com.scoprion.mall.seller.controller;
 import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.order.Order;
 import com.scoprion.mall.domain.request.OrderRequestParams;
-import com.scoprion.mall.seller.service.SellerOrderService;
+import com.scoprion.mall.seller.service.order.SellerOrderService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;

@@ -2,18 +2,16 @@ package com.scoprion.mall.seller.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.scoprion.annotation.Access;
-import com.scoprion.mall.backstage.service.good.GoodsService;
 import com.scoprion.mall.domain.MallImage;
 import com.scoprion.mall.domain.good.GoodExt;
 import com.scoprion.mall.domain.request.GoodRequestParams;
-import com.scoprion.mall.seller.service.SellerGoodService;
+import com.scoprion.mall.seller.service.good.SellerGoodService;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
