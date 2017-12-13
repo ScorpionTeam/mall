@@ -308,29 +308,24 @@ public class GoodsServiceImpl implements GoodsService {
     /**
      * 审核新创建商品
      *
-     * @param goods
+     * @param audit
+     * @param reason
+     * @param id
      * @return
      */
     @Override
-    public BaseResult auditByGoods(Goods goods) {
-        if (goods.getId() == null) {
+    public BaseResult auditGood(String audit, String reason, Long id) {
+        if (id == null) {
             return BaseResult.parameterError();
         }
-        if (goods.getAudit().equals(CommonEnum.PASS_AUDIT.getCode())) {
-            int result = goodsMapper.auditByGoods(goods);
-            if (result < 0) {
-                return BaseResult.error("ERROR", "审核未通过");
-            }
-            return BaseResult.success("审核已通过");
-        }
-        if (goods.getReason() == null) {
+        if (audit.equals(CommonEnum.NOT_PASS_AUDIT.getCode()) && StringUtils.isEmpty(reason)) {
             return BaseResult.error("ERROR", "请填写失败的原因");
         }
-        int auditGoods = goodsMapper.auditByGoods(goods);
-        if (auditGoods < 0) {
+        int result = goodsMapper.auditGood(audit, reason, id);
+        if (result < 0) {
             return BaseResult.error("ERROR", "审核失败");
         }
-        return BaseResult.success("审核未通过");
+        return BaseResult.success("审核成功");
     }
 
 }

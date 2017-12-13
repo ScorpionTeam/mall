@@ -114,8 +114,12 @@ public interface GoodsMapper {
     /**
      * 审核新创建商品
      *
-     * @param goods
+     * @param audit
+     * @param reason
+     * @param id
      * @return
      */
-    int auditByGoods(Goods goods);
+    int auditGood(@Param("audit") String audit,
+                  @Param("reason") String reason,
+                  @Param("id") Long id);
 }

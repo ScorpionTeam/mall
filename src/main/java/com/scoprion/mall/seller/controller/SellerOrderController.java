@@ -47,7 +47,7 @@ public class SellerOrderController {
     @Access
     @ApiOperation(value = "根据id查询详情")
     @GetMapping("/findById/{id}")
-    public BaseResult findById(@PathParam("id") Long id) {
+    public BaseResult findById(@PathVariable("id") Long id) {
         return sellerOrderService.findById(id);
     }
 

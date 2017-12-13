@@ -151,7 +151,7 @@ public class Goods {
     private String seo;
 
     /**
-     * 审核新商品创建 AUDITING 审核中 AUDITED 已审核 NOT_AUDITED 审核未通过
+     * 审核新商品创建  AUDITING 待审核/审核中    NOT_PASS_AUDIT审核未通过  PASS_AUDIT审核通过
      */
     private String audit;
 

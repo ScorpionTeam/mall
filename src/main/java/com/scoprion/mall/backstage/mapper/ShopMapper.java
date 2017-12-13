@@ -16,17 +16,23 @@ public interface ShopMapper {
 
     /**
      * 获取店铺申请列表
+     *
      * @param audit
+     * @param searchKey
      * @return
      */
-    Page<Seller>listPage(@Param("audit") String audit);
+    Page<Seller> findPage(@Param("audit") String audit,
+                          @Param("searchKey") String searchKey);
 
     /**
      * 修改审核状态
+     *
      * @param audit
      * @param reason
      * @param id
      * @return
      */
-    Integer update(@Param("audit") String audit,@Param("reason") String reason,@Param("id") Long id);
+    Integer update(@Param("audit") String audit,
+                   @Param("reason") String reason,
+                   @Param("id") Long id);
 }

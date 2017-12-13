@@ -32,38 +32,35 @@ public class ShopServiceImpl implements ShopService {
      * @return
      */
     @Override
-    public PageResult listPage(Integer pageNo, Integer pageSize, String audit) {
+    public PageResult findPage(Integer pageNo, Integer pageSize, String audit, String searchKey) {
         PageHelper.startPage(pageNo, pageSize);
-        Page<Seller> page = shopMapper.listPage(audit);
+        if (!StringUtils.isEmpty(searchKey)) {
+            searchKey = "%" + searchKey + "%";
+        }
+        Page<Seller> page = shopMapper.findPage(audit, searchKey);
         return new PageResult(page);
     }
 
     /**
      * 店铺审核
+     *
      * @param audit
      * @param reason
      * @param id
      * @return
      */
     @Override
-    public BaseResult audit(String audit, String reason,Long id) {
-        if (StringUtils.isEmpty(id.toString())){
+    public BaseResult audit(String audit, String reason, Long id) {
+        if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
-        if (audit.equals(CommonEnum.PASS_AUDIT.getCode())) {
-            Integer result = shopMapper.update(audit, null,id);
-            if (result < 0) {
-                return BaseResult.error("ERROR", "审核失败");
-            }
-            return BaseResult.success("审核通过");
-        }
-        if (StringUtils.isEmpty(reason)) {
+        if (audit.equals(CommonEnum.NOT_PASS_AUDIT.getCode()) && StringUtils.isEmpty(reason)) {
             return BaseResult.error("ERROR", "请填写失败原因");
         }
-        Integer auditResult = shopMapper.update(audit, reason,id);
-        if (auditResult < 0) {
+        Integer result = shopMapper.update(audit, reason, id);
+        if (result < 0) {
             return BaseResult.error("ERROR", "审核失败");
         }
-        return BaseResult.success("审核不通过");
+        return BaseResult.success("审核通过");
     }
 }

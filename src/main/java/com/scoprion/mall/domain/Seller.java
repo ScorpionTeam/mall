@@ -14,7 +14,7 @@ public class Seller {
     private Long id;
 
     /**
-     * 店铺审核状态 AUDITING审核中  AUDITED已审核   NOT_AUDIT审核未通过
+     * 店铺审核状态 AUDITING 待审核/审核中    NOT_PASS_AUDIT审核未通过  PASS_AUDIT审核通过
      */
     private String audit;
 

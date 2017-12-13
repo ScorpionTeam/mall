@@ -97,7 +97,7 @@ public enum CommonEnum {
     SALT("SALT", "&&salt"),
     AUDITED("AUDITED","已审核"),
     AUDITING("AUDITING","审核中"),
-    NOT_AUDIT("NOT_AUDIT","审核未通过"),
+    NOT_PASS_AUDIT("NOT_PASS_AUDIT","审核未通过"),
     PASS_AUDIT("PASS_AUDIT","审核通过");
     /**
      * 编码

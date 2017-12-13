@@ -5,8 +5,8 @@
 
 <mapper namespace="com.scoprion.mall.backstage.mapper.ShopMapper">
 
-    <!--商铺列表-->
-    <select id="listPage" resultType="com.scoprion.mall.domain.Seller">
+    <!--商铺列表 AUDITING 待审核/审核中    NOT_PASS_AUDIT审核未通过  PASS_AUDIT审核通过-->
+    <select id="findPage" resultType="com.scoprion.mall.domain.Seller">
         SELECT
         id,
         audit,
@@ -18,15 +18,18 @@
         seller_name,
         seller_address,
         seller_description
-        FROM t_seller WHERE audit=#{audit}
+        FROM t_seller WHERE 1=1
+        <if test="audit!=null">AND audit=#{audit}</if>
+        <if test="searchKey!=null">AND CONCAT_WS('',seller_no,seller_name,seller_address,seller_description)
+            LIKE #{searchKey}
+        </if>
     </select>
 
     <!--店铺审核-->
     <update id="update" parameterType="com.scoprion.mall.domain.Seller">
         UPDATE t_seller SET
-        <if test="audit!=null">audit=#{audit},</if>
-        <if test="reason!=null">reason=#{reason},</if>
-        update_date=now()
+        <if test="audit!=null and  reason!='' ">audit=#{audit},update_date=now(),</if>
+        <if test="reason!=null and  reason!=''">reason=#{reason},</if>
         WHERE id=#{id}
     </update>
 </mapper>
