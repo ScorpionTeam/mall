@@ -110,17 +110,17 @@ public class SellerController {
     }
 
 
-    /**
-     * 商户订单列表
-     * @param pageNo
-     * @param pageSize
-     * @param sellerId
-     * @return
-     */
-    @GetMapping("/findBySellerId")
-    public PageResult findBySellerId(Integer pageNo,Integer pageSize,Long sellerId){
-        return sellerService.findBySellerId(pageNo,pageSize,sellerId);
-    }
+//    /**
+//     * 商户订单列表
+//     * @param pageNo
+//     * @param pageSize
+//     * @param sellerId
+//     * @return
+//     */
+//    @GetMapping("/findBySellerId")
+//    public PageResult findBySellerId(Integer pageNo,Integer pageSize,Long sellerId){
+//        return sellerService.findBySellerId(pageNo,pageSize,sellerId);
+//    }
 
 
 }

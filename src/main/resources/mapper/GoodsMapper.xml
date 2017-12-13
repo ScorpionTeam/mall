@@ -381,11 +381,10 @@
     </select>
 
     <!-- 审核新创建商品 -->
-    <update id="auditByGoods" parameterType="com.scoprion.mall.domain.good.Goods">
+    <update id="auditGood">
         UPDATE t_good SET
-        <if test="audit!=null">audit=#{audit},</if>
-        <if test="reason!=null">reason=#{reason},</if>
-        last_update_date=now()
+        <if test="audit!=null and audit!=''">audit=#{audit},last_update_date=now(),</if>
+        <if test="reason!=null and reason!=''">reason=#{reason},</if>
         WHERE id=#{id}
     </update>
 

@@ -93,11 +93,12 @@ public interface GoodsService {
     BaseResult batchModifySaleStatus(String saleStatus, List<Long> goodsIdList);
 
     /**
-     * 审核新创建商品
-     *
-     * @param goods
+     * 新创建商品审核
+     * @param audit
+     * @param reason
+     * @param id
      * @return
      */
-    BaseResult auditByGoods(Goods goods);
+    BaseResult auditGood(String audit, String reason, Long id);
 
 }

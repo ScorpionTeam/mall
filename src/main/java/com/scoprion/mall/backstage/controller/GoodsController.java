@@ -152,14 +152,18 @@ public class GoodsController {
     }
 
     /**
-     * 审核新创建商品
+     * 新创建商品审核
      *
-     * @param goods
+     * @param audit
+     * @param reason
+     * @param id
      * @return
      */
-    @ApiOperation(value = "审核新创建商品")
-    @PostMapping(value = "/auditByGoods")
-    public BaseResult auditByGoods(@RequestBody Goods goods) {
-        return goodsService.auditByGoods(goods);
+    @ApiOperation(value = "新创建商品审核")
+    @PostMapping(value = "/audit/{audit}/{reason}/{id}")
+    public BaseResult auditGood(@PathVariable("audit") String audit,
+                                @PathVariable("reason") String reason,
+                                @PathVariable("id") Long id) {
+        return goodsService.auditGood(audit, reason, id);
     }
 }
