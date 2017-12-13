@@ -72,8 +72,8 @@ public class SellerTicketController {
      * @param id
      * @return
      */
-    @PostMapping("/deleteById")
-    public BaseResult deleteById(Long id){
+    @PostMapping("/deleteById/{id}")
+    public BaseResult deleteById(@PathVariable("id") Long id){
         return sellerTicketService.deleteById(id);
     }
 
