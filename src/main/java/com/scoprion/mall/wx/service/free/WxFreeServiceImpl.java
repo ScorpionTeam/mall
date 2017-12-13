@@ -182,20 +182,14 @@ public class WxFreeServiceImpl implements WxFreeService {
     public BaseResult pay(Long orderId) {
         //查询订单详情
         Order order = wxOrderMapper.findByOrderId(orderId);
+
         //订单信息校验
         String orderMessage = checkOrder(order);
         if (!StringUtils.isEmpty(orderMessage)) {
             return BaseResult.error("ERROR", orderMessage);
         }
-        long createTime = order.getCreateDate().getTime();
-        long result = System.currentTimeMillis() - createTime;
-        //超过两小时未支付订单  自动 关闭掉该订单
-        if (result > Constant.TIME_TWO_HOUR) {
-            //关闭订单
-            wxOrderMapper.updateByOrderID(order.getId(), CommonEnum.CLOSING.getCode());
-            return BaseResult.error("ERROR", "订单已超时，请重新下单");
-        }
-        //查询活动商品是否还有库存
+
+        //查询活动商品信息
         String activityGoodMessage = checkActivityGood(order.getGoodId());
         if (!StringUtils.isEmpty(activityGoodMessage)) {
             return BaseResult.error("ERROR", activityGoodMessage);
@@ -373,6 +367,14 @@ public class WxFreeServiceImpl implements WxFreeService {
         }
         if (!CommonEnum.UN_PAY.getCode().equals(order.getOrderStatus())) {
             return "订单状态异常";
+        }
+        long createTime = order.getCreateDate().getTime();
+        long result = System.currentTimeMillis() - createTime;
+        //超过两小时未支付订单  自动 关闭掉该订单
+        if (result > Constant.TIME_TWO_HOUR) {
+            //关闭订单
+            wxOrderMapper.updateByOrderID(order.getId(), CommonEnum.CLOSING.getCode());
+            return "订单已超时，请重新下单";
         }
         return null;
     }
