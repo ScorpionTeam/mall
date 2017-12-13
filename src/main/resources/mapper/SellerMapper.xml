@@ -178,4 +178,8 @@
         FROM t_seller WHERE  user_id=#{userId} AND status='NORMAL'
     </select>
 
+    <select id="validCertification" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_user
+        WHERE id=#{userId} AND status='NORMAL' AND certification='IS_AUTH'
+    </select>
 </mapper>

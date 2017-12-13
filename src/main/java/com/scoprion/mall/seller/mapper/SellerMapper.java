@@ -112,4 +112,12 @@ public interface SellerMapper {
      * @return
      */
     Seller findByUserId(@Param("userId") Long userId);
+
+    /**
+     * 校验是否已经实名认证
+     *
+     * @param userId
+     * @return
+     */
+    Integer validCertification(@Param("userId") Long userId);
 }
