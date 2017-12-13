@@ -56,10 +56,10 @@
         #{money},
         #{reduceMoney},
         #{num},
-        #{status},
+        'NORMAL',
         now(),
         #{ticketNo},
-        #{type},
+        'SELLER',
         #{numLimit},
         #{useRange})
     </insert>
