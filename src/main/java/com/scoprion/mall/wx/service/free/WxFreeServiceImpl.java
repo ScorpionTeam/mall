@@ -173,8 +173,6 @@ public class WxFreeServiceImpl implements WxFreeService {
      * 去支付
      *
      * @param orderId
-     * @param activityId
-     * @param goodId
      * @return
      */
     @Transactional(rollbackFor = Exception.class)
