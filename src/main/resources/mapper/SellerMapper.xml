@@ -214,4 +214,8 @@
         SELECT COUNT(*) FROM t_user
         WHERE id=#{userId} AND status='NORMAL' AND certification='IS_AUTH'
     </select>
+
+    <update id="updateStatusAndAudit">
+        UPDATE t_seller SET audit='PASS_AUDIT'AND status='NORMAL'WHERE id=#{id}
+    </update>
 </mapper>

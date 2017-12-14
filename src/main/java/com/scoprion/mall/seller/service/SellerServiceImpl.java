@@ -87,10 +87,11 @@ public class SellerServiceImpl implements SellerService {
      *               CLOSE_LEADER 管理员关闭,
      *               CLOSE 关闭，
      *               DELETE 删除状态
+     * @param operator 操作人员
      * @return
      */
     @Override
-    public BaseResult updateStatus(Long id, String status) {
+    public BaseResult updateStatus(Long id, String status,String operator) {
         if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
@@ -102,6 +103,9 @@ public class SellerServiceImpl implements SellerService {
         if (CommonEnum.CLOSE_LEADER.getCode().equals(seller.getStatus())) {
             //被管理员关闭，不能修改
             return BaseResult.error("update_error", "被管理员关闭，不能修改");
+        }
+        if (CommonEnum.PLATFORM.getCode().equals(operator)){
+            Integer updateStatus=sellerMapper.updateStatusAndAudit();
         }
 //        if (CommonEnum.CLOSE_LEADER.getCode().equals(seller.getStatus())){
 //            int auditResult=sellerMapper.updateAudit(id);

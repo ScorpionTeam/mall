@@ -136,4 +136,11 @@ public interface SellerMapper {
      * @return
      */
     int updateAudit(@Param("id") Long id);
+
+    /**
+     * 平台开启商户的店铺
+     *
+     * @return
+     */
+    Integer updateStatusAndAudit();
 }

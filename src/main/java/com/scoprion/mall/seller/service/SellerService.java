@@ -28,9 +28,10 @@ public interface SellerService {
      *               CLOSE_LEADER 管理员关闭,
      *               CLOSE 关闭，
      *               DELETE 删除状态
+     * @param operator 操作人员
      * @return
      */
-    BaseResult updateStatus(Long id, String status);
+    BaseResult updateStatus(Long id, String status,String operator);
 
     /**
      * 修改店铺信息
