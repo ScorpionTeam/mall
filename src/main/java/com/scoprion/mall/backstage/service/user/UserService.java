@@ -56,9 +56,10 @@ public interface UserService {
      * @param startDate 注册时间
      * @param endDate   注册时间
      * @param sex       性别
+     * @param userType   用户类型
      * @return
      */
-    PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String sex);
+    PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String sex,String userType);
 
     /**
      * 根据id查询详情

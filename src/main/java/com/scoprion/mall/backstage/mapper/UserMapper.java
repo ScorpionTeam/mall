@@ -80,11 +80,13 @@ public interface UserMapper {
      * @param startDate 开始时间
      * @param endDate   结束时间
      * @param searchKey 匹配条件
+     * @param userType 用户类型
      * @return Page
      */
     Page<MallUser> findByPage(@Param("startDate") String startDate,
                               @Param("endDate") String endDate,
-                              @Param("searchKey") String searchKey);
+                              @Param("searchKey") String searchKey,
+                              @Param("userType") String userType);
 
     /**
      * 修改个人信息
