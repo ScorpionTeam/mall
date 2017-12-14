@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.backstage.mapper.UserMapper;
 import com.scoprion.result.BaseResult;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -99,6 +101,7 @@ public class UserServiceImpl implements UserService {
         if (nick > 0) {
             return BaseResult.error("ERROR", "昵称已存在");
         }
+        setAge(member);
         String encryptPassword = EncryptUtil.aesEncrypt(password, Constant.ENCRYPT_KEY);
         member.setPassword(encryptPassword);
         int result = userMapper.register(member);
@@ -229,5 +232,57 @@ public class UserServiceImpl implements UserService {
             return BaseResult.success("审核成功");
         }
         return BaseResult.error("audit_error", " 审核失败");
+    }
+
+    /**
+     * 年龄计算
+     * @param member
+     */
+    public static void setAge(MallUser member){
+        // 先截取到字符串中的年、月、日
+        String strs[] = member.getBornDate().trim().split("-");
+        int selectYear = Integer.parseInt(strs[0]);
+        int selectMonth = Integer.parseInt(strs[1]);
+        int selectDay = Integer.parseInt(strs[2]);
+        // 得到当前时间的年、月、日
+        Calendar cal = Calendar.getInstance();
+        int yearNow = cal.get(Calendar.YEAR);
+        int monthNow = cal.get(Calendar.MONTH) + 1;
+        int dayNow = cal.get(Calendar.DATE);
+
+        // 用当前年月日减去生日年月日
+        int yearMinus = yearNow - selectYear;
+        int monthMinus = monthNow - selectMonth;
+        int dayMinus = dayNow - selectDay;
+
+        // 先大致赋值
+        int age = yearMinus;
+        // 选了未来的年份
+        if (yearMinus < 0) {
+            age = 0;
+        } else if (yearMinus == 0) {
+            if (monthMinus < 0) {
+                age = 0;
+            } else if (monthMinus == 0) {
+                if (dayMinus < 0) {
+                    age = 0;
+                } else if (dayMinus >= 0) {
+                    age = 1;
+                }
+            } else if (monthMinus > 0) {
+                age = 1;
+            }
+        } else if (yearMinus > 0) {
+            if (monthMinus < 0) {
+            } else if (monthMinus == 0) {
+                if (dayMinus < 0) {
+                } else if (dayMinus >= 0) {
+                    age = age + 1;
+                }
+            } else if (monthMinus > 0) {
+                age = age + 1;
+            }
+        }
+        member.setAge(age);
     }
 }

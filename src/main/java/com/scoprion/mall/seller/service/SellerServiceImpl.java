@@ -1,22 +1,17 @@
 package com.scoprion.mall.seller.service;
 
 import com.alibaba.druid.util.StringUtils;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.backstage.mapper.RoleMapper;
-import com.scoprion.mall.backstage.service.role.RoleService;
+import com.scoprion.mall.backstage.mapper.UserMapper;
 import com.scoprion.mall.domain.MallImage;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.mall.domain.SysRole;
-import com.scoprion.mall.domain.order.OrderExt;
 import com.scoprion.mall.seller.mapper.SellerMapper;
-import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
-import com.scoprion.result.PageResult;
 import com.scoprion.utils.EncryptUtil;
 import com.scoprion.utils.SellerNoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 
@@ -169,6 +165,7 @@ public class SellerServiceImpl implements SellerService {
         if (mobileResult > 0) {
             return BaseResult.error("ERROR", "手机号已存在");
         }
+        setAge(mallUser);
         String password = mallUser.getPassword();
         String encryptPassword = EncryptUtil.encryptMD5(password);
         mallUser.setPassword(encryptPassword);
@@ -334,6 +331,59 @@ public class SellerServiceImpl implements SellerService {
         //设置用户登录有效期为30分钟
         redisTemplate.opsForValue().set("Login:" + user.getMobile(), user.toString(), 30, TimeUnit.MINUTES);
         return BaseResult.success(mallUser);
+    }
+
+
+    /**
+     * 年龄计算
+     * @param bornDate
+     */
+    public static void setAge(MallUser mallUser){
+        // 先截取到字符串中的年、月、日
+        String strs[] = mallUser.getBornDate().trim().split("-");
+        int selectYear = Integer.parseInt(strs[0]);
+        int selectMonth = Integer.parseInt(strs[1]);
+        int selectDay = Integer.parseInt(strs[2]);
+        // 得到当前时间的年、月、日
+        Calendar cal = Calendar.getInstance();
+        int yearNow = cal.get(Calendar.YEAR);
+        int monthNow = cal.get(Calendar.MONTH) + 1;
+        int dayNow = cal.get(Calendar.DATE);
+
+        // 用当前年月日减去生日年月日
+        int yearMinus = yearNow - selectYear;
+        int monthMinus = monthNow - selectMonth;
+        int dayMinus = dayNow - selectDay;
+
+        // 先大致赋值
+        int age = yearMinus;
+        // 选了未来的年份
+        if (yearMinus < 0) {
+            age = 0;
+        } else if (yearMinus == 0) {
+            if (monthMinus < 0) {
+                age = 0;
+            } else if (monthMinus == 0) {
+                if (dayMinus < 0) {
+                    age = 0;
+                } else if (dayMinus >= 0) {
+                    age = 1;
+                }
+            } else if (monthMinus > 0) {
+                age = 1;
+            }
+        } else if (yearMinus > 0) {
+            if (monthMinus < 0) {
+            } else if (monthMinus == 0) {
+                if (dayMinus < 0) {
+                } else if (dayMinus >= 0) {
+                    age = age + 1;
+                }
+            } else if (monthMinus > 0) {
+                age = age + 1;
+            }
+        }
+        mallUser.setAge(age);
     }
 }
 
