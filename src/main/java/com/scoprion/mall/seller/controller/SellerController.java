@@ -48,14 +48,16 @@ public class SellerController {
      *               CLOSE_LEADER 管理员关闭,
      *               CLOSE 关闭，
      *               DELETE 删除状态
+     *@param operator
      * @return
      */
     @Access
     @ApiOperation("修改店铺状态")
-    @PostMapping("/updateStatus/{id}/{status}")
+    @PostMapping("/updateStatus/{id}/{status}/{operator}")
     public BaseResult updateStatus(@PathVariable("id") Long id,
-                                   @PathVariable("status") String status) {
-        return sellerService.updateStatus(id, status);
+                                   @PathVariable("status") String status,
+                                   @PathVariable("operator") String operator) {
+        return sellerService.updateStatus(id, status,operator);
     }
 
 

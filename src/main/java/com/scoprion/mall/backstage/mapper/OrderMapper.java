@@ -44,13 +44,13 @@ public interface OrderMapper {
      *
      * @param orderId
      * @param status
-     * @param refundFree
+     * @param refundFee
      * @param remark
      * @return
      */
     int updateOrderRefundById(@Param("orderId") Long orderId,
                               @Param("status") String status,
-                              @Param("refundFree") Integer refundFree,
+                              @Param("refundFee") Integer refundFee,
                               @Param("remark") String remark);
 
     /**

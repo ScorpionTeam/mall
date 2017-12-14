@@ -97,7 +97,9 @@ public class WxOrderServiceImpl implements WxOrderService {
         if (StringUtils.isEmpty(orderId.toString())) {
             return BaseResult.parameterError();
         }
-        wxOrderMapper.updateByOrderID(orderId, CommonEnum.REFUND.getCode());
+//        wxOrderMapper.updateByOrderID(orderId, CommonEnum.REFUND.getCode());
+        wxOrderMapper.updateStatus(orderId);
+        wxOrderMapper.update(orderId);
         return BaseResult.success("申请成功");
     }
 

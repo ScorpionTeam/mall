@@ -97,8 +97,8 @@ public class UserController {
     @ApiOperation(value = "会员列表(运营平台)")
     @RequestMapping(value = "/userList", method = RequestMethod.GET)
     public PageResult findByPage(int pageNo, int pageSize, String startDate,
-                                 String endDate, String searchKey) {
-        return userService.findByPage(pageNo, pageSize, startDate, endDate, searchKey);
+                                 String endDate, String searchKey,String userType) {
+        return userService.findByPage(pageNo, pageSize, startDate, endDate, searchKey,userType);
     }
 
 

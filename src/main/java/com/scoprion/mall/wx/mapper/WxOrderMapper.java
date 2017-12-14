@@ -123,4 +123,19 @@ public interface WxOrderMapper {
      */
     Integer updateOrderStatusById(@Param("id") Long id,
                                   @Param("orderStatus") String orderStatus);
+
+
+    /**
+     * 更新订单状态
+     * @param orderId
+     * @return
+     */
+    int updateStatus(@Param("orderId") Long orderId);
+
+    /**
+     * 更改退款时间
+     * @param orderId
+     * @return
+     */
+    int update(@Param("orderId") Long orderId);
 }

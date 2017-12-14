@@ -47,8 +47,9 @@ public class WxOrderScheduler {
 
     /**
      * 12小时执行一次 查询申请退款时间大于两天（48小时） 的订单
+     * 12 * 60 * 60 * 1000
      */
-    @Scheduled(fixedRate = 12 * 60 * 60 * 1000)
+    @Scheduled(fixedRate = 1 * 60 * 1000)
     public void findRefundingOrder() {
         List<Order> orderList = wxOrderMapper.findRefundingOrder();
         orderList.forEach(item -> {

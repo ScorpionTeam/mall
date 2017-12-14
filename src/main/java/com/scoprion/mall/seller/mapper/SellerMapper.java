@@ -129,4 +129,18 @@ public interface SellerMapper {
      * @return
      */
     Seller findById(@Param("id") Long id);
+
+    /**
+     * 修改审核状态
+     * @param id
+     * @return
+     */
+    int updateAudit(@Param("id") Long id);
+
+    /**
+     * 平台开启商户的店铺
+     *
+     * @return
+     */
+    Integer updateStatusAndAudit();
 }
