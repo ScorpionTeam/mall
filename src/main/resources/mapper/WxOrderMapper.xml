@@ -203,6 +203,11 @@
         UPDATE t_order SET  order_status=#{orderStatus} WHERE id=#{orderId}
     </update>
 
+    <!--根据订单号修改订单状态-->
+    <update id="refundStatus">
+        UPDATE t_order SET  order_status=#{orderStatus} AND refund_date=NOW() WHERE id=#{orderId}
+    </update>
+
     <!-- 签收后评价 -->
     <insert id="estimate" parameterType="com.scoprion.mall.domain.Estimate">
         INSERT INTO t_estimate(
@@ -271,7 +276,7 @@
     </select>
 
 
-    <!--查询 申请退款时间大于两天（48小时） 的订单 REFUNDING -->
+    <!--查询 申请退款时间大于两天（48小时） 的订单 REFUNDING 60*60*48-->
     <select id="findRefundingOrder" resultType="com.scoprion.mall.domain.order.Order">
         SELECT
         id,
@@ -279,7 +284,7 @@
         wx_order_no,
         order_status
         FROM t_order
-        WHERE order_status ='REFUNDING' AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(refund_date) > 60*60*48
+        WHERE order_status ='REFUNDING' AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(refund_date) > 60*60*10
     </select>
 
     <!--查询4-24小时内未支付的订单列表 UNIX_TIMESTAMP秒  60*60*4 -->
