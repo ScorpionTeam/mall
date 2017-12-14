@@ -119,7 +119,7 @@ public class UserController {
      * 审核商户信息
      *
      * @param sellerId
-     * @param userId
+     * @param operateId     操作人id
      * @param certification
      * @param reason
      * @return
@@ -127,7 +127,7 @@ public class UserController {
     @Access
     @ApiOperation(value = "审核商户信息")
     @RequestMapping(value = "/auditSeller", method = RequestMethod.POST)
-    public BaseResult auditSeller(Long sellerId, Long userId, String certification, String reason) {
-        return userService.auditSeller(sellerId, userId, certification, reason);
+    public BaseResult auditSeller(Long sellerId, Long operateId, String certification, String reason) {
+        return userService.auditSeller(sellerId, operateId, certification, reason);
     }
 }

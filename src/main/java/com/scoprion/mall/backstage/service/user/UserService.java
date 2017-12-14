@@ -72,10 +72,10 @@ public interface UserService {
      * 审核商户信息
      *
      * @param sellerId
-     * @param userId
+     * @param operateId
      * @param certification
      * @param reason
      * @return
      */
-    BaseResult auditSeller(Long sellerId, Long userId, String certification, String reason);
+    BaseResult auditSeller(Long sellerId, Long operateId, String certification, String reason);
 }

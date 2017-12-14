@@ -206,17 +206,17 @@ public class UserServiceImpl implements UserService {
      * 审核商户信息
      *
      * @param sellerId
-     * @param userId
+     * @param operateId
      * @param certification
      * @param reason
      * @return
      */
     @Override
-    public BaseResult auditSeller(Long sellerId, Long userId, String certification, String reason) {
-        if (userId == null || sellerId == null || StringUtils.isEmpty(certification)) {
+    public BaseResult auditSeller(Long sellerId, Long operateId, String certification, String reason) {
+        if (operateId == null || sellerId == null || StringUtils.isEmpty(certification)) {
             return BaseResult.parameterError();
         }
-        int validResult = userMapper.validAdmin(userId);
+        int validResult = userMapper.validAdmin(operateId);
         if (validResult == 0) {
             return BaseResult.error("audit_error", "只有管理员用户才能审核");
         }
