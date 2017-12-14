@@ -100,7 +100,7 @@
         #{city},
         #{email},
         #{bornDate},
-        #{certification},
+        'IS_AUTH',
         #{status},
         NOW(),
         NOW(),
