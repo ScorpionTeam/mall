@@ -288,7 +288,7 @@
         wx_order_no,
         order_status
         FROM t_order
-        WHERE order_status ='REFUNDING' AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(refund_date) > 60*60*10
+        WHERE order_status ='REFUNDING' AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(refund_date) > 60*10
     </select>
 
     <!--查询4-24小时内未支付的订单列表 UNIX_TIMESTAMP秒  60*60*4 -->
