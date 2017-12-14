@@ -129,12 +129,11 @@
     </update>
 
 
-    <!--修改订单退款状态-->
+    <!--修改订单退款状态 refund_date=NOW()-->
     <update id="updateOrderRefundById">
         UPDATE t_order SET
          order_status=#{status},
-         refund_free=#{refundFree},
-         refund_date=NOW(),
+         refund_fee=#{refundFee},
          update_date=NOW(),
          remark=#{remark}
          WHERE id=#{orderId}

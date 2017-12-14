@@ -204,8 +204,12 @@
     </update>
 
     <!--根据订单号修改订单状态-->
-    <update id="refundStatus">
-        UPDATE t_order SET  order_status=#{orderStatus} AND refund_date=NOW() WHERE id=#{orderId}
+    <update id="updateStatus">
+        UPDATE t_order SET  order_status='REFUND' WHERE id=#{orderId}
+    </update>
+
+    <update id="update">
+        UPDATE t_order SET  refund_date=NOW() WHERE id=#{orderId}
     </update>
 
     <!-- 签收后评价 -->
