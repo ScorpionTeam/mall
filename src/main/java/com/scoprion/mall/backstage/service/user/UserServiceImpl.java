@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
         if (password.length() < Constant.PASSWORD_MIN_LENGTH) {
             return BaseResult.error("ERROR", "密码不能小于六位");
         }
-        String encryptPassword = EncryptUtil.encryptMD5(password);
+        String encryptPassword = EncryptUtil.aesEncrypt(password, Constant.ENCRYPT_KEY);
         MallUser mallUser = userMapper.login(mobile, encryptPassword);
         if (null == mallUser) {
             return BaseResult.error("ERROR", "手机号或密码不正确!");
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
         //更新用户最后登录IP地址
         userMapper.updateLoginIpAddress(mallUser.getId(), ip);
         //将用户手机号码作为加密字符串回传
-        String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), "ScorpionMall8888");
+        String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), Constant.ENCRYPT_KEY);
         mallUser.setToken(tokenStr);
         //设置用户登录有效期为30分钟
         redisTemplate.opsForValue().set("Login:" + mallUser.getMobile(), mallUser.toString(), 30, TimeUnit.MINUTES);
@@ -99,14 +99,14 @@ public class UserServiceImpl implements UserService {
         if (nick > 0) {
             return BaseResult.error("ERROR", "昵称已存在");
         }
-        String encryptPassword = EncryptUtil.encryptMD5(password);
+        String encryptPassword = EncryptUtil.aesEncrypt(password, Constant.ENCRYPT_KEY);
         member.setPassword(encryptPassword);
         int result = userMapper.register(member);
         if (result <= 0) {
             return BaseResult.error("ERROR", "注册失败");
         }
         //将用户手机号码作为加密字符串回传
-        String tokenStr = EncryptUtil.aesEncrypt(mobile, "ScorpionMall8888");
+        String tokenStr = EncryptUtil.aesEncrypt(mobile, Constant.ENCRYPT_KEY);
         member.setToken(tokenStr);
         return BaseResult.success(member);
     }
@@ -160,7 +160,7 @@ public class UserServiceImpl implements UserService {
      * @return PageResult
      */
     @Override
-    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String searchKey,String userType) {
+    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String searchKey, String userType) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(searchKey)) {
             searchKey = null;
@@ -174,7 +174,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(endDate)) {
             endDate = null;
         }
-        Page<MallUser> page = userMapper.findByPage(startDate, endDate, searchKey,userType);
+        Page<MallUser> page = userMapper.findByPage(startDate, endDate, searchKey, userType);
         return new PageResult(page);
     }
 
@@ -195,7 +195,7 @@ public class UserServiceImpl implements UserService {
         }
         String password = member.getPassword();
         try {
-            password = EncryptUtil.aesDecrypt(password, password);
+            password = EncryptUtil.aesDecrypt(password, Constant.ENCRYPT_KEY);
             member.setPassword(password);
         } catch (Exception e) {
             e.printStackTrace();

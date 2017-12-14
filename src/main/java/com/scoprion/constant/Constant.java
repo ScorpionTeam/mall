@@ -5,6 +5,8 @@ package com.scoprion.constant;
  * @created on 2017/11/4.
  */
 public class Constant {
+
+    public static final String  ENCRYPT_KEY="ScorpionMall8888";
     /**
      * 手机号码长度
      */
