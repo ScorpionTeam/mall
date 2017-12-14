@@ -286,6 +286,8 @@
         id,
         order_no,
         wx_order_no,
+        refund_date,
+        payment_fee,
         order_status
         FROM t_order
         WHERE order_status ='REFUNDING' AND UNIX_TIMESTAMP(now()) - UNIX_TIMESTAMP(refund_date) > 60*10
