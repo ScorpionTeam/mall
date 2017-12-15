@@ -83,15 +83,15 @@ public class SellerServiceImpl implements SellerService {
      * 删除店铺
      *
      * @param id
-     * @param status 店铺状态 NORMAL 正常 ,
-     *               CLOSE_LEADER 管理员关闭,
-     *               CLOSE 关闭，
-     *               DELETE 删除状态
+     * @param status   店铺状态 NORMAL 正常 ,
+     *                 CLOSE_LEADER 管理员关闭,
+     *                 CLOSE 关闭，
+     *                 DELETE 删除状态
      * @param operator 操作人员
      * @return
      */
     @Override
-    public BaseResult updateStatus(Long id, String status,String operator) {
+    public BaseResult updateStatus(Long id, String status, String operator) {
         if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
@@ -104,8 +104,8 @@ public class SellerServiceImpl implements SellerService {
             //被管理员关闭，不能修改
             return BaseResult.error("update_error", "被管理员关闭，不能修改");
         }
-        if (CommonEnum.PLATFORM.getCode().equals(operator)){
-            Integer updateStatus=sellerMapper.updateStatusAndAudit();
+        if (CommonEnum.PLATFORM.getCode().equals(operator)) {
+            Integer updateStatus = sellerMapper.updateStatusAndAudit();
         }
 //        if (CommonEnum.CLOSE_LEADER.getCode().equals(seller.getStatus())){
 //            int auditResult=sellerMapper.updateAudit(id);
@@ -236,9 +236,12 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public BaseResult alter(MallUser mallUser) {
-        Integer result = sellerMapper.validByNickName(mallUser.getNickName());
-        if (result > 0) {
-            return BaseResult.error("ERROR", "该昵称已存在");
+        MallUser member = userMapper.findById(mallUser.getId());
+        if (member.getNickName() != mallUser.getNickName()) {
+            Integer result = sellerMapper.validByNickName(mallUser.getNickName());
+            if (result > 0) {
+                return BaseResult.error("ERROR", "该昵称已存在");
+            }
         }
         Integer alterResult = sellerMapper.alter(mallUser);
         if (alterResult <= 0) {
@@ -297,7 +300,7 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public BaseResult reauth(MallUser mallUser) {
-        if (mallUser.getId()==null){
+        if (mallUser.getId() == null) {
             return BaseResult.parameterError();
         }
         Integer result = sellerMapper.validByNickName(mallUser.getNickName());
@@ -305,21 +308,21 @@ public class SellerServiceImpl implements SellerService {
             return BaseResult.error("ERROR", "该昵称已存在");
         }
         MallUser member = userMapper.findById(mallUser.getId());
-        if (mallUser.getIdPhotoFrontUrl()!=member.getIdPhotoFrontUrl()){
+        if (mallUser.getIdPhotoFrontUrl() != member.getIdPhotoFrontUrl()) {
             MallImage mallImage = new MallImage();
             mallImage.setIdPhotoOwnerId(mallUser.getId());
             mallImage.setUrl(mallUser.getIdPhotoFrontUrl());
             fileOperationMapper.add(mallImage);
         }
-        if (mallUser.getIdPhotoBgUrl()!=member.getIdPhotoBgUrl()){
+        if (mallUser.getIdPhotoBgUrl() != member.getIdPhotoBgUrl()) {
             MallImage mallImage = new MallImage();
             mallImage.setIdPhotoOwnerId(mallUser.getId());
             mallImage.setUrl(mallUser.getIdPhotoBgUrl());
             fileOperationMapper.add(mallImage);
         }
-        Integer reauthResult=sellerMapper.reauth(mallUser);
-        if (reauthResult<0){
-            return BaseResult.error("ERRORR","重新认证失败");
+        Integer reauthResult = sellerMapper.reauth(mallUser);
+        if (reauthResult < 0) {
+            return BaseResult.error("ERRORR", "重新认证失败");
         }
         return BaseResult.success("提交成功");
     }
@@ -379,27 +382,27 @@ public class SellerServiceImpl implements SellerService {
      *
      * @param mallUser
      */
-    public static void setAge(MallUser mallUser){
-        int leg=mallUser.getCertificateId().length();
-        String dates="";
-        if (leg==18){
-            int se=Integer.valueOf(mallUser.getCertificateId().substring(leg-1)) % 2;
-            dates=mallUser.getCertificateId().substring(6,10);
-            SimpleDateFormat df=new SimpleDateFormat("yyyy");
-            String year=df.format(new Date());
-            int age=Integer.parseInt(year)-Integer.parseInt(dates);
+    public static void setAge(MallUser mallUser) {
+        int leg = mallUser.getCertificateId().length();
+        String dates = "";
+        if (leg == 18) {
+            int se = Integer.valueOf(mallUser.getCertificateId().substring(leg - 1)) % 2;
+            dates = mallUser.getCertificateId().substring(6, 10);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy");
+            String year = df.format(new Date());
+            int age = Integer.parseInt(year) - Integer.parseInt(dates);
             mallUser.setAge(age);
-            if (Integer.parseInt(mallUser.getCertificateId().substring(16).substring(0,1))% 2==0){
+            if (Integer.parseInt(mallUser.getCertificateId().substring(16).substring(0, 1)) % 2 == 0) {
                 mallUser.setSex("FEMALE");
             }
             mallUser.setSex("MALE");
-        }else {
-            dates="19"+mallUser.getCertificateId().substring(6,8);
-            SimpleDateFormat df=new SimpleDateFormat("yyyy");
-            String year=df.format(new Date());
-            int age=Integer.parseInt(year)-Integer.parseInt(dates);
+        } else {
+            dates = "19" + mallUser.getCertificateId().substring(6, 8);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy");
+            String year = df.format(new Date());
+            int age = Integer.parseInt(year) - Integer.parseInt(dates);
             mallUser.setAge(age);
-            if (Integer.parseInt(mallUser.getCertificateId().substring(14,15))% 2==0){
+            if (Integer.parseInt(mallUser.getCertificateId().substring(14, 15)) % 2 == 0) {
                 mallUser.setSex("FEMALE");
             }
             mallUser.setSex("MALE");
