@@ -143,4 +143,11 @@ public interface SellerMapper {
      * @return
      */
     Integer updateStatusAndAudit();
+
+    /**
+     * 重新认证
+     * @param mallUser
+     * @return
+     */
+    Integer reauth(MallUser mallUser);
 }

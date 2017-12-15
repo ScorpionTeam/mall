@@ -87,4 +87,12 @@ public interface SellerService {
      * @return
      */
     BaseResult findByUserId(Long userId);
+
+    /**
+     * 重新认证
+     *
+     * @param mallUser
+     * @return
+     */
+    BaseResult reauth(MallUser mallUser);
 }

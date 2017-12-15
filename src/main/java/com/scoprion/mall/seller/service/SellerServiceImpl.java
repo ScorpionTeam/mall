@@ -21,9 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.SimpleTimeZone;
 import java.util.concurrent.TimeUnit;
 
 
@@ -168,6 +166,8 @@ public class SellerServiceImpl implements SellerService {
         if (mobileResult > 0) {
             return BaseResult.error("ERROR", "手机号已存在");
         }
+        //计算年龄
+        setAge(mallUser);
         String password = mallUser.getPassword();
         String encryptPassword = EncryptUtil.encryptMD5(password);
         mallUser.setPassword(encryptPassword);
@@ -287,6 +287,25 @@ public class SellerServiceImpl implements SellerService {
     }
 
     /**
+     * 重新认证
+     *
+     * @param mallUser
+     * @return
+     */
+    @Override
+    public BaseResult reauth(MallUser mallUser) {
+        Integer result = sellerMapper.validByNickName(mallUser.getNickName());
+        if (result > 0) {
+            return BaseResult.error("ERROR", "该昵称已存在");
+        }
+        Integer reauthResult=sellerMapper.reauth(mallUser);
+        if (reauthResult<0){
+            return BaseResult.error("ERRORR","重新认证失败");
+        }
+        return BaseResult.success("提交成功");
+    }
+
+    /**
      * 微信商户登录
      *
      * @param mallUser
@@ -335,6 +354,12 @@ public class SellerServiceImpl implements SellerService {
         return BaseResult.success(mallUser);
     }
 
+
+    /**
+     * 计算年龄
+     *
+     * @param mallUser
+     */
     public static void setAge(MallUser mallUser){
         int leg=mallUser.getCertificateId().length();
         String dates="";
@@ -343,9 +368,14 @@ public class SellerServiceImpl implements SellerService {
             dates=mallUser.getCertificateId().substring(6,10);
             SimpleDateFormat df=new SimpleDateFormat("yyyy");
             String year=df.format(new Date());
-            int u=Integer.parseInt(year)-Integer.parseInt(dates);
+            int age=Integer.parseInt(year)-Integer.parseInt(dates);
+            mallUser.setAge(age);
         }else {
-
+            dates=mallUser.getCertificateId().substring(6,8);
+            SimpleDateFormat df=new SimpleDateFormat("yyyy");
+            String year=df.format(new Date());
+            int age=Integer.parseInt(year)-Integer.parseInt(dates);
+            mallUser.setAge(age);
         }
     }
 }

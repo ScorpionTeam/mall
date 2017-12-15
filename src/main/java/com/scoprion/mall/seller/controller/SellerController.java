@@ -146,5 +146,10 @@ public class SellerController {
     public BaseResult findByUserId(@PathVariable("userId") Long userId) {
         return sellerService.findByUserId(userId);
     }
+
+    @PostMapping("/reauth")
+    public BaseResult reauth(@RequestBody MallUser mallUser){
+        return sellerService.reauth(mallUser);
+    }
 }
 
