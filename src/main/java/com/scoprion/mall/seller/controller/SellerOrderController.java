@@ -75,11 +75,8 @@ public class SellerOrderController {
      */
     @Access
     @ApiOperation(value = "退款")
-    @PostMapping("/refund/{orderId}/{flag}/{remark}/{refundFee}")
-    public BaseResult refund(@PathVariable("orderId") Long orderId,
-                             @PathVariable("flag") String flag,
-                             @PathVariable("remark") String remark,
-                             @PathVariable("refundFee") Integer refundFee) {
+    @PostMapping("/refund")
+    public BaseResult refund(Long orderId, String flag, String remark, Integer refundFee) {
         return sellerOrderService.refund(orderId, flag, remark, refundFee);
     }
 
