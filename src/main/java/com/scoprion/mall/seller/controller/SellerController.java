@@ -3,10 +3,9 @@ package com.scoprion.mall.seller.controller;
 
 import com.scoprion.annotation.Access;
 import com.scoprion.mall.domain.MallUser;
-import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.domain.Store;
 import com.scoprion.mall.seller.service.SellerService;
 import com.scoprion.result.BaseResult;
-import com.scoprion.result.PageResult;
 import com.scoprion.utils.IPUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,14 +28,14 @@ public class SellerController {
     /**
      * 商户店铺建立
      *
-     * @param seller
+     * @param store
      * @return
      */
     @Access
     @ApiOperation("商户创建商铺")
     @PostMapping("/add")
-    public BaseResult add(@RequestBody Seller seller) {
-        return sellerService.add(seller);
+    public BaseResult add(@RequestBody Store store) {
+        return sellerService.add(store);
     }
 
 
@@ -64,14 +63,14 @@ public class SellerController {
     /**
      * 修改店铺信息
      *
-     * @param seller
+     * @param store
      * @return
      */
     @Access
     @ApiOperation("修改店铺信息")
     @PostMapping("/modify")
-    public BaseResult modify(@RequestBody Seller seller) {
-        return sellerService.modify(seller);
+    public BaseResult modify(@RequestBody Store store) {
+        return sellerService.modify(store);
     }
 
     /**

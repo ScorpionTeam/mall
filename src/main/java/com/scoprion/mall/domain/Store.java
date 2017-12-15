@@ -9,7 +9,7 @@ import java.util.Date;
  * @version V1.0 <商户>
  * @date 2017-12-07 10:36
  */
-public class Seller {
+public class Store {
 
     private Long id;
 
@@ -50,26 +50,26 @@ public class Seller {
     /**
      * 店铺编号
      */
-    @JSONField(name = "seller_no")
-    private String sellerNo;
+    @JSONField(name = "store_no")
+    private String storeNo;
 
     /**
      * 店铺名称
      */
-    @JSONField(name = "seller_name")
-    private String sellerName;
+    @JSONField(name = "store_name")
+    private String storeName;
 
     /**
      * 店铺地址
      */
-    @JSONField(name = "seller_address")
-    private String sellerAddress;
+    @JSONField(name = "store_address")
+    private String storeAddress;
 
     /**
      * 店铺描述
      */
-    @JSONField(name = "seller_description")
-    private String sellerDescription;
+    @JSONField(name = "store_description")
+    private String storeDescription;
 
     /**
      * 修改时间
@@ -93,13 +93,6 @@ public class Seller {
         return id;
     }
 
-    public String getSellerNo() {
-        return sellerNo;
-    }
-
-    public void setSellerNo(String sellerNo) {
-        this.sellerNo = sellerNo;
-    }
 
     public void setId(Long id) {
         this.id = id;
@@ -145,29 +138,6 @@ public class Seller {
         this.reputation = reputation;
     }
 
-    public String getSellerName() {
-        return sellerName;
-    }
-
-    public void setSellerName(String sellerName) {
-        this.sellerName = sellerName;
-    }
-
-    public String getSellerAddress() {
-        return sellerAddress;
-    }
-
-    public void setSellerAddress(String sellerAddress) {
-        this.sellerAddress = sellerAddress;
-    }
-
-    public String getSellerDescription() {
-        return sellerDescription;
-    }
-
-    public void setSellerDescription(String sellerDescription) {
-        this.sellerDescription = sellerDescription;
-    }
 
     public Date getUpdateDate() {
         return updateDate;
@@ -201,20 +171,52 @@ public class Seller {
         this.reason = reason;
     }
 
+    public String getStoreNo() {
+        return storeNo;
+    }
+
+    public void setStoreNo(String storeNo) {
+        this.storeNo = storeNo;
+    }
+
+    public String getStoreName() {
+        return storeName;
+    }
+
+    public void setStoreName(String storeName) {
+        this.storeName = storeName;
+    }
+
+    public String getStoreAddress() {
+        return storeAddress;
+    }
+
+    public void setStoreAddress(String storeAddress) {
+        this.storeAddress = storeAddress;
+    }
+
+    public String getStoreDescription() {
+        return storeDescription;
+    }
+
+    public void setStoreDescription(String storeDescription) {
+        this.storeDescription = storeDescription;
+    }
+
     @Override
     public String toString() {
-        return "Seller{" +
+        return "Store{" +
                 "id=" + id +
                 ", audit='" + audit + '\'' +
                 ", status='" + status + '\'' +
                 ", mobile='" + mobile + '\'' +
-                ", userId='" + userId + '\'' +
+                ", userId=" + userId +
                 ", wxCode='" + wxCode + '\'' +
                 ", reputation=" + reputation +
-                ", sellerNo='" + sellerNo + '\'' +
-                ", sellerName='" + sellerName + '\'' +
-                ", sellerAddress='" + sellerAddress + '\'' +
-                ", sellerDescription='" + sellerDescription + '\'' +
+                ", storeNo='" + storeNo + '\'' +
+                ", storeName='" + storeName + '\'' +
+                ", storeAddress='" + storeAddress + '\'' +
+                ", storeDescription='" + storeDescription + '\'' +
                 ", updateDate=" + updateDate +
                 ", createDate=" + createDate +
                 ", reason='" + reason + '\'' +

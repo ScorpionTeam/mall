@@ -5,28 +5,28 @@
 
 <mapper namespace="com.scoprion.mall.seller.mapper.SellerMapper">
     <!--新增商铺-->
-    <insert id="add" parameterType="com.scoprion.mall.domain.Seller">
-        INSERT INTO t_seller(
+    <insert id="add" parameterType="com.scoprion.mall.domain.Store">
+        INSERT INTO t_store(
         audit,
         status,
         mobile,
         user_id,
-        seller_no,
+        store_no,
         reputation,
-        seller_name,
-        seller_address,
-        seller_description,
+        store_name,
+        store_address,
+        store_description,
         create_date)
         VALUES (
         'AUDITING',
         'NORMAL',
         #{mobile},
         #{userId},
-        #{sellerNo},
+        #{storeNo},
         '50',
-        #{sellerName},
-        #{sellerAddress},
-        #{sellerDescription},
+        #{storeName},
+        #{storeAddress},
+        #{storeDescription},
         NOW()
         )
     </insert>
@@ -46,7 +46,7 @@
 
     <!--修改店铺状态-->
     <update id="updateStatus">
-        UPDATE t_seller SET
+        UPDATE t_store SET
         status=#{status},
         update_date=NOW()
         WHERE id=#{id}
@@ -54,32 +54,32 @@
 
     <!--修改店铺审核状态-->
     <update id="updateAudit">
-        UPDATE t_seller SET
+        UPDATE t_store SET
         audit='AUDITING',
         update_date=NOW()
         WHERE id=#{id}
     </update>
 
     <!--修改店铺信息-->
-    <update id="modify" parameterType="com.scoprion.mall.domain.Seller">
-        UPDATE t_seller SET
+    <update id="modify" parameterType="com.scoprion.mall.domain.Store">
+        UPDATE t_store SET
         <if test="mobile!=null">mobile=#{mobile},</if>
         <if test="audit!=null">audit=#{audit},</if>
-        <if test="sellerName!=null">seller_name=#{sellerName},</if>
-        <if test="sellerAddress!=null">seller_address=#{sellerAddress},</if>
-        <if test="sellerDescription!=null">seller_description=#{sellerDescription},</if>
+        <if test="storeName!=null">store_name=#{storeName},</if>
+        <if test="storeAddress!=null">store_address=#{storeAddress},</if>
+        <if test="storeDescription!=null">store_description=#{storeDescription},</if>
         update_date=now()
         WHERE id=#{id}
     </update>
 
     <!--校验名称是否存在-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_seller WHERE seller_name=#{sellerName} AND status='NORMAL'
+        SELECT COUNT(*) FROM t_store WHERE store_name=#{storeName} AND status='NORMAL'
     </select>
 
     <!--校验商户是否已经存在商铺-->
     <select id="validByUserId" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM t_seller WHERE user_id=#{userId} AND status='NORMAL'
+        SELECT COUNT(*) FROM t_store WHERE user_id=#{userId} AND status='NORMAL'
     </select>
 
     <!--校验号码是否存在-->
@@ -193,38 +193,38 @@
     </insert>
 
     <!--商户订单列表-->
-    <select id="findByUserId" resultType="com.scoprion.mall.domain.Seller">
+    <select id="findByUserId" resultType="com.scoprion.mall.domain.Store">
         SELECT
         id,
         audit,
         status,
         mobile,
         user_id,
-        seller_no,
+        store_no,
         reputation,
-        seller_name,
-        seller_address,
-        seller_description,
+        store_name,
+        store_address,
+        store_description,
         reason
-        FROM t_seller
+        FROM t_store
         WHERE  user_id=#{userId} AND status !='STATUS_DELETE'
     </select>
 
     <!--商户详情-->
-    <select id="findById" resultType="com.scoprion.mall.domain.Seller">
+    <select id="findById" resultType="com.scoprion.mall.domain.Store">
         SELECT
         id,
         audit,
         status,
         mobile,
         user_id,
-        seller_no,
+        store_no,
         reputation,
-        seller_name,
-        seller_address,
-        seller_description,
+        store_name,
+        store_address,
+        store_description,
         reason
-        FROM t_seller
+        FROM t_store
         WHERE  id=#{id} AND status !='STATUS_DELETE'
     </select>
 
@@ -234,6 +234,6 @@
     </select>
 
     <update id="updateStatusAndAudit">
-        UPDATE t_seller SET audit='PASS_AUDIT'AND status='NORMAL'WHERE id=#{id}
+        UPDATE t_store SET audit='PASS_AUDIT'AND status='NORMAL'WHERE id=#{id}
     </update>
 </mapper>

@@ -1,9 +1,8 @@
 package com.scoprion.mall.seller.service;
 
 import com.scoprion.mall.domain.MallUser;
-import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.domain.Store;
 import com.scoprion.result.BaseResult;
-import com.scoprion.result.PageResult;
 
 /**
  * @author by hmy
@@ -14,11 +13,11 @@ public interface SellerService {
     /**
      * 商铺创建
      *
-     * @param seller
+     * @param store
      * @return
      * @throws Exception
      */
-    BaseResult add(Seller seller);
+    BaseResult add(Store store);
 
     /**
      * 删除商铺
@@ -36,10 +35,10 @@ public interface SellerService {
     /**
      * 修改店铺信息
      *
-     * @param seller
+     * @param store
      * @return
      */
-    BaseResult modify(Seller seller);
+    BaseResult modify(Store store);
 
     /**
      * 微信商户登录

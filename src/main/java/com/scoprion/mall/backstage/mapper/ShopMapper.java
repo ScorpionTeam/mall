@@ -1,7 +1,7 @@
 package com.scoprion.mall.backstage.mapper;
 
 import com.github.pagehelper.Page;
-import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.domain.Store;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,8 +21,8 @@ public interface ShopMapper {
      * @param searchKey
      * @return
      */
-    Page<Seller> findPage(@Param("audit") String audit,
-                          @Param("searchKey") String searchKey);
+    Page<Store> findPage(@Param("audit") String audit,
+                         @Param("searchKey") String searchKey);
 
     /**
      * 修改审核状态
@@ -41,5 +41,5 @@ public interface ShopMapper {
      * @param id 店铺id
      * @return
      */
-    Seller findById(@Param("id") Long id);
+    Store findById(@Param("id") Long id);
 }

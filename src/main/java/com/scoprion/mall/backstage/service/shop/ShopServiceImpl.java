@@ -6,7 +6,7 @@ import com.github.pagehelper.PageHelper;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.ShopMapper;
 import com.scoprion.mall.backstage.mapper.UserMapper;
-import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.domain.Store;
 import com.scoprion.result.BaseResult;
 import com.scoprion.result.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,7 @@ public class ShopServiceImpl implements ShopService {
         if (!StringUtils.isEmpty(searchKey)) {
             searchKey = "%" + searchKey + "%";
         }
-        Page<Seller> page = shopMapper.findPage(audit, searchKey);
+        Page<Store> page = shopMapper.findPage(audit, searchKey);
         return new PageResult(page);
     }
 
@@ -83,10 +83,10 @@ public class ShopServiceImpl implements ShopService {
         if (id == null) {
             return BaseResult.parameterError();
         }
-        Seller seller = shopMapper.findById(id);
-        if (seller == null) {
+        Store store = shopMapper.findById(id);
+        if (store == null) {
             return BaseResult.notFound();
         }
-        return BaseResult.success(seller);
+        return BaseResult.success(store);
     }
 }

@@ -8,7 +8,7 @@ import com.scoprion.mall.backstage.mapper.RoleMapper;
 import com.scoprion.mall.backstage.mapper.UserMapper;
 import com.scoprion.mall.domain.MallImage;
 import com.scoprion.mall.domain.MallUser;
-import com.scoprion.mall.domain.Seller;
+import com.scoprion.mall.domain.Store;
 import com.scoprion.mall.domain.SysRole;
 import com.scoprion.mall.seller.mapper.SellerMapper;
 import com.scoprion.result.BaseResult;
@@ -50,29 +50,29 @@ public class SellerServiceImpl implements SellerService {
     /**
      * 商户店铺建立
      *
-     * @param seller
+     * @param store
      * @return
      * @throws Exception
      */
     @Override
-    public BaseResult add(Seller seller) {
-        if (seller.getUserId() == null) {
+    public BaseResult add(Store store) {
+        if (store.getUserId() == null) {
             return BaseResult.parameterError();
         }
-        Integer validResult = sellerMapper.validCertification(seller.getUserId());
+        Integer validResult = sellerMapper.validCertification(store.getUserId());
 //        if (validResult == 0) {
 //            return BaseResult.error("add_error", "未实名认证，不能创建店铺");
 //        }
-        Integer validByUserResult = sellerMapper.validByUserId(seller.getUserId());
+        Integer validByUserResult = sellerMapper.validByUserId(store.getUserId());
         if (validByUserResult > 0) {
             return BaseResult.error("ERROR", "不可重复创建店铺");
         }
-        Integer validNameResult = sellerMapper.validByName(seller.getSellerName());
+        Integer validNameResult = sellerMapper.validByName(store.getStoreName());
         if (validNameResult > 0) {
             return BaseResult.error("ERROR", "店铺名称已存在");
         }
-        seller.setSellerNo(SellerNoUtil.getSellerNo());
-        Integer result = sellerMapper.add(seller);
+        store.setStoreNo(SellerNoUtil.getSellerNo());
+        Integer result = sellerMapper.add(store);
         if (result <= 0) {
             return BaseResult.error("ERROR", "新增店铺失败");
         }
@@ -95,19 +95,19 @@ public class SellerServiceImpl implements SellerService {
         if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
-        Seller seller = sellerMapper.findById(id);
-        if (CommonEnum.DELETE.getCode().equals(seller.getStatus())) {
+        Store store = sellerMapper.findById(id);
+        if (CommonEnum.DELETE.getCode().equals(store.getStatus())) {
             //已经删除的，不能修改
             return BaseResult.error("update_error", "已经删除的，不能修改");
         }
-        if (CommonEnum.CLOSE_LEADER.getCode().equals(seller.getStatus())) {
+        if (CommonEnum.CLOSE_LEADER.getCode().equals(store.getStatus())) {
             //被管理员关闭，不能修改
             return BaseResult.error("update_error", "被管理员关闭，不能修改");
         }
         if (CommonEnum.PLATFORM.getCode().equals(operator)) {
             Integer updateStatus = sellerMapper.updateStatusAndAudit();
         }
-//        if (CommonEnum.CLOSE_LEADER.getCode().equals(seller.getStatus())){
+//        if (CommonEnum.CLOSE_LEADER.getCode().equals(store.getStatus())){
 //            int auditResult=sellerMapper.updateAudit(id);
 //            if (auditResult<0){
 //                return BaseResult.error("ERROR","审核状态修改失败");
@@ -123,13 +123,13 @@ public class SellerServiceImpl implements SellerService {
     /**
      * 修改店铺信息
      *
-     * @param seller
+     * @param store
      * @return
      */
     @Override
-    public BaseResult modify(Seller seller) {
-        seller.setAudit(CommonEnum.AUDITING.getCode());
-        int result = sellerMapper.modify(seller);
+    public BaseResult modify(Store store) {
+        store.setAudit(CommonEnum.AUDITING.getCode());
+        int result = sellerMapper.modify(store);
         if (result <= 0) {
             return BaseResult.error("ERROR", "修改失败");
         }
@@ -236,7 +236,7 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public BaseResult alter(MallUser mallUser) {
-        Integer result = sellerMapper.validByNickNameAndId(mallUser.getNickName(),mallUser.getId());
+        Integer result = sellerMapper.validByNickNameAndId(mallUser.getNickName(), mallUser.getId());
         if (result > 0) {
             return BaseResult.error("ERROR", "该昵称已存在");
         }
@@ -282,11 +282,11 @@ public class SellerServiceImpl implements SellerService {
         if (userId == null) {
             return BaseResult.parameterError();
         }
-        Seller seller = sellerMapper.findByUserId(userId);
-        if (seller == null) {
+        Store store = sellerMapper.findByUserId(userId);
+        if (store == null) {
             return BaseResult.notFound();
         }
-        return BaseResult.success(seller);
+        return BaseResult.success(store);
     }
 
     /**

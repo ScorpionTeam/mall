@@ -1,9 +1,7 @@
 package com.scoprion.mall.seller.mapper;
 
-import com.github.pagehelper.Page;
 import com.scoprion.mall.domain.MallUser;
-import com.scoprion.mall.domain.Seller;
-import com.scoprion.mall.domain.order.OrderExt;
+import com.scoprion.mall.domain.Store;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -18,10 +16,10 @@ public interface SellerMapper {
     /**
      * 创建商铺
      *
-     * @param seller
+     * @param store
      * @return
      */
-    Integer add(Seller seller);
+    Integer add(Store store);
 
     /**
      * 修改店铺状态
@@ -35,18 +33,18 @@ public interface SellerMapper {
     /**
      * 修改商铺信息
      *
-     * @param seller
+     * @param store
      * @return
      */
-    Integer modify(Seller seller);
+    Integer modify(Store store);
 
     /**
      * 校验名字是否存在
      *
-     * @param sellerName
+     * @param storeName
      * @return
      */
-    Integer validByName(@Param("sellerName") String sellerName);
+    Integer validByName(@Param("storeName") String storeName);
 
     /**
      * 校验该商户是否已经存在商铺
@@ -63,7 +61,9 @@ public interface SellerMapper {
      * @param password
      * @return
      */
-    MallUser login(@Param("email") String email, @Param("mobile") String mobile, @Param("password") String password);
+    MallUser login(@Param("email") String email,
+                   @Param("mobile") String mobile,
+                   @Param("password") String password);
 
     /**
      * 更新商品最后登录的ip地址
@@ -71,7 +71,8 @@ public interface SellerMapper {
      * @param id
      * @param ip
      */
-    void updateLoginIpAddress(@Param("id") Long id, @Param("ip") String ip);
+    void updateLoginIpAddress(@Param("id") Long id,
+                              @Param("ip") String ip);
 
     /**
      * 校验号码是否存在
@@ -112,7 +113,7 @@ public interface SellerMapper {
      * @param userId
      * @return
      */
-    Seller findByUserId(@Param("userId") Long userId);
+    Store findByUserId(@Param("userId") Long userId);
 
     /**
      * 校验是否已经实名认证
@@ -128,10 +129,11 @@ public interface SellerMapper {
      * @param id
      * @return
      */
-    Seller findById(@Param("id") Long id);
+    Store findById(@Param("id") Long id);
 
     /**
      * 修改审核状态
+     *
      * @param id
      * @return
      */
@@ -146,6 +148,7 @@ public interface SellerMapper {
 
     /**
      * 重新认证
+     *
      * @param mallUser
      * @return
      */
@@ -153,9 +156,11 @@ public interface SellerMapper {
 
     /**
      * 根据id校验昵称是否存在
+     *
      * @param nickName
      * @param id
      * @return
      */
-    Integer validByNickNameAndId(@Param("nickName") String nickName,@Param("id") Long id);
+    Integer validByNickNameAndId(@Param("nickName") String nickName,
+                                 @Param("id") Long id);
 }

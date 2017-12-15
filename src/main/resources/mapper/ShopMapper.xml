@@ -6,28 +6,28 @@
 <mapper namespace="com.scoprion.mall.backstage.mapper.ShopMapper">
 
     <!--商铺列表 AUDITING 待审核/审核中    NOT_PASS_AUDIT审核未通过  PASS_AUDIT审核通过-->
-    <select id="findPage" resultType="com.scoprion.mall.domain.Seller">
+    <select id="findPage" resultType="com.scoprion.mall.domain.Store">
         SELECT
         id,
         audit,
         status,
         mobile,
         user_id,
-        seller_no,
+        store_no,
         reputation,
-        seller_name,
-        seller_address,
-        seller_description
-        FROM t_seller WHERE 1=1
+        store_name,
+        store_address,
+        store_description
+        FROM t_store WHERE 1=1
         <if test="audit!=null">AND audit=#{audit}</if>
-        <if test="searchKey!=null">AND CONCAT_WS('',seller_no,seller_name,seller_address,seller_description)
+        <if test="searchKey!=null">AND CONCAT_WS('',store_no,store_name,store_address,store_description)
             LIKE #{searchKey}
         </if>
     </select>
 
     <!--店铺审核-->
-    <update id="update" parameterType="com.scoprion.mall.domain.Seller">
-        UPDATE t_seller SET
+    <update id="update" parameterType="com.scoprion.mall.domain.Store">
+        UPDATE t_store SET
         <if test="audit!=null and  audit!='' ">audit=#{audit},</if>
         <if test="reason!=null and  reason!=''">reason=#{reason},</if>
         status='NORMAL',
@@ -36,19 +36,19 @@
     </update>
 
     <!--商铺详情-->
-    <select id="findById" resultType="com.scoprion.mall.domain.Seller">
+    <select id="findById" resultType="com.scoprion.mall.domain.Store">
         SELECT
         id,
         audit,
         status,
         mobile,
         user_id,
-        seller_no,
+        store_no,
         reputation,
-        seller_name,
-        seller_address,
-        seller_description
-        FROM t_seller
+        store_name,
+        store_address,
+        store_description
+        FROM t_store
         WHERE id=#{id}
     </select>
 </mapper>
