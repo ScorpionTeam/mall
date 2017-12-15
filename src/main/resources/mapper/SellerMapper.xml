@@ -31,6 +31,19 @@
         )
     </insert>
 
+    <!--重新认证个人信息-->
+    <update id="reauth" parameterType="com.scoprion.mall.domain.MallUser">
+        UPDATE t_user SET
+        certification='AUDITING',
+        <if test="headPic!=null">head_picture=#{headPic},</if>
+        <if test="name!=null">name=#{name},</if>
+        <if test="certificateId!=null">certificate_id=#{certificateId},</if>
+        <if test="idPhotoFrontUrl!=null">id_photo_front_url=#{idPhotoFrontUrl},</if>
+        <if test="idPhotoBgUrl!=null">id_photo_bg_url=#{idPhotoBgUrl},</if>
+        update_date=now()
+        WHERE id=#{id}
+    </update>
+
     <!--修改店铺状态-->
     <update id="updateStatus">
         UPDATE t_seller SET
@@ -77,6 +90,11 @@
     <!--校验昵称是否存在-->
     <select id="validByNickName" resultType="java.lang.Integer">
         SELECT COUNT(*) FROM t_user WHERE nick_name=#{nickName}
+    </select>
+
+    <!--根据id校验昵称是否存在-->
+    <select id="validByNickNameAndId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_user WHERE nick_name=#{nickName}And id!=#{id}
     </select>
 
     <!--修改商户个人信息-->

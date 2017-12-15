@@ -1,22 +1,17 @@
 package com.scoprion.mall.seller.service;
 
 import com.alibaba.druid.util.StringUtils;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
 import com.scoprion.mall.backstage.mapper.FileOperationMapper;
 import com.scoprion.mall.backstage.mapper.RoleMapper;
-import com.scoprion.mall.backstage.service.role.RoleService;
+import com.scoprion.mall.backstage.mapper.UserMapper;
 import com.scoprion.mall.domain.MallImage;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.domain.Seller;
 import com.scoprion.mall.domain.SysRole;
-import com.scoprion.mall.domain.order.OrderExt;
 import com.scoprion.mall.seller.mapper.SellerMapper;
-import com.scoprion.mall.wx.pay.util.WxUtil;
 import com.scoprion.result.BaseResult;
-import com.scoprion.result.PageResult;
 import com.scoprion.utils.EncryptUtil;
 import com.scoprion.utils.SellerNoUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 
@@ -46,6 +43,9 @@ public class SellerServiceImpl implements SellerService {
 
     @Autowired
     RoleMapper roleMapper;
+
+    @Autowired
+    UserMapper userMapper;
 
     /**
      * 商户店铺建立
@@ -83,15 +83,15 @@ public class SellerServiceImpl implements SellerService {
      * 删除店铺
      *
      * @param id
-     * @param status 店铺状态 NORMAL 正常 ,
-     *               CLOSE_LEADER 管理员关闭,
-     *               CLOSE 关闭，
-     *               DELETE 删除状态
+     * @param status   店铺状态 NORMAL 正常 ,
+     *                 CLOSE_LEADER 管理员关闭,
+     *                 CLOSE 关闭，
+     *                 DELETE 删除状态
      * @param operator 操作人员
      * @return
      */
     @Override
-    public BaseResult updateStatus(Long id, String status,String operator) {
+    public BaseResult updateStatus(Long id, String status, String operator) {
         if (StringUtils.isEmpty(id.toString())) {
             return BaseResult.parameterError();
         }
@@ -104,8 +104,8 @@ public class SellerServiceImpl implements SellerService {
             //被管理员关闭，不能修改
             return BaseResult.error("update_error", "被管理员关闭，不能修改");
         }
-        if (CommonEnum.PLATFORM.getCode().equals(operator)){
-            Integer updateStatus=sellerMapper.updateStatusAndAudit();
+        if (CommonEnum.PLATFORM.getCode().equals(operator)) {
+            Integer updateStatus = sellerMapper.updateStatusAndAudit();
         }
 //        if (CommonEnum.CLOSE_LEADER.getCode().equals(seller.getStatus())){
 //            int auditResult=sellerMapper.updateAudit(id);
@@ -169,6 +169,8 @@ public class SellerServiceImpl implements SellerService {
         if (mobileResult > 0) {
             return BaseResult.error("ERROR", "手机号已存在");
         }
+        //计算年龄和性别
+        setAge(mallUser);
         String password = mallUser.getPassword();
         String encryptPassword = EncryptUtil.encryptMD5(password);
         mallUser.setPassword(encryptPassword);
@@ -234,7 +236,7 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public BaseResult alter(MallUser mallUser) {
-        Integer result = sellerMapper.validByNickName(mallUser.getNickName());
+        Integer result = sellerMapper.validByNickNameAndId(mallUser.getNickName(),mallUser.getId());
         if (result > 0) {
             return BaseResult.error("ERROR", "该昵称已存在");
         }
@@ -288,6 +290,41 @@ public class SellerServiceImpl implements SellerService {
     }
 
     /**
+     * 重新认证
+     *
+     * @param mallUser
+     * @return
+     */
+    @Override
+    public BaseResult reauth(MallUser mallUser) {
+        if (mallUser.getId() == null) {
+            return BaseResult.parameterError();
+        }
+        Integer result = sellerMapper.validByNickName(mallUser.getNickName());
+        if (result > 0) {
+            return BaseResult.error("ERROR", "该昵称已存在");
+        }
+        MallUser member = userMapper.findById(mallUser.getId());
+        if (mallUser.getIdPhotoFrontUrl() != member.getIdPhotoFrontUrl()) {
+            MallImage mallImage = new MallImage();
+            mallImage.setIdPhotoOwnerId(mallUser.getId());
+            mallImage.setUrl(mallUser.getIdPhotoFrontUrl());
+            fileOperationMapper.add(mallImage);
+        }
+        if (mallUser.getIdPhotoBgUrl() != member.getIdPhotoBgUrl()) {
+            MallImage mallImage = new MallImage();
+            mallImage.setIdPhotoOwnerId(mallUser.getId());
+            mallImage.setUrl(mallUser.getIdPhotoBgUrl());
+            fileOperationMapper.add(mallImage);
+        }
+        Integer reauthResult = sellerMapper.reauth(mallUser);
+        if (reauthResult < 0) {
+            return BaseResult.error("ERRORR", "重新认证失败");
+        }
+        return BaseResult.success("提交成功");
+    }
+
+    /**
      * 微信商户登录
      *
      * @param mallUser
@@ -334,6 +371,39 @@ public class SellerServiceImpl implements SellerService {
         //设置用户登录有效期为30分钟
         redisTemplate.opsForValue().set("Login:" + user.getMobile(), user.toString(), 30, TimeUnit.MINUTES);
         return BaseResult.success(mallUser);
+    }
+
+
+    /**
+     * 计算年龄和性别
+     *
+     * @param mallUser
+     */
+    public static void setAge(MallUser mallUser) {
+        int leg = mallUser.getCertificateId().length();
+        String dates = "";
+        if (leg == 18) {
+            int se = Integer.valueOf(mallUser.getCertificateId().substring(leg - 1)) % 2;
+            dates = mallUser.getCertificateId().substring(6, 10);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy");
+            String year = df.format(new Date());
+            int age = Integer.parseInt(year) - Integer.parseInt(dates);
+            mallUser.setAge(age);
+            if (Integer.parseInt(mallUser.getCertificateId().substring(16).substring(0, 1)) % 2 == 0) {
+                mallUser.setSex("FEMALE");
+            }
+            mallUser.setSex("MALE");
+        } else {
+            dates = "19" + mallUser.getCertificateId().substring(6, 8);
+            SimpleDateFormat df = new SimpleDateFormat("yyyy");
+            String year = df.format(new Date());
+            int age = Integer.parseInt(year) - Integer.parseInt(dates);
+            mallUser.setAge(age);
+            if (Integer.parseInt(mallUser.getCertificateId().substring(14, 15)) % 2 == 0) {
+                mallUser.setSex("FEMALE");
+            }
+            mallUser.setSex("MALE");
+        }
     }
 }
 

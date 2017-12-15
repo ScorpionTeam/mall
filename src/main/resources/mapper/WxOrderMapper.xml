@@ -286,7 +286,7 @@
         id,
         order_no,
         wx_order_no,
-        refund_date,
+        refund_fee,
         payment_fee,
         order_status
         FROM t_order

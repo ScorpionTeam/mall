@@ -77,7 +77,8 @@
         if(start_date>now(),"已结束","已开始")
         FROM t_activity act LEFT JOIN t_activity_good actg ON act.id = actg.activity_id
         INNER JOIN t_good tg ON actg.good_id = tg.id
-        AND act.activity_type = #{activityType} AND actg.status='NORMAL' AND act.status='NORMAL'
+        AND act.activity_type = #{activityType} AND actg.status='NORMAL' AND act.status='NORMAL'AND end_date>NOW()
+        AND NOW()>start_date
     </select>
 
     <!-- 查询试用商品列表 -->

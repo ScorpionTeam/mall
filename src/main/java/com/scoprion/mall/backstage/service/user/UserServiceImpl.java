@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.scoprion.constant.Constant;
 import com.scoprion.enums.CommonEnum;
+import com.scoprion.mall.common.ServiceCommon;
 import com.scoprion.mall.domain.MallUser;
 import com.scoprion.mall.backstage.mapper.UserMapper;
 import com.scoprion.result.BaseResult;
@@ -16,7 +17,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
 
 /**
  * Created on 2017/9/27.
@@ -99,6 +103,7 @@ public class UserServiceImpl implements UserService {
         if (nick > 0) {
             return BaseResult.error("ERROR", "昵称已存在");
         }
+        setAge(member);
         String encryptPassword = EncryptUtil.encryptMD5(password);
         member.setPassword(encryptPassword);
         int result = userMapper.register(member);
@@ -157,10 +162,12 @@ public class UserServiceImpl implements UserService {
      * @param endDate   注册时间
      * @param searchKey
      * @param userType  用户类型
+     * @param certification  用户认证
      * @return PageResult
      */
     @Override
-    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String searchKey,String userType) {
+    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate,
+                                 String searchKey, String userType,String certification) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(searchKey)) {
             searchKey = null;
@@ -174,7 +181,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(endDate)) {
             endDate = null;
         }
-        Page<MallUser> page = userMapper.findByPage(startDate, endDate, searchKey,userType);
+        Page<MallUser> page = userMapper.findByPage(startDate, endDate, searchKey, userType,certification);
         return new PageResult(page);
     }
 
@@ -193,13 +200,13 @@ public class UserServiceImpl implements UserService {
         if (member == null) {
             return BaseResult.notFound();
         }
-        String password = member.getPassword();
-        try {
-            password = EncryptUtil.aesDecrypt(password, password);
-            member.setPassword(password);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String password = member.getPassword();
+//        try {
+//            password = EncryptUtil.aesDecrypt(password, Constant.ENCRYPT_KEY);
+//            member.setPassword(password);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return BaseResult.success(member);
     }
 
@@ -229,5 +236,36 @@ public class UserServiceImpl implements UserService {
             return BaseResult.success("审核成功");
         }
         return BaseResult.error("audit_error", " 审核失败");
+    }
+
+    /**
+     * 计算年龄和性别
+     *
+     * @param member
+     */
+    public static void setAge(MallUser member){
+        int leg=member.getCertificateId().length();
+        if (leg==18){
+            int se=Integer.valueOf(member.getCertificateId().substring(leg-1)) % 2;
+            String dates=member.getCertificateId().substring(6,10);
+            SimpleDateFormat df=new SimpleDateFormat("yyyy");
+            String year=df.format(new Date());
+            int age=Integer.parseInt(year)-Integer.parseInt(dates);
+            member.setAge(age);
+            if (Integer.parseInt(member.getCertificateId().substring(16).substring(0,1))% 2==0){
+                member.setSex("FEMALE");
+            }
+            member.setSex("MALE");
+        }else {
+            String dates="19"+member.getCertificateId().substring(6,8);
+            SimpleDateFormat df=new SimpleDateFormat("yyyy");
+            String year=df.format(new Date());
+            int age=Integer.parseInt(year)-Integer.parseInt(dates);
+            member.setAge(age);
+            if (Integer.parseInt(member.getCertificateId().substring(14,15))% 2==0){
+                member.setSex("FEMALE");
+            }
+            member.setSex("MALE");
+        }
     }
 }
