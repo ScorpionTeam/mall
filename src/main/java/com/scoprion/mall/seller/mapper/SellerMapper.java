@@ -150,4 +150,12 @@ public interface SellerMapper {
      * @return
      */
     Integer reauth(MallUser mallUser);
+
+    /**
+     * 根据id校验昵称是否存在
+     * @param nickName
+     * @param id
+     * @return
+     */
+    Integer validByNickNameAndId(@Param("nickName") String nickName,@Param("id") Long id);
 }

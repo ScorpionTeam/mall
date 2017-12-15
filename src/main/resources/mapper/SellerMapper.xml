@@ -92,6 +92,11 @@
         SELECT COUNT(*) FROM t_user WHERE nick_name=#{nickName}
     </select>
 
+    <!--根据id校验昵称是否存在-->
+    <select id="validByNickNameAndId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM t_user WHERE nick_name=#{nickName}And id!=#{id}
+    </select>
+
     <!--修改商户个人信息-->
     <update id="alter" parameterType="com.scoprion.mall.domain.MallUser">
         UPDATE t_user SET

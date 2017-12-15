@@ -236,12 +236,9 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public BaseResult alter(MallUser mallUser) {
-        MallUser member = userMapper.findById(mallUser.getId());
-        if (member.getNickName() != mallUser.getNickName()) {
-            Integer result = sellerMapper.validByNickName(mallUser.getNickName());
-            if (result > 0) {
-                return BaseResult.error("ERROR", "该昵称已存在");
-            }
+        Integer result = sellerMapper.validByNickNameAndId(mallUser.getNickName(),mallUser.getId());
+        if (result > 0) {
+            return BaseResult.error("ERROR", "该昵称已存在");
         }
         Integer alterResult = sellerMapper.alter(mallUser);
         if (alterResult <= 0) {
