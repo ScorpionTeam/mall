@@ -166,7 +166,7 @@ public class SellerServiceImpl implements SellerService {
         if (mobileResult > 0) {
             return BaseResult.error("ERROR", "手机号已存在");
         }
-        //计算年龄
+        //计算年龄和性别
         setAge(mallUser);
         String password = mallUser.getPassword();
         String encryptPassword = EncryptUtil.encryptMD5(password);
@@ -294,10 +294,15 @@ public class SellerServiceImpl implements SellerService {
      */
     @Override
     public BaseResult reauth(MallUser mallUser) {
+        if (mallUser.getId()==null){
+            return BaseResult.parameterError();
+        }
         Integer result = sellerMapper.validByNickName(mallUser.getNickName());
         if (result > 0) {
             return BaseResult.error("ERROR", "该昵称已存在");
         }
+        //存储证件照片
+        saveIdPhotoImage(mallUser);
         Integer reauthResult=sellerMapper.reauth(mallUser);
         if (reauthResult<0){
             return BaseResult.error("ERRORR","重新认证失败");
@@ -356,7 +361,7 @@ public class SellerServiceImpl implements SellerService {
 
 
     /**
-     * 计算年龄
+     * 计算年龄和性别
      *
      * @param mallUser
      */
@@ -370,12 +375,20 @@ public class SellerServiceImpl implements SellerService {
             String year=df.format(new Date());
             int age=Integer.parseInt(year)-Integer.parseInt(dates);
             mallUser.setAge(age);
+            if (Integer.parseInt(mallUser.getCertificateId().substring(16).substring(0,1))% 2==0){
+                mallUser.setSex("FEMALE");
+            }
+            mallUser.setSex("MALE");
         }else {
-            dates=mallUser.getCertificateId().substring(6,8);
+            dates="19"+mallUser.getCertificateId().substring(6,8);
             SimpleDateFormat df=new SimpleDateFormat("yyyy");
             String year=df.format(new Date());
             int age=Integer.parseInt(year)-Integer.parseInt(dates);
             mallUser.setAge(age);
+            if (Integer.parseInt(mallUser.getCertificateId().substring(14,15))% 2==0){
+                mallUser.setSex("FEMALE");
+            }
+            mallUser.setSex("MALE");
         }
     }
 }

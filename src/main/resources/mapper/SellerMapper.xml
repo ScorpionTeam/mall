@@ -36,11 +36,10 @@
         UPDATE t_user SET
         certification='AUDITING',
         <if test="headPic!=null">head_picture=#{headPic},</if>
-        <if test="nickName!=null">nick_name=#{nickName},</if>
-        <if test="city!=null">city=#{city},</if>
-        <if test="mobile!=null">mobile=#{mobile},</if>
-        <if test="email!=null">email=#{email},</if>
-        <if test="address!=null">address=#{address},</if>
+        <if test="name!=null">name=#{name},</if>
+        <if test="certificateId!=null">certificate_id=#{certificateId},</if>
+        <if test="idPhotoFrontUrl!=null">id_photo_front_url=#{idPhotoFrontUrl},</if>
+        <if test="idPhotoBgUrl!=null">id_photo_bg_url=#{idPhotoBgUrl},</if>
         update_date=now()
         WHERE id=#{id}
     </update>

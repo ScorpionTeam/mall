@@ -147,6 +147,13 @@ public class SellerController {
         return sellerService.findByUserId(userId);
     }
 
+
+    /**
+     * 重新认证
+     *
+     * @param mallUser
+     * @return
+     */
     @PostMapping("/reauth")
     public BaseResult reauth(@RequestBody MallUser mallUser){
         return sellerService.reauth(mallUser);
