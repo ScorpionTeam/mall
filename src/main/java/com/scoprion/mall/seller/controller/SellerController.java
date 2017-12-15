@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author by kunlun
  * @created on 2017/12/7.
  */
-@RequestMapping("/seller")
+@RequestMapping("/store")
 @RestController
 public class SellerController {
 
