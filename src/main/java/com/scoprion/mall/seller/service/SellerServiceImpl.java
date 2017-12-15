@@ -44,6 +44,9 @@ public class SellerServiceImpl implements SellerService {
     @Autowired
     RoleMapper roleMapper;
 
+    @Autowired
+    UserMapper userMapper;
+
     /**
      * 商户店铺建立
      *
@@ -301,8 +304,19 @@ public class SellerServiceImpl implements SellerService {
         if (result > 0) {
             return BaseResult.error("ERROR", "该昵称已存在");
         }
-        //存储证件照片
-        saveIdPhotoImage(mallUser);
+        MallUser member = userMapper.findById(mallUser.getId());
+        if (mallUser.getIdPhotoFrontUrl()!=member.getIdPhotoFrontUrl()){
+            MallImage mallImage = new MallImage();
+            mallImage.setIdPhotoOwnerId(mallUser.getId());
+            mallImage.setUrl(mallUser.getIdPhotoFrontUrl());
+            fileOperationMapper.add(mallImage);
+        }
+        if (mallUser.getIdPhotoBgUrl()!=member.getIdPhotoBgUrl()){
+            MallImage mallImage = new MallImage();
+            mallImage.setIdPhotoOwnerId(mallUser.getId());
+            mallImage.setUrl(mallUser.getIdPhotoBgUrl());
+            fileOperationMapper.add(mallImage);
+        }
         Integer reauthResult=sellerMapper.reauth(mallUser);
         if (reauthResult<0){
             return BaseResult.error("ERRORR","重新认证失败");
