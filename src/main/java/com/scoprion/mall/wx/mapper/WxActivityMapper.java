@@ -8,8 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 /**
- * Created by fk
  *
+ * @author fk
  * @create on 2017/11/12.
  */
 @Mapper
@@ -18,6 +18,7 @@ public interface WxActivityMapper {
     /**
      * 拼团列表
      *
+     * @param activityType
      * @return
      */
     Page<Activity> groupList(@Param("activityType") String activityType);
