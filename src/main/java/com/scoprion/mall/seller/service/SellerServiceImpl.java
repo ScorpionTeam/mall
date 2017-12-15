@@ -20,7 +20,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.SimpleTimeZone;
 import java.util.concurrent.TimeUnit;
 
 
@@ -332,5 +335,18 @@ public class SellerServiceImpl implements SellerService {
         return BaseResult.success(mallUser);
     }
 
+    public static void setAge(MallUser mallUser){
+        int leg=mallUser.getCertificateId().length();
+        String dates="";
+        if (leg==18){
+            int se=Integer.valueOf(mallUser.getCertificateId().substring(leg-1)) % 2;
+            dates=mallUser.getCertificateId().substring(6,10);
+            SimpleDateFormat df=new SimpleDateFormat("yyyy");
+            String year=df.format(new Date());
+            int u=Integer.parseInt(year)-Integer.parseInt(dates);
+        }else {
+
+        }
+    }
 }
 

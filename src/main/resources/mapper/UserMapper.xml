@@ -135,7 +135,9 @@
         troleuser.role_id as roleId
         FROM t_user tuser
         LEFT JOIN t_sys_user_role troleuser ON troleuser.user_id=tuser.id
-        WHERE user_type=#{userType}
+        WHERE 1=1
+        <if test="userType!=null">AND user_type=#{userType}</if>
+        <if test="certification!=null">AND certification=#{certification}</if>
         <if test="searchKey!=null">
             AND CONCAT_WS('',tuser.name,tuser.nick_name,tuser.mobile)LIKE #{searchKey}
         </if>

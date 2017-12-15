@@ -159,10 +159,12 @@ public class UserServiceImpl implements UserService {
      * @param endDate   注册时间
      * @param searchKey
      * @param userType  用户类型
+     * @param certification  用户认证
      * @return PageResult
      */
     @Override
-    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate, String searchKey, String userType) {
+    public PageResult findByPage(int pageNo, int pageSize, String startDate, String endDate,
+                                 String searchKey, String userType,String certification) {
         PageHelper.startPage(pageNo, pageSize);
         if (StringUtils.isEmpty(searchKey)) {
             searchKey = null;
@@ -176,7 +178,7 @@ public class UserServiceImpl implements UserService {
         if (StringUtils.isEmpty(endDate)) {
             endDate = null;
         }
-        Page<MallUser> page = userMapper.findByPage(startDate, endDate, searchKey, userType);
+        Page<MallUser> page = userMapper.findByPage(startDate, endDate, searchKey, userType,certification);
         return new PageResult(page);
     }
 
