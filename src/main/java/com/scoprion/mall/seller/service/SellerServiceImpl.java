@@ -165,7 +165,6 @@ public class SellerServiceImpl implements SellerService {
         if (mobileResult > 0) {
             return BaseResult.error("ERROR", "手机号已存在");
         }
-        setAge(mallUser);
         String password = mallUser.getPassword();
         String encryptPassword = EncryptUtil.encryptMD5(password);
         mallUser.setPassword(encryptPassword);
@@ -333,57 +332,5 @@ public class SellerServiceImpl implements SellerService {
         return BaseResult.success(mallUser);
     }
 
-
-    /**
-     * 年龄计算
-     * @param bornDate
-     */
-    public static void setAge(MallUser mallUser){
-        // 先截取到字符串中的年、月、日
-        String strs[] = mallUser.getBornDate().trim().split("-");
-        int selectYear = Integer.parseInt(strs[0]);
-        int selectMonth = Integer.parseInt(strs[1]);
-        int selectDay = Integer.parseInt(strs[2]);
-        // 得到当前时间的年、月、日
-        Calendar cal = Calendar.getInstance();
-        int yearNow = cal.get(Calendar.YEAR);
-        int monthNow = cal.get(Calendar.MONTH) + 1;
-        int dayNow = cal.get(Calendar.DATE);
-
-        // 用当前年月日减去生日年月日
-        int yearMinus = yearNow - selectYear;
-        int monthMinus = monthNow - selectMonth;
-        int dayMinus = dayNow - selectDay;
-
-        // 先大致赋值
-        int age = yearMinus;
-        // 选了未来的年份
-        if (yearMinus < 0) {
-            age = 0;
-        } else if (yearMinus == 0) {
-            if (monthMinus < 0) {
-                age = 0;
-            } else if (monthMinus == 0) {
-                if (dayMinus < 0) {
-                    age = 0;
-                } else if (dayMinus >= 0) {
-                    age = 1;
-                }
-            } else if (monthMinus > 0) {
-                age = 1;
-            }
-        } else if (yearMinus > 0) {
-            if (monthMinus < 0) {
-            } else if (monthMinus == 0) {
-                if (dayMinus < 0) {
-                } else if (dayMinus >= 0) {
-                    age = age + 1;
-                }
-            } else if (monthMinus > 0) {
-                age = age + 1;
-            }
-        }
-        mallUser.setAge(age);
-    }
 }
 

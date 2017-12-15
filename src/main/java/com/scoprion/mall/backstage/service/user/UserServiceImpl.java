@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
         if (password.length() < Constant.PASSWORD_MIN_LENGTH) {
             return BaseResult.error("ERROR", "密码不能小于六位");
         }
-        String encryptPassword = EncryptUtil.aesEncrypt(password, Constant.ENCRYPT_KEY);
+        String encryptPassword = EncryptUtil.encryptMD5(password);
         MallUser mallUser = userMapper.login(mobile, encryptPassword);
         if (null == mallUser) {
             return BaseResult.error("ERROR", "手机号或密码不正确!");
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
         //更新用户最后登录IP地址
         userMapper.updateLoginIpAddress(mallUser.getId(), ip);
         //将用户手机号码作为加密字符串回传
-        String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), Constant.ENCRYPT_KEY);
+        String tokenStr = EncryptUtil.aesEncrypt(mallUser.getMobile(), "ScorpionMall8888");
         mallUser.setToken(tokenStr);
         //设置用户登录有效期为30分钟
         redisTemplate.opsForValue().set("Login:" + mallUser.getMobile(), mallUser.toString(), 30, TimeUnit.MINUTES);
@@ -101,15 +101,14 @@ public class UserServiceImpl implements UserService {
         if (nick > 0) {
             return BaseResult.error("ERROR", "昵称已存在");
         }
-        setAge(member);
-        String encryptPassword = EncryptUtil.aesEncrypt(password, Constant.ENCRYPT_KEY);
+        String encryptPassword = EncryptUtil.encryptMD5(password);
         member.setPassword(encryptPassword);
         int result = userMapper.register(member);
         if (result <= 0) {
             return BaseResult.error("ERROR", "注册失败");
         }
         //将用户手机号码作为加密字符串回传
-        String tokenStr = EncryptUtil.aesEncrypt(mobile, Constant.ENCRYPT_KEY);
+        String tokenStr = EncryptUtil.aesEncrypt(mobile, "ScorpionMall8888");
         member.setToken(tokenStr);
         return BaseResult.success(member);
     }
@@ -196,13 +195,13 @@ public class UserServiceImpl implements UserService {
         if (member == null) {
             return BaseResult.notFound();
         }
-        String password = member.getPassword();
-        try {
-            password = EncryptUtil.aesDecrypt(password, Constant.ENCRYPT_KEY);
-            member.setPassword(password);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        String password = member.getPassword();
+//        try {
+//            password = EncryptUtil.aesDecrypt(password, Constant.ENCRYPT_KEY);
+//            member.setPassword(password);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return BaseResult.success(member);
     }
 
@@ -234,55 +233,4 @@ public class UserServiceImpl implements UserService {
         return BaseResult.error("audit_error", " 审核失败");
     }
 
-    /**
-     * 年龄计算
-     * @param member
-     */
-    public static void setAge(MallUser member){
-        // 先截取到字符串中的年、月、日
-        String strs[] = member.getBornDate().trim().split("-");
-        int selectYear = Integer.parseInt(strs[0]);
-        int selectMonth = Integer.parseInt(strs[1]);
-        int selectDay = Integer.parseInt(strs[2]);
-        // 得到当前时间的年、月、日
-        Calendar cal = Calendar.getInstance();
-        int yearNow = cal.get(Calendar.YEAR);
-        int monthNow = cal.get(Calendar.MONTH) + 1;
-        int dayNow = cal.get(Calendar.DATE);
-
-        // 用当前年月日减去生日年月日
-        int yearMinus = yearNow - selectYear;
-        int monthMinus = monthNow - selectMonth;
-        int dayMinus = dayNow - selectDay;
-
-        // 先大致赋值
-        int age = yearMinus;
-        // 选了未来的年份
-        if (yearMinus < 0) {
-            age = 0;
-        } else if (yearMinus == 0) {
-            if (monthMinus < 0) {
-                age = 0;
-            } else if (monthMinus == 0) {
-                if (dayMinus < 0) {
-                    age = 0;
-                } else if (dayMinus >= 0) {
-                    age = 1;
-                }
-            } else if (monthMinus > 0) {
-                age = 1;
-            }
-        } else if (yearMinus > 0) {
-            if (monthMinus < 0) {
-            } else if (monthMinus == 0) {
-                if (dayMinus < 0) {
-                } else if (dayMinus >= 0) {
-                    age = age + 1;
-                }
-            } else if (monthMinus > 0) {
-                age = age + 1;
-            }
-        }
-        member.setAge(age);
-    }
 }
