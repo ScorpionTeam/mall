@@ -111,12 +111,12 @@ public class SellerOrderController {
      */
     @Access
     @ApiOperation(value = "商品发货")
-    @PostMapping("/sendGood/{orderId}/{deliveryNo}/{expressName}/{expressNo}/{senderId}")
-    public BaseResult sendGood(@PathVariable("orderId") Long orderId,
-                               @PathVariable("deliveryNo") String deliveryNo,
-                               @PathVariable("expressName") String expressName,
-                               @PathVariable("expressNo") String expressNo,
-                               @PathVariable("senderId") Long senderId) {
+    @PostMapping("/sendGood")
+    public BaseResult sendGood( Long orderId,
+                                String deliveryNo,
+                                String expressName,
+                                String expressNo,
+                                Long senderId) {
         return sellerOrderService.sendGood(orderId, deliveryNo, expressName, expressNo, senderId);
     }
 
