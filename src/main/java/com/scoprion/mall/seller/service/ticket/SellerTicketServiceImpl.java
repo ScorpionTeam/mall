@@ -31,15 +31,16 @@ public class SellerTicketServiceImpl implements SellerTicketService {
      * @param pageNo
      * @param pageSize
      * @param sellerId
+     * @param searchKey
      * @return
      */
     @Override
-    public PageResult findAll(int pageNo, int pageSize, Long sellerId) {
+    public PageResult findAll(int pageNo, int pageSize, Long sellerId,String searchKey) {
         PageHelper.startPage(pageNo, pageSize);
         if (sellerId==null) {
             return new PageResult();
         }
-        Page<Ticket> page = sellerTicketMapper.findAll(sellerId);
+        Page<Ticket> page = sellerTicketMapper.findAll(sellerId,searchKey);
         if (page == null) {
             return new PageResult();
         }

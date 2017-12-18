@@ -19,9 +19,10 @@ public interface SellerTicketService {
      * @param pageNo
      * @param pageSize
      * @param sellerId
+     * @param searchKey
      * @return
      */
-    PageResult findAll(int pageNo, int pageSize, Long sellerId);
+    PageResult findAll(int pageNo, int pageSize, Long sellerId,String searchKey);
 
     /**
      * 商家创建优惠券

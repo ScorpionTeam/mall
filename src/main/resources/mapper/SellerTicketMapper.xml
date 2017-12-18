@@ -23,6 +23,7 @@
         reduce_money
         FROM t_ticket
         WHERE seller_id=#{sellerId}
+        <if test="searchKey!=null">AND CONCAT_WS('',ticket_name,content) LIKE #{searchKey}</if>
     </select>
 
     <!--校验优惠券名字是否存在-->
