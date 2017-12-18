@@ -74,13 +74,6 @@ public class SellerGoodTest {
         mockGood.setGood(goodExt);
         mockGood.setImageList(list);
         String content = JSON.toJSONString(mockGood);
-        System.out.println(JSON.toJSONString(content));
-
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
-        content = ow.writeValueAsString(mockGood);
-        System.out.println(JSON.toJSONString(content));
-
         mockMvc.perform(post("/seller/good/add")
                 .contentType(MediaType.APPLICATION_JSON_UTF8) // 请求数据的格式
                 .content(content)
