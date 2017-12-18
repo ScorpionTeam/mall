@@ -98,6 +98,7 @@
     <!--查询详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.Ticket">
         SELECT  id,
+        seller_id,
         ticket_name,
         ticket_no,
         type,
