@@ -31,13 +31,12 @@ public class SellerTicketController {
      * @param pageNo
      * @param pageSize
      * @param sellerId
+     * @param searchKey
      * @return
      */
-    @GetMapping("/findAll/{pageNo}/{pageSize}/{sellerId}")
-    public PageResult findAll(@PathVariable("pageNo") int pageNo,
-                              @PathVariable("pageSize") int pageSize,
-                              @PathVariable("sellerId") Long sellerId) {
-        return sellerTicketService.findAll(pageNo, pageSize, sellerId);
+    @GetMapping("/findAll")
+    public PageResult findAll( int pageNo, int pageSize, Long sellerId,String searchKey) {
+        return sellerTicketService.findAll(pageNo, pageSize, sellerId,searchKey);
     }
 
 

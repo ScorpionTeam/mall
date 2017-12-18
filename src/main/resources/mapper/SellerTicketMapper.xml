@@ -23,6 +23,7 @@
         reduce_money
         FROM t_ticket
         WHERE seller_id=#{sellerId}
+        <if test="searchKey!=null">AND CONCAT_WS('',ticket_name,content) LIKE #{searchKey}</if>
     </select>
 
     <!--校验优惠券名字是否存在-->
@@ -97,6 +98,7 @@
     <!--查询详情-->
     <select id="findById" resultType="com.scoprion.mall.domain.Ticket">
         SELECT  id,
+        seller_id,
         ticket_name,
         ticket_no,
         type,

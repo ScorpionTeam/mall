@@ -19,9 +19,10 @@ public interface SellerTicketMapper {
      * 优惠卷列表
      *
      * @param sellerId
+     * @param searchKey
      * @return
      */
-    Page<Ticket> findAll(@Param("sellerId") Long sellerId);
+    Page<Ticket> findAll(@Param("sellerId") Long sellerId,@Param("searchKey") String searchKey);
 
 
     /**
