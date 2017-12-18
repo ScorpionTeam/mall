@@ -40,6 +40,12 @@ public class SellerTicketServiceImpl implements SellerTicketService {
         if (sellerId==null) {
             return new PageResult();
         }
+        if (StringUtils.isEmpty(searchKey)) {
+            searchKey = null;
+        }
+        if (!StringUtils.isEmpty(searchKey)) {
+            searchKey = "%" + searchKey + "%";
+        }
         Page<Ticket> page = sellerTicketMapper.findAll(sellerId,searchKey);
         if (page == null) {
             return new PageResult();
