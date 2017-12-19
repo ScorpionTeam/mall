@@ -227,6 +227,7 @@
         <if test="activityId!=null ">AND tacg.activity_id= #{activityId} AND tacg.status!='NORMAL'</if>
         <if test="categoryId!=null ">AND categorygood.category_id= #{categoryId}</if>
         <if test="sellerId!=null ">AND good.seller_id= #{sellerId}</if>
+        <if test="audit!=null and   audit!='' ">AND good.audit= #{audit}</if>
         GROUP BY good.id
     </select>
 

@@ -64,6 +64,22 @@ public class GoodRequestParams extends PageRequestParams {
      */
     private String type;
 
+    /**
+     * 审核状态 AUDITING 待审核/审核中
+     * NOT_PASS_AUDIT 审核未通过
+     * PASS_AUDIT 审核通过
+     */
+    private String audit;
+
+
+    public String getAudit() {
+        return audit;
+    }
+
+    public void setAudit(String audit) {
+        this.audit = audit;
+    }
+
     public Long getSellerId() {
         return sellerId;
     }
