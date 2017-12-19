@@ -388,8 +388,9 @@
     <!-- 审核新创建商品 -->
     <update id="auditGood">
         UPDATE t_good SET
-        <if test="audit!=null and audit!=''">audit=#{audit},last_update_date=now(),</if>
+        <if test="audit!=null and audit!=''">audit=#{audit},</if>
         <if test="reason!=null and reason!=''">reason=#{reason},</if>
+        last_update_date=now()
         WHERE id=#{id}
     </update>
 

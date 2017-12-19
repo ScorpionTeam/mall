@@ -160,10 +160,10 @@ public class GoodsController {
      * @return
      */
     @ApiOperation(value = "新创建商品审核")
-    @PostMapping(value = "/audit/{audit}/{reason}/{id}")
-    public BaseResult auditGood(@PathVariable("audit") String audit,
-                                @PathVariable("reason") String reason,
-                                @PathVariable("id") Long id) {
+    @PostMapping(value = "/auditGood")
+    public BaseResult auditGood(String audit,
+                                String reason,
+                                Long id) {
         return goodsService.auditGood(audit, reason, id);
     }
 }
