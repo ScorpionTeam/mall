@@ -70,6 +70,7 @@
         good.on_sale,
         good.hot,
         good.seo,
+        good.audit,
         good.is_new,
         good.create_date,
         good.last_update_date,

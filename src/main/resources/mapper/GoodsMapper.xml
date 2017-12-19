@@ -104,6 +104,7 @@
          good.seller_id,
          good.visit_total,
          good.good_no,
+         good.audit,
          good.status,
          good.rich_content,
          good.main_image_url,
