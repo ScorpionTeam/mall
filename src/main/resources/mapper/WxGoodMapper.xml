@@ -32,7 +32,9 @@
         FROM t_good good
         LEFT JOIN t_category_good tcateg ON tcateg.good_id=good.id
         LEFT JOIN t_category tcat ON tcateg.category_id=tcat.id
-        WHERE good.on_sale='ON_SALE' AND good.status='NORMAL'
+        WHERE good.on_sale='ON_SALE'
+        AND good.status='NORMAL'
+        AND good.audit='PASS_AUDIT'
         <if test="categoryId!=null ">AND(tcat.id=#{categoryId} OR tcat.parent_id=#{categoryId})</if>
         GROUP BY good.id
     </select>
@@ -73,6 +75,7 @@
         FROM t_good good
         LEFT JOIN t_activity_good tacg ON good.id=tacg.good_id
         WHERE good.id=#{goodId}
+        AND good.audit='PASS_AUDIT'
     </select>
 
     <!--商品搜素-->
@@ -90,7 +93,9 @@
         FROM t_good good
         LEFT JOIN t_category_good tcateg ON tcateg.good_id=good.id
         LEFT JOIN t_category tcat ON tcateg.category_id=tcat.id
-        WHERE good.on_sale='ON_SALE' AND good.status='NORMAL'
+        WHERE good.on_sale='ON_SALE'
+        AND good.status='NORMAL'
+        AND good.audit='PASS_AUDIT'
         <if test="searchKey!=null and searchKey!=''">AND good.seo LIKE #{searchKey}</if>
         <if test="categoryId!=null ">AND(tcat.id=#{categoryId} OR tcat.parent_id=#{categoryId})</if>
         GROUP BY good.id
