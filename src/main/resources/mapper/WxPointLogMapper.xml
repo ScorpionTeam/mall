@@ -13,7 +13,9 @@
         current_point,
         operate_point,
         create_date
-        FROM t_point_log WHERE user_id=#{userId}
+        FROM t_point_log
+        WHERE user_id=#{userId}
+        ORDER BY create_date DESC
     </select>
 
     <!-- 获取用户积分日志详情 -->
