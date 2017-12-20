@@ -214,15 +214,14 @@ public class ActivityServiceImpl implements ActivityService {
             return BaseResult.parameterError();
         }
         goodIdList.forEach(goodId -> {
-            ActivityGoods activityGood = activityGoodMapper.findByGoodId(goodId);
-            int result = activityGoodMapper.unbindActivityWithGood(activityId, goodId);
-            if (result > 0) {
+            ActivityGoods item = activityGoodMapper.findByGoodIdAndActivityId(goodId, activityId);
+            //已过期的活动，正在进行的活动
+            int result = activityGoodMapper.unbindActivityWithGood(goodId);
+            if (result > 0 && item != null && item.getStock() > 0) {
                 //解绑成功，查看参加活动的商品是否有剩余，有剩余则返回原商品库存
-                if (activityGood != null && activityGood.getStock() > 0) {
-                    //返回原有库存
-                    goodsMapper.modifyGoodsDeduction(goodId, activityGood.getStock());
-                    saveGoodLog(goodId, "解绑活动跟商品关系，商品库存返还" + activityGood.getStock());
-                }
+                //返回原有库存
+                goodsMapper.modifyGoodsDeduction(goodId, item.getStock());
+                saveGoodLog(goodId, "解绑活动跟商品关系，商品库存返还" + item.getStock());
             }
         });
         return BaseResult.success("解绑成功");

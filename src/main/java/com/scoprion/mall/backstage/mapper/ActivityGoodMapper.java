@@ -39,16 +39,15 @@ public interface ActivityGoodMapper {
      * @param goodId
      * @return
      */
-    ActivityGoods findByGoodId(@Param("goodId") Long goodId);
+    ActivityGoods findByGoodIdAndActivityId(@Param("goodId") Long goodId,
+                                            @Param("activityId") Long activityId);
 
 
     /**
      * 解绑商品跟活动
      *
-     * @param activityId
      * @param goodId
      * @return
      */
-    int unbindActivityWithGood(@Param("activityId") Long activityId,
-                               @Param("goodId") Long goodId);
+    int unbindActivityWithGood(@Param("goodId") Long goodId);
 }
