@@ -134,8 +134,8 @@
         WHERE 1=1
         AND status='NORMAL'
         <if test="roleId!=null">AND menurole.role_id=#{roleId}</if>
-        <if test="type==0 ">AND menu.pid='0'</if>
-        <if test="type==1 ">AND menu.pid=#{parentId}</if>
+        <if test="menuType==0 ">AND menu.pid='0'</if>
+        <if test="menuType==1 ">AND menu.pid=#{parentId}</if>
         GROUP BY menu.id
         ORDER BY menu.sort ASC
     </select>

@@ -66,23 +66,23 @@ public interface MenuMapper {
     /**
      * 名称-url校验
      *
-     * @param name
+     * @param menuName
      * @param url
      * @return
      */
-    Integer validByNameAndUrl(@Param("name") String name,
+    Integer validByNameAndUrl(@Param("menuName") String menuName,
                               @Param("url") String url);
 
     /**
      * 名称-id-url校验-id
      *
      * @param id
-     * @param name
+     * @param menuName
      * @param url
      * @return
      */
     Integer validByIdAndNameAndUrl(@Param("id") Long id,
-                                   @Param("name") String name,
+                                   @Param("menuName") String menuName,
                                    @Param("url") String url);
 
 
@@ -109,10 +109,10 @@ public interface MenuMapper {
      *
      * @param roleId
      * @param parentId
-     * @param type     type=0  一级菜单 type=1  二级菜单
+     * @param menuType     type=0  一级菜单 type=1  二级菜单
      * @return
      */
     List<SysMenu> findMenuListByRoleId(@Param("roleId") Long roleId,
                                        @Param("parentId") Long parentId,
-                                       @Param("type") Integer type);
+                                       @Param("menuType") Integer menuType);
 }
