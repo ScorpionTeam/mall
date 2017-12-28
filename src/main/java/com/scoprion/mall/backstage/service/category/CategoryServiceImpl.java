@@ -106,7 +106,10 @@ public class CategoryServiceImpl implements CategoryService {
             List<Category> childList = categoryMapper.findByParentId(category.getId());
             List<Long> idList = new ArrayList<>();
             childList.forEach(item -> idList.add(item.getId()));
-            Integer bindCount = categoryGoodMapper.findCountByCategoryIdList(idList);
+            Integer bindCount = 0;
+            if (idList.size() > 0) {
+                bindCount = categoryGoodMapper.findCountByCategoryIdList(idList);
+            }
             if (bindCount > 0) {
                 return BaseResult.error("ERROR", "当前类目子类目正在使用中，请先解绑");
             }
