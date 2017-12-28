@@ -34,7 +34,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public BaseResult add(SysMenu sysMenu) {
-        Integer validCount = menuMapper.validByNameAndUrl(sysMenu.getName(), sysMenu.getUrl());
+        Integer validCount = menuMapper.validByNameAndUrl(sysMenu.getMenuName(), sysMenu.getUrl());
         if (validCount > 0) {
             return BaseResult.error("ERROR", "菜单名称或地址已存在");
         }
@@ -47,7 +47,7 @@ public class MenuServiceImpl implements MenuService {
         if (sysMenu.getId() == null) {
             return BaseResult.parameterError();
         }
-        Integer validCount = menuMapper.validByIdAndNameAndUrl(sysMenu.getId(), sysMenu.getName(), sysMenu.getUrl());
+        Integer validCount = menuMapper.validByIdAndNameAndUrl(sysMenu.getId(), sysMenu.getMenuName(), sysMenu.getUrl());
         if (validCount > 0) {
             return BaseResult.error("ERROR", "菜单名称或地址已存在");
         }

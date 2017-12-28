@@ -21,7 +21,8 @@ public class SysMenu {
     /**
      * 菜单名称
      */
-    private String name;
+    @JSONField(name = "menu_name")
+    private String menuName;
 
     /**
      * 父节点ID
@@ -41,7 +42,8 @@ public class SysMenu {
     /**
      * 菜单类型 0 父级 1 子级
      */
-    private String type;
+    @JSONField(name = "menu_type")
+    private String menuType;
 
     /**
      * 状态 0 启用 1 停用
@@ -86,13 +88,6 @@ public class SysMenu {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public Long getPid() {
         return pid;
@@ -118,13 +113,6 @@ public class SysMenu {
         this.url = url;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     public String getStatus() {
         return status;
@@ -183,15 +171,31 @@ public class SysMenu {
         this.updateDate = updateDate;
     }
 
+    public String getMenuName() {
+        return menuName;
+    }
+
+    public void setMenuName(String menuName) {
+        this.menuName = menuName;
+    }
+
+    public String getMenuType() {
+        return menuType;
+    }
+
+    public void setMenuType(String menuType) {
+        this.menuType = menuType;
+    }
+
     @Override
     public String toString() {
         return "SysMenu{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", pid='" + pid + '\'' +
+                ", menuName='" + menuName + '\'' +
+                ", pid=" + pid +
                 ", description='" + description + '\'' +
                 ", url='" + url + '\'' +
-                ", type='" + type + '\'' +
+                ", menuType='" + menuType + '\'' +
                 ", status='" + status + '\'' +
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +

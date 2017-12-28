@@ -10,18 +10,18 @@
             SELECT LAST_INSERT_ID()
         </selectKey>
         INSERT INTO t_sys_menu
-        (name,pid,url,type,status,icon,description,operator,sort,create_date)
+        (menu_name,pid,url,menu_type,status,icon,description,operator,sort,create_date)
         VALUES
-        (#{name},#{pid},#{url},#{type},#{status},#{icon},#{description},#{operator},#{sort},now())
+        (#{menuName},#{pid},#{url},#{menuType},#{status},#{icon},#{description},#{operator},#{sort},now())
     </insert>
 
     <!--修改-->
     <update id="modify" parameterType="com.scoprion.mall.domain.SysMenu">
         UPDATE t_sys_menu SET
-        <if test="name!=null">name=#{name},</if>
+        <if test="menuName!=null">menu_name=#{menuName},</if>
         <if test="pid!=null">pid=#{pid},</if>
         <if test="url!=null">url=#{url},</if>
-        <if test="type!=null">type=#{type},</if>
+        <if test="menuType!=null">menu_type=#{menuType},</if>
         <if test="status!=null">status=#{status},</if>
         <if test="icon!=null">icon=#{icon},</if>
         <if test="sort!=null">sort=#{sort},</if>
@@ -36,10 +36,10 @@
     <select id="findByCondition" resultType="com.scoprion.mall.domain.SysMenu">
         SELECT
         id,
-        name,
+        menu_name,
         pid,
         url,
-        type,
+        menu_type,
         status,
         icon,
         sort,
@@ -48,7 +48,7 @@
         description,
         operator
         FROM t_sys_menu WHERE 1=1
-        <if test="searchKey!=null">AND CONCAT_WS('',name,description) LIKE #{searchKey}</if>
+        <if test="searchKey!=null">AND CONCAT_WS('', menu_name,description) LIKE #{searchKey}</if>
         ORDER BY pid ASC
     </select>
 
@@ -59,12 +59,12 @@
 
     <!--查询名称数量-->
     <select id="validByName" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM  t_sys_menu WHERE  name=#{name} AND status='NORMAL'
+        SELECT COUNT(*) FROM  t_sys_menu WHERE  menu_name=#{menuName} AND status='NORMAL'
     </select>
 
     <!--查询名称数量-->
     <select id="validByNameAndUrl" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM  t_sys_menu WHERE  name=#{name} AND status='NORMAL' AND url=#{url}
+        SELECT COUNT(*) FROM  t_sys_menu WHERE  menu_name=#{menuName} AND status='NORMAL' AND url=#{url}
     </select>
 
     <!--活动id、名称校验-->
@@ -72,7 +72,7 @@
         SELECT COUNT(*)
         FROM t_sys_menu
         WHERE url =#{url}
-        AND name =#{name}
+        AND menu_name =#{menuName}
         AND id!=#{id} AND status='NORMAL'
     </select>
 
@@ -80,10 +80,10 @@
     <select id="findById" resultType="com.scoprion.mall.domain.SysMenu">
         SELECT
          id,
-        name,
+        menu_name,
         pid,
         url,
-        type,
+        menu_type,
         status,
         icon,
         sort,
@@ -99,10 +99,10 @@
     <select id="findRootMenuList" resultType="com.scoprion.mall.domain.SysMenu">
         SELECT
         id,
-        name,
+        menu_name,
         pid,
         url,
-        type,
+        menu_type,
         status,
         icon,
         sort,
@@ -118,10 +118,10 @@
     <select id="findMenuListByRoleId" resultType="com.scoprion.mall.domain.SysMenu">
         SELECT
         menu.id,
-        menu.name,
+        menu.menu_name,
         menu.pid,
         menu.url,
-        menu.type,
+        menu.menu_type,
         menu.status,
         menu.icon,
         menu.sort,
@@ -143,10 +143,10 @@
     <select id="findByParentIdAndUserId" resultType="com.scoprion.mall.domain.SysMenu">
         SELECT
         menu.id,
-        menu.name,
+        menu.menu_name,
         menu.pid,
         menu.url,
-        menu.type,
+        menu.menu_type,
         menu.status,
         menu.icon,
         menu.sort,
@@ -165,4 +165,6 @@
         GROUP BY menu.id
         ORDER BY menu.sort ASC
     </select>
+
+
 </mapper>
